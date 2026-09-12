@@ -176,3 +176,19 @@ async def test_budget_exhaustion_ends_run_without_fabricated_success(tmp_path):
         assert run.status in ("failed", "partial")
         evs = await h.events.list(run.run_id)
         assert any(e.type in ("task.failed", "run.failed") and "budget" in json.dumps(e.payload) for e in evs)
+
+
+async def test_auto_finish_when_outputs_published_but_no_finish_task(tmp_path):
+    """Weaker models often publish everything and then stop talking; the runtime accepts published outputs and records it."""
+    steps = [tool_response("workspace_write", {"path": "index.html", "content": "<html><head><title>D</title><meta name='viewport' content='w'></head><body><h1>x</h1></body></html>"}),
+             tool_response("publish_artifact", {"path": "index.html"}),
+             tool_response("workspace_write", {"path": "posts.md", "content": "# P\n1\n2\n3"}),
+             tool_response("publish_artifact", {"path": "posts.md"}),
+             text_response("All done."), text_response("Done."), text_response("Finished.")]
+    async with Harness(tmp_path, script=combine(builder_with(steps), reviewer_pass)) as h:
+        run = await h.run_goal()
+        assert run.status == "completed", run.blocked_reason
+        tasks = {t.spec.id: t for t in await h.runs.list_tasks(run.run_id)}
+        assert tasks["t2"].status == "accepted" and "auto-finished" in tasks["t2"].result.summary
+        evs = await h.events.list(run.run_id)
+        assert any(e.type == "task.updated" and e.payload.get("action") == "auto_finish" for e in evs)

@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from ..config.loader import platform_policy_text
-from ..contracts import TaskState
+from ..contracts import TaskResult, TaskState
 from ..providers.base import LLMRequest, LLMResponse, ProviderError
 from ..providers.pricing import price_for
 from .context import SessionContext
@@ -110,6 +110,23 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
     return "\n".join(lines)
 
 
+async def auto_finish_if_outputs_published(ctx: SessionContext, reason: str) -> SessionOutcome | None:
+    """If a task session ends without finish_task but every declared output path was published by this task,
+    accept the work and record that the finish was inferred (weaker models often skip the final tool call)."""
+    rt = ctx.rt
+    if ctx.mode != "task" or ctx.task is None or ctx.agent.role == "reviewer" or not ctx.task.spec.output_paths:
+        return None
+    published = {m.logical_path: m for m in await rt.artifacts.list(rt.run_id, latest_only=True) if m.task_id == ctx.task.spec.id}
+    missing = [p for p in ctx.task.spec.output_paths if p not in published]
+    if missing:
+        return None
+    ctx.finished = TaskResult(summary=f"[auto-finished by runtime] all output paths published; agent ended without finish_task ({reason})",
+                              unverified=["agent did not state what it verified"], published=[m.ref() for m in published.values()])
+    await rt.events.append(rt.run_id, "task.updated", {"action": "auto_finish", "reason": reason, "published": list(published)},
+                           actor_id=ctx.agent.agent_id, actor_kind="agent", task_id=ctx.task_id, causation_id=ctx.causation_id)
+    return SessionOutcome("finished", ctx.finished.summary)
+
+
 class AgentRunner:
     def __init__(self, ctx: SessionContext):
         self.ctx = ctx
@@ -202,7 +219,8 @@ class AgentRunner:
                                  "call report_blocker; otherwise continue with tools.")
                     self.nudges += 1
                     if self.nudges > 2:
-                        return SessionOutcome("ended", "agent ended its turn repeatedly without finish_task")
+                        auto = await auto_finish_if_outputs_published(ctx, "ended twice without finish_task")
+                        return auto or SessionOutcome("ended", "agent ended its turn repeatedly without finish_task")
                     self.messages.append({"role": "user", "content": [{"type": "text", "text": nudge}]})
                     continue
                 results = []
@@ -293,7 +311,8 @@ class AgentRunner:
                           + (f" (reason: {result.terminal_reason})" if result.terminal_reason else "")
                           + ". Published artifacts and delivered messages are kept. Continue from the current state: check "
                             "list_artifacts / read_messages, finish remaining work, then call finish_task (or report_blocker).")
-            return SessionOutcome("ended", "agent ended its session twice without finish_task")
+            auto = await auto_finish_if_outputs_published(ctx, "cli session ended twice without finish_task")
+            return auto or SessionOutcome("ended", "agent ended its session twice without finish_task")
         except Cancelled:
             return SessionOutcome("cancelled", "cancelled by user")
         except PolicyViolation as e:
