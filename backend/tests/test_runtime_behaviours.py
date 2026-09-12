@@ -192,3 +192,29 @@ async def test_auto_finish_when_outputs_published_but_no_finish_task(tmp_path):
         assert tasks["t2"].status == "accepted" and "auto-finished" in tasks["t2"].result.summary
         evs = await h.events.list(run.run_id)
         assert any(e.type == "task.updated" and e.payload.get("action") == "auto_finish" for e in evs)
+
+
+
+async def test_review_pending_becomes_partial_when_reviewer_gives_up(tmp_path):
+    """Reviewer ends without submit_review (weak model); Master cancels it. The reviewed task must not stay stuck."""
+    def reviewer_gives_up(req):
+        md = req.metadata
+        if md.get("agent_id") == "reviewer" and md.get("mode") == "task":
+            return text_response("I looked at it.")  # never submits a review, never finishes
+        return None
+
+    def master_cancels(req):
+        md = req.metadata
+        if md.get("agent_id") == "master" and md.get("mode") == "exception":
+            seq = [tool_response("update_task", {"task_id": "t3", "action": "cancel", "note": "reviewer unresponsive"}),
+                   tool_response("finish_task", {"summary": "cancelled review"})]
+            t = turn_of(req)
+            return seq[t] if t < len(seq) else text_response("done")
+        return None
+    async with Harness(tmp_path, script=combine(builder_with(GOOD_BUILD), reviewer_gives_up, master_cancels)) as h:
+        run = await h.run_goal()
+        assert run.status == "partial", run.blocked_reason
+        tasks = {t.spec.id: t.status for t in await h.runs.list_tasks(run.run_id)}
+        assert tasks["t2"] == "partial" and tasks["t3"] == "cancelled"
+        evs = await h.events.list(run.run_id)
+        assert any(e.type == "task.partial" and "without a verdict" in e.payload.get("reason", "") for e in evs)

@@ -294,6 +294,12 @@ class Scheduler:
             if self._fatal:
                 await self._cancel_all()
                 return self.final_status()
+            # a task waiting for review whose review tasks all ended without a verdict is partial, not stuck
+            for t in list(rt.tasks.values()):
+                if t.status == TaskStatus.review_pending and t.review is None and not self.review_tasks_for(t.spec.id, pending_only=True):
+                    await self._set(t, TaskStatus.partial, "task.partial",
+                                    {"reason": "review task ended without a verdict; outputs are published but unverified",
+                                     "unverified": [c.id for c in t.spec.acceptance]})
             # promote queued tasks
             for t in list(rt.tasks.values()):
                 if t.status != TaskStatus.queued:
