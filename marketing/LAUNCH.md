@@ -33,7 +33,7 @@ What's different from "put N bots in a chat":
 
 Stack: Python/FastAPI + SQLite (WAL, append-only events, SSE), React. Works with Claude (official SDK), OpenAI-compatible endpoints, Ollama. macOS seatbelt sandbox for builder commands.
 
-Honesty section: the 37s demo on the site drives the real UI/runtime with a scripted test provider (labelled on screen) because I wanted it deterministic and free. 36 deterministic tests pass; the end-to-end real-model smoke script exists but I haven't got a public run to show yet. Prompts are original seeds, not benchmark-tuned. No Docker sandbox yet.
+Honesty section: the demo video drives the real UI/runtime with a scripted test provider (labelled on screen) so it's deterministic and free. A real end-to-end run through the local Claude Code CLI (claude-opus-5) completed on 2026-09-13 — launch page + 3 post drafts, 10 checks pass, reviewer 6/6, $1.66 list-price, 19 min — and the unedited artifacts + 77-event log are committed under docs/evidence/. Four runs total, not a benchmark; run 1 exposed a reviewer bug that is now fixed. No Docker sandbox yet.
 
 Repo: https://github.com/FORIFOR/Multibot
 Site + video: https://forifor.github.io/Multibot/
@@ -50,7 +50,7 @@ One request → Master plans → Researcher/Builder/Reviewer actually work → y
 [attach docs/media/report.png]
 4/ Limits live in the runtime, not the prompt: tool scope, write scope, budget reserved per call, approvals with hash+nonce, cancel/resume/fork. Unknown model prices refuse to start.
 5/ Per-bot endpoint + model + prompt (lockable). Claude via the official SDK, any OpenAI-compatible endpoint, or Ollama. Configured vs provider-reported model both shown. No silent fallbacks.
-6/ Disclosure: the demo runs the real UI/runtime on a scripted test provider (labelled on screen) so it's deterministic. 36 tests pass; the real-model smoke script is in the repo, and I haven't published a real run yet. MIT.
+6/ Disclosure: the demo video uses a scripted provider (labelled on screen). A real run through Claude Code (claude-opus-5) completed end to end: LP + 3 posts, 10 checks pass, reviewer 6/6, $1.66, 19 min. Unedited artifacts + event log are in the repo. MIT.
 ★ https://github.com/FORIFOR/Multibot  ·  site: https://forifor.github.io/Multibot/
 
 ## X thread — JA
@@ -61,7 +61,7 @@ One request → Master plans → Researcher/Builder/Reviewer actually work → y
 3/ 検証は成果物のハッシュに紐付くイベント。Reviewer が index.html r1 を不合格 → Builder が r2 を公開 → r2 に対して再検証。最終報告はこのイベントから組み立てるので「開始」が「合格」にすり替わりません。
 4/ 権限・書込範囲・予算（予約込み）・承認（hash+nonce）・停止/再開/分岐は Runtime が強制。価格不明のモデルは開始できません。
 5/ Bot ごとに接続先・モデル・プロンプト（手動固定可）を上書き。Claude（公式 SDK）/ OpenAI 互換 / Ollama。設定したモデルと実際に応答したモデルを両方表示。無断フォールバックなし。
-6/ 正直に: デモは実 UI/Runtime をテスト用のスクリプト provider で動かしたもの（画面に表示）。決定論的テスト 36 件は通過、実 LLM スモークのスクリプトは同梱、実 run の公開はこれからです。
+6/ 正直に: デモ動画はテスト用のスクリプト provider（画面に表示）。実 run は Claude Code（claude-opus-5）で完走: LP + 投稿 3 案、検証 10 件 pass、レビュー 6/6、$1.66、19 分。生成物とイベントログは無編集でリポジトリに置いています。
 ★ https://github.com/FORIFOR/Multibot  ·  https://forifor.github.io/Multibot/
 
 ## Reddit
@@ -91,4 +91,4 @@ First comment: the Show HN honesty paragraph, plus the first real-model run's ev
 - [x] docs/media/demo.gif (README hero)
 - [x] docs/media/run.png · timeline.png · report.png · settings.png
 - [x] OG image docs/media/poster.jpg (site meta)
-- [ ] A real-model run's evidence (run scripts/smoke_real_llm.py with a key) — add to README before Product Hunt
+- [x] Real-model run evidence (docs/evidence/run4-*, in README and on the site)

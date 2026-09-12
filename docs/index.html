@@ -55,7 +55,7 @@ section.dark{background:#1b1a17;color:#f4efe6;margin:0 -24px;padding:64px 24px;b
 <div class="wrap">
   <header class="top">
     <a class="brand" href="#">Agent Team <small>v0.1 · local-first · MIT</small></a>
-    <nav><a href="#demo">Demo</a><a href="#anatomy">Screen</a><a href="#how">How it works</a><a href="#trace">Trace</a><a href="#quickstart">Quickstart</a><a href="#status">Status</a><a href="https://github.com/FORIFOR/Multibot">GitHub</a></nav>
+    <nav><a href="#demo">Demo</a><a href="#anatomy">Screen</a><a href="#how">How it works</a><a href="#trace">Trace</a><a href="#quickstart">Quickstart</a><a href="#status">Real run</a><a href="https://github.com/FORIFOR/Multibot">GitHub</a></nav>
   </header>
 
   <section class="hero" style="border:0">
@@ -73,11 +73,11 @@ section.dark{background:#1b1a17;color:#f4efe6;margin:0 -24px;padding:64px 24px;b
   </section>
 
   <section id="demo">
-    <div class="eyebrow">58-second intro · narrated (Japanese)</div>
+    <div class="eyebrow">59-second intro · narrated</div>
     <h2>Watch the whole flow.</h2>
     <p class="sub">Type a request, watch real messages land in the chat as each bot finishes, click a revision to see who made it and which check it passed, then read the final report built from evidence.</p>
-    <div class="video"><video controls playsinline preload="metadata" poster="media/poster-intro.jpg"><source src="media/intro.mp4" type="video/mp4" />Your browser cannot play this video. <a href="media/demo.mp4">Raw walkthrough (mp4)</a>.</video></div>
-    <p class="caption"><b>Disclosure:</b> the screen recording drives the real UI and runtime with the <b>scripted test provider</b> (no LLM calls, labelled “FAKE PROVIDER” in the header) so the sequence is deterministic and free. Narration is synthesized speech (Japanese). No timing edits in the recording. Raw, un-narrated walkthrough: <a href="media/demo.mp4">demo.mp4</a> · <a href="media/demo.gif">demo.gif</a>. With a real connection the same screens are fed by live model calls; the run header shows the model the provider actually reported and the measured cost.</p>
+    <div class="video"><video controls playsinline preload="metadata" poster="media/poster-intro-en.jpg"><source src="media/intro-en.mp4" type="video/mp4" />Your browser cannot play this video. <a href="media/demo.mp4">Raw walkthrough (mp4)</a>.</video></div>
+    <p class="caption"><b>Disclosure:</b> the screen recording drives the real UI and runtime with the <b>scripted test provider</b> (no LLM calls, labelled “FAKE PROVIDER” in the header) so the sequence is deterministic and free. Narration is synthesized speech. <a href="media/intro.mp4">日本語版はこちら</a>. No timing edits in the recording. Raw, un-narrated walkthrough: <a href="media/demo.mp4">demo.mp4</a> · <a href="media/demo.gif">demo.gif</a>. With a real connection the same screens are fed by live model calls; the run header shows the model the provider actually reported and the measured cost.</p>
   </section>
 
   <section id="anatomy">
@@ -165,17 +165,34 @@ export ANTHROPIC_API_KEY=sk-ant-…   <span class="c"># reference only; never wr
   </section>
 
   <section id="status">
-    <div class="eyebrow">Honest status</div>
-    <h2>What is proven, what isn't.</h2>
-    <div class="status">
-      <div class="card"><h3 class="ok">Verified in the repo</h3><ul>
-        <li>36 deterministic tests: DAG validation, real message delivery with Q&amp;A, review → revise → re-review, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, sandbox write confinement, SSE cursor replay, event-schema conformance.</li>
-        <li>Headless-Chrome UI smoke with zero console errors.</li>
+    <div class="eyebrow">Evidence, not a promise</div>
+    <h2>A real run, end to end.</h2>
+    <p class="sub">On 2026-09-13 the same request in the demo was run for real through the local Claude Code CLI (no API key). Every number below is read from the run's own event log, which is committed to the repo.</p>
+    <div class="two">
+      <div>
+        <table>
+          <tr><th>Request</th><td>Japanese launch page + 3 social-post drafts from a product description; stop before publishing</td></tr>
+          <tr><th>Model (reported by provider)</th><td><code>claude-opus-5</code> via <code>claude_cli</code></td></tr>
+          <tr><th>Plan</th><td>Master chose 1 builder task + 1 reviewer task; skipped the researcher (nothing to research). 8 recorded assumptions incl. “no prices, no invented numbers, placeholder URLs only”.</td></tr>
+          <tr><th>Deliverables</th><td><code>index.html</code> r1 (14 KB, single file), <code>posts.md</code> r1, <code>HANDOFF.md</code> r1, <code>final-report.md</code></td></tr>
+          <tr><th>Verification</th><td>10 programmatic checks (html_basic, markdown_basic, text_contains, text_not_contains) → all pass; reviewer verdict 6/6 pass, plus 4 optional findings sent back as a real message</td></tr>
+          <tr><th>Messages</th><td>2 delivered: builder → reviewer <em>handoff</em>, reviewer → builder <em>finding</em></td></tr>
+          <tr><th>Usage</th><td>39 model turns · 35 tool calls · $1.66 list-price equivalent · 18 min 37 s wall clock</td></tr>
+          <tr><th>Status</th><td><span class="tag" style="border-color:var(--ok);color:var(--ok)">completed</span></td></tr>
+        </table>
+        <p class="caption">Files: <a href="evidence/run4-index.html">generated index.html</a> · <a href="evidence/run4-posts.md">posts.md</a> · <a href="evidence/run4-final-report.md">final report</a> · <a href="evidence/run4-events.jsonl">77-event log (JSONL)</a>. Earlier runs are there too: run 1 finished <em>partial</em> and exposed a reviewer bug (fixed); runs 2–3 hit limits that were then tuned. Nothing was edited by hand.</p>
+      </div>
+      <figure class="shot"><img src="media/real-run4-lp.png" alt="Landing page generated by the real run" loading="lazy" /><figcaption>What the Builder shipped: the top of the generated landing page (unedited).</figcaption></figure>
+    </div>
+    <div class="status" style="margin-top:24px">
+      <div class="card"><h3 class="ok">Also verified</h3><ul>
+        <li>39 deterministic tests: DAG validation, real delivery with Q&amp;A, review → revise → re-review, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, sandbox write confinement, SSE cursor replay, event-schema conformance.</li>
+        <li>Capability probe through the CLI: tool calling via MCP and JSON-schema output, model reported <code>claude-opus-5</code>.</li>
         <li>macOS seatbelt sandbox: no network, no writes outside the task workspace.</li></ul></div>
-      <div class="card"><h3 class="todo">Not yet verified</h3><ul>
-        <li>End-to-end runs with a real model were not executed in the build environment (no API key there). <code>scripts/smoke_real_llm.py</code> prints the evidence when you run it.</li>
-        <li>Prompts are original seeds, not benchmark-optimised. The eval plan (40 cases) is in <code>evals/</code>.</li>
-        <li>No Docker sandbox yet; the non-macOS backend is not an isolation boundary and says so in every result.</li></ul></div>
+      <div class="card"><h3 class="todo">Still open</h3><ul>
+        <li>One request, four runs so far; no benchmark. Plans differ between runs (2 vs 3 tasks) because the Master decides. Prompts are original seeds.</li>
+        <li>The Anthropic API and OpenAI-compatible drivers are implemented and unit-tested but have not had a live run yet.</li>
+        <li>No Docker sandbox; the non-macOS backend is not an isolation boundary and says so in every result.</li></ul></div>
     </div>
   </section>
 

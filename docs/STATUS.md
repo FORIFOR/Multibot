@@ -4,8 +4,8 @@
 | 種別 | 状態 | 根拠 |
 | --- | --- | --- |
 | 決定論的テスト（fake provider） | **36 件 PASS** | `cd backend && .venv/bin/python -m pytest -q` |
-| 実 LLM 協働スモーク | **未実施** | この作業環境に API キー・`ant` CLI・Ollama が無い。`backend/scripts/smoke_real_llm.py` を用意 |
-| 実 API の疎通確認（probe） | **未実施** | 同上。UI の「疎通確認」または `agentteam probe` |
+| 実 LLM 協働スモーク | **実施（claude_cli / claude-opus-5）** | 2026-09-13。run 1: 成果物 3 点・検証 12 件 pass・handoff 2 件・$1.69（定価換算）・760 秒。最終状態は `partial`（複数ターゲットレビューのバグ、修正済み）。run 2/3 は計画呼出の `max_turns` と `max_model_calls=30` の上限で失敗 → いずれも修正・調整済み。証拠: `docs/evidence/run1-*` |
+| 実 API の疎通確認（probe） | **実施（claude_cli）** | tool calling / JSON schema ともに pass、`model_reported=claude-opus-5` |
 | ブラウザ UI スモーク（headless Chrome） | 実施（fake provider） | `frontend/scripts/ui-smoke.mjs`：Home → 依頼開始 → Run 画面（チャット/時系列/報告）→ 設定。console/page error 0 件 |
 | 手動 GUI スモーク（人手） | 未実施 | — |
 
@@ -49,3 +49,11 @@ fake を使った run は `provider_kind=fake` として保存され、UI に赤
 - Deep Agents / LangGraph は採用せず、自前の薄い AgentRunner + Provider SDK。理由は `docs/IMPLEMENTATION_PLAN.md`。
 - Anthropic のサーバ側 refusal fallback は接続設定で明示 ON にした場合のみ（既定 OFF、`fallback: explicitly_approved_only` に整合）。
 - 既定モデルは `claude-opus-5`（価格表同梱）。ただし疎通確認に合格するまで開始不可。
+
+## 実 LLM run で見つかった問題と対応（2026-09-13）
+| run | 事象 | 対応 |
+| --- | --- | --- |
+| 1 | Reviewer が t1・t2 の両方を検証したが、Runtime が最後の判定しか適用せず t1 が `review_pending` のまま → `partial` | `submit_review` をターゲットごとに蓄積し、全判定を適用。`finish_task` は全ターゲットの判定が揃うまで拒否 |
+| 2 | Master の計画呼出（構造化出力・1 ショット）が `error_max_turns` | `--max-turns 3`、`max_turns` 系エラーを再試行対象に |
+| 3 | Reviewer 起動時に `max_model_calls=30` 到達（Opus の Builder 1 セッション ≈ 10〜15 ターン） | 既定を 120 呼出 / 200 ツール呼出に変更（ブループリントの初期候補値を実測で調整） |
+| 4 | **completed**。Builder 1 + Reviewer 1 の計画、検証 10 件 pass、レビュー 6/6 pass、メッセージ 2 件、39 ターン、$1.66、1117 秒 | 証拠 `docs/evidence/run4-*` |

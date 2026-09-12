@@ -15,7 +15,7 @@
 
 <p align="center"><a href="https://forifor.github.io/Multibot/">Website &amp; 58s narrated intro</a> · <a href="#quickstart">Quickstart</a> · <a href="#how-it-works">How it works</a> · <a href="docs/STATUS.md">What's verified</a> · <a href="#日本語">日本語</a></p>
 
-> [▶ Narrated intro video (58s, Japanese)](https://forifor.github.io/Multibot/media/intro.mp4). The GIF above drives the real UI and runtime with the **scripted test provider** (no LLM calls, labelled “FAKE PROVIDER” on screen) so it is deterministic and free to reproduce. With a real connection the same screens are fed by live model calls; the run header shows the model the provider actually reported and the measured cost.
+> [▶ Narrated intro (59s, English)](https://forifor.github.io/Multibot/media/intro-en.mp4) · [日本語版 (58s)](https://forifor.github.io/Multibot/media/intro.mp4). The GIF above drives the real UI and runtime with the **scripted test provider** (no LLM calls, labelled “FAKE PROVIDER” on screen) so it is deterministic and free to reproduce. With a real connection the same screens are fed by live model calls; the run header shows the model the provider actually reported and the measured cost.
 
 You type **one request**. A Master plans the deliverables, a Researcher, a Builder and a Reviewer actually do the work, and you get the files **plus** the real bot-to-bot messages, a timeline, and verification bound to each artifact revision.
 
@@ -81,11 +81,22 @@ evals/            40-case acceptance plan and coverage map
 
 ## What is verified — and what isn't
 
-- **36 deterministic tests** (`cd backend && .venv/bin/python -m pytest -q`): DAG validation, real delivery with a question/answer round trip, review → revise → re-review, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, sandbox write confinement, SSE cursor replay, event-schema conformance.
-- **Headless-Chrome UI smoke** with zero console errors (`frontend/scripts/ui-smoke.mjs`).
-- **Not yet run:** end-to-end runs with a real model were not executed in the build environment (no API key there). `backend/scripts/smoke_real_llm.py` performs the probe plus a three-role run and prints the evidence (models reported, usage, artifacts, checks, messages). Prompts are original seeds, not benchmark-optimised.
+**A real end-to-end run (2026-09-13)** through the local Claude Code CLI, model reported by the provider: `claude-opus-5`. Request: Japanese launch page + three social-post drafts from a product description, stop before publishing.
 
-Full matrix: [`docs/STATUS.md`](docs/STATUS.md). Security boundaries: [`SECURITY.md`](SECURITY.md).
+| | |
+| --- | --- |
+| Plan | Master chose 1 builder task + 1 reviewer task and skipped the researcher; 8 recorded assumptions (no prices, no invented numbers, placeholder URLs) |
+| Deliverables | `index.html` r1 (single file), `posts.md` r1, `HANDOFF.md` r1, `final-report.md` |
+| Verification | 10 programmatic checks → all pass; reviewer verdict 6/6 pass + 4 optional findings delivered as a real message |
+| Messages | builder → reviewer *handoff*, reviewer → builder *finding* |
+| Usage | 39 model turns · 35 tool calls · $1.66 list-price equivalent · 18 min 37 s |
+| Status | **completed** |
+
+Evidence is committed unedited under [`docs/evidence/`](docs/evidence/): the generated files, the final report and the 77-event JSONL log (`run4-*`). Earlier runs are there as well: run 1 ended *partial* and exposed a bug (a reviewer verifying two tasks had only its last verdict applied — fixed), runs 2–3 hit limits that were then tuned (`docs/STATUS.md`).
+
+Also verified: **39 deterministic tests** (`cd backend && .venv/bin/python -m pytest -q`) covering DAG validation, real delivery with a question/answer round trip, review → revise → re-review, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, sandbox write confinement, SSE cursor replay and event-schema conformance; headless-Chrome UI smoke with zero console errors.
+
+Still open: one request and four runs is not a benchmark; plans vary between runs because the Master decides; prompts are original seeds. The Anthropic API and OpenAI-compatible drivers are implemented and unit-tested but have not had a live run yet. Full matrix: [`docs/STATUS.md`](docs/STATUS.md). Security boundaries: [`SECURITY.md`](SECURITY.md).
 
 ## Design notes
 
@@ -102,7 +113,7 @@ Master が成果物と完了条件を決め、必要な Bot（Researcher / Build
 - 停止・再開・分岐（Bot のモデルを変えて別案）・再生（LLM 呼出なし）・JSONL エクスポート
 - 権限・予算・回数上限・承認はプロンプトではなく Runtime が強制
 
-上の GIF はテスト用のスクリプト provider（LLM 呼出なし、画面に「FAKE PROVIDER」と表示）で実 UI と実 Runtime を動かしたものです。実 LLM での協働は、この版の作成環境に API キーが無かったため未検証です（`backend/scripts/smoke_real_llm.py` で確認できます）。詳細は [`docs/STATUS.md`](docs/STATUS.md)。
+上の GIF はテスト用のスクリプト provider（LLM 呼出なし、画面に「FAKE PROVIDER」と表示）で実 UI と実 Runtime を動かしたものです。実 LLM での協働は 2026-09-13 にローカルの Claude Code CLI（`claude-opus-5`）で実施し、LP・投稿案・レビュー・最終報告まで `completed` で完走しました（証拠: `docs/evidence/run4-*`）。API キー不要で、`claude` にログイン済みなら `agentteam probe` → `agentteam serve` で始められます。詳細は [`docs/STATUS.md`](docs/STATUS.md)。
 
 ## License
 
