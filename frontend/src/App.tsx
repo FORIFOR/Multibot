@@ -24,6 +24,7 @@ export default function App() {
           <Link to="/" nav={nav} className={path === '/' ? 'active' : ''}>依頼</Link>
           <Link to="/settings" nav={nav} className={path.startsWith('/settings') ? 'active' : ''}>設定</Link>
           {pending.length > 0 && <Link to={`/runs/${pending[0].run_id}?tab=approvals`} nav={nav} className="active" >承認待ち {pending.length}</Link>}
+          <a href="https://github.com/FORIFOR/Multibot" target="_blank" rel="noreferrer" title="GitHub">★ GitHub</a>
         </nav>
       </header>
       <main className={'main' + (runMatch ? ' wide' : '')}>

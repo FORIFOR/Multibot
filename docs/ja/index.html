@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Agent Team — an open-source AI team that ships real work, with a conversation you can follow</title>
-<meta name="description" content="One request. A Master plans, Researcher/Builder/Reviewer actually work, and you get artifacts plus an auditable trace: real bot-to-bot messages, a timeline, and verification bound to each revision. Local-first, MIT." />
+<title>Agent Team — 依頼は一度。AI チームが作り、確かめ、経緯を残す。</title>
+<meta name="description" content="一文の依頼から Master が計画し、Researcher / Builder / Reviewer が実際に作業。成果物と一緒に、Bot 間の実メッセージ・時系列・revision 単位の検証が返ってきます。ローカルファースト、MIT。" />
 <meta property="og:title" content="Agent Team — an AI team whose work you can audit" />
 <meta property="og:description" content="One request → verified artifacts + a conversation you can follow. Open source, local-first." />
 <meta property="og:image" content="https://forifor.github.io/Multibot/media/og.png" />
-<meta property="og:url" content="https://forifor.github.io/Multibot/" />
+<meta property="og:url" content="https://forifor.github.io/Multibot/ja/" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -55,53 +55,53 @@ section.dark{background:#1b1a17;color:#f4efe6;margin:0 -24px;padding:64px 24px;b
 <div class="wrap">
   <header class="top">
     <a class="brand" href="#">Agent Team <small>v0.1 · local-first · MIT</small></a>
-    <nav><a href="#demo">Demo</a><a href="#anatomy">Screen</a><a href="#how">How it works</a><a href="#trace">Trace</a><a href="#quickstart">Quickstart</a><a href="#status">Real run</a><a href="ja/">日本語</a><a href="https://github.com/FORIFOR/Multibot">GitHub</a></nav>
+    <nav><a href="#demo">デモ</a><a href="#anatomy">画面</a><a href="#how">仕組み</a><a href="#trace">経緯</a><a href="#quickstart">始め方</a><a href="#status">実 run</a><a href="../">English</a><a href="https://github.com/FORIFOR/Multibot">GitHub</a></nav>
   </header>
 
   <section class="hero" style="border:0">
     <div>
-      <div class="eyebrow reveal">Open-source AI team · one request in, verified artifacts out</div>
-      <h1 class="reveal d1">An AI team that ships real work — <em>with a conversation you can follow.</em></h1>
-      <p class="lede reveal d2">Type one request. A Master plans, a Researcher, a Builder and a Reviewer actually do the work, and you get the files <strong>plus</strong> the real bot-to-bot messages, a timeline, and checks bound to each revision. Nothing is narrated after the fact.</p>
+      <div class="eyebrow reveal">オープンソースの AI チーム · 依頼は一度、検証済みの成果物が返る</div>
+      <h1 class="reveal d1">依頼は一度。AI チームが作り、<em>確かめ</em>、経緯を残す。</h1>
+      <p class="lede reveal d2">一文の依頼を入れるだけ。Master が計画し、Researcher / Builder / Reviewer が実際に作業します。成果物と<strong>一緒に</strong>、Bot 間の実メッセージ・時系列・revision 単位の検証が返ってきます。後から書いた台本の会話はありません。</p>
       <div class="cta reveal d3">
-        <a class="btn signal" href="https://github.com/FORIFOR/Multibot">★ Star on GitHub</a>
-        <a class="btn ghost" href="#quickstart">Run it locally</a>
+        <a class="btn signal" href="https://github.com/FORIFOR/Multibot">★ GitHub でスター</a>
+        <a class="btn ghost" href="#quickstart">手元で動かす</a>
       </div>
-      <p class="who reveal d3">For developers who ship with AI but won't sign off on work they can't audit.<br />No API key needed with Claude Code · or Claude API / OpenAI-compatible / Ollama · MIT</p>
+      <p class="who reveal d3">AI に仕事を任せたいが、確かめられない成果物には判を押せない開発者のために。<br />Claude Code があれば API キー不要 · Claude API / OpenAI 互換 / Ollama も可 · MIT</p>
     </div>
-    <div class="herovid reveal d2"><video autoplay muted loop playsinline preload="metadata" poster="media/hero-poster.jpg" aria-label="19-second clip: messages land in the team chat as bots finish; a revision is re-checked"><source src="media/hero.mp4" type="video/mp4" /></video></div>
+    <div class="herovid reveal d2"><video autoplay muted loop playsinline preload="metadata" poster="media/hero-poster.jpg" aria-label="19-second clip: messages land in the team chat as bots finish; a revision is re-checked"><source src="../media/hero.mp4" type="video/mp4" /></video></div>
   </section>
 
   <section id="demo">
-    <div class="eyebrow">59-second intro · narrated</div>
-    <h2>Watch the whole flow.</h2>
-    <p class="sub">Type a request, watch real messages land in the chat as each bot finishes, click a revision to see who made it and which check it passed, then read the final report built from evidence.</p>
-    <div class="video"><video controls playsinline preload="metadata" poster="media/poster-intro-en.jpg"><source src="media/intro-en.mp4" type="video/mp4" />Your browser cannot play this video. <a href="media/demo.mp4">Raw walkthrough (mp4)</a>.</video></div>
+    <div class="eyebrow">58 秒の紹介 · ナレーション付き</div>
+    <h2>一連の流れを見る。</h2>
+    <p class="sub">依頼を入力し、各 Bot が終えるたびに実メッセージがチャットに届き、revision をクリックすると誰が作りどの検証を通ったかが分かり、最後に証拠から組み立てた報告を読む。その流れです。</p>
+    <div class="video"><video controls playsinline preload="metadata" poster="../media/poster-intro.jpg"><source src="../media/intro.mp4" type="video/mp4" />Your browser cannot play this video. <a href="media/demo.mp4">Raw walkthrough (mp4)</a>.</video></div>
     <p class="caption"><b>Disclosure:</b> the screen recording drives the real UI and runtime with the <b>scripted test provider</b> (no LLM calls, labelled “FAKE PROVIDER” in the header) so the sequence is deterministic and free. Narration is synthesized speech. <a href="media/intro.mp4">日本語版はこちら</a>. No timing edits in the recording. Raw, un-narrated walkthrough: <a href="media/demo.mp4">demo.mp4</a> · <a href="media/demo.gif">demo.gif</a>. With a real connection the same screens are fed by live model calls; the run header shows the model the provider actually reported and the measured cost.</p>
   </section>
 
   <section id="anatomy">
-    <div class="eyebrow">The screen you'll live in</div>
-    <h2>Real work, readable at full size.</h2>
-    <p class="sub">The run view is the product. Not a chat window with avatars: a team column, immutable artifact revisions, and a chat that only shows delivered messages.</p>
+    <div class="eyebrow">毎日見る画面</div>
+    <h2>実際の仕事が、読める大きさで。</h2>
+    <p class="sub">run 画面が製品そのものです。アバター付きのチャット窓ではなく、チーム列、不変の成果物 revision、そして配送されたメッセージだけを表示するチャット。</p>
     <div class="anno">
-      <img src="media/run.png" alt="Run view: team column, artifact revisions with hashes, delivered messages" />
+      <img src="../media/run.png" alt="Run view: team column, artifact revisions with hashes, delivered messages" />
       <span class="pin" style="left:10%;top:38%">1</span>
       <span class="pin" style="left:63%;top:43%">2</span>
       <span class="pin" style="left:80%;top:27%">3</span>
       <span class="pin" style="left:22%;top:94%">4</span>
     </div>
     <div class="legend">
-      <div><b>1</b>Team: each bot's model, connection and prompt hash; tasks with status and attempt count.</div>
-      <div><b>2</b>Artifacts: r1, r2… with SHA-256, media type, who published it and from which task.</div>
-      <div><b>3</b>Chat: only <code>send_message</code> deliveries, with purpose and <code>reply_to</code>. No acknowledgements.</div>
-      <div><b>4</b>Trace: for the selected revision, the publish event, the check it passed or failed, the review, the message that asked for a fix.</div>
+      <div><b>1</b>チーム: 各 Bot のモデル・接続・プロンプトのハッシュ、タスクの状態と試行回数。</div>
+      <div><b>2</b>成果物: r1, r2… と SHA-256、種別、誰がどのタスクで公開したか。</div>
+      <div><b>3</b>チャット: <code>send_message</code> の配送だけ。目的と <code>reply_to</code> 付き。相槌はありません。</div>
+      <div><b>4</b>経緯: 選択中の revision について、公開イベント、通過/失敗した検証、レビュー、修正を求めたメッセージ。</div>
     </div>
   </section>
 
   <section id="how">
-    <div class="eyebrow">How it works</div>
-    <h2>Master proposes. The runtime checks. Bots do real work.</h2>
+    <div class="eyebrow">仕組み</div>
+    <h2>Master が提案し、Runtime が検査し、Bot が実際に働く。</h2>
     <div class="steps">
       <div class="step"><div class="n">1</div><h3>One request → a checked plan</h3><p>The Master turns your request into deliverables, recorded assumptions and a task DAG. The runtime validates schema, cycles, owners, tools, write scopes and limits before anything runs. Reversible choices are recorded as assumptions instead of questions back to you.</p></div>
       <div class="step"><div class="n">2</div><h3>Independent bots, real delivery</h3><p>Each bot has its own conversation state, mailbox, task scope, tools and workspace. <code>send_message</code> really delivers to the recipient; a question wakes the other bot to answer. Files become immutable, hashed artifact revisions.</p></div>
@@ -124,10 +124,10 @@ section.dark{background:#1b1a17;color:#f4efe6;margin:0 -24px;padding:64px 24px;b
         <p class="caption">Then: <span class="mono">builder publishes index.html r2 → reviewer runs html_basic on r2 → pass → task accepted</span>. Replay never calls a model. Fork from any checkpoint with a different model for one bot and compare.</p>
       </div>
       <div class="shots">
-        <figure class="shot"><img src="media/run.png" alt="Run view: team, artifact revisions, chat" loading="lazy" /><figcaption>Team · artifact revisions with hashes · real chat</figcaption></figure>
-        <figure class="shot"><img src="media/timeline.png" alt="Timeline of events" loading="lazy" /><figcaption>Timeline: seq, actor, action, outcome</figcaption></figure>
-        <figure class="shot"><img src="media/report.png" alt="Final report from evidence" loading="lazy" /><figcaption>Final report compiled from evidence</figcaption></figure>
-        <figure class="shot"><img src="media/settings.png" alt="Per-bot model, connection and prompt settings" loading="lazy" /><figcaption>Per-bot model, endpoint, locked prompts</figcaption></figure>
+        <figure class="shot"><img src="../media/run.png" alt="Run view: team, artifact revisions, chat" loading="lazy" /><figcaption>Team · artifact revisions with hashes · real chat</figcaption></figure>
+        <figure class="shot"><img src="../media/timeline.png" alt="Timeline of events" loading="lazy" /><figcaption>Timeline: seq, actor, action, outcome</figcaption></figure>
+        <figure class="shot"><img src="../media/report.png" alt="Final report from evidence" loading="lazy" /><figcaption>Final report compiled from evidence</figcaption></figure>
+        <figure class="shot"><img src="../media/settings.png" alt="Per-bot model, connection and prompt settings" loading="lazy" /><figcaption>Per-bot model, endpoint, locked prompts</figcaption></figure>
       </div>
     </div>
   </section>
@@ -147,8 +147,8 @@ section.dark{background:#1b1a17;color:#f4efe6;margin:0 -24px;padding:64px 24px;b
   </section>
 
   <section id="quickstart">
-    <div class="eyebrow">Quickstart</div>
-    <h2>Five commands. Bring one API key.</h2>
+    <div class="eyebrow">始め方</div>
+    <h2>数コマンド。Claude Code があればキー不要。</h2>
     <div class="two">
       <div class="term"><pre>git clone https://github.com/FORIFOR/Multibot && cd Multibot
 cd backend && uv venv .venv --python 3.12
@@ -165,9 +165,9 @@ export ANTHROPIC_API_KEY=sk-ant-…   <span class="c"># reference only; never wr
   </section>
 
   <section id="status">
-    <div class="eyebrow">Evidence, not a promise</div>
-    <h2>A real run, end to end.</h2>
-    <p class="sub">On 2026-09-13 the same request in the demo was run for real through the local Claude Code CLI (no API key). Every number below is read from the run's own event log, which is committed to the repo.</p>
+    <div class="eyebrow">約束ではなく証拠</div>
+    <h2>実 run を、端から端まで。</h2>
+    <p class="sub">2026-09-13、デモと同じ依頼をローカルの Claude Code CLI（API キー不要）で実際に実行しました。下の数字はすべて run 自身のイベントログから読み取ったもので、ログはリポジトリに無編集で置いてあります。</p>
     <div class="two">
       <div>
         <table>
@@ -180,9 +180,9 @@ export ANTHROPIC_API_KEY=sk-ant-…   <span class="c"># reference only; never wr
           <tr><th>Usage</th><td>39 model turns · 35 tool calls · $1.66 list-price equivalent · 18 min 37 s wall clock</td></tr>
           <tr><th>Status</th><td><span class="tag" style="border-color:var(--ok);color:var(--ok)">completed</span></td></tr>
         </table>
-        <p class="caption">Files: <a href="evidence/run4-index.html">generated index.html</a> · <a href="evidence/run4-posts.md">posts.md</a> · <a href="evidence/run4-final-report.md">final report</a> · <a href="evidence/run4-events.jsonl">77-event log (JSONL)</a>. Earlier runs are there too: run 1 finished <em>partial</em> and exposed a reviewer bug (fixed); runs 2–3 hit limits that were then tuned. Nothing was edited by hand.</p>
+        <p class="caption">Files: <a href="../evidence/run4-index.html">generated index.html</a> · <a href="../evidence/run4-posts.md">posts.md</a> · <a href="../evidence/run4-final-report.md">final report</a> · <a href="../evidence/run4-events.jsonl">77-event log (JSONL)</a>. Earlier runs are there too: run 1 finished <em>partial</em> and exposed a reviewer bug (fixed); runs 2–3 hit limits that were then tuned. Nothing was edited by hand.</p>
       </div>
-      <figure class="shot"><img src="media/real-run4-lp.png" alt="Landing page generated by the real run" loading="lazy" /><figcaption>What the Builder shipped: the top of the generated landing page (unedited).</figcaption></figure>
+      <figure class="shot"><img src="../media/real-run4-lp.png" alt="Landing page generated by the real run" loading="lazy" /><figcaption>What the Builder shipped: the top of the generated landing page (unedited).</figcaption></figure>
     </div>
     <div class="status" style="margin-top:24px">
       <div class="card"><h3 class="ok">Also verified</h3><ul>
