@@ -43,6 +43,7 @@ class Limits(BaseModel):
     max_tool_output_chars: int = 12000
     max_session_cost_usd: float = 1.0  # claude_cli: --max-budget-usd per agent session
     max_session_turns: int = 40  # claude_cli: --max-turns per agent session
+    max_replans: int = 2  # Master milestone sessions that may add tasks after the current DAG finishes
 
 
 class Policy(BaseModel):
@@ -101,7 +102,7 @@ class AgentTeamConfig(BaseModel):
         for a in d["agents"]:
             for k in ("system_prompt_override", "effort"):
                 a.pop(k, None)
-        for k in ("max_output_tokens", "max_tool_output_chars", "max_session_cost_usd", "max_session_turns"):
+        for k in ("max_output_tokens", "max_tool_output_chars", "max_session_cost_usd", "max_session_turns", "max_replans"):
             d["limits"].pop(k, None)
         return d
 

@@ -1,9 +1,13 @@
 """Sandboxed command execution for builder/reviewer checks.
 
 Backends (recorded in every result so nobody mistakes one for another):
+  - "docker":       container with --network none, workspace bind-mounted at /workspace, read-only root,
+                    non-root user, CPU / memory / pids limits, timeout. Works on macOS, Linux and Windows.
   - "sandbox-exec": macOS seatbelt profile: no network, writes only inside the workspace.
-  - "subprocess": plain subprocess with cleared env, cwd=workspace, timeout, output cap. NOT an isolation boundary.
-Docker/other OS sandboxes are not implemented in this build; see SECURITY.md.
+  - "subprocess":   plain subprocess with cleared env, cwd=workspace, timeout, output cap. NOT an isolation
+                    boundary; only used when explicitly allowed (AGENTTEAM_SANDBOX=subprocess).
+Selection: AGENTTEAM_SANDBOX=auto (default) picks docker if the daemon answers, else sandbox-exec on macOS,
+else refuses to run commands (denied result) unless subprocess is explicitly chosen.
 """
 from __future__ import annotations
 
@@ -16,6 +20,8 @@ from pathlib import Path
 
 DENY_TOKENS = ("sudo", "rm -rf /", "curl ", "wget ", "ssh ", "scp ", "nc ", "docker ", "osascript", "open ")
 SAFE_PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+DEFAULT_IMAGE = os.environ.get("AGENTTEAM_SANDBOX_IMAGE", "python:3.12-slim")
+_docker_state: dict[str, bool | None] = {"available": None}
 
 
 @dataclass
@@ -50,14 +56,102 @@ def _seatbelt_profile(workspace: Path) -> str:
 """
 
 
-def backend_name() -> str:
+async def docker_available(refresh: bool = False) -> bool:
+    if _docker_state["available"] is not None and not refresh:
+        return bool(_docker_state["available"])
+    if shutil.which("docker") is None:
+        _docker_state["available"] = False
+        return False
+    try:
+        proc = await asyncio.create_subprocess_exec("docker", "info", "--format", "{{.ServerVersion}}",
+                                                    stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+        out, _ = await asyncio.wait_for(proc.communicate(), timeout=15)
+        ok = proc.returncode == 0 and bool(out.strip())
+    except Exception:
+        ok = False
+    _docker_state["available"] = ok
+    return ok
+
+
+def _mode() -> str:
+    return (os.environ.get("AGENTTEAM_SANDBOX") or "auto").lower()
+
+
+async def backend_name() -> str:
+    """The backend that run_command will use right now ('none' means commands will be denied)."""
+    mode = _mode()
+    if mode == "docker":
+        return "docker" if await docker_available() else "none"
+    if mode in ("seatbelt", "sandbox-exec"):
+        return "sandbox-exec" if (sys.platform == "darwin" and shutil.which("sandbox-exec")) else "none"
+    if mode == "subprocess":
+        return "subprocess"
+    # auto
+    if await docker_available():
+        return "docker"
     if sys.platform == "darwin" and shutil.which("sandbox-exec") and os.environ.get("AGENTTEAM_NO_SEATBELT") != "1":
         return "sandbox-exec"
-    return "subprocess"
+    return "none"
+
+
+def backend_name_sync() -> str:
+    """Best-effort synchronous view for config/precheck displays (does not probe docker)."""
+    mode = _mode()
+    if mode == "subprocess":
+        return "subprocess"
+    if mode == "docker":
+        return "docker" if shutil.which("docker") else "none"
+    if _docker_state["available"]:
+        return "docker"
+    if sys.platform == "darwin" and shutil.which("sandbox-exec") and os.environ.get("AGENTTEAM_NO_SEATBELT") != "1":
+        return "sandbox-exec"
+    return "docker?" if shutil.which("docker") else "none"
+
+
+async def ensure_docker_image(image: str = DEFAULT_IMAGE, timeout: float = 600.0) -> tuple[bool, str]:
+    """Pull the sandbox image once (needs network; the sandbox itself runs with --network none)."""
+    proc = await asyncio.create_subprocess_exec("docker", "image", "inspect", image, stdout=asyncio.subprocess.DEVNULL,
+                                                stderr=asyncio.subprocess.DEVNULL)
+    await proc.wait()
+    if proc.returncode == 0:
+        return True, "present"
+    proc = await asyncio.create_subprocess_exec("docker", "pull", image, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+    try:
+        out, err = await asyncio.wait_for(proc.communicate(), timeout=timeout)
+    except asyncio.TimeoutError:
+        proc.kill()
+        return False, "pull timed out"
+    return proc.returncode == 0, (err or out).decode("utf-8", errors="replace")[-300:]
+
+
+def _container_user() -> str:
+    """Run as the host user so bind-mounted workspace files stay writable and owned by the user (non-root inside)."""
+    try:
+        uid, gid = os.getuid(), os.getgid()  # type: ignore[attr-defined]
+        return f"{uid}:{gid}" if uid != 0 else "1000:1000"
+    except AttributeError:  # Windows
+        return "1000:1000"
+
+
+async def _run_docker(command: str, workspace: Path, *, timeout: float, allow_network: bool, image: str) -> tuple[list[str], dict]:
+    argv = ["docker", "run", "--rm", "-i",
+            "--network", "host" if allow_network else "none",
+            "--memory", os.environ.get("AGENTTEAM_SANDBOX_MEMORY", "1g"),
+            "--cpus", os.environ.get("AGENTTEAM_SANDBOX_CPUS", "1"),
+            "--pids-limit", "256",
+            "--read-only", "--tmpfs", "/tmp:rw,size=256m",
+            "--security-opt", "no-new-privileges",
+            "--cap-drop", "ALL",
+            "--user", _container_user(),
+            "-v", f"{workspace}:/workspace:rw",
+            "-w", "/workspace",
+            "-e", "HOME=/tmp", "-e", "PATH=/usr/local/bin:/usr/bin:/bin", "-e", "LANG=C.UTF-8",
+            image, "/bin/sh", "-c", command]
+    return argv, {}
 
 
 async def run_command(command: str, workspace: Path, *, timeout: float = 120.0, max_output: int = 12000,
-                      allow_network: bool = False) -> SandboxResult:
+                      allow_network: bool = False, image: str | None = None) -> SandboxResult:
     lowered = f" {command.strip()} "
     for tok in DENY_TOKENS:
         if tok in lowered:
@@ -65,11 +159,32 @@ async def run_command(command: str, workspace: Path, *, timeout: float = 120.0, 
                                  timed_out=False, denied=True, reason=f"command contains denied token {tok.strip()!r}")
     workspace = workspace.resolve()
     workspace.mkdir(parents=True, exist_ok=True)
+    backend = await backend_name()
+    if backend == "none":
+        return SandboxResult(backend="none", command=command, exit_code=None, stdout="", stderr="", timed_out=False, denied=True,
+                             reason="no sandbox available: start Docker (recommended) or set AGENTTEAM_SANDBOX=subprocess to run "
+                                    "commands WITHOUT isolation")
     env = {"PATH": SAFE_PATH, "HOME": str(workspace), "LANG": "C.UTF-8", "TMPDIR": str(workspace / ".tmp"),
            "PYTHONDONTWRITEBYTECODE": "1", "NO_COLOR": "1"}
     (workspace / ".tmp").mkdir(exist_ok=True)
-    backend = backend_name()
-    if backend == "sandbox-exec":
+    if backend == "docker":
+        img = image or DEFAULT_IMAGE
+        ok, note = await ensure_docker_image(img)
+        if not ok:
+            return SandboxResult(backend="docker", command=command, exit_code=None, stdout="", stderr=note, timed_out=False,
+                                 denied=True, reason=f"sandbox image {img} unavailable")
+        # preflight: the workspace must be writable inside the container (Colima/Lima share only $HOME by default)
+        pre_argv, _ = await _run_docker("test -w /workspace && echo WRITABLE", workspace, timeout=30, allow_network=False, image=img)
+        pre = await asyncio.create_subprocess_exec(*pre_argv, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE, env=dict(os.environ))
+        pre_out, pre_err = await asyncio.wait_for(pre.communicate(), timeout=60)
+        if b"WRITABLE" not in pre_out:
+            return SandboxResult(backend="docker", command=command, exit_code=None, stdout="", stderr=pre_err.decode("utf-8", errors="replace")[-300:],
+                                 timed_out=False, denied=True,
+                                 reason=f"workspace {workspace} is not writable inside the sandbox container. With Colima/Lima only your home "
+                                        "directory is shared with the VM: keep the data dir under $HOME (or share the path in the VM settings).")
+        argv, _ = await _run_docker(command, workspace, timeout=timeout, allow_network=allow_network, image=img)
+        env = dict(os.environ)  # docker CLI needs its own env (DOCKER_HOST etc.); the container env is set via -e
+    elif backend == "sandbox-exec":
         profile = _seatbelt_profile(workspace)
         if allow_network:
             profile = profile.replace("(deny network*)", "(allow network*)")

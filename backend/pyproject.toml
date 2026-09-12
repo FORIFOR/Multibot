@@ -1,6 +1,6 @@
 [project]
 name = "agentteam"
-version = "0.1.0"
+version = "0.2.0"
 description = "An open-source AI team that ships real work, with a conversation you can follow."
 requires-python = ">=3.12"
 dependencies = [
@@ -28,6 +28,10 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["agentteam"]
+artifacts = ["agentteam/ui/**"]
+
+[tool.hatch.build]
+include = ["agentteam/**", "prompts/**", "skills/**", "schemas/**"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

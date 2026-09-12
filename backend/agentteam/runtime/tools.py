@@ -438,8 +438,8 @@ class ToolGateway:
         return "OK: review recorded." + (f" Still to review: {', '.join(remaining)}." if remaining else " Now call finish_task.")
 
     async def t_create_task(self, a, cid):
-        if self.ctx.agent.role != "master" or self.rt.scheduler is None:
-            return "DENIED: only the master may create tasks"
+        if self.ctx.agent.role != "master" or self.rt.scheduler is None or self.ctx.mode not in ("exception", "milestone"):
+            return "DENIED: only the master may create tasks, and only in exception/milestone sessions"
         spec = TaskSpec(id=a["id"], owner=a["owner"], objective=a["objective"], depends_on=list(a.get("depends_on") or []),
                         output_paths=list(a.get("output_paths") or []), acceptance=a["acceptance"],
                         write_scope=f"workspaces/{a['id']}/")

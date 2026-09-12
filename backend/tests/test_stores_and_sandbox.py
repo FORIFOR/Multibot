@@ -34,7 +34,8 @@ async def test_artifact_revisions_are_immutable_and_hashed(tmp_path):
     await db.close()
 
 
-async def test_sandbox_denies_tokens_and_confines_writes(tmp_path):
+async def test_sandbox_denies_tokens_and_confines_writes(tmp_path, monkeypatch):
+    monkeypatch.setenv("AGENTTEAM_SANDBOX", "seatbelt" if sys.platform == "darwin" else "subprocess")  # docker path is covered separately
     r = await run_command("curl https://example.com", tmp_path)
     assert r.denied
     r = await run_command("echo ok > out.txt; cat out.txt", tmp_path)
@@ -51,3 +52,43 @@ async def test_sandbox_denies_tokens_and_confines_writes(tmp_path):
 def test_ssrf_guard(url):
     with pytest.raises(FetchDenied):
         check_url(url)
+
+
+async def test_docker_sandbox_isolation(tmp_path):
+    """Runs only when a Docker daemon answers: no network, read-only root, writes confined to the workspace."""
+    import os, tempfile, shutil, pathlib
+    from agentteam.runtime.sandbox import docker_available, backend_name
+    if not await docker_available(refresh=True):
+        pytest.skip("docker daemon not available")
+    # Colima/Lima share only $HOME with the VM, so use a workspace under the home directory
+    home_tmp = pathlib.Path(tempfile.mkdtemp(prefix="agentteam-sbx-", dir=pathlib.Path.home() / ".cache"))
+    tmp_path = home_tmp
+    old = os.environ.get("AGENTTEAM_SANDBOX")
+    os.environ["AGENTTEAM_SANDBOX"] = "docker"
+    try:
+        assert await backend_name() == "docker"
+        r = await run_command("echo hi > out.txt && cat out.txt && id -u", tmp_path, timeout=120)
+        assert r.backend == "docker" and r.exit_code == 0 and "hi" in r.stdout and "0\n" not in r.stdout.splitlines()[-1] + "\n"
+        assert (tmp_path / "out.txt").read_text().strip() == "hi"
+        r2 = await run_command("touch /etc/escape 2>&1; echo rc=$?", tmp_path, timeout=60)
+        assert "rc=1" in r2.stdout, r2
+        r3 = await run_command("python3 -c 'import urllib.request;urllib.request.urlopen(\"https://example.com\",timeout=5)' 2>&1; echo rc=$?", tmp_path, timeout=60)
+        assert "rc=1" in r3.stdout, r3
+    finally:
+        if old is None:
+            os.environ.pop("AGENTTEAM_SANDBOX", None)
+        else:
+            os.environ["AGENTTEAM_SANDBOX"] = old
+        shutil.rmtree(home_tmp, ignore_errors=True)
+
+
+async def test_no_sandbox_is_denied_not_silently_unsafe(tmp_path, monkeypatch):
+    import agentteam.runtime.sandbox as sb
+    monkeypatch.setenv("AGENTTEAM_SANDBOX", "docker")
+    monkeypatch.setattr(sb, "docker_available", lambda refresh=False: _false())
+    r = await run_command("echo hi", tmp_path)
+    assert r.denied and r.backend == "none" and "no sandbox available" in (r.reason or "")
+
+
+async def _false():
+    return False

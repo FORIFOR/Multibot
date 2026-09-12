@@ -1,3 +1,4 @@
+import { t as tr } from '../lib/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
 import { Link } from '../lib/router'
@@ -92,7 +93,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
     await act(async () => { const child = await api.fork(runId, overrides); nav(`/runs/${child.run_id}`) })
   }
 
-  if (!run) return <p className="muted">{err || '読み込み中…'}</p>
+  if (!run) return <p className="muted">{err || tr('読み込み中…')}</p>
   const pendingApprovals = run.approvals.filter((a) => a.status === 'pending')
   return (
     <div>
@@ -100,7 +101,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
         <div>
           <div className="row">
             <span className={'tag status-' + run.status}>{live && <span className="pulse" />}{run.status}</span>
-            {run.provider_kind === 'fake' && <span className="tag fake">FAKE PROVIDER — 実 LLM ではありません</span>}
+            {run.provider_kind === 'fake' && <span className="tag fake">{tr("FAKE PROVIDER — 実 LLM ではありません")}</span>}
             {run.parent_run_id && <span className="tag">fork of <Link to={`/runs/${run.parent_run_id}`} nav={nav}>{run.parent_run_id.slice(0, 16)}</Link> @seq {run.fork_from_seq}</span>}
           </div>
           <h1 style={{ marginTop: 6 }}>{run.goal}</h1>
@@ -111,15 +112,15 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             <span className="tag">{run.usage.input_tokens + run.usage.output_tokens} tokens</span>
             <span className="tag">{Math.round(run.usage.wall_seconds)}s</span>
             <span className="tag">seq {run.last_seq}</span>
-            {run.plan?.assumptions?.map((a, i) => <span key={i} className="tag" title="Master が記録した前提">前提: {a}</span>)}
+            {run.plan?.assumptions?.map((a, i) => <span key={i} className="tag" title={tr("Master が記録した前提")}>前提: {a}</span>)}
           </div>
           {run.blocked_reason && <p className="err small" style={{ marginTop: 6 }}>{run.blocked_reason}</p>}
         </div>
         <div className="stack" style={{ alignItems: 'flex-end' }}>
           <div className="row">
-            {live && <button className="btn ghost" onClick={() => act(() => api.cancel(runId))}>停止</button>}
-            {['interrupted', 'approval_required', 'failed', 'partial', 'cancelled'].includes(run.status) && <button className="btn" onClick={() => act(() => api.resume(runId))}>再開</button>}
-            {run.plan && <button className="btn ghost" onClick={doFork}>分岐して再実行</button>}
+            {live && <button className="btn ghost" onClick={() => act(() => api.cancel(runId))}>{tr("停止")}</button>}
+            {['interrupted', 'approval_required', 'failed', 'partial', 'cancelled'].includes(run.status) && <button className="btn" onClick={() => act(() => api.resume(runId))}>{tr("再開")}</button>}
+            {run.plan && <button className="btn ghost" onClick={doFork}>{tr("分岐して再実行")}</button>}
             <a className="btn ghost" href={`/api/runs/${runId}/export?fmt=jsonl`}>JSONL</a>
           </div>
           {pendingApprovals.length > 0 && <button className="btn signal" onClick={() => setTab('approvals')}>承認待ち {pendingApprovals.length} 件</button>}
@@ -135,11 +136,11 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             <div className="tabs">
               {(['chat', 'timeline', 'report', 'approvals'] as Tab[]).map((t) => (
                 <button key={t} className={tab === t ? 'active' : ''} onClick={() => setTab(t)}>
-                  {{ chat: 'チームチャット', timeline: '時系列', report: '最終報告', approvals: '承認' }[t]}{t === 'approvals' && pendingApprovals.length ? ` (${pendingApprovals.length})` : ''}
+                  {{ chat: tr('チームチャット'), timeline: tr('時系列'), report: tr('最終報告'), approvals: tr('承認') }[t]}{t === 'approvals' && pendingApprovals.length ? ` (${pendingApprovals.length})` : ''}
                 </button>
               ))}
             </div>
-            {tab === 'timeline' && <label className="small muted" style={{ marginLeft: 'auto' }}><input type="checkbox" checked={showTools} onChange={(e) => setShowTools(e.target.checked)} /> ツール呼出も表示</label>}
+            {tab === 'timeline' && <label className="small muted" style={{ marginLeft: 'auto' }}><input type="checkbox" checked={showTools} onChange={(e) => setShowTools(e.target.checked)} /> {tr("ツール呼出も表示")}</label>}
           </header>
           <div className="body">
             {tab === 'chat' && <Chat chat={chat} tz={tz} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />}
@@ -159,7 +160,7 @@ function TeamPane({ run, agents, selTask, setSelTask, onJump }: { run: RunDetail
   const ids = Object.keys(agents).filter((id) => agents[id].enabled)
   return (
     <section className="pane">
-      <header><h3>チーム</h3><span className="muted small" style={{ marginLeft: 'auto' }}>{run.plan ? `${run.tasks.length} tasks` : run.status === 'planning' ? 'Master が計画中…' : ''}</span></header>
+      <header><h3>{tr("チーム")}</h3><span className="muted small" style={{ marginLeft: 'auto' }}>{run.plan ? `${run.tasks.length} tasks` : run.status === 'planning' ? 'Master が計画中…' : ''}</span></header>
       <div className="body">
         {ids.map((id) => {
           const a = agents[id]
@@ -167,7 +168,7 @@ function TeamPane({ run, agents, selTask, setSelTask, onJump }: { run: RunDetail
           const used = run.plan?.agents.includes(id)
           return (
             <div className="agent" key={id} style={{ opacity: run.plan && !used ? 0.5 : 1 }}>
-              <div className="name">{id} <span className="tag">{a.role}</span>{a.prompt_mode === 'user_locked' && <span className="tag" title="手動固定プロンプト">locked</span>}</div>
+              <div className="name">{id} <span className="tag">{a.role}</span>{a.prompt_mode === 'user_locked' && <span className="tag" title={tr("手動固定プロンプト")}>locked</span>}</div>
               <div className="model">{a.model} · {a.connection_id}/{a.driver} · prompt {a.system_prompt_sha256.slice(0, 8)}</div>
               {tasks.map((t) => (
                 <div key={t.spec.id} className={'task' + (selTask === t.spec.id ? ' active' : '')} onClick={() => setSelTask(selTask === t.spec.id ? null : t.spec.id)}>
@@ -187,10 +188,10 @@ function TeamPane({ run, agents, selTask, setSelTask, onJump }: { run: RunDetail
                           return <li key={c.id}><span className={'tag ' + (r ? r.status : '')}>{c.id} {r ? r.status : c.check_kind}</span> {c.description}{r?.note ? <span className="muted"> — {r.note}</span> : null}</li>
                         })}
                       </ul>
-                      {t.result?.summary && <div><b>結果:</b> {t.result.summary}</div>}
+                      {t.result?.summary && <div><b>{tr("結果:")}</b> {t.result.summary}</div>}
                       {t.result?.unverified?.length ? <div className="muted">未検証: {t.result.unverified.join(' / ')}</div> : null}
                       {t.blocked_reason && <div className="err">{t.blocked_reason}</div>}
-                      <button className="btn sm ghost" style={{ marginTop: 4 }} onClick={(e) => { e.stopPropagation(); onJump(0) }}>時系列で見る</button>
+                      <button className="btn sm ghost" style={{ marginTop: 4 }} onClick={(e) => { e.stopPropagation(); onJump(0) }}>{tr("時系列で見る")}</button>
                     </div>
                   )}
                 </div>
@@ -216,7 +217,7 @@ function ArtifactPane({ run, artifactsById, sel, setSel, events, onJump }: { run
   return (
     <section className="pane">
       <header>
-        <h3>成果物</h3>
+        <h3>{tr("成果物")}</h3>
         <span className="muted small" style={{ marginLeft: 'auto' }}>{artifactsById.size} files</span>
       </header>
       <div className="body stack">
@@ -231,7 +232,7 @@ function ArtifactPane({ run, artifactsById, sel, setSel, events, onJump }: { run
               </div>
             )
           })}
-          {artifactsById.size === 0 && <p className="muted small">まだ成果物は公開されていません。</p>}
+          {artifactsById.size === 0 && <p className="muted small">{tr("まだ成果物は公開されていません。")}</p>}
         </div>
         {cur && (
           <>
@@ -245,15 +246,15 @@ function ArtifactPane({ run, artifactsById, sel, setSel, events, onJump }: { run
                 : <pre>{detail?.text ?? '(binary)'}</pre>}
             </div>
             <div className="small">
-              <h3>この revision の経緯</h3>
-              {related.length === 0 && <span className="muted">関連イベントなし</span>}
+              <h3>{tr("この revision の経緯")}</h3>
+              {related.length === 0 && <span className="muted">{tr("関連イベントなし")}</span>}
               {related.map((e) => (
                 <div key={e.event_id} className="row" style={{ gap: 6, padding: '3px 0' }}>
                   <span className="mono muted">#{e.seq}</span>
                   <b>{e.actor_id}</b>
                   <span>{e.type === 'artifact.published' ? '公開' : e.type === 'check.completed' ? `検証 ${e.payload.kind} → ${e.payload.result?.status}` : e.type === 'review.submitted' ? `レビュー: ${(e.payload.results || []).map((r: any) => `${r.acceptance_id}=${r.status}`).join(', ')}` : `メッセージ → ${e.payload.to_agent_id} [${e.payload.purpose}]`}</span>
                   {e.payload.result?.problems?.length ? <span className="err">{e.payload.result.problems.join('; ')}</span> : null}
-                  <button className="btn sm ghost" onClick={() => onJump(e.seq)}>→ 時系列</button>
+                  <button className="btn sm ghost" onClick={() => onJump(e.seq)}>{tr("→ 時系列")}</button>
                 </div>
               ))}
               {cur.sources?.length ? <div className="muted">sources: {cur.sources.join(', ')}</div> : null}
@@ -266,7 +267,7 @@ function ArtifactPane({ run, artifactsById, sel, setSel, events, onJump }: { run
 }
 
 function Chat({ chat, tz, onJump }: { chat: ChatMessage[]; tz?: string; onJump: (seq: number) => void }) {
-  if (chat.length === 0) return <p className="muted small">Bot 間のメッセージはまだありません。表示されるのは実際に宛先の受信箱へ配送されたメッセージだけです。</p>
+  if (chat.length === 0) return <p className="muted small">{tr("Bot 間のメッセージはまだありません。表示されるのは実際に宛先の受信箱へ配送されたメッセージだけです。")}</p>
   return (
     <div>
       {chat.map((m) => (
@@ -306,30 +307,30 @@ function Timeline({ items, tz, hiSeq, selTask }: { items: TimelineItem[]; tz?: s
 
 function Report({ run }: { run: RunDetail }) {
   const r = run.final_report
-  if (!r) return <p className="muted small">{TERMINAL.includes(run.status) ? '報告はありません。' : '実行完了後に、成果物・検証・未解決・費用・経緯参照をまとめた報告が生成されます。'}</p>
+  if (!r) return <p className="muted small">{TERMINAL.includes(run.status) ? '報告はありません。' : tr('実行完了後に、成果物・検証・未解決・費用・経緯参照をまとめた報告が生成されます。')}</p>
   const n = r.narrative
   const ev = r.evidence
   return (
     <div className="report small">
-      <div className="row"><span className={'tag status-' + r.status}>{r.status}</span>{r.reason && <span className="err">{r.reason}</span>}<span className="muted">{n ? `要約: ${n.author}` : '要約: 生成なし（証拠のみ）'}</span></div>
-      {n?.summary && <><h2>要約</h2><p>{n.summary}</p></>}
-      <h2>成果物</h2>
+      <div className="row"><span className={'tag status-' + r.status}>{r.status}</span>{r.reason && <span className="err">{r.reason}</span>}<span className="muted">{n ? `要約: ${n.author}` : tr('要約: 生成なし（証拠のみ）')}</span></div>
+      {n?.summary && <><h2>{tr("要約")}</h2><p>{n.summary}</p></>}
+      <h2>{tr("成果物")}</h2>
       <ul>{r.deliverables.map((d: any) => <li key={d.artifact_id + d.revision}><code>{d.logical_path}</code> r{d.revision} <span className="muted">sha {d.sha256.slice(0, 12)} · {d.by}/{d.task_id}</span></li>)}</ul>
-      <h2>検証済み</h2>
+      <h2>{tr("検証済み")}</h2>
       <ul>
         {ev.checks.map((c: any) => <li key={c.seq}>check <code>{c.kind}</code> on {c.target?.artifact_id} r{c.target?.revision} → <span className={'tag ' + c.status}>{c.status}</span> <span className="muted">#{c.seq}</span></li>)}
         {ev.reviews.map((rv: any) => <li key={rv.seq}>review of {rv.target_task_id} by {rv.by}: {rv.results.map((x: any) => <span key={x.acceptance_id} className={'tag ' + x.status} style={{ marginRight: 4 }}>{x.acceptance_id} {x.status}</span>)} <span className="muted">#{rv.seq}</span></li>)}
         {n?.verified?.map((v: string, i: number) => <li key={i}>{v}</li>)}
       </ul>
-      <h2>未解決・承認待ち</h2>
+      <h2>{tr("未解決・承認待ち")}</h2>
       <ul>
         {ev.failures.map((f: any) => <li key={f.seq}>{f.type} {f.task_id} — {f.reason} <span className="muted">#{f.seq}</span></li>)}
         {ev.blockers.map((b: any) => <li key={b.seq}>{b.actor}: {b.reason} — 必要: {b.needed}</li>)}
         {n?.unresolved?.map((u: string, i: number) => <li key={i}>{u}</li>)}
-        {ev.failures.length + ev.blockers.length === 0 && !n?.unresolved?.length && <li className="muted">なし</li>}
+        {ev.failures.length + ev.blockers.length === 0 && !n?.unresolved?.length && <li className="muted">{tr("なし")}</li>}
       </ul>
-      {n?.next_steps?.length ? <><h2>次の一手</h2><ul>{n.next_steps.map((s: string, i: number) => <li key={i}>{s}</li>)}</ul></> : null}
-      <h2>時間・費用</h2>
+      {n?.next_steps?.length ? <><h2>{tr("次の一手")}</h2><ul>{n.next_steps.map((s: string, i: number) => <li key={i}>{s}</li>)}</ul></> : null}
+      <h2>{tr("時間・費用")}</h2>
       <dl className="kv">
         <dt>model calls</dt><dd>{r.usage.model_calls}</dd>
         <dt>cost</dt><dd>{money(r.usage.cost_usd)}</dd>
@@ -337,7 +338,7 @@ function Report({ run }: { run: RunDetail }) {
         <dt>by agent</dt><dd>{Object.entries(ev.model_usage_by_agent).map(([k, v]: any) => `${k}: ${v.calls} calls / ${money(v.cost_usd)} (reported: ${v.models_reported.join(', ') || 'unknown'})`).join(' · ')}</dd>
         <dt>provider</dt><dd>{ev.run.provider_kind}</dd>
       </dl>
-      <p><a href={`/api/runs/${run.run_id}/export?fmt=md`} target="_blank" rel="noreferrer">final-report.md を開く</a></p>
+      <p><a href={`/api/runs/${run.run_id}/export?fmt=md`} target="_blank" rel="noreferrer">{tr("final-report.md を開く")}</a></p>
     </div>
   )
 }
@@ -348,19 +349,19 @@ function Approvals({ approvals, onResolved }: { approvals: Approval[]; onResolve
     setErr(null)
     try { await api.resolveApproval(a.approval_id, { decision, expected_hash: a.payload_hash, nonce: a.nonce }); onResolved() } catch (e) { setErr(String(e)) }
   }
-  if (approvals.length === 0) return <p className="muted small">承認要求はありません。外部への投稿・送信・支払い・本番変更は、承認されるまで実行されません。</p>
+  if (approvals.length === 0) return <p className="muted small">{tr("承認要求はありません。外部への投稿・送信・支払い・本番変更は、承認されるまで実行されません。")}</p>
   return (
     <div className="stack">
       {err && <p className="err">{err}</p>}
       {approvals.map((a) => (
         <div key={a.approval_id} className="approval">
-          <div className="row"><b>{a.agent_id}</b> が <code>{a.action}</code> の承認を要求 <span className={'tag status-' + (a.status === 'pending' ? 'approval_required' : a.status === 'approved' ? 'completed' : 'failed')}>{a.status}</span></div>
+          <div className="row"><b>{a.agent_id}</b> {tr("が")} <code>{a.action}</code> {tr("の承認を要求")} <span className={'tag status-' + (a.status === 'pending' ? 'approval_required' : a.status === 'approved' ? 'completed' : 'failed')}>{a.status}</span></div>
           <div>{String(a.payload.description ?? '')}</div>
           <pre>{JSON.stringify(a.payload.payload, null, 1)}</pre>
           <div className="mono muted small">hash {a.payload_hash.slice(0, 16)}… · 期限 {fmtTime(a.expires_at)}{a.payload.estimated_cost_usd != null ? ` · 見積 $${a.payload.estimated_cost_usd}` : ''}</div>
           {a.status === 'pending' && <div className="row" style={{ marginTop: 8 }}>
-            <button className="btn signal sm" onClick={() => resolve(a, 'approve')}>承認</button>
-            <button className="btn ghost sm" onClick={() => resolve(a, 'reject')}>却下</button>
+            <button className="btn signal sm" onClick={() => resolve(a, 'approve')}>{tr("承認")}</button>
+            <button className="btn ghost sm" onClick={() => resolve(a, 'reject')}>{tr("却下")}</button>
           </div>}
         </div>
       ))}

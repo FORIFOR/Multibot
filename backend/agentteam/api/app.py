@@ -21,6 +21,8 @@ from ..providers.registry import ProviderRegistry
 from .service import AppService
 
 FRONTEND_DIST = PKG_ROOT.parent / "frontend" / "dist"
+if not FRONTEND_DIST.is_dir():  # installed wheel: UI bundled inside the package
+    FRONTEND_DIST = Path(__file__).resolve().parent.parent / "ui"
 
 
 class CreateRunBody(BaseModel):

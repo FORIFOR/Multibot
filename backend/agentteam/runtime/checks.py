@@ -103,8 +103,63 @@ def text_not_contains(data: bytes, needles: list[str]) -> dict[str, Any]:
     return {"status": "pass" if not found else "fail", "found": found}
 
 
+def json_schema_check(data: bytes, schema: dict[str, Any] | None) -> dict[str, Any]:
+    from jsonschema import Draft202012Validator
+    if not schema:
+        return {"status": "blocked", "problems": ["args.schema is required"]}
+    try:
+        doc = json.loads(data.decode("utf-8"))
+    except Exception as e:
+        return {"status": "fail", "problems": [f"invalid JSON: {e}"]}
+    errs = [f"{'/'.join(str(x) for x in e.path) or '$'}: {e.message}" for e in Draft202012Validator(schema).iter_errors(doc)]
+    return {"status": "pass" if not errs else "fail", "problems": errs[:20]}
+
+
+def python_syntax(data: bytes, filename: str = "artifact.py") -> dict[str, Any]:
+    try:
+        compile(data.decode("utf-8"), filename, "exec")
+        return {"status": "pass"}
+    except SyntaxError as e:
+        return {"status": "fail", "problems": [f"{filename}:{e.lineno}: {e.msg}"]}
+
+
+def html_links(data: bytes, *, allowed_hosts: list[str] | None = None) -> dict[str, Any]:
+    """Internal anchors resolve to an id; external links only to allowed hosts (if given); no localhost links."""
+    text = data.decode("utf-8", errors="replace")
+    ids = set(re.findall(r'\sid=["\']([^"\']+)["\']', text))
+    hrefs = re.findall(r'href=["\']([^"\']*)["\']', text)
+    problems = []
+    for h in hrefs:
+        if h.startswith("#") and len(h) > 1 and h[1:] not in ids:
+            problems.append(f"anchor {h} has no target id")
+        elif re.match(r"https?://(localhost|127\.0\.0\.1)", h):
+            problems.append(f"localhost link: {h}")
+        elif allowed_hosts and re.match(r"https?://", h):
+            host = re.sub(r"^https?://([^/]+).*$", r"\1", h)
+            if not any(host == a or host.endswith("." + a) for a in allowed_hosts):
+                problems.append(f"external host not allowed: {host}")
+    return {"status": "pass" if not problems else "fail", "links": len(hrefs), "anchors": len(ids), "problems": problems[:20]}
+
+
+def file_size_max(data: bytes, max_bytes: int) -> dict[str, Any]:
+    return {"status": "pass" if len(data) <= max_bytes else "fail", "bytes": len(data), "max_bytes": max_bytes,
+            "problems": [] if len(data) <= max_bytes else [f"{len(data)} bytes > {max_bytes}"]}
+
+
+def regex_count(data: bytes, pattern: str, min_count: int = 1, max_count: int | None = None) -> dict[str, Any]:
+    text = data.decode("utf-8", errors="replace")
+    n = len(re.findall(pattern, text, flags=re.M))
+    ok = n >= min_count and (max_count is None or n <= max_count)
+    return {"status": "pass" if ok else "fail", "count": n, "problems": [] if ok else [f"{n} matches of /{pattern}/ (want {min_count}..{max_count if max_count is not None else '∞'})"]}
+
+
 CHECK_KINDS = {
     "html_basic": "HTML: title, viewport, headings, empty links, alt text, script count",
+    "html_links": "HTML: internal anchors resolve; no localhost links; optional args.allowed_hosts for external links",
+    "json_schema": "JSON validates against args.schema (JSON Schema)",
+    "python_syntax": "Python source compiles",
+    "file_size_max": "Artifact is at most args.max_bytes",
+    "regex_count": "Occurrences of args.pattern between args.min_count (default 1) and args.max_count",
     "json_valid": "JSON parses",
     "markdown_basic": "Markdown: headings present; optional required sections (args.sections)",
     "text_contains": "All args.needles present in the text",
@@ -124,6 +179,17 @@ async def run_check(kind: str, data: bytes | None, args: dict[str, Any], workspa
         return text_contains(data or b"", list(args.get("needles") or []))
     if kind == "text_not_contains":
         return text_not_contains(data or b"", list(args.get("needles") or []))
+    if kind == "html_links":
+        return html_links(data or b"", allowed_hosts=args.get("allowed_hosts"))
+    if kind == "json_schema":
+        return json_schema_check(data or b"", args.get("schema"))
+    if kind == "python_syntax":
+        return python_syntax(data or b"", str(args.get("filename") or "artifact.py"))
+    if kind == "file_size_max":
+        return file_size_max(data or b"", int(args.get("max_bytes") or 1_000_000))
+    if kind == "regex_count":
+        return regex_count(data or b"", str(args.get("pattern") or ""), int(args.get("min_count") or 1),
+                           int(args["max_count"]) if args.get("max_count") is not None else None)
     if kind == "command":
         if workspace is None:
             return {"status": "blocked", "problems": ["no workspace for command check"]}

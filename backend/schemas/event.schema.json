@@ -66,6 +66,7 @@
         "plan.proposed",
         "plan.rejected",
         "plan.accepted",
+        "plan.milestone",
         "task.created",
         "task.updated",
         "task.ready",

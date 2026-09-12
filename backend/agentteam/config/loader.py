@@ -163,6 +163,7 @@ limits:
   max_tool_output_chars: 12000
   max_session_cost_usd: 1.0
   max_session_turns: 40
+  max_replans: 2
 policy:
   external_mutation: approval
   skill_install: approval

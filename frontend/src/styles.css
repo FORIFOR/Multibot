@@ -160,3 +160,5 @@ details.more summary { cursor: pointer; color: var(--ink-3); font-size: 12px; }
 
 .agentcard header .lock { margin-left: auto; }
 .lock .switch { flex: none; }
+
+.langbtn { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 2px 10px; font-size: 12px; cursor: pointer; color: var(--ink-2); }

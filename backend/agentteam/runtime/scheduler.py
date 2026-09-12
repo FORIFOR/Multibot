@@ -8,7 +8,7 @@ from ..contracts import (DONE_FOR_DEPENDENTS, Message, Review, RunStatus, TaskSp
                          TERMINAL_TASK_STATES)
 from ..ids import now_iso
 from .context import RunRuntime, SessionContext
-from .planner import handle_exception
+from .planner import handle_exception, milestone_replan
 from .worker import AgentRunner, SessionOutcome, build_task_message
 
 REPLY_TOOLS = ["read_messages", "send_message", "read_artifact", "list_artifacts", "web_fetch", "web_search", "read_skill", "finish_task"]
@@ -24,6 +24,7 @@ class Scheduler:
         self._exception_handled: dict[str, int] = {}
         self._pause_for_approval = False
         self._fatal: str | None = None
+        self._replans = 0
         rt.bus.on_deliver(self._on_message)
 
     # ------------------------------------------------------------ setup
@@ -314,6 +315,19 @@ class Scheduler:
                 if queued:
                     for t in queued:  # unsatisfiable dependencies
                         await self._set(t, TaskStatus.blocked, "task.blocked", {"reason": "dependencies can never be satisfied"})
+                # milestone: let the Master extend the plan if the goal is not yet met (bounded by max_replans)
+                if (self._replans < rt.config.limits.max_replans and not rt.policy.cancelled
+                        and any(t.status in (TaskStatus.accepted, TaskStatus.partial) for t in rt.tasks.values())
+                        and rt.policy.remaining_budget() > 0.05 and rt.remaining_seconds() > 60):
+                    self._replans += 1
+                    try:
+                        res = await milestone_replan(rt, self._replans)
+                    except Exception as e:  # never let a replan crash the run
+                        await rt.events.append(rt.run_id, "plan.milestone", {"round": self._replans, "error": rt.redactor.text(str(e))[:300]})
+                        res = {"added": []}
+                    if res.get("added"):
+                        await self.checkpoint()
+                        continue
                 return self.final_status()
             done, _ = await asyncio.wait(set(self._running.values()) | set(self._replies), return_when=asyncio.FIRST_COMPLETED, timeout=1.0)
             for fut in done:

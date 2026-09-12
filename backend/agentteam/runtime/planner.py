@@ -126,13 +126,37 @@ def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dic
     return errors
 
 
-def plan_from_output(data: dict[str, Any]) -> TeamPlan:
+def _norm_agent(name: Any, known: list[str] | None) -> str:
+    """Lenient id normalisation for weaker models: 'builder (role builder, ...)' -> 'builder'."""
+    s = str(name).strip()
+    if known:
+        for k in known:
+            if s == k or s.lower().startswith(k.lower() + " ") or s.lower().startswith(k.lower() + "("):
+                return k
+    return s.split()[0].strip("(),:") if s else s
+
+
+def plan_from_output(data: dict[str, Any], known_agents: list[str] | None = None) -> TeamPlan:
     tasks = []
     for t in data.get("tasks", []):
-        tasks.append(TaskSpec(id=t["id"], owner=t["owner"], objective=t["objective"], depends_on=t.get("depends_on", []),
-                              input_artifacts=[], output_paths=t.get("output_paths", []), acceptance=t["acceptance"],
-                              write_scope=f"workspaces/{t['id']}/"))
-    return TeamPlan(goal=data["goal"], assumptions=data.get("assumptions", []), agents=data.get("agents", []), tasks=tasks)
+        acceptance = t.get("acceptance") or []
+        if isinstance(acceptance, dict):
+            acceptance = [acceptance]
+        for i, c in enumerate(acceptance):
+            if isinstance(c, dict):
+                c.setdefault("id", f"{t.get('id', 't')}a{i + 1}")
+                c.setdefault("check_kind", "model_review")
+        tasks.append(TaskSpec(id=str(t["id"]).strip(), owner=_norm_agent(t["owner"], known_agents), objective=t["objective"],
+                              depends_on=[str(d).strip() for d in (t.get("depends_on") or [])], input_artifacts=[],
+                              output_paths=[str(x).strip() for x in (t.get("output_paths") or [])], acceptance=acceptance,
+                              write_scope=f"workspaces/{str(t['id']).strip()}/"))
+    agents = [_norm_agent(a, known_agents) for a in (data.get("agents") or [])]
+    for t in tasks:  # owners must be listed
+        if t.owner not in agents:
+            agents.append(t.owner)
+    if known_agents:
+        agents = [a for a in dict.fromkeys(agents) if a in known_agents or a in {t.owner for t in tasks}]
+    return TeamPlan(goal=data["goal"], assumptions=data.get("assumptions", []), agents=agents, tasks=tasks)
 
 
 def _registry_text(rt) -> str:
@@ -156,6 +180,12 @@ def planning_message(rt) -> str:
                  f"model calls {rt.config.limits.max_model_calls}; budget {rt.config.limits.budget_usd} USD; "
                  f"wall clock {rt.config.limits.timeout_seconds}s. Each task costs several model calls; keep the plan small.")
     lines.append("\n## Registered programmatic checks\n" + "\n".join(f"- {k}: {v}" for k, v in CHECK_KINDS.items()))
+    lines.append("\n## Example of a valid plan shape (adapt ids, owners, objectives, paths and criteria to the request)\n"
+                 "{\"goal\": \"...\", \"assumptions\": [\"...\"], \"agents\": [\"master\", \"builder\", \"reviewer\"], \"tasks\": [\n"
+                 "  {\"id\": \"t1\", \"owner\": \"builder\", \"objective\": \"Write index.html ...\", \"depends_on\": [], \"output_paths\": [\"index.html\"],\n"
+                 "   \"acceptance\": [{\"id\": \"t1a1\", \"description\": \"html_basic passes on index.html\", \"check_kind\": \"programmatic\"}]},\n"
+                 "  {\"id\": \"t2\", \"owner\": \"reviewer\", \"objective\": \"Verify t1 against its criteria\", \"depends_on\": [\"t1\"], \"output_paths\": [],\n"
+                 "   \"acceptance\": [{\"id\": \"t2a1\", \"description\": \"every t1 criterion has a recorded verdict\", \"check_kind\": \"programmatic\"}]}]}")
     lines.append("\n## Plan rules\n"
                  "- Task ids: t1, t2, ... Each non-reviewer task declares output_paths (relative file names, e.g. brief.md, index.html).\n"
                  "- Output paths are unique across tasks. Each task gets its own workspace; write_scope is assigned by the runtime.\n"
@@ -179,7 +209,7 @@ async def plan_team(rt) -> TeamPlan:
     roles = {a.agent_id: a.role for a in rt.enabled_agents()}
     messages = [{"role": "user", "content": [{"type": "text", "text": user}]}]
     last_errors: list[str] = []
-    for attempt in range(2):
+    for attempt in range(3):
         req = LLMRequest(model=master.model, system=system, messages=messages, tools=[], max_tokens=rt.config.limits.max_output_tokens,
                          json_schema=PLAN_OUTPUT_SCHEMA, effort=master.effort, metadata={"agent_id": master.agent_id, "mode": "plan"})
         try:
@@ -188,7 +218,7 @@ async def plan_team(rt) -> TeamPlan:
             raise PlanError(f"planning call failed: {e}")
         try:
             data = _extract_json(resp.text)
-            plan = plan_from_output(data)
+            plan = plan_from_output(data, enabled)
             last_errors = validate_plan(plan, enabled, roles, rt.config.limits.max_tasks)
         except (ValueError, KeyError, TypeError) as e:
             last_errors = [f"unparseable plan: {e}"]
@@ -203,7 +233,7 @@ async def plan_team(rt) -> TeamPlan:
         messages.append({"role": "assistant", "content": [{"type": "text", "text": resp.text}]})
         messages.append({"role": "user", "content": [{"type": "text", "text": "The runtime rejected this plan:\n- " + "\n- ".join(last_errors)
                                                       + "\nReturn a corrected plan."}]})
-    raise PlanError("plan rejected twice: " + "; ".join(last_errors))
+    raise PlanError("plan rejected 3 times: " + "; ".join(last_errors))
 
 
 def _extract_json(text: str) -> dict[str, Any]:
@@ -265,3 +295,39 @@ async def final_report(rt, evidence: dict[str, Any]) -> dict[str, Any] | None:
     data["deliverables"] = [d for d in data.get("deliverables", []) if (d.get("artifact_id"), d.get("revision")) in known]
     data["author"] = agent.agent_id
     return data
+
+
+async def milestone_replan(rt, round_no: int) -> dict[str, Any]:
+    """After the current DAG finishes: the Master judges completeness against the goal and may add tasks.
+    Returns {"added": [task ids], "verdict": str}. Runtime validation still applies to every created task."""
+    master = rt.agents.get("master")
+    if master is None or not master.enabled:
+        return {"added": [], "verdict": "no master"}
+    before = set(rt.tasks)
+    ctx = SessionContext(rt=rt, agent=master, mode="milestone",
+                         tools=["list_artifacts", "read_artifact", "create_task", "update_task", "read_messages", "finish_task"])
+    arts = await rt.artifacts.list(rt.run_id, latest_only=True)
+    lines = [f"# Milestone review {round_no} — goal: {rt.run.goal}"]
+    if rt.run.plan and rt.run.plan.assumptions:
+        lines.append("Assumptions: " + "; ".join(rt.run.plan.assumptions))
+    lines.append("\n## Tasks")
+    for t in rt.tasks.values():
+        lines.append(f"- {t.spec.id} [{t.status}] {t.spec.owner}: {t.spec.objective[:160]}"
+                     + (f" — result: {t.result.summary[:200]}" if t.result and t.result.summary else "")
+                     + (f" — unverified: {'; '.join(t.result.unverified)[:200]}" if t.result and t.result.unverified else "")
+                     + (f" — next: {'; '.join(t.result.next_steps)[:200]}" if t.result and t.result.next_steps else ""))
+    lines.append("\n## Published artifacts")
+    lines += [f"- {m.artifact_id} r{m.revision} ({m.media_type}, {m.size}B) by {m.agent_id}/{m.task_id}" for m in arts] or ["(none)"]
+    lines.append(f"\n## Remaining budget\nmodel calls {rt.config.limits.max_model_calls - rt.policy.usage.model_calls}, "
+                 f"USD {rt.policy.remaining_budget():.2f}, wall clock {int(rt.remaining_seconds())}s, "
+                 f"task slots {rt.config.limits.max_tasks - len(rt.tasks)}.")
+    lines.append("\nDecide whether the goal's deliverables are complete and verified. If something the user asked for is "
+                 "missing, unverified, or a task ended partial, create the minimal additional tasks with create_task "
+                 "(depends_on may reference accepted tasks; give each task acceptance criteria; add a reviewer task when "
+                 "something worth verifying is produced). Do not re-do accepted work. Then call finish_task with a one-line verdict.")
+    runner = AgentRunner(ctx)
+    out = await runner.run("\n".join(lines))
+    added = sorted(set(rt.tasks) - before)
+    await rt.events.append(rt.run_id, "plan.milestone", {"round": round_no, "added_tasks": added, "verdict": out.detail[:500],
+                                                          "outcome": out.kind}, actor_id=master.agent_id, actor_kind="agent")
+    return {"added": added, "verdict": out.detail}

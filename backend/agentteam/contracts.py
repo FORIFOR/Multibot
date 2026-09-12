@@ -110,6 +110,7 @@ class EventType(StrEnum):
     plan_proposed = "plan.proposed"
     plan_rejected = "plan.rejected"
     plan_accepted = "plan.accepted"
+    plan_milestone = "plan.milestone"
     task_created = "task.created"
     task_updated = "task.updated"
     task_ready = "task.ready"

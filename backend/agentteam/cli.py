@@ -25,6 +25,10 @@ def main(argv: list[str] | None = None) -> int:
     pr.add_argument("connection", nargs="?")
     pr.add_argument("--model")
     pr.add_argument("--data-dir", default=None)
+    q = sub.add_parser("quickstart", help="probe the default connection if needed, then serve and open the browser")
+    q.add_argument("--port", type=int, default=8787)
+    q.add_argument("--data-dir", default=None)
+    q.add_argument("--no-browser", action="store_true")
     r = sub.add_parser("run", help="run one request end to end and print the report path")
     r.add_argument("goal")
     r.add_argument("--url", action="append", default=[])
@@ -48,6 +52,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "probe":
         return asyncio.run(_probe(args))
+    if args.cmd == "quickstart":
+        return _quickstart(args)
     if args.cmd == "run":
         return asyncio.run(_run(args))
     return 1
@@ -96,3 +102,51 @@ async def _run(args) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+def _quickstart(args) -> int:
+    """First run in one command: probe (real call) → serve → open the browser."""
+    import shutil
+    import threading
+    import webbrowser
+    import uvicorn
+    from .api.app import create_app
+
+    async def _prepare() -> tuple[AppService, bool]:
+        svc = await AppService(args.data_dir).start()
+        cid = svc.config.defaults.connection_id
+        conn = svc.config.connection(cid)
+        ok = conn is not None and conn.capability_check == "passed"
+        if not ok and conn is not None:
+            if conn.driver == "claude_cli" and shutil.which("claude") is None:
+                print("claude CLI not found. Install Claude Code (https://claude.com/claude-code), run `claude` once to log in, then retry.")
+            else:
+                print(f"Probing connection {cid} ({conn.driver}) with model {svc.config.defaults.model} — one small real call…", flush=True)
+                from .providers.registry import ProviderRegistry
+                reg = ProviderRegistry(svc.config)
+                try:
+                    res = await reg.adapter(cid).probe(svc.config.defaults.model)
+                except Exception as e:  # keep going: the UI shows the structured reason
+                    res = None
+                    print(f"probe failed: {e}")
+                finally:
+                    await reg.aclose()
+                if res is not None:
+                    cfg = svc.config.model_copy(deep=True)
+                    c = cfg.connection(cid)
+                    c.capability_check = "passed" if res.ok else "failed"
+                    c.capability_detail = {"model_requested": res.model_requested, "model_reported": res.model_reported,
+                                           "tool_calling": res.tool_calling, "json_schema": res.json_schema, "error": res.error}
+                    await svc.save_config(cfg, "quickstart probe")
+                    ok = res.ok
+                    print(f"probe: {'passed' if res.ok else 'failed'} (model reported: {res.model_reported}) {res.error or ''}")
+        await svc.stop()
+        return svc, ok
+
+    svc, ok = asyncio.run(_prepare())
+    url = f"http://127.0.0.1:{args.port}"
+    print(f"Agent Team → {url}  ({'ready' if ok else 'open Settings to fix the connection'})", flush=True)
+    if not args.no_browser:
+        threading.Timer(1.5, lambda: webbrowser.open(url)).start()
+    uvicorn.run(create_app(AppService(args.data_dir)), host="127.0.0.1", port=args.port, log_level="warning")
+    return 0
