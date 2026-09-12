@@ -27,3 +27,9 @@
 
 ## Not done (no account / credentials)
 - Show HN, Reddit, Product Hunt
+
+## Facebook (2026-09-13 早朝 JST)
+- ページ foriforapps にリールとして投稿（short-ja.mp4 + 本文 + GitHub / Zenn リンク）: https://www.facebook.com/profile.php?id=61593966556275
+
+## TikTok (2026-09-13 早朝 JST)
+- TikTok Studio から short-ja.mp4 を投稿（キャプション + #ClaudeCode #AIエージェント #OSS #個人開発）。投稿直後は「コンテンツ審査中」。公開範囲を「誰でも」に設定
