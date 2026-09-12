@@ -1,0 +1,44 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f4efe6;--ink:#1b1a17;--ink-2:#4a4640;--ink-3:#7d766c;--line:#cfc5b2;--signal:#c8471f}
+body{margin:0;background:transparent;font-family:'IBM Plex Sans JP','Hiragino Sans',sans-serif;color:var(--ink)}
+.card{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--paper);background-image:radial-gradient(900px 500px at 15% -10%,#fff8ec 0%,transparent 60%),repeating-linear-gradient(0deg,transparent 0 27px,rgba(27,26,23,.04) 27px 28px)}
+.brand{position:absolute;top:36px;left:56px;font-family:Fraunces,serif;font-weight:700;font-size:26px}.brand small{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-3);font-weight:400;margin-left:10px}
+.disc{position:absolute;top:44px;right:56px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-3)}
+.foot{position:absolute;bottom:34px;left:56px;right:56px;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-3)}
+h1{position:absolute;left:56px;top:190px;margin:0;font-family:Fraunces,'Hiragino Mincho ProN',serif;font-weight:500;font-size:58px;line-height:1.2;letter-spacing:-.01em;max-width:1100px}
+h1 em{font-style:italic;color:var(--signal)}
+.sub{position:absolute;left:58px;top:470px;font-size:24px;color:var(--ink-2);max-width:1000px;line-height:1.6}
+.eyebrow{position:absolute;left:58px;top:150px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--signal)}
+.dots{position:absolute;right:120px;top:210px;display:flex;flex-direction:column;gap:24px}
+.dot{width:200px;padding:14px 18px;border:1px solid var(--line);background:#fbf8f2;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:14px}.dot b{display:block;font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}.dot.m{border-color:var(--ink)}.dot.r{border-color:var(--signal)}
+.url{position:absolute;left:58px;top:400px;font-family:'IBM Plex Mono',monospace;font-size:30px;line-height:1.7}
+.url span{color:var(--signal)}
+/* lower-third caption (transparent background) */
+.lt{width:1280px;height:720px;position:relative;background:transparent}
+.lt .box{position:absolute;left:40px;bottom:40px;background:rgba(27,26,23,.92);color:#f4efe6;padding:14px 22px;border-radius:6px;font-size:24px;font-weight:500;border-left:5px solid var(--signal);max-width:1000px;line-height:1.4}
+.lt .box small{display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#c9c1b3;margin-top:4px;font-weight:400}
+</style></head><body>
+<div class="card" id="c1"><div class="brand">Agent Team <small>v0.1 · local-first · MIT</small></div><div class="disc">画面は実 UI・実 Runtime / provider はスクリプト（LLM 呼出なし）/ ナレーションは合成音声</div>
+<div class="eyebrow">Open-source AI team</div><h1>依頼は一度。<br>AIチームが作り、<em>確かめ</em>、経緯を残す。</h1>
+<div class="sub">一文の依頼から Master が計画し、Researcher / Builder / Reviewer が実際に作業。<br>成果物と一緒に、Bot 間の実メッセージ・時系列・revision 単位の検証が返ってきます。</div>
+<div class="foot"><span>github.com/FORIFOR/Multibot</span><span>forifor.github.io/Multibot</span></div></div>
+
+<div class="card" id="c2"><div class="brand">Agent Team <small>v0.1 · local-first · MIT</small></div><div class="disc">画面は実 UI・実 Runtime / provider はスクリプト（LLM 呼出なし）/ ナレーションは合成音声</div>
+<div class="eyebrow">How it works</div><h1>Master が提案し、<br>Runtime が検査し、<br>Bot が実際に働く。</h1>
+<div class="dots"><div class="dot m"><b>master</b>計画 · 例外判断 · 集約</div><div class="dot"><b>researcher</b>出典付き brief</div><div class="dot"><b>builder</b>LP · README · 投稿案</div><div class="dot r"><b>reviewer</b>revision 単位で検証</div></div>
+<div class="sub">権限・予算・回数・承認はプロンプトではなく Runtime が強制します。</div>
+<div class="foot"><span>github.com/FORIFOR/Multibot</span><span>forifor.github.io/Multibot</span></div></div>
+
+<div class="card" id="c3"><div class="brand">Agent Team <small>v0.1 · local-first · MIT</small></div><div class="disc">画面は実 UI・実 Runtime / provider はスクリプト（LLM 呼出なし）/ ナレーションは合成音声</div>
+<div class="eyebrow">Open source · MIT</div><h1>成果物を開くと、<br><em>なぜそうなったか</em>まで辿れる。</h1>
+<div class="url">github.com/<span>FORIFOR/Multibot</span><br>forifor.github.io/<span>Multibot</span></div>
+<div class="foot"><span>Claude · OpenAI-compatible · Ollama</span><span>Python 3.12 · React · SQLite</span></div></div>
+
+<div class="lt" id="l1"><div class="box">一文の依頼を入力して「開始」<small>Master が成果物・完了条件・前提を決め、task DAG を Runtime が検査</small></div></div>
+<div class="lt" id="l2"><div class="box">チームチャット = 実際に配送されたメッセージだけ<small>handoff → question → answer(reply_to) → finding</small></div></div>
+<div class="lt" id="l3"><div class="box">時系列 = 実行記録そのもの<small>seq · 時刻 · actor · 操作 · 結果</small></div></div>
+<div class="lt" id="l4"><div class="box">検証は revision に紐付く<small>index.html r1 → fail → r2 を公開 → r2 で再検証 → pass</small></div></div>
+<div class="lt" id="l5"><div class="box">最終報告は証拠から組み立てる<small>成果物 · 検証済み · 未解決 · 費用 · 経緯参照</small></div></div>
+</body></html>
