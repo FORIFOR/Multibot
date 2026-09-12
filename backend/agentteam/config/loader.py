@@ -155,8 +155,8 @@ limits:
   max_tasks: 12
   max_peer_messages_per_task: 6
   max_revision_rounds: 2
-  max_model_calls: 30
-  max_tool_calls: 50
+  max_model_calls: 120   # measured: one Opus builder session ≈ 10–15 turns via claude_cli
+  max_tool_calls: 200
   timeout_seconds: 600
   budget_usd: 5.0
   max_output_tokens: 8000

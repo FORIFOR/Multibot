@@ -35,8 +35,8 @@ class Limits(BaseModel):
     max_tasks: int = 12
     max_peer_messages_per_task: int = 6
     max_revision_rounds: int = 2
-    max_model_calls: int = 30
-    max_tool_calls: int = 50
+    max_model_calls: int = 120
+    max_tool_calls: int = 200
     timeout_seconds: int = 600
     budget_usd: float = 2.0
     max_output_tokens: int = 8000
