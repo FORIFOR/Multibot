@@ -186,6 +186,11 @@ def planning_message(rt) -> str:
                  "   \"acceptance\": [{\"id\": \"t1a1\", \"description\": \"html_basic passes on index.html\", \"check_kind\": \"programmatic\"}]},\n"
                  "  {\"id\": \"t2\", \"owner\": \"reviewer\", \"objective\": \"Verify t1 against its criteria\", \"depends_on\": [\"t1\"], \"output_paths\": [],\n"
                  "   \"acceptance\": [{\"id\": \"t2a1\", \"description\": \"every t1 criterion has a recorded verdict\", \"check_kind\": \"programmatic\"}]}]}")
+    lines.append("\n## Default plan shape (deviate only with a reason)\n"
+                 "- 1 builder task that produces all requested files, then 1 reviewer task that depends on it.\n"
+                 "- Add a researcher task only when external sources must be fetched or facts must be verified before building.\n"
+                 "- Split builder work into parallel tasks only when the outputs are independent AND each is large; never split one small deliverable.\n"
+                 "- Keep the number of tasks stable for the same kind of request; more tasks means more model calls and cost.")
     lines.append("\n## Plan rules\n"
                  "- Task ids: t1, t2, ... Each non-reviewer task declares output_paths (relative file names, e.g. brief.md, index.html).\n"
                  "- Output paths are unique across tasks. Each task gets its own workspace; write_scope is assigned by the runtime.\n"

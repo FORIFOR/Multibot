@@ -100,8 +100,6 @@ async def _run(args) -> int:
         await svc.stop()
 
 
-if __name__ == "__main__":
-    sys.exit(main())
 
 
 def _quickstart(args) -> int:
@@ -150,3 +148,7 @@ def _quickstart(args) -> int:
         threading.Timer(1.5, lambda: webbrowser.open(url)).start()
     uvicorn.run(create_app(AppService(args.data_dir)), host="127.0.0.1", port=args.port, log_level="warning")
     return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

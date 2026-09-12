@@ -1,0 +1,38 @@
+# Example: cost-optimized profile. Same flow, cheaper models for the Reviewer and the report; Opus stays on the Builder.
+# Copy into data/agents.yaml (or edit in Settings). Measured on the launch-page request (2026-09-13):
+#   opus for every role via claude_cli: 39 turns, $1.66 list-price, 18 min 37 s
+#   gpt-4.1-mini via openai_compatible_chat: 14 calls, $0.02, 29 s (smaller model, shallower review)
+schema_version: 1
+profile_name: cost-optimized
+defaults:
+  connection_id: claude_cli
+  model: opus
+  language: ja
+  timezone: Asia/Tokyo
+connections:
+- {id: claude_cli, driver: claude_cli, base_url: local://claude, api_key_ref: null, capability_check: not_run}
+limits:
+  max_active_workers: 3
+  max_tasks: 12
+  max_peer_messages_per_task: 6
+  max_revision_rounds: 1        # one revision round instead of two
+  max_model_calls: 120
+  max_tool_calls: 200
+  timeout_seconds: 1800
+  budget_usd: 3.0
+  max_output_tokens: 8000
+  max_tool_output_chars: 12000
+  max_session_cost_usd: 0.75
+  max_session_turns: 30
+  max_replans: 1
+policy: {external_mutation: approval, skill_install: approval, telemetry: 'off', share_replay: 'off', fallback: explicitly_approved_only}
+agents:
+- {id: master, role: master, enabled: true, connection_id: inherit, model: sonnet, system_prompt_file: prompts/master.md, prompt_mode: auto_seed,
+   skill_ids: [artifact-handoff], tools: [create_task, update_task, send_message, read_messages, read_artifact, list_artifacts, workspace_read, workspace_write, publish_artifact, request_approval, report_blocker], effort: medium}
+- {id: researcher, role: researcher, enabled: true, connection_id: inherit, model: sonnet, system_prompt_file: prompts/researcher.md, prompt_mode: auto_seed,
+   skill_ids: [source-grounded-research, artifact-handoff], tools: [web_search, web_fetch, send_message, read_messages, read_artifact, list_artifacts, workspace_read, workspace_write, publish_artifact, report_blocker]}
+- {id: builder, role: builder, enabled: true, connection_id: inherit, model: opus, system_prompt_file: prompts/builder.md, prompt_mode: auto_seed,
+   skill_ids: [artifact-handoff], tools: [workspace_read, workspace_write, workspace_list, sandbox_run, run_check, send_message, read_messages, read_artifact, list_artifacts, publish_artifact, request_approval, report_blocker]}
+- {id: reviewer, role: reviewer, enabled: true, connection_id: inherit, model: sonnet, system_prompt_file: prompts/reviewer.md, prompt_mode: auto_seed,
+   skill_ids: [evidence-review, artifact-handoff], tools: [read_artifact, list_artifacts, run_check, sandbox_run, workspace_read, workspace_write, send_message, read_messages, publish_artifact, submit_review, report_blocker], effort: medium}
+- {id: reporter, role: reporter, enabled: false, connection_id: inherit, model: sonnet, system_prompt_file: prompts/reporter.md, prompt_mode: auto_seed, skill_ids: [], tools: [read_artifact, list_artifacts, read_events, publish_artifact]}
