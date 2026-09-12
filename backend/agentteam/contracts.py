@@ -68,7 +68,8 @@ class TaskStatus(StrEnum):
 
 
 TERMINAL_TASK_STATES = {TaskStatus.accepted, TaskStatus.failed, TaskStatus.cancelled, TaskStatus.partial}
-DONE_FOR_DEPENDENTS = {TaskStatus.accepted, TaskStatus.partial}
+# a dependency's outputs are usable once published; review_pending means the work is done and only verification is open
+DONE_FOR_DEPENDENTS = {TaskStatus.accepted, TaskStatus.partial, TaskStatus.review_pending}
 
 
 class RunStatus(StrEnum):

@@ -57,3 +57,43 @@ async def test_milestone_respects_max_replans_zero(tmp_path):
         evs = await h.events.list(run.run_id)
         assert not any(e.type == "plan.milestone" for e in evs)
         assert {t.spec.id for t in await h.runs.list_tasks(run.run_id)} == {"t1"}
+
+
+PLAN_DIAMOND = {"goal": "research", "assumptions": [], "agents": ["master", "builder", "reviewer"], "tasks": [
+    {"id": "t1", "owner": "builder", "objective": "research.md", "depends_on": [], "output_paths": ["research.md"],
+     "acceptance": [{"id": "c1", "description": "has headings", "check_kind": "programmatic"}]},
+    {"id": "t2", "owner": "builder", "objective": "verification.md from t1", "depends_on": ["t1"], "output_paths": ["verification.md"],
+     "acceptance": [{"id": "c2", "description": "has headings", "check_kind": "programmatic"}]},
+    {"id": "t3", "owner": "reviewer", "objective": "review t1 and t2", "depends_on": ["t1", "t2"], "output_paths": [],
+     "acceptance": [{"id": "c3", "description": "verdicts recorded", "check_kind": "programmatic"}]}]}
+
+
+def diamond_script(req):
+    import json
+    md = req.metadata
+    a, mode, turn = md.get("agent_id"), md.get("mode"), turn_of(req)
+    if mode == "plan":
+        return text_response(json.dumps(PLAN_DIAMOND))
+    if mode == "milestone":
+        return tool_response("finish_task", {"summary": "complete"}) if turn == 0 else text_response("done")
+    if a == "builder" and mode == "task":
+        path = "verification.md" if "verification.md" in req.messages[0]["content"][0]["text"] else "research.md"
+        seq = [tool_response("workspace_write", {"path": path, "content": "# doc\n\nbody"}), tool_response("publish_artifact", {"path": path}),
+               tool_response("finish_task", {"summary": path})]
+        return seq[turn] if turn < len(seq) else text_response("done")
+    if a == "reviewer" and mode == "task":
+        seq = [tool_response("submit_review", {"target_task_id": "t1", "results": [{"acceptance_id": "c1", "status": "pass", "evidence": "read"}]}),
+               tool_response("submit_review", {"target_task_id": "t2", "results": [{"acceptance_id": "c2", "status": "pass", "evidence": "read"}]}),
+               tool_response("finish_task", {"summary": "pass"})]
+        return seq[turn] if turn < len(seq) else text_response("done")
+    return default_script(req)
+
+
+async def test_dependent_task_starts_while_dependency_awaits_review(tmp_path):
+    """t2 depends on t1, and the reviewer t3 depends on both: t2 must start once t1's outputs are published
+    (review_pending), otherwise the DAG deadlocks (found by the real research scenario)."""
+    async with Harness(tmp_path, script=diamond_script) as h:
+        run = await h.run_goal("research")
+        assert run.status == "completed", run.blocked_reason
+        tasks = {t.spec.id: t.status for t in await h.runs.list_tasks(run.run_id)}
+        assert tasks == {"t1": "accepted", "t2": "accepted", "t3": "accepted"}

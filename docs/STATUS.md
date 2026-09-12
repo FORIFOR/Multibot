@@ -57,3 +57,23 @@ fake を使った run は `provider_kind=fake` として保存され、UI に赤
 | 2 | Master の計画呼出（構造化出力・1 ショット）が `error_max_turns` | `--max-turns 3`、`max_turns` 系エラーを再試行対象に |
 | 3 | Reviewer 起動時に `max_model_calls=30` 到達（Opus の Builder 1 セッション ≈ 10〜15 ターン） | 既定を 120 呼出 / 200 ツール呼出に変更（ブループリントの初期候補値を実測で調整） |
 | 4 | **completed**。Builder 1 + Reviewer 1 の計画、検証 10 件 pass、レビュー 6/6 pass、メッセージ 2 件、39 ターン、$1.66、1117 秒 | 証拠 `docs/evidence/run4-*` |
+
+## 2026-09-13 「足りないこと」7 項目への対応
+
+| # | 項目 | 対応 | 検証 |
+| --- | --- | --- | --- |
+| 1 | 実証の幅 | `scripts/eval_scenarios.py` を追加し、コード生成（unittest 実行付き）・出典付き調査・複数ファイル制作の 3 種を実 run | 下表「シナリオ評価」 |
+| 2 | 安全性が macOS 限定 | Docker サンドボックス backend（`--network none`、read-only root、host uid、cap-drop、CPU/メモリ/pid 制限、workspace のみ mount）。自動選択 docker → seatbelt → **拒否**（`AGENTTEAM_SANDBOX=subprocess` で明示的に隔離なしを選択） | Colima の実エンジンで書込範囲・ネットワーク遮断のテスト pass |
+| 3 | 導入の摩擦 | UI・prompts・skills・schemas を wheel に同梱。`agentteam quickstart`（probe → serve → ブラウザ）。`uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart` の 1 コマンド | uvx からのインストールと quickstart を実行確認。PyPI 公開はトークン未所持のため未実施 |
+| 4 | プロバイダ実証 | OpenAI 互換（`gpt-4.1-mini`）と Ollama（`qwen2.5:7b`）で実 run | 下表「プロバイダ別」 |
+| 5 | 成果の安定性 | Master の計画に「既定の形（Builder 1 + Reviewer 1、Researcher は出典が必要な時のみ、分割は独立かつ大きい成果物のみ）」を明記。`docs/config/cost-optimized.yaml`（Reviewer/Master に sonnet）を追加 | 計画の分散は継続観測（同一依頼で 2〜3 タスク） |
+| 6 | UI の言語混在 | アプリ UI に EN/JA 辞書と切替（ブラウザ言語を既定） | headless Chrome で英語表示を確認（残る日本語はデータのみ） |
+| 7 | 大きなタスク | Master のマイルストーン再計画（DAG 完了後に目標未達なら task 追加、`max_replans`）、検証種類の追加（html_links / json_schema / python_syntax / file_size_max / regex_count）、出力が全て公開済みなら finish_task 無しでも受入（弱いモデル対策、イベントに明記） | 決定論的テスト 44 件 pass、Ollama 7B run で milestone が実際に task を追加 |
+
+### プロバイダ別（同じ LP 依頼）
+| 経路 | モデル（プロバイダ報告） | 結果 | 呼出 | 費用 | 時間 | 備考 |
+| --- | --- | --- | --- | --- | --- | --- |
+| claude_cli | claude-opus-5 | completed | 39 | $1.66 | 18m37s | `docs/evidence/run4-*` |
+| openai_compatible_chat | gpt-4.1-mini-2025-04-14 | completed | 14 | $0.02 | 29s | `docs/evidence/openai-*`。検証 4 件 pass、レビュー 4/4 |
+| ollama | qwen2.5:7b | partial | 30 | $0 | 9m29s | `docs/evidence/ollama7b-run2-*`。LP と投稿 3 案は公開・検証済み。milestone で追加した Reviewer task が起動できないバグ → 修正済み（次回 run で再確認） |
+| ollama | qwen2.5:3b | 不採用 | — | — | — | 計画 JSON の agent 名に説明文を混ぜる等、3B では計画が安定しない（正規化を追加したが推奨は 7B 以上） |
