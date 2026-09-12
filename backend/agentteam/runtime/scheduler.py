@@ -60,7 +60,9 @@ class Scheduler:
             if dep is None:
                 return "dead"
             if self.is_review_task(t) and self.role_of(dep.spec.owner) != "reviewer":
-                if dep.status == TaskStatus.review_pending:
+                # review targets are reviewable when finished (review_pending) or already accepted (e.g. a reviewer
+                # task added at a milestone for work that was accepted without review)
+                if dep.status in (TaskStatus.review_pending, TaskStatus.accepted):
                     continue
                 if dep.status in (TaskStatus.failed, TaskStatus.cancelled, TaskStatus.partial):
                     return "dead"

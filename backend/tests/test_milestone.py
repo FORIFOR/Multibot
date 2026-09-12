@@ -17,7 +17,13 @@ def script(req):
     if mode == "milestone":
         seq = [tool_response("create_task", {"id": "t2", "owner": "builder", "objective": "posts.md を追加", "depends_on": ["t1"],
                                              "output_paths": ["posts.md"], "acceptance": [{"id": "c2", "description": "3案", "check_kind": "model_review"}]}),
-               tool_response("finish_task", {"summary": "posts.md が不足していたので追加"})]
+               tool_response("create_task", {"id": "t3", "owner": "reviewer", "objective": "t1 を検証", "depends_on": ["t1"],
+                                             "output_paths": [], "acceptance": [{"id": "c3", "description": "verdict recorded", "check_kind": "programmatic"}]}),
+               tool_response("finish_task", {"summary": "posts.md が不足していたので追加、t1 の検証も追加"})]
+        return seq[turn] if turn < len(seq) else text_response("done")
+    if a == "reviewer" and mode == "task":
+        seq = [tool_response("submit_review", {"target_task_id": "t1", "results": [{"acceptance_id": "c1", "status": "pass", "evidence": "read"}]}),
+               tool_response("finish_task", {"summary": "pass"})]
         return seq[turn] if turn < len(seq) else text_response("done")
     if a == "builder" and mode == "task":
         task_hint = "posts.md" if "posts.md" in req.messages[0]["content"][0]["text"] else "index.html"
@@ -34,10 +40,11 @@ async def test_master_milestone_adds_a_task_and_run_completes(tmp_path):
         run = await h.run_goal("LP")
         assert run.status == "completed", run.blocked_reason
         tasks = {t.spec.id: t for t in await h.runs.list_tasks(run.run_id)}
-        assert set(tasks) == {"t1", "t2"} and tasks["t2"].status == "accepted"
+        assert set(tasks) == {"t1", "t2", "t3"} and tasks["t2"].status == "accepted"
+        assert tasks["t3"].status == "accepted", "a reviewer task added at a milestone for an accepted task must run"
         evs = await h.events.list(run.run_id)
         ms = [e for e in evs if e.type == "plan.milestone"]
-        assert ms and ms[0].payload["added_tasks"] == ["t2"]
+        assert ms and ms[0].payload["added_tasks"] == ["t2", "t3"]
         assert len(ms) <= 2  # bounded by max_replans
         assert await h.artifacts.get(run.run_id, "posts.md") is not None
 
