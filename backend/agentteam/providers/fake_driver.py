@@ -5,6 +5,8 @@ provider_kind="fake" and the UI labels them. It must not be used to claim a real
 """
 from __future__ import annotations
 
+import asyncio
+import os
 from typing import Any, Awaitable, Callable
 
 from .base import LLMRequest, LLMResponse, ProbeResult, ProviderUsage, ToolCall
@@ -39,6 +41,9 @@ class FakeProvider:
 
     async def complete(self, req: LLMRequest) -> LLMResponse:
         self.calls.append(req)
+        delay_ms = int(os.environ.get("AGENTTEAM_FAKE_DELAY_MS", "0") or 0)  # demo pacing only
+        if delay_ms:
+            await asyncio.sleep(delay_ms / 1000)
         out = self.script(req)
         if hasattr(out, "__await__"):
             out = await out  # type: ignore[assignment]

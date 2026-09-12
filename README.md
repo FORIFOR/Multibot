@@ -1,84 +1,104 @@
-# Agent Team
+<p align="center">
+  <img src="docs/media/demo.gif" alt="Agent Team: one request, real bot-to-bot messages, artifact revisions, final report" width="880" />
+</p>
 
-**An open-source AI team that ships real work — with a conversation you can follow.**
+<h1 align="center">Agent Team</h1>
+<p align="center"><strong>An open-source AI team that ships real work — with a conversation you can follow.</strong></p>
 
-依頼は一度。Master が成果物と完了条件を決め、必要な Bot（Researcher / Builder / Reviewer）だけが実際に作業し、
-成果物・Bot 間の実メッセージ・時系列・最終報告を **同じ実行記録（append-only Event Store）** から表示します。
-台本の会話、ダミー成果物、固定の成功ログは使いません。
+<p align="center">
+  <a href="https://github.com/FORIFOR/Multibot/actions/workflows/ci.yml"><img src="https://github.com/FORIFOR/Multibot/actions/workflows/ci.yml/badge.svg" alt="ci" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-1b1a17" alt="MIT" /></a>
+  <img src="https://img.shields.io/badge/python-3.12-1b1a17" alt="python 3.12" />
+  <img src="https://img.shields.io/badge/providers-Claude%20%7C%20OpenAI--compatible%20%7C%20Ollama-c8471f" alt="providers" />
+  <a href="https://forifor.github.io/Multibot/"><img src="https://img.shields.io/badge/site-forifor.github.io%2FMultibot-1b1a17" alt="site" /></a>
+</p>
 
-- 成果物を開くと、誰が作り、何を引き継ぎ、どの検証を通ったかまで辿れる
-- 各 Bot の API 接続先・モデル・システムプロンプトを個別に上書きできる（共通設定を継承、手動固定あり）
-- 停止・再開・分岐（Bot のモデルを変えて別案）・再生（LLM 呼出なし）・JSONL エクスポート
-- 権限・予算・回数上限・承認は **プロンプトではなく Runtime が強制**
+<p align="center"><a href="https://forifor.github.io/Multibot/">Website &amp; 37s demo</a> · <a href="#quickstart">Quickstart</a> · <a href="#how-it-works">How it works</a> · <a href="docs/STATUS.md">What's verified</a> · <a href="#日本語">日本語</a></p>
 
-設計の根拠は `docs/blueprint/`（製品仕様・実装指示・セキュリティ要件・参考資料）、
-実装判断は `docs/IMPLEMENTATION_PLAN.md`、検証状況は `docs/STATUS.md` を参照してください。
+> The GIF above drives the real UI and runtime with the **scripted test provider** (no LLM calls, labelled “FAKE PROVIDER” on screen) so it is deterministic and free to reproduce. With a real connection the same screens are fed by live model calls; the run header shows the model the provider actually reported and the measured cost.
 
-## 構成
+You type **one request**. A Master plans the deliverables, a Researcher, a Builder and a Reviewer actually do the work, and you get the files **plus** the real bot-to-bot messages, a timeline, and verification bound to each artifact revision.
 
-```
-backend/   Python 3.12 / FastAPI / SQLite(WAL) / SSE
-  agentteam/contracts.py        契約（TeamPlan, Task, Event, Message, Artifact, Approval, Run）
-  agentteam/config/             設定ロード・JSON Schema 検証・秘密参照の解決（値は保存しない）
-  agentteam/store/              EventStore（seq 採番・秘匿）/ ArtifactStore（不変 revision・SHA-256・atomic publish）/ RunStore
-  agentteam/providers/          ProviderAdapter: anthropic_messages（公式 SDK）, openai_compatible_chat / ollama（httpx）, fake（テスト専用）
-  agentteam/runtime/            PolicyEngine / MessageBus / ToolGateway / Sandbox / Checks / Web tools / AgentRunner / Planner / Scheduler / RunManager
-  agentteam/api/                REST + SSE + 静的 UI 配信
-  prompts/ skills/ schemas/     ブループリント同梱の初期プロンプト・Skill・スキーマ
-  tests/                        決定論的テスト（fake provider）36 件
-  scripts/smoke_real_llm.py     実 LLM 受入スモーク（API キー必須）
-frontend/  React + TypeScript / Vite（依頼・実行・設定の 3 画面、SSE ライブ更新）
-docs/      ブループリント、実装計画、検証状況
-evals/     受入評価計画（40 ケース）と対応表
-```
+- **No scripted chat.** The chat panel is a projection of `message.sent` events — messages that were really delivered to another bot's mailbox. A question wakes the other bot to answer.
+- **Evidence, not vibes.** Checks and review verdicts are events bound to an artifact revision hash. The final report is compiled from the event log; a model summary cannot upgrade “started” to “done”.
+- **Runtime-enforced limits.** Tool scope, write scope, budget reservation, approvals and cancellation are enforced in code, not by prompt wording.
+- **Per-bot configuration.** Each bot inherits a default connection and model and can override endpoint, model, effort and system prompt (lockable). Configured vs. provider-reported model are both shown. No silent fallbacks.
+- **Replay, resume, fork, export.** Replay never calls a model. Fork from a checkpoint with a different model for one bot and compare. Export the whole run as JSONL.
 
-## セットアップ
+## Quickstart
 
 ```bash
-# backend
-cd backend
-uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -e '.[dev]'
-.venv/bin/python -m pytest -q            # 決定論的テスト（実 LLM は呼びません）
-
-# frontend（本番 UI は backend が dist/ を配信）
-cd ../frontend && pnpm install && pnpm build
-
-# 起動（初回は data/agents.yaml が既定設定から生成されます）
-cd ../backend
-export ANTHROPIC_API_KEY=...             # 設定の api_key_ref は既定で env:ANTHROPIC_API_KEY
-.venv/bin/agentteam serve --port 8787    # http://127.0.0.1:8787
+git clone https://github.com/FORIFOR/Multibot && cd Multibot
+cd backend && uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -e '.[dev]'
+cd ../frontend && pnpm install && pnpm build && cd ../backend
+export ANTHROPIC_API_KEY=sk-ant-...        # the config stores a reference (env:ANTHROPIC_API_KEY), never the value
+.venv/bin/agentteam serve                  # http://127.0.0.1:8787
 ```
 
-初回の流れ: **設定 → 接続の「疎通確認」**（tool calling と JSON schema 出力を実 API で確認、少額）→ 依頼画面で一文入力 → 開始。
-疎通確認が `passed` になるまで、価格不明のモデルやプレースホルダーのままでは開始できません（構造化された不足理由を返します）。
+First run: open **Settings → Probe**. It makes one tiny real call to confirm tool calling and JSON-schema output on the model you picked, then unlocks Start. Placeholder models, unknown prices and unverified connections refuse to start with a structured reason.
+
+Works with Claude (official SDK, default `claude-opus-5`), any OpenAI-compatible chat endpoint, and local Ollama (`driver: ollama`, `http://localhost:11434/v1`).
 
 CLI:
+
 ```bash
-.venv/bin/agentteam validate                       # 設定の検証
-.venv/bin/agentteam probe [connection] --model ID  # 実疎通確認
-.venv/bin/agentteam run "依頼" --url https://... --budget 1.5
+.venv/bin/agentteam validate                        # config check
+.venv/bin/agentteam probe [connection] --model ID   # real capability probe
+.venv/bin/agentteam run "Turn this into a launch page and 3 posts" --url https://example.com --budget 1.5
 ```
 
-## 仕組み（要点）
+## How it works
 
-| 部品 | 責務 |
+| Component | Responsibility |
 | --- | --- |
-| **Master (planner)** | 依頼 → 成果物・前提・役割・task DAG（構造化出力）。Runtime が schema / 循環 / owner / tool / write scope / 上限を検査し、不正なら差し戻し |
-| **AgentRunner** | Bot 1 セッション = 独立した会話状態 + ToolGateway 経由のツールループ。渡すのは担当 task・入力 artifact 参照・自分宛ての受信箱だけ |
-| **MessageBus** | `send_message` を宛先 mailbox に実配送し `message.sent` として記録。質問は相手の返信セッションを起動（実際の往復） |
-| **ArtifactStore** | `publish_artifact` で不変 revision（SHA-256）。Reviewer の判定・検証は対象 revision に紐付く |
-| **Scheduler** | 依存解決・並列上限・レビュー不合格 → 修正 → 再レビュー（回数上限）・Master の例外判断・チェックポイント |
-| **PolicyEngine** | 予算（実使用 + 実行中呼出の予約）、呼出回数、ツール権限、書込範囲、取消。価格不明のクラウドモデルは無料扱いしない |
-| **Sandbox** | macOS では `sandbox-exec`（ネットワーク遮断・workspace 外書込禁止）。それ以外は subprocess（隔離ではないと明記） |
+| **Master (planner)** | Request → deliverables, recorded assumptions, task DAG (structured output). The runtime validates schema, cycles, owners, tools, write scopes and limits; invalid plans are sent back once, then the run fails honestly. |
+| **AgentRunner** | One bot session = its own conversation state + a tool loop through the gateway. A worker receives its task, input artifact refs and its own inbox — not the whole history. |
+| **MessageBus** | `send_message` really delivers to the recipient's mailbox and records `message.sent`. Purposes are limited to request / question / answer / handoff / finding / decision. |
+| **ArtifactStore** | `publish_artifact` creates an immutable, SHA-256-hashed revision with an atomic write. Reviews and checks bind to a revision. |
+| **Scheduler** | Dependency resolution, concurrency limit, review fail → revise → re-review (bounded), Master exception decisions, checkpoints. |
+| **PolicyEngine** | Budget = spent + reserved for in-flight calls; call/tool/message limits; tool and path scope; cancellation. Unknown cloud prices are never treated as free. |
+| **Sandbox** | macOS `sandbox-exec` (no network, writes only inside the task workspace). Elsewhere a plain subprocess that says so in every result. |
 
-イベント型は `backend/schemas/event.schema.json` の enum（ブループリントの 11 種を含む上位集合）で、記録される全イベントがこのスキーマを満たすことをテストしています。
+Everything is written to an append-only event store (SQLite WAL, per-run `seq`, UTC timestamps, redaction before persistence). Chat, timeline and report are projections of it. The event types are the blueprint's 11 plus runtime extensions, all validated against [`backend/schemas/event.schema.json`](backend/schemas/event.schema.json).
 
-## セキュリティ・信頼境界
+```
+backend/agentteam/
+  contracts.py    TeamPlan · Task · Event · Message · Artifact · Approval · Run
+  config/         YAML + JSON Schema · secret references (env: / keychain: / file:)
+  store/          EventStore · ArtifactStore · RunStore
+  providers/      anthropic_messages (official SDK) · openai_compatible_chat / ollama (httpx) · fake (tests only)
+  runtime/        PolicyEngine · MessageBus · ToolGateway · Sandbox · Checks · Web tools · AgentRunner · Planner · Scheduler · RunManager
+  api/            REST + SSE + static UI
+frontend/         React + TypeScript (request · run · settings)
+docs/             website, blueprint (spec, security, references), status
+evals/            40-case acceptance plan and coverage map
+```
 
-`docs/blueprint/SECURITY.md` の要件のうち、この版で実装したもの・していないものは `docs/STATUS.md` にまとめています。
-API キーは参照（`env:` / `keychain:` / `file:`）のみ保存し、イベント・ツール結果・エラーは秘匿処理してから永続化します。
-生成 HTML は `sandbox` CSP 付きの別エンドポイントから `<iframe sandbox>` で表示します。
+## What is verified — and what isn't
 
-## ライセンス
+- **36 deterministic tests** (`cd backend && .venv/bin/python -m pytest -q`): DAG validation, real delivery with a question/answer round trip, review → revise → re-review, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, sandbox write confinement, SSE cursor replay, event-schema conformance.
+- **Headless-Chrome UI smoke** with zero console errors (`frontend/scripts/ui-smoke.mjs`).
+- **Not yet run:** end-to-end runs with a real model were not executed in the build environment (no API key there). `backend/scripts/smoke_real_llm.py` performs the probe plus a three-role run and prints the evidence (models reported, usage, artifacts, checks, messages). Prompts are original seeds, not benchmark-optimised.
 
-MIT（`LICENSE`）。同梱の初期プロンプト・Skill はこの製品向けの新規作成物で、外部プロンプトの転載ではありません（`docs/blueprint/REFERENCES.md`）。
+Full matrix: [`docs/STATUS.md`](docs/STATUS.md). Security boundaries: [`SECURITY.md`](SECURITY.md).
+
+## Design notes
+
+The product was built from a written blueprint ([`docs/blueprint/`](docs/blueprint/)): spec, implementation brief, security requirements, references, and 40 acceptance cases. Deliberate deviations (no Deep Agents/LangGraph dependency, extended event enum, refusal fallback off by default) are recorded in [`docs/IMPLEMENTATION_PLAN.md`](docs/IMPLEMENTATION_PLAN.md). Contributions: [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## 日本語
+
+**依頼は一度。AI チームが作り、確かめ、成果物と経緯を残す。**
+
+Master が成果物と完了条件を決め、必要な Bot（Researcher / Builder / Reviewer）だけが実際に作業します。成果物、Bot 間の実メッセージ、時系列、最終報告は同じ実行記録（append-only Event Store）から表示され、台本の会話や固定の成功ログは使いません。
+
+- 成果物を開くと、誰が作り、何を引き継ぎ、どの検証を通ったかまで辿れる
+- 各 Bot の接続先・モデル・システムプロンプトを個別に上書きできる（共通設定を継承、手動固定あり）
+- 停止・再開・分岐（Bot のモデルを変えて別案）・再生（LLM 呼出なし）・JSONL エクスポート
+- 権限・予算・回数上限・承認はプロンプトではなく Runtime が強制
+
+上の GIF はテスト用のスクリプト provider（LLM 呼出なし、画面に「FAKE PROVIDER」と表示）で実 UI と実 Runtime を動かしたものです。実 LLM での協働は、この版の作成環境に API キーが無かったため未検証です（`backend/scripts/smoke_real_llm.py` で確認できます）。詳細は [`docs/STATUS.md`](docs/STATUS.md)。
+
+## License
+
+MIT. Bundled prompts and skills are original to this project (see `docs/blueprint/REFERENCES.md`).

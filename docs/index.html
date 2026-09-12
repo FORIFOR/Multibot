@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agent Team — an open-source AI team that ships real work, with a conversation you can follow</title>
+<meta name="description" content="One request. A Master plans, Researcher/Builder/Reviewer actually work, and you get artifacts plus an auditable trace: real bot-to-bot messages, a timeline, and verification bound to each revision. Local-first, MIT." />
+<meta property="og:title" content="Agent Team — an AI team whose work you can audit" />
+<meta property="og:description" content="One request → verified artifacts + a conversation you can follow. Open source, local-first." />
+<meta property="og:image" content="https://forifor.github.io/Multibot/media/poster.jpg" />
+<meta property="og:url" content="https://forifor.github.io/Multibot/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{--paper:#f4efe6;--paper-2:#ece5d8;--ink:#1b1a17;--ink-2:#4a4640;--ink-3:#7d766c;--line:#cfc5b2;--signal:#c8471f;--ok:#2f6b3a;--warn:#9a6a00;--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;--sans:'IBM Plex Sans JP','Hiragino Sans',system-ui,sans-serif;--serif:'Fraunces','Hiragino Mincho ProN',Georgia,serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;background-image:radial-gradient(1200px 600px at 10% -10%,#fff8ec 0%,transparent 60%),repeating-linear-gradient(0deg,transparent 0 27px,rgba(27,26,23,.035) 27px 28px)}
+a{color:inherit}code,.mono{font-family:var(--mono);font-size:.85em}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;letter-spacing:-.01em}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+header.top{display:flex;align-items:center;gap:20px;padding:16px 0;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--serif);font-weight:700;font-size:22px;text-decoration:none}.brand small{font-family:var(--mono);font-size:11px;color:var(--ink-3);font-weight:400;margin-left:8px}
+nav{margin-left:auto;display:flex;gap:18px;font-size:14px}nav a{text-decoration:none;color:var(--ink-2)}
+.btn{display:inline-block;border:1px solid var(--ink);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:4px;text-decoration:none;font-weight:500;transition:transform .08s}.btn:hover{transform:translateY(-1px)}.btn.ghost{background:transparent;color:var(--ink)}.btn.signal{background:var(--signal);border-color:var(--signal);color:#fff}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center;padding:72px 0 40px}
+.hero h1{font-size:54px;line-height:1.05;font-variation-settings:'opsz' 144}.hero h1 em{font-style:italic;color:var(--signal)}
+.lede{font-size:18px;color:var(--ink-2);max-width:48ch;margin:20px 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.cta .hint{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.term{background:#1b1a17;color:#f4efe6;border-radius:6px;padding:18px 20px;font-family:var(--mono);font-size:13px;line-height:1.7;box-shadow:0 30px 60px -30px rgba(27,26,23,.6);position:relative}.term:before{content:'';position:absolute;top:10px;left:14px;width:10px;height:10px;border-radius:50%;background:var(--signal);box-shadow:16px 0 0 #e6b800,32px 0 0 #2f6b3a}.term pre{margin:14px 0 0;white-space:pre-wrap}.term .c{color:#9a9285}.term .s{color:#f0b7a3}
+.reveal{animation:reveal .6s ease both}.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}@keyframes reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+section{padding:56px 0;border-top:1px solid var(--line)}section h2{font-size:32px;margin-bottom:8px}.sub{color:var(--ink-2);max-width:70ch;margin:0 0 28px}
+.eyebrow{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--signal);margin-bottom:10px}
+.video{border:1px solid var(--line);background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 30px 80px -40px rgba(27,26,23,.5)}video{display:block;width:100%;height:auto}
+.caption{font-size:13px;color:var(--ink-3);margin-top:10px}.caption b{color:var(--warn)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.step{border:1px solid var(--line);background:#fbf8f2;border-radius:6px;padding:20px}.step .n{font-family:var(--serif);font-size:40px;line-height:1;color:var(--signal)}.step h3{font-family:var(--sans);font-weight:600;font-size:16px;margin:8px 0 6px}.step p{margin:0;color:var(--ink-2);font-size:14px}
+.chat{border:1px solid var(--line);background:#fbf8f2;border-radius:6px;padding:8px 18px;font-size:14px}.msg{padding:10px 0;border-bottom:1px solid var(--line)}.msg:last-child{border:0}.meta{font-size:12px;color:var(--ink-3);display:flex;gap:8px;flex-wrap:wrap}.meta b{color:var(--ink)}.purpose{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:1px 6px;border:1px solid var(--line);border-radius:3px}.tag{font-family:var(--mono);font-size:11px;padding:1px 7px;border:1px solid var(--line);border-radius:999px;background:var(--paper-2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:16px}.shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}.shot img{display:block;width:100%;height:auto}.shot figcaption{padding:8px 12px;font-size:13px;color:var(--ink-2);border-top:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:500}td:first-child{font-weight:600}
+.status{display:grid;grid-template-columns:1fr 1fr;gap:16px}.status .card{border:1px solid var(--line);background:#fbf8f2;border-radius:6px;padding:18px;font-size:14px}.card h3{font-family:var(--sans);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600;margin-bottom:8px}.card ul{margin:0;padding-left:18px}.ok{color:var(--ok)}.todo{color:var(--warn)}
+footer{padding:40px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3);display:flex;gap:18px;flex-wrap:wrap}
+@media (max-width:900px){.hero{grid-template-columns:1fr;padding-top:40px}.hero h1{font-size:40px}.steps,.two,.shots,.status{grid-template-columns:1fr}nav{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#">Agent Team <small>v0.1 · local-first · MIT</small></a>
+    <nav><a href="#demo">Demo</a><a href="#how">How it works</a><a href="#trace">Trace</a><a href="#quickstart">Quickstart</a><a href="#status">Status</a><a href="https://github.com/FORIFOR/Multibot">GitHub</a></nav>
+  </header>
+
+  <section class="hero" style="border:0">
+    <div>
+      <div class="eyebrow reveal">Open-source AI team · one request in, verified artifacts out</div>
+      <h1 class="reveal d1">An AI team that ships real work — <em>with a conversation you can follow.</em></h1>
+      <p class="lede reveal d2">You type one request. A Master plans the deliverables, a Researcher, a Builder and a Reviewer actually do the work, and you get the files <strong>plus</strong> the real bot-to-bot messages, a timeline, and verification bound to each artifact revision. No scripted chat. No canned success logs.</p>
+      <div class="cta reveal d3">
+        <a class="btn signal" href="https://github.com/FORIFOR/Multibot">★ Star on GitHub</a>
+        <a class="btn ghost" href="#quickstart">Run it locally</a>
+        <span class="hint">Python 3.12 · React · SQLite · any Claude / OpenAI-compatible / Ollama endpoint</span>
+      </div>
+    </div>
+    <div class="term reveal d2">
+      <pre><span class="c"># one request</span>
+$ agentteam run "Turn this product description into a launch page,
+   a README and three social posts. Research what's missing.
+   Stop before publishing."
+
+<span class="c"># what you get back</span>
+run_id=run_1a0946…
+<span class="s">10:02 master → researcher</span>   [request]  brief.md, sources required
+<span class="s">10:03 researcher → builder</span>  [handoff]  brief.md r1 — no pricing, unconfirmed
+<span class="s">10:05 builder → researcher</span>  [question] who is the audience?
+<span class="s">10:05 researcher → builder</span>  [answer]   indie developers (re: msg_…)
+<span class="s">10:07 reviewer → builder</span>    [finding]  index.html r1: missing viewport meta
+<span class="s">10:08 builder</span>               publish index.html r2
+<span class="s">10:09 reviewer</span>              check html_basic on r2 → pass
+status=completed  artifacts=3  checks=2  $0.41  38s
+<span class="c"># every line above is an event in an append-only store — replay it, fork it, export it.</span></pre>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="eyebrow">37-second walkthrough</div>
+    <h2>Watch the team work.</h2>
+    <p class="sub">Type a request, watch real messages land in the chat as each bot finishes, click a revision to see who made it and which check it passed, then read the final report built from evidence.</p>
+    <div class="video"><video controls muted playsinline preload="metadata" poster="media/poster.jpg"><source src="media/demo.mp4" type="video/mp4" />Your browser cannot play this video. <a href="media/demo.gif">GIF version</a>.</video></div>
+    <p class="caption"><b>Disclosure:</b> this recording drives the real UI and runtime with the <b>scripted test provider</b> (no LLM calls, labelled “FAKE PROVIDER” in the header) so the sequence is deterministic and free. With a real connection the same screens are fed by live model calls; the run header shows the model the provider actually reported and the measured cost. No timing edits.</p>
+  </section>
+
+  <section id="how">
+    <div class="eyebrow">How it works</div>
+    <h2>Master proposes. The runtime checks. Bots do real work.</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>One request → a checked plan</h3><p>The Master turns your request into deliverables, recorded assumptions and a task DAG. The runtime validates schema, cycles, owners, tools, write scopes and limits before anything runs. Reversible choices are recorded as assumptions instead of questions back to you.</p></div>
+      <div class="step"><div class="n">2</div><h3>Independent bots, real delivery</h3><p>Each bot has its own conversation state, mailbox, task scope, tools and workspace. <code>send_message</code> really delivers to the recipient; a question wakes the other bot to answer. Files become immutable, hashed artifact revisions.</p></div>
+      <div class="step"><div class="n">3</div><h3>Verify, revise, report from evidence</h3><p>The Reviewer runs checks against a specific revision. Fail → the Builder revises → re-review, up to a limit. The final report is compiled from the event log; the model’s summary can’t upgrade “started” to “done”.</p></div>
+    </div>
+  </section>
+
+  <section id="trace">
+    <div class="eyebrow">The part you'll remember</div>
+    <h2>Open a deliverable, walk back to why.</h2>
+    <div class="two">
+      <div>
+        <p class="sub">Every artifact revision links to the events that produced it: the handoff it was built from, the check it passed or failed, the review verdict, the message that asked for a fix. The chat below is not a transcript written after the fact — each line is a delivered message.</p>
+        <div class="chat">
+          <div class="msg"><div class="meta"><b>researcher</b> → <b>builder</b> <span class="purpose">handoff</span> <span class="mono">t1</span></div>brief.md r1 is ready. Pricing could not be confirmed — leave it out.</div>
+          <div class="msg"><div class="meta"><b>builder</b> → <b>researcher</b> <span class="purpose">question</span> <span class="mono">t2</span></div>Who is the target audience?</div>
+          <div class="msg"><div class="meta"><b>researcher</b> → <b>builder</b> <span class="purpose">answer</span> <span class="mono">re: msg_…</span></div>Independent developers.</div>
+          <div class="msg"><div class="meta"><b>reviewer</b> → <b>builder</b> <span class="purpose">finding</span> <span class="tag">index.html r1</span></div>index.html r1: viewport meta is missing. Please fix and republish.</div>
+        </div>
+        <p class="caption">Then: <span class="mono">builder publishes index.html r2 → reviewer runs html_basic on r2 → pass → task accepted</span>. Replay never calls a model. Fork from any checkpoint with a different model for one bot and compare.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot"><img src="media/run.png" alt="Run view: team, artifact revisions, chat" loading="lazy" /><figcaption>Team · artifact revisions with hashes · real chat</figcaption></figure>
+        <figure class="shot"><img src="media/timeline.png" alt="Timeline of events" loading="lazy" /><figcaption>Timeline: seq, actor, action, outcome</figcaption></figure>
+        <figure class="shot"><img src="media/report.png" alt="Final report from evidence" loading="lazy" /><figcaption>Final report compiled from evidence</figcaption></figure>
+        <figure class="shot"><img src="media/settings.png" alt="Per-bot model, connection and prompt settings" loading="lazy" /><figcaption>Per-bot model, endpoint, locked prompts</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Why not just “N bots in a chat room”</div>
+    <h2>Fewer messages, more evidence.</h2>
+    <table>
+      <tr><th>Concern</th><th>Typical multi-bot demo</th><th>Agent Team</th></tr>
+      <tr><td>Chat</td><td>Bots narrate to each other; the log is the product</td><td>Only request / question / answer / handoff / finding / decision. Acknowledgements don't wake a model.</td></tr>
+      <tr><td>Context</td><td>Everyone reads the whole history every turn</td><td>A worker gets its task, input artifact refs and its own inbox. Full logs stay searchable, not re-sent.</td></tr>
+      <tr><td>Verification</td><td>“Tests started” becomes “tests passed” in the summary</td><td>Checks are events bound to a revision hash. Reports are compiled from those events.</td></tr>
+      <tr><td>Permissions</td><td>Prompt says “don't”</td><td>Tool scope, write scope, budget reservation, approvals and cancellation are enforced by the runtime.</td></tr>
+      <tr><td>Model choice</td><td>One model, one key</td><td>Per-bot connection, model, effort and prompt (lockable). Configured vs. provider-reported model both shown. No silent fallbacks.</td></tr>
+      <tr><td>Cost</td><td>Unknown until the bill</td><td>Budget reserved per call, unknown prices refuse to start, spend shown live.</td></tr>
+    </table>
+  </section>
+
+  <section id="quickstart">
+    <div class="eyebrow">Quickstart</div>
+    <h2>Five commands. Bring one API key.</h2>
+    <div class="two">
+      <div class="term"><pre>git clone https://github.com/FORIFOR/Multibot && cd Multibot
+cd backend && uv venv .venv --python 3.12
+uv pip install --python .venv/bin/python -e '.[dev]'
+cd ../frontend && pnpm install && pnpm build && cd ../backend
+export ANTHROPIC_API_KEY=sk-ant-…   <span class="c"># reference only; never written to disk</span>
+.venv/bin/agentteam serve            <span class="c"># http://127.0.0.1:8787</span></pre></div>
+      <div>
+        <p class="sub">First run: open <strong>Settings → Probe</strong>. It makes one tiny real call to confirm tool calling and JSON-schema output on the model you picked, then unlocks the Start button. Placeholder models and unknown prices refuse to start with a structured reason.</p>
+        <p class="sub">Works with Claude (official SDK), any OpenAI-compatible chat endpoint, and local Ollama. Each bot can override the endpoint and model.</p>
+        <p class="sub"><a href="https://github.com/FORIFOR/Multibot#readme">Full README →</a> · <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">What's verified →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="status">
+    <div class="eyebrow">Honest status</div>
+    <h2>What is proven, what isn't.</h2>
+    <div class="status">
+      <div class="card"><h3 class="ok">Verified in the repo</h3><ul>
+        <li>36 deterministic tests: DAG validation, real message delivery with Q&amp;A, review → revise → re-review, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, sandbox write confinement, SSE cursor replay, event-schema conformance.</li>
+        <li>Headless-Chrome UI smoke with zero console errors.</li>
+        <li>macOS seatbelt sandbox: no network, no writes outside the task workspace.</li></ul></div>
+      <div class="card"><h3 class="todo">Not yet verified</h3><ul>
+        <li>End-to-end runs with a real model were not executed in the build environment (no API key there). <code>scripts/smoke_real_llm.py</code> prints the evidence when you run it.</li>
+        <li>Prompts are original seeds, not benchmark-optimised. The eval plan (40 cases) is in <code>evals/</code>.</li>
+        <li>No Docker sandbox yet; the non-macOS backend is not an isolation boundary and says so in every result.</li></ul></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>MIT · <a href="https://github.com/FORIFOR/Multibot">github.com/FORIFOR/Multibot</a></span>
+    <span>Design notes and references: <a href="https://github.com/FORIFOR/Multibot/tree/main/docs/blueprint">docs/blueprint</a></span>
+    <span>No star count, growth rate or benchmark is promised. The deliverables and the trace are.</span>
+  </footer>
+</div>
+</body>
+</html>
