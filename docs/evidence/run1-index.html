@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Team — 一度の依頼で、AIチームの作業と記録がそのまま残る</title>
+<meta name="description" content="Agent Team は Master / Researcher / Builder / Reviewer のAIチームが一度の依頼から実作業を行い、成果物とBot間の実メッセージ、時系列を同じ実行記録から表示する、オープンソースのローカルファーストなツールです。">
+<style>
+  :root{
+    --bg:#0f1115;
+    --panel:#171a21;
+    --panel-2:#1e222b;
+    --line:#2b3140;
+    --fg:#e7e9ee;
+    --fg-dim:#a4abbb;
+    --accent:#7aa2f7;
+    --accent-2:#9ece6a;
+    --maxw:960px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;
+    line-height:1.8;
+    font-size:16px;
+  }
+  a{color:var(--accent);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;}
+  header.site{border-bottom:1px solid var(--line);}
+  header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:16px;padding-bottom:16px;flex-wrap:wrap;}
+  .brand{font-weight:700;letter-spacing:.02em;}
+  nav ul{list-style:none;display:flex;gap:16px;margin:0;padding:0;flex-wrap:wrap;}
+  nav a{color:var(--fg-dim);text-decoration:none;font-size:14px;}
+  nav a:hover{color:var(--fg);text-decoration:underline;}
+  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:0;}
+  h1{font-size:32px;line-height:1.45;margin:0 0 16px;}
+  h2{font-size:22px;margin:0 0 12px;}
+  h3{font-size:16px;margin:0 0 6px;}
+  p{margin:0 0 14px;}
+  .lead{color:var(--fg-dim);font-size:17px;max-width:44em;}
+  .note{color:var(--fg-dim);font-size:13px;}
+  .tags{list-style:none;display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 0;padding:0;}
+  .tags li{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--fg-dim);}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px;}
+  .grid-3{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:20px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;}
+  .card p:last-child{margin-bottom:0;}
+  .role-tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--accent);border-radius:4px;padding:1px 8px;margin-bottom:8px;}
+  .role-tag.b{background:var(--accent-2);}
+  .mock{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:20px;}
+  .mock-bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--panel-2);border-bottom:1px solid var(--line);}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--line);display:inline-block;}
+  .mock-title{font-size:12px;color:var(--fg-dim);margin-left:8px;}
+  .mock-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);}
+  .mock-col{padding:14px;}
+  .mock-col + .mock-col{border-left:1px solid var(--line);}
+  .mock-h{font-size:12px;color:var(--fg-dim);text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;}
+  .file{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;color:var(--fg);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;margin-bottom:8px;}
+  .file span{color:var(--fg-dim);}
+  .msg{border-left:2px solid var(--accent);padding:2px 0 2px 10px;margin-bottom:12px;font-size:13px;}
+  .msg b{font-weight:600;}
+  .msg em{display:block;color:var(--fg-dim);font-style:normal;font-size:12px;}
+  ol.timeline{list-style:none;margin:20px 0 0;padding:0;}
+  ol.timeline li{border-left:1px solid var(--line);padding:0 0 14px 16px;position:relative;}
+  ol.timeline li::before{content:"";position:absolute;left:-4px;top:10px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  ol.timeline li:last-child{padding-bottom:0;}
+  ol.timeline .t{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:var(--fg-dim);}
+  dl.faq{margin:20px 0 0;}
+  dl.faq dt{font-weight:600;margin-top:16px;}
+  dl.faq dd{margin:6px 0 0;color:var(--fg-dim);}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
+  .btn{display:inline-block;text-decoration:none;border-radius:8px;padding:10px 18px;font-size:15px;border:1px solid var(--accent);color:var(--accent);}
+  .btn.primary{background:var(--accent);color:#0f1115;font-weight:600;}
+  code.ph{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--fg-dim);}
+  footer.site{padding:28px 0;color:var(--fg-dim);font-size:13px;border-top:1px solid var(--line);}
+  ul.plain{margin:12px 0 0;padding-left:1.2em;color:var(--fg-dim);}
+  ul.plain li{margin-bottom:6px;}
+  @media (max-width:720px){
+    h1{font-size:26px;}
+    .grid,.grid-3,.mock-body{grid-template-columns:minmax(0,1fr);}
+    .mock-col + .mock-col{border-left:0;border-top:1px solid var(--line);}
+    section{padding:40px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Agent Team</div>
+    <nav aria-label="セクション">
+      <ul>
+        <li><a href="#problem">課題</a></li>
+        <li><a href="#roles">4つの役割</a></li>
+        <li><a href="#record">実行記録</a></li>
+        <li><a href="#local">ローカルファーストとOSS</a></li>
+        <li><a href="#usecase">ユースケース</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section id="hero">
+    <div class="wrap">
+      <h1>一度の依頼で、AIのチームが作業する。<br>その過程も成果物も、同じ記録に残る。</h1>
+      <p class="lead">Agent Team は、Master・Researcher・Builder・Reviewer の4つの役割を持つAIチームが、ひとつの依頼から実際に作業を進めるツールだ。作られた成果物、Bot間でやり取りされた実際のメッセージ、そして時系列を、すべて同じ実行記録から見られる。オープンソースで、ローカルファーストに動く。</p>
+      <div class="cta">
+        <a class="btn primary" href="{{REPO_URL}}">リポジトリを見る</a>
+        <a class="btn" href="{{DOCS_URL}}">ドキュメントを読む</a>
+      </div>
+      <p class="note">上記リンクは草案用のプレースホルダ（<code class="ph">{{REPO_URL}}</code> / <code class="ph">{{DOCS_URL}}</code>）である。公開時に実際のURLへ差し替える。</p>
+      <ul class="tags">
+        <li>オープンソース</li>
+        <li>ローカルファースト</li>
+        <li>開発者・個人開発者向け</li>
+        <li>実行記録つき</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="problem">
+    <div class="wrap">
+      <h2>「結果だけ出てくる」と、確かめようがない</h2>
+      <p class="lead">AIに複数ステップの仕事を任せると、出力は返ってくるが、途中で何を調べ、誰が何を判断し、どのファイルがいつ作られたのかが手元に残らないことがある。レビューのしようがないまま、成果物を信じるか捨てるかの二択になりやすい。</p>
+      <div class="grid">
+        <div class="card">
+          <h3>過程が追えない</h3>
+          <p>どの判断がどの調査に基づいたのかが後から辿れないと、間違いの原因も再現できない。</p>
+        </div>
+        <div class="card">
+          <h3>成果物と会話がバラバラ</h3>
+          <p>チャットのログとファイルが別の場所にあると、「この記述はどのやり取りから来たのか」が繋がらない。</p>
+        </div>
+        <div class="card">
+          <h3>役割が混ざる</h3>
+          <p>調べる・作る・確認するが一体になっていると、作った本人が自分の成果物を肯定して終わることがある。</p>
+        </div>
+        <div class="card">
+          <h3>手元に置けない</h3>
+          <p>作業中のコードや文書を外に預けたくない場面はある。実行環境を自分で持てるかどうかは重要な要素だ。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roles">
+    <div class="wrap">
+      <h2>4つの役割が、それぞれの仕事をする</h2>
+      <p class="lead">ひとつの依頼を受け取ると、役割の異なるBotが分担して作業に入る。分担されているので、作る側と確認する側が同じではない。</p>
+      <div class="grid">
+        <div class="card">
+          <span class="role-tag">Master</span>
+          <h3>依頼を受け取り、進行を組む</h3>
+          <p>依頼内容を読み、前提の不足を洗い出し、タスクに分けて各役割へ割り当てる。前提を推定した場合は、推定として記録に残す。</p>
+        </div>
+        <div class="card">
+          <span class="role-tag">Researcher</span>
+          <h3>調べて、根拠を揃える</h3>
+          <p>作業に必要な情報を集め、わかったことと確認できていないことを分けて渡す。</p>
+        </div>
+        <div class="card">
+          <span class="role-tag b">Builder</span>
+          <h3>実際にファイルを作る</h3>
+          <p>受け取った前提と調査結果をもとに実装や文書作成を行い、成果物として残す。何を検証し、何を未検証のまま残したかも添える。</p>
+        </div>
+        <div class="card">
+          <span class="role-tag b">Reviewer</span>
+          <h3>受け入れ条件を実際に確かめる</h3>
+          <p>成果物に対してチェックを走らせ、受け入れ条件を満たしているかを判定する。通らなかった点は、そのまま記録に残る。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="record">
+    <div class="wrap">
+      <h2>成果物・メッセージ・時系列を、同じ実行記録から見る</h2>
+      <p class="lead">Agent Team では、生成されたファイル、Bot間で実際に送られたメッセージ、そして各ステップの時系列が、ひとつの実行記録として紐づいている。成果物を開いたまま、それがどのやり取りから生まれたのかを辿れる。</p>
+
+      <div class="mock" role="img" aria-label="実行記録画面のイメージ図。左側に生成された成果物の一覧、右側にBot間のメッセージが並び、下部に時系列が表示されている。">
+        <div class="mock-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="mock-title">Agent Team — 実行記録（イメージ）</span>
+        </div>
+        <div class="mock-body">
+          <div class="mock-col">
+            <p class="mock-h">成果物</p>
+            <div class="file">index.html <span>rev 2</span></div>
+            <div class="file">posts.md <span>rev 1</span></div>
+            <div class="file">research-notes.md <span>rev 1</span></div>
+            <p class="mock-h" style="margin-top:18px;">時系列</p>
+            <ol class="timeline">
+              <li><span class="t">step 1</span><br>Master: 依頼を分解し、前提を記録</li>
+              <li><span class="t">step 2</span><br>Researcher: 調査メモを提出</li>
+              <li><span class="t">step 3</span><br>Builder: index.html を作成</li>
+              <li><span class="t">step 4</span><br>Reviewer: チェックを実行し判定</li>
+            </ol>
+          </div>
+          <div class="mock-col">
+            <p class="mock-h">Bot間のメッセージ</p>
+            <div class="msg"><b>Master → Builder</b><em>request</em>前提リストの範囲内でLPを作成してほしい。推定した前提は記録済み。</div>
+            <div class="msg"><b>Researcher → Builder</b><em>finding</em>確認できた点と未確認の点を分けて記載した。</div>
+            <div class="msg"><b>Builder → Reviewer</b><em>handoff</em>成果物を提出。未検証の項目を明記した。</div>
+            <div class="msg"><b>Reviewer → Master</b><em>decision</em>受け入れ条件の判定結果を報告。</div>
+          </div>
+        </div>
+      </div>
+      <p class="note">上図はCSSで描いた画面構成のイメージであり、実際の画面写真ではない。表示項目やレイアウトは実装により異なる。</p>
+    </div>
+  </section>
+
+  <section id="local">
+    <div class="wrap">
+      <h2>ローカルファーストで、オープンソース</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>手元の環境で動かす</h3>
+          <p>ローカルファーストな構成なので、実行と記録を自分の手元に置いたまま使える。作業対象のファイルを自分の管理下から出さずに進められる。</p>
+        </div>
+        <div class="card">
+          <h3>中身を読んで確かめられる</h3>
+          <p>オープンソースなので、役割の割り当て方やメッセージの受け渡し、記録の残し方を、実装コードで確認できる。</p>
+        </div>
+        <div class="card">
+          <h3>自分の使い方に合わせる</h3>
+          <p>ソースが手元にあるため、役割やチェックの内容を自分のワークフローに寄せて調整できる。</p>
+        </div>
+        <div class="card">
+          <h3>記録が手元に残る</h3>
+          <p>成果物とメッセージと時系列が同じ実行記録として残るので、後から読み返す、チームに共有する、原因を辿るといった使い方ができる。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="usecase">
+    <div class="wrap">
+      <h2>想定しているユースケース</h2>
+      <p class="lead">ソフトウェア開発者と個人開発者を対象に設計している。以下は想定される使い方の例であり、成果を保証するものではない。</p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>調査から下書きまで一気に</h3>
+          <p>調べる・書く・確認するが分かれているので、調査メモと成果物のどちらも手元に残る。</p>
+        </div>
+        <div class="card">
+          <h3>ひとり開発のレビュー役</h3>
+          <p>個人開発で不足しがちな「別の視点からの確認」を、Reviewer の判定結果として受け取る。</p>
+        </div>
+        <div class="card">
+          <h3>作業の経緯を共有する</h3>
+          <p>実行記録をそのまま共有すれば、結論だけでなく、そこに至る過程も相手に渡せる。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>どこで動きますか。</dt>
+        <dd>ローカルファーストなツールとして、手元の環境で動かす想定だ。必要な前提条件はリポジトリのドキュメントを参照してほしい。</dd>
+
+        <dt>ライセンスはどうなっていますか。</dt>
+        <dd>オープンソースとして公開している。具体的なライセンス条項はリポジトリの記載を確認してほしい。</dd>
+
+        <dt>Bot間のメッセージは編集された要約ですか。</dt>
+        <dd>実行記録には、Bot間で実際に送られたメッセージが残る。成果物と時系列も同じ記録から表示される。</dd>
+
+        <dt>4つの役割は変更できますか。</dt>
+        <dd>オープンソースなので実装を読んで調整できる。既定では Master・Researcher・Builder・Reviewer の4役割で動く。</dd>
+
+        <dt>導入にかかる費用は。</dt>
+        <dd>価格は未定であり、このページでは案内していない。決まり次第、リポジトリとドキュメントで告知する。</dd>
+
+        <dt>どのくらい速く、どのくらい正確ですか。</dt>
+        <dd>性能に関する測定値はこのページでは示していない。実行記録に判断とチェック結果が残るため、まずは自分の手元で確かめてほしい。</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="cta">
+    <div class="wrap">
+      <h2>まずは手元で動かして、記録を見てほしい</h2>
+      <p class="lead">出力だけを見て判断するのではなく、誰が何をして、何を確認したのかを含めて読める状態にする。それが Agent Team の狙いだ。</p>
+      <div class="cta">
+        <a class="btn primary" href="{{REPO_URL}}">ソースコードを見る</a>
+        <a class="btn" href="{{DOCS_URL}}">セットアップ手順</a>
+      </div>
+      <ul class="plain">
+        <li>リンク先は公開時に差し替えるプレースホルダである。</li>
+        <li>価格は未定のため、このページには記載していない。</li>
+        <li>実績値や性能の測定値は、確認できたものがないため掲載していない。</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>Agent Team — オープンソースのローカルファーストなAIチーム実行ツール。</p>
+    <p>本ページは草案であり、外部への公開は行っていない。外部スクリプト、外部画像、アクセス解析は使用していない。</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -152,14 +152,15 @@ class ClaudeCliDriver:
         if req.tools:
             raise ProviderError("unsupported", "claude_cli complete() is single-shot; tool loops use run_session()")
         argv = self._base_argv(req.model, req.effort, req.metadata.get("max_budget_usd")) + [
-            "--system-prompt", req.system, "--tools", "", "--max-turns", "1", "--strict-mcp-config"]
+            "--system-prompt", req.system, "--tools", "", "--max-turns", "3", "--strict-mcp-config"]  # structured output can take 2 turns
         if req.json_schema:
             argv += ["--json-schema", json.dumps(req.json_schema)]
         argv.append(self._flatten(req.messages))
         res = await self._exec(argv, timeout=float(req.metadata.get("timeout") or 600))
         if not res.ok:
-            raise ProviderError("server" if "timeout" in (res.error or "") else "bad_request", res.error or "claude cli failed",
-                                retryable="timeout" in (res.error or ""))
+            err = res.error or "claude cli failed"
+            transient = any(k in err for k in ("timeout", "max_turns", "rate", "overloaded", "529", "500"))
+            raise ProviderError("server" if transient else "bad_request", err, retryable=transient)
         text = json.dumps(res.structured, ensure_ascii=False) if res.structured is not None else res.text
         return LLMResponse(text=text, tool_calls=[], stop_reason="end_turn", usage=res.usage, model_reported=res.model_reported,
                            request_id=res.session_id, raw_content=[{"type": "text", "text": text}],
