@@ -17,7 +17,7 @@ fake を使った run は `provider_kind=fake` として保存され、UI に赤
 | --- | --- | --- |
 | A. Contracts | 実装 | `contracts.py`、`schemas/`（event enum は拡張） |
 | B. Event Store | 実装 | run 単位 seq、UTC、SQLite WAL、cursor、秘匿。transactional outbox は単一プロセス前提で未実装 |
-| C. Provider Adapter | 実装 | anthropic_messages / openai_compatible_chat / ollama。`openai_responses` `google_genai` は未実装（開始前に拒否） |
+| C. Provider Adapter | 実装 | claude_cli（ローカル Claude Code、キー不要）/ anthropic_messages / openai_compatible_chat / ollama。`openai_responses` `google_genai` は未実装（開始前に拒否） |
 | D. Worker | 実装 | 独立 state、mailbox、task scope、sandbox、実 tool calling |
 | E. Master → DAG 検査 | 実装 | schema / 循環 / owner / tool / write scope / 上限。差し戻し 1 回 |
 | F. Delivery | 実装 | `send_message` を宛先 mailbox に実配送しイベント化。質問には返信セッションが応答 |

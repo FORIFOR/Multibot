@@ -27,17 +27,21 @@ You type **one request**. A Master plans the deliverables, a Researcher, a Build
 
 ## Quickstart
 
+**No API key needed if you have [Claude Code](https://claude.com/claude-code) installed and logged in** — the default connection runs every agent session through the local `claude` CLI (its cost/usage and the model it actually used are read from the CLI's JSON result).
+
 ```bash
 git clone https://github.com/FORIFOR/Multibot && cd Multibot
 cd backend && uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -e '.[dev]'
 cd ../frontend && pnpm install && pnpm build && cd ../backend
-export ANTHROPIC_API_KEY=sk-ant-...        # the config stores a reference (env:ANTHROPIC_API_KEY), never the value
-.venv/bin/agentteam serve                  # http://127.0.0.1:8787
+.venv/bin/agentteam probe                   # real capability check through `claude -p` (a few cents)
+.venv/bin/agentteam serve                   # http://127.0.0.1:8787
 ```
 
-First run: open **Settings → Probe**. It makes one tiny real call to confirm tool calling and JSON-schema output on the model you picked, then unlocks Start. Placeholder models, unknown prices and unverified connections refuse to start with a structured reason.
+Prefer the API? Set `defaults.connection_id: anthropic` in `data/agents.yaml` and export `ANTHROPIC_API_KEY` (the config stores only the reference `env:ANTHROPIC_API_KEY`). Any OpenAI-compatible chat endpoint and local Ollama (`driver: ollama`, `http://localhost:11434/v1`) work the same way.
 
-Works with Claude (official SDK, default `claude-opus-5`), any OpenAI-compatible chat endpoint, and local Ollama (`driver: ollama`, `http://localhost:11434/v1`).
+First run: **Settings → Probe** (or `agentteam probe`). It confirms tool calling and JSON-schema output on the model you picked, then unlocks Start. Placeholder models, unknown prices and unverified connections refuse to start with a structured reason.
+
+How the CLI path works: Claude Code owns the agent loop for one session; the team's tools (`send_message`, `publish_artifact`, `run_check`, …) are exposed to it as MCP tools through a stdio proxy that forwards every call to this process's ToolGateway, so policy, budget and the event log are identical to the API path. Claude Code's own built-in tools are disabled for these sessions.
 
 CLI:
 
@@ -58,6 +62,7 @@ CLI:
 | **Scheduler** | Dependency resolution, concurrency limit, review fail → revise → re-review (bounded), Master exception decisions, checkpoints. |
 | **PolicyEngine** | Budget = spent + reserved for in-flight calls; call/tool/message limits; tool and path scope; cancellation. Unknown cloud prices are never treated as free. |
 | **Sandbox** | macOS `sandbox-exec` (no network, writes only inside the task workspace). Elsewhere a plain subprocess that says so in every result. |
+| **Providers** | `claude_cli` (local Claude Code, no key), `anthropic_messages` (official SDK), `openai_compatible_chat`, `ollama`. Per-bot choice; real probe before start. |
 
 Everything is written to an append-only event store (SQLite WAL, per-run `seq`, UTC timestamps, redaction before persistence). Chat, timeline and report are projections of it. The event types are the blueprint's 11 plus runtime extensions, all validated against [`backend/schemas/event.schema.json`](backend/schemas/event.schema.json).
 
