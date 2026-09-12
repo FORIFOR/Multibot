@@ -32,4 +32,4 @@ cd backend && ANTHROPIC_API_KEY=... .venv/bin/python scripts/smoke_real_llm.py -
 - One task per branch. Keep diffs local; don't mix refactors into fixes.
 - Add or extend a deterministic test for runtime behaviour. Mark anything that needs a real model as unverified in the PR body.
 - Never commit keys. Config holds references only (`env:`, `keychain:`, `file:`).
-- Prompts and skills in `backend/prompts` / `backend/skills` are original; don't paste external prompts wholesale (see `docs/blueprint/REFERENCES.md`).
+- Prompts and skills in `backend/agentteam/prompts` / `backend/agentteam/skills` are original; don't paste external prompts wholesale (see `docs/blueprint/REFERENCES.md`).

@@ -11,7 +11,8 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 from .models import CONFIG_DRIVERS, AgentSpec, AgentTeamConfig, EffectiveAgentConfig, sha256_text
 
-PKG_ROOT = Path(__file__).resolve().parent.parent.parent  # backend/
+PKG_ROOT = Path(__file__).resolve().parent.parent  # agentteam/ (prompts, skills, schemas ship inside the package)
+REPO_ROOT = PKG_ROOT.parent.parent  # repository root when running from a checkout
 SCHEMA_DIR = PKG_ROOT / "schemas"
 PROMPT_DIR = PKG_ROOT / "prompts"
 SKILL_DIR = PKG_ROOT / "skills"

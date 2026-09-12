@@ -13,16 +13,16 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
 
-from ..config.loader import ConfigError, PKG_ROOT, config_to_yaml, effective_agent, list_skills, load_config_text
+from ..config.loader import ConfigError, PKG_ROOT, REPO_ROOT, config_to_yaml, effective_agent, list_skills, load_config_text
 from ..config.models import Connection
 from ..contracts import RunInputs, RunStatus
 from ..projections.views import chat_view, timeline_view
 from ..providers.registry import ProviderRegistry
 from .service import AppService
 
-FRONTEND_DIST = PKG_ROOT.parent / "frontend" / "dist"
-if not FRONTEND_DIST.is_dir():  # installed wheel: UI bundled inside the package
-    FRONTEND_DIST = Path(__file__).resolve().parent.parent / "ui"
+FRONTEND_DIST = PKG_ROOT / "ui"  # built UI bundled inside the package
+if not FRONTEND_DIST.is_dir():  # dev checkout without a bundled build
+    FRONTEND_DIST = REPO_ROOT / "frontend" / "dist"
 
 
 class CreateRunBody(BaseModel):
