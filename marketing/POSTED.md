@@ -17,3 +17,13 @@
 - https://x.com/i/status/2098800340078612501
 - https://x.com/i/status/2098800350723744243
 - https://x.com/i/status/2098800362719514927
+
+## Zenn
+- https://zenn.dev/forifori/articles/agent-team-launch （oathra リポジトリの Zenn 連携経由で公開）
+
+## awesome-list PRs (2026-09-13)
+- https://github.com/caramaschiHG/awesome-ai-agents-2026/pull/572 (Multi-Agent Orchestration)
+- https://github.com/Jenqyang/Awesome-AI-Agents/pull/487 (Multi-Agent Task Solver Projects)
+
+## Not done (no account / credentials)
+- Show HN, Reddit, Product Hunt
