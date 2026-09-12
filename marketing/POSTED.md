@@ -1,0 +1,19 @@
+
+## dev.to
+- https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a
+
+## X (en) 2026-09-13 00:45 JST
+- https://x.com/i/status/2098800226199130220
+- https://x.com/i/status/2098800236382900538
+- https://x.com/i/status/2098800248852545951
+- https://x.com/i/status/2098800259225067923
+- https://x.com/i/status/2098800269371085284
+- https://x.com/i/status/2098800281513570639
+
+## X (ja) 2026-09-13 00:46 JST
+- https://x.com/i/status/2098800307421716835
+- https://x.com/i/status/2098800317681049772
+- https://x.com/i/status/2098800329697747289
+- https://x.com/i/status/2098800340078612501
+- https://x.com/i/status/2098800350723744243
+- https://x.com/i/status/2098800362719514927

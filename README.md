@@ -98,6 +98,12 @@ Also verified: **39 deterministic tests** (`cd backend && .venv/bin/python -m py
 
 Still open: one request and four runs is not a benchmark; plans vary between runs because the Master decides; prompts are original seeds. The Anthropic API and OpenAI-compatible drivers are implemented and unit-tested but have not had a live run yet. Full matrix: [`docs/STATUS.md`](docs/STATUS.md). Security boundaries: [`SECURITY.md`](SECURITY.md).
 
+## Read more
+
+- [dev.to: I built an AI team that ships real work — and shows you the conversation](https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a)
+- [Zenn（日本語）: Bot 同士を会話させるのではなく、仕事の経緯がそのままチャットになるマルチエージェントを OSS で作った](https://zenn.dev/forifori/articles/agent-team-launch)
+- Launch threads on X: [English](https://x.com/i/status/2098800226199130220) · [日本語](https://x.com/i/status/2098800307421716835)
+
 ## Design notes
 
 The product was built from a written blueprint ([`docs/blueprint/`](docs/blueprint/)): spec, implementation brief, security requirements, references, and 40 acceptance cases. Deliberate deviations (no Deep Agents/LangGraph dependency, extended event enum, refusal fallback off by default) are recorded in [`docs/IMPLEMENTATION_PLAN.md`](docs/IMPLEMENTATION_PLAN.md). Contributions: [`CONTRIBUTING.md`](CONTRIBUTING.md).

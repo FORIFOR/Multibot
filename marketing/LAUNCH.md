@@ -1,4 +1,6 @@
-# Launch kit (drafts — nothing here has been posted)
+# Launch kit
+
+Posted on 2026-09-13 (see POSTED.md): X threads EN/JA with the hero video, dev.to article, Zenn article. Remaining: Show HN (no account), Reddit (no account), Product Hunt.
 
 Posting on X, Hacker News, Reddit, Product Hunt, Zenn or Qiita requires your accounts. These are ready-to-paste drafts.
 Every draft keeps the disclosure that the demo uses the scripted provider and that real-model runs are not yet verified.
