@@ -15,7 +15,7 @@ def builder_with(steps_attempt1, steps_attempt2=None):
             seq = steps_attempt1 if md.get("attempt", 1) == 1 else (steps_attempt2 or steps_attempt1)
             t = turn_of(req)
             return seq[t] if t < len(seq) else text_response("done")
-        return default_script(req)
+        return None
     return script
 
 

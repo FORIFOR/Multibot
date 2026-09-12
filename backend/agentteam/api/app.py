@@ -288,6 +288,14 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 while True:
                     if await request.is_disconnected():
                         break
+                    if run_id not in svc.manager.live:
+                        # nothing more will be appended until the run is resumed/forked: flush and close
+                        for e in await svc.events.list(run_id, after_seq=cursor):
+                            cursor = e.seq
+                            yield {"id": str(e.seq), "event": e.type, "data": json.dumps(e.model_dump(), ensure_ascii=False)}
+                        run = await svc.runs.get_run(run_id)
+                        yield {"event": "end", "data": json.dumps({"last_seq": cursor, "status": str(run.status) if run else None})}
+                        break
                     try:
                         e = await asyncio.wait_for(q.get(), timeout=15.0)
                     except asyncio.TimeoutError:

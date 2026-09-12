@@ -302,9 +302,17 @@ class RunManager:
         copied: list[str] = []
         if keep_accepted and src.plan is not None:
             src_tasks = {t.spec.id: t for t in await self.runs.list_tasks(run_id)}
+            rerun: set[str] = set((overrides or {}).get("rerun_tasks", []))
+            changed = True
+            while changed:  # anything downstream of a re-run task must also re-run (no stale reviews/inputs)
+                changed = False
+                for spec in src.plan.tasks:
+                    if spec.id not in rerun and any(d in rerun for d in spec.depends_on):
+                        rerun.add(spec.id)
+                        changed = True
             for spec in src.plan.tasks:
                 st = src_tasks.get(spec.id)
-                keep = st is not None and st.status == TaskStatus.accepted and spec.id not in (overrides or {}).get("rerun_tasks", [])
+                keep = st is not None and st.status == TaskStatus.accepted and spec.id not in rerun
                 t = TaskState(run_id=new.run_id, spec=spec, status=TaskStatus.accepted if keep else TaskStatus.queued,
                               attempt=st.attempt if (keep and st) else 0, result=st.result if (keep and st) else None, updated_at=now_iso())
                 await self.runs.upsert_task(t)

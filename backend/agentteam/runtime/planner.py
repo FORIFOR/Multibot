@@ -11,6 +11,7 @@ from ..contracts import TaskSpec, TaskStatus, TeamPlan
 from ..providers.base import LLMRequest
 from .checks import CHECK_KINDS
 from .context import SessionContext
+from .policy import PolicyViolation
 from .worker import AgentRunner, WorkerFailure
 
 TEAM_COMPILER = (PKG_ROOT / "prompts" / "team-compiler.md").read_text(encoding="utf-8")
@@ -183,7 +184,7 @@ async def plan_team(rt) -> TeamPlan:
                          json_schema=PLAN_OUTPUT_SCHEMA, effort=master.effort, metadata={"agent_id": master.agent_id, "mode": "plan"})
         try:
             resp = await runner._call_model(req, None)
-        except WorkerFailure as e:
+        except (WorkerFailure, PolicyViolation) as e:
             raise PlanError(f"planning call failed: {e}")
         try:
             data = _extract_json(resp.text)
@@ -257,7 +258,7 @@ async def final_report(rt, evidence: dict[str, Any]) -> dict[str, Any] | None:
     try:
         resp = await runner._call_model(req, None)
         data = _extract_json(resp.text)
-    except (WorkerFailure, ValueError) as e:
+    except (WorkerFailure, PolicyViolation, ValueError) as e:
         await rt.events.append(rt.run_id, "model.failed", {"stage": "report", "message": str(e)}, actor_id=agent.agent_id, actor_kind="agent")
         return None
     known = {(m.artifact_id, m.revision) for m in await rt.artifacts.list(rt.run_id)}

@@ -46,8 +46,11 @@ class Scheduler:
     def is_review_task(self, t: TaskState) -> bool:
         return self.role_of(t.spec.owner) == "reviewer" and bool(t.spec.depends_on)
 
-    def review_tasks_for(self, task_id: str) -> list[TaskState]:
-        return [t for t in self.rt.tasks.values() if self.is_review_task(t) and task_id in t.spec.depends_on]
+    def review_tasks_for(self, task_id: str, *, pending_only: bool = False) -> list[TaskState]:
+        out = [t for t in self.rt.tasks.values() if self.is_review_task(t) and task_id in t.spec.depends_on]
+        if pending_only:
+            out = [t for t in out if t.status not in TERMINAL_TASK_STATES]
+        return out
 
     def _deps_state(self, t: TaskState) -> str:
         """'ready' | 'wait' | 'dead'"""
@@ -185,7 +188,7 @@ class Scheduler:
                 await self._set(t, TaskStatus.accepted, "task.accepted", {"attempt": t.attempt, "summary": ctx.finished.summary if ctx.finished else ""})
                 await self._apply_review(t, ctx.review)
                 return
-            if self.review_tasks_for(task_id):
+            if self.review_tasks_for(task_id, pending_only=True):
                 await self._set(t, TaskStatus.review_pending, "task.review_pending",
                                 {"attempt": t.attempt, "published": [p.model_dump() for p in (ctx.finished.published if ctx.finished else [])]})
             else:
