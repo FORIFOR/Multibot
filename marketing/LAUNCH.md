@@ -44,7 +44,7 @@ I'd love feedback on the review→revise loop bound to revisions, and on whether
 ## X thread — EN
 1/ I built an open-source AI team that ships real work — with a conversation you can follow.
 One request → Master plans → Researcher/Builder/Reviewer actually work → you get the files AND the real bot-to-bot messages, a timeline, and checks bound to each revision.
-[attach demo.mp4]
+[attach intro.mp4 (58s narrated) — or demo.mp4 for the raw version]
 2/ The chat isn't a transcript written afterwards. Every line is a delivered message. A question from the Builder wakes the Researcher, who answers with reply_to. Acknowledgements never wake a model.
 3/ Verification is an event bound to an artifact hash. Reviewer fails index.html r1 → Builder publishes r2 → Reviewer re-runs the check on r2. The final report is compiled from those events.
 [attach docs/media/report.png]
@@ -56,7 +56,7 @@ One request → Master plans → Researcher/Builder/Reviewer actually work → y
 ## X thread — JA
 1/ 「依頼は一度。AI チームが作り、確かめ、成果物と経緯を残す。」
 一文の依頼から Master が計画し、Researcher / Builder / Reviewer が実際に作業。成果物と一緒に、Bot 間の実メッセージ・時系列・revision 単位の検証結果が返ってきます。OSS (MIT) で公開しました。
-[動画 demo.mp4]
+[動画 intro.mp4（58 秒・ナレーション付き）]
 2/ チャットは後から書いた台本ではなく、実際に配送されたメッセージの投影です。Builder の質問で Researcher が起動して回答し、reply_to で紐付きます。相槌ではモデルを起動しません。
 3/ 検証は成果物のハッシュに紐付くイベント。Reviewer が index.html r1 を不合格 → Builder が r2 を公開 → r2 に対して再検証。最終報告はこのイベントから組み立てるので「開始」が「合格」にすり替わりません。
 4/ 権限・書込範囲・予算（予約込み）・承認（hash+nonce）・停止/再開/分岐は Runtime が強制。価格不明のモデルは開始できません。
@@ -86,7 +86,8 @@ Tagline (60): `An AI team that ships real work — with a trace you can audit`
 First comment: the Show HN honesty paragraph, plus the first real-model run's evidence JSON.
 
 ## Assets checklist
-- [x] docs/media/demo.mp4 (1280px, 37s, no timing edits)
+- [x] docs/media/intro.mp4 (1280x720, 58s, title cards + narrated walkthrough + BGM 'I03 Sunlit Launch'; disclosure on screen)
+- [x] docs/media/demo.mp4 (1280px, 37s raw walkthrough, no timing edits)
 - [x] docs/media/demo.gif (README hero)
 - [x] docs/media/run.png · timeline.png · report.png · settings.png
 - [x] OG image docs/media/poster.jpg (site meta)
