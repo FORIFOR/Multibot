@@ -23,6 +23,8 @@ def price_for(model: str, overrides: dict[str, ModelPrice] | None = None, *, dri
         return overrides[model]
     if driver == "ollama":
         return ModelPrice(input_per_mtok=0.0, output_per_mtok=0.0, cache_read_per_mtok=0.0, cache_write_per_mtok=0.0)
+    if driver == "claude_cli":  # the CLI reports list-price cost per session; reservation uses max_session_cost_usd
+        return ModelPrice(input_per_mtok=0.0, output_per_mtok=0.0, cache_read_per_mtok=0.0, cache_write_per_mtok=0.0)
     if driver == "fake":
         return ModelPrice(input_per_mtok=1.0, output_per_mtok=5.0)
     return KNOWN_PRICES.get(model)

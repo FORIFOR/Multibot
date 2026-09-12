@@ -133,11 +133,18 @@ DEFAULT_CONFIG_YAML = """# Agent Team configuration.
 schema_version: 1
 profile_name: local-first
 defaults:
-  connection_id: anthropic
-  model: claude-opus-5
+  connection_id: claude_cli
+  model: opus
   language: ja
   timezone: Asia/Tokyo
 connections:
+# Claude Code CLI on this machine (no API key; uses your `claude` login). Models: opus / sonnet / fable or a full id.
+- id: claude_cli
+  driver: claude_cli
+  base_url: local://claude
+  api_key_ref: null
+  capability_check: not_run
+# Anthropic API (needs a key reference). Switch defaults.connection_id to use it.
 - id: anthropic
   driver: anthropic_messages
   base_url: https://api.anthropic.com
@@ -151,9 +158,11 @@ limits:
   max_model_calls: 30
   max_tool_calls: 50
   timeout_seconds: 600
-  budget_usd: 2.0
+  budget_usd: 5.0
   max_output_tokens: 8000
   max_tool_output_chars: 12000
+  max_session_cost_usd: 1.0
+  max_session_turns: 40
 policy:
   external_mutation: approval
   skill_install: approval

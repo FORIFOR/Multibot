@@ -8,6 +8,7 @@ from ..config.models import AgentTeamConfig, Connection, IMPLEMENTED_DRIVERS
 from ..config.secrets import SecretResolutionError, resolve_secret
 from .anthropic_driver import AnthropicDriver
 from .base import ProviderAdapter, ProviderError
+from .claude_cli_driver import ClaudeCliDriver
 from .openai_compat_driver import OpenAICompatDriver
 
 
@@ -34,6 +35,8 @@ class ProviderRegistry:
             raise ProviderError("unsupported", f"driver {conn.driver} is not implemented in this build")
         if conn.driver == "fake":
             raise ProviderError("unsupported", "fake provider must be injected explicitly (tests only)")
+        if conn.driver == "claude_cli":
+            return ClaudeCliDriver(conn.id)
         try:
             key = resolve_secret(conn.api_key_ref)
         except SecretResolutionError as e:

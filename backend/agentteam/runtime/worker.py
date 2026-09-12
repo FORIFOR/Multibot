@@ -125,10 +125,17 @@ class AgentRunner:
         est_in = (len(req.system) + sum(len(json.dumps(m, ensure_ascii=False)) for m in req.messages)
                   + sum(len(json.dumps(t.input_schema)) + len(t.description) for t in req.tools)) // 3 + 200
         provider = rt.providers.adapter(ctx.agent.connection_id)
+        is_cli = getattr(provider, "supports_sessions", False)
         attempts = 0
         while True:
             attempts += 1
-            res = rt.policy.reserve_model_call(price, est_in, req.max_tokens)
+            if is_cli:
+                cap = min(rt.config.limits.max_session_cost_usd, max(0.05, rt.policy.remaining_budget()))
+                res = rt.policy.reserve_amount(cap)
+                req.metadata["max_budget_usd"] = cap
+                req.metadata["timeout"] = max(30.0, rt.remaining_seconds() - 5)
+            else:
+                res = rt.policy.reserve_model_call(price, est_in, req.max_tokens)
             t0 = time.monotonic()
             try:
                 resp = await provider.complete(req)
@@ -144,7 +151,10 @@ class AgentRunner:
                     await asyncio.sleep(min(e.retry_after or (2 ** attempts), 30))
                     continue
                 raise WorkerFailure(f"provider_{e.kind}", str(e))
-            cost = rt.policy.settle_model_call(res, price, resp.usage)
+            if is_cli:
+                cost = rt.policy.settle_amount(res, float(getattr(resp, "cost_usd", 0.0) or 0.0), resp.usage)
+            else:
+                cost = rt.policy.settle_model_call(res, price, resp.usage)
             await rt.events.append(rt.run_id, "model.called",
                                    {"connection_id": ctx.agent.connection_id, "driver": ctx.agent.driver,
                                     "provider_kind": getattr(provider, "kind", "real"),
@@ -169,6 +179,9 @@ class AgentRunner:
         tools = self.gateway.specs()
         rt.active_sessions[ctx.agent.agent_id] = rt.active_sessions.get(ctx.agent.agent_id, 0) + 1
         try:
+            provider = rt.providers.adapter(ctx.agent.connection_id)
+            if getattr(provider, "supports_sessions", False):
+                return await self._run_cli_session(provider, system, user_message)
             while True:
                 rt.policy.check_cancel()
                 if rt.remaining_seconds() <= 0:
@@ -219,3 +232,71 @@ class AgentRunner:
             return SessionOutcome("failed", f"{e.code}: {e}")
         finally:
             rt.active_sessions[ctx.agent.agent_id] = max(0, rt.active_sessions.get(ctx.agent.agent_id, 1) - 1)
+
+
+    async def _run_cli_session(self, provider, system: str, user_message: str) -> SessionOutcome:
+        """Claude Code owns the loop; our tools are served through the session broker. One CLI process per attempt,
+        plus at most one continuation if the agent ended without finish_task."""
+        from .session_broker import get_broker
+
+        rt, ctx = self.rt, self.ctx
+        broker = await get_broker()
+        token = broker.register(self.gateway)
+        prompt = user_message
+        try:
+            for round_no in range(2):
+                rt.policy.check_cancel()
+                if rt.remaining_seconds() <= 0:
+                    return SessionOutcome("failed", "timeout: run wall-clock limit reached")
+                cap = min(rt.config.limits.max_session_cost_usd, max(0.05, rt.policy.remaining_budget()))
+                try:
+                    res_v = rt.policy.reserve_amount(cap)
+                except PolicyViolation as e:
+                    return SessionOutcome("failed", f"{e.code}: {e}")
+                t0 = time.monotonic()
+                result = await provider.run_session(
+                    system=system, prompt=prompt, gateway_url=broker.url(token), tool_names=[t.name for t in self.gateway.specs()],
+                    model=ctx.agent.model, effort=ctx.agent.effort, max_turns=rt.config.limits.max_session_turns,
+                    max_budget_usd=cap, timeout=max(30.0, rt.remaining_seconds() - 5), cancel_event=rt.policy.cancel_event,
+                    cwd=str(ctx.workspace) if ctx.workspace else None)
+                cost = rt.policy.settle_amount(res_v, result.cost_usd, result.usage, extra_calls=max(0, result.num_turns - 1))
+                await rt.events.append(rt.run_id, "model.called",
+                                       {"connection_id": ctx.agent.connection_id, "driver": ctx.agent.driver, "provider_kind": "real",
+                                        "model_requested": ctx.agent.model, "model_reported": result.model_reported or "unknown",
+                                        "models": {k: {"costUSD": v.get("costUSD"), "inputTokens": v.get("inputTokens"), "outputTokens": v.get("outputTokens")}
+                                                   for k, v in (result.models or {}).items()},
+                                        "request_id": result.session_id, "stop_reason": result.terminal_reason or "end_turn",
+                                        "usage": {"input_tokens": result.usage.input_tokens, "output_tokens": result.usage.output_tokens,
+                                                  "cache_read_tokens": result.usage.cache_read_tokens, "cache_write_tokens": result.usage.cache_write_tokens},
+                                        "cost_usd": round(cost, 6), "latency_ms": int((time.monotonic() - t0) * 1000),
+                                        "text_preview": (result.text or "")[:600], "num_turns": result.num_turns,
+                                        "permission_denials": result.permission_denials[:10], "cli_session": True,
+                                        "mode": ctx.mode, "attempt": ctx.attempt, "round": round_no + 1,
+                                        "error": rt.redactor.text(result.error) if result.error else None},
+                                       actor_id=ctx.agent.agent_id, actor_kind="agent", task_id=ctx.task_id, causation_id=ctx.causation_id)
+                await rt.persist_usage()
+                if result.terminal_reason == "cancelled" or rt.policy.cancelled:
+                    return SessionOutcome("cancelled", "cancelled by user")
+                if ctx.finished:
+                    return SessionOutcome("finished", ctx.finished.summary)
+                if ctx.blocked:
+                    return SessionOutcome("blocked", ctx.blocked["reason"])
+                if ctx.approval_pending:
+                    return SessionOutcome("approval_pending", ctx.approval_pending.approval_id)
+                if ctx.mode == "reply" and ctx.replied:
+                    return SessionOutcome("finished", "replied")
+                if not result.ok and "timeout" in (result.error or ""):
+                    return SessionOutcome("failed", f"timeout: {result.error}")
+                if not result.ok and result.terminal_reason not in ("completed", "max_turns", "budget_exceeded", None):
+                    return SessionOutcome("failed", f"provider_cli: {result.error}")
+                prompt = (user_message + "\n\n[runtime] Your previous session ended without calling finish_task"
+                          + (f" (reason: {result.terminal_reason})" if result.terminal_reason else "")
+                          + ". Published artifacts and delivered messages are kept. Continue from the current state: check "
+                            "list_artifacts / read_messages, finish remaining work, then call finish_task (or report_blocker).")
+            return SessionOutcome("ended", "agent ended its session twice without finish_task")
+        except Cancelled:
+            return SessionOutcome("cancelled", "cancelled by user")
+        except PolicyViolation as e:
+            return SessionOutcome("failed", f"{e.code}: {e}")
+        finally:
+            broker.unregister(token)

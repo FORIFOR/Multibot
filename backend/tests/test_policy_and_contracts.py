@@ -104,4 +104,5 @@ def test_fake_driver_not_selectable_from_config():
     with pytest.raises((ConfigError, Exception)):
         load_config_text(FAKE_CONFIG)  # allow_fake defaults to False
     cfg = load_config_text(DEFAULT_CONFIG_YAML)
-    assert cfg.defaults.model == "claude-opus-5" and cfg.connection("anthropic").capability_check == "not_run"
+    assert cfg.defaults.connection_id == "claude_cli" and cfg.connection("anthropic").capability_check == "not_run"
+    assert cfg.connection("claude_cli").capability_check == "not_run"  # never runnable before a real probe

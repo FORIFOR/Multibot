@@ -66,6 +66,31 @@ class PolicyEngine:
         self.usage.model_calls += 1
         return Reservation(amount)
 
+    def reserve_amount(self, amount: float) -> Reservation:
+        """Reserve a fixed amount (drivers that report their own cost, e.g. claude_cli)."""
+        self.check_cancel()
+        if self.usage.model_calls >= self.limits.max_model_calls:
+            raise PolicyViolation("max_model_calls", f"model call limit {self.limits.max_model_calls} reached", fatal=True)
+        if self.usage.cost_usd + self.usage.reserved_usd + amount > self.limits.budget_usd:
+            raise PolicyViolation("budget", f"budget {self.limits.budget_usd:.2f} USD would be exceeded "
+                                            f"(spent {self.usage.cost_usd:.4f} + reserved {self.usage.reserved_usd:.4f} + session cap {amount:.4f})", fatal=True)
+        self.usage.reserved_usd += amount
+        self.usage.model_calls += 1
+        return Reservation(amount)
+
+    def settle_amount(self, res: Reservation, cost: float, usage: ProviderUsage, extra_calls: int = 0) -> float:
+        self.usage.reserved_usd = max(0.0, self.usage.reserved_usd - res.amount)
+        self.usage.cost_usd += cost
+        self.usage.model_calls += max(0, extra_calls)
+        self.usage.input_tokens += usage.input_tokens
+        self.usage.output_tokens += usage.output_tokens
+        self.usage.cache_read_tokens += usage.cache_read_tokens
+        self.usage.cache_write_tokens += usage.cache_write_tokens
+        return cost
+
+    def remaining_budget(self) -> float:
+        return max(0.0, self.limits.budget_usd - self.usage.cost_usd - self.usage.reserved_usd)
+
     def settle_model_call(self, res: Reservation, price: ModelPrice | None, usage: ProviderUsage) -> float:
         self.usage.reserved_usd = max(0.0, self.usage.reserved_usd - res.amount)
         cost = cost_of(usage, price) if price else 0.0

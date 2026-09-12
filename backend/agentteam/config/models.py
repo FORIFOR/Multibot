@@ -6,9 +6,9 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-Driver = Literal["openai_responses", "openai_compatible_chat", "anthropic_messages", "google_genai", "ollama", "fake"]
-CONFIG_DRIVERS = {"openai_responses", "openai_compatible_chat", "anthropic_messages", "google_genai", "ollama"}
-IMPLEMENTED_DRIVERS = {"anthropic_messages", "openai_compatible_chat", "ollama", "fake"}
+Driver = Literal["openai_responses", "openai_compatible_chat", "anthropic_messages", "google_genai", "ollama", "claude_cli", "fake"]
+CONFIG_DRIVERS = {"openai_responses", "openai_compatible_chat", "anthropic_messages", "google_genai", "ollama", "claude_cli"}
+IMPLEMENTED_DRIVERS = {"anthropic_messages", "openai_compatible_chat", "ollama", "claude_cli", "fake"}
 
 
 class Defaults(BaseModel):
@@ -41,6 +41,8 @@ class Limits(BaseModel):
     budget_usd: float = 2.0
     max_output_tokens: int = 8000
     max_tool_output_chars: int = 12000
+    max_session_cost_usd: float = 1.0  # claude_cli: --max-budget-usd per agent session
+    max_session_turns: int = 40  # claude_cli: --max-turns per agent session
 
 
 class Policy(BaseModel):
@@ -99,7 +101,7 @@ class AgentTeamConfig(BaseModel):
         for a in d["agents"]:
             for k in ("system_prompt_override", "effort"):
                 a.pop(k, None)
-        for k in ("max_output_tokens", "max_tool_output_chars"):
+        for k in ("max_output_tokens", "max_tool_output_chars", "max_session_cost_usd", "max_session_turns"):
             d["limits"].pop(k, None)
         return d
 

@@ -31,7 +31,7 @@ TEXT = ("製品: Agent Team。一度の依頼からAIチーム（Master/Research
 async def main(args) -> int:
     svc = await AppService(args.data_dir).start()
     try:
-        cid = svc.config.defaults.connection_id
+        cid = args.connection or svc.config.defaults.connection_id
         model = args.model or svc.config.defaults.model
         reg = ProviderRegistry(svc.config)
         try:
@@ -46,6 +46,10 @@ async def main(args) -> int:
                                "tool_calling": probe.tool_calling, "json_schema": probe.json_schema, "error": probe.error}
         if args.model:
             cfg.defaults.model = args.model
+        if args.connection:
+            cfg.defaults.connection_id = args.connection
+        if args.timeout:
+            cfg.limits.timeout_seconds = int(args.timeout)
         await svc.save_config(cfg, "smoke probe")
         if not probe.ok:
             print("probe failed; not starting a run")
@@ -79,4 +83,6 @@ if __name__ == "__main__":
     ap.add_argument("--data-dir", default="./data")
     ap.add_argument("--budget", type=float, default=1.5)
     ap.add_argument("--model", default=None)
+    ap.add_argument("--timeout", type=int, default=None, help="run wall-clock limit in seconds")
+    ap.add_argument("--connection", default=None)
     sys.exit(asyncio.run(main(ap.parse_args())))

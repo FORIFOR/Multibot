@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 from pathlib import Path
 from typing import Any, Callable
 
@@ -73,6 +74,11 @@ class RunManager:
             if cid in seen_conn:
                 continue
             seen_conn.add(cid)
+            if conn.driver == "claude_cli":
+                import shutil
+                if shutil.which(os.environ.get("AGENTTEAM_CLAUDE_BIN") or "claude") is None:
+                    problems.append({"code": "claude_cli_missing", "connection_id": cid,
+                                     "message": "claude CLI not found on PATH; install Claude Code and log in once", "fix": "settings"})
             if conn.driver in ("anthropic_messages", "openai_compatible_chat") and cid not in self.fake_adapters:
                 try:
                     resolve_secret(conn.api_key_ref)

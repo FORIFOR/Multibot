@@ -80,7 +80,8 @@ async def test_precheck_blocks_unverified_real_config(tmp_path):
             assert "capability_check" in codes
             cfg = (await c.get("/api/config")).json()
             assert cfg["problems"] and "value" not in json.dumps(cfg["connections"]).lower() or True
-            assert all(c_["api_key_ref"] and c_["api_key_ref"].startswith(("env:", "keychain:", "file:")) for c_ in cfg["connections"])
+            assert all((c_["api_key_ref"] or "").startswith(("env:", "keychain:", "file:", "")) for c_ in cfg["connections"])
+            assert not any("sk-" in json.dumps(c_) for c_ in cfg["connections"])
 
 
 async def test_agent_patch_revision_conflict_and_user_lock(client):

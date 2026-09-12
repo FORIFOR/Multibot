@@ -53,7 +53,8 @@
               "openai_compatible_chat",
               "anthropic_messages",
               "google_genai",
-              "ollama"
+              "ollama",
+              "claude_cli"
             ]
           },
           "base_url": {
