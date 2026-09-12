@@ -184,9 +184,11 @@ class Scheduler:
         kind = outcome.kind
         if kind == "finished":
             t.result = ctx.finished
-            if self.is_review_task(t) and ctx.review is not None:
-                await self._set(t, TaskStatus.accepted, "task.accepted", {"attempt": t.attempt, "summary": ctx.finished.summary if ctx.finished else ""})
-                await self._apply_review(t, ctx.review)
+            if self.is_review_task(t) and ctx.reviews:
+                await self._set(t, TaskStatus.accepted, "task.accepted", {"attempt": t.attempt, "summary": ctx.finished.summary if ctx.finished else "",
+                                                                          "reviewed": [r.target_task_id for r in ctx.reviews]})
+                for review in list(ctx.reviews):
+                    await self._apply_review(t, review)
                 return
             if self.review_tasks_for(task_id, pending_only=True):
                 await self._set(t, TaskStatus.review_pending, "task.review_pending",

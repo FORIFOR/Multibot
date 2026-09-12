@@ -79,7 +79,7 @@ class SessionContext:
     # outcomes set by tools
     finished: TaskResult | None = None
     blocked: dict[str, Any] | None = None
-    review: Review | None = None
+    reviews: list[Review] = field(default_factory=list)
     approval_pending: Approval | None = None
     replied: bool = False
     published: list[Any] = field(default_factory=list)
@@ -97,3 +97,7 @@ class SessionContext:
         if self.task and self.task.spec.id not in ids:
             ids.append(self.task.spec.id)
         return ids
+
+    @property
+    def review(self) -> Review | None:
+        return self.reviews[-1] if self.reviews else None

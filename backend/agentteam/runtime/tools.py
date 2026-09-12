@@ -204,9 +204,13 @@ class ToolGateway:
         if missing and self.ctx.agent.role != "reviewer":
             return ("REJECTED: these output paths are not published by this task yet: " + ", ".join(missing)
                     + ". Write them with workspace_write and publish with publish_artifact, then call finish_task again.")
-        if self.ctx.agent.role == "reviewer" and self.ctx.review is None and any(
-                self.rt.tasks.get(d) for d in spec.depends_on):
-            return "REJECTED: call submit_review with your verdict for the target task before finish_task."
+        if self.ctx.agent.role == "reviewer":
+            targets = [d for d in spec.depends_on if self.rt.tasks.get(d) and self.rt.agents.get(self.rt.tasks[d].spec.owner)
+                       and self.rt.agents[self.rt.tasks[d].spec.owner].role != "reviewer"]
+            done = {r.target_task_id for r in self.ctx.reviews}
+            missing_reviews = [t for t in targets if t not in done]
+            if missing_reviews:
+                return ("REJECTED: call submit_review for each target task before finish_task. Missing: " + ", ".join(missing_reviews))
         self.ctx.finished = TaskResult(summary=a.get("summary", ""), verified=list(a.get("verified") or []),
                                        unverified=list(a.get("unverified") or []), next_steps=list(a.get("next_steps") or []),
                                        published=[p.ref() for p in self.ctx.published])
@@ -425,10 +429,13 @@ class ToolGateway:
             for m in await rt.artifacts.list(rt.run_id, latest_only=True):
                 if m.task_id == target.spec.id:
                     refs.append(m.ref())
-        ctx.review = Review(target_task_id=target.spec.id, target_artifacts=refs, results=results, summary=a.get("summary", ""))
-        await rt.events.append(rt.run_id, "review.submitted", ctx.review.model_dump(), actor_id=ctx.agent.agent_id,
+        review = Review(target_task_id=target.spec.id, target_artifacts=refs, results=results, summary=a.get("summary", ""))
+        ctx.reviews = [r for r in ctx.reviews if r.target_task_id != target.spec.id] + [review]
+        await rt.events.append(rt.run_id, "review.submitted", review.model_dump(), actor_id=ctx.agent.agent_id,
                                actor_kind="agent", task_id=ctx.task_id, causation_id=cid)
-        return "OK: review recorded. Now call finish_task."
+        remaining = [d for d in (ctx.task.spec.depends_on if ctx.task else []) if d not in {r.target_task_id for r in ctx.reviews}
+                     and rt.tasks.get(d) and rt.agents[rt.tasks[d].spec.owner].role != "reviewer"]
+        return "OK: review recorded." + (f" Still to review: {', '.join(remaining)}." if remaining else " Now call finish_task.")
 
     async def t_create_task(self, a, cid):
         if self.ctx.agent.role != "master" or self.rt.scheduler is None:
