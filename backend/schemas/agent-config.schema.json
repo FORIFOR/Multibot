@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "profile_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "defaults": {
+      "type": "object",
+      "properties": {
+        "connection_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "connection_id",
+        "model",
+        "language",
+        "timezone"
+      ],
+      "additionalProperties": false
+    },
+    "connections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "driver": {
+            "enum": [
+              "openai_responses",
+              "openai_compatible_chat",
+              "anthropic_messages",
+              "google_genai",
+              "ollama"
+            ]
+          },
+          "base_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "api_key_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "capability_check": {
+            "enum": [
+              "not_run",
+              "passed",
+              "failed"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "driver",
+          "base_url",
+          "api_key_ref",
+          "capability_check"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "max_active_workers": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_tasks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_peer_messages_per_task": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_revision_rounds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_model_calls": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_tool_calls": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "budget_usd": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "max_active_workers",
+        "max_tasks",
+        "max_peer_messages_per_task",
+        "max_revision_rounds",
+        "max_model_calls",
+        "max_tool_calls",
+        "timeout_seconds",
+        "budget_usd"
+      ],
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "external_mutation": {
+          "const": "approval"
+        },
+        "skill_install": {
+          "const": "approval"
+        },
+        "telemetry": {
+          "enum": [
+            "off",
+            "opt_in"
+          ]
+        },
+        "share_replay": {
+          "enum": [
+            "off",
+            "explicit_publish"
+          ]
+        },
+        "fallback": {
+          "const": "explicitly_approved_only"
+        }
+      },
+      "required": [
+        "external_mutation",
+        "skill_install",
+        "telemetry",
+        "share_replay",
+        "fallback"
+      ],
+      "additionalProperties": false
+    },
+    "agents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "connection_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1
+          },
+          "system_prompt_file": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prompt_mode": {
+            "enum": [
+              "auto_seed",
+              "user_locked"
+            ]
+          },
+          "skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "role",
+          "enabled",
+          "connection_id",
+          "model",
+          "system_prompt_file",
+          "prompt_mode",
+          "skill_ids",
+          "tools"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "profile_name",
+    "defaults",
+    "connections",
+    "limits",
+    "policy",
+    "agents"
+  ],
+  "additionalProperties": false
+}

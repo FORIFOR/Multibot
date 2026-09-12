@@ -1,0 +1,18 @@
+# python
+backend/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# runtime data (sqlite, artifacts, workspaces, mirrored config)
+data/
+backend/data/
+# node
+frontend/node_modules/
+frontend/dist/
+# os / editor
+.DS_Store
+.idea/
+.vscode/
+# secrets never belong here; config holds references only
+*.key
+.env
