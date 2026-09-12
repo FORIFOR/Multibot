@@ -3,7 +3,7 @@
 ## 検証の種別
 | 種別 | 状態 | 根拠 |
 | --- | --- | --- |
-| 決定論的テスト（fake provider） | **36 件 PASS** | `cd backend && .venv/bin/python -m pytest -q` |
+| 決定論的テスト（fake provider） | **46 件 PASS** | `cd backend && .venv/bin/python -m pytest -q`（Docker サンドボックスのテストは daemon がある時のみ実行） |
 | 実 LLM 協働スモーク | **実施（claude_cli / claude-opus-5）** | 2026-09-13。run 1: 成果物 3 点・検証 12 件 pass・handoff 2 件・$1.69（定価換算）・760 秒。最終状態は `partial`（複数ターゲットレビューのバグ、修正済み）。run 2/3 は計画呼出の `max_turns` と `max_model_calls=30` の上限で失敗 → いずれも修正・調整済み。証拠: `docs/evidence/run1-*` |
 | 実 API の疎通確認（probe） | **実施（claude_cli）** | tool calling / JSON schema ともに pass、`model_reported=claude-opus-5` |
 | ブラウザ UI スモーク（headless Chrome） | 実施（fake provider） | `frontend/scripts/ui-smoke.mjs`：Home → 依頼開始 → Run 画面（チャット/時系列/報告）→ 設定。console/page error 0 件 |
@@ -77,3 +77,26 @@ fake を使った run は `provider_kind=fake` として保存され、UI に赤
 | openai_compatible_chat | gpt-4.1-mini-2025-04-14 | completed | 14 | $0.02 | 29s | `docs/evidence/openai-*`。検証 4 件 pass、レビュー 4/4 |
 | ollama | qwen2.5:7b | partial | 30 | $0 | 9m29s | `docs/evidence/ollama7b-run2-*`。LP と投稿 3 案は公開・検証済み。milestone で追加した Reviewer task が起動できないバグ → 修正済み（次回 run で再確認） |
 | ollama | qwen2.5:3b | 不採用 | — | — | — | 計画 JSON の agent 名に説明文を混ぜる等、3B では計画が安定しない（正規化を追加したが推奨は 7B 以上） |
+
+### シナリオ評価（claude_cli / claude-opus-5、2026-09-13、`docs/evidence/scenarios/`）
+| シナリオ | 結果 | タスク | 成果物 | 検証 | レビュー | 呼出 | 費用 | 時間 | 備考 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| LP + 投稿案（run 4） | completed | 2 | 4 | 10/10 | 6/6 | 39 | $1.66 | 18m37s | `docs/evidence/run4-*` |
+| コード生成（CLI + unittest 5 件以上 + README） | completed | 2 | 4 | 14/14 | 7/7 | 48 | $1.87 | 16m16s | Reviewer が Docker サンドボックス内で `python3 -m unittest` を再実行。私が独立に実行しても 16 テスト OK |
+| 出典付き調査（3 URL 比較） 1 回目 | **failed** | 3 | 2 | 0/0 | 0/0 | 13 | $0.91 | 5m02s | 依存関係がダイヤモンド型（t2→t1、t3→t1,t2）で Runtime がデッドロック → **修正** |
+| 出典付き調査 2 回目（修正後） | partial | 7 | 5 | 10/13 | 5/8 | 91 | $6.07 | 23m52s | Reviewer 指摘 3 件を修正した最終版 `research-final-r2.md` を公開。セッション予算上限（$1.0）に 2 回当たり Master が partial 受入 → 上限を $1.5 に引上げ、予算超過時は 1 回継続するよう修正。予算 $6 を使い切った |
+| 複数ファイル制作（4 ファイルの静的サイト） | completed | 2 | 5 | 39/39 | 12/12 | 89 | $3.03 | 14m50s | 3 ページのリンクを headless Chrome で確認。途中 1 セッションが予算上限で失敗 → Master の例外処理で再試行して完走 |
+
+**読み方**: 完走 3 / 5 種（LP・コード・複数ファイル）、partial 1（調査、成果物あり・一部未検証）、failed 1（Runtime バグ、修正済み）。すべて同じ依頼文を 1 回ずつ。ベンチマークではなく、失敗も含めた記録です。
+
+### 実 run で見つかった Runtime の問題（2026-09-13、すべて修正・テスト追加済み）
+| 発見元 | 問題 | 対応 |
+| --- | --- | --- |
+| run 1 | Reviewer が複数タスクを検証すると最後の判定のみ適用 | 判定をターゲットごとに蓄積 |
+| run 2 | 構造化出力の 1 ショット呼出が `max_turns` | `--max-turns 3` + 再試行 |
+| run 3 | `max_model_calls=30` に到達 | 既定 120 |
+| Ollama 7B | milestone で追加した Reviewer task が起動しない（対象が accepted 済み） | Reviewer の依存は accepted も可 |
+| Ollama 7B | Reviewer が判定を出さずに終了すると対象が `review_pending` のまま | 判定なしで終わった場合は対象を partial（未検証）に |
+| 調査 1 回目 | t2→t1、Reviewer→t1,t2 のダイヤモンド依存でデッドロック | 依存先が `review_pending` なら下流を開始可能に |
+| 調査 2 回目 | セッション予算上限で task 失敗 | 予算超過は 1 回継続、既定上限 $1.5 |
+| 弱いモデル全般 | 出力を全て公開したのに finish_task を呼ばず失敗 | 出力が揃っていれば受入し、イベントに「runtime が推定」と明記 |

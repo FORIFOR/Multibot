@@ -162,7 +162,7 @@ limits:
   budget_usd: 5.0
   max_output_tokens: 8000
   max_tool_output_chars: 12000
-  max_session_cost_usd: 1.0
+  max_session_cost_usd: 1.5
   max_session_turns: 40
   max_replans: 2
 policy:

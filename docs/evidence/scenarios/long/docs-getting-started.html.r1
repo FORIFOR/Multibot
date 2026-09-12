@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>導入手順の概要 — Agent Team</title>
+    <meta
+      name="description"
+      content="Agent Team を使い始めるまでの流れの概要。Claude Code があればAPIキーは不要で、ローカルファーストに動作します。"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <div class="brand">
+          <a href="../index.html">Agent Team</a>
+          <span class="brand-sub">ドキュメント</span>
+        </div>
+        <nav class="site-nav" aria-label="サイト内ナビゲーション">
+          <ul>
+            <li><a href="../index.html">トップ</a></li>
+            <li><a href="getting-started.html" aria-current="page">導入手順</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <h1>導入手順の概要</h1>
+      <p class="lead muted">
+        Agent Team を使い始めるまでの流れを、提供されている情報の範囲でまとめた概要です。
+        具体的なコマンドや対応環境の詳細は未記載です。
+      </p>
+
+      <nav class="toc" aria-label="このページの目次">
+        <ol>
+          <li><a href="#prepare">1. 前提を確認する</a></li>
+          <li><a href="#install">2. Agent Team を用意する</a></li>
+          <li><a href="#request">3. 依頼を一度投げる</a></li>
+          <li><a href="#read">4. 実行記録を読む</a></li>
+        </ol>
+      </nav>
+
+      <section id="prepare">
+        <h2>1. 前提を確認する</h2>
+        <ol class="steps">
+          <li>
+            <h3>Claude Code が使えるか確認する</h3>
+            <p>
+              Claude Code があれば APIキーは不要です。まず手元の環境で Claude Code が使えるかを確認します。
+            </p>
+          </li>
+          <li>
+            <h3>ローカルで動かす前提を理解する</h3>
+            <p>
+              Agent Team はローカルファーストなツールです。作業はローカル環境を前提に進みます。
+            </p>
+          </li>
+        </ol>
+        <div class="note">
+          <p>
+            動作要件（OS、ランタイム、必要なバージョンなど）の詳細は、このサイトでは未記載です。
+          </p>
+        </div>
+      </section>
+
+      <section id="install">
+        <h2>2. Agent Team を用意する</h2>
+        <ol class="steps">
+          <li>
+            <h3>ソースを取得する</h3>
+            <p>
+              Agent Team はオープンソースです。取得先の案内は未定です（TODO: リンク未定）。
+            </p>
+          </li>
+          <li>
+            <h3>ローカルにセットアップする</h3>
+            <p>
+              具体的なインストール手順・コマンドは、このサイトでは未記載です（TODO: 手順未定）。
+            </p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="request">
+        <h2>3. 依頼を一度投げる</h2>
+        <ol class="steps">
+          <li>
+            <h3>やってほしいことを 1 回の依頼として書く</h3>
+            <p>
+              Agent Team は一度の依頼から動きます。依頼を分割して何度も投げ直す必要はありません。
+            </p>
+          </li>
+          <li>
+            <h3>AIチームが実際に作業する</h3>
+            <p>
+              Master、Researcher、Builder、Reviewer の各役割が、その依頼に対して実際に作業します。
+            </p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="read">
+        <h2>4. 実行記録を読む</h2>
+        <ol class="steps">
+          <li>
+            <h3>成果物を確認する</h3>
+            <p>作業の結果として作られた成果物を確認します。</p>
+          </li>
+          <li>
+            <h3>Bot間の実メッセージと時系列を確認する</h3>
+            <p>
+              成果物、Bot間の実メッセージ、時系列は同じ実行記録から表示されます。
+              どの役割が何をやり取りしたかを、同一の記録上で追えます。
+            </p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="notes">
+        <h2>補足</h2>
+        <ul>
+          <li>想定される利用者はソフトウェア開発者と個人開発者です。</li>
+          <li>価格は未定です。このページでは金額や課金条件を案内していません。</li>
+          <li>このページは概要のみで、詳細な操作手順は未定（TODO）です。</li>
+        </ul>
+      </section>
+
+      <nav class="page-nav" aria-label="ページ間ナビゲーション">
+        <a class="btn btn-secondary" href="../index.html">トップへ戻る</a>
+        <a class="btn btn-primary" href="faq.html">FAQ を読む</a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <ul>
+          <li><a href="../index.html">トップ</a></li>
+          <li><a href="getting-started.html">導入手順</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+        <p>Agent Team — オープンソース / ローカルファースト。価格は未定。</p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -77,22 +77,21 @@ evals/            40-case acceptance plan and coverage map
 
 ## What is verified — and what isn't
 
-**A real end-to-end run (2026-09-13)** through the local Claude Code CLI, model reported by the provider: `claude-opus-5`. Request: Japanese launch page + three social-post drafts from a product description, stop before publishing.
+Real runs through the local Claude Code CLI (`claude-opus-5`, provider-reported), 2026-09-13. Every row is one run of the request as written; artifacts, reports and full event logs are committed unedited under [`docs/evidence/`](docs/evidence/).
 
-| | |
-| --- | --- |
-| Plan | Master chose 1 builder task + 1 reviewer task and skipped the researcher; 8 recorded assumptions (no prices, no invented numbers, placeholder URLs) |
-| Deliverables | `index.html` r1 (single file), `posts.md` r1, `HANDOFF.md` r1, `final-report.md` |
-| Verification | 10 programmatic checks → all pass; reviewer verdict 6/6 pass + 4 optional findings delivered as a real message |
-| Messages | builder → reviewer *handoff*, reviewer → builder *finding* |
-| Usage | 39 model turns · 35 tool calls · $1.66 list-price equivalent · 18 min 37 s |
-| Status | **completed** |
+| Request | Result | Tasks | Artifacts | Checks | Review | Cost | Time |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Launch page + 3 post drafts | completed | 2 | 4 | 10/10 | 6/6 | $1.66 | 18 min |
+| CLI tool in Python with unittest + README | completed | 2 | 4 | 14/14 | 7/7 | $1.87 | 16 min |
+| Source-grounded comparison of 3 web pages (1st) | **failed** | 3 | 2 | – | – | $0.91 | 5 min |
+| … same, after the scheduler fix | partial | 7 | 5 | 10/13 | 5/8 | $6.07 | 24 min |
+| 4-file static docs site | completed | 2 | 5 | 39/39 | 12/12 | $3.03 | 15 min |
 
-Evidence is committed unedited under [`docs/evidence/`](docs/evidence/): the generated files, the final report and the 77-event JSONL log (`run4-*`). Earlier runs are there as well: run 1 ended *partial* and exposed a bug (a reviewer verifying two tasks had only its last verdict applied — fixed), runs 2–3 hit limits that were then tuned (`docs/STATUS.md`).
+The reviewer re-ran the generated unit tests inside the Docker sandbox; I re-ran them independently as well (16 tests, OK). The failed research run exposed a real scheduler deadlock (a task depending on a task that itself awaited review), now fixed and covered by a test; the re-run produced a revised memo with the reviewer's three findings fixed and cited, but hit the per-session budget cap twice, so it ended *partial* with the budget exhausted (cap raised, continuation added). Other providers on the launch-page request: OpenAI-compatible `gpt-4.1-mini` completed in 29 s for $0.02; local Ollama `qwen2.5:7b` reached *partial* (artifacts published, review incomplete); `qwen2.5:3b` could not produce a valid plan.
 
-Also verified: **39 deterministic tests** (`cd backend && .venv/bin/python -m pytest -q`) covering DAG validation, real delivery with a question/answer round trip, review → revise → re-review, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, sandbox write confinement, SSE cursor replay and event-schema conformance; headless-Chrome UI smoke with zero console errors.
+Also verified: **46 deterministic tests** (DAG validation, real delivery with a question/answer round trip, review → revise → re-review, milestone replanning, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, Docker and seatbelt sandbox confinement, SSE cursor replay, event-schema conformance) and a headless-Chrome UI smoke in English and Japanese.
 
-Still open: one request and four runs is not a benchmark; plans vary between runs because the Master decides; prompts are original seeds. The Anthropic API and OpenAI-compatible drivers are implemented and unit-tested but have not had a live run yet. Full matrix: [`docs/STATUS.md`](docs/STATUS.md). Security boundaries: [`SECURITY.md`](SECURITY.md).
+Still open: five request types, one run each, is not a benchmark; plans vary between runs because the Master decides; research-heavy requests are the most expensive and the least reliable; local 7B models complete the mechanics but not the review protocol. Full matrix and the list of bugs found by real runs: [`docs/STATUS.md`](docs/STATUS.md). Security boundaries: [`SECURITY.md`](SECURITY.md).
 
 ## Read more
 

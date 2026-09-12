@@ -1,0 +1,103 @@
+# t1 成果物 独立検証レポート（Reviewer / task t2）
+
+対象 revision（list_artifacts で確認、いずれも builder/t1 公開）:
+
+| artifact_id | rev | sha256(先頭) | logical path | size |
+|---|---|---|---|---|
+| index.html | 1 | d7e7e531d04e | index.html | 6535B |
+| docs-getting-started.html | 1 | d2fffc95e75a | docs/getting-started.html | 5587B |
+| docs-faq.html | 1 | 9c4c882f6fb0 | docs/faq.html | 5010B |
+| styles.css | 1 | aba444fc1a29 | styles.css | 5603B |
+
+結論: **t1a1〜t1a6 すべて pass**。fail・blocker なし。軽微な指摘を 2 件（修正必須ではない）記載する。
+
+---
+
+## 1. 実行したチェックと生出力要約
+
+### html_basic（run_check, 3ページ）
+
+| 対象 | status | title | links | empty_links | scripts | inline_handlers | viewport | headings | problems |
+|---|---|---|---|---|---|---|---|---|---|
+| index.html r1 | pass | 「Agent Team — AIチームが実際に作業するローカルファーストなツール」 | 11 | 0 | 0 | 0 | true | 12 | [] |
+| docs-getting-started.html r1 | pass | 「導入手順の概要 — Agent Team」 | 13 | 0 | 0 | 0 | true | 14 | [] |
+| docs-faq.html r1 | pass | 「よくある質問（FAQ） — Agent Team」 | 11 | 0 | 0 | 0 | true | 16 | [] |
+
+### html_links（run_check, 3ページ）
+
+| 対象 | status | links | anchors | problems |
+|---|---|---|---|---|
+| index.html r1 | pass | 12 | 5 | [] |
+| docs-getting-started.html r1 | pass | 14 | 5 | [] |
+| docs-faq.html r1 | pass | 12 | 4 | [] |
+
+### text_not_contains（needles: `http://`, `https://`, 4ファイル）
+
+| 対象 | status | found |
+|---|---|---|
+| index.html r1 | pass | [] |
+| docs-getting-started.html r1 | pass | [] |
+| docs-faq.html r1 | pass | [] |
+| styles.css r1 | pass | [] |
+
+### text_contains
+
+| 対象 | needles | status | missing |
+|---|---|---|---|
+| index.html r1 | Agent Team / Master / Researcher / Builder / Reviewer / オープンソース / ローカルファースト / Claude Code / 価格は未定 / docs/getting-started.html / docs/faq.html / styles.css | pass | [] |
+| docs-getting-started.html r1 | Agent Team / ../index.html / faq.html / ../styles.css | pass | [] |
+| docs-faq.html r1 | Agent Team / ../index.html / getting-started.html / ../styles.css | pass | [] |
+
+### sandbox_run による独立検証
+
+1. ファイル同一性: `/workspace/site` 上の3 HTML の sha256 が公開 revision と完全一致
+   （`d7e7e531d04e…` / `d2fffc95e75a…` / `9c4c882f6fb0…`）。検証対象が公開物そのものであることを確認。
+2. 自作リンク解決スクリプト（正規表現で全 href/src を抽出し、相対パスを normpath で解決）:
+   - `index.html refs=12 problems=[]`
+   - `docs/getting-started.html refs=14 problems=[]`
+   - `docs/faq.html refs=12 problems=[]`
+   - 外部スキーム（`scheme:`・`//`始まり）0件、実在しないファイルへの参照0件、ページ内アンカー（`#…`）は対応する `id="…"` がすべて存在。
+3. 相互到達性（全ページ→他2ページ）:
+   - `index.html -> docs/getting-started.html: True, docs/faq.html: True`
+   - `docs/getting-started.html -> index.html: True, docs/faq.html: True`
+   - `docs/faq.html -> index.html: True, docs/getting-started.html: True`
+   - 3ページとも `styles.css` へのリンクが実ファイルに解決（index は `styles.css`、docs 配下は `../styles.css`）。
+4. 混入パターン grep（`www.` / `.com` / `.io` / `.dev` / `.org` / `localhost` / 数値+単位 `ms|%|倍|円|$`）: **ヒット0件**（grep exit=1）。
+5. `<script` 出現数: 3ページとも 0。`<img` 出現: 0件（よって alt 欠落は構造上発生しない）。
+
+---
+
+## 2. 受入条件ごとの判定
+
+| id | 判定 | 根拠 |
+|---|---|---|
+| t1a1 | **pass** | html_basic 3ページとも status=pass, problems=[]。title あり / viewport=true / headings 12・14・16 / empty_links=0 / scripts=0 / img タグ 0（grep で確認）。 |
+| t1a2 | **pass** | html_links 3ページとも status=pass, problems=[]。加えて sandbox の自作解決スクリプトで全相対リンクが実ファイルに解決、外部スキーム0件、localhost 0件（grep でも0件）。 |
+| t1a3 | **pass** | text_not_contains（`http://`,`https://`）が4ファイルとも status=pass, found=[]。 |
+| t1a4 | **pass** | text_contains 3ページとも status=pass, missing=[]（必須キーワードおよび相互リンクパスを含む）。 |
+| t1a5 | **pass** | 各ページの `<link rel="stylesheet">` が index=`styles.css`、docs配下=`../styles.css`（read_artifact 本文で確認）。sandbox のパス解決で3ページとも実ファイルに到達。list_artifacts で4ファイルすべて r1 公開済みを確認。 |
+| t1a6 | **pass** | 全4ファイル本文を read_artifact で通読。具体的な価格額・性能数値・実績・ベンチマーク・架空URLの記述なし（grep でも数値+単位/ドメイン0件）。価格は「未定」、対応環境・ライセンス名・取得先は「未記載/未定（TODO: リンク未定）」と明示され、提供テキストの範囲内。 |
+
+---
+
+## 3. 軽微な指摘（修正必須ではない / 受入条件には不合格としない）
+
+1. **役割説明が提供テキストの明示範囲を少し超える推測を含む**
+   - 対象: `index.html` r1 `#roles` セクション（「Master: 依頼を受け取り、チームの作業として進める役割です。」「Researcher: 調査を担う役割です。」など）。
+   - 根拠: 提供テキストは4役割の名称のみを与えており、各役割の職務内容は記載されていない。
+   - 影響: 事実誤認のリスクは低いが、「提供テキストにない事実は追加しない」という前提からは逸脱寄り。受入条件 t1a6 が禁じる「価格・性能数値・実績・架空URL」には該当しないため fail とはしない。
+   - 最小修正案: 役割名のみ列挙にするか、各カード文末を「（詳細はこのサイトでは未記載）」とする。同セクション末尾の注記で既に一部カバーされている。
+
+2. **「依頼を分割して何度も投げ直す必要はありません。」が断定的**
+   - 対象: `docs/getting-started.html` r1 `#request` セクション。
+   - 根拠: 提供テキストは「一度の依頼から…作業する」までで、再投入の要否には言及がない。
+   - 最小修正案: 「一度の依頼から動きます。」までに留める。
+
+---
+
+## 4. 未検証事項（unverified、合格として扱わない）
+
+- **ブラウザでの実レンダリング / 視覚的表示**: ヘッドレスブラウザを実行していないため未検証。CSS の適用結果、レスポンシブ挙動（`@media (max-width:600px)`）、コントラスト比は未確認。
+- **CSS の構文妥当性**: CSS バリデータを実行していないため未検証（`styles.css` r1 は read_artifact で通読し、構文上の明らかな破綻は見当たらないが、ツールによる検証は未実施）。
+- 補足: sandbox の `/workspace/site/styles.css` は0バイトのプレースホルダであり、パス解決の存在確認にのみ使用した。`styles.css` の**内容**検証は公開 revision 1（sha256 `aba444fc1a29…`）に対する read_artifact と text_not_contains で別途実施済み。
+- **アクセシビリティの網羅的検証**: 自動 a11y チェッカー未実行。`aria-label` / `aria-current` の使用は本文確認レベルに留まる。

@@ -1,0 +1,142 @@
+#!/usr/bin/env python3
+"""Unit tests for wc_plus."""
+
+import io
+import os
+import tempfile
+import unittest
+from collections import Counter
+
+import wc_plus
+
+
+class TempFileMixin(unittest.TestCase):
+    def setUp(self):
+        self.tmpdir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmpdir.cleanup)
+
+    def write(self, name, text):
+        path = os.path.join(self.tmpdir.name, name)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(text)
+        return path
+
+    def run_cli(self, paths, top=wc_plus.TOP_N):
+        out = io.StringIO()
+        err = io.StringIO()
+        code = wc_plus.run(paths, out, err, top)
+        return code, out.getvalue(), err.getvalue()
+
+
+class TestCountText(unittest.TestCase):
+    def test_basic_counts(self):
+        text = "hello world\nsecond line here\n"
+        self.assertEqual(wc_plus.count_text(text), (2, 5, len(text)))
+
+    def test_no_trailing_newline_counts_last_line(self):
+        self.assertEqual(wc_plus.count_text("a b c"), (1, 3, 5))
+
+    def test_empty_text(self):
+        self.assertEqual(wc_plus.count_text(""), (0, 0, 0))
+
+    def test_chars_are_unicode_not_bytes(self):
+        text = "日本語\n"
+        lines, words, chars = wc_plus.count_text(text)
+        self.assertEqual((lines, words, chars), (1, 0, 4))
+        self.assertNotEqual(chars, len(text.encode("utf-8")))
+
+
+class TestTokenize(unittest.TestCase):
+    def test_tokenize_lowercases_and_keeps_apostrophes(self):
+        self.assertEqual(
+            wc_plus.tokenize("Don't STOP, foo_bar 42!"),
+            ["don't", "stop", "foo_bar", "42"],
+        )
+
+    def test_top_words_ties_are_alphabetical(self):
+        counter = Counter({"b": 2, "a": 2, "c": 2, "d": 1, "e": 1, "f": 1})
+        self.assertEqual(
+            wc_plus.top_words(counter, 5),
+            [("a", 2), ("b", 2), ("c", 2), ("d", 1), ("e", 1)],
+        )
+
+    def test_top_words_limits_to_n(self):
+        counter = Counter("aaabbbcccdddeeefff")
+        self.assertEqual(len(wc_plus.top_words(counter, 5)), 5)
+
+
+class TestRun(TempFileMixin):
+    def test_single_file_report_has_no_total(self):
+        path = self.write("one.txt", "alpha beta\ngamma\n")
+        code, out, err = self.run_cli([path])
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        self.assertIn(path, out)
+        self.assertNotIn("total", out)
+        first = out.splitlines()[0].split()
+        self.assertEqual(first[:3], ["2", "3", "17"])
+
+    def test_multiple_files_emit_total_row(self):
+        a = self.write("a.txt", "one two\n")
+        b = self.write("b.txt", "three\n")
+        code, out, err = self.run_cli([a, b])
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        total_lines = [l for l in out.splitlines() if l.endswith("total")]
+        self.assertEqual(len(total_lines), 1)
+        self.assertEqual(total_lines[0].split()[:3], ["2", "3", "14"])
+
+    def test_top_words_section_is_global(self):
+        a = self.write("a.txt", "apple apple banana\n")
+        b = self.write("b.txt", "Apple banana cherry\n")
+        code, out, _ = self.run_cli([a, b])
+        self.assertEqual(code, 0)
+        self.assertIn("top 5 words:", out)
+        tail = out.split("top 5 words:")[1].strip().splitlines()
+        self.assertEqual([l.split() for l in tail],
+                         [["3", "apple"], ["2", "banana"], ["1", "cherry"]])
+
+    def test_empty_file_reports_zeros_and_no_top_section(self):
+        path = self.write("empty.txt", "")
+        code, out, err = self.run_cli([path])
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        self.assertEqual(out.splitlines()[0].split()[:3], ["0", "0", "0"])
+        self.assertNotIn("top", out)
+
+    def test_missing_file_warns_and_exits_one_but_continues(self):
+        good = self.write("good.txt", "alpha beta\n")
+        missing = os.path.join(self.tmpdir.name, "nope.txt")
+        code, out, err = self.run_cli([missing, good])
+        self.assertEqual(code, 1)
+        self.assertIn("nope.txt", err)
+        self.assertIn(good, out)
+        # only one readable file -> no total row
+        self.assertNotIn("total", out)
+
+    def test_top_option_limits_output(self):
+        path = self.write("many.txt", "a a a b b c d e f g\n")
+        code, out, _ = self.run_cli([path], top=2)
+        self.assertEqual(code, 0)
+        self.assertIn("top 2 words:", out)
+        tail = out.split("top 2 words:")[1].strip().splitlines()
+        self.assertEqual([l.split() for l in tail], [["3", "a"], ["2", "b"]])
+
+
+class TestCli(TempFileMixin):
+    def test_parser_defaults(self):
+        args = wc_plus.build_parser().parse_args(["x.txt", "y.txt"])
+        self.assertEqual(args.files, ["x.txt", "y.txt"])
+        self.assertEqual(args.top, 5)
+
+    def test_parser_top_option(self):
+        args = wc_plus.build_parser().parse_args(["-n", "3", "x.txt"])
+        self.assertEqual(args.top, 3)
+
+    def test_main_returns_zero_for_readable_file(self):
+        path = self.write("m.txt", "hello\n")
+        self.assertEqual(wc_plus.main([path]), 0)
+
+
+if __name__ == "__main__":
+    unittest.main()

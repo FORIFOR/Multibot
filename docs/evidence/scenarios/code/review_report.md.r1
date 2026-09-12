@@ -1,0 +1,106 @@
+# t1 成果物 独立検証レポート（Reviewer / task t2）
+
+検証対象 revision:
+- `wc_plus.py` rev1 sha256 `b59f611257af170439748e1fcddf450748eb2472dfe51539e523e736f996fd31`
+- `test_wc_plus.py` rev1 sha256 `c442fcf812c07d74a1432170c10389f1392446550600cc047bf64925f72dad1e`
+- `README.md` rev1 sha256 `280ac9417a92957d06e400be5427b3d1955a1d276324d4e01af9044b25aff720`
+
+**結論: t1a1〜t1a7 すべて pass。ブロッカーなし。指摘は軽微 2 件（任意対応）。**
+
+## 1. 検証環境と同一性の確認
+
+Reviewer 自身のサンドボックス（backend=docker, Python 3.12.14）に公開 revision の内容をコピーし、`sha256sum` で公開 sha256 と完全一致することを確認した。
+
+```
+b59f611257af170439748e1fcddf450748eb2472dfe51539e523e736f996fd31  wc_plus.py
+c442fcf812c07d74a1432170c10389f1392446550600cc047bf64925f72dad1e  test_wc_plus.py
+```
+
+## 2. Reviewer が再実行したテスト（t2a1）
+
+コマンド: `python3 -m unittest -v`（sandbox_run、および run_check kind=command の 2 系統で実行）
+
+実出力（末尾）:
+
+```
+test_main_returns_zero_for_readable_file (test_wc_plus.TestCli.test_main_returns_zero_for_readable_file) ... ok
+test_parser_defaults ... ok
+test_parser_top_option ... ok
+test_basic_counts ... ok
+test_chars_are_unicode_not_bytes ... ok
+test_empty_text ... ok
+test_no_trailing_newline_counts_last_line ... ok
+test_empty_file_reports_zeros_and_no_top_section ... ok
+test_missing_file_warns_and_exits_one_but_continues ... ok
+test_multiple_files_emit_total_row ... ok
+test_single_file_report_has_no_total ... ok
+test_top_option_limits_output ... ok
+test_top_words_section_is_global ... ok
+test_tokenize_lowercases_and_keeps_apostrophes ... ok
+test_top_words_limits_to_n ... ok
+test_top_words_ties_are_alphabetical ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.002s
+
+OK
+```
+
+- exit code: `UNITTEST_EXIT=0`（`run_check` 側も `exit_code: 0`）
+- 実行テスト数: 16（要求の 5 件以上を満たす）
+- 失敗・エラー・スキップ: 0
+
+要求された 5 観点はすべて実テストで担保されている:
+基本カウント（`test_basic_counts`）/ 複数ファイルと total（`test_multiple_files_emit_total_row`）/ 同数時の安定順序（`test_top_words_ties_are_alphabetical`）/ 空ファイル（`test_empty_file_reports_zeros_and_no_top_section`, `test_empty_text`）/ 存在しないファイルのエラー処理（`test_missing_file_warns_and_exits_one_but_continues`）。`tempfile.TemporaryDirectory` で実ファイルを作成して検証している点も確認。
+
+## 3. 実 CLI 実行と README の突き合わせ（t2a3 / t1a7）
+
+README の使用例と同一の `sample.txt` / `other.txt` を作成して実行した結果、**数値・書式・順序が README の出力例と完全一致**した。
+
+| ケース | 実行コマンド | 実出力 | README 記載 | 判定 |
+| --- | --- | --- | --- | --- |
+| 1 ファイル | `python3 wc_plus.py sample.txt` | `3 12 58 sample.txt` + top5 (the3, dog2, barks, brown, fox) | 同一 | 一致 |
+| 複数ファイル | `python3 wc_plus.py sample.txt other.txt` | 各行 + `4 15 73 total`、top5 (the4, dog2, barks, brown, cat) | 同一 | 一致 |
+| 件数変更 | `python3 wc_plus.py -n 3 sample.txt other.txt` | `top 3 words:` に 3 行 | 同一 | 一致 |
+| 読めないファイル | `python3 wc_plus.py sample.txt nope.txt` | stderr に `wc_plus: nope.txt: [Errno 2] No such file or directory: 'nope.txt'`、stdout は継続、`exit=1` | 同一 | 一致 |
+| 引数なし | `python3 wc_plus.py` | `exit=2` | 終了コード表の `2`（argparse エラー） | 一致 |
+| ヘルプ | `python3 wc_plus.py --help` | usage/positional/options が README 掲載の help 出力と同一文字列 | 同一 | 一致 |
+
+## 4. 標準ライブラリのみであること（t1a5）
+
+`grep -nE '^\s*(import|from)\s'` の全結果:
+
+- `wc_plus.py`: `argparse`, `re`, `sys`, `collections.Counter`
+- `test_wc_plus.py`: `io`, `os`, `tempfile`, `unittest`, `collections.Counter`, `wc_plus`(自作)
+
+いずれも標準ライブラリまたは自作モジュール。サンドボックスはネットワーク遮断状態で全テストが通っており、外部依存がないことを実行面でも裏付けている。`text_not_contains`（pandas/numpy/click/requests/yaml/scipy/pytest）も両ファイルで pass。
+
+## 5. ロジックのコードレビュー所見
+
+- **トップ 5 の決定性**: `top_words()` は `sorted(counter.items(), key=lambda kv: (-kv[1], kv[0]))[:n]` で、件数降順→単語昇順の全順序。`Counter.most_common` の挿入順依存を避けており、同数時も出力は決定的。`test_top_words_ties_are_alphabetical` が期待値を固定して検証済み。
+- **集計は全体**: `counter.update(tokenize(text))` をファイルごとに累積し、レポート末尾で一度だけ出力。README の「全ファイル合計で集計」と整合。
+- **終了コード**: 読めないファイルで `exit_code = 1` を立てて `continue`（処理継続）、最後に返す。`main()` の戻り値を `sys.exit()` に渡しており、複数失敗しても 1。README の表と一致。
+- **例外捕捉範囲**: `OSError` と `UnicodeDecodeError` を捕捉。存在しない・権限なし・ディレクトリ指定・非 UTF-8 のいずれもカバーされる（`IsADirectoryError` は `OSError` のサブクラス）。捕捉が広すぎて実装バグを握りつぶす類のものではない。
+- **total 行の条件**: `ok_count > 1`（読めたファイルが 2 つ以上）。README の記述と一致し、1 ファイルが読めなかった場合に誤って total を出さない。テストでも確認済み。
+- **文字数**: `len(text)` で Unicode 文字数。`test_chars_are_unicode_not_bytes` がバイト数でないことを明示的に検証。
+- **行数**: 末尾改行なしの断片も 1 行として加算、空文字列は 0 行。`wc -l` とは末尾断片の扱いが異なるが、README の「集計ルール」に明記されており仕様として一貫。
+
+## 6. 指摘（いずれも軽微・ブロッカーではない）
+
+1. **README の失敗例で stderr と stdout の表示順が実際と逆**
+   - 対象: `README.md` 「読めないファイルが混ざっている場合」ブロック
+   - 再現: `python3 wc_plus.py sample.txt nope.txt` — 実際は stdout の `3 12 58 sample.txt` が先に出て、警告は stderr に別途出る。README は警告行を先頭に置いている。
+   - 影響: 表示上の誤解のみ。動作・終了コードに影響なし。
+   - 最小修正案: 警告行の位置を stdout 行の後ろに移すか、「※ 警告は stderr のため、実際の表示順は端末やリダイレクトにより前後します」と一文添える。
+
+2. **`test_main_returns_zero_for_readable_file` が実 stdout に出力を漏らす**
+   - 対象: `test_wc_plus.py` の `TestCli.test_main_returns_zero_for_readable_file`
+   - 再現: `python3 -m unittest -v` の stdout に `1 1 6 /tmp/.../m.txt` と `top 5 words:` が混ざる（テスト結果自体は stderr なので判定には無害）。
+   - 影響: CI ログのノイズのみ。
+   - 最小修正案: `contextlib.redirect_stdout(io.StringIO())` で包む。
+
+## 7. 未検証事項
+
+- README の「Python 3.8 以上」という動作環境の記述は、Python 3.12.14 でのみ確認しており、3.8〜3.11 での実行は未検証（コード上は 3.8 非対応の構文は見当たらないが、実行による裏付けはない）。
+- Builder 側の実行ログそのもの（Builder が publish 前に sandbox_run を実行した記録）は Reviewer からは参照できていない。ただし Reviewer 自身の再実行で同一 sha256 の成果物が exit 0 で全件合格することを確認済みのため、t1a3 の実質要件は満たされていると判断する。
+- 権限なしファイル・非 UTF-8 ファイル・ディレクトリ指定の実挙動は、コード上の例外捕捉から妥当と判断したが、実行による確認はしていない。

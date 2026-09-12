@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Team — AIチームが実際に作業するローカルファーストなツール</title>
+    <meta
+      name="description"
+      content="Agent Team は、一度の依頼から Master / Researcher / Builder / Reviewer のAIチームが実際に作業し、成果物とBot間の実メッセージ、時系列を同じ実行記録から表示するオープンソースのローカルファーストなツールです。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <div class="brand">
+          <a href="index.html">Agent Team</a>
+          <span class="brand-sub">ドキュメント</span>
+        </div>
+        <nav class="site-nav" aria-label="サイト内ナビゲーション">
+          <ul>
+            <li><a href="index.html" aria-current="page">トップ</a></li>
+            <li><a href="docs/getting-started.html">導入手順</a></li>
+            <li><a href="docs/faq.html">FAQ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero">
+      <div class="wrap">
+        <h1>Agent Team — 一度の依頼から、AIチームが実際に作業する</h1>
+        <p class="lead">
+          Master / Researcher / Builder / Reviewer のAIチームが、一度の依頼から実際に作業します。
+          成果物、Bot間の実メッセージ、時系列を、すべて同じ実行記録から表示します。
+        </p>
+        <ul class="badges">
+          <li>オープンソース</li>
+          <li>ローカルファースト</li>
+          <li>Claude Code があればAPIキー不要</li>
+          <li>価格は未定</li>
+        </ul>
+        <div class="cta">
+          <a class="btn btn-primary" href="docs/getting-started.html">導入手順を見る</a>
+          <a class="btn btn-secondary" href="docs/faq.html">FAQ を読む</a>
+        </div>
+      </div>
+    </div>
+
+    <main class="wrap">
+      <section id="overview">
+        <h2>Agent Team とは</h2>
+        <p>
+          Agent Team は、一度の依頼から AIチームが実際に作業するツールです。
+          チームは Master、Researcher、Builder、Reviewer の役割で構成されます。
+        </p>
+        <p>
+          作業の結果として得られる成果物だけでなく、Bot間でやり取りされた実メッセージと、
+          その時系列を同じ実行記録から表示します。
+          どの役割が、いつ、何をやり取りして成果物に至ったのかを同一の記録から追えます。
+        </p>
+        <p>
+          Agent Team はオープンソースのローカルファーストなツールです。
+          Claude Code があれば APIキーは不要です。
+        </p>
+      </section>
+
+      <section id="roles">
+        <h2>4つの役割</h2>
+        <ul class="cards">
+          <li class="card">
+            <span class="role-name">Master</span>
+            <p>依頼を受け取り、チームの作業として進める役割です。</p>
+          </li>
+          <li class="card">
+            <span class="role-name">Researcher</span>
+            <p>調査を担う役割です。</p>
+          </li>
+          <li class="card">
+            <span class="role-name">Builder</span>
+            <p>成果物を作る役割です。</p>
+          </li>
+          <li class="card">
+            <span class="role-name">Reviewer</span>
+            <p>成果物を検証する役割です。</p>
+          </li>
+        </ul>
+        <p class="muted">
+          各役割の細かい設定項目や実行オプションについては、このサイトでは未記載です。
+        </p>
+      </section>
+
+      <section id="features">
+        <h2>特徴</h2>
+        <ul class="cards">
+          <li class="card">
+            <h3>一度の依頼で動く</h3>
+            <p>依頼は一度で済みます。そこから AIチームが実際に作業します。</p>
+          </li>
+          <li class="card">
+            <h3>同じ実行記録から表示</h3>
+            <p>
+              成果物、Bot間の実メッセージ、時系列を、別々の資料ではなく同じ実行記録から表示します。
+            </p>
+          </li>
+          <li class="card">
+            <h3>オープンソース</h3>
+            <p>Agent Team はオープンソースです。</p>
+          </li>
+          <li class="card">
+            <h3>ローカルファースト</h3>
+            <p>ローカルファーストな設計のツールです。</p>
+          </li>
+          <li class="card">
+            <h3>Claude Code があればAPIキー不要</h3>
+            <p>Claude Code が使える環境であれば、APIキーの用意は不要です。</p>
+          </li>
+          <li class="card">
+            <h3>価格は未定</h3>
+            <p>価格は未定です。金額や課金条件はこのサイトでは案内していません。</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="audience">
+        <h2>想定される利用者</h2>
+        <ul>
+          <li>ソフトウェア開発者</li>
+          <li>個人開発者</li>
+        </ul>
+      </section>
+
+      <section id="next">
+        <h2>次に読む</h2>
+        <ul>
+          <li><a href="docs/getting-started.html">導入手順の概要</a> — 使い始めるまでの流れ</li>
+          <li><a href="docs/faq.html">よくある質問（FAQ）</a> — APIキーや価格についての回答</li>
+        </ul>
+        <div class="note">
+          <p>
+            ソースコードの置き場所や配布先のリンクは未定です（TODO: リンク未定）。
+            このサイトでは外部URLを記載していません。
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <ul>
+          <li><a href="index.html">トップ</a></li>
+          <li><a href="docs/getting-started.html">導入手順</a></li>
+          <li><a href="docs/faq.html">FAQ</a></li>
+        </ul>
+        <p>Agent Team — オープンソース / ローカルファースト。価格は未定。</p>
+        <p class="muted">このサイトはドラフトです。未定の項目は TODO と記載しています。</p>
+      </div>
+    </footer>
+  </body>
+</html>

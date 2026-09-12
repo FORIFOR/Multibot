@@ -305,9 +305,13 @@ class AgentRunner:
                     return SessionOutcome("finished", "replied")
                 if not result.ok and "timeout" in (result.error or ""):
                     return SessionOutcome("failed", f"timeout: {result.error}")
-                if not result.ok and result.terminal_reason not in ("completed", "max_turns", "budget_exceeded", None):
+                budget_hit = "max_budget" in (result.error or "") or "budget" in (result.terminal_reason or "")
+                if not result.ok and not budget_hit and result.terminal_reason not in ("completed", "max_turns", None):
                     return SessionOutcome("failed", f"provider_cli: {result.error}")
+                if budget_hit and round_no == 1:
+                    return SessionOutcome("failed", f"provider_cli: session budget cap hit twice ({result.error})")
                 prompt = (user_message + "\n\n[runtime] Your previous session ended without calling finish_task"
+                          + (" because it hit its per-session budget cap; work more economically (fewer, smaller reads)" if budget_hit else "")
                           + (f" (reason: {result.terminal_reason})" if result.terminal_reason else "")
                           + ". Published artifacts and delivered messages are kept. Continue from the current state: check "
                             "list_artifacts / read_messages, finish remaining work, then call finish_task (or report_blocker).")

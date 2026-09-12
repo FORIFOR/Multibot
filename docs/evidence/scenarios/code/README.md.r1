@@ -1,0 +1,148 @@
+# wc_plus
+
+テキストファイルの **行数・単語数・文字数** を集計し、あわせて **最頻出の単語トップ5** を表示する CLI ツールです。Python 標準ライブラリのみで動作します。
+
+## 動作環境
+
+- Python 3.8 以上（開発・テストは Python 3.12.14 で実施）
+- 追加インストール不要（外部依存なし・ネットワークアクセスなし）
+
+## 使い方
+
+`wc_plus.py` を任意のディレクトリに置いて、そのまま実行します。
+
+```
+python3 wc_plus.py FILE [FILE ...]
+```
+
+オプション:
+
+| オプション | 説明 |
+| --- | --- |
+| `-n N`, `--top N` | 表示する頻出単語の件数（デフォルト: 5） |
+| `-h`, `--help` | ヘルプを表示 |
+
+`--help` の出力:
+
+```
+usage: wc_plus [-h] [-n N] FILE [FILE ...]
+
+Count lines, words and characters of text files and show the most frequent
+words.
+
+positional arguments:
+  FILE           text files to analyze
+
+options:
+  -h, --help     show this help message and exit
+  -n N, --top N  number of most frequent words to show (default: 5)
+```
+
+## 使用例と出力例
+
+例で使うファイル:
+
+`sample.txt`
+```
+the quick brown fox
+jumps over the lazy dog
+the dog barks
+```
+
+`other.txt`
+```
+the cat sleeps
+```
+
+### 1 ファイルを指定した場合
+
+```
+$ python3 wc_plus.py sample.txt
+       3       12       58 sample.txt
+
+top 5 words:
+       3 the
+       2 dog
+       1 barks
+       1 brown
+       1 fox
+```
+
+左から順に「行数」「単語数」「文字数」「ファイル名」です。
+
+### 複数ファイルを指定した場合（total 行が付く）
+
+```
+$ python3 wc_plus.py sample.txt other.txt
+       3       12       58 sample.txt
+       1        3       15 other.txt
+       4       15       73 total
+
+top 5 words:
+       4 the
+       2 dog
+       1 barks
+       1 brown
+       1 cat
+```
+
+頻出単語は個別ファイルごとではなく **全ファイルの合計** で集計されます。
+
+### 表示件数を変える
+
+```
+$ python3 wc_plus.py -n 3 sample.txt other.txt
+       3       12       58 sample.txt
+       1        3       15 other.txt
+       4       15       73 total
+
+top 3 words:
+       4 the
+       2 dog
+       1 barks
+```
+
+### 読めないファイルが混ざっている場合
+
+```
+$ python3 wc_plus.py sample.txt nope.txt
+wc_plus: nope.txt: [Errno 2] No such file or directory: 'nope.txt'
+       3       12       58 sample.txt
+
+top 5 words:
+       3 the
+       2 dog
+       1 barks
+       1 brown
+       1 fox
+$ echo $?
+1
+```
+
+警告は標準エラー出力に書き出され、読めたファイルの処理は続行されます。
+
+## 集計ルール
+
+- **行数**: 改行の数。末尾に改行がない場合、最後の断片も 1 行として数えます。空ファイルは 0 行です。
+- **単語数**: 正規表現 `[A-Za-z0-9_']+` にマッチする数。
+- **文字数**: バイト数ではなく Unicode の文字数（`len(text)`）。改行文字も 1 文字として含みます。
+- **頻出単語**: 単語を小文字化して全ファイルまとめて集計します。同数の場合はアルファベット順に並ぶため、出力順は安定します。
+- 読み込みは UTF-8 固定です。
+- 読めたファイルが 2 つ以上あるときだけ `total` 行を出力します。
+- 読めたファイルに単語が 1 つもない場合、`top N words:` のセクションは出力されません。
+
+## 終了コード
+
+| コード | 意味 |
+| --- | --- |
+| `0` | すべてのファイルを正常に処理した |
+| `1` | 読めないファイル（存在しない・権限がない・UTF-8 でデコードできない等）が 1 つ以上あった |
+| `2` | 引数が不正（argparse によるエラー。例: ファイルを 1 つも指定しなかった） |
+
+## テスト
+
+```
+python3 -m unittest -v
+```
+
+`test_wc_plus.py` に 16 件のテストが含まれます（カウント、複数ファイルの total、頻出単語の同数時の順序、空ファイル、存在しないファイルのエラー処理など）。実行結果は `Ran 16 tests ... OK`（Python 3.12.14 で確認済み）。

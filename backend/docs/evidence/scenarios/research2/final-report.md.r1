@@ -1,0 +1,47 @@
+# Final report — 次の3つの公開ページを実際に取得して読み、それぞれの「主張・対象読者・ライセンス（記載があれば）」を出典URL付きで比較した調査メモ `research.md` を日本語で作ってください。取得できなかったページは『取得不可』と明記し、本文を推測で埋めないでください。Reviewer は各主張が出典に実在するかを read_artifact と web_fetch で照合してください。
+
+- Status: **partial**
+- Provider kind: real
+- Usage: 91 model calls, 82 tool calls, $6.0687, 1429s
+
+## Deliverables
+- `deer-flow-supplement.md` — deer-flow-supplement.md r1 (sha256 53ab13fc69e9…) by researcher / task t5
+- `research-final-r2.md` — research-final-r2.md r1 (sha256 fbc33429ea6f…) by researcher / task t3b
+- `research.md` — research.md r1 (sha256 e3420149be9b…) by researcher / task t1
+- `review-final.md` — review-final.md r1 (sha256 db4bba4727fb…) by reviewer / task t6
+- `review.md` — review.md r1 (sha256 d1ad872a068e…) by reviewer / task t2
+
+## Tasks
+- t1 [accepted] researcher: web_fetch で3つのURL（https://github.com/langchain-ai/deepagents 、https://github.com/bytedance/deer-flow 、https://agentskills.io/specification ）を実際に取得し、取得できた各ページについて『主張（そのプロジェクト/仕様が何を提供すると述べているか）』『対象読者』『ライセンス記載』を原文根拠付きで抽出する。ライセンスはページ本文・リポジトリのライセンス表示など一次情報のみを根拠とし、確認できない場合は『記載を確認できず』と書く。取得に失敗したURLは本文を推測で埋めず『取得不可』とし、試行内容と失敗理由のみ記録する。これらを日本語の調査メモ research.md にまとめる。構成は、冒頭に取得状況一覧（URL・取得可否・取得日時）、次にページ別サマリ（3件、各項目に出典URLと短い根拠引用）、次に3ページ横断の比較表（行=主張/対象読者/ライセンス、列=3ページ）、最後に出典一覧（URL列挙）とする。見出しに『取得状況』『比較表』『出典一覧』を含めること。 (attempts 1)
+- t2 [accepted] reviewer: read_artifact で research.md を読み、web_fetch で3つの出典URLを独立に再取得して、記載された各主張・対象読者・ライセンス表記が出典に実在するかを1件ずつ照合する。原文に確認できない記述、出典URLのない記述、推測で補われた記述、取得不可扱いなのに内容が書かれている箇所を指摘する。t1 の受入条件 t1a1〜t1a5 それぞれについて pass/fail と根拠（照合したURLと該当箇所）を記録し、submit_review で提出する。再取得自体が失敗した場合は『検証不能』と記録し、合格に読み替えない。 (attempts 1)
+- t3 [partial] researcher: 【原文照合と最終版作成】research.md r1 は runtime 制約により再公開できないため、照合結果を verification.md に、修正反映した最終版を research-final.md に出す。(1) web_fetch で3URL（https://github.com/langchain-ai/deepagents 、https://github.com/bytedance/deer-flow 、https://agentskills.io/specification ）と LICENSE 系一次情報を再取得し、review.md r1 第2節の主張20件（D-1〜D-7, F-1〜F-6, A-1〜A-7, C-1〜C-3）について引用文字列が出典原文に実在するかを1件ずつ判定し verification.md に記録する。判定は「実在確認 / 不一致 / 確認不能（未取得部分・取得失敗）」の3値。各件に取得元URLと該当箇所の短い原文引用を添える。取得に失敗したURLは『取得不可』としてURL・試行日時・失敗内容のみ記録し、本文を推測で埋めない。(2) deer-flow README の未取得後半（Core Features / License / Acknowledgments 等）を raw.githubusercontent.com の README 分割取得で補完を試みる。(3) research.md r1 の全文をベースに、review.md 第3節の指摘 F-1（backend/frontend 構成の根拠引用欠落）・F-2（仕様ページから公式リポジトリへのリンク実在の引用欠落）・F-3（「CLI」を原文表現へ）を最小差分で修正し、(1) の不一致があればその記述も訂正または削除し、(2) で取得できた内容を追記した最終版を research-final.md として公開する。冒頭に「research.md r1 の後継（照合・修正反映版）」と旧版との差分要約を明記する。外部公開・投稿・課金は行わない。 (attempts 1) — provider_cli: error_max_budget_usd
+- t4 [cancelled] reviewer: read_artifact で verification.md と research-final.md（および比較用に research.md r1, review.md r1）を読み、(1) verification.md の照合結果が research-final.md に正しく反映されているか（実在確認できなかった記述が残っていないか、不一致とされた記述が訂正・削除されているか）、(2) review.md 第3節の F-1/F-2/F-3 が実際に修正されているか、(3) 取得不可・未取得と記録された範囲について本文が推測で埋められていないか、(4) research-final.md が単体で目標（3ページの主張・対象読者・ライセンスを出典URL付きで比較した日本語調査メモ）を満たすかを1件ずつ判定する。web_fetch が利用可能なら3URLを独立に再取得して照合し、利用不可なら「検証不能」と明記して合格に読み替えない。結果を review2.md として公開する。 (attempts 0)
+- t3b [accepted] researcher: 【縮小版・最終版作成のみ】t3は予算超過で失敗し部分受理した。出力パス research-final.md は t3 に予約済みで再利用できないため、本タスクの成果物は research-final-r2.md とする(内容上は research.md r1 の後継=最終版)。厳守事項: (a) web_fetch は最大3回まで。対象は https://github.com/langchain-ai/deepagents と https://agentskills.io/specification を優先し、1回でも失敗したら即「取得不可(URL・失敗内容)」と記録して次へ進む。リトライ禁止、全文スクロール取得禁止、deer-flow README の補完取得は行わない。(b) review.md r1 第2節の主張20件の逐一照合(verification.md)は実施しない。(c) research.md r1 の全文をベースに、review.md r1 第3節の F-1(backend/frontend構成の根拠引用欠落)・F-2(仕様ページから公式リポジトリへのリンク実在の引用欠落)・F-3(「CLI」を原文表現へ)の3点だけを最小差分で修正する。(a)で原文を取得できた箇所のみ短い原文引用とURLを添え、取得できなかった箇所は該当記述を「未確認」と明記するか削除する(推測で補わない)。(d) 冒頭に「research.md r1 の後継(最小差分修正版)。ファイル名は runtime 制約により research-final-r2.md」と旧版との差分要約(3〜5行)を書く。(e) 文末に「未検証事項」節を設け、主張20件(D-1〜D-7, F-1〜F-6, A-1〜A-7, C-1〜C-3)が原文照合未実施であること、deer-flow README 後半(Core Features/License/Acknowledgments)が未取得であることを明記する。外部公開・投稿・課金は行わない。 (attempts 1)
+- t5 [review_pending] researcher: 【deer-flow の未取得部分の補完のみ】t1/t3b で deer-flow は README 本文後半（Core Features / License 等）が切り詰められ未取得のまま、ライセンス表記が未確認である。この1点だけを閉じる。厳守事項: (a) web_fetch は最大4回まで。対象は https://github.com/bytedance/deer-flow/blob/main/LICENSE と、必要なら https://raw.githubusercontent.com/bytedance/deer-flow/main/LICENSE および deer-flow README の後半を取るための raw URL のみ。deepagents と agentskills.io は再取得しない。(b) 取得できた内容からのみ記述し、推測でライセンス名を書かない。取得失敗（4xx/5xx/切り詰め/到達不能）は当該項目を「取得不可」と明記し、試行URL・HTTPステータス・失敗内容のみ記録する。(c) 成果物は deer-flow-supplement.md 1ファイル（日本語、原文引用は英語のまま可）。構成: 1)試行ログ（URL・ステータス・取得できた範囲）2)ライセンス表記（確認できた場合は原文の短い引用とURL、できない場合は「記載を確認できず」）3)README 後半で新たに確認できた主張（あれば出典URL＋原文引用付き、なければ「未取得」）。(d) 既存 artifact の再公開・改稿はしない。 (attempts 1)
+- t6 [failed] reviewer: 【ネットワーク不要の整合性レビュー】read_artifact のみで research-final-r2.md r1 を検証する（この最終版は未レビュー）。web_fetch / curl は試行不要・使用禁止（この環境ではネットワーク不可と t2 で確定済み。原文逐一照合は本タスクの対象外とし、未検証として明記する）。確認項目: (1) research.md r1 と research-final-r2.md r1 を差分比較し、review.md r1 第3節 F-1/F-2/F-3 の指摘が実際に反映されているか、かつそれ以外に無断の内容追加・主張の書き換えがないか。(2) 全ての主張に出典URLと原文引用が付いているか、出典なしの断定がないか。(3) 「取得不可」「未取得」「記載を確認できず」とされた箇所に、実際には内容が書かれていないか（推測混入の検出）。(4) deer-flow-supplement.md r1 の内容が research-final-r2.md の deer-flow 記述と矛盾しないか、補完すべき残差分を列挙。成果物は review-final.md 1ファイル（日本語、判定＋指摘一覧＋未検証事項）。既存 artifact は改稿しない。 (attempts 1) — provider_cli: error_max_budget_usd
+
+## Verified (from checks and reviews)
+- check markdown_basic on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'e3420149be9b66341d5ca021970f56137c65dadc4495085b1d77fccbfa2928c7'} → pass (seq 31)
+- check text_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'e3420149be9b66341d5ca021970f56137c65dadc4495085b1d77fccbfa2928c7'} → pass (seq 33)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'e3420149be9b66341d5ca021970f56137c65dadc4495085b1d77fccbfa2928c7'} → pass (seq 35)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'e3420149be9b66341d5ca021970f56137c65dadc4495085b1d77fccbfa2928c7'} → pass (seq 37)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'e3420149be9b66341d5ca021970f56137c65dadc4495085b1d77fccbfa2928c7'} → pass (seq 39)
+- check text_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'e3420149be9b66341d5ca021970f56137c65dadc4495085b1d77fccbfa2928c7'} → pass (seq 45)
+- check text_contains on {'artifact_id': 'research-final-r2.md', 'revision': 1, 'sha256': 'fbc33429ea6fc7f888fe3421559f4a68979ec69c5b05fdbb15f576f2fd05b1c3'} → pass (seq 146)
+- check command on {'artifact_id': 'research-final-r2.md', 'revision': 1, 'sha256': 'fbc33429ea6fc7f888fe3421559f4a68979ec69c5b05fdbb15f576f2fd05b1c3'} → fail (seq 148)
+- check text_contains on {'artifact_id': 'research-final-r2.md', 'revision': 1, 'sha256': 'fbc33429ea6fc7f888fe3421559f4a68979ec69c5b05fdbb15f576f2fd05b1c3'} → pass (seq 150)
+- check regex_count on {'artifact_id': 'research-final-r2.md', 'revision': 1, 'sha256': 'fbc33429ea6fc7f888fe3421559f4a68979ec69c5b05fdbb15f576f2fd05b1c3'} → pass (seq 152)
+- check text_contains on {'artifact_id': 'research-final-r2.md', 'revision': 1, 'sha256': 'fbc33429ea6fc7f888fe3421559f4a68979ec69c5b05fdbb15f576f2fd05b1c3'} → fail (seq 154)
+- check markdown_basic on {'artifact_id': 'deer-flow-supplement.md', 'revision': 1, 'sha256': '53ab13fc69e9d147644849fc67786d9cc866883cd2edc77083c5bae76197d08a'} → pass (seq 156)
+- check regex_count on {'artifact_id': 'deer-flow-supplement.md', 'revision': 1, 'sha256': '53ab13fc69e9d147644849fc67786d9cc866883cd2edc77083c5bae76197d08a'} → fail (seq 158)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=unverified, t1a5=unverified (seq 50)
+- review of t5 by reviewer: t5a1=pass, t5a2=pass, t5a3=unverified (seq 163)
+
+## Unresolved / pending
+- task.failed task=t3: provider_cli: error_max_budget_usd (seq 88)
+- task.partial task=t3: master accepted partial result (seq 89)
+- task.failed task=t6: provider_cli: error_max_budget_usd (seq 166)
+
+## Trace
+- Messages delivered: 1 ({'finding': 1})
+- Model usage by agent: master: 4 calls / $1.0930 (reported claude-opus-5), researcher: 4 calls / $3.0332 (reported claude-opus-5), reviewer: 2 calls / $1.9424 (reported claude-opus-5)

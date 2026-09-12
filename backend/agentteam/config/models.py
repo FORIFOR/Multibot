@@ -41,7 +41,7 @@ class Limits(BaseModel):
     budget_usd: float = 2.0
     max_output_tokens: int = 8000
     max_tool_output_chars: int = 12000
-    max_session_cost_usd: float = 1.0  # claude_cli: --max-budget-usd per agent session
+    max_session_cost_usd: float = 1.5  # claude_cli: --max-budget-usd per agent session
     max_session_turns: int = 40  # claude_cli: --max-turns per agent session
     max_replans: int = 2  # Master milestone sessions that may add tasks after the current DAG finishes
 

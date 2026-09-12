@@ -1,0 +1,48 @@
+# Final report — 次の3つの公開ページを実際に取得して読み、それぞれの「主張・対象読者・ライセンス（記載があれば）」を出典URL付きで比較した調査メモ `research.md` を日本語で作ってください。取得できなかったページは『取得不可』と明記し、本文を推測で埋めないでください。Reviewer は各主張が出典に実在するかを read_artifact と web_fetch で照合してください。
+
+- Status: **failed**
+- Provider kind: real
+- Usage: 12 model calls, 10 tool calls, $0.9130, 261s
+
+## Summary
+run_1a0976ca6c5049e21c0 は failed。research.md rev1 と evidence.md rev1 は公開済みだが t1 は review_pending でレビュー未完了、t2/t3 は「dependencies can never be satisfied」で blocked。受入チェック・独立照合は未実行（checks/reviews は空）。verification.md は存在しない。実時間261.07秒、コスト0.913 USD。
+
+## Deliverables
+- `evidence.md` — evidence.md r1 (sha256 314f6df43b54…) by researcher / task t1
+- `research.md` — research.md r1 (sha256 b29e23701cc1…) by researcher / task t1
+
+## Tasks
+- t1 [review_pending] researcher: source-grounded-research スキルに従い、3つのURL（https://github.com/langchain-ai/deepagents 、https://github.com/bytedance/deer-flow 、https://agentskills.io/specification ）を web_fetch で実際に取得する。(A) research.md: 日本語で、見出し『## 対象ページと取得状況』『## 比較表』『## ページ別詳細』『## 未確認・注意点』を含み、各ページの主張・対象読者・ライセンス記載を出典URL付きで比較する。取得できなかったページは該当項目を『取得不可』と明記し、本文の内容を推測で書かない。(B) evidence.md: 各URLごとに取得日時・HTTPステータスまたは取得結果・原文の該当抜粋（主張/対象読者/ライセンスの根拠箇所）を引用として記録する。research.md の各主張は evidence.md の抜粋と対応付けられること。 (attempts 1)
+- t2 [blocked] researcher: t1 の成果物を read_artifact で読み、3つのURLを web_fetch で独立に再取得して照合する。verification.md（日本語）に、research.md の主張1件ごとに『主張 / 出典URL / 再取得結果（一致・不一致・確認不可・取得不可） / 根拠となる原文抜粋または不一致の理由』を表または箇条書きで記録する。取得不可だったページについては、research.md が『取得不可』と明記しているか、推測本文が混入していないかを確認して結果に含める。research.md 本体は編集せず、修正が必要な箇所は verification.md に指摘として列挙する。 (attempts 0)
+- t3 [blocked] reviewer: evidence-review スキルに従い、read_artifact で research.md / evidence.md / verification.md を読み、t1・t2 の各受入条件について合否を判定して submit_review で提出する。特に (1) 各主張が evidence.md の原文抜粋および verification.md の照合結果に裏付けられているか、(2) 取得不可ページに推測本文が書かれていないか、(3) 出典URLが3件とも正しく付与されているか、(4) verification.md に『不一致』がある場合は未解決として明示されているか、を確認する。未検証の項目を合格に変えない。 (attempts 0)
+
+## Verified (from checks and reviews)
+- 3URL すべて web_fetch が HTTP 200（JST 06:02:11.696 / 06:02:14.637・再取得06:02:20.853 / 06:02:15.015）
+- deer-flow は max_chars 20000→40000 に上げても同一位置で truncate = 部分取得
+- research.md rev1 / evidence.md rev1 が publish_artifact で公開され sha256 が記録されている
+- usage 実測: model_calls 12 / tool_calls 10 / output 19359 tok / cost 0.912953 USD / wall 261.0665s
+
+## Unresolved / pending
+- task.blocked task=t2: dependencies can never be satisfied (seq 27)
+- task.blocked task=t3: dependencies can never be satisfied (seq 28)
+- t1 が review_pending のまま終了（reviewer 判定なし）
+- t2（verification.md 独立再取得照合）blocked: dependencies can never be satisfied (seq 27)
+- t3（evidence-review）blocked: 同 (seq 28)
+- verification.md 未作成
+- 受入条件 t1a1〜t1a4, t2a1〜t2a3 のチェック実行記録なし（checks=[], reviews=[]）
+- deer-flow README 後半（License 節本文含む）未取得
+- deepagents / deer-flow の LICENSE ファイル本文未取得
+- agentskills.io 仕様自体のライセンス未確定
+- deer-flow 記載の GitHub Trending 1位（2026-02-28）は独立検証なし
+- Reviewer に web_fetch がないため、ユーザー要望の照合方式はそのまま実行されていない
+
+## Next steps
+- t1 の依存解決条件を修正し reviewer レビューを完走させる
+- t2 を再実行して verification.md を生成（research.md 本体は編集しない）
+- markdown_basic / text_contains を実際に実行し checks に記録する
+- deer-flow の未取得範囲を raw.githubusercontent.com の分割取得で補完（要スコープ承認）
+- LICENSE 一次資料の追加取得でライセンス記述を確定する
+
+## Trace
+- Messages delivered: 0 ({})
+- Model usage by agent: master: 1 calls / $0.0000 (reported claude-opus-5), researcher: 1 calls / $0.9130 (reported claude-opus-5)

@@ -1,0 +1,149 @@
+# 最終レビュー報告: research-final-r2.md (revision 1)
+
+- 対象: `research-final-r2.md` r1 / sha256 `fbc33429ea6f…` / researcher (t3b)
+- 参照: `research.md` r1 (`e3420149be9b…`), `review.md` r1 (`d1ad872a068e…`), `deer-flow-supplement.md` r1 (`53ab13fc69e9…`)
+- 実施: reviewer (t6) / 2026-09-13
+- **検証方式の制約（先に明記）**: 本タスクの指示により **web_fetch / curl 等による外部再取得は実施していない**（t2 で本環境にネットワーク無しと確定済み）。したがって **原文逐一照合は未実施＝未検証であり、合格扱いにしていない**。検証は `read_artifact` による全文読解と `run_check`（text_contains / regex_count / markdown_basic / command）に限定した。
+- また、artifact はサンドボックスに materialize されない（`run_check command` で `tail: cannot open 'research-final-r2.md': No such file or directory`, exit 1 を確認）。よって **行単位の機械 diff は実行できず、両 revision の全文読解による対照**で差分を確定した。
+- 追加の制約: `research-final-r2.md` r1 の **末尾約 1,503 字（第4節後半〜第5節「未検証事項」）は read_artifact 出力が切り詰められ、全文は未読**。当該範囲は text_contains / regex_count によるプローブでのみ確認した（詳細は §6）。
+
+## 0. 判定サマリ
+
+| 項目 | 判定 | 要旨 |
+|------|------|------|
+| (1) F-1/F-2/F-3 の反映と無断改変の有無 | **pass** | 3件とも具体的な文面変更として反映済み。それ以外の主張の書き換え・無断追加は検出されず（追加は差分要約・再取得ログ・新規引用2件・未検証事項節で、いずれも F-1〜F-3 対応の範囲内） |
+| (2) 全主張への出典URL＋原文引用 | **pass（1件の残課題あり）** | t2 で唯一の「出典なし断定」だった箇所は削除済み。出典なしの断定は新たに検出されず。ただし取得メタ情報（HTTP 200 / truncated / 約28,400字）は執筆者の自己申告のみで追試経路がない |
+| (3) 「取得不可/未取得/記載を確認できず」箇所の推測混入 | **pass** | 当該箇所はいずれも空欄化・限定表現で、内容の補完・推定ライセンス名の記載は検出されず |
+| (4) deer-flow-supplement.md との整合 | **矛盾なし**（残差分 6 件を §5 に列挙） | ライセンス・主張引用とも一致。ただし r2 未反映の確認事項が残る |
+| 原文逐一照合 | **unverified** | 本タスクでは実施禁止。全原文引用の実在性は未検証 |
+
+---
+
+## 1. F-1 / F-2 / F-3 の反映確認（文面比較）
+
+### F-1（比較表 deer-flow「提供形態」の根拠なし記述）→ **反映済み**
+
+- research.md r1 / 第3節 比較表・提供形態・deer-flow セル:
+  > クローンして `make setup` → Docker もしくはローカル実行のアプリケーション（backend / frontend 構成）
+- research-final-r2.md r1 / 同セル:
+  > クローンして `make setup` → Docker もしくはローカル実行のアプリケーション（内部構成については根拠引用を確認できておらず**未確認**のため記載しない）
+- さらに 2-2 に箇条を新設:
+  > **未確認（F-1 対応）**: 旧版 r1 の比較表にあった「backend / frontend 構成」という記述は、**取得できた範囲の原文に対応する根拠引用が無く、未確認**である。…当該記述は比較表から削除し、推測による補完も行わない。
+- 注記: 文字列「backend / frontend」自体は r2 にも残存する（`run_check text_contains` で存在を確認）が、これは **削除した旨を説明する文脈**であり、主張としての記載ではない。誤判定を避けるため記録する。
+
+### F-2（agentskills.io 上のリポジトリリンク実在の根拠欠落）→ **反映済み**
+
+- research.md r1 / 2-3 ライセンス:
+  > 参考（ページ上部にリンクされている公式リポジトリ https://github.com/agentskills/agentskills の記載）: "Apache-2.0 license" …
+- research-final-r2.md r1 / 2-3 ライセンス: 新たに「リンク実在の根拠（F-2 対応 / 2026-09-12T21:27:35Z の再取得で確認）」を設け、
+  > 原文引用（ヘッダ部・ナビゲーション周辺）: "Agent Skills home page / Agent Skills / Search... / ⌘ K / Ask Assistant / ⌘ I / **agentskills/agentskills** / **agentskills/agentskills**"
+  > 限定事項: …`href` 属性は含まれない。…**そのリンク先が `https://github.com/agentskills/agentskills` であること自体は本取得からは確認できていない**（ラベルとリポジトリ名の一致による推定にとどまる）
+- 比較表のライセンス行も連動修正済み。r1「リンク先の公式リポジトリには "Apache-2.0 license"…」→ r2「ラベル `agentskills/agentskills` のリンク先リポジトリには…（リンク先URLの同一性は未確認）」。
+- 評価: 指摘より **主張を弱める方向**の修正であり、過剰な断定の追加はない。
+
+### F-3（deepagents の「CLI」という言い換え）→ **反映済み**
+
+- research.md r1 / 比較表・提供形態・deepagents セル:
+  > Python ライブラリ（`uv add deepagents`）＋ JS/TS 版＋ CLI（Deep Agents Code）
+- research-final-r2.md r1 / 同セル:
+  > Python ライブラリ（`uv add deepagents`）＋ JS/TS 版（"available as a JavaScript/TypeScript library"）＋ ターミナル上の既製コーディングエージェント（Deep Agents Code / 原文 "a pre-built coding agent in your terminal"）
+- 2-1 にも注記が追加:
+  > 注記（F-3 対応）: 原文は "a pre-built coding agent in your terminal" であり、「CLI」という語は原文には現れない。本書では原文表現に沿って記述する。
+
+### 無断の追加・書き換えの有無 → **検出されず**
+
+r1 と r2 の全文対照で確認した差分は以下がすべてである。
+
+| # | 差分 | 評価 |
+|---|------|------|
+| a | 冒頭に「旧版との差分要約」blockquote を新設 | 自己申告の変更履歴。内容主張ではない |
+| b | 第1節に「本最終版のための再取得」表（agentskills.io / deepagents 各1回）を追加 | F-2/F-3 の根拠取得ログ。範囲内 |
+| c | 第1節に「本タスクでは制約により deer-flow の再取得を行っていない」1文を追加 | 制約の明示。範囲内 |
+| d | 2-1 の "Deep Agents Code" 引用が延長（"…powered by any LLM. Install with \`curl -LsSf https://langch.in/dcode \| bash\`."） | **新規の原文引用**。F-3 対応の根拠として範囲内だが、原文実在は未検証（§6） |
+| e | 2-1 ライセンスに「2026-09-12T21:27:36Z の再取得でも同表示を確認」を追記 | 根拠の補強。主張の変更なし |
+| f | 2-2 に「未確認（F-1 対応）」箇条を追加 | F-1 対応 |
+| g | 2-3 に F-2 対応のリンク引用ブロックを追加 | **新規の原文引用**。原文実在は未検証（§6） |
+| h | 第4節 出典一覧に再取得日時を追記 | 範囲内 |
+| i | 第5節「未検証事項」を新設 | 範囲内（本文は一部未読。§6） |
+
+上記以外、2-1 / 2-2 / 2-3 の「主張」「対象読者」「ライセンス」本体の文面、比較表の主張行・対象読者行・「スキル」の扱い行、第3節末の補足は **r1 と逐語一致**であり、主張の書き換えは検出されなかった。
+
+---
+
+## 2. 出典URLと原文引用の網羅性（出典なしの断定の有無）
+
+- t2 が F-1 として挙げた唯一の「出典なし断定」（比較表の backend / frontend 構成）は削除済み。**新たな出典なし断定は検出されなかった。**
+- 記述単位の確認結果（主要点）:
+  - 2-1: 主張／原則／機能／対象読者（FAQ・本番利用・言語）／ターミナル版／ライセンス（ページ表示・LICENSE 本文）— すべて出典URL＋英語原文引用あり。
+  - 2-2: 主張（README 本文・リポジトリ説明文・版方針）／対象読者（セットアップ・導入手段・言語対応・Security Notice）／ライセンス（ページ表示・LICENSE 本文）— すべて引用あり。
+  - 2-3: 主張（冒頭・構造・フィールド・段階的読み込み・検証手段）／対象読者（ナビ見出し・クライアント向け記述）／ライセンス（記載を確認できず＋参考リポジトリ記載）— すべて引用あり。
+  - 比較表の各セルは 2 節と同一の引用を再掲しており、セル単独での出典欠落はない。
+- 残課題（fail ではないが未解消）:
+  1. **取得メタ情報は自己申告のみ**。第1節の「HTTP 200」「truncated=True, 約28,400字が未取得」「取得日時」を裏づける生取得ログが artifact として公開されていないため、成果物側からも追試できない（t2 の F-6 と同一の残課題）。
+  2. 2-1 の「Quickstart は `uv add deepagents` と Python コード」は引用形式ではなくコマンド文字列のみの提示。軽微。
+  3. 第3節末の「相互の互換性について…見当たらなかった」は不在の主張であり引用不能だが、「取得できた範囲内には」と範囲限定されており適切。
+
+---
+
+## 3. 「取得不可 / 未取得 / 記載を確認できず」箇所の推測混入検査
+
+| 箇所 | 記述 | 混入の有無 |
+|------|------|-----------|
+| 2-2「未取得部分の明示」 | README 後半（"From Deep Research to Super Agent Harness", "Core Features", "Long-Term Memory", "License", "Acknowledgments" などの節）… 当該部分の要約は本メモに含めない | **なし**。節名の列挙のみで、各節の内容は一切記述されていない |
+| 2-2「未確認（F-1 対応）」 | backend / frontend 構成は未確認、推測による補完も行わない | **なし**。比較表側も空欄化されている |
+| 比較表 deer-flow 提供形態 | 「内部構成については根拠引用を確認できておらず**未確認**のため記載しない」 | **なし** |
+| 2-3 ライセンス | 「当該ページ本文・フッタには**記載を確認できず**」 | **なし**。Apache-2.0 / CC-BY-4.0 は「リポジトリ側の記載」と明確に切り分けられ、仕様ページ自身のライセンスとしては断定していない。r2 ではさらに「リンク先URLの同一性は未確認」と限定 |
+| 2-3 リンク実在 | ラベルの存在のみ確認、href 未確認 | **なし**。推定である旨を自ら明記 |
+| 第1節「取得不可のページ: なし」 | 3ページとも HTTP 200 | 推測混入ではないが、**当環境では真偽を検証できない**（§6） |
+
+推定ライセンス名の記載（例: 未確認ページに対して「MIT と思われる」等）は検出されなかった。
+
+---
+
+## 4. deer-flow-supplement.md r1 との整合
+
+**矛盾は検出されなかった。** 主な照合点:
+
+| 項目 | research-final-r2.md r1 | deer-flow-supplement.md r1 | 判定 |
+|------|------------------------|---------------------------|------|
+| LICENSE 本文 | "MIT License / Copyright (c) 2025 Bytedance Ltd. and/or its affiliates / Copyright (c) 2025-2026 DeerFlow Authors" | §2 に同一の 2 行の Copyright を含む MIT 本文引用（出典 raw.githubusercontent.com/bytedance/deer-flow/main/LICENSE） | **一致** |
+| 自己定義 | "DeerFlow (Deep Exploration and Efficient Research Flow) is an open-source super agent harness that orchestrates sub-agents, memory, and sandboxes to do almost anything — powered by extensible skills." | §3-2 に同文（Markdown 強調 `**D**eep` 等の差のみ） | **一致**（表記ゆれのみ） |
+| 2.0 と 1.x | "DeerFlow 2.0 is a ground-up rewrite. It shares no code with v1. … it's maintained on the 1.x branch" | §3-3 は続きも引用（"— contributions there are still welcome. Active development has moved to 2.0."）＋ブランチURL | **矛盾なし**（supplement の方が長い） |
+| 対象読者 | "If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent…" | §3-4 に同文 | **一致** |
+| README 後半の可否 | 切り詰めにより取得できず、要約は含めない | §3 で「Core Features 以降は取得不可」と再確認 | **一致** |
+| ライセンス根拠の系統 | GitHub ページ表示 "MIT license" ＋ LICENSE 本文 | LICENSE 本文 ＋ README 冒頭バッジ `[![License: MIT](…)](./LICENSE)` | **矛盾なし**（根拠が増えた） |
+
+---
+
+## 5. 補完すべき残差分（r2 に未反映の確認事項）
+
+1. **deer-flow の License 節の扱い**: supplement §2 により LICENSE ファイル実体が MIT と確認された一方、「README の License 節本文」は依然取得不可。r2 の deer-flow ライセンス記述に、根拠が「LICENSE ファイル実体＋README 冒頭バッジ」であること、「README License 節本文は未確認」であることを明記できる。
+2. **Core Features の下位項目名**: supplement §3-1 が目次の原文引用（Skills & Tools / Claude Code Integration / Session Goals / Manual Context Compaction / Sub-Agents / Sandbox & File System / Context Engineering / Long-Term Memory）を提示。r2 の「未取得部分の明示」の節名列挙を、この引用に差し替えれば根拠付きになる（各項目の説明文は依然未取得のまま扱うこと）。
+3. **前提環境（Python 3.12+ / Node.js 22+）**: r2 に無い情報。ただし supplement 自身が「バッジ表示より」と述べ、引用はバッジURL断片（`Python-3.12%2B`, `Node.js-22%2B`）のみ。採用する場合は「バッジ由来」と明記が必要。
+4. **未取得文字数の食い違い**: r2「約28,400字」に対し supplement は「約28,180文字」(raw) /「約28,235文字」(HTML)。取得手段が異なるため直接の矛盾ではないが、統合時は取得URLごとに数値を分けて記載すべき。
+5. **supplement §3-4 の "This launches an interactive wizard…"** は r2 に無い新規記述。対象読者の根拠として追加可能。
+6. **統合自体が未実施**: 本タスクでは既存 artifact を改稿しないため、supplement の内容は r2 に反映されていない。最終成果物を 1 ファイルに収れんさせるなら別タスクでの統合が必要。
+
+---
+
+## 6. 未検証事項（合格扱いにしていない項目）
+
+1. **原文逐一照合は未実施**。本タスクの指示により web_fetch / curl の試行は禁止（t2 で本環境にネットワーク到達性なしと確定済み）。したがって research-final-r2.md および deer-flow-supplement.md 内の **すべての英語原文引用の実在性、HTTP ステータス、truncated 状態、取得日時、再取得の事実**は未検証である。特に §1 表 d / g の新規引用 2 件（"…powered by any LLM. Install with curl -LsSf …" と "Agent Skills home page / … / agentskills/agentskills"）は r1 に無い追加であり、実在確認が必要な最優先候補。
+2. **r2 末尾約 1,503 字が未読**。read_artifact の出力が切り詰められたため、第4節後半〜第5節「未検証事項」の全文は読めていない。プローブで確認できたのは次のみ: 見出し文字列「5. 未検証事項」と語「原文照合」「未取得」「記載を確認できず」「取得不可」の存在（text_contains=pass）、出典一覧 4〜6 の3URLと「二次情報（ブログ・まとめ記事等）は使用していない。」の存在（text_contains=pass）、文書全体のURL出現数 24（regex_count）。既読部分で数えた URL 出現は約 20 件で、未読部分の残り約 4 件は出典一覧 4〜6 とほぼ一致するため、未読部分に大量の新規主張が入っている可能性は低いと推定されるが、**推定であり確認ではない**。
+3. **機械 diff 未実施**。artifact がサンドボックスに materialize されないため、差分は人手の全文対照による。逐語一致の判断に見落としが残る可能性は排除できない。
+4. deer-flow-supplement.md 側の web_fetch 実行回数（3 回）・対象URLの制限順守は、**文書内の自己申告と、文書内 URL が deer-flow 関連のみであること**（regex_count: deer-flow / shields.io 以外のURL 0 件）から整合的だが、実際のツール呼び出しログは参照できず未検証。
+
+---
+
+## 7. 付録: 実行した検査
+
+| 検査 | 対象 | 結果 |
+|------|------|------|
+| read_artifact | research.md r1 / research-final-r2.md r1 / review.md r1 / deer-flow-supplement.md r1 | 取得（r2 のみ末尾 1,503 字が切り詰め） |
+| run_check text_contains（未検証事項 / 5. 未検証事項 / 二次情報… / backend / frontend） | research-final-r2.md r1 | pass, missing=[] |
+| run_check text_contains（出典URL 4〜6 ほか） | research-final-r2.md r1 | pass, missing=[] |
+| run_check text_contains（README 後半 / 原文照合 / ライセンス / ネットワーク / 推測 / 取得不可 / 記載を確認できず / MIT / Apache-2.0 / 未取得） | research-final-r2.md r1 | fail（missing=「ネットワーク」のみ。他9件は存在） |
+| run_check regex_count `https?://[^ )\s]+` | research-final-r2.md r1 | count=24 |
+| run_check command `tail -c 1800 …` | research-final-r2.md r1 | fail / exit 1（artifact 未 materialize の確認） |
+| run_check markdown_basic（sections=1.試行ログ / 2.ライセンス表記 / 3.README 後半…） | deer-flow-supplement.md r1 | pass, problems=[], headings 9件 |
+| run_check regex_count（deer-flow 以外のURL） | deer-flow-supplement.md r1 | count=0（deer-flow 関連以外のURLなし） |

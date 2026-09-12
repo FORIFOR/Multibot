@@ -1,0 +1,99 @@
+# deer-flow 補足調査メモ（ライセンス確認 / README 後半）
+
+対象: https://github.com/bytedance/deer-flow
+目的: t1 / t3b で未取得のまま残った「README 本文後半（Core Features / License 等）」と「ライセンス表記」の確認。
+取得日: 2026-09-12（UTC。web_fetch の retrieved_at 値。ローカル日付では 2026-09-13）
+本メモは取得できた本文のみに基づく。取得できなかった範囲は「取得不可」と明記し、推測で埋めていない。
+
+---
+
+## 1. 試行ログ
+
+| # | 試行URL | HTTPステータス | 取得できた範囲 |
+|---|---------|----------------|----------------|
+| 1 | https://raw.githubusercontent.com/bytedance/deer-flow/main/LICENSE | 200 (`text/plain`) | 全文取得（truncated=False）。ファイル全体を確認。 |
+| 2 | https://raw.githubusercontent.com/bytedance/deer-flow/main/README.md | 200 (`text/plain`) | **部分取得（truncated=True）**。冒頭〜「Quick Start > Configuration」の CLI-backed provider 設定例あたりまで。以降約 28,180 文字が切り詰め。 |
+| 3 | https://github.com/bytedance/deer-flow/blob/main/README.md#license | 200 (`text/html`) | **部分取得（truncated=True）**。GitHub のレンダリング表示だが、内容範囲は #2 とほぼ同じ地点（ACP agent 設定の説明）で切り詰め。以降約 28,235 文字が切り詰め。URL のアンカー `#license` は本文取得位置に影響しなかった。 |
+
+補足（事実）: 試行 #3 のページ上に「1757 lines (1325 loc) · 145 KB」という README のファイルサイズ表示があり、本ツールの 1 回あたり取得上限（40,000 文字）を大きく超える。オフセット指定手段がないため、同じ URL を再取得しても後半には到達できないと判断し、4 回目の web_fetch は実施していない（実施回数: 3 / 上限 4）。
+
+---
+
+## 2. ライセンス表記
+
+**確認できた: リポジトリ直下の LICENSE ファイルは MIT License 本文である。**
+
+出典: https://raw.githubusercontent.com/bytedance/deer-flow/main/LICENSE （= https://github.com/bytedance/deer-flow/blob/main/LICENSE の raw）
+
+原文引用（冒頭）:
+
+> MIT License
+>
+> Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+> Copyright (c) 2025-2026 DeerFlow Authors
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+> of this software and associated documentation files (the "Software"), to deal
+> in the Software without restriction, including without limitation the rights
+> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> copies of the Software, and to permit persons to whom the Software is
+> furnished to do so, subject to the following conditions:
+
+原文引用（免責条項部分・抜粋）:
+
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+補強根拠（README 冒頭バッジ。取得済み範囲内に実在）:
+
+出典: https://raw.githubusercontent.com/bytedance/deer-flow/main/README.md （冒頭バッジ行）
+
+> `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)`
+
+注意: README 本文の「License」節そのもの（目次には `License` の項目が存在することを確認済み）は切り詰めにより**取得不可**。したがって「README の License 節に何が書かれているか」は未確認であり、上記は LICENSE ファイル実体とバッジ表記に基づく記述である。
+
+---
+
+## 3. README 後半で新たに確認できた主張
+
+**本文（Core Features 以降）は取得不可。** 試行 #2 / #3 とも、目次より後の「From Deep Research to Super Agent Harness」「Core Features」「Recommended Models」「Security Notice」「Contributing」「License」「Acknowledgments」等の節本文には到達できていない。これらの内容は本メモでは記述しない。
+
+ただし、取得できた範囲内で実在が確認できた記述は以下のとおり（すべて出典: https://raw.githubusercontent.com/bytedance/deer-flow/main/README.md ）。
+
+### 3-1. 目次に存在する節名（本文は未取得、見出しの存在のみ確認）
+
+> - [From Deep Research to Super Agent Harness](#from-deep-research-to-super-agent-harness)
+> - [Core Features](#core-features)
+>   - [Skills \& Tools](#skills--tools) / [Claude Code Integration](#claude-code-integration)
+>   - [Session Goals](#session-goals) / [Manual Context Compaction](#manual-context-compaction)
+>   - [Sub-Agents](#sub-agents) / [Sandbox \& File System](#sandbox--file-system)
+>   - [Context Engineering](#context-engineering) / [Long-Term Memory](#long-term-memory)
+> - [License](#license)
+
+（＝ Core Features の下位項目名は確認できたが、各項目の説明文は未取得。）
+
+### 3-2. プロジェクトの自己定義（冒頭。t1 で未取得なら補足として）
+
+> DeerFlow (**D**eep **E**xploration and **E**fficient **R**esearch **Flow**) is an open-source **super agent harness** that orchestrates **sub-agents**, **memory**, and **sandboxes** to do almost anything — powered by **extensible skills**.
+
+### 3-3. バージョン 2.0 と 1.x の関係
+
+> **DeerFlow 2.0 is a ground-up rewrite.** It shares no code with v1. If you're looking for the original Deep Research framework, it's maintained on the [`1.x` branch](https://github.com/bytedance/deer-flow/tree/main-1.x) — contributions there are still welcome. Active development has moved to 2.0.
+
+### 3-4. 対象読者・前提環境に関わる記述
+
+> If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent, you can hand it the setup instructions in one sentence
+
+> This launches an interactive wizard that guides you through choosing an LLM provider, optional web search, and execution/safety preferences such as sandbox mode, bash access, and file-write tools.
+
+バッジ表示より、Python 3.12+ / Node.js 22+ を前提とする（バッジ原文: `Python-3.12%2B`、`Node.js-22%2B`）。
+
+---
+
+## 4. 未確認事項 / 制約
+
+- README の Core Features 以降、Security Notice、Contributing、License 各節の本文: **取得不可（ツールの 40,000 文字取得上限による切り詰め。README は 145 KB）**。
+- LICENSE 以外の従属ライセンス表記（backend/frontend の個別 LICENSE、NOTICE ファイル等）の有無: 未確認（今回の取得対象外）。
+- README_zh / ja / fr / ru などの翻訳版本文: 未取得。
+- 本メモは deepagents / agentskills.io には一切触れていない（再取得もしていない）。

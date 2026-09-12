@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+"""wc_plus: count lines, words and characters of text files, plus top-5 words.
+
+Standard library only.
+"""
+
+import argparse
+import re
+import sys
+from collections import Counter
+
+WORD_RE = re.compile(r"[A-Za-z0-9_']+")
+
+TOP_N = 5
+
+
+def count_text(text):
+    """Return (lines, words, chars) for a text string.
+
+    lines  : number of newline-terminated lines; a trailing fragment without a
+             final newline also counts as one line.
+    words  : number of WORD_RE matches.
+    chars  : number of Unicode characters.
+    """
+    if text == "":
+        lines = 0
+    else:
+        lines = text.count("\n")
+        if not text.endswith("\n"):
+            lines += 1
+    words = len(WORD_RE.findall(text))
+    chars = len(text)
+    return lines, words, chars
+
+
+def tokenize(text):
+    """Return lowercased word tokens of a text string."""
+    return [m.lower() for m in WORD_RE.findall(text)]
+
+
+def top_words(counter, n=TOP_N):
+    """Return the n most common (word, count) pairs.
+
+    Ties are broken alphabetically so the output is stable.
+    """
+    return sorted(counter.items(), key=lambda kv: (-kv[1], kv[0]))[:n]
+
+
+def read_file(path):
+    """Read a file as UTF-8 text. Raises OSError / UnicodeDecodeError."""
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()
+
+
+def format_row(lines, words, chars, label):
+    return "%8d %8d %8d %s" % (lines, words, chars, label)
+
+
+def run(paths, stdout, stderr, top_n=TOP_N):
+    """Process paths and write the report. Returns the exit code."""
+    total_lines = total_words = total_chars = 0
+    counter = Counter()
+    ok_count = 0
+    exit_code = 0
+
+    for path in paths:
+        try:
+            text = read_file(path)
+        except (OSError, UnicodeDecodeError) as exc:
+            print("wc_plus: %s: %s" % (path, exc), file=stderr)
+            exit_code = 1
+            continue
+        lines, words, chars = count_text(text)
+        counter.update(tokenize(text))
+        total_lines += lines
+        total_words += words
+        total_chars += chars
+        ok_count += 1
+        print(format_row(lines, words, chars, path), file=stdout)
+
+    if ok_count > 1:
+        print(format_row(total_lines, total_words, total_chars, "total"),
+              file=stdout)
+
+    if counter:
+        print("", file=stdout)
+        print("top %d words:" % top_n, file=stdout)
+        for word, count in top_words(counter, top_n):
+            print("%8d %s" % (count, word), file=stdout)
+
+    return exit_code
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(
+        prog="wc_plus",
+        description="Count lines, words and characters of text files and "
+                    "show the most frequent words.",
+    )
+    parser.add_argument("files", nargs="+", metavar="FILE",
+                        help="text files to analyze")
+    parser.add_argument("-n", "--top", type=int, default=TOP_N,
+                        metavar="N",
+                        help="number of most frequent words to show "
+                             "(default: %(default)s)")
+    return parser
+
+
+def main(argv=None):
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    return run(args.files, sys.stdout, sys.stderr, args.top)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>よくある質問（FAQ） — Agent Team</title>
+    <meta
+      name="description"
+      content="Agent Team についてのよくある質問。役割構成、実行記録の表示内容、APIキー、価格などを提供情報の範囲で回答します。"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <div class="brand">
+          <a href="../index.html">Agent Team</a>
+          <span class="brand-sub">ドキュメント</span>
+        </div>
+        <nav class="site-nav" aria-label="サイト内ナビゲーション">
+          <ul>
+            <li><a href="../index.html">トップ</a></li>
+            <li><a href="getting-started.html">導入手順</a></li>
+            <li><a href="faq.html" aria-current="page">FAQ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <h1>よくある質問（FAQ）</h1>
+      <p class="lead muted">
+        Agent Team について、提供されている情報の範囲で回答します。
+        記載のない項目は「未定」または「未記載」としています。
+      </p>
+
+      <section id="basics">
+        <h2>製品の基本</h2>
+
+        <div class="faq-item">
+          <h3>Agent Team は何をするツールですか？</h3>
+          <p>
+            一度の依頼から AIチームが実際に作業するツールです。
+            成果物とBot間の実メッセージ、時系列を同じ実行記録から表示します。
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>AIチームはどんな構成ですか？</h3>
+          <p>Master、Researcher、Builder、Reviewer の4つの役割で構成されます。</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>依頼は何回投げる必要がありますか？</h3>
+          <p>一度の依頼から作業が始まります。</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>ログとして何が見られますか？</h3>
+          <p>
+            成果物、Bot間の実メッセージ、時系列です。これらは同じ実行記録から表示されます。
+          </p>
+        </div>
+      </section>
+
+      <section id="license-env">
+        <h2>ライセンスと動作環境</h2>
+
+        <div class="faq-item">
+          <h3>オープンソースですか？</h3>
+          <p>
+            はい、Agent Team はオープンソースです。具体的なライセンス名や公開先はこのサイトでは未記載です（TODO: リンク未定）。
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>クラウドサービスですか？</h3>
+          <p>ローカルファーストなツールです。</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>対応OSや必要スペックを知りたいです。</h3>
+          <p>対応環境の詳細はこのサイトでは未記載です。</p>
+        </div>
+      </section>
+
+      <section id="apikey-price">
+        <h2>APIキーと価格</h2>
+
+        <div class="faq-item">
+          <h3>APIキーは必要ですか？</h3>
+          <p>Claude Code があれば APIキーは不要です。</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>いくらで使えますか？</h3>
+          <p>
+            価格は未定です。金額、プラン、課金条件はこのサイトでは案内していません。
+          </p>
+        </div>
+      </section>
+
+      <section id="audience">
+        <h2>対象ユーザー</h2>
+
+        <div class="faq-item">
+          <h3>誰向けのツールですか？</h3>
+          <p>ソフトウェア開発者と個人開発者を対象としています。</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>導入の流れを知りたいです。</h3>
+          <p>
+            概要は <a href="getting-started.html">導入手順の概要</a> にまとめています。
+            製品全体の説明は <a href="../index.html">トップページ</a> を参照してください。
+          </p>
+        </div>
+      </section>
+
+      <nav class="page-nav" aria-label="ページ間ナビゲーション">
+        <a class="btn btn-secondary" href="../index.html">トップへ戻る</a>
+        <a class="btn btn-primary" href="getting-started.html">導入手順を見る</a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <ul>
+          <li><a href="../index.html">トップ</a></li>
+          <li><a href="getting-started.html">導入手順</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+        <p>Agent Team — オープンソース / ローカルファースト。価格は未定。</p>
+      </div>
+    </footer>
+  </body>
+</html>
