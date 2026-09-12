@@ -27,29 +27,25 @@ You type **one request**. A Master plans the deliverables, a Researcher, a Build
 
 ## Quickstart
 
-**No API key needed if you have [Claude Code](https://claude.com/claude-code) installed and logged in** — the default connection runs every agent session through the local `claude` CLI (its cost/usage and the model it actually used are read from the CLI's JSON result).
+One command if you have [Claude Code](https://claude.com/claude-code) installed and logged in (no API key), plus [uv](https://docs.astral.sh/uv/):
 
 ```bash
-git clone https://github.com/FORIFOR/Multibot && cd Multibot
-cd backend && uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -e '.[dev]'
-cd ../frontend && pnpm install && pnpm build && cd ../backend
-.venv/bin/agentteam probe                   # real capability check through `claude -p` (a few cents)
-.venv/bin/agentteam serve                   # http://127.0.0.1:8787
+uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart
 ```
 
-Prefer the API? Set `defaults.connection_id: anthropic` in `data/agents.yaml` and export `ANTHROPIC_API_KEY` (the config stores only the reference `env:ANTHROPIC_API_KEY`). Any OpenAI-compatible chat endpoint and local Ollama (`driver: ollama`, `http://localhost:11434/v1`) work the same way.
-
-First run: **Settings → Probe** (or `agentteam probe`). It confirms tool calling and JSON-schema output on the model you picked, then unlocks Start. Placeholder models, unknown prices and unverified connections refuse to start with a structured reason.
-
-How the CLI path works: Claude Code owns the agent loop for one session; the team's tools (`send_message`, `publish_artifact`, `run_check`, …) are exposed to it as MCP tools through a stdio proxy that forwards every call to this process's ToolGateway, so policy, budget and the event log are identical to the API path. Claude Code's own built-in tools are disabled for these sessions.
-
-CLI:
+`quickstart` makes one small real call through `claude -p` to confirm tool calling and JSON-schema output, then serves the UI at http://127.0.0.1:8787 and opens it. From a checkout:
 
 ```bash
-.venv/bin/agentteam validate                        # config check
-.venv/bin/agentteam probe [connection] --model ID   # real capability probe
-.venv/bin/agentteam run "Turn this into a launch page and 3 posts" --url https://example.com --budget 1.5
+git clone https://github.com/FORIFOR/Multibot && cd Multibot/backend
+uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -e '.[dev]'
+.venv/bin/agentteam quickstart          # the built UI ships inside the package; `cd ../frontend && pnpm build` only if you change it
 ```
+
+Other providers: set `defaults.connection_id` in `data/agents.yaml` (or in Settings) to `anthropic` with `ANTHROPIC_API_KEY`, to an OpenAI-compatible endpoint (verified live with `gpt-4.1-mini`), or to local Ollama (`driver: ollama`, `http://localhost:11434/v1`). Every connection must pass the probe before a run can start; placeholder models and unknown prices refuse to start with a structured reason.
+
+**Sandbox.** Builder/Reviewer commands run in Docker when a daemon answers (`--network none`, read-only root, host uid, CPU/memory/pid limits; Docker Desktop, Colima or any engine), otherwise in the macOS seatbelt; with neither, commands are refused rather than run unsandboxed (set `AGENTTEAM_SANDBOX=subprocess` to opt out knowingly).
+
+**Language.** The app UI has an EN/JA toggle in the header (defaults to your browser language).
 
 ## How it works
 
@@ -59,9 +55,9 @@ CLI:
 | **AgentRunner** | One bot session = its own conversation state + a tool loop through the gateway. A worker receives its task, input artifact refs and its own inbox — not the whole history. |
 | **MessageBus** | `send_message` really delivers to the recipient's mailbox and records `message.sent`. Purposes are limited to request / question / answer / handoff / finding / decision. |
 | **ArtifactStore** | `publish_artifact` creates an immutable, SHA-256-hashed revision with an atomic write. Reviews and checks bind to a revision. |
-| **Scheduler** | Dependency resolution, concurrency limit, review fail → revise → re-review (bounded), Master exception decisions, checkpoints. |
+| **Scheduler** | Dependency resolution, concurrency limit, review fail → revise → re-review (bounded), Master exception decisions, checkpoints, and bounded **milestone replanning**: when the DAG finishes, the Master may add tasks if the goal is not met (`max_replans`). |
 | **PolicyEngine** | Budget = spent + reserved for in-flight calls; call/tool/message limits; tool and path scope; cancellation. Unknown cloud prices are never treated as free. |
-| **Sandbox** | macOS `sandbox-exec` (no network, writes only inside the task workspace). Elsewhere a plain subprocess that says so in every result. |
+| **Sandbox** | Docker (`--network none`, read-only root, host uid, resource limits) or macOS `sandbox-exec`; with neither available commands are refused, never silently unsandboxed. Every result records which backend ran. |
 | **Providers** | `claude_cli` (local Claude Code, no key), `anthropic_messages` (official SDK), `openai_compatible_chat`, `ollama`. Per-bot choice; real probe before start. |
 
 Everything is written to an append-only event store (SQLite WAL, per-run `seq`, UTC timestamps, redaction before persistence). Chat, timeline and report are projections of it. The event types are the blueprint's 11 plus runtime extensions, all validated against [`backend/agentteam/schemas/event.schema.json`](backend/agentteam/schemas/event.schema.json).
