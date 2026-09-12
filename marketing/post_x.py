@@ -31,6 +31,12 @@ THREADS = {
  ("Claude Code があれば API キー不要。各 Bot のセッションを claude -p で動かし、チームのツールを MCP で公開します。Claude API / OpenAI 互換 / Ollama も可。設定したモデルと実際に応答したモデルを両方表示。", None),
  (f"実 run（無編集でリポジトリに同梱）: claude-opus-5 が LP と投稿 3 案を作成、検証 10 件 pass、レビュー 6/6、$1.66、19 分。デモ動画はスクリプト provider（画面に表示）。\n\n{SITE_JA}", LP_IMG),
 ],
+"en2": [
+ (f"What the Builder shipped in the real run: a complete single-file launch page under the Master's recorded assumptions (no prices, no invented numbers, placeholder URLs). Reviewer 6/6 pass. Provider-reported model: claude-opus-5. Unedited files in the repo.\n\n{REPO}", LP_IMG),
+],
+"ja2": [
+ (f"実 run で Builder が実際に作った LP。Master が記録した前提（価格・実績数値を書かない、URL はプレースホルダ）どおりに、単一ファイルで完成。Reviewer は 6/6 pass、応答モデルは claude-opus-5。生成物は無編集でリポジトリに置いています。\n\n{SITE_JA}", LP_IMG),
+],
 }
 
 URL_RE = re.compile(r"https?://\S+")
