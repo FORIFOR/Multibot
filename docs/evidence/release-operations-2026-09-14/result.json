@@ -1,0 +1,80 @@
+{
+  "old_commit": "08ca1b730efcaef37947905d238a77e032b22d94",
+  "new_commit": "c69c27ddc15eb489be8f675e0804a3e9c9b2cbba",
+  "releases": {
+    "old": {
+      "commit": "08ca1b730efcaef37947905d238a77e032b22d94",
+      "wheel": "/Users/horioshuuhei/.cache/agentteam-production/20260914-upgrade/old/dist/agentteam-0.2.1-py3-none-any.whl",
+      "wheel_sha256": "6184ff800c9966bf412fd29d5c25ed4701e703a8b6bdadc836876d65c1691997",
+      "lock_sha256": "8530e59068f5af0fc244003660aa18de6c516d5b92a8a5a8492a3ed6335113bf",
+      "python": "/Users/horioshuuhei/.cache/agentteam-production/20260914-upgrade/old/venv/bin/python"
+    },
+    "new": {
+      "commit": "c69c27ddc15eb489be8f675e0804a3e9c9b2cbba",
+      "wheel": "/Users/horioshuuhei/.cache/agentteam-production/20260914-upgrade/new/dist/agentteam-0.2.1-py3-none-any.whl",
+      "wheel_sha256": "b85be197222f17168665b45a9b9d33519ac04b75eeb736093bde792c698d7c41",
+      "lock_sha256": "8530e59068f5af0fc244003660aa18de6c516d5b92a8a5a8492a3ed6335113bf",
+      "python": "/Users/horioshuuhei/.cache/agentteam-production/20260914-upgrade/new/venv/bin/python"
+    }
+  },
+  "source_artifact_sha256": "dd68d14539ccb1549eb1abc539eab12c54f398a2a52fccd489902941d6d531ee",
+  "checks": [
+    {
+      "check": "old server refuses unauthenticated artifact access",
+      "passed": true
+    },
+    {
+      "check": "real old-version browser session",
+      "passed": true
+    },
+    {
+      "check": "old artifact exact original bytes",
+      "passed": true
+    },
+    {
+      "check": "real run access grant",
+      "passed": true
+    },
+    {
+      "check": "live offline backup rejected without output",
+      "passed": true
+    },
+    {
+      "check": "upgrade preserves authenticated session and artifact",
+      "passed": true,
+      "elapsed_seconds": 3.764
+    },
+    {
+      "check": "upgrade preserves operator access grant",
+      "passed": true
+    },
+    {
+      "check": "new credential rotation rejects the old key",
+      "passed": true
+    },
+    {
+      "check": "new credential can read the preserved artifact",
+      "passed": true
+    },
+    {
+      "check": "candidate artifact corruption rejects backup",
+      "passed": true
+    },
+    {
+      "check": "rollback snapshot invalidates pre-restore browser sessions",
+      "passed": true
+    },
+    {
+      "check": "rollback retains credential revocation from current access file",
+      "passed": true
+    },
+    {
+      "check": "rollback restores original bytes and grants with current key",
+      "passed": true,
+      "elapsed_seconds": 0.65
+    }
+  ],
+  "scope": "isolated macOS HTTP / installed wheels / SQLite; no production traffic, TLS, model calls or SLA measurement",
+  "production_ready": false,
+  "passed": true
+}

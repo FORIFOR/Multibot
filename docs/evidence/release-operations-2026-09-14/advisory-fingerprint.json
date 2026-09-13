@@ -1,0 +1,11 @@
+{
+  "recorded_at": "2026-09-13T20:51:17.082822+00:00",
+  "runtime_lock_sha256": "8530e59068f5af0fc244003660aa18de6c516d5b92a8a5a8492a3ed6335113bf",
+  "frontend_lock_sha256": "5a72025ed849e8d9ef5ce49d49d0884a987dd8beb1f11b83a467921d511b3f0c",
+  "scanner": "pip-audit 2.10.1 / live PyPI advisory query; pnpm production audit",
+  "runtime_scanned": 42,
+  "runtime_skipped": 0,
+  "known_runtime_vulnerabilities": 0,
+  "known_frontend_vulnerabilities": 0,
+  "scope": "package advisory snapshots only; application/OS/independent review remain open"
+}

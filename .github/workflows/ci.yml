@@ -3,7 +3,32 @@ on:
   push:
     branches: [main]
   pull_request:
+permissions:
+  contents: read
 jobs:
+  dependency-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: audit the complete pinned runtime set against current advisories
+        run: uvx --python 3.12 pip-audit==2.10.1 --disable-pip --require-hashes --strict -r backend/requirements.lock --format json --output /tmp/runtime-audit.json
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: audit frontend production dependencies
+        run: pnpm audit --prod --json > /tmp/frontend-audit.json
+        working-directory: frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-advisory-evidence
+          path: |
+            /tmp/runtime-audit.json
+            /tmp/frontend-audit.json
+          if-no-files-found: ignore
   oidc-integration:
     # Real local Keycloak, OAuth2 Proxy, code-flow browser logins and API checks.
     runs-on: ubuntu-latest
