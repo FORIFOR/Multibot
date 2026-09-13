@@ -19,7 +19,7 @@
 | README / Site | 起動方法・実画面・制約を掲載。3分で理解できるかの外部ユーザ評価は未実施 |
 | Business CTA | [導入相談](https://forifor.github.io/Multibot/ja/#business)あり。今回、架空の問い合わせ送信は行っていない |
 | License | [MIT](../LICENSE) |
-| テスト証拠 | [実モデル比較・Reviewer監査](evidence/readiness-2026-09-14/README.md)と[実行結果からの修正](evidence/local-fixes-2026-09-14/README.md)。認証・SSO・永続実行・削除/暗号化復元・監査収集を追加し、[最新の95件passと実ブラウザー確認](evidence/operations-2026-09-14/README.md)を記録。既存の50課題には架空製品や合成データが含まれるため、新たな受入試験は実際のリポジトリ資料を使用する。自動テスト数や旧ベンチマークを実企業データでの業務成功率に置き換えない |
+| テスト証拠 | [実モデル比較・Reviewer監査](evidence/readiness-2026-09-14/README.md)と[実行結果からの修正](evidence/local-fixes-2026-09-14/README.md)。認証・SSO・永続実行・削除/暗号化復元・監査収集・実行境界を追加。実資料の初回試験では誤完了と翻訳誤りを発見し、[元の失敗記録と修正後の101件pass](evidence/real-readiness-v1-2026-09-14/README.md)を保存。既存の50課題には架空製品や合成データが含まれるため、新たな受入試験は実際のリポジトリ資料を使用する。自動テスト数や旧ベンチマークを実企業データでの業務成功率に置き換えない |
 
 企業への説明文:
 

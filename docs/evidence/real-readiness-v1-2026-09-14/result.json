@@ -1,0 +1,36 @@
+{
+  "rep": 1,
+  "run_id": "run_1a09c732b0f8bb4d219",
+  "status": "completed",
+  "mechanical_pass": false,
+  "problems": [
+    "Identity: Japanese remaining summary missing",
+    "Isolation: Japanese remaining summary missing",
+    "Execution: Japanese remaining summary missing",
+    "Data: Japanese remaining summary missing",
+    "Audit / monitoring: Japanese remaining summary missing",
+    "Deployment: Japanese remaining summary missing",
+    "Business quality: Japanese remaining summary missing",
+    "Contract / operation: Japanese remaining summary missing"
+  ],
+  "semantic_review": "pending",
+  "false_completion_by_mechanical_checks": true,
+  "model_actors": [
+    "builder",
+    "master",
+    "reviewer"
+  ],
+  "review_submissions": 1,
+  "usage": {
+    "model_calls": 12,
+    "tool_calls": 10,
+    "input_tokens": 65960,
+    "output_tokens": 7642,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "cost_usd": 0.0,
+    "reserved_usd": 0.0,
+    "wall_seconds": 578.910284499987
+  },
+  "evidence_dir": "."
+}

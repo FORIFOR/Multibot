@@ -25,6 +25,7 @@ from ..store.job_store import JobStore
 from .context import RunRuntime
 from .mailbox import MessageBus
 from .planner import PlanError, final_report, plan_team, single_agent_plan
+from .delivery import verify_delivery, failures as delivery_failures
 from .policy import PolicyEngine
 from .redaction import Redactor
 from .scheduler import Scheduler
@@ -341,6 +342,11 @@ class RunManager:
 
     async def _finish(self, rt: RunRuntime, status: RunStatus, *, reason: str | None = None) -> None:
         run = rt.run
+        if status == RunStatus.completed:
+            unmet = delivery_failures(await verify_delivery(rt))
+            if unmet:
+                status = RunStatus.partial
+                reason = 'requester delivery requirements failed: ' + ' | '.join(unmet)[:1000]
         if status in (RunStatus.approval_required, RunStatus.interrupted):
             ev = await self.events.append(run.run_id, "run.interrupted" if status == RunStatus.interrupted else "task.blocked",
                                           {"reason": reason or str(status)}, notify=False)
@@ -568,6 +574,11 @@ def render_report_markdown(report: dict[str, Any], run: Run) -> str:
         lines.append(f"- `{d['logical_path']}` — {d['artifact_id']} r{d['revision']} (sha256 {d['sha256'][:12]}…) by {d['by']} / task {d['task_id']}")
     if not report["deliverables"]:
         lines.append("- (none)")
+    if ev.get("delivery_checks"):
+        lines += ["", "## Requester delivery requirements"]
+        for c in ev["delivery_checks"]:
+            lines.append(f"- `{c['logical_path']}` on {c['target']} → {c['result']['status']} (seq {c['seq']})")
+            lines.extend(f"  - {problem}" for problem in c['result'].get('problems', []))
     lines += ["", "## Tasks"]
     for t in ev["tasks"]:
         lines.append(f"- {t['id']} [{t['status']}] {t['owner']}: {t['objective']} (attempts {t['attempts']})" + (f" — {t['blocked_reason']}" if t.get("blocked_reason") else ""))

@@ -180,6 +180,10 @@ def _registry_text(rt) -> str:
 def planning_message(rt) -> str:
     inp = rt.run.inputs
     lines = [f"# Request\n{rt.run.goal}"]
+    if rt.run.inputs.delivery_requirements:
+        lines.append('\n## Requester-owned delivery contracts\nThe runtime independently enforces these schemas on final artifacts. '
+                     'Preserve every required output and constraint when planning.\n' +
+                     json.dumps([r.model_dump() for r in rt.run.inputs.delivery_requirements], ensure_ascii=False))
     if inp.text:
         lines.append(f"\n## Provided text\n{inp.text[:12000]}")
     if inp.urls:

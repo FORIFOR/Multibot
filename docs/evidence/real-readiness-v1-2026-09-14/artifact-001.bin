@@ -1,0 +1,64 @@
+{
+  "product": "Multibot",
+  "production_ready": false,
+  "deployment": "dedicated-single-host",
+  "summary": "PRODUCTION_PLAN.md に基づき、L3（完全な本番導入）は未達成であり、残りの承認要件が存在すること。Identity、Isolation、Execution、Data、Audit / monitoring、Deployment、Business quality、Contract / operation の全 8 領域について、実施済み項目と残りの受入条件が逐語引用と共に整理されている。",
+  "areas": [
+    {
+      "area": "Identity",
+      "implemented": "実際のアクセスキー、ハッシュ化されたセッション、役割確認；OIDC SSO で Keycloak/ブラウザ検証、グループマッピング、トークン破棄・期限切れ・鍵回転・回復境界が実装されている。",
+      "remaining": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+    },
+    {
+      "area": "Isolation",
+      "implemented": "インストールごとに組織へのバインディング、実行ごとの付与、アーティファクト/イベント/SSE/エクスポート/承認のアクセスチェック、保護された設定とオーバーライドが実装されている。",
+      "remaining": "Independent attack review, customer-specific role/connector policy, permission lifecycle acceptance",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent attack review, customer-specific role/connector policy, permission lifecycle acceptance"
+    },
+    {
+      "area": "Execution",
+      "implemented": "実行ごとに予算；永続的な単一ホストキュー、演者スコープの冪等性受入、ワーカーリース、中断済み作業の確認、通常の/スナップショット復元および実際のローカル LLM SIGKILL 訓練が実装されている。",
+      "remaining": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+    },
+    {
+      "area": "Data",
+      "implemented": "オフラインスナップショット復元、チェックサムとアーティファクト検証、セッション無効化；再開可能な実行削除とステール再試行拒否、実際の年齢暗号化/検証復号が実装されている。",
+      "remaining": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "implemented": "アクター監査記録；制限された監査者役割；別永続コレッタ/カーソル、復元ストリーム分離、リカデネス/メトリクス、記録された障害/回転/復元、ブラウザ操作ビューが実装されている。",
+      "remaining": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+    },
+    {
+      "area": "Deployment",
+      "implemented": "ロックされたランタイム依存関係、ピン付けされたベース、ルート非/読み取り専用コンテナ、リソース制限、ブラウザ/API 検証が実装されている。",
+      "remaining": "Real TLS/DNS environment, identity service, operating owner, upgrade/rollback rehearsal, security review",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, upgrade/rollback rehearsal, security review"
+    },
+    {
+      "area": "Business quality",
+      "implemented": "元の障害が保持；合成入力識別後のレガシー比較一時停止；実際のソースリカデネスワークフローが別々に準備されている。",
+      "remaining": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds"
+    },
+    {
+      "area": "Contract / operation",
+      "implemented": "技術的制限が文書化されている。",
+      "remaining": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+    }
+  ]
+}

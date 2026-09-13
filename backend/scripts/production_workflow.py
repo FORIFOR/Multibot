@@ -35,6 +35,7 @@ GOAL = '''企業の導入担当者に渡す、Multibotの本番化現状を整�
 トップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。
 areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。
 日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。
+技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。'''
 
 
@@ -91,6 +92,23 @@ def grade(raw, expected):
     return {'mechanical_pass': not problems, 'problems': problems, 'semantic_review': 'pending'}
 
 
+def delivery_schema(expected):
+    """Requester rules derived from the actual source, independent of the model plan."""
+    japanese = {'type': 'string', 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]'}
+    row = {'type': 'object', 'additionalProperties': False,
+           'required': ['area', 'implemented', 'remaining', 'source_file', 'evidence_quote'],
+           'properties': {'area': {'type': 'string'}, 'implemented': japanese, 'remaining': japanese,
+                          'source_file': {'const': 'PRODUCTION_PLAN.md'}, 'evidence_quote': {'type': 'string'}}}
+    return {'$schema': 'https://json-schema.org/draft/2020-12/schema', 'type': 'object', 'additionalProperties': False,
+            'required': ['product', 'production_ready', 'deployment', 'summary', 'areas'], '$defs': {'row': row},
+            'properties': {'product': {'const': 'Multibot'}, 'production_ready': {'const': False},
+                           'deployment': {'const': 'dedicated-single-host'}, 'summary': japanese,
+                           'areas': {'type': 'array', 'minItems': len(expected), 'maxItems': len(expected),
+                                     'prefixItems': [{'allOf': [{'$ref': '#/$defs/row'}, {'properties': {
+                                         'area': {'const': area}, 'evidence_quote': {'const': remaining}}}]}
+                                                    for area, _, remaining in expected]}}}
+
+
 async def main(root, repeat):
     root.mkdir(mode=0o700, parents=True, exist_ok=True)
     lock = (root / 'workflow.lock').open('a')
@@ -99,11 +117,15 @@ async def main(root, repeat):
         raise ValueError('use a clean, fixed checkout')
     source = {Path(name).name: (ROOT.parent / name).read_text() for name in SOURCES}
     expected = source_rows(source['PRODUCTION_PLAN.md'])
+    required = [{'logical_path': 'readiness.json', 'json_schema': delivery_schema(expected)}]
     cfg = load_config_file(ROOT.parent / 'docs/config/local-qwen35-9b-team.yaml')
     cfg.profile_name = 'production-readiness-source-workflow'
     cfg.limits.max_tasks = 4; cfg.limits.max_model_calls = 40; cfg.limits.max_tool_calls = 80
     cfg.limits.max_replans = 0; cfg.limits.max_session_turns = 18; cfg.limits.max_output_tokens = 5000
     cfg.limits.max_active_workers = 1
+    # v1 consumed 579s without revising its failed output. Record a separate,
+    # fixed 900s series with room for the mandatory check/revision cycle.
+    cfg.limits.timeout_seconds = 900
     next(a for a in cfg.agents if a.id == 'researcher').enabled = False
     async with httpx.AsyncClient(timeout=10, trust_env=False) as local:
         version = (await local.get('http://127.0.0.1:11434/api/version')).json()['version']
@@ -112,6 +134,7 @@ async def main(root, repeat):
     fingerprint = {'commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT.parent, text=True).strip(),
                    'source_sha256': {name: sha(value.encode()) for name, value in source.items()},
                    'goal_sha256': sha(GOAL.encode()), 'config_sha256': sha(config_to_yaml(cfg).encode()),
+                   'delivery_requirements_sha256': sha(json.dumps(required, sort_keys=True, ensure_ascii=False).encode()),
                    'model': cfg.defaults.model, 'model_digest': model['digest'], 'ollama_version': version, 'target_runs': repeat}
     manifest = root / 'fingerprint.json'
     if manifest.exists() and json.loads(manifest.read_text()) != fingerprint:
@@ -122,6 +145,7 @@ async def main(root, repeat):
         for name, value in source.items():
             (root / 'inputs' / name).write_text(value)
         (root / 'goal.txt').write_text(GOAL)
+        write_json(root / 'delivery-requirements.json', required)
     access = root / 'access.json'
     if not access.exists():
         issue_key(access, 'forifor', 'admin', root / 'forifor.key', organization='FORIFOR/Multibot', public_origin='https://localhost')
@@ -159,7 +183,8 @@ async def main(root, repeat):
             token = (root / 'forifor.key').read_text().strip()
             async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='https://localhost',
                                         headers={'Authorization': 'Bearer ' + token}, timeout=30) as client:
-                body = {'goal': GOAL, 'inputs': {'files': [{'name': name, 'content': text} for name, text in source.items()]}, 'start': True}
+                body = {'goal': GOAL, 'inputs': {'files': [{'name': name, 'content': text} for name, text in source.items()],
+                                               'delivery_requirements': required}, 'start': True}
                 for rep in range(1, repeat + 1):
                     if (root / 'STOP').exists():
                         status('paused', reason='STOP requested; prior attempts preserved'); return
@@ -181,7 +206,7 @@ async def main(root, repeat):
                             raise ValueError('production API refused workflow admission: ' + str(response.status_code))
                         attempt['run_id'] = response.json()['run_id']; write_json(attempts_path, attempts)
                     run_id = attempt['run_id']; status('running', rep=rep, run_id=run_id)
-                    async with asyncio.timeout(780):
+                    async with asyncio.timeout(cfg.limits.timeout_seconds + 180):
                         while True:
                             detail = (await client.get('/api/runs/' + run_id)).json()
                             if detail['status'] not in ('queued', 'planning', 'running'):

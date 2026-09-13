@@ -13,6 +13,7 @@ TITLES = {
     "task.interrupted": "タスク中断", "model.called": "モデル呼び出し", "model.failed": "モデル呼び出し失敗", "tool.called": "ツール実行",
     "message.sent": "メッセージ配送", "message.read": "メッセージ既読", "artifact.published": "成果物を公開", "artifact.read": "成果物を参照",
     "check.completed": "検証を実行", "review.submitted": "レビュー判定", "approval.requested": "承認を要求", "approval.resolved": "承認を処理",
+    "delivery.checked": "依頼者の必須条件を検査", "input.read": "元の添付資料を参照",
     "blocker.reported": "ブロッカー報告", "checkpoint.saved": "チェックポイント", "run.completed": "完了", "run.partial": "部分完了",
     "run.failed": "失敗", "run.cancelled": "取消", "run.interrupted": "中断", "run.resumed": "再開", "run.forked": "分岐",
     "run.blocked": "開始不可", "report.generated": "最終報告を生成", "budget.exceeded": "予算超過", "policy.denied": "権限拒否",
@@ -49,6 +50,10 @@ def timeline_view(events: list[Event], *, include_tool_calls: bool = True) -> li
             detail = f"{p.get('from_agent_id')} → {p.get('to_agent_id')} [{p.get('purpose')}]"
         elif e.type == "check.completed":
             detail = f"{p.get('kind')}: {(p.get('result') or {}).get('status')}"
+        elif e.type == "delivery.checked":
+            detail = f"{p.get('logical_path')}: {(p.get('result') or {}).get('status')}"
+        elif e.type == "input.read":
+            detail = f"{p.get('name')} characters {p.get('start_char')}–{p.get('end_char')}"
         elif e.type in ("task.failed", "task.blocked", "task.partial", "task.cancelled", "run.interrupted"):
             detail = str(p.get("reason", ""))[:200]
         elif e.type == "review.submitted":
@@ -67,6 +72,7 @@ def evidence_view(run, tasks, artifacts, events: list[Event]) -> dict[str, Any]:
                "problems": (e.payload.get("result") or {}).get("problems")} for e in events if e.type == "check.completed"]
     reviews = [{"seq": e.seq, "by": e.actor_id, **{k: e.payload.get(k) for k in ("target_task_id", "results", "summary", "target_artifacts")}}
                for e in events if e.type == "review.submitted"]
+    deliveries = [{"seq": e.seq, **e.payload} for e in events if e.type == "delivery.checked"]
     blockers = [{"seq": e.seq, "actor": e.actor_id, "task_id": e.task_id, **e.payload} for e in events if e.type == "blocker.reported"]
     approvals = [{"seq": e.seq, "task_id": e.task_id, **e.payload} for e in events if e.type in ("approval.requested", "approval.resolved")]
     failures = [{"seq": e.seq, "type": e.type, "task_id": e.task_id, "actor": e.actor_id, "reason": e.payload.get("reason") or e.payload.get("message")}
@@ -95,7 +101,7 @@ def evidence_view(run, tasks, artifacts, events: list[Event]) -> dict[str, Any]:
         "artifacts": [{"artifact_id": m.artifact_id, "revision": m.revision, "sha256": m.sha256, "media_type": m.media_type,
                        "logical_path": m.logical_path, "by": m.agent_id, "task_id": m.task_id, "size": m.size, "sources": m.sources}
                       for m in artifacts],
-        "checks": checks, "reviews": reviews, "blockers": blockers, "approvals": approvals, "failures": failures,
+        "checks": checks, "reviews": reviews, "delivery_checks": deliveries, "blockers": blockers, "approvals": approvals, "failures": failures,
         "messages": {"count": len(msgs), "by_purpose": _count(m.payload.get("purpose") for m in msgs)},
         "model_usage_by_agent": per_agent,
     }

@@ -2,6 +2,10 @@
 from __future__ import annotations
 
 import json
+import asyncio
+import base64
+import sys
+import os
 import re
 from html.parser import HTMLParser
 from pathlib import Path
@@ -179,7 +183,28 @@ CHECK_KINDS = {
 }
 
 
+async def isolated_check(kind, data, args):
+    data = data or b''
+    if len(data) > 2_000_000 or len(json.dumps(args).encode()) > 100_000:
+        return {'status': 'blocked', 'problems': ['validation input exceeds supported size']}
+    process = await asyncio.create_subprocess_exec(sys.executable, '-I', str(Path(__file__).with_name('check_worker.py')),
+        stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.DEVNULL,
+        env={'PATH': os.defpath, 'PYTHONDONTWRITEBYTECODE': '1'})
+    try:
+        raw, _ = await asyncio.wait_for(process.communicate(json.dumps({'kind': kind, 'data': base64.b64encode(data).decode(), 'args': args}).encode()), timeout=5)
+        if process.returncode != 0 or len(raw) > 65536:
+            return {'status': 'blocked', 'problems': ['validation worker exceeded its resource limit or failed']}
+        return json.loads(raw)
+    except asyncio.TimeoutError:
+        return {'status': 'blocked', 'problems': ['validation worker timed out']}
+    finally:
+        if process.returncode is None:
+            process.kill(); await process.wait()
+
+
 async def run_check(kind: str, data: bytes | None, args: dict[str, Any], workspace: Path | None, *, require_container=False) -> dict[str, Any]:
+    if kind in ('json_schema', 'regex_count'):
+        return await isolated_check(kind, data, args)
     if kind == "html_basic":
         return html_basic(data or b"")
     if kind == "json_valid":
@@ -192,15 +217,10 @@ async def run_check(kind: str, data: bytes | None, args: dict[str, Any], workspa
         return text_not_contains(data or b"", list(args.get("needles") or []))
     if kind == "html_links":
         return html_links(data or b"", allowed_hosts=args.get("allowed_hosts"))
-    if kind == "json_schema":
-        return json_schema_check(data or b"", args.get("schema"))
     if kind == "python_syntax":
         return python_syntax(data or b"", str(args.get("filename") or "artifact.py"))
     if kind == "file_size_max":
         return file_size_max(data or b"", int(args.get("max_bytes") or 1_000_000))
-    if kind == "regex_count":
-        return regex_count(data or b"", str(args.get("pattern") or ""), int(args.get("min_count") or 1),
-                           int(args["max_count"]) if args.get("max_count") is not None else None)
     if kind == "command":
         if workspace is None:
             return {"status": "blocked", "problems": ["no workspace for command check"]}

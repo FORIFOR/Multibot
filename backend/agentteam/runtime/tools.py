@@ -17,6 +17,7 @@ from ..contracts import (Approval, ApprovalStatus, ArtifactRef, Review, ReviewRe
 from ..ids import new_id, now_iso, now_utc
 from ..providers.base import ToolSpec
 from .checks import CHECK_KINDS, run_check
+from .delivery import verify_delivery, failures
 from .context import SessionContext
 from .policy import PolicyViolation
 from .sandbox import run_command
@@ -33,6 +34,9 @@ def _obj(props: dict[str, Any], required: list[str] | None = None) -> dict[str, 
 
 
 TOOL_SPECS: dict[str, ToolSpec] = {
+    'read_input_file': ToolSpec('read_input_file', 'Read an original user attachment by exact name. These are input sources, not published artifacts and have no revision. Returns source hash and a bounded character range.',
+        _obj({'name': {'type': 'string'}, 'start_char': {'type': 'integer', 'minimum': 0},
+              'max_chars': {'type': 'integer', 'minimum': 1, 'maximum': 20000}}, ['name'])),
     "read_skill": ToolSpec("read_skill", "Load the full body of one of your enabled skills by name.",
                            _obj({"name": {"type": "string"}}, ["name"])),
     "finish_task": ToolSpec("finish_task",
@@ -192,6 +196,20 @@ class ToolGateway:
         return m
 
     # ------------------------------------------------------------------ tools
+    async def t_read_input_file(self, args, cid):
+        matches = [f for f in self.rt.run.inputs.files if f.get('name') == args['name']]
+        if len(matches) != 1:
+            return 'NOT FOUND: exact unambiguous input name required. Available attachments: ' + ', '.join(f.get('name', '') for f in self.rt.run.inputs.files)
+        content = matches[0].get('content', '')
+        start = min(args.get('start_char', 0), len(content))
+        limit = min(args.get('max_chars', 12000), max(1, self.rt.config.limits.max_tool_output_chars - 800))
+        end = min(start + limit, len(content))
+        metadata = {'name': args['name'], 'sha256': hashlib.sha256(content.encode()).hexdigest(),
+                    'start_char': start, 'end_char': end, 'total_chars': len(content), 'more': end < len(content)}
+        await self.rt.events.append(self.rt.run_id, 'input.read', metadata, actor_id=self.ctx.agent.agent_id,
+                                    actor_kind='agent', task_id=self.ctx.task_id, causation_id=cid)
+        return 'Original request attachment (not an artifact): ' + json.dumps(metadata, ensure_ascii=False) + '\n---\n' + content[start:end]
+
     async def t_read_skill(self, a, cid):
         names = [s["name"] for s in self.ctx.agent.skills]
         if a["name"] not in names:
@@ -219,6 +237,9 @@ class ToolGateway:
         if missing and self.ctx.agent.role != "reviewer":
             return ("REJECTED: these output paths are not published by this task yet: " + ", ".join(missing)
                     + ". Write them with workspace_write and publish with publish_artifact, then call finish_task again.")
+        required_failures = failures(await verify_delivery(self.rt, task_id=spec.id, actor_id=self.ctx.agent.agent_id))
+        if required_failures:
+            return 'REJECTED: requester delivery requirements failed. Revise, publish another revision and retry finish_task. ' + ' | '.join(required_failures)[:6000]
         if self.ctx.agent.role == "reviewer":
             targets = [d for d in spec.depends_on if self.rt.tasks.get(d) and self.rt.agents.get(self.rt.tasks[d].spec.owner)
                        and self.rt.agents[self.rt.tasks[d].spec.owner].role != "reviewer"]
@@ -282,6 +303,8 @@ class ToolGateway:
     async def t_read_artifact(self, a, cid):
         m = await self._artifact(a["artifact_id"], a.get("revision"))
         if m is None:
+            if any(f.get('name') == a['artifact_id'] for f in self.rt.run.inputs.files):
+                return f"NOT FOUND: {a['artifact_id']} is an original user attachment, not an artifact. Use read_input_file(name={a['artifact_id']!r}) to verify its contents."
             return f"NOT FOUND: artifact {a['artifact_id']}"
         await self.rt.events.append(self.rt.run_id, "artifact.read", {"artifact_id": m.artifact_id, "revision": m.revision, "sha256": m.sha256},
                                     actor_id=self.ctx.agent.agent_id, actor_kind="agent", task_id=self.ctx.task_id, causation_id=cid)

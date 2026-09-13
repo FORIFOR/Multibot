@@ -6,6 +6,8 @@ runtime-owned objects (task state, message, artifact manifest, approval, run).
 from __future__ import annotations
 
 from enum import StrEnum
+import json
+from pathlib import PurePosixPath
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field, field_validator
@@ -255,10 +257,38 @@ class TaskState(BaseModel):
     review: Review | None = None
 
 
+class DeliveryRequirement(BaseModel):
+    logical_path: str = Field(min_length=1, max_length=256)
+    json_schema: dict[str, Any]
+
+    @field_validator('logical_path')
+    @classmethod
+    def valid_path(cls, value):
+        path = PurePosixPath(value)
+        if not path.parts or path.is_absolute() or '..' in path.parts or str(path) != value or '\\' in value or value == 'final-report.md':
+            raise ValueError('delivery path must be a normalized relative artifact path')
+        return value
+
+    @field_validator('json_schema')
+    @classmethod
+    def bounded_schema(cls, value):
+        if not value or len(json.dumps(value).encode()) > 64000:
+            raise ValueError('delivery schema must be nonempty and at most 64KB')
+        return value
+
+
 class RunInputs(BaseModel):
     text: str = ""
     urls: list[str] = Field(default_factory=list)
     files: list[dict[str, str]] = Field(default_factory=list)  # {name, content} small text attachments
+    delivery_requirements: list[DeliveryRequirement] = Field(default_factory=list, max_length=10)
+
+    @field_validator('delivery_requirements')
+    @classmethod
+    def unique_delivery_paths(cls, value):
+        if len({r.logical_path for r in value}) != len(value):
+            raise ValueError('delivery paths must be unique')
+        return value
 
 
 class Run(BaseModel):

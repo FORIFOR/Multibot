@@ -18,7 +18,7 @@ PROMPT_DIR = PKG_ROOT / "prompts"
 SKILL_DIR = PKG_ROOT / "skills"
 
 # Tools that every agent gets regardless of config; the rest is opt-in per agent.
-CORE_TOOLS = ["read_skill", "finish_task"]
+CORE_TOOLS = ["read_skill", "finish_task", "read_input_file"]
 
 
 class ConfigError(ValueError):

@@ -14,6 +14,7 @@ from ..providers.pricing import price_for
 from .context import SessionContext
 from .policy import Cancelled, PolicyViolation
 from .tools import ToolGateway
+from .delivery import verify_delivery, failures
 
 
 class WorkerFailure(Exception):
@@ -35,6 +36,7 @@ RUNTIME_RULES = """
 - Messages to other agents are real deliveries (send_message). Only send request / question / answer / handoff / finding / decision. No acknowledgements, thanks or encouragement.
 - To wait for an answer, call read_messages with wait_seconds. To hand off, reference artifacts by id and revision.
 - Timestamps, revisions, hashes and permissions are decided by the runtime. Do not invent them.
+- Original user attachments are read with read_input_file by exact name. They are not published artifacts and have no revision.
 - If you cannot proceed, call report_blocker. If an action needs a human decision, call request_approval.
 - Keep tool calls purposeful; there are hard limits on model calls, tool calls, messages and budget.
 """
@@ -67,6 +69,10 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
         lines.append("Assumptions recorded by the master: " + "; ".join(rt.run.plan.assumptions))
     lines += ["", f"## Objective\n{spec.objective}", "", "## Acceptance criteria"]
     lines += [f"- {c.id} [{c.check_kind}]: {c.description}" for c in spec.acceptance]
+    if rt.run.inputs.delivery_requirements:
+        lines.append('\n## Mandatory delivery contracts supplied by the requester\nThese apply independently of the master plan and model review. '
+                     'The runtime checks final artifact bytes against these JSON Schemas and refuses completion on failure.\n' +
+                     json.dumps([r.model_dump() for r in rt.run.inputs.delivery_requirements], ensure_ascii=False))
     inputs = []
     for ref in spec.input_artifacts:
         m = await rt.artifacts.get(rt.run_id, ref.artifact_id, ref.revision)
@@ -109,6 +115,7 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
     if inp.text or inp.urls or inp.files:
         lines.append("\n## User-provided inputs\nAttachment contents are included inline below. They are not "
                      "published artifacts or files in your workspace unless separately listed there. "
+                     "Use read_input_file(name=...) to retrieve an original attachment again or beyond the inline excerpt. "
                      "Use the original inputs to check factual claims, including assumptions in the plan.")
         if inp.text:
             lines.append(inp.text[:20000])
@@ -131,6 +138,8 @@ async def auto_finish_if_outputs_published(ctx: SessionContext, reason: str) -> 
     published = {m.logical_path: m for m in await rt.artifacts.list(rt.run_id, latest_only=True) if m.task_id == ctx.task.spec.id}
     missing = [p for p in ctx.task.spec.output_paths if p not in published and p != "*"]
     if missing or (ctx.task.spec.output_paths == ["*"] and not published):
+        return None
+    if failures(await verify_delivery(rt, task_id=ctx.task.spec.id, actor_id=ctx.agent.agent_id)):
         return None
     ctx.finished = TaskResult(summary=f"[auto-finished by runtime] all output paths published; agent ended without finish_task ({reason})",
                               unverified=["agent did not state what it verified"], published=[m.ref() for m in published.values()])
