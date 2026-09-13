@@ -28,3 +28,20 @@ backend/.venv/bin/agentteam quickstart --data-dir ./data-local-qwen35
 ```
 
 これは評価用の設定です。接続確認の成功だけで、本番品質や業務完了を保証するものではありません。実行中に見つかった問題と追加修正は[修正記録](../local-fixes-2026-09-14/README.md)へ残します。
+
+## 初回予備試験（ac8837c、追加修正前）
+
+| 方式・課題 | Runtime | 自動採点 | 時間 | 原文・出典の確認 |
+| --- | --- | --- | ---: | --- |
+| team / doc-email | completed | 5/5 | 332秒 | 不合格。未知の納期、添付書類への言及、日本語誤記をReviewerが見逃した |
+| single / research-py313 | completed | 5/5 | 188秒 | 不合格。補足リンク2件を実HTTP確認すると404 |
+
+[team結果](initial-team-result.json) / [single結果](initial-single-result.json) / [メールの確認](initial-team-quality-audit.json) / [リンクの確認](initial-single-quality-audit.json)。方式間の比較値ではなく、不具合探索の異なる2課題です。自動採点に通っても、人に渡せる品質とは限らないため、この2件を「業務品質合格」とは扱いません。
+
+添付入力・レビュー重複・完了表示を修正したcommit `00bc20fb6e224435349e7be19db7293404e39092`でメール課題を再実行しました。[結果](attachment-fix-team-result.json)は600秒でinterrupted。自動採点5/5でも宛先の取り違えとレビューの過剰判定が残り、業務品質合格にはしていません。上記の原文・出典確認はCodexによる確認であり、人間の評価ではありません。
+
+## 次の確認
+
+元の依頼の宛先・目的を保持する指示を補い、commit `aaef3ebfe6715061228898eaf2710e3ffa9ef00f`で推論有効の予備試験を開始しました。モデルと16K設定は同じです。非推論系列と混ぜずに評価します。75件の回帰テストとGitHub CIは成功しています。
+
+300件の本試験はまだ開始していません。推論有効の予備試験の結果と生成物を確認してから進めます。自動フォローは有効で、正常進行中の定例通知は行いません。

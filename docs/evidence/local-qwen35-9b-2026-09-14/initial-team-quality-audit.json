@@ -1,0 +1,15 @@
+{
+  "run_id": "run_1a09bebb0c14de71a85",
+  "artifact": "email.md@r1",
+  "sha256": "f67c357c2cc0dd285f11fe97cb561d8a73dc10c5f291684828ed51caada99151",
+  "grader_passed": true,
+  "issues": [
+    "「納期については前回と同じ内容」は入力メモで確認できない。",
+    "「詳細は添付ファイルをご確認ください」はメールに添付する資料がない状態で生成された。",
+    "「お世話成为しております」は日本語の誤記。"
+  ],
+  "assessment": "Independent reviewer participated but missed these issues. Do not count this as evidence of usable business-mail quality.",
+  "followup": "Pass original attachment text to the planner and reject duplicate criterion IDs; validate on a new run.",
+  "source_audit_passed": false,
+  "audit_method": "Codex inspection of the original input and artifact, plus real HTTP HEAD checks where listed; not a human evaluation."
+}

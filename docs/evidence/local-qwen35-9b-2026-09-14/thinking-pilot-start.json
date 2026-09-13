@@ -1,0 +1,8 @@
+{
+  "started_at": "2026-09-13T18:18:45.332914+00:00",
+  "commit": "aaef3ebfe6715061228898eaf2710e3ffa9ef00f",
+  "model": "agentteam-qwen35-9b-16k",
+  "ollama_thinking": true,
+  "state_at_publication": "running",
+  "is_part_of_300_run_campaign": false
+}

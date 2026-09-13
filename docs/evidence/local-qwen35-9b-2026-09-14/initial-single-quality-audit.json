@@ -1,0 +1,20 @@
+{
+  "task": "research-py313",
+  "checked_at": "2026-09-13T18:09:41.647888+00:00",
+  "grader_passed": true,
+  "issues": [
+    "本文中の詳細リンク2件がHTTP 404。自動採点5/5はリンク到達性や全文の正確性を保証しない。"
+  ],
+  "link_checks": [
+    {
+      "url": "https://docs.python.org/3/library/gi.html",
+      "http_status": 404
+    },
+    {
+      "url": "https://docs.python.org/3/library/jit.html",
+      "http_status": 404
+    }
+  ],
+  "source_audit_passed": false,
+  "audit_method": "Codex inspection of the original input and artifact, plus real HTTP HEAD checks where listed; not a human evaluation."
+}
