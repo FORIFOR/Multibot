@@ -3,8 +3,8 @@
     .venv/bin/python scripts/summarize_benchmark.py ~/.cache/agentteam-bench/team/results.jsonl ~/.cache/agentteam-bench/single/results.jsonl \
         [--reviewer ~/.cache/agentteam-bench/reviewer/results.jsonl]
 
-Per mode: runs, completed, correct (grader), false completions (status completed but grader failed), mean score,
-retries, cost and wall time (mean and p95). Then per category, then per task. Nothing is filtered.
+Per mode: latest attempt per task/repetition, plus all-attempt accounting. Failed attempts remain in the ledger.
+Pass original and regraded results separately: they are different grading versions, not new model runs.
 """
 from __future__ import annotations
 
@@ -16,6 +16,21 @@ from pathlib import Path
 
 def load(p: str) -> list[dict]:
     return [json.loads(l) for l in Path(p).expanduser().read_text().splitlines() if l.strip()]
+
+
+def unique_attempts(rows: list[dict]) -> list[dict]:
+    """Overlapping snapshots contain the same run; it must not be charged twice."""
+    by_id = {}
+    for i, r in enumerate(rows):
+        by_id[r.get("run_id") or ("unidentified", i)] = r
+    return list(by_id.values())
+
+
+def latest_pairs(rows: list[dict]) -> list[dict]:
+    latest = {}
+    for r in rows:
+        latest[r["task"], r["rep"]] = r
+    return list(latest.values())
 
 
 def pct(n: int, d: int) -> str:
@@ -35,6 +50,8 @@ def stats(rows: list[dict]) -> dict:
     wall = [r.get("wall_s", 0) / 60 for r in rows]
     calls = [r.get("usage", {}).get("model_calls", 0) for r in rows]
     return {"runs": n, "completed": sum(1 for r in rows if r.get("status") == "completed"),
+            "failed": sum(1 for r in rows if r.get("status") == "failed"),
+            "partial": sum(1 for r in rows if r.get("status") == "partial"),
             "correct": sum(1 for r in rows if r.get("correct")), "false_completion": sum(1 for r in rows if r.get("false_completion")),
             "errors": sum(1 for r in rows if r.get("status") in ("error", "blocked")),
             "score": (sum(r.get("score", 0.0) for r in rows) / n) if n else 0.0,
@@ -45,11 +62,11 @@ def stats(rows: list[dict]) -> dict:
 
 def row(label: str, s: dict) -> str:
     return (f"| {label} | {s['runs']} | {s['completed']} ({pct(s['completed'], s['runs'])}) | **{s['correct']} ({pct(s['correct'], s['runs'])})** | "
-            f"{s['false_completion']} | {s['errors']} | {s['score']:.2f} | {s['retries']} | ${s['cost_mean']:.2f} / ${s['cost_p95']:.2f} | "
+            f"{s['false_completion']} | {s['failed']} / {s['partial']} / {s['errors']} | {s['score']:.2f} | {s['retries']} | ${s['cost_mean']:.2f} / ${s['cost_p95']:.2f} | "
             f"{s['wall_mean']:.1f} / {s['wall_p95']:.1f} min |")
 
 
-HEAD = ("| mode | runs | completed | correct (grader) | false completion | error/blocked | mean score | retries | cost mean / p95 | time mean / p95 |\n"
+HEAD = ("| mode | runs | completed | correct (grader) | false completion (grader) | failed / partial / error-blocked | mean score | retries | cost mean / p95 | time mean / p95 |\n"
         "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
 
 
@@ -59,8 +76,17 @@ def main(args) -> int:
         rows = load(p)
         if not rows:
             continue
-        modes[rows[0].get("team_mode", "team")] = rows
-    print("## Overall\n" + HEAD)
+        modes.setdefault(rows[0].get("team_mode", "team"), []).extend(rows)
+    print("## Attempt ledger\nSnapshots must be supplied oldest first; use one grading version per report.\n")
+    print("| mode | unique attempts | task/repetition pairs | failed | partial | total list-price estimate |\n| --- | --- | --- | --- | --- | --- |")
+    for m, rows in modes.items():
+        attempts = unique_attempts(rows)
+        latest = latest_pairs(attempts)
+        s = stats(attempts)
+        print(f"| {m} | {len(attempts)} | {len(latest)} | {s['failed']} | {s['partial']} | ${s['cost_total']:.2f} |")
+        modes[m] = latest
+    print("\n## Latest attempt per task/repetition\nEarlier failed attempts remain included in the ledger above. "
+          "Completion and programmatic grading are separate measures; neither establishes enterprise reliability.\n" + HEAD)
     for m, rows in modes.items():
         print(row(m, stats(rows)))
     print("\n## By category\n| category | mode | runs | correct | false completion | mean score | cost mean | time mean |\n| --- | --- | --- | --- | --- | --- | --- | --- |")
@@ -83,7 +109,10 @@ def main(args) -> int:
         rows = load(args.reviewer)
         planted = sum(r.get("planted", 0) for r in rows)
         caught = sum(r.get("caught", 0) for r in rows)
-        print(f"\n## Reviewer catch rate\n{len(rows)} runs, {planted} planted errors, {caught} caught ({pct(caught, planted)}), "
+        print(f"\n## Reviewer legacy regex matches (not validated detection rate)\n"
+              "Includes pilot/repeated attempts. A mention of a wrong value can match without identifying an error. "
+              "Precision and false-positive rate were not measured.\n"
+              f"{len(rows)} runs, {planted} scored opportunities, {caught} regex matches ({pct(caught, planted)}), "
               f"runs completed {sum(1 for r in rows if r.get('status') == 'completed')}/{len(rows)}, "
               f"memo verbatim {sum(1 for r in rows if r.get('memo_verbatim'))}/{len(rows)}, "
               f"cost total ${sum(r.get('usage', {}).get('cost_usd', 0) for r in rows):.2f}")

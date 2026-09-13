@@ -20,7 +20,9 @@
 >
 > [▶ 実モデルの作業記録・日本語解説（32秒）](https://forifor.github.io/Multibot/media/real-walkthrough-ja.mp4). Edited replay of a real run, with synthesized Japanese narration. The run ended **partial**, with the unfinished source check disclosed. No scripted provider is used in this video.
 >
-> **Benchmark audit (2026-09-14):** the existing 50-task × 3 team series hit a provider session limit (47 completed, 3 partial, 100 failed); the single-agent series completed 150. These include constructed evaluation inputs, not real customer workflows. No team quality advantage is established. [Raw metrics and grading caveats](docs/evidence/benchmark-2026-09-13/README.md).
+> **Benchmark audit (2026-09-14, updated):** latest attempts across 50 tasks × 3 repetitions: team 69 completed / 5 partial / 76 failed; single agent 150 completed. The team has 79 provider-blocked pairs. All 252 team attempts remain accounted for, including earlier failures. These are constructed evaluation inputs, not customer workflows; no team quality advantage is established. [Metrics and Reviewer audit](docs/evidence/readiness-2026-09-14/README.md).
+>
+> **Enterprise readiness:** demonstration material is available, but the required ten repeated runs of one workflow are not yet verified. L2 customer-data PoC and L3 production readiness are not claimed. [L1 / L2 / L3 acceptance criteria](docs/ENTERPRISE_READINESS.md).
 
 You type **one request**. A Master plans the deliverables, a Researcher, a Builder and a Reviewer actually do the work, and you get the files **plus** the real bot-to-bot messages, a timeline, and verification bound to each artifact revision.
 
@@ -104,7 +106,7 @@ Still open: three runs per request is a record, not a benchmark; plans vary beca
 ## Read more
 
 - [dev.to: I built an AI team that ships real work — and shows you the conversation](https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a)
-- [Zenn（日本語）: Bot 同士を会話させるのではなく、仕事の経緯がそのままチャットになるマルチエージェントを OSS で作った](https://zenn.dev/forifori/articles/agent-team-launch)
+- [Zenn（日本語）: Claude Codeで調査・レビュー・修正を回すOSSを作った。3件直っても「未完了」だった](https://zenn.dev/forifori/articles/agent-team-launch)
 - Launch threads on X: [English](https://x.com/i/status/2098800226199130220) · [日本語](https://x.com/i/status/2098800307421716835)
 
 ## Design notes

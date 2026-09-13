@@ -1,0 +1,31 @@
+{
+  "team-latest-results.jsonl": {
+    "source": "team/results.jsonl",
+    "source_sha256": "aae9c73fe63bc683640f0d7729a3d37b048541f71e12c89d9b59f2352e4dbbae",
+    "export_sha256": "aae9c73fe63bc683640f0d7729a3d37b048541f71e12c89d9b59f2352e4dbbae",
+    "rows": 150,
+    "scope": "allowlisted metrics; no environment, credentials, or raw input attachments"
+  },
+  "team-additional-attempts.jsonl": {
+    "source": "team/results.jsonl",
+    "source_sha256": "aae9c73fe63bc683640f0d7729a3d37b048541f71e12c89d9b59f2352e4dbbae",
+    "export_sha256": "c368e31ace3fd7fbae6897d0b97ea98248169a331987ac9db38ad6ad82e9aa97",
+    "rows": 102,
+    "scope": "allowlisted metrics; no environment, credentials, or raw input attachments"
+  },
+  "reviewer-original-results.jsonl": {
+    "source": "reviewer/results.jsonl",
+    "source_sha256": "7b50f01fd7ff63153b0f8d6c1c1d73c040f7028573196762dc2ceee6ab5f12ea",
+    "export_sha256": "7b50f01fd7ff63153b0f8d6c1c1d73c040f7028573196762dc2ceee6ab5f12ea",
+    "rows": 8,
+    "scope": "allowlisted metrics; no environment, credentials, or raw input attachments"
+  },
+  "A-run_1a09a605d17590c3ac0-findings.md": {
+    "source_sha256": "3bd49bc772d9bfa37cee3eb4c06fca24c60e135ffddd4ff7367550bdf4b86d7f",
+    "scope": "existing real-model review of constructed inputs; repetition 3 only"
+  },
+  "B-run_1a09a65f9a060f052d2-findings.md": {
+    "source_sha256": "0407c1c77450cf80a82b5087a61fcce6d9d5585887e512e530aab489eb55e385",
+    "scope": "existing real-model review of constructed inputs; repetition 3 only"
+  }
+}

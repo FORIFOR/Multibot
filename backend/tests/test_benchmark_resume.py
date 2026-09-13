@@ -32,3 +32,13 @@ def test_resume_keeps_unattempted_repetitions():
     pending = runner.pending_jobs(JOBS, first_repetition, False)
     assert len(pending) == 100
     assert {rep for _, rep in pending} == {2, 3}
+
+
+def test_actual_weekly_limit_stops_and_can_resume():
+    path = ROOT / "docs/evidence/readiness-2026-09-14/team-latest-results.jsonl"
+    rows = [json.loads(line) for line in path.read_text().splitlines()]
+    affected = [r for r in rows if runner.provider_exhausted(r)]
+    assert len(affected) == 79
+    assert sum(r["status"] == "failed" for r in affected) == 76
+    assert sum(r["status"] == "partial" for r in affected) == 3
+    assert len(runner.pending_jobs(JOBS, rows, True)) == 79

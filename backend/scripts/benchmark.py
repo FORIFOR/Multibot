@@ -33,7 +33,8 @@ import tasks as T  # noqa: E402
 def provider_exhausted(result: dict) -> bool:
     """Only stop for provider-wide quota/auth failures, never an artifact grade."""
     detail = json.dumps({k: result.get(k) for k in ("reason", "error", "failures")}).lower()
-    return any(s in detail for s in ("hit your session limit", "insufficient_quota", "credit balance is too low", "not logged in", "invalid_api_key"))
+    return any(s in detail for s in ("hit your session limit", "hit your weekly limit", "hit your usage limit",
+                                   "insufficient_quota", "credit balance is too low", "not logged in", "invalid_api_key"))
 
 
 def pending_jobs(jobs: list, previous: list[dict], retry_exhausted: bool) -> list:
