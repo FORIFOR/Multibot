@@ -1,0 +1,58 @@
+# Final report — 次の3つの公開ページを実際に取得して読み、それぞれの「主張・対象読者・ライセンス（記載があれば）」を出典URL付きで比較した調査メモ `research.md` を日本語で作ってください。取得できなかったページは『取得不可』と明記し、本文を推測で埋めないでください。Reviewer は各主張が出典に実在するかを read_artifact と web_fetch で照合してください。
+
+- Status: **completed**
+- Provider kind: real
+- Usage: 38 model calls, 34 tool calls, $2.1896, 937s
+
+## Summary
+run_1a09a4477e60d51dfc8 は completed。3つの公開ページを実取得し比較した日本語調査メモ research.md rev1 と、独立照合記録 review.md rev1 を公開。t1 の受入条件 t1a1〜t1a6 は全件 pass だが、t2 自体のレビューは未実施。所要 936.8秒、$2.1896（表示budget $1.5 を超過）。
+
+## Deliverables
+- `research.md` — research.md r1 (sha256 682bd8234b1c…) by researcher / task t1
+- `review.md` — review.md r1 (sha256 e455966c3b79…) by reviewer / task t2
+
+## Tasks
+- t1 [accepted] researcher: web_fetch で https://github.com/langchain-ai/deepagents , https://github.com/bytedance/deer-flow , https://agentskills.io/specification の3ページを実際に取得し、取得可否（HTTPステータス等）を記録する。取得できたページのみ、本文に基づいて『主張（そのページが何を提供/主張しているか）』『対象読者』『ライセンス記載の有無と内容』を抽出し、各項目に出典URLを併記した日本語の調査メモ research.md を作成する。取得できなかったページは『取得不可』と明記し、理由を書き、本文内容は一切推測で埋めない。ライセンスはページ上に明示的記載がある場合のみ記載し、なければ『記載を確認できず』とする。最後に3ページの比較表と、未確認事項リストを付ける。 (attempts 1)
+- t2 [accepted] reviewer: read_artifact で research.md を読み、web_fetch で3つの出典URLを再取得して、research.md に書かれた各主張・対象読者・ライセンス記述が出典本文に実在するかを1件ずつ照合する。出典に存在しない記述、出典URLが欠落した記述、推測で埋められた本文、誤ったライセンス断定を指摘し、t1 の全受入条件に対して合格/不合格の判定を submit_review で記録する。web_fetch が失敗した場合は照合不能として明示し、合格扱いにしない。 (attempts 1)
+
+## Verified (from checks and reviews)
+- check markdown_basic on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 34)
+- check text_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 36)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 38)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 40)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 42)
+- check text_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 44)
+- check text_not_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 47)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 49)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 51)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → fail (seq 53)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '682bd8234b1cb6ac845df10c2e7ea29810e6ba8a91a83f5d995713f2161fc45f'} → pass (seq 55)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=pass, t1a6=pass (seq 60)
+- 3URL すべて HTTP 200 で取得成功。deepagents/agentskills は truncated=False、deer-flow は truncated=True（末尾28,425文字切り捨て）。researcher と reviewer の独立取得で一致。
+- run_check 11件を実行し 10件 pass / 1件 fail（seq 53 regex_count は 0 matches で fail、reviewer が代替 regex で末尾領域を再確認）。
+- markdown_basic: 必須5セクション全て存在（headings 20件、chars 12048、problems なし）。
+- text_contains: 3URL 文字列すべて含まれる（missing なし）。
+- regex_count: 『#### 主張』『#### 対象読者』『#### ライセンス』各 count=3。
+- text_not_contains: Apache License/GPL/BSD/AGPL/Creative Commons/CC BY を含まない。
+- ライセンス確認: deepagents はページ上 MIT license 表示、deer-flow は MIT license 表示＋LICENSE 本文（Copyright (c) 2025 Bytedance Ltd. and/or its affiliates / 2025-2026 DeerFlow Authors）、agentskills.io/specification は全文にサイト自体のライセンス表記なしで『記載を確認できず』が正しい。
+- 出典に存在しない記述・推測補完・誤ったライセンス断定は検出されず（t1a5 / t1a6 pass）。
+
+## Unresolved / pending
+- t2（reviewer タスク）に対するレビューが未実施（review=null）。reviewer の自己申告が第三者検証されていない。
+- deer-flow README 後半（Core Features 以降、Security Notice、License 節、Acknowledgments 等）は researcher・reviewer 双方とも truncated で未取得。
+- deepagents の LICENSE ファイル本文は未取得。ページ上の MIT license 表示のみが根拠。
+- research.md 末尾231文字は read_artifact 表示で truncate され逐語未確認（regex による間接確認のみ）。
+- 3ページとも公開日・最終更新日は未特定。
+- agentskills.io の /specification 以外のページおよびサイト全体のライセンスは未取得。
+- researcher→reviewer の handoff は480秒待機して返信なし（reviewer は後に独立実行）。
+- 本 run のコスト $2.1896 は、セッションに表示された USD budget 上限 $1.5 を超過している。
+
+## Next steps
+- deer-flow README 後半を raw URL で分割取得し、未確認事項を縮小する。
+- deepagents の LICENSE ファイル本文を取得し、ページ表示のみの根拠を補強する。
+- t2 に対するレビュー（または承認判断）を実施し、reviewer の自己申告を第三者検証する。
+- budget 超過（$2.19 / $1.5）について運用上の扱いを確認する。
+
+## Trace
+- Messages delivered: 2 ({'handoff': 1, 'finding': 1})
+- Model usage by agent: master: 2 calls / $0.2255 (reported claude-opus-5), researcher: 1 calls / $0.7480 (reported claude-opus-5), reviewer: 1 calls / $1.2161 (reported claude-opus-5)

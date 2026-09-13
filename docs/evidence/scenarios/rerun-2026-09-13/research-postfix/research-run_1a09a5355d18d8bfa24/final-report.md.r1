@@ -1,0 +1,39 @@
+# Final report — 次の3つの公開ページを実際に取得して読み、それぞれの「主張・対象読者・ライセンス（記載があれば）」を出典URL付きで比較した調査メモ `research.md` を日本語で作ってください。取得できなかったページは『取得不可』と明記し、本文を推測で埋めないでください。Reviewer は各主張が出典に実在するかを read_artifact と web_fetch で照合してください。
+
+- Status: **partial** (t3 review_pending; t4 failed: budget: budget 6.00 USD would be exceeded (spent 6.0044 + reserved 0.0000 + session cap 0.0500))
+- Provider kind: real
+- Usage: 93 model calls, 85 tool calls, $6.0044, 1921s
+
+## Deliverables
+- `research-tail.md` — research-tail.md r2 (sha256 e0e18770ca3e…) by researcher / task t3
+- `research.md` — research.md r1 (sha256 2f0fc2622010…) by researcher / task t1
+- `review-claim-check.md` — review-claim-check.md r1 (sha256 0b5cd9d0ca63…) by reviewer / task t2
+- `review-tail-check.md` — review-tail-check.md r1 (sha256 9084d5cd6fe5…) by reviewer / task t4
+
+## Tasks
+- t1 [accepted] researcher: 3つのURL（https://github.com/langchain-ai/deepagents, https://github.com/bytedance/deer-flow, https://agentskills.io/specification）を web_fetch で実際に取得し、各ページについて『主張（何を提供すると述べているか）』『対象読者』『ライセンス記載（あれば）』を、原文の短い引用＋日本語要約＋出典URLの形式で記録する。取得ステータス（成功/取得不可＋理由）を各ページ冒頭に明記し、取得できなかったページは本文を推測で埋めず『取得不可』とする。最後に3対象×3観点の比較表と、出典一覧（URL・取得日）を含む research.md を日本語で作成する。source-grounded-research スキルの手順に従い、出典にない断定は書かない。 (attempts 1)
+- t2 [accepted] reviewer: read_artifact で research.md を読み、web_fetch で3つの出典URLを自分で再取得して、research.md に書かれた各主張・対象読者・ライセンス記載が出典に実在するかを1件ずつ照合する。実在しない／出典で確認できない記述、出典URLが付いていない断定、取得不可ページの推測記述を具体的に列挙し、t1 の各受入条件に verdict（pass/fail＋根拠）を記録して submit_review する。自分の web_fetch が失敗した場合は『照合不能』と明記し、成功扱いにしない。 (attempts 1)
+- t3 [review_pending] researcher: research.md rev1 の末尾約3,457文字（「比較表」「観察できた差分」「出典一覧」「本メモの限界」など、read_artifact が truncate して読めない範囲）を、内容を一切変更せず逐語コピーした別ファイル research-tail.md を作成して publish_artifact する。目的は検証可能性の確保のみ。新しい主張・新しい出典・新しい要約は追加しない（research.md rev1 に存在しない文は書かない）。追加の web_fetch は不要。冒頭に1行だけ「本ファイルは research.md rev1 の末尾部分の逐語抜粋である」と注記してよい。比較表は Markdown 表として3対象×3観点（主張／対象読者／ライセンス）が判読可能な形で含まれていること。research.md 本体は編集・再公開しない。 (attempts 2)
+- t4 [failed] reviewer: research-tail.md（t3成果）を read_artifact で全文読み、そこに含まれる比較表・観察できた差分・出典一覧・限界記述が出典に実在するかを照合する。照合方法: (1) 比較表の各セル（3対象×主張／対象読者／ライセンス）について、対応する主張が research.md rev1 本文および出典ページの原文に存在するかを確認する。必要なページのみ web_fetch で再取得してよい（agentskills.io/specification のライセンス記載なしの確認と、deer-flow の truncation 記述の妥当性を優先）。(2) 出典一覧の各URLが本文で実際に参照されたURLと一致し、実在（HTTP 200 または取得不可の明記）しているか確認する。(3) 推測で埋めた記述、出典URLなしの断定、deer-flow の取得不可範囲を既知として書いている箇所があれば具体的に指摘する。結果を review-tail-check.md として公開し、各項目に pass/fail と根拠（引用または取得結果）を書く。fail が無ければ「fail 0件」と明記する。research.md / research-tail.md は編集しない。 (attempts 2) — budget: budget 6.00 USD would be exceeded (spent 6.0044 + reserved 0.0000 + session cap 0.0500)
+
+## Verified (from checks and reviews)
+- check command on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87'} → pass (seq 35)
+- check markdown_basic on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87'} → pass (seq 37)
+- check text_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87'} → pass (seq 39)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87'} → pass (seq 43)
+- check text_not_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87'} → pass (seq 47)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87'} → pass (seq 51)
+- check text_not_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87'} → fail (seq 53)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87'} → pass (seq 55)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': '2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87'} → pass (seq 57)
+- check markdown_basic on {'artifact_id': 'review-tail-check.md', 'revision': 1, 'sha256': '9084d5cd6fe504547df3857541332f8c132f2b9ea2c1257e68f1520c10d2a67d'} → pass (seq 127)
+- check text_contains on {'artifact_id': 'review-tail-check.md', 'revision': 1, 'sha256': '9084d5cd6fe504547df3857541332f8c132f2b9ea2c1257e68f1520c10d2a67d'} → pass (seq 129)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=pass (seq 64)
+- review of t3 by reviewer: t3a1=pass, t3a2=fail, t3a3=pass (seq 131)
+
+## Unresolved / pending
+- task.failed task=t4: budget: budget 6.00 USD would be exceeded (spent 6.0044 + reserved 0.0000 + session cap 0.0500) (seq 173)
+
+## Trace
+- Messages delivered: 7 ({'handoff': 2, 'request': 1, 'question': 1, 'answer': 1, 'finding': 2})
+- Model usage by agent: master: 3 calls / $0.6295 (reported claude-opus-5), researcher: 3 calls / $2.0337 (reported claude-opus-5), reviewer: 3 calls / $3.3412 (reported claude-opus-5)

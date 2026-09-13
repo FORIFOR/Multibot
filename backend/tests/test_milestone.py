@@ -132,3 +132,16 @@ async def test_partial_run_carries_a_reason_naming_the_unaccepted_task(tmp_path)
         run = await h.run_goal("LP")
         assert run.status in ("partial", "failed"), run.status
         assert run.blocked_reason and "t2" in run.blocked_reason, run.blocked_reason
+
+
+async def test_reason_notes_when_only_milestone_added_tasks_are_unfinished(tmp_path):
+    """research re-run 3 (post-fix): the planned tasks were accepted, a milestone-added task failed → the reason says so."""
+    def failing_added(req):
+        md = req.metadata
+        if md.get("agent_id") == "builder" and md.get("mode") == "task" and "posts.md" in req.messages[0]["content"][0]["text"]:
+            raise RuntimeError("simulated outage on the milestone-added task")
+        return script(req)
+    async with Harness(tmp_path, script=failing_added) as h:
+        run = await h.run_goal("LP")
+        assert run.status == "partial", run.status
+        assert run.blocked_reason and run.blocked_reason.startswith("every task of the original plan was accepted"), run.blocked_reason

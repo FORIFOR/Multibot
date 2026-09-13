@@ -1,0 +1,122 @@
+# review-tail-check.md — research-tail.md rev1 の出典照合レビュー
+
+- レビュー対象: `research-tail.md` revision 1 / sha256 `23a047e923186b2b4eb6a5a7f7d4ca342f6b57f6689672c6999f08b9fbdfbad9` / 10,522B / by researcher (task t3)
+- 参照した artifact: `research.md` revision 1 / sha256 `2f0fc26220104f06d222b04e2bfddb561fbdc579b1b8bd3f44b040d28a9ddf87`
+- レビュー実施日: 2026-09-13（JST）／`web_fetch` 取得タイムスタンプは UTC
+- 判定粒度: 比較表 9 セル（3対象 × 主張／対象読者／ライセンス）＋ 出典一覧 4 URL ＋ 追加観点
+- **結論: 比較表 9 セルおよび出典一覧 4 URL について fail 0 件。** ただし t3 の受入条件 t3a2（逐語抜粋であること）について 1 件の fail、および軽微な unverified を 2 件検出した（§4・§5）。
+
+---
+
+## 1. Reviewer 自身が実行した web_fetch の記録（生の結果）
+
+| # | URL | HTTP status | content_type | truncated | retrieved_at (UTC) | 備考 |
+|---|---|---|---|---|---|---|
+| F1 | https://agentskills.io/specification | 200 | text/html; charset=utf-8 | **False** | 2026-09-13T10:56:04.888Z | title=`Specification - Agent Skills`。全文取得。 |
+| F2 | https://github.com/bytedance/deer-flow | 200 | text/html; charset=utf-8 | **True** | 2026-09-13T10:56:05.572Z | 末尾に `...[truncated 28425 chars; stored in full in the event log]`。`max_chars=40000` 指定でも打ち切り。 |
+| F3 | https://github.com/langchain-ai/deepagents | 200 | text/html; charset=utf-8 | **False** | 2026-09-13T10:56:11.094Z | title=`GitHub - langchain-ai/deepagents: The batteries-included agent harness. · GitHub`。全文取得。 |
+| F4 | https://github.com/bytedance/deer-flow/blob/main/LICENSE | 200 | text/html; charset=utf-8 | **False** | 2026-09-13T10:56:16.358Z | LICENSE 本文 22 lines / 1.11 KB を全文取得。 |
+
+`read_artifact` の実行記録:
+
+| # | 対象 | 結果 |
+|---|---|---|
+| R1 | `research-tail.md` rev1 | truncation マーカーなしで全文読了（10,522B）。 |
+| R2 | `research.md` rev1 | `... / "license:` の直後で `...[truncated 3457 chars; stored in full in the event log]` により打ち切り。**Reviewer 側でも rev1 末尾 3,457 文字は読めない**ことを実測で確認。 |
+
+**未実行の検証は本書で合格扱いにしていない**（該当箇所は unverified と明記、§5）。
+
+---
+
+## 2. 比較表 9 セルの照合結果
+
+判定基準: セルに含まれる英語原文引用が、Reviewer が今回取得した原典本文に**文字列として実在するか**。および日本語要約が引用の範囲を超えて断定していないか。
+
+### 2.1 deepagents（出典 F3: https://github.com/langchain-ai/deepagents）
+
+| セル | 判定 | 根拠（Reviewer の取得結果からの引用） |
+|---|---|---|
+| **C1 deepagents × 主張** | **pass** | F3 本文に `The batteries-included agent harness.` / `Deep Agents is an open source agent harness — an opinionated agent that runs out of the box. Extend, override, or replace any piece.` を確認。列挙された機能も原典に実在: `Sub-agents — delegate tasks to agents with isolated context windows` / `Filesystem — read, write, edit, or search over pluggable local, sandboxed, or remote backends` / `Context management — summarize long threads and offload tool outputs to disk` / `Shell access — run commands in your sandbox of choice` / `Persistent memory — pluggable state and store backends for cross-session recall` / `Human-in-the-loop — approve, edit, or reject tool calls before they run` / `Skills — reusable behaviors the agent can load on demand` / `Tools — bring your own functions or any MCP server`。「モデル非依存」「LangGraph 上に構築・LangSmith でトレース/評価/デプロイ」は原典 `Model-agnostic — works with any LLM that supports tool calling: frontier, open-weight, or local` / `Production-ready — built on LangGraph (streaming, persistence, checkpointing) with first-class tracing, evaluation, and deployment via LangSmith` に対応。過剰要約なし。 |
+| **C2 deepagents × 対象読者** | **pass** | 引用 `Can I use this in production? Yes! Deep Agents is built on LangGraph, designed for production agent deployments.` は F3 の FAQ に実在（原典では見出し `Can I use this in production?` と本文 `Yes! Deep Agents is built on LangGraph, designed for production agent deployments.` に分かれるが文言は一致）。`Deep Agents Code — a pre-built coding agent in your terminal, similar to Claude Code or Cursor, powered by any LLM.` も実在。「Python / JavaScript・TypeScript のライブラリ」は原典の `Deep Agents is available as a JavaScript/TypeScript library` と Quickstart の `uv add deepagents` / `from deepagents import create_deep_agent` に裏付けあり。**「ページ上に『対象読者』の明示セクションは無く…読み取り」という限定注記が付いており、推測を主張として断定していない**（F3 全文に「Audience」等の節は存在しない）。 |
+| **C3 deepagents × ライセンス** | **pass** | F3 本文に `Repository files navigation` 直後の `README / Code of conduct / Contributing / MIT license / Security` 表示、および右カラム `Resources` 内の `Readme` / `MIT license` を確認。リポジトリ直下ファイル一覧に `LICENSE` が存在することも確認。セルの備考「`LICENSE` ファイル本文は未取得（未確認）。根拠はトップページ上の表示のみ」も、rev1 の記述と整合し、かつ Reviewer も deepagents の LICENSE 本文は取得していないため**過大主張なし**（未確認を未確認と書けている）。 |
+
+### 2.2 deer-flow（出典 F2 / F4）
+
+| セル | 判定 | 根拠 |
+|---|---|---|
+| **C4 deer-flow × 主張** | **pass** | F2 の HTML title に `An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours.` が文字列一致で実在。README 冒頭に `DeerFlow (Deep Exploration and Efficient Research Flow) is an open-source super agent harness that orchestrates sub-agents, memory, and sandboxes to do almost anything — powered by extensible skills.` を確認。「2.0 は v1 とコードを共有しない全面書き直し／旧 Deep Research は 1.x ブランチで維持」は原典 Note ブロック `DeerFlow 2.0 is a ground-up rewrite. It shares no code with v1. If you're looking for the original Deep Research framework, it's maintained on the 1.x branch — contributions there are still welcome. Active development has moved to 2.0.` に一致。セル内の「※ README 後半（"Core Features" ほか）は原典取得不可のため評価対象外」も**Reviewer の再取得で追認**（F2 は `Manual model configuration examples` 節の vLLM 記述途中 `Legacy thinking configs are normalized automatically fo` で打ち切り、`Core Features` 以降の本文は目次にしか現れない）。 |
+| **C5 deer-flow × 対象読者** | **pass** | `If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent, you can hand it the setup instructions in one sentence` および `That prompt is intended for coding agents.` は F2 の `One-Line Agent Setup` 節に文字列一致で実在。多言語 README `English | 中文 | 日本語 | Français | Русский` と `中国大陆地区的开发者请点击这里` も実在。「ページ上に『対象読者』の明示セクションは無く…読み取り」「後半セクション（Documentation・Security Notice・Contributing など）は原典取得不可のため評価対象外」も追認（当該節は F2 の Table of Contents に項目名として出現するのみで、本文は truncation 範囲）。 |
+| **C6 deer-flow × ライセンス** | **pass** | F2 の `Repository files navigation` 表示に `MIT license` を確認。F4（LICENSE 本文、HTTP 200 / truncated=False）に `MIT License` / `Copyright (c) 2025 Bytedance Ltd. and/or its affiliates` / `Copyright (c) 2025-2026 DeerFlow Authors` を**逐語で確認**。セルの「README 目次の "License" 節本文は原典取得不可のため評価対象外。根拠は上部表示と LICENSE ファイル本文による」という切り分けは正確。 |
+
+### 2.3 agentskills.io specification（出典 F1）
+
+| セル | 判定 | 根拠 |
+|---|---|---|
+| **C7 agentskills × 主張** | **pass** | F1 に `The complete format specification for Agent Skills.` / `A skill is a directory containing, at minimum, a SKILL.md file:` / `The SKILL.md file must contain YAML frontmatter followed by Markdown content.` を確認。フロントマター表に `name Yes` / `description Yes` の必須指定、`license No` / `compatibility No` / `metadata No` / `allowed-tools No ... (Experimental)` の任意指定を確認（セルの記述と一致）。段階的開示は `Agents load skills progressively, pulling in more detail only as a task calls for it.` および `Metadata (~100 tokens)` → `Instructions (< 5000 tokens recommended)` → `Resources (as needed)` の順で実在。`Use the skills-ref reference library to validate your skills:` も実在。 |
+| **C8 agentskills × 対象読者** | **pass** | F1 のサイドナビに `For skill creators` 配下 `Quickstart / Best practices / Optimizing descriptions / Evaluating skills / Using scripts`、`For client implementors` 配下 `Adding skills support` が実在。**3対象中このページのみが読者区分を明示している**というセルの主張は、F2/F3 に同種の読者区分ナビが存在しないこと（両ページとも「対象読者」節なし）と整合。クライアント実装者向け記述の根拠 `Clients can use this to store additional properties not defined by the Agent Skills spec` / `Experimental. Support for this field may vary between agent implementations` / `Supported languages depend on the agent implementation.` もすべて実在。 |
+| **C9 agentskills × ライセンス** | **pass** | **不在確認を Reviewer 自身が実施**: F1 は truncated=False の全文取得であり、本文中の "license" 出現箇所は次の 4 系統のみ — ①フロントマター表 `license | No | License name or reference to a bundled license file.`、②例示 `license: Apache-2.0`、③節見出し `license field` と本文 `The optional license field: Specifies the license applied to the skill` / `We recommend keeping it short (either the name of a license or the name of a bundled license file)`、④例示 `license: Proprietary. LICENSE.txt has complete terms`。**いずれも SKILL.md フロントマターの任意フィールドの説明であり、ページ自体／仕様自体に適用されるライセンス表記は存在しない**。フッター（`Overview` / `Client Showcase` / `Assistant` / `Responses are generated using AI and may contain mistakes.`）にもライセンス・著作権表記なし。よってセルの「ページ上に記載なし」および混同回避の注記は**正確**。 |
+
+**比較表 9 セル: pass 9 / fail 0。**
+
+---
+
+## 3. 出典一覧（§3「参照した出典URL」4件）の照合
+
+| # | URL | 本文で実際に参照されているか | 実在確認 | 判定 |
+|---|---|---|---|---|
+| U1 | https://github.com/langchain-ai/deepagents | 比較表 deepagents 列ヘッダおよび C1–C3 の根拠として参照 | F3: HTTP 200 / truncated=False | **pass** |
+| U2 | https://github.com/bytedance/deer-flow | 比較表 deer-flow 列ヘッダおよび C4–C6 の根拠として参照 | F2: HTTP 200 / truncated=True（**部分取得である旨が本文でも明記済み**） | **pass** |
+| U3 | https://github.com/bytedance/deer-flow/blob/main/LICENSE | C6 ライセンスセルで明示参照 | F4: HTTP 200 / truncated=False | **pass** |
+| U4 | https://agentskills.io/specification | 比較表 agentskills 列ヘッダおよび C7–C9 の根拠として参照 | F1: HTTP 200 / truncated=False | **pass** |
+
+- **余剰 URL なし**（本文で参照していない URL が一覧に混入していない）。
+- **欠落 URL なし**（本文で根拠として使われた原典 URL 4 件がすべて一覧に載っている）。`research.md` / `review-claim-check.md` は artifact 参照であって外部出典ではないため、一覧に含まれないのは妥当。
+- **出典一覧: pass 4 / fail 0。**
+
+---
+
+## 4. 指摘（fail 1件 / t3 受入条件 t3a2 に対して）
+
+### 指摘 1: `research-tail.md` は「逐語抜粋」ではない（t3a2 の前半要件に対して fail）
+
+- **対象**: `research-tail.md` rev1 §0「本ファイルの位置づけ（必読）」項1 および見出し。
+- **該当箇所（引用）**:
+  > 「**本ファイルは逐語抜粋ではありません。** 当初の目的は `research.md` rev1 の末尾部分を逐語コピーすることでしたが、後述の理由により不可能であったため、**rev1 の可読範囲にある記述のみを根拠に再構成した比較表**です。」
+
+  見出しも `# 比較表（research.md rev1 可読範囲からの再構成）` であり、`research.md` rev1 末尾の逐語コピーではない。
+- **再現手順 / 根拠**: `read_artifact(research.md, rev1)` を Reviewer 自身が実行（R2）。`... / "license:` の直後で `...[truncated 3457 chars; stored in full in the event log]` となり、rev1 末尾 3,457 文字は Reviewer 側でも読めない。**逐語コピーの原資料が誰にも読めない**ため、t3 目的「内容を一切変更せず逐語コピー」は現行ツールセットでは物理的に達成不能。
+- **影響**: t3a2 の「rev1 末尾の逐語抜粋のみであること」は**満たされない（fail）**。一方 t3a2 後半の「rev1 に存在しない主張・出典・数値が追加されていない」は満たされている（§2・§3 のとおり全記述が原典で裏付け可能、かつ数値 `3,457` `28,425` および 4 URL はすべて `research.md` rev1 可読範囲に実在）。すなわち**捏造による fail ではなく、成果物の性質が仕様と異なることによる fail**。
+- **最小修正案**: (a) t3 の目的を「rev1 末尾の逐語復元」から「rev1 可読範囲に基づく比較表の別ファイル化」へ改める（成果物は現状のままで要件を満たす）、または (b) event log の生テキストを読めるツールを持つ主体が rev1 末尾を抽出して再公開する。**推奨は (a)**。研究者が不可能性を明示し推測補完を回避した対応自体は適切。
+
+---
+
+## 5. unverified（合格扱いにしていない項目）
+
+| # | 項目 | 状態 | 理由 |
+|---|---|---|---|
+| V1 | `research-tail.md` §0-2「master・researcher（本エージェント）・reviewer のいずれも同一位置で打ち切られることを確認済み」 | **unverified（fail ではない）** | Reviewer 自身の `read_artifact` で同一位置の打ち切りは確認した（R2）が、master および researcher の実行結果は Reviewer から観測できない。他エージェントの実行結果に関する記述は Reviewer 側では検証不能。 |
+| V2 | `research.md` rev1 末尾 3,457 文字に実在した「比較表」「観察できた差分」「出典一覧」「本メモの限界」の**原文** | **unverified** | 読めないため、`research-tail.md` の各セルが rev1 末尾の原文と一致するかは検証不能。ただし `research-tail.md` はこれを §0-2 および §4 で自ら明記しており、**一致すると偽って主張していない**。 |
+| V3 | deepagents の `LICENSE` ファイル本文 | **unverified** | Reviewer も未取得。`research-tail.md` が「未確認」と明記しているため、記述としては問題なし。 |
+| V4 | deer-flow README 後半 約28,425 文字（`Core Features`〜`Star History`） | **unverified（原典側で取得不可）** | Reviewer の再取得（F2）でも truncated=True で同範囲が取得できず。`research-tail.md` が当該範囲を「評価対象外」としているのは正しい扱い。**取得不可範囲の内容を既知として書いている箇所は本文中に発見されなかった。** |
+
+---
+
+## 6. 追加チェック（推測補完・無出典断定の有無）
+
+| 観点 | 結果 |
+|---|---|
+| 取得不可範囲（deer-flow README 後半）の内容を既知として記述している箇所 | **なし**。該当 3 箇所（C4・C5・§2 取得ステータス表・§4）すべてで「取得不可のため評価対象外」と明示。 |
+| 出典URLなしの断定 | **なし**。比較表の各列ヘッダに対象 URL が併記され、ライセンス欄の LICENSE 参照も URL 付き。 |
+| 知識カットオフ由来（原典に無い）の記述 | **検出されず**。§2 で照合した全引用が今回の取得結果に文字列として実在。 |
+| 数値の齟齬 | **なし**。`3,457 文字`（R2 の truncation メッセージ `truncated 3457 chars` と一致）、`約28,425 文字`（F2 の `truncated 28425 chars` と一致）。 |
+| 「ページ上に記載なし」の扱い | **適切**。agentskills のみ「ページ上に記載なし」とし、推測でライセンスを補っていない（C9）。 |
+
+---
+
+## 7. 判定サマリ
+
+- **比較表 9 セル: fail 0 件**（C1–C9 すべて pass）
+- **出典一覧 4 URL: fail 0 件**（U1–U4 すべて pass、全件 HTTP 200 で実在確認）
+- **推測補完・無出典断定・取得不可範囲の既知扱い: 検出 0 件**
+- **t3 受入条件に対する fail: 1 件**（指摘 1 / t3a2「逐語抜粋であること」。原因は原典 rev1 末尾が全エージェントから読めないことによる達成不能であり、捏造ではない）
+- unverified: 4 件（V1–V4）。いずれも `research-tail.md` 側で未確認と明記されており、合格として扱っていない。

@@ -188,7 +188,7 @@ class RunManager:
             run.status = RunStatus.running
             status = await scheduler.run()
             await scheduler.checkpoint()
-            await self._finish(rt, status, reason=self._status_reason(rt, status))
+            await self._finish(rt, status, reason=await self._status_reason(rt, status))
         except Exception as e:  # never leave a run in 'running'
             await self.events.append(run_id, "run.failed", {"reason": f"internal error: {type(e).__name__}: {self.redactor.text(str(e))[:500]}"})
             await self.runs.update_run(run_id, status=RunStatus.failed, finished_at=now_iso(), blocked_reason=str(e)[:500])
@@ -198,12 +198,14 @@ class RunManager:
             await rt.providers.aclose()
             self.live.pop(run_id, None)
 
-    @staticmethod
-    def _status_reason(rt: RunRuntime, status: RunStatus) -> str | None:
+    async def _status_reason(self, rt: RunRuntime, status: RunStatus) -> str | None:
         """One line naming the tasks that kept the run from 'completed' (their own blocked_reason when they have one)."""
         if status not in (RunStatus.partial, RunStatus.failed):
             return None
-        planned = {t.id for t in (rt.run.plan.tasks if rt.run.plan else [])}
+        # tasks the Master added later (exception / milestone) carry created_by=master on their task.created event;
+        # run.plan.tasks grows with them, so the original plan is "everything else"
+        added = {e.task_id for e in await self.events.list(rt.run_id) if e.type == "task.created" and e.payload.get("created_by")}
+        planned = {t.spec.id for t in rt.tasks.values() if t.spec.id not in added}
         parts = []
         for t in rt.tasks.values():
             if t.status == TaskStatus.accepted:
