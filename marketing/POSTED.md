@@ -47,3 +47,11 @@
 - Copy explains the comparison → review → revision workflow, explicitly discloses partial completion and unfinished source verification, and links to the Japanese site with campaign UTM and GitHub.
 - Facebook confirmed: 投稿がEVERYONEとシェアされました.
 - X was signed out; no X post was sent in this update.
+
+## 2026-09-14 — Zenn article revision
+
+- Updated existing article: https://zenn.dev/forifori/articles/agent-team-launch
+- Title: Claude Codeで調査・レビュー・修正を回すOSSを作った。3件直っても「未完了」だった
+- Published through FORIFOR/oathra commit 304a290c83490c51ca2ecd1ba97d64c22ff8b33d. Live title/body verified.
+- Replaced old demo/setup/sandbox description; added real-run video, review changes, costs, incomplete benchmark comparison and business readiness boundaries.
+- Research and engagement baseline: ZENN-RESEARCH-2026-09-14.md. Public likes are a proxy, not PV; no readership gain claimed.
