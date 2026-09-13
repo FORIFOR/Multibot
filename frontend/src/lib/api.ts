@@ -61,6 +61,7 @@ export const api = {
   cancel: (id: string) => req<{ cancel_requested: boolean }>('POST', `/api/runs/${id}/cancel`),
   resume: (id: string) => req<Run>('POST', `/api/runs/${id}/resume`),
   fork: (id: string, overrides: Record<string, unknown>) => req<Run>('POST', `/api/runs/${id}/fork`, { overrides, start: true }),
+  health: () => req<{ ok: boolean; version: string; config_revision: number; live_runs: string[] }>('GET', '/api/health'),
   approvals: (status?: string) => req<Approval[]>('GET', `/api/approvals${status ? `?status=${status}` : ''}`),
   resolveApproval: (id: string, body: { decision: string; note?: string; expected_hash?: string; nonce?: string }) => req<Approval>('POST', `/api/approvals/${id}/resolve`, body),
   artifact: (runId: string, artifactId: string, rev: number) => req<Artifact & { text?: string; checks: Event[]; reviews: Event[] }>('GET', `/api/artifacts/${runId}/${artifactId}/versions/${rev}`),

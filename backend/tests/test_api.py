@@ -115,3 +115,9 @@ async def test_connection_change_resets_capability_and_probe_fake(client):
     assert r.status_code == 200 and r.json()["capability_check"] == "passed"
     r = await client.post("/api/runs", json={"goal": "x", "start": False})
     assert r.status_code == 202
+
+
+async def test_health_reports_package_version(client):
+    from importlib.metadata import version
+    h = (await client.get("/api/health")).json()
+    assert h["ok"] is True and h["version"] == version("agentteam")

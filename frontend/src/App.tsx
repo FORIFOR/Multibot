@@ -9,6 +9,8 @@ import Settings from './pages/Settings'
 export default function App() {
   const [path, nav] = usePath()
   const [pending, setPending] = useState<Approval[]>([])
+  const [version, setVersion] = useState<string>("")
+  useEffect(() => { api.health().then(h => setVersion(h.version)).catch(() => { /* offline */ }) }, [])
   useEffect(() => {
     let alive = true
     const tick = async () => { try { const a = await api.approvals('pending'); if (alive) setPending(a) } catch { /* offline */ } }
@@ -20,7 +22,7 @@ export default function App() {
   return (
     <div className="shell">
       <header className="top">
-        <Link to="/" nav={nav} className="brand">Agent Team <small>v0.1 · local-first</small></Link>
+        <Link to="/" nav={nav} className="brand">Agent Team <small>{version ? `v${version}` : ""} · local-first</small></Link>
         <nav className="nav">
           <Link to="/" nav={nav} className={path === '/' ? 'active' : ''}>{t("依頼")}</Link>
           <Link to="/settings" nav={nav} className={path.startsWith('/settings') ? 'active' : ''}>{t("設定")}</Link>

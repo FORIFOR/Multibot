@@ -13,6 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
 
+from .. import __version__
 from ..config.loader import ConfigError, PKG_ROOT, REPO_ROOT, config_to_yaml, effective_agent, list_skills, load_config_text
 from ..config.models import Connection
 from ..contracts import RunInputs, RunStatus
@@ -86,12 +87,12 @@ def create_app(service: AppService | None = None) -> FastAPI:
         finally:
             await svc.stop()
 
-    app = FastAPI(title="Agent Team", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="Agent Team", version=__version__, lifespan=lifespan)
 
     # ------------------------------------------------------------------ meta / config
     @app.get("/api/health")
     async def health():
-        return {"ok": True, "config_revision": svc.config_revision, "live_runs": list(svc.manager.live)}
+        return {"ok": True, "version": __version__, "config_revision": svc.config_revision, "live_runs": list(svc.manager.live)}
 
     @app.get("/api/config")
     async def get_config():
