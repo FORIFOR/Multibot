@@ -2,7 +2,7 @@
 
 Trust boundaries, what is enforced, and what is not yet: see [`docs/STATUS.md`](docs/STATUS.md) and the requirements in [`docs/blueprint/SECURITY.md`](docs/blueprint/SECURITY.md).
 
-Short version for v0.1:
+Short version:
 
 - Runs on loopback, single user, local SQLite. If you pick a cloud connection, the request text and artifacts are sent to that provider.
 - API keys are never stored; config holds references (`env:NAME`, `keychain:service/account`, `file:/path`). Events, tool results and errors are redacted before persistence.
