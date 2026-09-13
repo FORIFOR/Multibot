@@ -67,8 +67,9 @@ class OpenAICompatDriver:
             "messages": self._convert_messages(req.system, req.messages),
             "max_tokens": req.max_tokens,
         }
-        if self.driver == "ollama" and self.thinking is not None:
-            body["reasoning_effort"] = "high" if self.thinking else "none"
+        thinking = req.metadata.get("ollama_thinking", self.thinking)
+        if self.driver == "ollama" and thinking is not None:
+            body["reasoning_effort"] = "high" if thinking else "none"
         if req.tools:
             body["tools"] = [{"type": "function", "function": {"name": t.name, "description": t.description,
                                                               "parameters": t.input_schema}} for t in req.tools]
@@ -116,18 +117,20 @@ class OpenAICompatDriver:
 
     async def probe(self, model: str) -> ProbeResult:
         usage = ProviderUsage()
+        # These bounded connectivity probes test transport/tool/schema support, not reasoning quality.
+        # Runtime requests retain the configured thinking mode; probes disable it on Ollama only.
         try:
             r1 = await self.complete(LLMRequest(
                 model=model, system="You are a connectivity probe. Call the tool `ping` exactly once with ok=true.",
                 messages=[{"role": "user", "content": [{"type": "text", "text": "Call ping now."}]}],
                 tools=[ToolSpec("ping", "Connectivity probe.", {"type": "object", "properties": {"ok": {"type": "boolean"}},
-                                                               "required": ["ok"]})], max_tokens=256))
+                                                               "required": ["ok"]})], max_tokens=256, metadata={"ollama_thinking": False}))
             usage.input_tokens += r1.usage.input_tokens; usage.output_tokens += r1.usage.output_tokens
             tool_ok = any(c.name == "ping" for c in r1.tool_calls)
             r2 = await self.complete(LLMRequest(
                 model=model, system="Return the requested JSON only.",
                 messages=[{"role": "user", "content": [{"type": "text", "text": "Return {\"ok\": true}."}]}],
-                json_schema={"type": "object", "properties": {"ok": {"type": "boolean"}}, "required": ["ok"]}, max_tokens=128))
+                json_schema={"type": "object", "properties": {"ok": {"type": "boolean"}}, "required": ["ok"]}, max_tokens=128, metadata={"ollama_thinking": False}))
             usage.input_tokens += r2.usage.input_tokens; usage.output_tokens += r2.usage.output_tokens
             try:
                 json_ok = json.loads(r2.text).get("ok") is True

@@ -214,6 +214,8 @@ def planning_message(rt) -> str:
                  "- Master plans and reports; it does not own production tasks. Assign those to builder or researcher.\n"
                  "- When a reviewer is enabled, every final production task must have a reviewer depending on it. "
                  "Intermediate work can feed another production task which is then reviewed. Do not omit final review.\n"
+                 "- Preserve the recipient, audience and requested action from the user’s goal. "
+                 "Reference material must not replace the goal or make unrelated internal details mandatory.\n"
                  "- Acceptance criteria must cover the user’s factual constraints, not only file format. "
                  "Check claims against original inputs; do not infer missing facts from attachment names.\n"
                  "- Acceptance criteria must be checkable; prefer programmatic where a registered check fits.\n"
