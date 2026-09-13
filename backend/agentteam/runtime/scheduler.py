@@ -232,10 +232,13 @@ class Scheduler:
         target.review = review
         fails = [r for r in review.results if r.status == "fail"]
         if not fails:
-            await self._set(target, TaskStatus.accepted, "task.accepted",
+            unverified = [r.acceptance_id for r in review.results if r.status != "pass"]
+            target.blocked_reason = ("review left criteria unverified: " + ", ".join(unverified)) if unverified else None
+            await self._set(target, TaskStatus.partial if unverified else TaskStatus.accepted,
+                            "task.partial" if unverified else "task.accepted",
                             {"attempt": target.attempt, "review_by": review_task.spec.owner, "review_task": review_task.spec.id,
                              "target_artifacts": [a.model_dump() for a in review.target_artifacts],
-                             "unverified": [r.acceptance_id for r in review.results if r.status != "pass"]})
+                             "unverified": unverified, "reason": target.blocked_reason})
             return
         rnd = rt.policy.next_revision_round(target.spec.id)
         if rnd is None:
@@ -276,10 +279,21 @@ class Scheduler:
     def final_status(self) -> RunStatus:
         statuses = [t.status for t in self.rt.tasks.values()]
         if statuses and all(s == TaskStatus.accepted for s in statuses):
+            if self.unreviewed_final_tasks():
+                return RunStatus.partial
             return RunStatus.completed
         if any(s in (TaskStatus.accepted, TaskStatus.partial) for s in statuses):
             return RunStatus.partial
         return RunStatus.failed
+
+    def unreviewed_final_tasks(self) -> list[str]:
+        rt = self.rt
+        if rt.config.defaults.team_mode != "team" or not rt.config.defaults.require_independent_review:
+            return []
+        return [t.spec.id for t in rt.tasks.values()
+                if t.spec.output_paths and self.role_of(t.spec.owner) != "reviewer" and t.review is None
+                and not any(t.spec.id in other.spec.depends_on and self.role_of(other.spec.owner) != "reviewer"
+                            for other in rt.tasks.values())]
 
     async def run(self) -> RunStatus:
         rt = self.rt

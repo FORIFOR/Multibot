@@ -6,6 +6,7 @@ prevents duplicate campaign runners; every completed attempt stays in results.js
 from __future__ import annotations
 
 import argparse
+import asyncio
 import fcntl
 import hashlib
 import json
@@ -18,7 +19,8 @@ from urllib.request import urlopen
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT.parent / 'evals/benchmark'))
-from agentteam.config.loader import effective_all, load_config_file
+from agentteam.config.loader import config_to_yaml, effective_all, load_config_file
+from agentteam.providers.registry import ProviderRegistry
 import tasks
 
 
@@ -38,11 +40,28 @@ def recorded(root, mode, task, rep):
                (json.loads(line) for line in p.read_text().splitlines() if line.strip()))
 
 
+async def probe_config(cfg):
+    """Resolve capability metadata before freezing the config fingerprint."""
+    conn = cfg.connection(cfg.defaults.connection_id)
+    if conn.capability_check == 'passed':
+        return
+    registry = ProviderRegistry(cfg)
+    try:
+        result = await registry.adapter(conn.id).probe(cfg.defaults.model)
+    finally:
+        await registry.aclose()
+    if not result.ok:
+        raise ValueError(f'Local provider probe failed: {result.error}')
+    conn.capability_check = 'passed'
+    conn.capability_detail = {'model_reported': result.model_reported, 'error': result.error}
+
+
 def main(root):
     root = root.expanduser().resolve()
     root.mkdir(parents=True, exist_ok=True)
     lock = (root / 'campaign.lock').open('w')
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    manifest = root / 'campaign-fingerprint.json'
     fingerprints = {}
     models = set()
     for mode in ('team', 'single'):
@@ -53,6 +72,9 @@ def main(root):
             if agent.driver != 'ollama' or agent.base_url != 'http://127.0.0.1:11434/v1':
                 raise ValueError('Campaign requires loopback Ollama for every agent')
             models.add(agent.model)
+        if not manifest.exists():
+            asyncio.run(probe_config(cfg))
+            p.write_text(config_to_yaml(cfg), encoding='utf-8')
         fingerprints[mode] = hashlib.sha256(p.read_bytes()).hexdigest()
     if len(models) != 1:
         raise ValueError('Both modes must use the same model')
@@ -62,7 +84,6 @@ def main(root):
     tags = json.load(urlopen('http://127.0.0.1:11434/api/tags', timeout=10))['models']
     name = next(iter(models))
     fingerprints['model_digest'] = next(m['digest'] for m in tags if m['name'] in (name, name + ':latest'))
-    manifest = root / 'campaign-fingerprint.json'
     if manifest.exists() and json.loads(manifest.read_text()) != fingerprints:
         raise ValueError('Configuration, code, task source, or model changed; start a new campaign directory')
     manifest.write_text(json.dumps(fingerprints, indent=2) + '\n')
@@ -76,6 +97,9 @@ def main(root):
 
     try:
         for task, rep, mode in jobs():
+            if (root / 'STOP').exists():
+                status('paused', reason='STOP file present; last in-flight run was preserved')
+                return 0
             if recorded(root, mode, task, rep):
                 continue
             # No changed model/runtime is silently introduced part-way through a series.

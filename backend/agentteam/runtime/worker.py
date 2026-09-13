@@ -40,6 +40,11 @@ RUNTIME_RULES = """
 """
 
 
+def consecutive_no_tool_turns(previous: int, tool_calls: list) -> int:
+    """A real tool turn breaks the no-tool streak; the run still has global limits."""
+    return 0 if tool_calls else previous + 1
+
+
 def build_system_prompt(ctx: SessionContext) -> str:
     agent = ctx.agent
     parts = [platform_policy_text().strip(), "\n---\n", agent.system_prompt.strip(), "\n---\n", RUNTIME_RULES.strip()]
@@ -86,7 +91,8 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
             if t and t.spec.owner != ctx.agent.agent_id:
                 lines.append(f"\n## Review target: task {dep} (owner {t.spec.owner})\nObjective: {t.spec.objective}\nAcceptance criteria to verify:")
                 lines += [f"- {c.id} [{c.check_kind}]: {c.description}" for c in t.spec.acceptance]
-                lines.append("Verify against the published revisions listed above. Run run_check/sandbox_run where possible. "
+                lines.append("Verify against the published revisions listed above. For run_check use artifact_id and revision; "
+                             "path refers only to your own workspace, not the producer’s workspace. "
                              "Then submit_review, send a finding/handoff message to the owner if anything fails, and finish_task.")
     if ctx.attempt > 1 and task.result:
         lines.append(f"\n## Your previous attempt\n{task.result.summary}")
@@ -213,6 +219,7 @@ class AgentRunner:
                                            "attempt": ctx.attempt, "role": ctx.agent.role})
                 resp = await self._call_model(req, ctx.causation_id)
                 self.messages.append({"role": "assistant", "content": resp.raw_content or [{"type": "text", "text": resp.text or "…"}]})
+                self.nudges = consecutive_no_tool_turns(self.nudges, resp.tool_calls)
                 if not resp.tool_calls:
                     if ctx.mode == "reply" and ctx.replied:
                         return SessionOutcome("finished", "replied")
@@ -221,9 +228,8 @@ class AgentRunner:
                     else:
                         nudge = ("You ended without a tool call. If your work is done, call finish_task; if you are stuck, "
                                  "call report_blocker; otherwise continue with tools.")
-                    self.nudges += 1
                     if self.nudges > 2:
-                        auto = await auto_finish_if_outputs_published(ctx, "ended twice without finish_task")
+                        auto = await auto_finish_if_outputs_published(ctx, "ended three consecutive turns without finish_task")
                         return auto or SessionOutcome("ended", "agent ended its turn repeatedly without finish_task")
                     self.messages.append({"role": "user", "content": [{"type": "text", "text": nudge}]})
                     continue

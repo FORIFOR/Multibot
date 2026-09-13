@@ -1,0 +1,214 @@
+[
+  {
+    "run_id": "run_1a09bcfed86212af27c",
+    "status": "completed",
+    "plan": {
+      "agents": [
+        "master"
+      ],
+      "assumptions": [
+        "The notes.txt file contains the necessary information"
+      ],
+      "goal": "Create a business email to A社 for a re-quote",
+      "schema_version": 1,
+      "tasks": [
+        {
+          "acceptance": [
+            {
+              "check_kind": "human_review",
+              "description": "The email meets the criteria for a business email as described in the notes.txt file",
+              "id": "t1a1"
+            }
+          ],
+          "depends_on": [],
+          "id": "t1",
+          "input_artifacts": [],
+          "objective": "Generate the business email in Japanese based on the notes.txt content",
+          "output_paths": [
+            "email.md"
+          ],
+          "owner": "master",
+          "write_scope": "workspaces/t1/"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 14992,
+          "mode": "plan",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 1998,
+            "output_tokens": 131
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 13889,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "create_task"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 2443,
+            "output_tokens": 94
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 6807,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "read_artifact"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 2557,
+            "output_tokens": 129
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 25339,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "workspace_write"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 2688,
+            "output_tokens": 518
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 3349,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "publish_artifact"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 3001,
+            "output_tokens": 66
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 6906,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "send_message"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 3139,
+            "output_tokens": 133
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 5867,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "read_messages"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 3268,
+            "output_tokens": 115
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 6705,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "finish_task"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 3391,
+            "output_tokens": 132
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 6033,
+          "mode": "milestone",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "finish_task"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 1849,
+            "output_tokens": 45
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 10456,
+          "mode": "report",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 1359,
+            "output_tokens": 121
+          }
+        }
+      }
+    ]
+  }
+]

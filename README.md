@@ -22,7 +22,7 @@
 >
 > **Benchmark audit (2026-09-14, updated):** latest attempts across 50 tasks × 3 repetitions: team 69 completed / 5 partial / 76 failed; single agent 150 completed. The team has 79 provider-blocked pairs. All 252 team attempts remain accounted for, including earlier failures. These are constructed evaluation inputs, not customer workflows; no team quality advantage is established. [Metrics and Reviewer audit](docs/evidence/readiness-2026-09-14/README.md).
 >
-> **Local evaluation:** an Ollama `qwen2.5:7b` comparison is running separately from the Claude series (50 tasks × 3 repetitions × 2 modes). The first paired pilot produced files in both modes, but the team mode performed no independent review. [Configuration and measured pilot results](docs/evidence/local-qwen25-7b-2026-09-14/README.md).
+> **Local evaluation:** the initial Ollama `qwen2.5:7b` series exposed missing independent reviews and tool-recovery errors. It was stopped after four campaign runs; those failures are preserved separately from the repaired runtime. [Fixes and real-model revalidation](docs/evidence/local-fixes-2026-09-14/README.md).
 >
 > **Enterprise readiness:** demonstration material is available, but the required ten repeated runs of one workflow are not yet verified. L2 customer-data PoC and L3 production readiness are not claimed. [L1 / L2 / L3 acceptance criteria](docs/ENTERPRISE_READINESS.md).
 

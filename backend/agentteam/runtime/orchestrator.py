@@ -207,6 +207,8 @@ class RunManager:
         added = {e.task_id for e in await self.events.list(rt.run_id) if e.type == "task.created" and e.payload.get("created_by")}
         planned = {t.spec.id for t in rt.tasks.values() if t.spec.id not in added}
         parts = []
+        if rt.scheduler:
+            parts.extend(f"{tid}: required independent review was not submitted" for tid in rt.scheduler.unreviewed_final_tasks())
         for t in rt.tasks.values():
             if t.status == TaskStatus.accepted:
                 continue

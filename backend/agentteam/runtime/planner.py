@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from typing import Any
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -68,7 +69,8 @@ def _strict_schema() -> dict[str, Any]:
     return json.loads((SCHEMA_DIR / "team-plan.schema.json").read_text(encoding="utf-8"))
 
 
-def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dict[str, str], max_tasks: int) -> list[str]:
+def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dict[str, str], max_tasks: int,
+                  *, require_review: bool = False) -> list[str]:
     errors: list[str] = []
     v = Draft202012Validator(_strict_schema(), format_checker=FormatChecker())
     for e in v.iter_errors(plan.model_dump(mode="json")):
@@ -88,6 +90,8 @@ def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dic
             errors.append(f"task {t.id}: unknown or disabled owner {t.owner}")
         if t.owner not in plan.agents:
             errors.append(f"task {t.id}: owner {t.owner} not listed in plan.agents")
+        if require_review and agent_roles.get(t.owner) in ("master", "reporter"):
+            errors.append(f"task {t.id}: {t.owner} coordinates or reports; assign production to a builder or researcher")
         for d in t.depends_on:
             if d not in tasks:
                 errors.append(f"task {t.id}: unknown dependency {d}")
@@ -104,6 +108,13 @@ def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dic
             errors.append(f"task {t.id}: reviewer task must depend on the task it reviews")
         if agent_roles.get(t.owner) != "reviewer" and not t.output_paths:
             errors.append(f"task {t.id}: non-reviewer task must declare at least one output path")
+    if require_review:
+        for t in plan.tasks:
+            if agent_roles.get(t.owner) == "reviewer":
+                continue
+            consumers = [other for other in plan.tasks if t.id in other.depends_on]
+            if not consumers:
+                errors.append(f"task {t.id}: final deliverables need a reviewer task depending on {t.id}")
     # cycles
     state: dict[str, int] = {}
 
@@ -195,7 +206,9 @@ def planning_message(rt) -> str:
                  "- Task ids: t1, t2, ... Each non-reviewer task declares output_paths (relative file names, e.g. brief.md, index.html).\n"
                  "- Output paths are unique across tasks. Each task gets its own workspace; write_scope is assigned by the runtime.\n"
                  "- A reviewer task lists the task it verifies in depends_on and has no output_paths (it uses submit_review).\n"
-                 "- Use the reviewer only when there is something worth verifying. For a trivial request use one task.\n"
+                 "- Master plans and reports; it does not own production tasks. Assign those to builder or researcher.\n"
+                 "- When a reviewer is enabled, every final production task must have a reviewer depending on it. "
+                 "Intermediate work can feed another production task which is then reviewed. Do not omit final review.\n"
                  "- Acceptance criteria must be checkable; prefer programmatic where a registered check fits.\n"
                  "- Record reversible choices in assumptions instead of asking the user.\n"
                  "- Nothing is published externally; drafts only. Do not plan posting, sending or paying.")
@@ -239,11 +252,17 @@ async def plan_team(rt) -> TeamPlan:
     user = planning_message(rt)
     enabled = [a.agent_id for a in rt.enabled_agents()]
     roles = {a.agent_id: a.role for a in rt.enabled_agents()}
+    require_review = rt.config.defaults.require_independent_review
+    if require_review and not any(role == "reviewer" for role in roles.values()):
+        raise PlanError("require_independent_review needs an enabled reviewer; use single mode for an unreviewed baseline")
+    output_schema = deepcopy(PLAN_OUTPUT_SCHEMA)
+    output_schema["properties"]["tasks"]["items"]["properties"]["owner"]["enum"] = [
+        aid for aid in enabled if roles[aid] not in ("master", "reporter")]
     messages = [{"role": "user", "content": [{"type": "text", "text": user}]}]
     last_errors: list[str] = []
     for attempt in range(3):
         req = LLMRequest(model=master.model, system=system, messages=messages, tools=[], max_tokens=rt.config.limits.max_output_tokens,
-                         json_schema=PLAN_OUTPUT_SCHEMA, effort=master.effort, metadata={"agent_id": master.agent_id, "mode": "plan"})
+                         json_schema=output_schema, effort=master.effort, metadata={"agent_id": master.agent_id, "mode": "plan"})
         try:
             resp = await runner._call_model(req, None)
         except (WorkerFailure, PolicyViolation) as e:
@@ -251,7 +270,7 @@ async def plan_team(rt) -> TeamPlan:
         try:
             data = _extract_json(resp.text)
             plan = plan_from_output(data, enabled)
-            last_errors = validate_plan(plan, enabled, roles, rt.config.limits.max_tasks)
+            last_errors = validate_plan(plan, enabled, roles, rt.config.limits.max_tasks, require_review=require_review)
         except (ValueError, KeyError, TypeError) as e:
             last_errors = [f"unparseable plan: {e}"]
             plan = None

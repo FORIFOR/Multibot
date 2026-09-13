@@ -9,6 +9,8 @@ from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
+from jsonschema import Draft202012Validator
+
 from ..config.loader import read_skill_body
 from ..contracts import (Approval, ApprovalStatus, ArtifactRef, Review, ReviewResult, TaskResult, TaskSpec,
                          TaskStatus)
@@ -35,7 +37,8 @@ TOOL_SPECS: dict[str, ToolSpec] = {
                            _obj({"name": {"type": "string"}}, ["name"])),
     "finish_task": ToolSpec("finish_task",
                             "Finish your current task. Call only after all output paths are published. "
-                            "State what you verified and what remains unverified.",
+                            "State what you verified and what remains unverified. Only summary is required. "
+                            "verified/unverified/next_steps are arrays of strings, never review-result objects.",
                             _obj({"summary": {"type": "string"}, "verified": {"type": "array", "items": {"type": "string"}},
                                   "unverified": {"type": "array", "items": {"type": "string"}},
                                   "next_steps": {"type": "array", "items": {"type": "string"}}}, ["summary"])),
@@ -133,7 +136,14 @@ class ToolGateway:
             return f"ERROR: tool {name} is not implemented"
         ok = True
         try:
-            result = await handler(args, causation_id)
+            errors = list(Draft202012Validator(TOOL_SPECS[name].input_schema).iter_errors(args))
+            if errors:
+                ok = False
+                result = "REJECTED: invalid tool arguments: " + "; ".join(
+                    f"{e.json_path}: {e.message}" for e in errors[:3])
+            else:
+                result = await handler(args, causation_id)
+                ok = not result.startswith(("ERROR", "DENIED", "REJECTED", "NOT FOUND"))
         except PolicyViolation as e:
             ok = False
             result = f"DENIED ({e.code}): {e}"
@@ -351,7 +361,8 @@ class ToolGateway:
         elif a.get("path"):
             p = self._ws_path(a["path"])
             if not p.is_file():
-                return f"NOT FOUND: {a['path']}"
+                return (f"NOT FOUND: {a['path']} in your task workspace. To check another task’s "
+                        "published output, use artifact_id and revision from list_artifacts instead of path.")
             data = p.read_bytes()
             target = {"workspace_path": a["path"], "sha256": hashlib.sha256(data).hexdigest()}
         elif kind != "command":
@@ -440,7 +451,8 @@ class ToolGateway:
                                actor_kind="agent", task_id=ctx.task_id, causation_id=cid)
         remaining = [d for d in (ctx.task.spec.depends_on if ctx.task else []) if d not in {r.target_task_id for r in ctx.reviews}
                      and rt.tasks.get(d) and rt.agents[rt.tasks[d].spec.owner].role != "reviewer"]
-        return "OK: review recorded." + (f" Still to review: {', '.join(remaining)}." if remaining else " Now call finish_task.")
+        return "OK: review recorded." + (f" Still to review: {', '.join(remaining)}." if remaining else " Now call finish_task with summary (string). "
+                "Do not copy review results into verified; that optional field only accepts strings.")
 
     async def t_create_task(self, a, cid):
         if self.ctx.agent.role != "master" or self.rt.scheduler is None or self.ctx.mode not in ("exception", "milestone"):

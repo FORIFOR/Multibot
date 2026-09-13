@@ -1,0 +1,291 @@
+[
+  {
+    "run_id": "run_1a09bd74d6d3b88e948",
+    "status": "failed",
+    "plan": {
+      "agents": [
+        "builder"
+      ],
+      "assumptions": [
+        "single-agent baseline: no planning call, no independent review"
+      ],
+      "goal": "次の3つの公開ページを実際に取得して読み、それぞれの「主張・対象読者・ライセンス（記載があれば）」を出典URL付きで比較した調査メモ `research.md` を日本語で作ってください。取得できなかったページは『取得不可』と明記し、本文を推測で埋めないでください。",
+      "schema_version": 1,
+      "tasks": [
+        {
+          "acceptance": [
+            {
+              "check_kind": "model_review",
+              "description": "every deliverable the request asks for is published as an artifact",
+              "id": "s1"
+            }
+          ],
+          "depends_on": [],
+          "id": "t1",
+          "input_artifacts": [],
+          "objective": "次の3つの公開ページを実際に取得して読み、それぞれの「主張・対象読者・ライセンス（記載があれば）」を出典URL付きで比較した調査メモ `research.md` を日本語で作ってください。取得できなかったページは『取得不可』と明記し、本文を推測で埋めないでください。\n\nInput URLs:\n- https://github.com/langchain-ai/deepagents\n- https://github.com/bytedance/deer-flow\n- https://agentskills.io/specification",
+          "output_paths": [
+            "*"
+          ],
+          "owner": "builder",
+          "write_scope": "workspaces/t1/"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 4257,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "web_search"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 2189,
+            "output_tokens": 49
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 2263,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "web_fetch"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 2267,
+            "output_tokens": 39
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 2886,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "web_fetch"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 2519,
+            "output_tokens": 35
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 2720,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "web_fetch"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 2808,
+            "output_tokens": 32
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 35717,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 3028,
+            "output_tokens": 722
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 5627,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 3791,
+            "output_tokens": 110
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 15706,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 3942,
+            "output_tokens": 316
+          }
+        }
+      }
+    ]
+  },
+  {
+    "run_id": "run_1a09bd86758f99793c8",
+    "status": "failed",
+    "plan": {
+      "agents": [
+        "builder"
+      ],
+      "assumptions": [
+        "single-agent baseline: no planning call, no independent review"
+      ],
+      "goal": "次のページを実際に取得し、Python 3.13 の主要な新機能を出典URL付きで5点以上、日本語で `whatsnew.md` にまとめてください。ページに無いことは書かないでください。",
+      "schema_version": 1,
+      "tasks": [
+        {
+          "acceptance": [
+            {
+              "check_kind": "model_review",
+              "description": "every deliverable the request asks for is published as an artifact",
+              "id": "s1"
+            }
+          ],
+          "depends_on": [],
+          "id": "t1",
+          "input_artifacts": [],
+          "objective": "次のページを実際に取得し、Python 3.13 の主要な新機能を出典URL付きで5点以上、日本語で `whatsnew.md` にまとめてください。ページに無いことは書かないでください。\n\nInput URLs:\n- https://docs.python.org/3/whatsnew/3.13.html",
+          "output_paths": [
+            "*"
+          ],
+          "owner": "builder",
+          "write_scope": "workspaces/t1/"
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 3254,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "web_fetch"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 2097,
+            "output_tokens": 36
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 48189,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 5279,
+            "output_tokens": 651
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 10962,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 5322,
+            "output_tokens": 215
+          }
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 32053,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [
+            "workspace_write",
+            "finish_task"
+          ],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 5365,
+            "output_tokens": 638
+          }
+        }
+      },
+      {
+        "type": "tool.called",
+        "payload": {
+          "args": {
+            "media_type": "text/markdown",
+            "path": "whatsnew.md"
+          },
+          "ok": false,
+          "result_preview": "ERROR (KeyError): 'content'",
+          "tool": "workspace_write"
+        }
+      },
+      {
+        "type": "model.called",
+        "payload": {
+          "latency_ms": 25982,
+          "mode": "task",
+          "model_reported": "agentteam-qwen25-7b-16k",
+          "model_requested": "agentteam-qwen25-7b-16k",
+          "tool_calls": [],
+          "usage": {
+            "cache_read_tokens": 0,
+            "cache_write_tokens": 0,
+            "input_tokens": 5616,
+            "output_tokens": 512
+          }
+        }
+      }
+    ]
+  }
+]

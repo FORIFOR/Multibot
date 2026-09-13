@@ -138,6 +138,7 @@ defaults:
   model: opus
   language: ja
   timezone: Asia/Tokyo
+  require_independent_review: true
 connections:
 # Claude Code CLI on this machine (no API key; uses your `claude` login). Models: opus / sonnet / fable or a full id.
 - id: claude_cli

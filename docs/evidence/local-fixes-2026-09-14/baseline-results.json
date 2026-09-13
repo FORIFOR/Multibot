@@ -1,0 +1,234 @@
+[
+  {
+    "mode": "team",
+    "task": "research-3repos",
+    "category": "research",
+    "rep": 1,
+    "profile": "local-qwen25-7b-team",
+    "team_mode": "team",
+    "run_id": "run_1a09bd4e0a24c3e4922",
+    "status": "completed",
+    "reason": null,
+    "protocol": {
+      "model_actors": [
+        "master",
+        "researcher"
+      ],
+      "review_submissions": 0,
+      "independent_review_submissions": 0,
+      "independently_reviewed_tasks": []
+    },
+    "correct": true,
+    "score": 1.0,
+    "failed_checks": [],
+    "false_completion": false,
+    "plan_tasks": 1,
+    "tasks_total": 1,
+    "attempts": 1,
+    "retries": 0,
+    "artifacts": [
+      "research.md"
+    ],
+    "runtime_checks": "0/0",
+    "review": "0/0",
+    "milestones": 0,
+    "usage": {
+      "model_calls": 9,
+      "tool_calls": 9,
+      "input_tokens": 36909,
+      "output_tokens": 2299,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "cost_usd": 0.0,
+      "reserved_usd": 0.0,
+      "wall_seconds": 158.16782258299645
+    },
+    "wall_s": 158,
+    "failures": []
+  },
+  {
+    "mode": "team",
+    "task": "research-py313",
+    "category": "research",
+    "rep": 1,
+    "profile": "local-qwen25-7b-team",
+    "team_mode": "team",
+    "run_id": "run_1a09bda41b23f6a741b",
+    "status": "partial",
+    "reason": "t2 partial: agent ended its turn repeatedly without finish_task; t3 cancelled; t4 partial",
+    "protocol": {
+      "model_actors": [
+        "master",
+        "researcher"
+      ],
+      "review_submissions": 0,
+      "independent_review_submissions": 0,
+      "independently_reviewed_tasks": []
+    },
+    "correct": false,
+    "score": 0.0,
+    "failed_checks": [
+      "exists:whatsnew.md",
+      "regex:whatsnew.md:docs\\.python\\.org/3/whatsnew/3 (missing file)",
+      "regex:whatsnew.md:free.threaded|フリースレッド|GIL (missing file)",
+      "regex:whatsnew.md:JIT (missing file)",
+      "regex:whatsnew.md:^\\s*(?:[-*]|\\d+\\.)\\s (missing file)"
+    ],
+    "false_completion": false,
+    "plan_tasks": 4,
+    "tasks_total": 4,
+    "attempts": 2,
+    "retries": 0,
+    "artifacts": [
+      "notes.txt"
+    ],
+    "runtime_checks": "0/0",
+    "review": "0/0",
+    "milestones": 0,
+    "usage": {
+      "model_calls": 20,
+      "tool_calls": 17,
+      "input_tokens": 55331,
+      "output_tokens": 3110,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "cost_usd": 0.0,
+      "reserved_usd": 0.0,
+      "wall_seconds": 204.61529141594656
+    },
+    "wall_s": 205,
+    "failures": [
+      [
+        "task.failed",
+        "agent ended its turn repeatedly without finish_task"
+      ],
+      [
+        "task.partial",
+        "master accepted partial result"
+      ],
+      [
+        "task.partial",
+        "master accepted partial result"
+      ],
+      [
+        "task.partial",
+        "master accepted partial result"
+      ],
+      [
+        "task.partial",
+        "master accepted partial result"
+      ]
+    ]
+  },
+  {
+    "mode": "single",
+    "task": "research-3repos",
+    "category": "research",
+    "rep": 1,
+    "profile": "local-qwen25-7b-single",
+    "team_mode": "single",
+    "run_id": "run_1a09bd74d6d3b88e948",
+    "status": "failed",
+    "reason": "t1 failed: agent ended its turn repeatedly without finish_task",
+    "protocol": {
+      "model_actors": [
+        "builder"
+      ],
+      "review_submissions": 0,
+      "independent_review_submissions": 0,
+      "independently_reviewed_tasks": []
+    },
+    "correct": false,
+    "score": 0.0,
+    "failed_checks": [
+      "exists:research.md",
+      "regex:research.md:github\\.com/langchain-ai/deepa (missing file)",
+      "regex:research.md:github\\.com/bytedance/deer-flo (missing file)",
+      "regex:research.md:agentskills\\.io/specification (missing file)",
+      "regex:research.md:ライセンス (missing file)",
+      "regex:research.md:MIT (missing file)"
+    ],
+    "false_completion": false,
+    "plan_tasks": 1,
+    "tasks_total": 1,
+    "attempts": 1,
+    "retries": 0,
+    "artifacts": [],
+    "runtime_checks": "0/0",
+    "review": "0/0",
+    "milestones": 0,
+    "usage": {
+      "model_calls": 7,
+      "tool_calls": 4,
+      "input_tokens": 20544,
+      "output_tokens": 1303,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "cost_usd": 0.0,
+      "reserved_usd": 0.0,
+      "wall_seconds": 71.44133254198823
+    },
+    "wall_s": 71,
+    "failures": [
+      [
+        "task.failed",
+        "agent ended its turn repeatedly without finish_task"
+      ]
+    ]
+  },
+  {
+    "mode": "single",
+    "task": "research-py313",
+    "category": "research",
+    "rep": 1,
+    "profile": "local-qwen25-7b-single",
+    "team_mode": "single",
+    "run_id": "run_1a09bd86758f99793c8",
+    "status": "failed",
+    "reason": "t1 failed: agent ended its turn repeatedly without finish_task",
+    "protocol": {
+      "model_actors": [
+        "builder"
+      ],
+      "review_submissions": 0,
+      "independent_review_submissions": 0,
+      "independently_reviewed_tasks": []
+    },
+    "correct": false,
+    "score": 0.0,
+    "failed_checks": [
+      "exists:whatsnew.md",
+      "regex:whatsnew.md:docs\\.python\\.org/3/whatsnew/3 (missing file)",
+      "regex:whatsnew.md:free.threaded|フリースレッド|GIL (missing file)",
+      "regex:whatsnew.md:JIT (missing file)",
+      "regex:whatsnew.md:^\\s*(?:[-*]|\\d+\\.)\\s (missing file)"
+    ],
+    "false_completion": false,
+    "plan_tasks": 1,
+    "tasks_total": 1,
+    "attempts": 1,
+    "retries": 0,
+    "artifacts": [],
+    "runtime_checks": "0/0",
+    "review": "0/0",
+    "milestones": 0,
+    "usage": {
+      "model_calls": 5,
+      "tool_calls": 3,
+      "input_tokens": 23679,
+      "output_tokens": 2052,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "cost_usd": 0.0,
+      "reserved_usd": 0.0,
+      "wall_seconds": 120.70254699990619
+    },
+    "wall_s": 121,
+    "failures": [
+      [
+        "task.failed",
+        "agent ended its turn repeatedly without finish_task"
+      ]
+    ]
+  }
+]

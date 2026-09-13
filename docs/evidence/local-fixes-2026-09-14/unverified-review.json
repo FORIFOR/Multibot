@@ -1,0 +1,156 @@
+{
+  "source": "docs/evidence/scenarios/research2/events.jsonl",
+  "event": {
+    "schema_version": 1,
+    "event_id": "run_1a09777700a7d829c4a:50",
+    "run_id": "run_1a09777700a7d829c4a",
+    "seq": 50,
+    "recorded_at": "2026-09-12T21:19:41.921Z",
+    "actor_id": "reviewer",
+    "actor_kind": "agent",
+    "task_id": "t2",
+    "causation_id": null,
+    "type": "review.submitted",
+    "payload": {
+      "results": [
+        {
+          "acceptance_id": "t1a1",
+          "evidence": "run_check markdown_basic (artifact=research.md r1, sha256 e3420149be9b, args.sections=[取得状況,比較表,出典一覧]) → status=pass, problems=[], headings に「1. 取得状況」「3. 比較表」「4. 出典一覧」を含む8件",
+          "note": "見出し要件を満たす。",
+          "status": "pass"
+        },
+        {
+          "acceptance_id": "t1a2",
+          "evidence": "run_check text_contains (research.md r1, needles=3URL) → status=pass, missing=[]",
+          "note": "3つの指定URLがすべて本文に存在。",
+          "status": "pass"
+        },
+        {
+          "acceptance_id": "t1a3",
+          "evidence": "run_check regex_count (research.md r1): 主張 count=4, 対象読者 count=4, ライセンス count=9 (いずれも min_count=3 で pass)",
+          "note": "3ページ分の項目名が揃っている。",
+          "status": "pass"
+        },
+        {
+          "acceptance_id": "t1a4",
+          "evidence": "read_artifact で research.md r1 全文を読み、主張・対象読者・ライセンスの各項目について出典URLと原文引用の併記状況を20件一覧化（review.md r1 第2節）。独立再取得は不可: web_fetch ツールなし、sandbox_run の curl は DENIED、python3 urllib.request は URLError [Errno -3] name resolution 失敗。",
+          "note": "形式面（出典URL＋短い引用の併記）は全項目で充足を確認したが、引用文字列が出典ページ原文に実在するかは再取得できず未検証。加えて比較表『提供形態』行の deer-flow セル「（backend / frontend 構成）」には本メモ内に根拠引用がない（review.md F-1）。最小修正案: 原文引用を追加するか当該語句を削除。",
+          "status": "unverified"
+        },
+        {
+          "acceptance_id": "t1a5",
+          "evidence": "run_check text_contains (research.md r1, needles=[記載を確認できず, 取得不可]) → pass。本文読解で 2-3 のライセンス項が「当該ページ本文・フッタには記載を確認できず」と表現し、リポジトリ側 Apache-2.0 記載を『ページ自体に適用されるか確認できない』と限定していること、推定ライセンス名の断定がないことを確認。独立再取得は上記の理由で不可。",
+          "note": "文面要件は充足。ただし研究メモは『取得不可のページ: なし（3ページとも HTTP 200）』としており、その取得結果自体を再取得で確認できないため未検証。実際には取得できていなかった場合、本条件は fail に転じ得る。取得ログ（生 fetch 結果）が artifact 化されていないため事後追試経路もない。",
+          "status": "unverified"
+        }
+      ],
+      "summary": "t1a1〜t1a3（プログラマティック）は run_check で pass を確認。t1a4/t1a5 は「検証不能(unverified)」：本レビュー環境に web_fetch が存在せず、サンドボックスも無ネットワーク（curl は denied、python3 urllib は name resolution 失敗）のため、3出典URLの独立再取得ができず原文引用20件の実在確認が一切行えなかった。合格には読み替えない。成果物本文の読解では形式要件（各項目に出典URL＋短い原文引用、ライセンス未確認箇所の「記載を確認できず」表現、推定ライセンス名なし）は充足。軽微な指摘3件（根拠引用のない「backend / frontend 構成」、agentskills リポジトリへのリンク実在の引用なし、「CLI」の言い換え）を review.md r1 に記載。fail と断定できる条件はなし。",
+      "target_artifacts": [
+        {
+          "artifact_id": "research.md",
+          "revision": 1,
+          "sha256": "e3420149be9b66341d5ca021970f56137c65dadc4495085b1d77fccbfa2928c7"
+        }
+      ],
+      "target_task_id": "t1"
+    }
+  },
+  "plan": {
+    "agents": [
+      "master",
+      "researcher",
+      "reviewer"
+    ],
+    "assumptions": [
+      "成果物は research.md 1ファイル、記述言語は日本語（ページ内の原文引用は英語のまま可）。",
+      "3ページとも外部取得が必須のため、builder ではなく researcher に web_fetch を伴う執筆を担当させる（default plan shape からの逸脱理由）。",
+      "ライセンス表記が本文・LICENSE・フッタ等に見つからない場合は「記載を確認できず」と明記し、推定ライセンス名を書かない。",
+      "取得失敗（4xx/5xx/タイムアウト/JS必須で本文取得不可）のページは、当該セクションを『取得不可』とし、試行日時・URL・失敗内容のみ記録する。",
+      "各主張には参照元URL（可能ならアンカー付き）を併記し、原文の短い根拠引用を添える。",
+      "成果物はドラフトのみ。外部公開・投稿・課金は行わない。",
+      "調査範囲は指定3URLとそのページから直接辿れる一次情報（例: 同リポジトリの LICENSE ファイル）に限定し、二次情報のブログ等は使わない。"
+    ],
+    "goal": "指定された3つの公開ページ（langchain-ai/deepagents、bytedance/deer-flow、agentskills.io/specification）を実際に取得し、各ページの「主張」「対象読者」「ライセンス（記載があれば）」を出典URL付きで比較した日本語の調査メモ research.md を作成する。取得できなかったページは「取得不可」と明記し、本文は推測で補わない。Reviewer は各記述が出典に実在するかを read_artifact と web_fetch で照合する。",
+    "tasks": [
+      {
+        "acceptance": [
+          {
+            "check_kind": "programmatic",
+            "description": "markdown_basic が research.md で通る（sections: 取得状況, 比較表, 出典一覧）",
+            "id": "t1a1"
+          },
+          {
+            "check_kind": "programmatic",
+            "description": "text_contains が research.md で通る（needles: https://github.com/langchain-ai/deepagents, https://github.com/bytedance/deer-flow, https://agentskills.io/specification）",
+            "id": "t1a2"
+          },
+          {
+            "check_kind": "programmatic",
+            "description": "regex_count で『主張』『対象読者』『ライセンス』の語がそれぞれ3回以上出現（3ページ分の項目が揃っている）",
+            "id": "t1a3"
+          },
+          {
+            "check_kind": "source_check",
+            "description": "取得できたページの各項目に、その内容を確認できる出典URLと原文からの短い根拠引用が併記されている",
+            "id": "t1a4"
+          },
+          {
+            "check_kind": "source_check",
+            "description": "取得に失敗したページは『取得不可』と明記され、本文要約・ライセンス推定が書かれていない。ライセンス未確認の場合は『記載を確認できず』と表現されている",
+            "id": "t1a5"
+          }
+        ],
+        "depends_on": [],
+        "id": "t1",
+        "objective": "web_fetch で3つのURL（https://github.com/langchain-ai/deepagents 、https://github.com/bytedance/deer-flow 、https://agentskills.io/specification ）を実際に取得し、取得できた各ページについて『主張（そのプロジェクト/仕様が何を提供すると述べているか）』『対象読者』『ライセンス記載』を原文根拠付きで抽出する。ライセンスはページ本文・リポジトリのライセンス表示など一次情報のみを根拠とし、確認できない場合は『記載を確認できず』と書く。取得に失敗したURLは本文を推測で埋めず『取得不可』とし、試行内容と失敗理由のみ記録する。これらを日本語の調査メモ research.md にまとめる。構成は、冒頭に取得状況一覧（URL・取得可否・取得日時）、次にページ別サマリ（3件、各項目に出典URLと短い根拠引用）、次に3ページ横断の比較表（行=主張/対象読者/ライセンス、列=3ページ）、最後に出典一覧（URL列挙）とする。見出しに『取得状況』『比較表』『出典一覧』を含めること。",
+        "output_paths": [
+          "research.md"
+        ],
+        "owner": "researcher"
+      },
+      {
+        "acceptance": [
+          {
+            "check_kind": "programmatic",
+            "description": "t1a1〜t1a5 のすべてに pass/fail/検証不能 の判定と根拠が記録されている",
+            "id": "t2a1"
+          },
+          {
+            "check_kind": "source_check",
+            "description": "research.md 内の各主張について、出典URLを再取得した上での実在確認結果が1件ずつ示されている",
+            "id": "t2a2"
+          }
+        ],
+        "depends_on": [
+          "t1"
+        ],
+        "id": "t2",
+        "objective": "read_artifact で research.md を読み、web_fetch で3つの出典URLを独立に再取得して、記載された各主張・対象読者・ライセンス表記が出典に実在するかを1件ずつ照合する。原文に確認できない記述、出典URLのない記述、推測で補われた記述、取得不可扱いなのに内容が書かれている箇所を指摘する。t1 の受入条件 t1a1〜t1a5 それぞれについて pass/fail と根拠（照合したURLと該当箇所）を記録し、submit_review で提出する。再取得自体が失敗した場合は『検証不能』と記録し、合格に読み替えない。",
+        "output_paths": [],
+        "owner": "reviewer"
+      }
+    ]
+  },
+  "run_created": {
+    "schema_version": 1,
+    "event_id": "run_1a09777700a7d829c4a:1",
+    "run_id": "run_1a09777700a7d829c4a",
+    "seq": 1,
+    "recorded_at": "2026-09-12T21:13:02.221Z",
+    "actor_id": "user",
+    "actor_kind": "human",
+    "task_id": null,
+    "causation_id": null,
+    "type": "run.created",
+    "payload": {
+      "files": [],
+      "goal": "次の3つの公開ページを実際に取得して読み、それぞれの「主張・対象読者・ライセンス（記載があれば）」を出典URL付きで比較した調査メモ `research.md` を日本語で作ってください。取得できなかったページは『取得不可』と明記し、本文を推測で埋めないでください。Reviewer は各主張が出典に実在するかを read_artifact と web_fetch で照合してください。",
+      "has_text": false,
+      "urls": [
+        "https://github.com/langchain-ai/deepagents",
+        "https://github.com/bytedance/deer-flow",
+        "https://agentskills.io/specification"
+      ]
+    }
+  }
+}

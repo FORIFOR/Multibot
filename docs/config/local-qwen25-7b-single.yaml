@@ -6,6 +6,7 @@ defaults:
   language: ja
   timezone: Asia/Tokyo
   team_mode: single
+  require_independent_review: false
 connections:
 - id: ollama
   driver: ollama
