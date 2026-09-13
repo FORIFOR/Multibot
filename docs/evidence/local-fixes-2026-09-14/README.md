@@ -36,3 +36,16 @@
 ## 修正途中の予備試験
 
 `doc-email` は366秒でpartialとなりました。自動採点は5/5ですが、Reviewerの終了引数エラーと成果物上書きが発生したため成功実績には数えません。[結果](intermediate-result.json)と[該当操作の実記録](intermediate-pilot.json)を保存し、所有権の回帰テストに使用しています。この実行には後から加えた引数説明・所有権修正は含まれません。
+
+## 固定版f5de45fでの再検証
+
+[実モデル2件の結果](fixed-qwen25-results.json):
+
+| 課題・方式 | Runtime状態 | 自動採点 | 残った問題 |
+| --- | --- | --- | --- |
+| doc-email / team | partial | 0/5 | Builderが入力の理解を理由にblockerを報告。独立レビュー未提出の理由をrunへ記録 |
+| research-py313 / single | completed | 3/5 | 途中打切りを越えて保存したが、出典URLとJITの記載が欠落 |
+
+7Bモデルでの業務完了はまだ安定していません。Runtimeのcompletedは品質採点の合格と別であり、後者の不合格も記録しています。修正だけで品質改善が証明されたとは主張しません。
+
+追加で[Qwen3.5 9Bの別試験](../local-qwen35-9b-2026-09-14/README.md)を準備しています。短い接続probeで推論出力だけが上限に達する実例に対応し、Ollama接続に `ollama_thinking: false` を指定可能にしました。未指定は従来どおりサーバー既定です。推論本文を証拠として公開せず、回答・終了理由・トークン数だけを記録します。

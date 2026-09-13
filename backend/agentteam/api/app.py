@@ -52,6 +52,7 @@ class PutConnectionBody(BaseModel):
     base_url: str
     api_key_ref: str | None = None
     refusal_fallback: bool = False
+    ollama_thinking: bool | None = None
 
 
 class PutLimitsBody(BaseModel):
@@ -175,7 +176,10 @@ def create_app(service: AppService | None = None) -> FastAPI:
         cfg = svc.config.model_copy(deep=True)
         existing = cfg.connection(connection_id)
         new = Connection(id=connection_id, driver=body.driver, base_url=body.base_url, api_key_ref=body.api_key_ref,
-                         capability_check="not_run", refusal_fallback=body.refusal_fallback)  # any change re-requires the probe
+                         capability_check="not_run", refusal_fallback=body.refusal_fallback,
+                         ollama_thinking=(body.ollama_thinking if "ollama_thinking" in body.model_fields_set
+                                          else existing.ollama_thinking if existing else None)
+                         if body.driver == "ollama" else None)  # any change re-requires the probe
         if existing:
             cfg.connections[cfg.connections.index(existing)] = new
         else:

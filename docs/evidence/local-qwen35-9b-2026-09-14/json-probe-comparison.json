@@ -1,0 +1,32 @@
+[
+  {
+    "effort": null,
+    "http_status": 200,
+    "content": "",
+    "reasoning_chars": 554,
+    "finish_reason": "length",
+    "usage": {
+      "prompt_tokens": 27,
+      "prompt_tokens_details": {
+        "cached_tokens": 23
+      },
+      "completion_tokens": 128,
+      "total_tokens": 155
+    }
+  },
+  {
+    "effort": "none",
+    "http_status": 200,
+    "content": "{\"ok\": true}",
+    "reasoning_chars": 0,
+    "finish_reason": "stop",
+    "usage": {
+      "prompt_tokens": 29,
+      "prompt_tokens_details": {
+        "cached_tokens": 23
+      },
+      "completion_tokens": 6,
+      "total_tokens": 35
+    }
+  }
+]

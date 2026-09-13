@@ -123,3 +123,27 @@ async def test_recorded_reviewer_cannot_replace_producer_artifact_or_skip_depend
         if rt:
             await rt.providers.aclose()
         await svc.stop()
+
+
+async def test_real_local_profile_keeps_thinking_setting_when_connection_is_edited(tmp_path):
+    import httpx
+    from agentteam.api.app import create_app
+    from agentteam.api.service import AppService
+    from agentteam.config.loader import load_config_file
+
+    config_path = EVIDENCE.parents[1] / 'config/local-qwen35-9b-team.yaml'
+    svc = AppService(tmp_path, config_yaml=config_path.read_text())
+    app = create_app(svc)
+    async with app.router.lifespan_context(app):
+        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://localhost') as client:
+            # A client that does not yet expose this option must not reset it on save.
+            original = svc.config.connection('ollama')
+            r = await client.put('/api/connections/ollama', json={
+                'expected_revision': svc.config_revision, 'driver': original.driver, 'base_url': original.base_url})
+            assert r.status_code == 200, r.text
+            assert load_config_file(svc.config_path).connection('ollama').ollama_thinking is False
+            r = await client.put('/api/connections/ollama', json={
+                'expected_revision': svc.config_revision, 'driver': original.driver, 'base_url': original.base_url,
+                'ollama_thinking': None})
+            assert r.status_code == 200, r.text
+            assert load_config_file(svc.config_path).connection('ollama').ollama_thinking is None

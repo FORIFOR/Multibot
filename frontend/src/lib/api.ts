@@ -20,7 +20,7 @@ export interface Run {
 export interface RunDetail extends Run { tasks: TaskState[]; artifacts: Artifact[]; approvals: Approval[]; last_seq: number; live: boolean }
 export interface EffectiveAgent { agent_id: string; role: string; enabled: boolean; connection_id: string; driver: string; base_url: string; model: string; prompt_mode: string; system_prompt: string; system_prompt_sha256: string; skills: { name: string; description: string; sha256: string }[]; tools: string[]; effort: string | null; api_key_ref: string | null }
 export interface AgentSpec { id: string; role: string; enabled: boolean; connection_id: string; model: string; system_prompt_file: string; prompt_mode: 'auto_seed' | 'user_locked'; skill_ids: string[]; tools: string[]; system_prompt_override: string | null; effort: string | null }
-export interface Connection { id: string; driver: string; base_url: string; api_key_ref: string | null; capability_check: 'not_run' | 'passed' | 'failed'; capability_detail: any; refusal_fallback: boolean }
+export interface Connection { id: string; driver: string; base_url: string; api_key_ref: string | null; capability_check: 'not_run' | 'passed' | 'failed'; capability_detail: any; refusal_fallback: boolean; ollama_thinking?: boolean | null }
 export interface Problem { code: string; message: string; agent_id?: string; connection_id?: string; fix?: string }
 export interface Config {
   revision: number; profile_name: string; defaults: { connection_id: string; model: string; language: string; timezone: string }

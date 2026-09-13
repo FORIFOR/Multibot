@@ -31,6 +31,7 @@ class Connection(BaseModel):
     capability_check: Literal["not_run", "passed", "failed"] = "not_run"
     # runtime extensions (not in the blueprint schema; stripped when validating against it)
     capability_detail: dict[str, Any] | None = None
+    ollama_thinking: bool | None = None  # None preserves the server default; False disables reasoning output
     refusal_fallback: bool = False  # Anthropic server-side fallback; OFF unless the user opts in
     allowed_fallback_connections: list[str] = Field(default_factory=list)
 
@@ -104,7 +105,7 @@ class AgentTeamConfig(BaseModel):
         d["defaults"].pop("team_mode", None)
         d["defaults"].pop("require_independent_review", None)
         for c in d["connections"]:
-            for k in ("capability_detail", "refusal_fallback", "allowed_fallback_connections"):
+            for k in ("capability_detail", "refusal_fallback", "allowed_fallback_connections", "ollama_thinking"):
                 c.pop(k, None)
         for a in d["agents"]:
             for k in ("system_prompt_override", "effort"):

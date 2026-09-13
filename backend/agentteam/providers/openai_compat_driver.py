@@ -17,9 +17,10 @@ class OpenAICompatDriver:
     kind = "real"
 
     def __init__(self, connection_id: str, api_key: str | None, base_url: str, driver: str = "openai_compatible_chat",
-                 timeout: float = 600.0):
+                 timeout: float = 600.0, thinking: bool | None = None):
         self.connection_id = connection_id
         self.driver = driver
+        self.thinking = thinking
         self.base_url = base_url.rstrip("/")
         headers = {"content-type": "application/json"}
         if api_key:
@@ -66,6 +67,8 @@ class OpenAICompatDriver:
             "messages": self._convert_messages(req.system, req.messages),
             "max_tokens": req.max_tokens,
         }
+        if self.driver == "ollama" and self.thinking is not None:
+            body["reasoning_effort"] = "high" if self.thinking else "none"
         if req.tools:
             body["tools"] = [{"type": "function", "function": {"name": t.name, "description": t.description,
                                                               "parameters": t.input_schema}} for t in req.tools]

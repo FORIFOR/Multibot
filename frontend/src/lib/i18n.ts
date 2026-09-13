@@ -1,5 +1,7 @@
 // Japanese-keyed dictionary: t("日本語") returns English when the UI language is 'en', else the key itself.
 const EN: Record<string, string> = {
+  '推論モード（Ollama）': 'Thinking mode (Ollama)', 'サーバーの既定': 'Server default',
+  '短い出力で回答が空になる場合は無効を試してください。': 'Try disabling this if short responses return no answer.',
   '依頼': 'Request', '設定': 'Settings',
   '依頼は一度。': 'One request.', 'チームが作り、': 'A team builds, ', '確かめ': 'verifies', '、経緯を残す。': ', and leaves a trail.',
   'Master が成果物と完了条件を決め、必要な Bot だけが実際に作業します。成果物・Bot 間の実メッセージ・時系列は同じ実行記録から表示されます。台本の会話や固定の成功ログは使いません。':

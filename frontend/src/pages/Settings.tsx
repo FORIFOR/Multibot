@@ -51,9 +51,10 @@ function ConnectionCard({ c, cfg, guard }: { c: Connection; cfg: Config; guard: 
   const [baseUrl, setBaseUrl] = useState(c.base_url)
   const [keyRef, setKeyRef] = useState(c.api_key_ref || '')
   const [fallback, setFallback] = useState(c.refusal_fallback)
+  const [thinking, setThinking] = useState<boolean | null>(c.ollama_thinking ?? null)
   const [probeModel, setProbeModel] = useState(cfg.defaults.model)
   const [probing, setProbing] = useState(false)
-  const dirty = driver !== c.driver || baseUrl !== c.base_url || (keyRef || null) !== c.api_key_ref || fallback !== c.refusal_fallback
+  const dirty = driver !== c.driver || baseUrl !== c.base_url || (keyRef || null) !== c.api_key_ref || fallback !== c.refusal_fallback || thinking !== (c.ollama_thinking ?? null)
   const d = c.capability_detail
   return (
     <div className="card stack">
@@ -65,8 +66,13 @@ function ConnectionCard({ c, cfg, guard }: { c: Connection; cfg: Config; guard: 
       <div className="row">
         <input className="input" style={{ flex: 1 }} value={keyRef} onChange={(e) => setKeyRef(e.target.value)} placeholder={t("api_key_ref 例: env:ANTHROPIC_API_KEY")} />
         {driver === 'anthropic_messages' && <label className="lock" title={t("Anthropic のサーバ側 refusal fallback（別モデルへ自動ルーティング）。既定 OFF。")}><input type="checkbox" checked={fallback} onChange={(e) => setFallback(e.target.checked)} /> refusal fallback</label>}
-        <button className="btn sm" disabled={!dirty} onClick={() => guard(() => api.putConnection(c.id, { expected_revision: cfg.revision, driver, base_url: baseUrl, api_key_ref: keyRef || null, refusal_fallback: fallback }), t('接続を保存しました（要 再疎通確認）'))}>{t("保存")}</button>
+        <button className="btn sm" disabled={!dirty} onClick={() => guard(() => api.putConnection(c.id, { expected_revision: cfg.revision, driver, base_url: baseUrl, api_key_ref: keyRef || null, refusal_fallback: fallback, ollama_thinking: driver === 'ollama' ? thinking : null }), t('接続を保存しました（要 再疎通確認）'))}>{t("保存")}</button>
       </div>
+      {driver === 'ollama' && <label className="row small">{t('推論モード（Ollama）')}
+        <select className="input" style={{ width: 180 }} value={thinking === null ? 'default' : String(thinking)} onChange={(e) => setThinking(e.target.value === 'default' ? null : e.target.value === 'true')}>
+          <option value="default">{t('サーバーの既定')}</option><option value="false">{t('無効')}</option><option value="true">{t('有効')}</option>
+        </select><span className="muted">{t('短い出力で回答が空になる場合は無効を試してください。')}</span>
+      </label>}
       <div className="row">
         <input className="input" style={{ width: 240 }} value={probeModel} onChange={(e) => setProbeModel(e.target.value)} placeholder="probe model" />
         <button className="btn sm ghost" disabled={probing || dirty} onClick={async () => { setProbing(true); await guard(() => api.probe(c.id, probeModel), t('疎通確認を実行しました')); setProbing(false) }}>{probing ? '確認中…' : t('疎通確認（実 API 呼出・少額）')}</button>

@@ -1,0 +1,112 @@
+{
+  "commit": "f5de45f353e6db3d739ea0283c0ae63dbde5fd99",
+  "results": [
+    {
+      "task": "doc-email",
+      "category": "document",
+      "rep": 1,
+      "profile": "local-qwen25-7b-team",
+      "team_mode": "team",
+      "run_id": "run_1a09be4b62a6b22d872",
+      "status": "partial",
+      "reason": "t1: required independent review was not submitted; t1 partial: 具体的な文案を作成するためには、メモの内容をより深く理解する必要がある。; t2 cancelled; t3 cancelled",
+      "protocol": {
+        "model_actors": [
+          "builder",
+          "master"
+        ],
+        "review_submissions": 0,
+        "independent_review_submissions": 0,
+        "independently_reviewed_tasks": []
+      },
+      "correct": false,
+      "score": 0.0,
+      "failed_checks": [
+        "exists:email.md",
+        "regex:email.md:\\A\\s*件名[:：] (missing file)",
+        "regex:email.md:見積 (missing file)",
+        "regex:email.md:A\\s*社|株式会社\\s*A|貴社|御社 (missing file)",
+        "not_regex:email.md:\\d[\\d,]*\\s*円|¥\\s*\\d (missing file)"
+      ],
+      "false_completion": false,
+      "plan_tasks": 3,
+      "tasks_total": 3,
+      "attempts": 1,
+      "retries": 0,
+      "artifacts": [],
+      "runtime_checks": "0/0",
+      "review": "0/0",
+      "milestones": 0,
+      "usage": {
+        "model_calls": 18,
+        "tool_calls": 11,
+        "input_tokens": 37676,
+        "output_tokens": 2003,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 122.52034000004642
+      },
+      "wall_s": 123,
+      "failures": [
+        [
+          "task.blocked",
+          "具体的な文案を作成するためには、メモの内容をより深く理解する必要がある。"
+        ],
+        [
+          "task.partial",
+          "master accepted partial result"
+        ]
+      ]
+    },
+    {
+      "task": "research-py313",
+      "category": "research",
+      "rep": 1,
+      "profile": "local-qwen25-7b-single",
+      "team_mode": "single",
+      "run_id": "run_1a09be69c94e422ab6e",
+      "status": "completed",
+      "reason": null,
+      "protocol": {
+        "model_actors": [
+          "builder"
+        ],
+        "review_submissions": 0,
+        "independent_review_submissions": 0,
+        "independently_reviewed_tasks": []
+      },
+      "correct": false,
+      "score": 0.6,
+      "failed_checks": [
+        "regex:whatsnew.md:docs\\.python\\.org/3/whatsnew/3 (0 matches)",
+        "regex:whatsnew.md:JIT (0 matches)"
+      ],
+      "false_completion": true,
+      "plan_tasks": 1,
+      "tasks_total": 1,
+      "attempts": 1,
+      "retries": 0,
+      "artifacts": [
+        "whatsnew.md"
+      ],
+      "runtime_checks": "0/0",
+      "review": "0/0",
+      "milestones": 0,
+      "usage": {
+        "model_calls": 5,
+        "tool_calls": 4,
+        "input_tokens": 25246,
+        "output_tokens": 1691,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 120.6267455839552
+      },
+      "wall_s": 121,
+      "failures": []
+    }
+  ]
+}

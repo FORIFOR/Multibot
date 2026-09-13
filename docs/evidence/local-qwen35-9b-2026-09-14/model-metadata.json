@@ -1,0 +1,46 @@
+{
+  "model": {
+    "name": "agentteam-qwen35-9b-16k:latest",
+    "model": "agentteam-qwen35-9b-16k:latest",
+    "modified_at": "2026-09-14T02:55:01.776778368+09:00",
+    "size": 6594474465,
+    "digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+    "details": {
+      "parent_model": "qwen3.5:9b",
+      "format": "gguf",
+      "family": "qwen35",
+      "families": [
+        "qwen35"
+      ],
+      "parameter_size": "9.7B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 262144,
+      "embedding_length": 4096
+    },
+    "capabilities": [
+      "vision",
+      "completion",
+      "tools",
+      "thinking"
+    ]
+  },
+  "details": {
+    "parent_model": "qwen3.5:9b",
+    "format": "gguf",
+    "family": "qwen35",
+    "families": [
+      "qwen35"
+    ],
+    "parameter_size": "9.7B",
+    "quantization_level": "Q4_K_M"
+  },
+  "parameters": "presence_penalty               1.5\ntemperature                    1\ntop_k                          20\ntop_p                          0.95\nnum_ctx                        16384",
+  "capabilities": [
+    "completion",
+    "vision",
+    "tools",
+    "thinking"
+  ],
+  "source": "https://ollama.com/library/qwen3.5:9b",
+  "purpose": "Additional local candidate after Qwen2.5 7B failed validation; do not merge the model series."
+}
