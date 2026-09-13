@@ -1,0 +1,22 @@
+{
+  "team-results.jsonl": {
+    "source_sha256": "f2587e3b208457ab4e69411980b958560991e5fb254b3692c03e1a99cba21118",
+    "rows": 150,
+    "export": "Only listed result fields; source file unchanged. No input fixtures or secrets exported."
+  },
+  "team-pilot-results.jsonl": {
+    "source_sha256": "71d57543b80e9a6b26728797f9f4802141b1473b836f665fdebd52999387ef3a",
+    "rows": 2,
+    "export": "Only listed result fields; source file unchanged. No input fixtures or secrets exported."
+  },
+  "single-results.jsonl": {
+    "source_sha256": "0b10c9bf8cdfd96569558732ddaa1b4ffd0561794c14c04acff4025750443945",
+    "rows": 152,
+    "export": "Only listed result fields; source file unchanged. No input fixtures or secrets exported."
+  },
+  "single-results.regraded.jsonl": {
+    "source_sha256": "2a7ec604584bf9647f0a95274cbafd0bf728e2b59fe2daf12bdb57e09c7d1a88",
+    "rows": 152,
+    "export": "Only listed result fields; source file unchanged. No input fixtures or secrets exported."
+  }
+}

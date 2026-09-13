@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/media/demo.gif" alt="Agent Team: one request, real bot-to-bot messages, artifact revisions, final report" width="880" />
+  <img src="docs/media/replay-research-poster.jpg" alt="Real-model research run replay: artifacts, review and a partial result" width="880" />
 </p>
 
 <h1 align="center">Agent Team</h1>
@@ -18,7 +18,9 @@
 
 > **A real run, on the site:** [forifor.github.io/Multibot](https://forifor.github.io/Multibot/) shows the record of a real `claude-opus-5` run — request → first draft → three review findings → the changed passages → re-verification — where clicking a finding jumps to the changed part of the deliverable, plus a 29-second replay of the same run. Files: [`docs/evidence/scenarios/research2/`](docs/evidence/scenarios/research2/).
 >
-> [▶ Narrated intro (59s, English)](https://forifor.github.io/Multibot/media/intro-en.mp4) · [日本語版 (58s)](https://forifor.github.io/Multibot/media/intro.mp4). The GIF above drives the real UI and runtime with the **scripted test provider** (no LLM calls, labelled “FAKE PROVIDER” on screen) so it is deterministic and free to reproduce. With a real connection the same screens are fed by live model calls; the run header shows the model the provider actually reported and the measured cost.
+> [▶ 実モデルの作業記録・日本語解説（32秒）](https://forifor.github.io/Multibot/media/real-walkthrough-ja.mp4). Edited replay of a real run, with synthesized Japanese narration. The run ended **partial**, with the unfinished source check disclosed. No scripted provider is used in this video.
+>
+> **Benchmark audit (2026-09-14):** the existing 50-task × 3 team series hit a provider session limit (47 completed, 3 partial, 100 failed); the single-agent series completed 150. These include constructed evaluation inputs, not real customer workflows. No team quality advantage is established. [Raw metrics and grading caveats](docs/evidence/benchmark-2026-09-13/README.md).
 
 You type **one request**. A Master plans the deliverables, a Researcher, a Builder and a Reviewer actually do the work, and you get the files **plus** the real bot-to-bot messages, a timeline, and verification bound to each artifact revision.
 
@@ -120,7 +122,7 @@ Master が成果物と完了条件を決め、必要な Bot（Researcher / Build
 - 停止・再開・分岐（Bot のモデルを変えて別案）・再生（LLM 呼出なし）・JSONL エクスポート
 - 権限・予算・回数上限・承認はプロンプトではなく Runtime が強制
 
-上の GIF はテスト用のスクリプト provider（LLM 呼出なし、画面に「FAKE PROVIDER」と表示）で実 UI と実 Runtime を動かしたものです。実 LLM での協働は 2026-09-13 にローカルの Claude Code CLI（`claude-opus-5`）で実施し、LP・投稿案・レビュー・最終報告まで `completed` で完走しました（証拠: `docs/evidence/run4-*`）。API キー不要で、`claude` にログイン済みなら `agentteam probe` → `agentteam serve` で始められます。詳細は [`docs/STATUS.md`](docs/STATUS.md)。
+上の画像と32秒の映像は実モデルの実行記録です。映像は記録の再生を編集し、日本語合成音声を付けています。この実行は予算上限で部分完了し、未検証の出典照合を明示しています。企業紹介用のデモ・導入設計相談は可能ですが、有償PoCや本番運用への適合は別途検証が必要です。
 
 ## Third-party
 

@@ -9,6 +9,7 @@
 <meta property="og:description" content="An AI team drafts, reviews and revises the work, and keeps who checked what next to the deliverable. Open source (MIT). GitHub: FORIFOR/Multibot" />
 <meta property="og:image" content="https://forifor.github.io/Multibot/media/og.png" />
 <meta property="og:url" content="https://forifor.github.io/Multibot/" />
+<link rel="canonical" href="https://forifor.github.io/Multibot/" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="analytics-endpoint" content="" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -24,26 +25,29 @@
     <nav><a href="#record">Work record</a><a href="#replay">Replay</a><a href="#how">How it works</a><a href="#results">Results</a><a href="#quickstart">Install</a><a href="#consult">Consulting</a><a href="ja/">日本語</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
   </header>
 
-  <section class="hero" style="padding-top:64px">
-    <h1>One request. The deliverable, and how it was checked.</h1>
-    <p class="lede">An AI team drafts, reviews and revises the work, and keeps who checked what next to the deliverable.</p>
+  <section class="hero">
+    <div class="eyebrow">OPEN SOURCE · LOCAL FIRST · MIT</div>
+    <h1>From a request<br>to <em>reviewed work.</em></h1>
+    <p class="lede">Turn three public pages into a comparison brief. Follow the review findings, the revisions, and the files your AI team delivers.</p>
     <div class="cta">
-      <a class="btn signal" href="#record" id="cta-record">See a real work record</a>
+      <a class="btn signal" href="#replay" id="cta-record">Watch the real workflow</a>
       <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">View on GitHub</a>
       <span class="hint">Open source · MIT · no API key with Claude Code</span>
     </div>
+    <div class="hero-film" id="replay">
+      <div class="film-top"><span>A REAL WORK RECORD</span><span>32s · claude-opus-5 · 2026-09-13</span></div>
+      <video id="replay-video" controls playsinline preload="none" poster="media/replay-research-poster.jpg" aria-label="Real-model run replay with Japanese narration"><source src="media/real-walkthrough-ja.mp4" type="video/mp4"><track kind="captions" src="media/real-walkthrough-ja.vtt" srclang="ja" label="日本語" default></video>
+      <p class="film-note">Edited replay of a real-model run, with waiting time removed and Japanese synthesized narration. Result: partial; source verification remained unfinished at the budget limit.</p>
+    </div>
+    <div class="proof-strip"><span>Open the deliverables</span><span>Trace every revision</span><span>See what remains unchecked</span></div>
+  </section>
+
+  <section aria-label="Work record">
+    <div class="eyebrow">EVIDENCE YOU CAN EXPLORE</div>
+    <h2>From a finding to the changed passage.</h2>
     <p class="who">Below is the record of a run made on 2026-09-13 with a real model (claude-opus-5, as reported by the provider). Every line is quoted from the deliverables and reviews.</p>
     <div id="record" data-record data-lang="en" data-layout="a"></div>
     <p class="caption">This run ended <b>partial</b>: the final review hit its budget cap. The three findings were fixed and re-verified as pass; the line-by-line source check stayed unverified because the review sandbox has no network. All 171 events: <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/events.jsonl" data-track="artifact_download">events.jsonl</a> · <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/final-report.md.r1" data-track="artifact_open">final report</a></p>
-  </section>
-
-  <section id="replay">
-    <div class="eyebrow">Video</div>
-    <h2>Replay of the recorded run</h2>
-    <p class="sub">The same run, replayed in the app. Replay only reads the record; no model is called.</p>
-    <div class="vlabels"><span>Replay of a recorded run</span><span>real model claude-opus-5 · 2026-09-13</span><span>23 min 51 s of work in 29 s (waiting time cut)</span><span>no audio</span></div>
-    <div class="video"><video id="replay-video" controls playsinline preload="none" poster="media/replay-research-poster.jpg" aria-label="Replay: team, task detail, team chat, artifacts, timeline, final report"><source src="media/replay-research.mp4" type="video/mp4" />Your browser cannot play this video.</video></div>
-    <p class="caption">Screens in order: team → the researcher's task detail → team chat (reviewer → researcher finding) → review.md / research.md / research-final-r2.md → timeline → final report. No edits, no narration. The UI is shown in Japanese; it has an EN/JA toggle.</p>
   </section>
 
   <section id="how">
@@ -59,8 +63,10 @@
 
   <section id="results">
     <div class="eyebrow">Results</div>
-    <h2>Five requests, one run each, unedited.</h2>
+    <h2>Completed work. And work that stopped.</h2>
     <p class="sub">2026-09-13, through the local Claude Code CLI (no API key). Every number is read from the run's own event log; deliverables and logs are committed unedited. The runs that did not finish are listed too.</p>
+    <div class="audit-note"><div class="eyebrow">MEASUREMENT UPDATE · 2026-09-14</div><h3>The comparison, including its interruption.</h3><p>We audited an existing 50-task × 3 comparison. Team: 47 completed, 3 partial, 100 provider-limit failures. Single agent: 150 completed. The test includes constructed evaluation inputs; these are not real-customer success rates. A team quality advantage is not established.</p><a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/benchmark-2026-09-13/README.md">Read the results, grading corrections and limitations ↗</a></div>
+    <p class="caption">Below: initial runs from September 13 morning. See the audit above and README for later evaluations.</p>
     <div class="tbl"><table>
       <tr><th>Request</th><th>Result</th><th>Checks</th><th>Review</th><th>Cost</th><th>Time</th><th>Record</th></tr>
       <tr><td>Launch page + 3 post drafts (Japanese)</td><td><span class="tag ok">completed</span></td><td>10/10</td><td>6/6</td><td>$1.66</td><td>18 min</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence" data-track="artifact_open">run4-*</a></td></tr>
@@ -75,22 +81,12 @@
     </div>
   </section>
 
-  <section id="reproduce">
-    <div class="eyebrow">Reproducible demo</div>
-    <h2>The same screens, without a model.</h2>
-    <p class="sub">This demo drives the real UI and runtime with the scripted test provider (no LLM calls, labelled “FAKE PROVIDER” on screen). It is deterministic and free, so it is useful for checking the controls. It is separate from the work record above.</p>
-    <div class="two">
-      <div class="video"><video controls playsinline preload="none" poster="media/poster-intro-en.jpg" aria-label="59-second narrated intro (scripted provider)"><source src="media/intro-en.mp4" type="video/mp4" /></video></div>
-      <div><p class="sub">59 s, English narration (synthesized). <a href="media/demo.mp4">Un-narrated footage</a> · <a href="https://github.com/FORIFOR/Multibot/blob/main/backend/scripts/demo_fake_server.py">script to reproduce it</a> · <a href="media/intro.mp4">日本語版</a></p></div>
-    </div>
-  </section>
-
-  <section id="paths">
+<section id="paths">
     <div class="eyebrow">Two paths</div>
     <h2>Run it yourself, or talk to us.</h2>
     <div class="paths">
       <div class="path" id="quickstart"><h3>Use the open-source project</h3><p>One command if Claude Code is installed and logged in and you have uv. It makes one small real call to confirm tool calling and JSON-schema output, then opens the UI.</p>
-        <div class="term"><pre>uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div>
+        <div class="term"><pre id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div><button class="btn ghost copy-install" type="button">Copy install command</button><span class="copy-status" role="status"></span>
         <p style="margin-top:14px"><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">README and other providers ↗</a></p>
         <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="star">View on GitHub</a></div>
       <div class="path" id="consult"><h3>Turn your own workflow into an AI team</h3><p>For teams that want research → draft → review → revise shaped around their own work, with the verification trail kept. Use the private inquiry form below.</p>
@@ -99,7 +95,7 @@
     </div>
   </section>
 
-  <section class="portfolio-contact" id="business" aria-labelledby="business-heading"><p>BUSINESS INQUIRIES · Agent Team</p><h2 id="business-heading">Discuss an AI team for your workflow</h2><p class="contact-intro">Tell us what work to delegate and how its outcome should be checked.</p><p class="privacy">Availability, scope, timing and fees are confirmed individually. Sending an inquiry creates no contract or payment.</p><details><summary>Start a private inquiry</summary><form id="portfolio-form"><label>Name<input name="name" required maxlength="80" autocomplete="name"></label><label>Reply email<input name="email" type="email" required maxlength="254" autocomplete="email"></label><label class="wide">Organization (optional)<input name="organization" maxlength="120" autocomplete="organization"></label><label class="wide">What would you like to discuss?<textarea name="message" required minlength="10" maxlength="2000"></textarea></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><p class="privacy wide">Your inquiry is stored privately in Google Cloud for the operator to follow up. It is not used as AI input or analytics, and becomes eligible for deletion after 90 days. It is not posted to a public issue.</p><label class="consent wide"><input type="checkbox" name="consent" required>I agree to this handling of my inquiry.</label><button type="submit">Send inquiry</button><p class="wide" id="portfolio-status" role="status" aria-live="polite"></p></form></details></section><footer>
+  <section class="portfolio-contact" id="business" aria-labelledby="business-heading"><p>BUSINESS INQUIRIES · Agent Team</p><h2 id="business-heading">Discuss an AI team for your workflow</h2><p class="contact-intro">Tell us what work to delegate and how its outcome should be checked.</p><p class="readiness">Available for demonstrations and workflow-scoping discussions. Paid customer-data trials, production SLAs, SSO and organization isolation are not claimed as ready. Start by assessing fit with public information.</p><p class="privacy">Availability, scope, timing and fees are confirmed individually. Sending an inquiry creates no contract or payment.</p><details><summary>Start a private inquiry</summary><form id="portfolio-form"><label>Name<input name="name" required maxlength="80" autocomplete="name"></label><label>Reply email<input name="email" type="email" required maxlength="254" autocomplete="email"></label><label class="wide">Organization (optional)<input name="organization" maxlength="120" autocomplete="organization"></label><label class="wide">What would you like to discuss?<textarea name="message" required minlength="10" maxlength="2000"></textarea></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><p class="privacy wide">Your inquiry is stored privately in Google Cloud for the operator to follow up. It is not used as AI input or analytics, and becomes eligible for deletion after 90 days. It is not posted to a public issue.</p><label class="consent wide"><input type="checkbox" name="consent" required>I agree to this handling of my inquiry.</label><button type="submit">Send inquiry</button><p class="wide" id="portfolio-status" role="status" aria-live="polite"></p></form></details></section><footer>
     <span>Agent Team · MIT · <a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">github.com/FORIFOR/Multibot</a></span>
     <span><a href="https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a">dev.to</a> · <a href="https://zenn.dev/forifori/articles/agent-team-launch">Zenn (日本語)</a> · <a href="https://github.com/FORIFOR/Multibot/tree/main/docs/site">site design docs</a></span>
     <span>No star count, growth rate or benchmark is promised. The deliverables and the record are.</span>
@@ -110,8 +106,8 @@
 (function(){
   document.querySelectorAll('a[data-track]').forEach(function(a){ if(a.closest('[data-record]')) return; a.addEventListener('click',function(){ track(a.getAttribute('data-track'),{href:a.href,intent:a.getAttribute('data-intent')||undefined}); }); });
   var v=document.getElementById('replay-video'); if(v){ var started=false; v.addEventListener('play',function(){ if(!started){started=true;track('demo_start',{kind:'replay'});} }); v.addEventListener('ended',function(){ track('demo_complete',{kind:'replay'}); }); }
-  var c=document.getElementById('cta-record'); if(c){ c.addEventListener('click',function(){ track('demo_start',{kind:'record'}); setTimeout(function(){ var f=document.querySelector('.finding'); if(f) f.focus({preventScroll:true}); },400); }); }
 })();
 </script>
+<script src="launch.js"></script>
 <script src="portfolio.js" data-product="agent-team"></script></body>
 </html>

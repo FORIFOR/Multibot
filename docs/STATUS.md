@@ -1,4 +1,8 @@
-# 実装・検証状況（2026-09-12）
+# 実装・検証状況
+
+## 2026-09-14 監査更新
+
+企業紹介用デモと、本番導入の準備状況は区別します。50課題×3回の既存比較試験は、チーム側47回完了・3回部分完了・100回が利用上限で失敗。単一側150回完了。合成の評価入力を含み、実顧客の成功率ではありません。[全件の集計と採点変更](evidence/benchmark-2026-09-13/README.md)。ベンチマークの停止・再開判定を実記録で確認しました（100失敗＋2部分完了の上限エラーを検出）。以下は過去時点の記録を含みます。
 
 ## 検証の種別
 | 種別 | 状態 | 根拠 |
@@ -36,13 +40,13 @@ fake を使った run は `provider_kind=fake` として保存され、UI に赤
 | 設定 revision / user_locked prompt / 楽観的排他 | 実装 |
 | Replay / JSONL・Markdown export | 実装（Replay = 保存イベントの表示。LLM 呼出なし） |
 | 初回接続診断・実 model attribution | 実装（probe、`model_reported` を毎呼出記録） |
-| 同一総予算 single-agent 比較 | 未実装 |
+| 同一総予算 single-agent 比較 | 実装済み、比較試験は利用上限の影響あり（上記監査参照） |
 | 共有 Replay（マスク付き公開） | 未実装（初期 OFF のまま） |
 
 ## セキュリティ要件（docs/blueprint/SECURITY.md）
 - 実装: key 参照のみ保存、秘匿処理、SSRF ガード（private/loopback/metadata・redirect 各 hop）、tool scope、write scope、
   macOS seatbelt（ネットワーク遮断・workspace 外書込禁止）、生成 HTML の sandbox CSP + iframe sandbox、承認の hash/nonce/期限。
-- 未実装: Docker 等の OS 横断サンドボックス、CPU/RAM 制限、capability token による多ユーザ分離、外部署名付きログ、保存期限・削除ポリシー。
+- 未実装: capability token による多ユーザ分離、外部署名付きログ、保存期限・削除ポリシー。
   `subprocess` バックエンドは隔離ではありません（結果に backend 名を記録）。
 
 ## ブループリントからの逸脱

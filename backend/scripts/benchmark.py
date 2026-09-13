@@ -30,6 +30,19 @@ from agentteam.contracts import RunInputs  # noqa: E402
 import tasks as T  # noqa: E402
 
 
+def provider_exhausted(result: dict) -> bool:
+    """Only stop for provider-wide quota/auth failures, never an artifact grade."""
+    detail = json.dumps({k: result.get(k) for k in ("reason", "error", "failures")}).lower()
+    return any(s in detail for s in ("hit your session limit", "insufficient_quota", "credit balance is too low", "not logged in", "invalid_api_key"))
+
+
+def pending_jobs(jobs: list, previous: list[dict], retry_exhausted: bool) -> list:
+    # Last attempt determines resumability; preserve every earlier record on disk.
+    latest = {(r["task"], r["rep"]): r for r in previous}
+    return [(t, rep) for t, rep in jobs if (t["id"], rep) not in latest
+            or (retry_exhausted and provider_exhausted(latest[t["id"], rep]))]
+
+
 async def ensure_probed(svc: AppService, cfg):
     conn = cfg.connection(cfg.defaults.connection_id)
     if conn.capability_check != "passed":
@@ -146,9 +159,16 @@ async def main(args) -> int:
         print(f"{len(jobs)} runs: {len(sel)} tasks × {args.repeat}, parallel {args.parallel}, profile {cfg.profile_name} ({cfg.defaults.team_mode})", flush=True)
         sem = asyncio.Semaphore(args.parallel)
         results_path = svc.data_dir / "results.jsonl"
+        if args.resume and results_path.exists():
+            previous = [json.loads(line) for line in results_path.read_text().splitlines() if line.strip()]
+            jobs = pending_jobs(jobs, previous, args.retry_exhausted)
+            print(f"Resuming {len(jobs)} pending runs; previous attempts are preserved.", flush=True)
+        exhausted = asyncio.Event()
 
         async def one(t, r):
             async with sem:
+                if exhausted.is_set():
+                    return
                 print(f"=== start {t['id']} #{r}", flush=True)
                 try:
                     res = await run_task(svc, cfg, t, r, args.budget)
@@ -157,12 +177,15 @@ async def main(args) -> int:
                            "status": "error", "error": f"{type(e).__name__}: {e}"[:300], "trace": traceback.format_exc()[-800:], "correct": False, "score": 0.0}
                 with open(results_path, "a") as f:
                     f.write(json.dumps(res, ensure_ascii=False) + "\n")
+                if provider_exhausted(res):
+                    exhausted.set()
+                    print("Provider quota/authentication blocked the batch. Queued runs will not start; in-flight runs will finish. Resume after resolving the provider issue.", flush=True)
                 u = res.get("usage", {})
                 print(f"=== done  {t['id']} #{r}: {res['status']} correct={res.get('correct')} score={res.get('score')} "
                       f"${u.get('cost_usd', 0):.2f} {res.get('wall_s', 0)}s {res.get('failed_checks', res.get('error', ''))}", flush=True)
 
         await asyncio.gather(*(one(t, r) for t, r in jobs))
-        return 0
+        return 2 if exhausted.is_set() else 0
     finally:
         await svc.stop()
 
@@ -177,4 +200,6 @@ if __name__ == "__main__":
     ap.add_argument("--budget", type=float, default=6.0)
     ap.add_argument("--timeout", type=int, default=2400)
     ap.add_argument("--regrade", action="store_true", help="re-grade recorded runs from the store instead of running anything")
+    ap.add_argument("--resume", action="store_true", help="skip task/repetition pairs already recorded (append-only)")
+    ap.add_argument("--retry-exhausted", action="store_true", help="with --resume, retry provider quota/auth failures; preserve original attempts")
     sys.exit(asyncio.run(main(ap.parse_args())))
