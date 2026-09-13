@@ -74,10 +74,7 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function nl(s) { return esc(s).replace(/\n/g, '<br>'); }
   window.track = window.track || function (name, props) {
-    var ev = Object.assign({ event: name, ts: Date.now() }, props || {});
-    (window.dataLayer = window.dataLayer || []).push(ev);
-    var m = document.querySelector('meta[name="analytics-endpoint"]');
-    if (m && m.content && navigator.sendBeacon) { try { navigator.sendBeacon(m.content, JSON.stringify(ev)); } catch (e) {} }
+    if(window.productEvent) window.productEvent(name);
   };
   var TARGET = { f1: ['f1', 'f13'], f2: ['f2'], f3: ['f3', 'f13'] };
   function render(root) {
@@ -99,9 +96,10 @@
     rec += '</ol></div>';
     root.innerHTML = art + rec;
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var seen = {};
+    var seen = {}; var started = false;
     root.querySelectorAll('.finding').forEach(function (btn) {
       btn.addEventListener('click', function () {
+        if (!started) { started = true; window.track('demo_start'); }
         var fix = btn.getAttribute('data-fix'), ids = TARGET[fix] || [fix];
         root.querySelectorAll('.blk').forEach(function (b) { b.classList.remove('hit', 'hit2'); });
         root.querySelectorAll('.finding').forEach(function (b) { b.classList.remove('on'); });

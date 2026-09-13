@@ -1,0 +1,21 @@
+
+.portfolio-contact{max-width:1240px;margin:0 auto;padding:88px 24px;color:inherit;scroll-margin-top:80px}
+.portfolio-contact h2{font-size:clamp(28px,3vw,40px);line-height:1.4;margin-bottom:20px;letter-spacing:-.025em}
+.portfolio-contact .contact-intro{font-size:18px;max-width:60ch;line-height:1.8}
+.portfolio-contact details{border-top:1px solid #8886;border-bottom:1px solid #8886;margin-top:28px}
+.portfolio-contact summary{cursor:pointer;min-height:60px;padding:18px 0;font-size:18px;font-weight:600}
+.portfolio-contact form{max-width:740px;padding:12px 0 28px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.portfolio-contact label{display:flex;flex-direction:column;gap:8px;font-size:16px}
+.portfolio-contact input,.portfolio-contact textarea{box-sizing:border-box;width:100%;min-height:48px;border:1px solid #77847a;border-radius:7px;padding:12px;font:inherit;font-size:16px;background:#fff;color:#17221e}
+.portfolio-contact textarea{min-height:150px;resize:vertical}
+.portfolio-contact .wide{grid-column:1/-1}
+.portfolio-contact .consent{display:flex;flex-direction:row;align-items:flex-start;line-height:1.7}
+.portfolio-contact .consent input{width:20px;min-height:20px;height:20px;flex:none;margin:4px 8px 0 0}
+.portfolio-contact button{justify-self:start;background:#202c28;color:#fff;border:1px solid #94a09a;padding:14px 24px;min-height:48px;border-radius:8px;font:inherit;cursor:pointer}
+.portfolio-contact button:disabled{opacity:.6;cursor:wait}
+.portfolio-contact :focus-visible{outline:3px solid #d17648;outline-offset:4px}
+.portfolio-contact .privacy{font-size:14px;line-height:1.8;max-width:75ch}
+.portfolio-contact .trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.portfolio-contact [role=status]{min-height:28px;font-size:16px;line-height:1.7;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+@media(max-width:600px){.portfolio-contact{padding:64px 16px}.portfolio-contact form{grid-template-columns:1fr}.portfolio-contact .contact-intro{font-size:17px}}

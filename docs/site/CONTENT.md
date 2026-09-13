@@ -23,7 +23,7 @@
 
 ## 導線
 - OSS: `uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart`
-- 事業相談: 「自社の作業フローを AI チーム化する相談」→ X の DM（非公開）。公開 Issues は不具合・提案のみ。
+- 事業相談: 「自社の作業フローを AI チーム化する相談」→ Google Cloud の非公開フォーム。公開 Issues は不具合・提案のみ。
 
 ## 表記
 - 製品名 Agent Team、リポジトリ FORIFOR/Multibot、ライセンス MIT を毎ページに表記。数字は実行記録の値のみ。約束する数字はなし。

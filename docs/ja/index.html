@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../site.css" />
-</head>
+<link rel="stylesheet" href="../portfolio.css"></head>
 <body>
 <div class="wrap">
   <header class="top">
@@ -25,7 +25,7 @@
   </header>
 
   <section class="hero" style="padding-top:64px">
-    <h1>依頼は一度。成果物も、検証の経緯も。</h1>
+    <h1>依頼は一度。<br>成果物も、検証の経緯も。</h1>
     <p class="lede">AIチームが作成・レビュー・修正を進め、誰が何を確かめたかまで、成果物と一緒に残します。</p>
     <div class="cta">
       <a class="btn signal" href="#record" id="cta-record">実際の作業記録を見る</a>
@@ -93,13 +93,13 @@
         <div class="term"><pre>uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div>
         <p style="margin-top:14px"><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">README と他のプロバイダ設定 ↗</a></p>
         <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="star">GitHub で見る</a></div>
-      <div class="path" id="consult"><h3>自社の作業フローを AI チーム化する相談</h3><p>調査 → 作成 → レビュー → 修正の流れを自社の業務に合わせて組み、検証の経緯ごと残したい方向けです。公開の Issue ではなく、非公開のダイレクトメッセージで受けます。</p>
-        <a class="btn signal" href="https://x.com/messages/compose?recipient_id=1278243362823270401" data-track="lead_submit">X の DM で相談する</a>
+      <div class="path" id="consult"><h3>自社の作業フローを AI チーム化する相談</h3><p>調査 → 作成 → レビュー → 修正の流れを自社の業務に合わせて組み、検証の経緯ごと残したい方向けです。公開の Issue ではなく、非公開フォームで受け付けます。</p>
+        <a class="btn signal" href="#business" >非公開で相談する</a>
         <p class="caption">不具合と提案は <a href="https://github.com/FORIFOR/Multibot/issues">GitHub Issues</a> へ。</p></div>
     </div>
   </section>
 
-  <footer>
+  <section class="portfolio-contact" id="business" aria-labelledby="business-heading"><p>事業・導入の相談 · Agent Team</p><h2 id="business-heading">自社の作業フローをAIチーム化する相談</h2><p class="contact-intro">調査・作成・レビューなど、任せたい仕事と確かめたい条件を教えてください。</p><p class="privacy">提供可否・範囲・納期・料金は個別に確認します。送信による契約や課金はありません。</p><details><summary>非公開で相談する</summary><form id="portfolio-form"><label>お名前<input name="name" required maxlength="80" autocomplete="name"></label><label>返信先メール<input name="email" type="email" required maxlength="254" autocomplete="email"></label><label class="wide">会社・団体名（任意）<input name="organization" maxlength="120" autocomplete="organization"></label><label class="wide">相談したい内容<textarea name="message" required minlength="10" maxlength="2000"></textarea></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><p class="privacy wide">入力内容は運営者への非公開の問い合わせとしてGoogle Cloudに保存し、返信のために利用します。AIの入力やアクセス解析には利用しません。90日後から順次削除します。公開Issueには投稿されません。</p><label class="consent wide"><input type="checkbox" name="consent" required>上記の取り扱いに同意して送信します。</label><button type="submit">相談を送信</button><p class="wide" id="portfolio-status" role="status" aria-live="polite"></p></form></details></section><footer>
     <span>Agent Team · MIT · <a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">github.com/FORIFOR/Multibot</a></span>
     <span><a href="https://zenn.dev/forifori/articles/agent-team-launch">Zenn</a> · <a href="https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a">dev.to (English)</a> · <a href="https://github.com/FORIFOR/Multibot/tree/main/docs/site">サイトの設計文書</a></span>
     <span>スター数・成長率・ベンチマークは約束しません。成果物と記録だけを示します。</span>
@@ -113,5 +113,5 @@
   var c=document.getElementById('cta-record'); if(c){ c.addEventListener('click',function(){ track('demo_start',{kind:'record'}); setTimeout(function(){ var f=document.querySelector('.finding'); if(f) f.focus({preventScroll:true}); },400); }); }
 })();
 </script>
-</body>
+<script src="../portfolio.js" data-product="agent-team"></script></body>
 </html>
