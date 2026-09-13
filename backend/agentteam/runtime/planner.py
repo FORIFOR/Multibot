@@ -333,7 +333,8 @@ async def milestone_replan(rt, round_no: int) -> dict[str, Any]:
                  "(depends_on may reference accepted tasks; give each task acceptance criteria; add a reviewer task when "
                  "something worth verifying is produced). Only add tasks the remaining budget can finish — a task that starts and "
                  "fails on budget leaves the run partial; if the budget cannot cover the missing work, add nothing and say "
-                 "so in the verdict. Do not re-do accepted work. Then call finish_task with a one-line verdict.")
+                 "so in the verdict. If every requested deliverable is accepted and only wording or polish remains, add "
+                 "nothing. Do not re-do accepted work. Then call finish_task with a one-line verdict.")
     runner = AgentRunner(ctx)
     out = await runner.run("\n".join(lines))
     added = sorted(set(rt.tasks) - before)

@@ -197,13 +197,18 @@ class RunManager:
         """One line naming the tasks that kept the run from 'completed' (their own blocked_reason when they have one)."""
         if status not in (RunStatus.partial, RunStatus.failed):
             return None
+        planned = {t.id for t in (rt.run.plan.tasks if rt.run.plan else [])}
         parts = []
         for t in rt.tasks.values():
             if t.status == TaskStatus.accepted:
                 continue
             why = (t.blocked_reason or "").strip()
             parts.append(f"{t.spec.id} {t.status}" + (f": {why[:160]}" if why else ""))
-        return "; ".join(parts)[:500] or None
+        if not parts:
+            return None
+        if planned and all(t.status == TaskStatus.accepted for t in rt.tasks.values() if t.spec.id in planned):
+            parts.insert(0, "every task of the original plan was accepted; only tasks added at a milestone are unfinished")
+        return "; ".join(parts)[:500]
 
     async def _finish(self, rt: RunRuntime, status: RunStatus, *, reason: str | None = None) -> None:
         run = rt.run

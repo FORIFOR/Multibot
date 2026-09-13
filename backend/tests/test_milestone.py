@@ -108,8 +108,18 @@ async def test_milestone_skipped_when_budget_cannot_afford_one_session(tmp_path)
         assert run.status == "completed"
         evs = await h.events.list(run.run_id)
         ms = [e for e in evs if e.type == "plan.milestone"]
-        assert len(ms) == 1 and ms[0].payload["skipped"] == "budget" and "one agent session" in ms[0].payload["reason"]
+        assert len(ms) == 1 and ms[0].payload["skipped"] == "limits" and "budget" in ms[0].payload["reason"]
         assert {t.spec.id for t in await h.runs.list_tasks(run.run_id)} == {"t1"}, "no task was added without a Master session"
+
+
+async def test_milestone_skipped_when_model_calls_cannot_afford_one_session(tmp_path):
+    """lp re-run 3: two milestone rounds of polish after every planned task was accepted ended at max_model_calls."""
+    cfg = FAKE_CONFIG.replace("max_revision_rounds: 2,", "max_revision_rounds: 2, max_session_turns: 1000,")
+    async with Harness(tmp_path, script=script, config_yaml=cfg) as h:
+        run = await h.run_goal("LP")
+        assert run.status == "completed"
+        ms = [e for e in await h.events.list(run.run_id) if e.type == "plan.milestone"]
+        assert len(ms) == 1 and ms[0].payload["skipped"] == "limits" and "model calls" in ms[0].payload["reason"]
 
 
 async def test_partial_run_carries_a_reason_naming_the_unaccepted_task(tmp_path):

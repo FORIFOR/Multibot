@@ -329,11 +329,16 @@ class Scheduler:
                               and rt.remaining_seconds() > 60)
                 # a replan that cannot afford a single agent session would only add tasks that fail on budget
                 # (seen twice in the research scenario re-runs: milestone-added tasks ended the run partial at the cap)
+                calls_left = rt.config.limits.max_model_calls - rt.policy.usage.model_calls
+                short = None
                 if can_replan and rt.policy.remaining_budget() < rt.config.limits.max_session_cost_usd:
-                    await rt.events.append(rt.run_id, "plan.milestone", {
-                        "round": self._replans + 1, "skipped": "budget",
-                        "reason": f"remaining budget {rt.policy.remaining_budget():.2f} USD is below one agent session "
-                                  f"({rt.config.limits.max_session_cost_usd:.2f} USD); the Master was not asked to extend the plan"})
+                    short = (f"remaining budget {rt.policy.remaining_budget():.2f} USD is below one agent session "
+                             f"({rt.config.limits.max_session_cost_usd:.2f} USD)")
+                elif can_replan and calls_left < rt.config.limits.max_session_turns:
+                    short = f"remaining model calls {calls_left} are below one agent session ({rt.config.limits.max_session_turns} turns)"
+                if short:
+                    await rt.events.append(rt.run_id, "plan.milestone", {"round": self._replans + 1, "skipped": "limits",
+                                                                          "reason": short + "; the Master was not asked to extend the plan"})
                     can_replan = False
                 if can_replan:
                     self._replans += 1
