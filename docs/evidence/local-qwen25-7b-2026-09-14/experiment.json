@@ -1,0 +1,66 @@
+{
+  "date": "2026-09-14",
+  "baseline_commit": "994359dad26fcfb319b3bae5647706f32a89606d",
+  "ollama_version": {
+    "version": "0.33.3"
+  },
+  "machine": "arm64",
+  "macos": "26.6.2",
+  "memory_bytes": 17179869184,
+  "models": [
+    {
+      "name": "agentteam-qwen25-7b-16k:latest",
+      "size": 4683087032,
+      "digest": "f0e20bb85d433457a801ea7c0e28034c59e686ac230fdb6eb692a62ca8745dfa",
+      "details": {
+        "parent_model": "qwen2.5:7b",
+        "format": "gguf",
+        "family": "qwen2",
+        "families": [
+          "qwen2"
+        ],
+        "parameter_size": "7.6B",
+        "quantization_level": "Q4_K_M",
+        "context_length": 32768,
+        "embedding_length": 3584
+      }
+    },
+    {
+      "name": "qwen2.5:7b",
+      "size": 4683087332,
+      "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "qwen2",
+        "families": [
+          "qwen2"
+        ],
+        "parameter_size": "7.6B",
+        "quantization_level": "Q4_K_M",
+        "context_length": 32768,
+        "embedding_length": 3584
+      }
+    }
+  ],
+  "num_ctx": 16384,
+  "temperature": 0.2,
+  "max_parallel_runs": 1,
+  "max_active_workers": 1,
+  "run_timeout_seconds": 600,
+  "api_cost_usd": 0,
+  "electricity_and_hardware_cost": "not measured",
+  "inputs": "existing constructed benchmark inputs, not customer workflows",
+  "model_fallback": "none",
+  "configs": {
+    "team": {
+      "path": "docs/config/local-qwen25-7b-team.yaml",
+      "sha256": "959ea247f24538249e95ed16479b593230b42cf764ad888dba24851cecd228eb"
+    },
+    "single": {
+      "path": "docs/config/local-qwen25-7b-single.yaml",
+      "sha256": "3a761e54f81045e3efaa75c14d3aa354c50d13e53eaa9cb8d0c89b2fe0daa61d"
+    }
+  },
+  "task_source_sha256": "d93dc92095989470e0bdc386b23b9c79851096b3fb5b4b1695c733e8a00a7291"
+}

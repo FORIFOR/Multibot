@@ -44,6 +44,18 @@ def pending_jobs(jobs: list, previous: list[dict], retry_exhausted: bool) -> lis
             or (retry_exhausted and provider_exhausted(latest[t["id"], rep]))]
 
 
+def protocol_evidence(events: list[dict]) -> dict:
+    """Measure actual participation; team mode alone does not prove a review occurred."""
+    owners = {e.get("task_id"): e["payload"].get("owner") for e in events if e["type"] == "task.created"}
+    reviews = [e for e in events if e["type"] == "review.submitted"]
+    independent = [e for e in reviews if owners.get(e["payload"].get("target_task_id"))
+                   and owners[e["payload"]["target_task_id"]] != e.get("actor_id")
+                   and e["payload"].get("target_artifacts")]
+    return {"model_actors": sorted({e["actor_id"] for e in events if e["type"] == "model.called"}),
+            "review_submissions": len(reviews), "independent_review_submissions": len(independent),
+            "independently_reviewed_tasks": sorted({e["payload"]["target_task_id"] for e in independent})}
+
+
 async def ensure_probed(svc: AppService, cfg):
     conn = cfg.connection(cfg.defaults.connection_id)
     if conn.capability_check != "passed":
@@ -91,6 +103,7 @@ async def run_task(svc: AppService, cfg, task: dict, rep: int, budget: float) ->
     reviews = [r["status"] for e in events if e.type == "review.submitted" for r in e.payload.get("results", [])]
     status = str(run.status)
     return {**base, "run_id": run.run_id, "status": status, "reason": run.blocked_reason,
+            "protocol": protocol_evidence([e.model_dump() for e in events]),
             "correct": g["correct"], "score": g["score"], "failed_checks": [c["name"] + (f" ({c['detail']})" if c["detail"] else "") for c in g["checks"] if not c["ok"]],
             "false_completion": status == "completed" and not g["correct"],
             "plan_tasks": len(run.plan.tasks) if run.plan else 0, "tasks_total": len(states),

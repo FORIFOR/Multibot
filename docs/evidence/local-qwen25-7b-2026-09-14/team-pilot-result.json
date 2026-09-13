@@ -1,0 +1,45 @@
+{
+  "task": "doc-email",
+  "category": "document",
+  "rep": 1,
+  "profile": "local-qwen25-7b-team",
+  "team_mode": "team",
+  "run_id": "run_1a09bcfed86212af27c",
+  "status": "completed",
+  "reason": null,
+  "correct": true,
+  "score": 1.0,
+  "failed_checks": [],
+  "false_completion": false,
+  "plan_tasks": 1,
+  "tasks_total": 1,
+  "attempts": 1,
+  "retries": 0,
+  "artifacts": [
+    "email.md"
+  ],
+  "runtime_checks": "0/0",
+  "review": "0/0",
+  "milestones": 0,
+  "usage": {
+    "model_calls": 10,
+    "tool_calls": 8,
+    "input_tokens": 25693,
+    "output_tokens": 1484,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "cost_usd": 0.0,
+    "reserved_usd": 0.0,
+    "wall_seconds": 130.42032654199284
+  },
+  "wall_s": 130,
+  "failures": [],
+  "protocol": {
+    "model_actors": [
+      "master"
+    ],
+    "review_submissions": 0,
+    "independent_review_submissions": 0,
+    "independently_reviewed_tasks": []
+  }
+}

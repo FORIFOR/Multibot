@@ -1,0 +1,9 @@
+{
+  "events_source_sha256": "5aa05d43be02c19ee4e804c810b5e2468bfbf68ad274ee1556dbb88da22688a3",
+  "event_selection": [
+    "task.created",
+    "model.called",
+    "review.submitted"
+  ],
+  "protocol": "Derived from real events; an independent submission does not imply approval or complete verification."
+}
