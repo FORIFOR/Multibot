@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import os
+import asyncio
+import fcntl
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +20,8 @@ from ..store.run_store import RunStore
 
 class AppService:
     def __init__(self, data_dir: Path | str | None = None, *, fake_adapters: dict[str, ProviderAdapter] | None = None,
-                 config_yaml: str | None = None, approval_wait_seconds: float = 120.0):
+                 config_yaml: str | None = None, approval_wait_seconds: float = 120.0,
+                 access_file: Path | str | None = None):
         self.data_dir = Path(data_dir or os.environ.get("AGENTTEAM_DATA_DIR") or "./data").resolve()
         self.data_dir.mkdir(parents=True, exist_ok=True)
         self.config_path = self.data_dir / "agents.yaml"
@@ -27,9 +30,52 @@ class AppService:
         self.approval_wait_seconds = approval_wait_seconds
         self.config: AgentTeamConfig | None = None
         self.config_revision: int = 0
+        from ..security.server import ServerAccess
+        path = access_file or os.environ.get('AGENTTEAM_ACCESS_FILE')
+        mode = os.environ.get('AGENTTEAM_MODE', 'local')
+        if mode not in ('local', 'production'):
+            raise ValueError('AGENTTEAM_MODE must be local or production')
+        if mode == 'production' and not path:
+            raise ValueError('production mode requires AGENTTEAM_ACCESS_FILE')
+        self.access = ServerAccess(self, Path(path).expanduser().absolute() if path else None)
+        self.admission_lock = asyncio.Lock()
+        self.stopping = False
+        self._process_lock = None
 
     async def start(self) -> "AppService":
+        if self._process_lock is not None:
+            raise RuntimeError('service already started')
+        self._process_lock = (self.data_dir / '.service.lock').open('a')
+        try:
+            fcntl.flock(self._process_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            self._process_lock.close()
+            self._process_lock = None
+            raise RuntimeError('data directory is already in use by another process')
+        try:
+            return await self._start()
+        except BaseException:
+            if hasattr(self, 'db'):
+                await self.db.close()
+            self._process_lock.close()
+            self._process_lock = None
+            raise
+
+    async def _start(self) -> "AppService":
+        self.stopping = False
+        if self.access.enabled:
+            if self.fake_adapters or os.environ.get('AGENTTEAM_SANDBOX', 'auto').lower() == 'subprocess':
+                raise ValueError('secured deployments cannot use fake providers or the unsandboxed subprocess backend')
+            os.chmod(self.data_dir, 0o700)
         self.db = await Database(self.data_dir / "agentteam.sqlite").connect()
+        bound = await self.db.fetchone("SELECT value FROM deployment_metadata WHERE key='organization'")
+        if bound and not self.access.enabled:
+            raise ValueError('this data directory requires its organization access configuration')
+        if self.access.enabled:
+            if bound and bound['value'] != self.access.config.organization:
+                raise ValueError('this data directory belongs to a different organization')
+            await self.db.execute("INSERT OR IGNORE INTO deployment_metadata(key,value) VALUES('organization',?)",
+                                  (self.access.config.organization,))
         self.redactor = Redactor()
         self.events = EventStore(self.db, self.redactor)
         self.artifacts = ArtifactStore(self.db, self.data_dir / "runs")
@@ -47,14 +93,21 @@ class AppService:
                                   config_getter=lambda: self.config, redactor=self.redactor, fake_adapters=self.fake_adapters,
                                   approval_wait_seconds=self.approval_wait_seconds)
         # runs left 'running' by a previous process are interrupted, never silently resumed
-        for run in await self.runs.list_runs(500):
-            if run.status in ("running", "planning"):
-                await self.runs.update_run(run.run_id, status="interrupted", blocked_reason="server restarted while running")
-                await self.events.append(run.run_id, "run.interrupted", {"reason": "server restarted while running"})
+        for row in await self.db.fetchall("SELECT run_id FROM runs WHERE status IN ('running','planning')"):
+            await self.events.append(row['run_id'], "run.interrupted", {"reason": "server restarted while running"})
+            await self.runs.update_run(row['run_id'], status="interrupted", blocked_reason="server restarted while running")
         return self
 
     async def stop(self) -> None:
-        await self.db.close()
+        self.stopping = True
+        try:
+            if hasattr(self, 'manager'):
+                await self.manager.shutdown()
+        finally:
+            await self.db.close()
+            if self._process_lock:
+                self._process_lock.close()
+                self._process_lock = None
 
     def _mirror_file(self) -> None:
         try:

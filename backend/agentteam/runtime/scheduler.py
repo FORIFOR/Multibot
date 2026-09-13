@@ -263,6 +263,9 @@ class Scheduler:
             fut.cancel()
         for fut in list(self._replies):
             fut.cancel()
+        if self._replies:
+            await asyncio.gather(*self._replies, return_exceptions=True)
+        self._replies.clear()
         for tid, fut in list(self._running.items()):
             try:
                 await fut

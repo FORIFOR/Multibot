@@ -10,7 +10,8 @@ import aiosqlite
 
 SCHEMA = """
 PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
+PRAGMA synchronous=FULL;
+PRAGMA busy_timeout=5000;
 PRAGMA foreign_keys=ON;
 CREATE TABLE IF NOT EXISTS runs (
   run_id TEXT PRIMARY KEY,
@@ -111,6 +112,35 @@ CREATE TABLE IF NOT EXISTS checkpoints (
   snapshot_json TEXT NOT NULL,
   PRIMARY KEY (run_id, seq)
 );
+CREATE TABLE IF NOT EXISTS auth_sessions (
+  session_digest TEXT PRIMARY KEY,
+  token_digest TEXT NOT NULL,
+  expires_at REAL NOT NULL
+);
+CREATE TABLE IF NOT EXISTS deployment_metadata (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS run_access (
+  run_id TEXT NOT NULL REFERENCES runs(run_id) ON DELETE CASCADE,
+  subject TEXT NOT NULL,
+  permission TEXT NOT NULL CHECK(permission IN ('read','write')),
+  PRIMARY KEY(run_id,subject)
+);
+CREATE TABLE IF NOT EXISTS audit_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  recorded_at REAL NOT NULL,
+  request_id TEXT NOT NULL,
+  subject TEXT,
+  method TEXT NOT NULL,
+  route TEXT NOT NULL,
+  run_id TEXT,
+  outcome TEXT NOT NULL,
+  status INTEGER NOT NULL,
+  details_json TEXT NOT NULL DEFAULT '{}'
+);
+CREATE INDEX IF NOT EXISTS idx_access_subject ON run_access(subject,run_id);
+CREATE INDEX IF NOT EXISTS idx_audit_time ON audit_log(recorded_at);
 """
 
 
@@ -124,6 +154,9 @@ class Database:
         self._conn = await aiosqlite.connect(self.path, isolation_level=None)
         self._conn.row_factory = aiosqlite.Row
         await self._conn.executescript(SCHEMA)
+        columns = {r['name'] for r in await self.fetchall('PRAGMA table_info(audit_log)')}
+        if 'details_json' not in columns:
+            await self.execute("ALTER TABLE audit_log ADD COLUMN details_json TEXT NOT NULL DEFAULT '{}'")
         return self
 
     async def close(self) -> None:

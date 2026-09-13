@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { api, ApiError, fmtDate, money, type Config, type Run } from '../lib/api'
 import { Link } from '../lib/router'
 
-export default function Home({ nav }: { nav: (p: string) => void }) {
+export default function Home({ nav, readOnly = false, canConfigure = true }: { nav: (p: string) => void; readOnly?: boolean; canConfigure?: boolean }) {
   const [goal, setGoal] = useState('')
   const [text, setText] = useState('')
   const [urls, setUrls] = useState('')
@@ -41,7 +41,7 @@ export default function Home({ nav }: { nav: (p: string) => void }) {
           {cfg && (
             <div className={'banner ' + (ready ? 'ok' : 'warn')} style={{ marginTop: 18 }}>
               {ready ? <>{t("接続")} <code>{cfg.defaults.connection_id}</code> {t("/ モデル")} <code>{model}</code> は疎通確認済み。予算上限 {money(cfg.limits.budget_usd)} / run。</>
-                : <>開始前に設定が必要です：{cfg.problems.map((p) => p.message).join(' / ')} → <Link to="/settings" nav={nav}>{t("設定を開く")}</Link></>}
+                : <>開始前に設定が必要です：{cfg.problems.map((p) => p.message).join(' / ')} {canConfigure ? <>→ <Link to="/settings" nav={nav}>{t("設定を開く")}</Link></> : <span> 管理者に接続設定の確認を依頼してください。</span>}</>}
             </div>
           )}
         </div>
@@ -56,13 +56,13 @@ export default function Home({ nav }: { nav: (p: string) => void }) {
             </div>
           </details>
           <div className="foot">
-            <span className="muted small">{t("外部への投稿・送信は行いません（草案まで）。")}</span>
+            <span className="muted small">{readOnly ? '閲覧権限でログインしています。' : t("外部への投稿・送信は行いません（草案まで）。")}</span>
             <span className="spacer" />
             {busy && <Orb state="thinking" size={36} title={t("開始中…")} />}
-            <button className="btn signal" disabled={!goal.trim() || busy || !ready} onClick={start}>{busy ? t('開始中…') : t('開始')}</button>
+            <button className="btn signal" disabled={readOnly || !goal.trim() || busy || !ready} onClick={start}>{busy ? t('開始中…') : t('開始')}</button>
           </div>
           {err && <p className="err">{err}</p>}
-          {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code}>{p.message}</div>)} <Link to="/settings" nav={nav}>{t("設定へ")}</Link></div>}
+          {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code}>{p.message}</div>)} {canConfigure && <Link to="/settings" nav={nav}>{t("設定へ")}</Link>}</div>}
         </div>
       </section>
       <section className="runs-list">

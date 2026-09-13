@@ -35,13 +35,41 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--text", default="")
     r.add_argument("--budget", type=float, default=None)
     r.add_argument("--data-dir", default=None)
+    auth = sub.add_parser('access', help='issue, rotate or revoke an installation access key')
+    auth.add_argument('--file', type=Path, required=True)
+    auth.add_argument('--subject', required=True)
+    auth.add_argument('--role', choices=['admin', 'operator', 'viewer'], default='operator')
+    auth.add_argument('--credential-file', type=Path)
+    auth.add_argument('--organization')
+    auth.add_argument('--public-origin')
+    auth.add_argument('--revoke', action='store_true')
+    for command in ('backup', 'restore', 'verify-backup'):
+        op = sub.add_parser(command, help='offline snapshot operation; existing destinations are never overwritten')
+        op.add_argument('--source', type=Path, required=True)
+        if command != 'verify-backup':
+            op.add_argument('--destination', type=Path, required=True)
     args = p.parse_args(argv)
 
     if args.cmd == "serve":
         import uvicorn
         from .api.app import create_app
         svc = AppService(args.data_dir)
-        uvicorn.run(create_app(svc), host=args.host, port=args.port, log_level="info")
+        if args.host not in ('127.0.0.1', 'localhost', '::1') and not svc.access.enabled:
+            p.error('binding outside loopback requires AGENTTEAM_ACCESS_FILE')
+        uvicorn.run(create_app(svc), host=args.host, port=args.port, log_level="info", proxy_headers=False, access_log=False)
+        return 0
+    if args.cmd == 'access':
+        from .security.accounts import issue_key
+        if not args.revoke and args.credential_file is None:
+            p.error('--credential-file is required; keys are never printed to stdout')
+        issue_key(args.file, args.subject, args.role, args.credential_file or args.file,
+                  organization=args.organization, public_origin=args.public_origin, revoke=args.revoke)
+        print('access key revoked' if args.revoke else f'access key saved to {args.credential_file}')
+        return 0
+    if args.cmd in ('backup', 'restore', 'verify-backup'):
+        from .operations.backup import backup, restore, verify
+        result = verify(args.source) if args.cmd == 'verify-backup' else {'backup': backup, 'restore': restore}[args.cmd](args.source, args.destination)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     if args.cmd == "validate":
         path = Path(args.path) if args.path else Path("data/agents.yaml")

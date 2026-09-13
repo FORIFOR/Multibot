@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-09-13T19:22:10.785956+00:00",
+  "snapshot_file_count": 3,
+  "restore": {
+    "restored_files": 3,
+    "sessions_revoked": true
+  },
+  "verified": {
+    "run_status": "interrupted",
+    "artifact_sha256": "23ed248581fd6129b2f0146b10189defd71b71d8603b404174d8d085ed5e80ea",
+    "revoked_sessions_remaining": 0
+  },
+  "elapsed_seconds": 0.085,
+  "scope": "offline snapshot and restore of the actual secured-container data, including a saved real-model artifact; no production RPO/RTO claim"
+}

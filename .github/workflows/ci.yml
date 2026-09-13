@@ -55,3 +55,42 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with: { name: ui-smoke-screenshots, path: /tmp/agentteam-shots, if-no-files-found: ignore }
+  secured-container:
+    # Real credentials, HTTP, SQLite, and browser. Replays a saved real-model run; no fake provider.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv venv backend/.venv --python 3.12 && uv pip install --python backend/.venv/bin/python -r backend/requirements.lock -e backend
+      - run: backend/.venv/bin/python backend/scripts/provision_secure_smoke.py --root /tmp/agentteam-secured-check
+      - run: docker build -t agentteam:secured .
+      - name: start secured container
+        run: |
+          docker run -d --name agentteam-secured-check --user "$(id -u):$(id -g)" --read-only --cap-drop ALL --security-opt no-new-privileges --pids-limit 256 --memory 1g --tmpfs /tmp:rw,noexec,nosuid,size=64m -p 127.0.0.1:8796:8787 -v /tmp/agentteam-secured-check/data:/data -v /tmp/agentteam-secured-check/security:/run/secrets:ro agentteam:secured
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:8796/api/health/live && break; sleep 1; done
+          curl -sf http://127.0.0.1:8796/api/health/live
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm, cache-dependency-path: frontend/pnpm-lock.yaml }
+      - run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - run: node scripts/production-auth-smoke.mjs
+        working-directory: frontend
+        env:
+          BASE: http://127.0.0.1:8796
+          ADMIN_KEY_FILE: /tmp/agentteam-secured-check/forifor.key
+          OPERATOR_KEY_FILE: /tmp/agentteam-secured-check/verification-operator.key
+          SHOTS: /tmp/agentteam-secured-check/screenshots
+          RUN_ID: run_1a09bfe4acdc8c36d5f
+      - run: backend/.venv/bin/python backend/scripts/check_secure_server.py --root /tmp/agentteam-secured-check
+      - if: always()
+        run: docker logs agentteam-secured-check && docker stop -t 30 agentteam-secured-check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: secured-container-evidence
+          path: |
+            /tmp/agentteam-secured-check/screenshots
+            /tmp/agentteam-secured-check/http-smoke.json
+          if-no-files-found: ignore

@@ -1,0 +1,32 @@
+# Dedicated organization instance. Required values are supplied by the deployment operator.
+services:
+  agentteam:
+    build:
+      context: ..
+    image: agentteam:secured
+    user: "${AGENTTEAM_UID:?set the data/secret owner uid}:${AGENTTEAM_GID:?set the data/secret owner gid}"
+    restart: unless-stopped
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 256
+    mem_limit: 2g
+    cpus: 2
+    stop_grace_period: 45s
+    ports:
+      - "127.0.0.1:${AGENTTEAM_PORT:-8787}:8787"
+    environment:
+      AGENTTEAM_MODE: production
+      AGENTTEAM_DATA_DIR: /data
+      AGENTTEAM_ACCESS_FILE: /run/secrets/access.json
+    volumes:
+      - "${AGENTTEAM_DATA_PATH:?set an isolated data directory}:/data"
+      - "${AGENTTEAM_ACCESS_DIR:?set the private directory containing access.json}:/run/secrets:ro"
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '5'

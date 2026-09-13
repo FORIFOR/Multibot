@@ -3,14 +3,18 @@ from __future__ import annotations
 
 import asyncio
 import json
+import secrets
+import ipaddress
+import shutil
+from urllib.parse import urlsplit
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Query, Request, Response
+from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 from sse_starlette.sse import EventSourceResponse
 
 from .. import __version__
@@ -20,6 +24,8 @@ from ..contracts import RunInputs, RunStatus
 from ..projections.views import chat_view, timeline_view
 from ..providers.registry import ProviderRegistry
 from .service import AppService
+from ..security.accounts import digest
+from ..security.server import COOKIE
 
 FRONTEND_DIST = PKG_ROOT / "ui"  # built UI bundled inside the package
 if not FRONTEND_DIST.is_dir():  # dev checkout without a bundled build
@@ -29,7 +35,7 @@ if not FRONTEND_DIST.is_dir():  # dev checkout without a bundled build
 class CreateRunBody(BaseModel):
     goal: str = Field(min_length=1)
     inputs: RunInputs = Field(default_factory=RunInputs)
-    budget_usd: float | None = None
+    budget_usd: float | None = Field(default=None, gt=0, allow_inf_nan=False)
     start: bool = True
 
 
@@ -76,6 +82,15 @@ class ForkBody(BaseModel):
     start: bool = True
 
 
+class LoginBody(BaseModel):
+    token: str = Field(min_length=32, max_length=256)
+
+
+class GrantBody(BaseModel):
+    subject: str
+    permission: str
+
+
 def create_app(service: AppService | None = None) -> FastAPI:
     svc = service or AppService()
 
@@ -88,16 +103,138 @@ def create_app(service: AppService | None = None) -> FastAPI:
         finally:
             await svc.stop()
 
-    app = FastAPI(title="Agent Team", version=__version__, lifespan=lifespan)
+    app = FastAPI(title="Agent Team", version=__version__, lifespan=lifespan,
+                  dependencies=[Depends(svc.access.authorize)],
+                  docs_url=None if svc.access.enabled else '/docs',
+                  redoc_url=None if svc.access.enabled else '/redoc',
+                  openapi_url=None if svc.access.enabled else '/openapi.json')
+
+    @app.middleware('http')
+    async def server_boundary(request: Request, call_next):
+        request.state.request_id = secrets.token_hex(16)
+        host = request.url.hostname
+        origin = svc.access.config.public_origin if svc.access.enabled else str(request.base_url).rstrip('/')
+        if svc.access.enabled:
+            if request.headers.get('host', '').lower() != urlsplit(origin).netloc.lower():
+                return JSONResponse({'detail': 'invalid host'}, status_code=400)
+        elif host not in ('127.0.0.1', 'localhost', '::1'):
+            return JSONResponse({'detail': 'local mode accepts only loopback hosts'}, status_code=400)
+        elif request.client:
+            try:
+                if not ipaddress.ip_address(request.client.host).is_loopback:
+                    return JSONResponse({'detail': 'local mode accepts only loopback clients'}, status_code=403)
+            except ValueError:
+                return JSONResponse({'detail': 'invalid client address'}, status_code=403)
+        if request.headers.get('origin') and request.headers['origin'] != origin:
+            return JSONResponse({'detail': 'cross-origin access is not allowed'}, status_code=403)
+        if request.url.path.startswith('/api/') and request.method not in ('GET', 'HEAD'):
+            limit = svc.access.config.max_request_bytes if svc.access.enabled else 2_000_000
+            chunks, size = [], 0
+            async for chunk in request.stream():
+                size += len(chunk)
+                if size > limit:
+                    return JSONResponse({'detail': 'request too large'}, status_code=413)
+                chunks.append(chunk)
+            request._body = b''.join(chunks)
+        response = await call_next(request)
+        if svc.access.enabled and request.url.path.startswith('/api/') and request.url.path != '/api/health/live':
+            await svc.access.audit(request, 'response', response.status_code)
+        response.headers['x-request-id'] = request.state.request_id
+        response.headers['x-content-type-options'] = 'nosniff'
+        response.headers['referrer-policy'] = 'no-referrer'
+        response.headers['cache-control'] = 'no-store'
+        response.headers.setdefault('content-security-policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
+        if origin.startswith('https://'):
+            response.headers['strict-transport-security'] = 'max-age=31536000'
+        return response
+
+    @app.get('/api/health/live')
+    async def liveness():
+        return {'ok': True}
+
+    @app.get('/api/admin/ready')
+    async def readiness():
+        from ..runtime.sandbox import backend_name
+        await svc.db.fetchone('SELECT 1')
+        free = shutil.disk_usage(svc.data_dir).free
+        problems = svc.manager.precheck(svc.config)
+        needs_sandbox = any(a.enabled and set(a.tools) & {'sandbox_run', 'run_check'} for a in svc.config.agents)
+        sandbox = await backend_name() if needs_sandbox else 'not_required'
+        ready = not svc.stopping and free >= 500 * 1024 * 1024 and not problems and sandbox not in ('none', 'subprocess')
+        return JSONResponse({'ready': ready, 'disk_free_bytes': free, 'sandbox_backend': sandbox,
+                             'configuration_problems': [p['code'] for p in problems]}, status_code=200 if ready else 503)
+
+    @app.get('/api/admin/metrics', response_class=PlainTextResponse)
+    async def metrics():
+        counts = await svc.db.fetchall('SELECT status,COUNT(*) AS n FROM runs GROUP BY status')
+        body = '# TYPE agentteam_runs gauge\n'
+        body += ''.join(f'agentteam_runs{{status="{RunStatus(r["status"]).value}"}} {r["n"]}\n' for r in counts)
+        body += '# TYPE agentteam_active_runs gauge\n'
+        body += f'agentteam_active_runs {sum(not t.done() for t in svc.manager._tasks.values())}\n'
+        body += '# TYPE agentteam_disk_free_bytes gauge\n'
+        body += f'agentteam_disk_free_bytes {shutil.disk_usage(svc.data_dir).free}\n'
+        return PlainTextResponse(body, media_type='text/plain; version=0.0.4')
+
+    @app.get('/api/auth/status')
+    async def auth_status():
+        return {'enabled': svc.access.enabled}
+
+    @app.post('/api/auth/login')
+    async def login(body: LoginBody, request: Request, response: Response):
+        account, token = await svc.access.login(request, body.token)
+        response.set_cookie(COOKIE, token, max_age=svc.access.config.session_seconds, httponly=True,
+                            secure=svc.access.config.public_origin.startswith('https://'), samesite='strict', path='/')
+        return {'subject': account.subject, 'role': account.role, 'organization': svc.access.config.organization}
+
+    @app.get('/api/auth/me')
+    async def me(request: Request):
+        p = svc.access.principal(request)
+        return {'subject': p.subject if p else 'local', 'role': p.role if p else 'admin',
+                'organization': svc.access.config.organization if svc.access.enabled else None}
+
+    @app.post('/api/auth/logout')
+    async def logout(request: Request, response: Response):
+        await svc.db.execute('DELETE FROM auth_sessions WHERE session_digest=?', (digest(request.cookies.get(COOKIE, '')),))
+        response.delete_cookie(COOKIE, path='/')
+        return {'ok': True}
+
+    @app.get('/api/admin/audit')
+    async def audit_log(after_id: int = Query(default=0, ge=0), limit: int = Query(default=100, ge=1, le=1000)):
+        return [dict(r) for r in await svc.db.fetchall('SELECT * FROM audit_log WHERE id>? ORDER BY id LIMIT ?', (after_id, limit))]
+
+    @app.put('/api/runs/{run_id}/access')
+    async def grant_access(run_id: str, body: GrantBody, request: Request):
+        if not svc.access.enabled or body.permission not in ('read', 'write', 'revoke'):
+            raise HTTPException(400, 'invalid access grant')
+        if not any(a.subject == body.subject and not a.disabled for a in svc.access.config.users):
+            raise HTTPException(400, 'unknown subject')
+        if await svc.runs.get_run(run_id) is None:
+            raise HTTPException(404, 'run not found')
+        if body.permission == 'revoke':
+            await svc.db.execute('DELETE FROM run_access WHERE run_id=? AND subject=?', (run_id, body.subject))
+        else:
+            await svc.db.execute('INSERT INTO run_access(run_id,subject,permission) VALUES(?,?,?) '
+                                 'ON CONFLICT(run_id,subject) DO UPDATE SET permission=excluded.permission',
+                                 (run_id, body.subject, body.permission))
+        await svc.access.audit(request, 'access_grant', 200, {'subject': body.subject, 'permission': body.permission})
+        return {'run_id': run_id, 'subject': body.subject, 'permission': body.permission}
 
     # ------------------------------------------------------------------ meta / config
     @app.get("/api/health")
-    async def health():
-        return {"ok": True, "version": __version__, "config_revision": svc.config_revision, "live_runs": list(svc.manager.live)}
+    async def health(request: Request):
+        await svc.db.fetchone('SELECT 1')
+        return {"ok": not svc.stopping, "version": __version__, "config_revision": svc.config_revision,
+                "live_runs": [rid for rid in svc.manager.live if await svc.access.can_access(request, rid)]}
 
     @app.get("/api/config")
-    async def get_config():
-        return svc.public_config()
+    async def get_config(request: Request):
+        cfg = svc.public_config()
+        if not svc.access.admin(request):
+            cfg['connections'] = []
+            cfg['effective_agents'] = {}
+            cfg['agents'] = []
+            cfg['problems'] = [{'code': p['code'], 'message': 'Administrator setup required'} for p in cfg['problems']]
+        return cfg
 
     @app.get("/api/config/yaml", response_class=PlainTextResponse)
     async def get_config_yaml():
@@ -175,11 +312,14 @@ def create_app(service: AppService | None = None) -> FastAPI:
             raise HTTPException(409, {"code": "revision_conflict", "current": svc.config_revision})
         cfg = svc.config.model_copy(deep=True)
         existing = cfg.connection(connection_id)
-        new = Connection(id=connection_id, driver=body.driver, base_url=body.base_url, api_key_ref=body.api_key_ref,
-                         capability_check="not_run", refusal_fallback=body.refusal_fallback,
-                         ollama_thinking=(body.ollama_thinking if "ollama_thinking" in body.model_fields_set
-                                          else existing.ollama_thinking if existing else None)
-                         if body.driver == "ollama" else None)  # any change re-requires the probe
+        try:
+            new = Connection(id=connection_id, driver=body.driver, base_url=body.base_url, api_key_ref=body.api_key_ref,
+                             capability_check="not_run", refusal_fallback=body.refusal_fallback,
+                             ollama_thinking=(body.ollama_thinking if "ollama_thinking" in body.model_fields_set
+                                              else existing.ollama_thinking if existing else None)
+                             if body.driver == "ollama" else None)  # any change re-requires the probe
+        except ValidationError as exc:
+            raise HTTPException(400, str(exc))  # Connection excludes secret input values from this message
         if existing:
             cfg.connections[cfg.connections.index(existing)] = new
         else:
@@ -236,19 +376,41 @@ def create_app(service: AppService | None = None) -> FastAPI:
 
     # ------------------------------------------------------------------ runs
     @app.post("/api/runs", status_code=202)
-    async def create_run(body: CreateRunBody):
-        run, problems = await svc.manager.create_run(body.goal, body.inputs, budget_usd=body.budget_usd)
-        if problems:
-            return JSONResponse(status_code=409, content={"run_id": run.run_id, "status": run.status, "problems": problems})
-        if body.start:
-            svc.manager.start(run.run_id)
-        return run.model_dump()
+    async def create_run(body: CreateRunBody, request: Request):
+        async with svc.admission_lock:
+            await _check_admission(require_execution=body.start)
+            if not svc.access.admin(request) and body.budget_usd and body.budget_usd > svc.config.limits.budget_usd:
+                raise HTTPException(403, 'budget exceeds organization limit')
+            run, problems = await svc.manager.create_run(body.goal, body.inputs, budget_usd=body.budget_usd)
+            await svc.access.grant_creator(request, run.run_id)
+            if problems:
+                return JSONResponse(status_code=409, content={"run_id": run.run_id, "status": run.status, "problems": problems})
+            if body.start:
+                svc.manager.start(run.run_id)
+            return run.model_dump()
+
+    async def _check_admission(*, require_execution: bool = True):
+        if svc.stopping:
+            raise HTTPException(503, 'server shutting down')
+        if svc.access.enabled and sum(not t.done() for t in svc.manager._tasks.values()) >= svc.access.config.max_active_runs:
+            raise HTTPException(429, 'active run limit reached', headers={'Retry-After': '30'})
+        if shutil.disk_usage(svc.data_dir).free < 500 * 1024 * 1024:
+            raise HTTPException(503, 'insufficient storage space')
+        if require_execution and svc.access.enabled and any(a.enabled and set(a.tools) & {'sandbox_run', 'run_check'} for a in svc.config.agents):
+            from ..runtime.sandbox import backend_name
+            if await backend_name() in ('none', 'subprocess'):
+                raise HTTPException(503, 'configured tools require an isolated command sandbox')
 
     @app.get("/api/runs")
-    async def list_runs(limit: int = 50):
-        return [r.model_dump() for r in await svc.runs.list_runs(limit)]
+    async def list_runs(request: Request, limit: int = Query(default=50, ge=1, le=500)):
+        if svc.access.admin(request):
+            return [r.model_dump() for r in await svc.runs.list_runs(limit)]
+        rows = await svc.db.fetchall('SELECT r.* FROM runs r JOIN run_access a ON a.run_id=r.run_id '
+                                     'WHERE a.subject=? ORDER BY r.created_at DESC LIMIT ?',
+                                     (svc.access.principal(request).subject, limit))
+        return [svc.runs._run(r).model_dump() for r in rows]
 
-    async def _run_detail(run_id: str) -> dict[str, Any]:
+    async def _run_detail(run_id: str, request: Request) -> dict[str, Any]:
         run = await svc.runs.get_run(run_id)
         if run is None:
             raise HTTPException(404, "run not found")
@@ -258,14 +420,16 @@ def create_app(service: AppService | None = None) -> FastAPI:
         d["approvals"] = [a.model_dump() for a in await svc.runs.list_approvals(run_id)]
         d["last_seq"] = await svc.events.last_seq(run_id)
         d["live"] = run_id in svc.manager.live
+        d['access'] = {'can_write': await svc.access.can_access(request, run_id, write=True),
+                       'can_override': svc.access.admin(request)}
         return d
 
     @app.get("/api/runs/{run_id}")
-    async def get_run(run_id: str):
-        return await _run_detail(run_id)
+    async def get_run(run_id: str, request: Request):
+        return await _run_detail(run_id, request)
 
     @app.get("/api/runs/{run_id}/events")
-    async def run_events(run_id: str, after_seq: int = 0, limit: int = 2000, types: str | None = None):
+    async def run_events(run_id: str, after_seq: int = Query(default=0, ge=0), limit: int = Query(default=2000, ge=1, le=10000), types: str | None = None):
         evs = await svc.events.list(run_id, after_seq=after_seq, limit=limit, types=types.split(",") if types else None)
         return [e.model_dump() for e in evs]
 
@@ -293,6 +457,13 @@ def create_app(service: AppService | None = None) -> FastAPI:
                     cursor = e.seq
                     yield {"id": str(e.seq), "event": e.type, "data": json.dumps(e.model_dump(), ensure_ascii=False)}
                 while True:
+                    if svc.access.enabled:
+                        account = await svc.access.authenticate(request)
+                        if account is None:
+                            break
+                        request.state.principal = account
+                        if not await svc.access.can_access(request, run_id):
+                            break
                     if await request.is_disconnected():
                         break
                     if run_id not in svc.manager.live:
@@ -327,25 +498,34 @@ def create_app(service: AppService | None = None) -> FastAPI:
     @app.post("/api/runs/{run_id}/resume")
     async def resume_run(run_id: str):
         try:
-            run = await svc.manager.resume(run_id)
+            async with svc.admission_lock:
+                await _check_admission()
+                run = await svc.manager.resume(run_id)
         except KeyError:
             raise HTTPException(404, "run not found")
         except ValueError as e:
             raise HTTPException(409, str(e))
+        except HTTPException:
+            raise
         except Exception as e:
             raise HTTPException(409, str(e))
         return run.model_dump()
 
     @app.post("/api/runs/{run_id}/fork", status_code=202)
-    async def fork_run(run_id: str, body: ForkBody):
+    async def fork_run(run_id: str, body: ForkBody, request: Request):
+        if not svc.access.admin(request) and body.overrides:
+            raise HTTPException(403, 'only administrators may override the execution configuration')
         try:
-            new = await svc.manager.fork(run_id, overrides=body.overrides, from_seq=body.from_seq)
+            async with svc.admission_lock:
+                await _check_admission(require_execution=body.start)
+                new = await svc.manager.fork(run_id, overrides=body.overrides, from_seq=body.from_seq)
+                await svc.access.grant_creator(request, new.run_id)
+                if body.start:
+                    await svc.manager.start_fork(new.run_id)
         except KeyError:
             raise HTTPException(404, "run not found")
         except ValueError as e:
             raise HTTPException(409, str(e))
-        if body.start:
-            await svc.manager.start_fork(new.run_id)
         return new.model_dump()
 
     @app.get("/api/runs/{run_id}/export")
@@ -364,8 +544,9 @@ def create_app(service: AppService | None = None) -> FastAPI:
 
     # ------------------------------------------------------------------ approvals
     @app.get("/api/approvals")
-    async def approvals(run_id: str | None = None, status: str | None = None):
-        return [a.model_dump() for a in await svc.runs.list_approvals(run_id, status)]
+    async def approvals(request: Request, run_id: str | None = None, status: str | None = None):
+        return [a.model_dump() for a in await svc.runs.list_approvals(run_id, status)
+                if await svc.access.can_access(request, a.run_id)]
 
     @app.post("/api/approvals/{approval_id}/resolve")
     async def resolve_approval(approval_id: str, body: ResolveApprovalBody):
@@ -415,7 +596,9 @@ def create_app(service: AppService | None = None) -> FastAPI:
         async def spa(path: str):
             if path.startswith("api/"):
                 raise HTTPException(404)
-            f = FRONTEND_DIST / path
+            f = (FRONTEND_DIST / path).resolve()
+            if not f.is_relative_to(FRONTEND_DIST.resolve()):
+                raise HTTPException(404)
             if path and f.is_file():
                 return FileResponse(f)
             return FileResponse(FRONTEND_DIST / "index.html")

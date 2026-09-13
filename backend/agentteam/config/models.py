@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import hashlib
+import re
+from pathlib import Path
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 Driver = Literal["openai_responses", "openai_compatible_chat", "anthropic_messages", "google_genai", "ollama", "claude_cli", "fake"]
 CONFIG_DRIVERS = {"openai_responses", "openai_compatible_chat", "anthropic_messages", "google_genai", "ollama", "claude_cli"}
@@ -24,6 +26,7 @@ class Defaults(BaseModel):
 
 
 class Connection(BaseModel):
+    model_config = ConfigDict(hide_input_in_errors=True)
     id: str
     driver: Driver
     base_url: str
@@ -34,6 +37,18 @@ class Connection(BaseModel):
     ollama_thinking: bool | None = None  # None preserves the server default; False disables reasoning output
     refusal_fallback: bool = False  # Anthropic server-side fallback; OFF unless the user opts in
     allowed_fallback_connections: list[str] = Field(default_factory=list)
+
+    @field_validator('api_key_ref')
+    @classmethod
+    def require_secret_reference(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        kind, _, target = value.partition(':')
+        valid = (kind == 'env' and re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', target)) or (
+            kind == 'file' and Path(target).is_absolute()) or (kind == 'keychain' and bool(target.strip()))
+        if not valid or '\n' in value or '\r' in value:
+            raise ValueError('use env:NAME, keychain:service/account, or file:/absolute/path; never a plaintext key')
+        return value
 
 
 class Limits(BaseModel):
@@ -83,6 +98,7 @@ class ModelPrice(BaseModel):
 
 
 class AgentTeamConfig(BaseModel):
+    model_config = ConfigDict(hide_input_in_errors=True)
     schema_version: Literal[1] = 1
     profile_name: str
     defaults: Defaults

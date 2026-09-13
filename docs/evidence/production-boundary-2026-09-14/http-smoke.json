@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-09-13T19:28:38.204642+00:00",
+  "checks": {
+    "anonymous_runs": 401,
+    "admin_runs": 200,
+    "operator_run": 404,
+    "operator_artifact": 404,
+    "operator_config_write": 403,
+    "revoked_cookie": 401,
+    "revoked_bearer": 401,
+    "revocation_observed_seconds": 1.085,
+    "rotated_key": 200,
+    "readiness": {
+      "ready": false,
+      "disk_free_bytes": 5859647488,
+      "sandbox_backend": "none",
+      "configuration_problems": [
+        "capability_check"
+      ]
+    },
+    "liveness": 200
+  },
+  "transport": "real HTTP against secured service",
+  "model_inference": "none; saved real run used for access checks"
+}

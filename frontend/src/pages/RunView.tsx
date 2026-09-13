@@ -32,8 +32,10 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
   }, [runId, selArt])
 
   const reloadProjections = useCallback(async () => {
-    const [c, t] = await Promise.all([api.chat(runId), api.timeline(runId, true)])
-    setChat(c); setTimeline(t)
+    try {
+      const [c, t] = await Promise.all([api.chat(runId), api.timeline(runId, true)])
+      setChat(c); setTimeline(t)
+    } catch (e) { setErr(String(e)) }
   }, [runId])
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
       for (const t of types) es.addEventListener(t, onEvent as EventListener)
       es.addEventListener('end', () => { es?.close(); reload(); reloadProjections() })
       es.onerror = () => { /* EventSource reconnects with Last-Event-ID */ }
-    })()
+    })().catch(e => { if (alive) setErr(String(e)); es?.close() })
     return () => { alive = false; es?.close() }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runId])
@@ -81,6 +83,10 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
 
   const act = async (fn: () => Promise<unknown>) => { setErr(null); try { await fn(); await reload() } catch (e) { setErr(String(e)) } }
   const doFork = async () => {
+    if (run?.access && !run.access.can_override) {
+      await act(async () => { const child = await api.fork(runId, {}); nav(`/runs/${child.run_id}`) })
+      return
+    }
     const agentIds = Object.keys(agents)
     const who = window.prompt(`どの Bot のモデルを変えて分岐しますか？ (${agentIds.join(', ')}) 空欄なら設定変更なしで再実行`, 'builder')
     if (who === null) return
@@ -95,6 +101,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
   }
 
   if (!run) return <p className="muted">{err || tr('読み込み中…')}</p>
+  const canWrite = run.access?.can_write !== false
   const pendingApprovals = run.approvals.filter((a) => a.status === 'pending')
   return (
     <div>
@@ -120,9 +127,9 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
         </div>
         <div className="stack" style={{ alignItems: 'flex-end' }}>
           <div className="row">
-            {live && <button className="btn ghost" onClick={() => act(() => api.cancel(runId))}>{tr("停止")}</button>}
-            {['interrupted', 'approval_required', 'failed', 'partial', 'cancelled'].includes(run.status) && <button className="btn" onClick={() => act(() => api.resume(runId))}>{tr("再開")}</button>}
-            {run.plan && <button className="btn ghost" onClick={doFork}>{tr("分岐して再実行")}</button>}
+            {canWrite && live && <button className="btn ghost" onClick={() => act(() => api.cancel(runId))}>{tr("停止")}</button>}
+            {canWrite && ['interrupted', 'approval_required', 'failed', 'partial', 'cancelled'].includes(run.status) && <button className="btn" onClick={() => act(() => api.resume(runId))}>{tr("再開")}</button>}
+            {canWrite && run.plan && <button className="btn ghost" onClick={doFork}>{tr("分岐して再実行")}</button>}
             <a className="btn ghost" href={`/api/runs/${runId}/export?fmt=jsonl`}>JSONL</a>
           </div>
           {pendingApprovals.length > 0 && <button className="btn signal" onClick={() => setTab('approvals')}>承認待ち {pendingApprovals.length} 件</button>}
@@ -148,7 +155,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             {tab === 'chat' && <Chat chat={chat} tz={tz} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />}
             {tab === 'timeline' && <Timeline items={timeline.filter((i) => showTools || !['tool.called', 'message.read', 'artifact.read', 'checkpoint.saved', 'model.called'].includes(i.type))} tz={tz} hiSeq={hiSeq} selTask={selTask} />}
             {tab === 'report' && <Report run={run} />}
-            {tab === 'approvals' && <Approvals approvals={run.approvals} onResolved={reload} />}
+            {tab === 'approvals' && <Approvals approvals={run.approvals} onResolved={reload} readOnly={!canWrite} />}
           </div>
         </section>
       </div>
@@ -345,7 +352,7 @@ function Report({ run }: { run: RunDetail }) {
   )
 }
 
-function Approvals({ approvals, onResolved }: { approvals: Approval[]; onResolved: () => void }) {
+function Approvals({ approvals, onResolved, readOnly = false }: { approvals: Approval[]; onResolved: () => void; readOnly?: boolean }) {
   const [err, setErr] = useState<string | null>(null)
   const resolve = async (a: Approval, decision: string) => {
     setErr(null)
@@ -361,7 +368,7 @@ function Approvals({ approvals, onResolved }: { approvals: Approval[]; onResolve
           <div>{String(a.payload.description ?? '')}</div>
           <pre>{JSON.stringify(a.payload.payload, null, 1)}</pre>
           <div className="mono muted small">hash {a.payload_hash.slice(0, 16)}… · 期限 {fmtTime(a.expires_at)}{a.payload.estimated_cost_usd != null ? ` · 見積 $${a.payload.estimated_cost_usd}` : ''}</div>
-          {a.status === 'pending' && <div className="row" style={{ marginTop: 8 }}>
+          {!readOnly && a.status === 'pending' && <div className="row" style={{ marginTop: 8 }}>
             <button className="btn signal sm" onClick={() => resolve(a, 'approve')}>{tr("承認")}</button>
             <button className="btn ghost sm" onClick={() => resolve(a, 'reject')}>{tr("却下")}</button>
           </div>}

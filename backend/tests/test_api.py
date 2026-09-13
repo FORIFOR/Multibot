@@ -15,7 +15,7 @@ async def client(tmp_path):
     svc = AppService(tmp_path / "data", fake_adapters={"fake": FakeProvider(default_script)}, config_yaml=FAKE_CONFIG, approval_wait_seconds=0.5)
     app = create_app(svc)
     async with app.router.lifespan_context(app):
-        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as c:
+        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://localhost") as c:
             c.svc = svc
             yield c
 
@@ -73,7 +73,7 @@ async def test_precheck_blocks_unverified_real_config(tmp_path):
     svc = AppService(tmp_path / "real")  # default config: anthropic, capability not_run, key ref env
     app = create_app(svc)
     async with app.router.lifespan_context(app):
-        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as c:
+        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://localhost") as c:
             r = await c.post("/api/runs", json={"goal": "x"})
             assert r.status_code == 409
             codes = {p["code"] for p in r.json()["problems"]}

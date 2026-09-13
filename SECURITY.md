@@ -4,7 +4,7 @@ Trust boundaries, what is enforced, and what is not yet: see [`docs/STATUS.md`](
 
 Short version:
 
-- Runs on loopback, single user, local SQLite. If you pick a cloud connection, the request text and artifacts are sent to that provider.
+- Default mode runs on loopback, single user, local SQLite. Authenticated dedicated installations add per-user run access, roles, expiring sessions, credential revocation and actor audit logs; see [deployment controls and limitations](docs/PRODUCTION.md). L3 production acceptance is still in progress. If you pick a cloud connection, the request text and artifacts are sent to that provider.
 - API keys are never stored; config holds references (`env:NAME`, `keychain:service/account`, `file:/path`). Events, tool results and errors are redacted before persistence.
 - Agents cannot widen their own permissions: tool scope, write scope, budget and approvals are enforced by the runtime, not by prompt wording.
 - `web_fetch` refuses private, loopback and metadata addresses on every redirect hop.

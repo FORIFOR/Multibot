@@ -41,6 +41,7 @@ class RunManager:
         self.approval_wait_seconds = approval_wait_seconds
         self.live: dict[str, RunRuntime] = {}
         self._tasks: dict[str, asyncio.Task] = {}
+        self.stopping = False
 
     # ------------------------------------------------------------ precheck
     def precheck(self, cfg: AgentTeamConfig) -> list[dict[str, Any]]:
@@ -128,11 +129,22 @@ class RunManager:
         return rt
 
     def start(self, run_id: str, *, resume: bool = False) -> asyncio.Task:
+        if self.stopping:
+            raise RuntimeError('server is shutting down')
         if run_id in self._tasks and not self._tasks[run_id].done():
             raise RuntimeError("run already executing")
         t = asyncio.create_task(self._execute(run_id, resume=resume))
         self._tasks[run_id] = t
         return t
+
+    async def shutdown(self) -> None:
+        """Stop live provider/worker calls before closing SQLite; preserve resumable work."""
+        self.stopping = True
+        pending = [t for t in self._tasks.values() if not t.done()]
+        for t in pending:
+            t.cancel()
+        if pending:
+            await asyncio.gather(*pending, return_exceptions=True)
 
     async def wait(self, run_id: str) -> Run:
         t = self._tasks.get(run_id)
@@ -189,6 +201,12 @@ class RunManager:
             status = await scheduler.run()
             await scheduler.checkpoint()
             await self._finish(rt, status, reason=await self._status_reason(rt, status))
+        except asyncio.CancelledError:
+            if rt.scheduler:
+                await rt.scheduler._cancel_all()
+                await rt.scheduler.checkpoint()
+            await self._finish(rt, RunStatus.interrupted, reason="server shutting down")
+            raise
         except Exception as e:  # never leave a run in 'running'
             await self.events.append(run_id, "run.failed", {"reason": f"internal error: {type(e).__name__}: {self.redactor.text(str(e))[:500]}"})
             await self.runs.update_run(run_id, status=RunStatus.failed, finished_at=now_iso(), blocked_reason=str(e)[:500])
@@ -289,7 +307,7 @@ class RunManager:
         tasks = await self.runs.list_tasks(rt.run_id)
         pending = await self.runs.list_approvals(rt.run_id, status="pending")
         for t in tasks:
-            if t.status in (TaskStatus.running, TaskStatus.waiting, TaskStatus.interrupted, TaskStatus.ready):
+            if t.status in (TaskStatus.running, TaskStatus.waiting, TaskStatus.interrupted, TaskStatus.ready, TaskStatus.cancelled):
                 t.status = TaskStatus.queued
             elif t.status == TaskStatus.approval_required:
                 if any(a.task_id == t.spec.id for a in pending):

@@ -1,0 +1,22 @@
+{
+  "image_id": "sha256:9cc3a82ca79a342e0878521abb1f960cfabb11c2c85344fa5bfcb0ffef73cecd",
+  "user": "501:20",
+  "read_only_root": true,
+  "cap_drop": [
+    "ALL"
+  ],
+  "security_opt": [
+    "no-new-privileges"
+  ],
+  "memory_bytes": 1073741824,
+  "pids_limit": 256,
+  "port_bindings": {
+    "8787/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "8796"
+      }
+    ]
+  },
+  "scope": "local Docker validation, not public production deployment"
+}

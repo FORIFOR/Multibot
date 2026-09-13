@@ -1,0 +1,8 @@
+**
+!backend/
+!backend/pyproject.toml
+!backend/requirements.lock
+!backend/agentteam/
+!backend/agentteam/**
+**/__pycache__
+**/*.pyc

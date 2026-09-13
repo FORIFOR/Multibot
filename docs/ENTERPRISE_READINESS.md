@@ -19,11 +19,13 @@
 | README / Site | 起動方法・実画面・制約を掲載。3分で理解できるかの外部ユーザ評価は未実施 |
 | Business CTA | [導入相談](https://forifor.github.io/Multibot/ja/#business)あり。今回、架空の問い合わせ送信は行っていない |
 | License | [MIT](../LICENSE) |
-| テスト証拠 | [実モデル比較・Reviewer監査](evidence/readiness-2026-09-14/README.md)と[実行結果からの修正](evidence/local-fixes-2026-09-14/README.md)。実記録・実設定を使う新規11件を含む回帰テスト76件pass。自動テスト数を業務成功率に置き換えない |
+| テスト証拠 | [実モデル比較・Reviewer監査](evidence/readiness-2026-09-14/README.md)と[実行結果からの修正](evidence/local-fixes-2026-09-14/README.md)。実記録・実設定を使う回帰確認に加え、認証・分離・復元の6件を追加。[本番化の検証記録](evidence/production-boundary-2026-09-14/README.md)を含む全82件pass。自動テスト数を業務成功率に置き換えない |
 
 企業への説明文:
 
 > ローカルで動くAIチームが、調査・成果物作成・レビュー・修正を進め、その版を何で確認したかを記録します。公開資料を使った実行例を、未完了になったケースも含めてお見せできます。業務に適用する際は、対象作業と合格条件を絞って検証します。
+
+本番導入に向けた実装状況は[Production acceptance plan](PRODUCTION_PLAN.md)と[導入・復旧手順](PRODUCTION.md)で管理します。認証・権限・保存領域の制御を追加しましたが、これだけでL2/L3達成とは判定しません。
 
 ## L2 — 顧客データを使う有償PoC
 

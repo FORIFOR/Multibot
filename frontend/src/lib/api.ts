@@ -17,7 +17,7 @@ export interface Run {
   config_snapshot: { agents?: Record<string, EffectiveAgent>; provider_kind?: string } | null
   parent_run_id: string | null; fork_from_seq: number | null; final_report: any; blocked_reason: string | null; provider_kind: string
 }
-export interface RunDetail extends Run { tasks: TaskState[]; artifacts: Artifact[]; approvals: Approval[]; last_seq: number; live: boolean }
+export interface RunDetail extends Run { access?: { can_write: boolean; can_override: boolean }; tasks: TaskState[]; artifacts: Artifact[]; approvals: Approval[]; last_seq: number; live: boolean }
 export interface EffectiveAgent { agent_id: string; role: string; enabled: boolean; connection_id: string; driver: string; base_url: string; model: string; prompt_mode: string; system_prompt: string; system_prompt_sha256: string; skills: { name: string; description: string; sha256: string }[]; tools: string[]; effort: string | null; api_key_ref: string | null }
 export interface AgentSpec { id: string; role: string; enabled: boolean; connection_id: string; model: string; system_prompt_file: string; prompt_mode: 'auto_seed' | 'user_locked'; skill_ids: string[]; tools: string[]; system_prompt_override: string | null; effort: string | null }
 export interface Connection { id: string; driver: string; base_url: string; api_key_ref: string | null; capability_check: 'not_run' | 'passed' | 'failed'; capability_detail: any; refusal_fallback: boolean; ollama_thinking?: boolean | null }
@@ -46,6 +46,7 @@ async function req<T>(method: string, url: string, body?: unknown): Promise<T> {
   const text = await r.text()
   let data: any = text
   try { data = text ? JSON.parse(text) : null } catch { /* keep text */ }
+  if (r.status === 401) window.dispatchEvent(new Event('agentteam:unauthorized'))
   if (!r.ok) throw new ApiError(r.status, data)
   return data as T
 }
