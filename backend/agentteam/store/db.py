@@ -159,6 +159,11 @@ CREATE TABLE IF NOT EXISTS request_receipts (
   response_json TEXT NOT NULL,
   created_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS deleted_request_receipts (
+  scope_key TEXT PRIMARY KEY,
+  request_hash TEXT NOT NULL,
+  deleted_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS audit_log (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   recorded_at REAL NOT NULL,

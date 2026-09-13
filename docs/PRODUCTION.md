@@ -87,7 +87,7 @@ agentteam restore --source "$AGENTTEAM_BACKUP_DESTINATION" --destination "$AGENT
 
 Restore into a new data directory, retain the original until acceptance, and start with the same organization's access configuration. Access-key browser sessions are cleared, and OIDC tokens issued before restore are rejected; users must log in again. Verify the recovered artifacts and interrupted tasks before routing traffic. This is not a rolling-upgrade rollback procedure; use a compatible application version and snapshot together.
 
-Snapshots contain confidential source data, artifacts, prompts and audit records. They do not bundle external environment/keychain/file-based provider secrets or issued plaintext access keys. Encrypt the host/backup storage and manage those secrets separately. At-rest application encryption, automated off-site backups, scheduled retention and disaster-recovery objectives remain acceptance work.
+Snapshots contain confidential source data, artifacts, prompts and audit records. They do not bundle external environment/keychain/file-based provider secrets or issued plaintext access keys. [Run deletion and age-encrypted recovery](DATA_OPERATIONS.md) provide previewed retention, failure-resumable cleanup, stale-request rejection and verified encryption/decryption. Encrypt host storage and manage recovery identities separately. Automated off-site backups, approved retention across historical copies and disaster-recovery objectives remain acceptance work.
 
 ## Evidence and limitations
 

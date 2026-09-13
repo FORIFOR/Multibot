@@ -56,6 +56,9 @@ def backup(source: Path, destination: Path):
             with closing(sqlite3.connect(source / 'agentteam.sqlite')) as src, closing(sqlite3.connect(destination / 'agentteam.sqlite')) as dst:
                 if src.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
                     raise ValueError('source database failed integrity check')
+                if src.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='purge_journal'").fetchone():
+                    if src.execute("SELECT 1 FROM purge_journal WHERE state='pending' LIMIT 1").fetchone():
+                        raise ValueError('finish pending data deletion before backup')
                 src.backup(dst)
             for p in _regular_files(source):
                 rel = p.relative_to(source)

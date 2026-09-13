@@ -61,7 +61,10 @@ class JobStore:
 
     async def receipt(self, scope_key):
         row = await self.db.fetchone('SELECT * FROM request_receipts WHERE scope_key=?', (scope_key,))
-        return dict(row) if row else None
+        if row:
+            return dict(row)
+        deleted = await self.db.fetchone('SELECT request_hash FROM deleted_request_receipts WHERE scope_key=?', (scope_key,))
+        return {**dict(deleted), 'deleted': True} if deleted else None
 
     async def save_receipt(self, run_id, receipt):
         if receipt:

@@ -68,6 +68,9 @@ class AppService:
                 raise ValueError('secured deployments cannot use fake providers or the unsandboxed subprocess backend')
             os.chmod(self.data_dir, 0o700)
         self.db = await Database(self.data_dir / "agentteam.sqlite").connect()
+        journal = await self.db.fetchone("SELECT name FROM sqlite_master WHERE type='table' AND name='purge_journal'")
+        if journal and await self.db.fetchone("SELECT run_id FROM purge_journal WHERE state='pending' LIMIT 1"):
+            raise RuntimeError('unfinished data deletion; run agentteam purge --resume --apply before starting the service')
         bound = await self.db.fetchone("SELECT value FROM deployment_metadata WHERE key='organization'")
         if bound and not self.access.enabled:
             raise ValueError('this data directory requires its organization access configuration')

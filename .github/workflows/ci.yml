@@ -76,10 +76,16 @@ jobs:
       - run: uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -e '.[dev]' pytest-timeout
         working-directory: backend
       - run: docker pull python:3.12-slim  # sandbox image, so the Docker isolation test runs on the runner
+      - name: install verified age for actual encrypted restore drill
+        run: |
+          curl -fsSL -o /tmp/age.tar.gz https://github.com/FiloSottile/age/releases/download/v1.3.2/age-v1.3.2-linux-amd64.tar.gz
+          echo 'cbe24006683f8eb669266162894b9a522a1af52f2665fbc63a4bb032ed26ac10  /tmp/age.tar.gz' | sha256sum -c -
+          tar xzf /tmp/age.tar.gz -C /tmp
       - run: .venv/bin/python -m pytest -q --timeout 180
         working-directory: backend
         env:
           AGENTTEAM_NO_SEATBELT: "1"
+          AGENTTEAM_AGE_BIN: /tmp/age/age
   frontend:
     runs-on: ubuntu-latest
     steps:

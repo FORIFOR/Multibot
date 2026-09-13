@@ -412,6 +412,8 @@ def create_app(service: AppService | None = None) -> FastAPI:
         request_hash = digest(json.dumps(payload, sort_keys=True, ensure_ascii=False))
         prior = await svc.manager.jobs.receipt(scope)
         if prior:
+            if prior.get('deleted'):
+                raise HTTPException(410, 'request result was deleted; use a new key for a new request')
             if prior['request_hash'] != request_hash:
                 raise HTTPException(409, 'Idempotency-Key already used with different input')
             if not await svc.access.can_access(request, prior['run_id']):

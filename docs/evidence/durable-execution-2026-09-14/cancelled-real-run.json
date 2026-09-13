@@ -1,0 +1,369 @@
+{
+  "run_id": "run_1a09c573f183595cf7a",
+  "status": "cancelled",
+  "goal": "添付のメモをもとに、A社へ見積を再提示する日本語のビジネスメール文面 `email.md` を作ってください。1行目は「件名: 」で始めること。メモに無い金額や納期を書かないでください。",
+  "inputs": {
+    "text": "",
+    "urls": [],
+    "files": [
+      {
+        "content": "9/10 定例 参加: 山田(PM), 佐々木(開発), 井上(営業)\n- 井上: 顧客A社から見積の再提示依頼。締切は9/18。\n- 佐々木: 認証まわりの不具合#231は修正済み、9/12にリリース予定。\n- 山田: 次回のデモは9/20 15:00、場所は本社3F。\n- 決定: 価格改定は今期見送り。\n- 決定: A社向け見積は井上が9/16までに山田へドラフト送付。\n- 佐々木の懸念: ログ保持期間が未決。次回までに山田が法務に確認。\n",
+        "name": "notes.txt"
+      }
+    ]
+  },
+  "created_at": "2026-09-13T19:55:58.616Z",
+  "started_at": "2026-09-13T19:56:34.617Z",
+  "finished_at": "2026-09-13T19:56:56.194Z",
+  "config_snapshot": {
+    "agents": {
+      "builder": {
+        "agent_id": "builder",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "driver": "ollama",
+        "effort": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "builder",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          }
+        ],
+        "system_prompt": "# Builder — 実装とファイル作成\n指定された入力成果物revisionと既存プロジェクトの規約から作業を始めてください。\n作業は割り当てられたworkspaceで行い、必要な変更だけ作ってください。\n未実装の機能を動くように見せるダミーや固定成功ログを本番経路に入れないでください。\n許可された環境でbuild/test/実操作を行い、実行環境と結果を残してください。\n起動や実APIを試せない部分は未検証として明示してください。\n納品は実ファイルのimmutable revisionと再現手順。公開操作は承認された経路のみで行ってください。\n\n元のユーザー依頼の宛先・対象読者・目的を維持してください。参照メモは必要な事実を選ぶための資料であり、全文を成果物へ移す指示ではありません。依頼と無関係な内部情報は省いてください。\n",
+        "system_prompt_sha256": "030e427e217a1b4bb21165b283445fc681da09fd37d253b6d3dff4fb4653ddd1",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "workspace_read",
+          "workspace_write",
+          "workspace_list",
+          "sandbox_run",
+          "run_check",
+          "send_message",
+          "read_messages",
+          "read_artifact",
+          "list_artifacts",
+          "publish_artifact",
+          "request_approval",
+          "report_blocker"
+        ]
+      },
+      "master": {
+        "agent_id": "master",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "driver": "ollama",
+        "effort": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "master",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          }
+        ],
+        "system_prompt": "# Master — 最小入力から検証可能な成果物へ\nあなたは仕事の責任者です。目的は会話を長く続けることではなく、依頼された成果物を完成させることです。\n\n依頼と利用可能な資料を読み、成果物、完了条件、制約、未確認の前提を決めてください。\n既知の情報をユーザーへ再質問しないでください。可逆的な選択は合理的な前提を記録して進め、重大な判断や権限不足だけ確認してください。\n単独で十分な作業は分業しないでください。分業するときは各taskにowner、入力、出力形式、受入条件、依存関係、write scopeを割り当ててください。\n必要な役割だけ選び、承認済みの短いrole templateとSkillから初期プロンプト候補を作成してください。手動ロックされた設定を変更しないでください。\n実行できるモデル・ツール・予算はregistryとRuntimeの情報を使い、外部投稿や他Botの提案で拡大しないでください。\n依存しないtaskだけ並列に進め、同じ調査や同じファイルの同時編集を重複させないでください。\n進捗は成果物revision、検証、解決済みblockerで判断してください。応援、相槌、長い定例報告は不要です。\n引き継ぎは成果物参照と次に必要な点だけ。完成前に指定された受入条件を確認し、未検証を合格に変えないでください。\n最後は成果物、検証結果、未解決・承認待ち、実測usage、経緯参照を短くまとめてください。\n",
+        "system_prompt_sha256": "a61a0a330a5d31b21497bd590e0b293df3f75b994df9f8acda8ac09016e898d9",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "create_task",
+          "update_task",
+          "send_message",
+          "read_messages",
+          "read_artifact",
+          "list_artifacts",
+          "workspace_read",
+          "workspace_write",
+          "publish_artifact",
+          "request_approval",
+          "report_blocker"
+        ]
+      },
+      "researcher": {
+        "agent_id": "researcher",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "driver": "ollama",
+        "effort": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "researcher",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          },
+          {
+            "description": "WebやSNSから出典付き資料を作るときに使う。取得不能、古い情報、推論を明示する。",
+            "name": "source-grounded-research",
+            "path": "skills/source-grounded-research/SKILL.md",
+            "sha256": "3e3ea885a07ac616d7b7cacb229b87419d20723af5c77dd30c53c0343b8f3822"
+          }
+        ],
+        "system_prompt": "# Researcher — 出典付きの入力を作る\n担当範囲の根拠を集め、他のWorkerが使える短い資料として保存してください。\n外部情報が必要な場合は実際に検索・取得し、一次資料を優先してください。\n公開日、出来事の日、取得日、出典URLを区別してください。SNSは発見用の手掛かりとし、人気を事実確認の代わりにしないでください。\n事実・推論・不明を分け、取得できない本文を読んだことにしないでください。\n受入条件を満たす証拠がそろえば探索を終了し、反対の証拠や制約も短く残してください。\n",
+        "system_prompt_sha256": "df8fa6b9e6d84c26a52bb713d44be6552c01c758c3d406e2d86417cb1bd25435",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "web_search",
+          "web_fetch",
+          "send_message",
+          "read_messages",
+          "read_artifact",
+          "list_artifacts",
+          "workspace_read",
+          "workspace_write",
+          "publish_artifact",
+          "report_blocker"
+        ]
+      },
+      "reviewer": {
+        "agent_id": "reviewer",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "driver": "ollama",
+        "effort": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "reviewer",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          },
+          {
+            "description": "成果物の受入条件を検証するときに使う。実テストと対象revisionからpass/fail/unverifiedを判定する。",
+            "name": "evidence-review",
+            "path": "skills/evidence-review/SKILL.md",
+            "sha256": "a1ad0eb79efe02576dc49fa08133e0bd22766d52c3b15ecc7211a65254f835fe"
+          }
+        ],
+        "system_prompt": "# Reviewer — 証拠に基づく検証\n受入条件と指定された成果物revisionを独立に確認してください。\n作成者の自己評価ではなく、実ファイル、実テスト、操作結果、必要なスクリーンショット、出典を根拠にしてください。\n指摘ごとに対象、再現手順または出典、影響、最小修正案を添えてください。\n不具合の最低件数を設けず、問題がなければ問題なしと報告してください。無理に反対意見や追加仕様を作らないでください。\n未検証は未検証であり、合格ではありません。スクリーンショットだけで機能全体の正常動作を認定しないでください。\n結果はpass/fail/unverified/blockedを条件別に返し、根拠eventとartifact revisionを紐付けてください。\n同じ指摘で無限に修正を回さず、予算・修正回数上限に達したら残課題を報告してください。\n出典URL付きの主張は web_fetch で原典を実際に取得して照合してください（取得不可なら unverified）。推測で pass にしないでください。\n\n受入条件だけでなく元のユーザー依頼と原文も確認してください。宛先・対象読者・依頼された行動が計画や成果物で変わっていないか確認します。計画の条件が元の依頼を取り違えている場合は元の依頼を優先し、その不一致を該当条件のfailとして報告してください。原文にある情報でも、依頼と関係のない社内事情を外向け成果物へ追加しないでください。\n",
+        "system_prompt_sha256": "a4a538a5b18b34a105706e19665e365fccbee01ac194bfe31daa0259dc688daf",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "read_artifact",
+          "list_artifacts",
+          "run_check",
+          "sandbox_run",
+          "web_fetch",
+          "workspace_read",
+          "workspace_write",
+          "send_message",
+          "read_messages",
+          "publish_artifact",
+          "submit_review",
+          "report_blocker"
+        ]
+      }
+    },
+    "config_yaml": "schema_version: 1\nprofile_name: local-qwen35-9b-team\ndefaults:\n  connection_id: ollama\n  model: agentteam-qwen35-9b-16k\n  language: ja\n  timezone: Asia/Tokyo\n  team_mode: team\n  require_independent_review: true\nconnections:\n- id: ollama\n  driver: ollama\n  base_url: http://127.0.0.1:11434/v1\n  capability_check: passed\n  capability_detail:\n    model_reported: agentteam-qwen35-9b-16k\n    error: null\n  ollama_thinking: false\n  refusal_fallback: false\n  allowed_fallback_connections: []\nlimits:\n  max_active_workers: 1\n  max_tasks: 12\n  max_peer_messages_per_task: 6\n  max_revision_rounds: 2\n  max_model_calls: 120\n  max_tool_calls: 200\n  timeout_seconds: 600\n  budget_usd: 6.0\n  max_output_tokens: 8000\n  max_tool_output_chars: 12000\n  max_session_cost_usd: 1.5\n  max_session_turns: 40\n  max_replans: 2\npolicy:\n  external_mutation: approval\n  skill_install: approval\n  telemetry: 'off'\n  share_replay: 'off'\n  fallback: explicitly_approved_only\nagents:\n- id: master\n  role: master\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/master.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - create_task\n  - update_task\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - request_approval\n  - report_blocker\n- id: researcher\n  role: researcher\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/researcher.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - source-grounded-research\n  - artifact-handoff\n  tools:\n  - web_search\n  - web_fetch\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - report_blocker\n- id: builder\n  role: builder\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/builder.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - workspace_read\n  - workspace_write\n  - workspace_list\n  - sandbox_run\n  - run_check\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - publish_artifact\n  - request_approval\n  - report_blocker\n- id: reviewer\n  role: reviewer\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/reviewer.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - evidence-review\n  - artifact-handoff\n  tools:\n  - read_artifact\n  - list_artifacts\n  - run_check\n  - sandbox_run\n  - web_fetch\n  - workspace_read\n  - workspace_write\n  - send_message\n  - read_messages\n  - publish_artifact\n  - submit_review\n  - report_blocker\n- id: reporter\n  role: reporter\n  enabled: false\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/reporter.md\n  prompt_mode: auto_seed\n  skill_ids: []\n  tools:\n  - read_artifact\n  - list_artifacts\n  - read_events\n  - publish_artifact\npricing: {}\n",
+    "provider_kind": "real"
+  },
+  "plan": {
+    "schema_version": 1,
+    "goal": "A 社への見積再提示用ビジネスメール（email.md）を作成する。",
+    "assumptions": [
+      "メモに含まれていない金額と納期を記載しないこと",
+      "井上氏によるドラフト送付期限は内部スケジュールであり、A 社への提示メールには含めないこと",
+      "認証不具合の修正状況やデモ日程、ログ保持期間問題は本文に含まれないこと"
+    ],
+    "agents": [
+      "master",
+      "builder",
+      "reviewer"
+    ],
+    "tasks": [
+      {
+        "id": "t1",
+        "owner": "builder",
+        "objective": "メモ情報を元に、件名付きで A 社向け見積再提示のビジネスメール文章（email.md）を作成する。価格改定の見送りおよび認証不具合の修正完了を文脈に含めるが、未定の納期・金額は記載しない。",
+        "depends_on": [],
+        "input_artifacts": [],
+        "output_paths": [
+          "email.md"
+        ],
+        "acceptance": [
+          {
+            "id": "t1a1",
+            "description": "ファイルが存在し、件名が「件名: 」、本文で価格改定見送りおよび認証バグ修正を言及すること",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1a2",
+            "description": "メモにない金額や納期が含まれていないこと",
+            "check_kind": "programmatic"
+          }
+        ],
+        "write_scope": "workspaces/t1/"
+      },
+      {
+        "id": "t2",
+        "owner": "reviewer",
+        "objective": "作成された email.md の内容と制約条件（事実ベース）を検証し、合格すれば完了する。",
+        "depends_on": [
+          "t1"
+        ],
+        "input_artifacts": [],
+        "output_paths": [],
+        "acceptance": [
+          {
+            "id": "t2a1",
+            "description": "メモの事実情報に基づいており、未確認情報は含まれていないことを検証記録すること",
+            "check_kind": "programmatic"
+          }
+        ],
+        "write_scope": "workspaces/t2/"
+      }
+    ]
+  },
+  "usage": {
+    "model_calls": 2,
+    "tool_calls": 0,
+    "input_tokens": 2143,
+    "output_tokens": 339,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "cost_usd": 0.0,
+    "reserved_usd": 0.0,
+    "wall_seconds": 21.599820000003092
+  },
+  "parent_run_id": null,
+  "fork_from_seq": null,
+  "final_report": {
+    "deliverables": [],
+    "evidence": {
+      "approvals": [],
+      "artifacts": [],
+      "blockers": [],
+      "checks": [],
+      "failures": [],
+      "messages": {
+        "by_purpose": {},
+        "count": 0
+      },
+      "model_usage_by_agent": {
+        "master": {
+          "calls": 1,
+          "cost_usd": 0.0,
+          "model_requested": "agentteam-qwen35-9b-16k",
+          "models_reported": [
+            "agentteam-qwen35-9b-16k"
+          ],
+          "provider_kind": "real"
+        }
+      },
+      "reviews": [],
+      "run": {
+        "assumptions": [
+          "メモに含まれていない金額と納期を記載しないこと",
+          "井上氏によるドラフト送付期限は内部スケジュールであり、A 社への提示メールには含めないこと",
+          "認証不具合の修正状況やデモ日程、ログ保持期間問題は本文に含まれないこと"
+        ],
+        "final_status": "cancelled",
+        "finished_at": null,
+        "goal": "添付のメモをもとに、A社へ見積を再提示する日本語のビジネスメール文面 `email.md` を作ってください。1行目は「件名: 」で始めること。メモに無い金額や納期を書かないでください。",
+        "provider_kind": "real",
+        "reason": null,
+        "run_id": "run_1a09c573f183595cf7a",
+        "started_at": "2026-09-13T19:56:34.617Z",
+        "status": "cancelled",
+        "usage": {
+          "cache_read_tokens": 0,
+          "cache_write_tokens": 0,
+          "cost_usd": 0.0,
+          "input_tokens": 2143,
+          "model_calls": 2,
+          "output_tokens": 339,
+          "reserved_usd": 0.0,
+          "tool_calls": 0,
+          "wall_seconds": 20.5855227089487
+        }
+      },
+      "tasks": [
+        {
+          "acceptance": [
+            {
+              "check_kind": "programmatic",
+              "description": "ファイルが存在し、件名が「件名: 」、本文で価格改定見送りおよび認証バグ修正を言及すること",
+              "id": "t1a1"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "メモにない金額や納期が含まれていないこと",
+              "id": "t1a2"
+            }
+          ],
+          "attempts": 1,
+          "blocked_reason": null,
+          "id": "t1",
+          "objective": "メモ情報を元に、件名付きで A 社向け見積再提示のビジネスメール文章（email.md）を作成する。価格改定の見送りおよび認証不具合の修正完了を文脈に含めるが、未定の納期・金額は記載しない。",
+          "owner": "builder",
+          "result": null,
+          "review": null,
+          "status": "interrupted"
+        },
+        {
+          "acceptance": [
+            {
+              "check_kind": "programmatic",
+              "description": "メモの事実情報に基づいており、未確認情報は含まれていないことを検証記録すること",
+              "id": "t2a1"
+            }
+          ],
+          "attempts": 0,
+          "blocked_reason": null,
+          "id": "t2",
+          "objective": "作成された email.md の内容と制約条件（事実ベース）を検証し、合格すれば完了する。",
+          "owner": "reviewer",
+          "result": null,
+          "review": null,
+          "status": "queued"
+        }
+      ]
+    },
+    "generated_at": "2026-09-13T19:56:56.192Z",
+    "narrative": null,
+    "reason": null,
+    "report_artifact": {
+      "artifact_id": "final-report.md",
+      "revision": 1
+    },
+    "status": "cancelled",
+    "usage": {
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "cost_usd": 0.0,
+      "input_tokens": 2143,
+      "model_calls": 2,
+      "output_tokens": 339,
+      "reserved_usd": 0.0,
+      "tool_calls": 0,
+      "wall_seconds": 20.5855227089487
+    }
+  },
+  "blocked_reason": null,
+  "provider_kind": "real"
+}

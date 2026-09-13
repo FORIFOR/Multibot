@@ -43,12 +43,44 @@ def main(argv: list[str] | None = None) -> int:
     auth.add_argument('--organization')
     auth.add_argument('--public-origin')
     auth.add_argument('--revoke', action='store_true')
+    purge = sub.add_parser('purge', help='preview or apply offline deletion of explicitly selected run data')
+    purge.add_argument('--source', type=Path, required=True)
+    purge.add_argument('--run-id', action='append', default=[])
+    purge.add_argument('--before', help='exclusive UTC completion-date cutoff, YYYY-MM-DD; terminal runs only')
+    purge.add_argument('--resume', action='store_true', help='finish an already recorded deletion')
+    purge.add_argument('--apply', action='store_true', help='perform deletion; omitted means preview only')
+    for command in ('seal-backup', 'unseal-backup'):
+        enc = sub.add_parser(command, help='encrypt or verify/decrypt a snapshot with the age CLI')
+        enc.add_argument('--source', type=Path, required=True)
+        enc.add_argument('--destination', type=Path, required=True)
+        enc.add_argument('--age-bin', default='age')
+        if command == 'seal-backup':
+            enc.add_argument('--recipients-file', type=Path, required=True)
+        else:
+            enc.add_argument('--identity-file', type=Path, required=True)
+            enc.add_argument('--expected-sha256', required=True, help='SHA-256 from a separately trusted inventory')
+            enc.add_argument('--max-bytes', type=int, default=10 * 1024**3)
     for command in ('backup', 'restore', 'verify-backup'):
         op = sub.add_parser(command, help='offline snapshot operation; existing destinations are never overwritten')
         op.add_argument('--source', type=Path, required=True)
         if command != 'verify-backup':
             op.add_argument('--destination', type=Path, required=True)
     args = p.parse_args(argv)
+    if args.cmd in ('seal-backup', 'unseal-backup'):
+        from .operations.encrypted_backup import seal, unseal
+        result = (seal(args.source, args.destination, args.recipients_file, age_bin=args.age_bin)
+                  if args.cmd == 'seal-backup' else unseal(args.source, args.destination, args.identity_file,
+                  expected_sha256=args.expected_sha256, age_bin=args.age_bin, max_bytes=args.max_bytes))
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+
+    if args.cmd == 'purge':
+        from .operations.retention import plan, purge
+        if args.resume and not args.apply:
+            p.error('--resume requires --apply')
+        result = purge(args.source, run_ids=args.run_id, before=args.before, resume=args.resume) if args.apply else plan(args.source, run_ids=args.run_id, before=args.before)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
 
     if args.cmd == "serve":
         import uvicorn
