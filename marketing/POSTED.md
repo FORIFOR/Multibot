@@ -39,3 +39,11 @@
 
 ## X (en2) 2026-09-13 09:02 JST
 - https://x.com/i/status/2098925143389343862
+
+## Facebook — real workflow update (2026-09-14 JST)
+- Published reel: https://www.facebook.com/reel/1117648910591001/
+- Account: foriforapps; visibility: Public; AI label enabled for synthesized narration.
+- Asset: `docs/media/real-walkthrough-ja.mp4` (32 seconds, edited replay of the existing real-model research run; Japanese synthesized narration).
+- Copy explains the comparison → review → revision workflow, explicitly discloses partial completion and unfinished source verification, and links to the Japanese site with campaign UTM and GitHub.
+- Facebook confirmed: 投稿がEVERYONEとシェアされました.
+- X was signed out; no X post was sent in this update.
