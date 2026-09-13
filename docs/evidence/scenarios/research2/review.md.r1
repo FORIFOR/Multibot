@@ -1,0 +1,92 @@
+# レビュー報告: t1 成果物 research.md (revision 1)
+
+- 対象: `research.md` revision 1 / sha256 `e3420149be9b66341d5ca021970f56137c65dadc4495085b1d77fccbfa2928c7` / 作成者 researcher (t1)
+- レビュー実施: reviewer (t2) / 2026-09-13
+- **重大な制約（先に結論）**: 本レビュー環境には `web_fetch` 系ツールが存在せず、サンドボックスにもネットワークがない（`curl` は denied token、`python3 urllib` は `URLError: Temporary failure in name resolution`）。
+  したがって **3つの出典URLの独立再取得は実行できず、原文引用の実在確認はすべて「検証不能」** である。合格には読み替えない。
+- プログラマティック検査（t1a1〜t1a3）は実行済みで、すべて pass。
+
+---
+
+## 1. 受入条件別の判定 (t1a1〜t1a5)
+
+| ID | 判定 | 検査方法 / 根拠 |
+|----|------|----------------|
+| t1a1 | **pass** | `run_check markdown_basic`（artifact=research.md r1, sections=取得状況/比較表/出典一覧）→ status=pass, problems=[]。検出見出し: 「1. 取得状況」「2. ページ別サマリ」「3. 比較表」「4. 出典一覧」等 8 件 |
+| t1a2 | **pass** | `run_check text_contains`（needles=3URL）→ status=pass, missing=[] |
+| t1a3 | **pass** | `run_check regex_count`: 「主張」count=4（min 3）、「対象読者」count=4（min 3）、「ライセンス」count=9（min 3）。いずれも status=pass |
+| t1a4 | **検証不能 (unverified)** | 形式面（各項目に出典URLと短い原文引用が併記されているか）は成果物本文の読解で全項目満たすことを確認した（第2節の一覧表を参照）。ただし **引用文字列が出典ページの原文に実在するかは再取得できず未検証**。加えて、根拠引用のない記述が1件ある（下記 F-1） |
+| t1a5 | **検証不能 (unverified)** | 文面要件は充足を確認: 「記載を確認できず」が 2-3 ライセンス項に存在（text_contains pass）、推定ライセンス名の断定なし、`agentskills.io` については「リポジトリ側の記載であり…同一かどうかは確認できない」と限定済み。一方、**「取得不可のページ: なし」という取得結果そのものが正しいか（3ページが実際に HTTP 200 で取得できたか）は独立再取得できず未検証**。取得が実際には失敗していた場合、本条件は fail に転じ得る |
+
+補足: 本レビューでは「不合格（fail）」と断定できる受入条件は見つからなかった。t1a4/t1a5 は成果物の欠陥ではなく、レビュー側の検証手段（ネットワーク）欠如により未検証である。
+
+---
+
+## 2. 主張ごとの出典実在確認（1件ずつ）
+
+判定凡例: 出典URL併記=成果物内に当該項目の出典URLがあるか / 引用併記=原文引用が添えられているか / 実在確認=再取得による原文照合の結果。
+
+| # | 箇所 | 主張・記述 | 出典URL併記 | 引用併記 | 実在確認（再取得） |
+|---|------|-----------|------------|---------|------------------|
+| D-1 | 2-1 主張 | "The batteries-included agent harness." / "Deep Agents is an open source agent harness — an opinionated agent that runs out of the box. Extend, override, or replace any piece." | あり (github.com/langchain-ai/deepagents) | あり | **検証不能**（web_fetch 不可） |
+| D-2 | 2-1 主張（原則） | "Opinionated…" / "Model-agnostic…" / "Production-ready — built on LangGraph…" | あり（同上・セクション出典） | あり | **検証不能** |
+| D-3 | 2-1 主張（機能） | "Sub-agents", "Filesystem", "Context management", "Shell access", "Persistent memory", "Human-in-the-loop", "Skills…", "Tools…" | あり（同上） | あり | **検証不能** |
+| D-4 | 2-1 対象読者 | LangGraph/LangChain 上の Python・JS/TS 開発者、「フル装備を最初から欲しい層」 | あり（同上） | あり（FAQ "Use Deep Agents when you want the full harness…"、"Can I use this in production? Yes!"、"available as a JavaScript/TypeScript library"） | **検証不能** |
+| D-5 | 2-1 対象読者（補足） | ターミナル向け既製コーディングエージェントにも言及 | あり（同上） | あり（"Deep Agents Code — a pre-built coding agent in your terminal…"） | **検証不能** |
+| D-6 | 2-1 ライセンス | MIT（リポジトリページ表示 "MIT license"） | あり（同上） | あり | **検証不能** |
+| D-7 | 2-1 ライセンス | LICENSE 本文 "MIT License / Copyright (c) LangChain, Inc." | あり (raw.githubusercontent.com/…/main/LICENSE) | あり | **検証不能** |
+| F-1 | 2-2 主張 | "open-source super agent harness that orchestrates sub-agents, memory, and sandboxes…powered by extensible skills." | あり (github.com/bytedance/deer-flow) | あり | **検証不能** |
+| F-2 | 2-2 主張（説明文） | "An open-source long-horizon SuperAgent harness that researches, codes, and creates…" | あり（同上） | あり | **検証不能** |
+| F-3 | 2-2 主張（版方針） | "DeerFlow 2.0 is a ground-up rewrite. It shares no code with v1…" | あり（同上） | あり | **検証不能** |
+| F-4 | 2-2 対象読者 | 自前でセットアップ・デプロイする開発者／運用者、多言語 README | あり（同上） | あり（"If you use Claude Code, Codex, Cursor…"、"Option 1: Docker (Recommended)"、"English \| 中文 \| 日本語 \| Français \| Русский"、"⚠️ Security Notice…"） | **検証不能** |
+| F-5 | 2-2 ライセンス | MIT（ページ表示 + LICENSE 本文 "Copyright (c) 2025 Bytedance Ltd. and/or its affiliates / Copyright (c) 2025-2026 DeerFlow Authors"） | あり (raw.githubusercontent.com/…/main/LICENSE) | あり | **検証不能** |
+| F-6 | 1 取得状況 / 2-2 末尾 | 「部分取得（truncated=True, 約28,400字が未取得）」「後半節の要約は含めない」 | 該当URLあり | ツール出力に依存（引用なし） | **検証不能**（取得ログが成果物として公開されていないため、成果物側からも追試できない） |
+| A-1 | 2-3 主張 | "The complete format specification for Agent Skills." | あり (agentskills.io/specification) | あり | **検証不能** |
+| A-2 | 2-3 主張（構造） | "A skill is a directory containing, at minimum, a SKILL.md file" / "…must contain YAML frontmatter followed by Markdown content." | あり（同上） | あり | **検証不能** |
+| A-3 | 2-3 主張（フィールド） | 必須 `name`（"Max 64 characters…"）/`description`（"Max 1024 characters. Non-empty."）、任意 `license`/`compatibility`/`metadata`/`allowed-tools`("Experimental") | あり（同上） | あり（一部は値の要約） | **検証不能** |
+| A-4 | 2-3 主張（段階的読み込み） | "Metadata (~100 tokens)…" / "Instructions (< 5000 tokens recommended)…" / "Resources (as needed)" | あり（同上） | あり | **検証不能** |
+| A-5 | 2-3 主張（検証手段） | "Use the skills-ref reference library to validate your skills: skills-ref validate ./my-skill" | あり（同上） | あり | **検証不能** |
+| A-6 | 2-3 対象読者 | skill creators と client implementors の双方（左ナビの区分） | あり（同上） | あり（"For skill creators — …" / "For client implementors — Adding skills support"） | **検証不能** |
+| A-7 | 2-3 ライセンス | 当該ページでは「記載を確認できず」。参考としてリンク先リポジトリの "Apache-2.0 license" / "Documentation is licensed under CC-BY-4.0" | あり (github.com/agentskills/agentskills) | あり | **検証不能**（加えて、当該リポジトリが「仕様ページ上部にリンクされている公式リポジトリ」であるという関係性自体も未検証。下記 F-2 参照） |
+| C-1 | 3 比較表 | 主張/対象読者/ライセンスの3行 | あり（各セル内に引用または 2 節と同一の引用） | あり | **検証不能**（2 節と同一出典） |
+| C-2 | 3 比較表「提供形態」行 | deer-flow: 「Docker もしくはローカル実行のアプリケーション（**backend / frontend 構成**）」 | セクション出典のみ | **backend/frontend については引用なし** | **検証不能**（下記 F-1 参照） |
+| C-3 | 3 比較表「提供形態」行 | deepagents: 「＋**CLI**（Deep Agents Code）」 | セクション出典のみ | 原文語は "a pre-built coding agent in your terminal"。「CLI」は執筆側の言い換え | **検証不能**（下記 F-3 参照） |
+
+実在確認が1件も「確認済み」にならない理由は本書冒頭の制約（web_fetch 不在・サンドボックス無ネットワーク）に尽きる。原文照合が必要な場合は、ネットワーク到達可能なツールを持つ別ロール、またはレビュー環境への web_fetch 付与が必要。
+
+---
+
+## 3. 指摘事項（成果物本文の読解から検出したもの）
+
+いずれも軽微。受入条件を fail にするものではないが、修正すると t1a4 の趣旨（全記述に原文根拠）に厳密に適合する。
+
+### F-1（軽微・根拠引用の欠落）
+- 対象: 3 比較表「提供形態」行 / deer-flow セル「（backend / frontend 構成）」
+- 問題: 2-2 のページ別サマリにこの構成を示す原文引用がなく、本メモ内で根拠を辿れない。deer-flow は部分取得のため、未取得部分に由来する記述である可能性を排除できない。
+- 影響: 出典なし記述が1箇所残る。
+- 最小修正案: 該当箇所の原文（例: ディレクトリ構成やサービス名の記述）を短く引用して 2-2 に追加するか、「（backend / frontend 構成）」を削除する。
+
+### F-2（軽微・関係性の未明示）
+- 対象: 2-3 ライセンス / 出典一覧 6.
+- 問題: `https://github.com/agentskills/agentskills` を「仕様ページ上部にリンクされている公式リポジトリ」と位置づけているが、そのリンクが実在することを示す原文引用（リンクテキスト等）がない。調査範囲の制約（一次情報のみ）が満たされているかの判断根拠が弱い。
+- 影響: 参考情報の一次性が確認できない。
+- 最小修正案: 仕様ページ内のリンク表記を短く引用する（例: ヘッダ/フッタのリンクラベル）。
+
+### F-3（ごく軽微・言い換え）
+- 対象: 3 比較表「提供形態」行 / deepagents セル「CLI（Deep Agents Code）」
+- 問題: 原文は "a pre-built coding agent in your terminal"。「CLI」は執筆側の語で、原文語ではない。
+- 影響: 実質的な誤りではないが、原文根拠主義からはずれる。
+- 最小修正案: 「ターミナル上の既製コーディングエージェント（Deep Agents Code）」と原文に沿った表現にする。
+
+### 指摘に当たらない点（確認済み・問題なし）
+- 取得日時の UTC/JST 換算（21:13:46Z → 06:13 JST）は整合。
+- 未確認事項（deer-flow の未取得部分、agentskills.io ページ自体のライセンス）を明示的に限定しており、推測で埋めていない。
+- ライセンス未確認箇所で推定ライセンス名を断定していない。
+- 比較表は要求どおり行=主張/対象読者/ライセンスを含む（追加行は要求に反しない）。
+
+---
+
+## 4. 残課題
+
+1. 3出典URLの原文照合（D-1〜A-7 の全 20 件）は未実施。実施にはネットワーク到達可能な取得ツールが必要。
+2. 取得ログ（生の fetch 結果）が artifact として公開されていないため、事後の追試経路が存在しない。今後同種タスクでは生取得結果の保存・公開を推奨。

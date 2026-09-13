@@ -33,3 +33,9 @@
 
 ## TikTok (2026-09-13 早朝 JST)
 - TikTok Studio から short-ja.mp4 を投稿（キャプション + #ClaudeCode #AIエージェント #OSS #個人開発）。投稿直後は「コンテンツ審査中」。公開範囲を「誰でも」に設定
+
+## X (ja2) 2026-09-13 09:00 JST
+- https://x.com/i/status/2098924627162792058
+
+## X (en2) 2026-09-13 09:02 JST
+- https://x.com/i/status/2098925143389343862
