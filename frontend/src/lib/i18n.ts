@@ -1,5 +1,6 @@
 // Japanese-keyed dictionary: t("日本語") returns English when the UI language is 'en', else the key itself.
 const EN: Record<string, string> = {
+  '実行待ち': 'Queued', '実行枠が空き次第、開始します。': 'Starts when an execution slot is available.',
   '推論モード（Ollama）': 'Thinking mode (Ollama)', 'サーバーの既定': 'Server default',
   '短い出力で回答が空になる場合は無効を試してください。': 'Try disabling this if short responses return no answer.',
   '依頼': 'Request', '設定': 'Settings',

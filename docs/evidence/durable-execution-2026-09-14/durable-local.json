@@ -1,0 +1,61 @@
+{
+  "recorded_at": "2026-09-13T19:56:56.573833+00:00",
+  "model": "agentteam-qwen35-9b-16k",
+  "checks": [
+    "Atomic durable acceptance; a repeated real HTTP request returns the same run without another job",
+    "Queued cancellation performs no model call",
+    "SIGKILL preserves an ambiguous active job as interrupted and automatically dispatches only the unstarted queued job",
+    "Active cancellation stops without reporting completion"
+  ],
+  "runs": [
+    {
+      "run_id": "run_1a09c573df8701b8a72",
+      "status": "interrupted",
+      "usage_json": "{\"cache_read_tokens\": 0, \"cache_write_tokens\": 0, \"cost_usd\": 0.0, \"input_tokens\": 2143, \"model_calls\": 1, \"output_tokens\": 229, \"reserved_usd\": 0.0, \"tool_calls\": 0, \"wall_seconds\": 35.26993762503844}",
+      "blocked_reason": "worker process exited; inspect external effects before resume"
+    },
+    {
+      "run_id": "run_1a09c573f05d94258c0",
+      "status": "cancelled",
+      "usage_json": "{\"cache_read_tokens\": 0, \"cache_write_tokens\": 0, \"cost_usd\": 0.0, \"input_tokens\": 0, \"model_calls\": 0, \"output_tokens\": 0, \"reserved_usd\": 0.0, \"tool_calls\": 0, \"wall_seconds\": 0.0}",
+      "blocked_reason": null
+    },
+    {
+      "run_id": "run_1a09c573f183595cf7a",
+      "status": "cancelled",
+      "usage_json": "{\"cache_read_tokens\": 0, \"cache_write_tokens\": 0, \"cost_usd\": 0.0, \"input_tokens\": 2143, \"model_calls\": 2, \"output_tokens\": 339, \"reserved_usd\": 0.0, \"tool_calls\": 0, \"wall_seconds\": 21.599820000003092}",
+      "blocked_reason": null
+    }
+  ],
+  "jobs": [
+    {
+      "job_id": "job_1a09c573dfa14604eb5",
+      "run_id": "run_1a09c573df8701b8a72",
+      "state": "interrupted",
+      "created_at": "2026-09-13T19:55:58.330Z",
+      "started_at": "2026-09-13T19:55:58.333Z",
+      "finished_at": "2026-09-13T19:56:34.583Z",
+      "reason": "previous worker process exited; no automatic replay"
+    },
+    {
+      "job_id": "job_1a09c573f0a6cdec5cb",
+      "run_id": "run_1a09c573f05d94258c0",
+      "state": "cancelled",
+      "created_at": "2026-09-13T19:55:58.602Z",
+      "started_at": null,
+      "finished_at": "2026-09-13T19:55:58.612Z",
+      "reason": "cancelled before execution"
+    },
+    {
+      "job_id": "job_1a09c573f1a5c896b52",
+      "run_id": "run_1a09c573f183595cf7a",
+      "state": "finished",
+      "created_at": "2026-09-13T19:55:58.618Z",
+      "started_at": "2026-09-13T19:56:34.586Z",
+      "finished_at": "2026-09-13T19:56:56.197Z",
+      "reason": null
+    }
+  ],
+  "business_success_claimed": false,
+  "fake_provider": false
+}

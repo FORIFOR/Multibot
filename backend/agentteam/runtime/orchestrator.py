@@ -21,6 +21,7 @@ from ..providers.registry import ProviderRegistry
 from ..store.artifact_store import ArtifactStore
 from ..store.event_store import EventStore
 from ..store.run_store import RunStore
+from ..store.job_store import JobStore
 from .context import RunRuntime
 from .mailbox import MessageBus
 from .planner import PlanError, final_report, plan_team, single_agent_plan
@@ -32,7 +33,8 @@ from .scheduler import Scheduler
 class RunManager:
     def __init__(self, *, runs: RunStore, events: EventStore, artifacts: ArtifactStore, data_dir: Path,
                  config_getter: Callable[[], AgentTeamConfig], redactor: Redactor,
-                 fake_adapters: dict[str, ProviderAdapter] | None = None, approval_wait_seconds: float = 120.0):
+                 fake_adapters: dict[str, ProviderAdapter] | None = None, approval_wait_seconds: float = 120.0,
+                 durable: bool = False, run_concurrency: int = 2, max_pending: int = 20):
         self.runs, self.events, self.artifacts = runs, events, artifacts
         self.data_dir = Path(data_dir)
         self.config_getter = config_getter
@@ -42,6 +44,100 @@ class RunManager:
         self.live: dict[str, RunRuntime] = {}
         self._tasks: dict[str, asyncio.Task] = {}
         self.stopping = False
+        self.durable = durable
+        self.jobs = JobStore(runs.db)
+        self._run_slots = asyncio.Semaphore(run_concurrency)
+        self.max_pending = max_pending
+        self._dispatcher = None
+
+    async def submit(self, run_id: str, *, resume: bool = False, receipt=None):
+        """Commit execution intent before acknowledging a secured API request."""
+        if self.stopping:
+            raise RuntimeError('server is shutting down')
+        if not self.durable:
+            self.start(run_id, resume=resume)
+            return
+        job = await self.jobs.enqueue(run_id, resume=resume, max_pending=self.max_pending, receipt=receipt)
+        self._schedule_job(job)
+        await self.events.append(run_id, 'run.queued', {'job_id': job['job_id'], 'resume': resume})
+
+    def _schedule_job(self, job):
+        run_id = job['run_id']
+        existing = self._tasks.get(run_id)
+        if existing and not existing.done():
+            return  # the dispatcher may observe a committed job before submit returns
+        task = self._tasks[run_id] = asyncio.create_task(self._run_job(job))
+        def done(t):
+            if self._tasks.get(run_id) is t:
+                self._tasks.pop(run_id, None)
+            if not t.cancelled():
+                t.exception()  # state/reason is persisted by _run_job; consume background exceptions
+        task.add_done_callback(done)
+
+    async def recover_jobs(self):
+        if not self.durable:
+            return
+        for job in await self.jobs.recover():
+            await self.events.append(job['run_id'], 'execution.recovered', {'job_id': job['job_id'], 'automatic_replay': False})
+        for job in await self.jobs.pending():
+            self._schedule_job(job)
+        async def dispatch():
+            while not self.stopping:
+                await asyncio.sleep(1)
+                for job in await self.jobs.pending():
+                    task = self._tasks.get(job['run_id'])
+                    if task is None or task.done():
+                        self._schedule_job(job)
+        self._dispatcher = asyncio.create_task(dispatch())
+
+    async def pending_run(self, run_id):
+        if self.durable:
+            return bool(await self.runs.db.fetchone("SELECT job_id FROM execution_jobs WHERE run_id=? AND state IN ('queued','leased')", (run_id,)))
+        return run_id in self.live or (run_id in self._tasks and not self._tasks[run_id].done())
+
+    async def _run_job(self, queued):
+        async with self._run_slots:
+            await self._deliver_job(queued)
+
+    async def _deliver_job(self, queued):
+        owner = new_id('worker')
+        job = None
+        execution = heartbeat = None
+        reason = None
+        try:
+            job = await self.jobs.claim(queued['job_id'], owner)
+            if job is None:
+                return
+
+            async def renew():
+                while True:
+                    await asyncio.sleep(10)
+                    if not await self.jobs.renew(job['job_id'], owner):
+                        raise RuntimeError('execution lease lost')
+
+            execution = asyncio.create_task(self._execute(job['run_id'], resume=bool(job['resume'])))
+            heartbeat = asyncio.create_task(renew())
+            done, _ = await asyncio.wait({execution, heartbeat}, return_when=asyncio.FIRST_COMPLETED)
+            if heartbeat in done:
+                await heartbeat
+            await execution
+        except asyncio.CancelledError:
+            reason = 'server shutting down' if self.stopping else 'execution delivery interrupted'
+            raise
+        except Exception as exc:
+            reason = self.redactor.text(str(exc))[:300]
+            raise
+        finally:
+            for task in (execution, heartbeat):
+                if task and not task.done():
+                    task.cancel()
+            await asyncio.gather(*(t for t in (execution, heartbeat) if t), return_exceptions=True)
+            if job:
+                run = await self.runs.get_run(job['run_id'])
+                terminal = run and run.status in (RunStatus.completed, RunStatus.partial, RunStatus.failed, RunStatus.cancelled)
+                await self.jobs.finish(job['job_id'], owner, 'finished' if terminal else 'interrupted', reason)
+                if reason and not terminal:
+                    await self.runs.update_run(job['run_id'], status=RunStatus.interrupted, blocked_reason=reason)
 
     # ------------------------------------------------------------ precheck
     def precheck(self, cfg: AgentTeamConfig) -> list[dict[str, Any]]:
@@ -140,6 +236,9 @@ class RunManager:
     async def shutdown(self) -> None:
         """Stop live provider/worker calls before closing SQLite; preserve resumable work."""
         self.stopping = True
+        if self._dispatcher:
+            self._dispatcher.cancel()
+            await asyncio.gather(self._dispatcher, return_exceptions=True)
         pending = [t for t in self._tasks.values() if not t.done()]
         for t in pending:
             t.cancel()
@@ -209,7 +308,7 @@ class RunManager:
             raise
         except Exception as e:  # never leave a run in 'running'
             await self.events.append(run_id, "run.failed", {"reason": f"internal error: {type(e).__name__}: {self.redactor.text(str(e))[:500]}"})
-            await self.runs.update_run(run_id, status=RunStatus.failed, finished_at=now_iso(), blocked_reason=str(e)[:500])
+            await self.runs.update_run(run_id, status=RunStatus.failed, finished_at=now_iso(), blocked_reason=self.redactor.text(str(e))[:500])
             raise
         finally:
             await rt.persist_usage()
@@ -289,7 +388,22 @@ class RunManager:
 
     # ------------------------------------------------------------ cancel/resume/fork
     async def cancel(self, run_id: str) -> bool:
+        if self.durable and await self.jobs.cancel_queued(run_id):
+            task = self._tasks.get(run_id)
+            if task:
+                task.cancel()
+                await asyncio.gather(task, return_exceptions=True)
+            await self.runs.update_run(run_id, status=RunStatus.cancelled, cancel_requested=True, finished_at=now_iso())
+            await self.events.append(run_id, 'run.cancelled', {'reason': 'cancelled before execution'}, actor_id='user', actor_kind='human')
+            return True
         rt = self.live.get(run_id)
+        task = self._tasks.get(run_id)
+        if self.durable and rt is None and task and not task.done():
+            task.cancel()
+            await asyncio.gather(task, return_exceptions=True)
+            await self.runs.update_run(run_id, status=RunStatus.cancelled, cancel_requested=True, finished_at=now_iso())
+            await self.events.append(run_id, 'run.cancelled', {'reason': 'cancelled before runtime initialization'}, actor_id='user', actor_kind='human')
+            return True
         await self.runs.update_run(run_id, cancel_requested=True)
         if rt is None:
             run = await self.runs.get_run(run_id)
@@ -322,7 +436,7 @@ class RunManager:
         rt.policy.usage = rt.run.usage.model_copy()
         rt.policy.usage.reserved_usd = 0.0
 
-    async def resume(self, run_id: str) -> Run:
+    async def resume(self, run_id: str, *, receipt=None) -> Run:
         run = await self.runs.get_run(run_id)
         if run is None:
             raise KeyError(run_id)
@@ -330,8 +444,9 @@ class RunManager:
             raise ValueError(f"run in status {run.status} cannot be resumed")
         if run.plan is None:
             raise ValueError("run has no plan to resume")
-        await self.runs.update_run(run_id, status=RunStatus.running, cancel_requested=False, finished_at=None)
-        self.start(run_id, resume=True)
+        if not self.durable:
+            await self.runs.update_run(run_id, status=RunStatus.running, cancel_requested=False, finished_at=None)
+        await self.submit(run_id, resume=True, receipt=receipt)
         return (await self.runs.get_run(run_id))  # type: ignore[return-value]
 
     async def fork(self, run_id: str, *, overrides: dict[str, Any] | None = None, from_seq: int | None = None,
@@ -389,14 +504,14 @@ class RunManager:
         await self.events.append(new.run_id, "run.created", {"goal": new.goal, "forked": True}, actor_id="user", actor_kind="human")
         return new
 
-    async def start_fork(self, new_run_id: str) -> None:
+    async def start_fork(self, new_run_id: str, *, receipt=None) -> None:
         """Forked runs already have their tasks; start in resume mode so accepted tasks are kept."""
         run = await self.runs.get_run(new_run_id)
         assert run is not None
         run.started_at = now_iso()
-        await self.runs.update_run(new_run_id, started_at=run.started_at, status=RunStatus.running)
+        await self.runs.update_run(new_run_id, started_at=run.started_at, status=RunStatus.created if self.durable else RunStatus.running)
         await self.events.append(new_run_id, "run.started", {"goal": run.goal, "forked_from": run.parent_run_id})
-        self.start(new_run_id, resume=True)
+        await self.submit(new_run_id, resume=run.plan is not None, receipt=receipt)
 
     async def resolve_approval(self, approval_id: str, decision: str, *, note: str = "", edited_payload: dict[str, Any] | None = None,
                                expected_hash: str | None = None, nonce: str | None = None) -> Any:

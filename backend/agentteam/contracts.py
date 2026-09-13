@@ -74,6 +74,7 @@ DONE_FOR_DEPENDENTS = {TaskStatus.accepted, TaskStatus.partial, TaskStatus.revie
 
 class RunStatus(StrEnum):
     created = "created"
+    queued = "queued"
     planning = "planning"
     running = "running"
     approval_required = "approval_required"

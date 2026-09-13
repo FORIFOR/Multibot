@@ -69,6 +69,7 @@ async def main(root: Path):
         'cookie_refresh': '2m', 'cookie_expire': '1h',
         'backend_logout_url': issuer + '/protocol/openid-connect/logout?id_token_hint={id_token}',
         'request_logging': False, 'auth_logging': True, 'skip_provider_button': True,
+        'api_routes': ['^/api/'],
         # Default standard error logs include full callback requests even with
         # request/auth logging disabled. Never retain OAuth codes or cookies.
         'standard_logging_format': '[{{.Timestamp}}] [{{.File}}] proxy event (details suppressed)',

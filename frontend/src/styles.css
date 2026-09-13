@@ -62,7 +62,7 @@ textarea.input { resize: vertical; min-height: 80px; }
 .small { font-size: 12px; }
 .tag { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 1px 7px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper-2); color: var(--ink-2); white-space: nowrap; }
 .tag.status-completed, .tag.status-accepted, .tag.pass { border-color: var(--ok); color: var(--ok); background: #e8f0e6; }
-.tag.status-running, .tag.status-planning, .tag.status-review_pending, .tag.status-ready, .tag.status-waiting { border-color: var(--signal); color: var(--signal); background: #fbe9e2; }
+.tag.status-running, .tag.status-planning, .tag.status-queued, .tag.status-review_pending, .tag.status-ready, .tag.status-waiting { border-color: var(--signal); color: var(--signal); background: #fbe9e2; }
 .tag.status-partial, .tag.status-approval_required, .tag.status-blocked, .tag.status-interrupted, .tag.unverified { border-color: var(--warn); color: var(--warn); background: #f7efd8; }
 .tag.status-failed, .tag.status-cancelled, .tag.fail { border-color: var(--bad); color: var(--bad); background: #f6e3df; }
 .tag.fake { border-color: var(--bad); color: #fff; background: var(--bad); font-weight: 600; }

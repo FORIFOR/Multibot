@@ -1,0 +1,11 @@
+{
+  "recorded_at": "2026-09-13T19:57:59.889Z",
+  "checks": [
+    "Real browser submission sends an idempotency key and displays the durable waiting state",
+    "Browser cancellation updates through real API/SSE and makes zero model calls for the queued request"
+  ],
+  "page_errors": [],
+  "actual_background_run": "run_1a09c5917bbfc5eedf5",
+  "actual_queued_run": "run_1a09c59181dd7f6b83b",
+  "business_success_claimed": false
+}

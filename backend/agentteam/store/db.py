@@ -137,6 +137,28 @@ CREATE TABLE IF NOT EXISTS run_access (
   permission TEXT NOT NULL CHECK(permission IN ('read','write')),
   PRIMARY KEY(run_id,subject)
 );
+CREATE TABLE IF NOT EXISTS execution_jobs (
+  job_id TEXT PRIMARY KEY,
+  run_id TEXT NOT NULL REFERENCES runs(run_id) ON DELETE CASCADE,
+  resume INTEGER NOT NULL,
+  state TEXT NOT NULL CHECK(state IN ('queued','leased','finished','interrupted','cancelled')),
+  owner TEXT,
+  lease_until REAL,
+  created_at TEXT NOT NULL,
+  started_at TEXT,
+  finished_at TEXT,
+  reason TEXT
+);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_job_active_run ON execution_jobs(run_id) WHERE state IN ('queued','leased');
+CREATE INDEX IF NOT EXISTS idx_job_pending ON execution_jobs(state,created_at);
+CREATE TABLE IF NOT EXISTS request_receipts (
+  scope_key TEXT PRIMARY KEY,
+  request_hash TEXT NOT NULL,
+  run_id TEXT NOT NULL REFERENCES runs(run_id) ON DELETE CASCADE,
+  status INTEGER NOT NULL,
+  response_json TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS audit_log (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   recorded_at REAL NOT NULL,

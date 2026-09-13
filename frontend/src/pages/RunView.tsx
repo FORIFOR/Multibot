@@ -108,8 +108,8 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
       <div className="runhead">
         <div>
           <div className="row">
-            {live && <Orb state="thinking" size={44} title={tr("モデル呼出中")} />}
-            <span className={'tag status-' + run.status}>{!live && null}{run.status}</span>
+            {['running', 'planning'].includes(run.status) && <Orb state="thinking" size={44} title={tr("モデル呼出中")} />}
+            <span className={'tag status-' + run.status}>{run.status === 'queued' ? tr('実行待ち') : run.status}</span>
             {run.provider_kind === 'fake' && <span className="tag fake">{tr("FAKE PROVIDER — 実 LLM ではありません")}</span>}
             {run.parent_run_id && <span className="tag">fork of <Link to={`/runs/${run.parent_run_id}`} nav={nav}>{run.parent_run_id.slice(0, 16)}</Link> @seq {run.fork_from_seq}</span>}
           </div>
@@ -124,6 +124,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             {run.plan?.assumptions?.map((a, i) => <span key={i} className="tag" title={tr("Master が記録した前提")}>前提: {a}</span>)}
           </div>
           {run.blocked_reason && <p className="err small" style={{ marginTop: 6 }}>{run.blocked_reason}</p>}
+          {run.status === 'queued' && <p className="muted small">{tr('実行枠が空き次第、開始します。')}</p>}
         </div>
         <div className="stack" style={{ alignItems: 'flex-end' }}>
           <div className="row">

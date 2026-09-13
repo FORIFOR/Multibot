@@ -70,7 +70,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
         {runs.length === 0 && <p className="muted">{t("まだ実行はありません。")}</p>}
         {runs.map((r) => (
           <Link key={r.run_id} to={`/runs/${r.run_id}`} nav={nav} className="run-row">
-            <span className={'tag status-' + r.status}>{r.status}</span>
+            <span className={'tag status-' + r.status}>{r.status === 'queued' ? t('実行待ち') : r.status}</span>
             <span className="goal">{r.goal}{r.provider_kind === 'fake' && <> <span className="tag fake">FAKE</span></>}</span>
             <span className="mono muted">{money(r.usage.cost_usd)} · {r.usage.model_calls} calls</span>
             <span className="muted small">{fmtDate(r.created_at)}</span>

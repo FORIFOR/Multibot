@@ -91,11 +91,14 @@ class AppService:
         self._mirror_file()
         self.manager = RunManager(runs=self.runs, events=self.events, artifacts=self.artifacts, data_dir=self.data_dir / "runs",
                                   config_getter=lambda: self.config, redactor=self.redactor, fake_adapters=self.fake_adapters,
-                                  approval_wait_seconds=self.approval_wait_seconds)
+                                  approval_wait_seconds=self.approval_wait_seconds, durable=self.access.enabled,
+                                  run_concurrency=self.access.config.max_active_runs if self.access.enabled else 2,
+                                  max_pending=self.access.config.max_pending_runs if self.access.enabled else 20)
         # runs left 'running' by a previous process are interrupted, never silently resumed
         for row in await self.db.fetchall("SELECT run_id FROM runs WHERE status IN ('running','planning')"):
             await self.events.append(row['run_id'], "run.interrupted", {"reason": "server restarted while running"})
             await self.runs.update_run(row['run_id'], status="interrupted", blocked_reason="server restarted while running")
+        await self.manager.recover_jobs()
         return self
 
     async def stop(self) -> None:

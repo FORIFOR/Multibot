@@ -125,6 +125,14 @@ def restore(source: Path, destination: Path):
             conn.execute('CREATE TABLE IF NOT EXISTS deployment_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)')
             conn.execute("INSERT INTO deployment_metadata(key,value) VALUES('oidc_valid_after',?) "
                          "ON CONFLICT(key) DO UPDATE SET value=excluded.value", (str(time.time()),))
+            if 'execution_jobs' in tables:
+                # A snapshot may precede later executions on the original host.
+                # No queued/leased intent from a restored snapshot auto-replays.
+                conn.execute("UPDATE runs SET status='interrupted',blocked_reason='snapshot restored; inspect external effects before resume' "
+                             "WHERE run_id IN (SELECT run_id FROM execution_jobs WHERE state IN ('queued','leased')) "
+                             "AND status NOT IN ('completed','partial','failed','cancelled')")
+                conn.execute("UPDATE execution_jobs SET state='interrupted',lease_until=NULL,reason='snapshot restored; no automatic replay' "
+                             "WHERE state IN ('queued','leased')")
             conn.commit()
     except BaseException:
         shutil.rmtree(destination)

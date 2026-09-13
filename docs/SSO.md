@@ -35,6 +35,7 @@ Use the following settings with values from the real deployment. Private client/
 | `http_address`, `upstreams` | Private loopback listeners; upstream preserves configured public Host |
 | `email_domains` | Organization-approved email domains |
 | `scope` | `openid email profile`; arrange a signed `groups` claim at the IdP |
+| `api_routes` | `["^/api/"]`; return 401 for expired API sessions instead of redirecting fetch/SSE into an IdP HTML page |
 | `code_challenge_method` | `S256` |
 | `insecure_oidc_skip_nonce` | `false` |
 | `pass_access_token` | `true` (`X-Forwarded-Access-Token`) |

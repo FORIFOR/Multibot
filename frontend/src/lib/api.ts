@@ -1,4 +1,4 @@
-export type RunStatus = 'created' | 'planning' | 'running' | 'approval_required' | 'completed' | 'partial' | 'failed' | 'cancelled' | 'interrupted' | 'blocked'
+export type RunStatus = 'created' | 'queued' | 'planning' | 'running' | 'approval_required' | 'completed' | 'partial' | 'failed' | 'cancelled' | 'interrupted' | 'blocked'
 
 export interface Usage { model_calls: number; tool_calls: number; input_tokens: number; output_tokens: number; cache_read_tokens: number; cache_write_tokens: number; cost_usd: number; reserved_usd: number; wall_seconds: number }
 export interface ArtifactRef { artifact_id: string; revision: number; sha256: string }
@@ -41,12 +41,25 @@ export class ApiError extends Error {
   }
 }
 
-async function req<T>(method: string, url: string, body?: unknown): Promise<T> {
-  const r = await fetch(url, { method, headers: body ? { 'content-type': 'application/json' } : undefined, body: body ? JSON.stringify(body) : undefined })
+const pendingCommands = new Map<string, { input: string; key: string }>()
+
+async function req<T>(method: string, url: string, body?: unknown, idempotent = false): Promise<T> {
+  const input = body ? JSON.stringify(body) : ''
+  const command = `${method} ${url}`
+  if (idempotent && pendingCommands.get(command)?.input !== input) {
+    pendingCommands.set(command, { input, key: crypto.randomUUID() })
+  }
+  const headers: Record<string, string> = body ? { 'content-type': 'application/json' } : {}
+  if (idempotent) headers['Idempotency-Key'] = pendingCommands.get(command)!.key
+  const send = () => fetch(url, { method, headers, body: input || undefined, ...(idempotent ? { signal: AbortSignal.timeout(30000) } : {}) })
+  let r: Response
+  try { r = await send() }
+  catch (error) { if (!idempotent) throw error; r = await send() }
   const text = await r.text()
   let data: any = text
   try { data = text ? JSON.parse(text) : null } catch { /* keep text */ }
   if (r.status === 401) window.dispatchEvent(new Event('agentteam:unauthorized'))
+  if (idempotent && r.status < 500) pendingCommands.delete(command)
   if (!r.ok) throw new ApiError(r.status, data)
   return data as T
 }
@@ -58,10 +71,10 @@ export const api = {
   events: (id: string, after = 0) => req<Event[]>('GET', `/api/runs/${id}/events?after_seq=${after}`),
   chat: (id: string) => req<ChatMessage[]>('GET', `/api/runs/${id}/chat`),
   timeline: (id: string, tools = true) => req<TimelineItem[]>('GET', `/api/runs/${id}/timeline?tools=${tools}`),
-  createRun: (body: { goal: string; inputs: { text: string; urls: string[]; files: { name: string; content: string }[] }; budget_usd?: number | null }) => req<Run>('POST', '/api/runs', body),
+  createRun: (body: { goal: string; inputs: { text: string; urls: string[]; files: { name: string; content: string }[] }; budget_usd?: number | null }) => req<Run>('POST', '/api/runs', body, true),
   cancel: (id: string) => req<{ cancel_requested: boolean }>('POST', `/api/runs/${id}/cancel`),
-  resume: (id: string) => req<Run>('POST', `/api/runs/${id}/resume`),
-  fork: (id: string, overrides: Record<string, unknown>) => req<Run>('POST', `/api/runs/${id}/fork`, { overrides, start: true }),
+  resume: (id: string) => req<Run>('POST', `/api/runs/${id}/resume`, undefined, true),
+  fork: (id: string, overrides: Record<string, unknown>) => req<Run>('POST', `/api/runs/${id}/fork`, { overrides, start: true }, true),
   health: () => req<{ ok: boolean; version: string; config_revision: number; live_runs: string[] }>('GET', '/api/health'),
   approvals: (status?: string) => req<Approval[]>('GET', `/api/approvals${status ? `?status=${status}` : ''}`),
   resolveApproval: (id: string, body: { decision: string; note?: string; expected_hash?: string; nonce?: string }) => req<Approval>('POST', `/api/approvals/${id}/resolve`, body),

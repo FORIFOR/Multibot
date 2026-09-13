@@ -54,6 +54,7 @@ class AccessConfig(BaseModel):
     public_origin: str
     session_seconds: int = Field(default=3600, ge=60, le=86400)
     max_active_runs: int = Field(default=2, ge=1, le=32)
+    max_pending_runs: int = Field(default=20, ge=1, le=1000)
     max_request_bytes: int = Field(default=2_000_000, ge=1024, le=20_000_000)
     users: list[Account] = Field(min_length=1)
     oidc: OIDCConfig | None = None
@@ -69,6 +70,8 @@ class AccessConfig(BaseModel):
             raise ValueError('duplicate subject or credential')
         if any(a.subject.startswith('oidc-') for a in self.users):
             raise ValueError('oidc- subjects are reserved for verified SSO identities')
+        if self.max_pending_runs < self.max_active_runs:
+            raise ValueError('max_pending_runs must be at least max_active_runs')
         if not any(a.role == 'admin' and not a.disabled for a in self.users):
             raise ValueError('at least one enabled administrator is required')
         return self
