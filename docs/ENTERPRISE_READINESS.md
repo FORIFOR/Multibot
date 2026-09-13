@@ -19,7 +19,7 @@
 | README / Site | 起動方法・実画面・制約を掲載。3分で理解できるかの外部ユーザ評価は未実施 |
 | Business CTA | [導入相談](https://forifor.github.io/Multibot/ja/#business)あり。今回、架空の問い合わせ送信は行っていない |
 | License | [MIT](../LICENSE) |
-| テスト証拠 | [実モデル比較・Reviewer監査](evidence/readiness-2026-09-14/README.md)と[実行結果からの修正](evidence/local-fixes-2026-09-14/README.md)。実記録・実設定を使う新規10件を含む回帰テスト75件pass、CI成功。自動テスト数を業務成功率に置き換えない |
+| テスト証拠 | [実モデル比較・Reviewer監査](evidence/readiness-2026-09-14/README.md)と[実行結果からの修正](evidence/local-fixes-2026-09-14/README.md)。実記録・実設定を使う新規11件を含む回帰テスト76件pass。自動テスト数を業務成功率に置き換えない |
 
 企業への説明文:
 

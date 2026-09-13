@@ -256,3 +256,37 @@ async def test_cancel_during_report_preparation_is_not_published_as_completed(tm
         if rt:
             await rt.providers.aclose()
         await svc.stop()
+
+
+async def test_real_timeout_preserves_reason_and_emits_one_interruption(tmp_path):
+    import time
+    from agentteam.api.service import AppService
+    from agentteam.contracts import Run, RunStatus
+    from agentteam.runtime.scheduler import Scheduler
+
+    profile = EVIDENCE.parents[1] / 'config/local-qwen35-9b-thinking-team.yaml'
+    svc = await AppService(tmp_path, config_yaml=profile.read_text()).start()
+    rt = None
+    try:
+        run = Run.model_validate(records('thinking-interruption'))
+        elapsed = run.usage.wall_seconds
+        run.status = RunStatus.running
+        await svc.runs.create_run(run)
+        rt = svc.manager._build_runtime(run, svc.config)
+        # Replay the actual exhausted wall-clock budget, without waiting ten minutes or faking a provider.
+        rt.started_monotonic = time.monotonic() - elapsed
+        scheduler = Scheduler(rt)
+        await scheduler.init_from_plan()
+        status = await scheduler.run()
+        reason = await svc.manager._status_reason(rt, status)
+        await svc.manager._finish(rt, status, reason=reason)
+        saved = await svc.runs.get_run(run.run_id)
+        interruptions = [e for e in await svc.events.list(run.run_id) if e.type == 'run.interrupted']
+        assert saved.status == RunStatus.interrupted
+        assert saved.blocked_reason == 'wall-clock limit reached'
+        assert len(interruptions) == 1
+        assert interruptions[0].payload['reason'] == saved.blocked_reason
+    finally:
+        if rt:
+            await rt.providers.aclose()
+        await svc.stop()

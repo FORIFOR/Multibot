@@ -200,6 +200,8 @@ class RunManager:
 
     async def _status_reason(self, rt: RunRuntime, status: RunStatus) -> str | None:
         """One line naming the tasks that kept the run from 'completed' (their own blocked_reason when they have one)."""
+        if status == RunStatus.interrupted:
+            return rt.run.blocked_reason or "interrupted"
         if status not in (RunStatus.partial, RunStatus.failed):
             return None
         # tasks the Master added later (exception / milestone) carry created_by=master on their task.created event;
@@ -223,9 +225,10 @@ class RunManager:
     async def _finish(self, rt: RunRuntime, status: RunStatus, *, reason: str | None = None) -> None:
         run = rt.run
         if status in (RunStatus.approval_required, RunStatus.interrupted):
+            ev = await self.events.append(run.run_id, "run.interrupted" if status == RunStatus.interrupted else "task.blocked",
+                                          {"reason": reason or str(status)}, notify=False)
             await self.runs.update_run(run.run_id, status=status, blocked_reason=reason)
-            await self.events.append(run.run_id, "run.interrupted" if status == RunStatus.interrupted else "task.blocked",
-                                     {"reason": reason or str(status)})
+            self.events.notify(ev)
             return
         run.status = status  # report context; keep the stored run active until all output is ready
         report = await self._make_report(rt, status, reason)

@@ -307,7 +307,7 @@ class Scheduler:
                 return RunStatus.cancelled
             if rt.remaining_seconds() <= 0:
                 await self._cancel_all()
-                await rt.events.append(rt.run_id, "run.interrupted", {"reason": "wall-clock limit reached"})
+                rt.run.blocked_reason = "wall-clock limit reached"
                 return RunStatus.interrupted
             if self._fatal:
                 await self._cancel_all()
