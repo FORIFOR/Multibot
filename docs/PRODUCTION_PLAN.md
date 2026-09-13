@@ -2,7 +2,7 @@
 
 Goal: advance Multibot to L3 for a clearly scoped enterprise workflow. **L3 remains unachieved.** The first deployment shape is an isolated installation per organization. A shared multi-tenant SaaS would require another architecture and isolation audit.
 
-The working code and each evaluated checkout are tracked separately; the running 300-trial local-model comparison stays pinned and is not silently upgraded.
+The working code and each evaluated checkout are tracked separately. The legacy 300-trial comparison stays pinned and preserved, but is paused: its 50 tasks include fictional products and synthetic business data, contrary to the user's no-dummy-data requirement for new acceptance work. It is not real-enterprise acceptance evidence. The replacement workflow uses actual repository source documents with recorded hashes and a separate fixed series.
 
 | Area | Implemented / verified | Remaining acceptance work |
 | --- | --- | --- |
@@ -12,7 +12,7 @@ The working code and each evaluated checkout are tracked separately; the running
 | Data | Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption | Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO |
 | Audit / monitoring | Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view | Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance |
 | Deployment | Locked runtime dependencies, pinned base, non-root/read-only container, resource limits, browser/API checks | Real TLS/DNS environment, identity service, operating owner, upgrade/rollback rehearsal, security review |
-| Business quality | Original failures preserved; 300 local-model comparisons running separately | A fixed representative workflow repeated ten times, source correctness, review miss/false-positive evaluation, latency and acceptance thresholds |
+| Business quality | Original failures preserved; legacy comparison paused after synthetic inputs were identified; actual-source readiness workflow prepared separately | Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds |
 | Contract / operation | Technical limitations documented | Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications |
 
 Next engineering sequence:
