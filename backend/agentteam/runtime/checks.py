@@ -107,6 +107,17 @@ def json_schema_check(data: bytes, schema: dict[str, Any] | None) -> dict[str, A
     from jsonschema import Draft202012Validator
     if not schema:
         return {"status": "blocked", "problems": ["args.schema is required"]}
+    def external_reference(value):
+        if isinstance(value, dict):
+            if any(key in value for key in ('$id', '$dynamicRef', '$recursiveRef')):
+                return True
+            ref = value.get('$ref')
+            if ref is not None and (not isinstance(ref, str) or not (ref == '#' or ref.startswith('#/'))):
+                return True
+            return any(external_reference(v) for v in value.values())
+        return isinstance(value, list) and any(external_reference(v) for v in value)
+    if external_reference(schema):
+        return {'status': 'blocked', 'problems': ['schema identifiers and non-local/dynamic references are not allowed']}
     try:
         doc = json.loads(data.decode("utf-8"))
     except Exception as e:
@@ -168,7 +179,7 @@ CHECK_KINDS = {
 }
 
 
-async def run_check(kind: str, data: bytes | None, args: dict[str, Any], workspace: Path | None) -> dict[str, Any]:
+async def run_check(kind: str, data: bytes | None, args: dict[str, Any], workspace: Path | None, *, require_container=False) -> dict[str, Any]:
     if kind == "html_basic":
         return html_basic(data or b"")
     if kind == "json_valid":
@@ -193,7 +204,7 @@ async def run_check(kind: str, data: bytes | None, args: dict[str, Any], workspa
     if kind == "command":
         if workspace is None:
             return {"status": "blocked", "problems": ["no workspace for command check"]}
-        r = await run_command(str(args.get("command") or "true"), workspace, timeout=float(args.get("timeout") or 120))
+        r = await run_command(str(args.get("command") or "true"), workspace, timeout=float(args.get("timeout") or 120), require_container=require_container)
         status = "blocked" if r.denied else ("fail" if r.timed_out or r.exit_code != 0 else "pass")
         return {"status": status, "backend": r.backend, "exit_code": r.exit_code, "stdout": r.stdout, "stderr": r.stderr,
                 "timed_out": r.timed_out, "reason": r.reason}

@@ -349,7 +349,7 @@ class ToolGateway:
             return "DENIED: no workspace in this session"
         timeout = float(a.get("timeout_seconds") or 120)
         r = await run_command(a["command"], ws, timeout=min(timeout, max(5.0, self.rt.remaining_seconds() - 5)),
-                              max_output=self.rt.config.limits.max_tool_output_chars)
+                              max_output=self.rt.config.limits.max_tool_output_chars, require_container=self.rt.require_container)
         if r.denied:
             return f"DENIED: {r.reason}"
         return f"backend={r.backend} exit_code={r.exit_code} timed_out={r.timed_out}\n--- stdout\n{r.stdout}\n--- stderr\n{r.stderr}"
@@ -374,7 +374,7 @@ class ToolGateway:
             target = {"workspace_path": a["path"], "sha256": hashlib.sha256(data).hexdigest()}
         elif kind != "command":
             return "REJECTED: provide artifact_id (published revision) or path (workspace file)"
-        result = await run_check(kind, data, dict(a.get("args") or {}), ctx.workspace)
+        result = await run_check(kind, data, dict(a.get("args") or {}), ctx.workspace, require_container=rt.require_container)
         await rt.events.append(rt.run_id, "check.completed", {"kind": kind, "target": target, "args": a.get("args") or {},
                                                               "result": result},
                                actor_id=ctx.agent.agent_id, actor_kind="agent", task_id=ctx.task_id, causation_id=cid)

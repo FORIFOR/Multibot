@@ -31,6 +31,7 @@ class RunRuntime:
     providers: ProviderRegistry
     redactor: Redactor
     data_dir: Path
+    require_container: bool = False
     started_monotonic: float = field(default_factory=time.monotonic)
     tasks: dict[str, TaskState] = field(default_factory=dict)
     active_sessions: dict[str, int] = field(default_factory=dict)

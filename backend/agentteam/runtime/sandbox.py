@@ -15,6 +15,10 @@ import asyncio
 import os
 import shutil
 import sys
+import tempfile
+import signal
+import math
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -133,7 +137,7 @@ def _container_user() -> str:
         return "1000:1000"
 
 
-async def _run_docker(command: str, workspace: Path, *, timeout: float, allow_network: bool, image: str) -> tuple[list[str], dict]:
+async def _run_docker(command: str, workspace: Path, *, timeout: float, allow_network: bool, image: str, cidfile: Path | None = None) -> tuple[list[str], dict]:
     argv = ["docker", "run", "--rm", "-i",
             "--network", "host" if allow_network else "none",
             "--memory", os.environ.get("AGENTTEAM_SANDBOX_MEMORY", "1g"),
@@ -147,11 +151,15 @@ async def _run_docker(command: str, workspace: Path, *, timeout: float, allow_ne
             "-w", "/workspace",
             "-e", "HOME=/tmp", "-e", "PATH=/usr/local/bin:/usr/bin:/bin", "-e", "LANG=C.UTF-8",
             image, "/bin/sh", "-c", command]
+    if cidfile:
+        argv[2:2] = ['--cidfile', str(cidfile)]
     return argv, {}
 
 
 async def run_command(command: str, workspace: Path, *, timeout: float = 120.0, max_output: int = 12000,
-                      allow_network: bool = False, image: str | None = None) -> SandboxResult:
+                      allow_network: bool = False, image: str | None = None, require_container: bool = False) -> SandboxResult:
+    timeout = min(max(timeout, 0.1), 300) if math.isfinite(timeout) else 120
+    max_output = max(1, min(max_output, 100000))
     lowered = f" {command.strip()} "
     for tok in DENY_TOKENS:
         if tok in lowered:
@@ -160,6 +168,9 @@ async def run_command(command: str, workspace: Path, *, timeout: float = 120.0, 
     workspace = workspace.resolve()
     workspace.mkdir(parents=True, exist_ok=True)
     backend = await backend_name()
+    if require_container and backend != 'docker':
+        return SandboxResult(backend=backend, command=command, exit_code=None, stdout='', stderr='', timed_out=False,
+                             denied=True, reason='secured work requires Docker isolation; host-readable sandbox fallbacks are refused')
     if backend == "none":
         return SandboxResult(backend="none", command=command, exit_code=None, stdout="", stderr="", timed_out=False, denied=True,
                              reason="no sandbox available: start Docker (recommended) or set AGENTTEAM_SANDBOX=subprocess to run "
@@ -182,7 +193,11 @@ async def run_command(command: str, workspace: Path, *, timeout: float = 120.0, 
                                  timed_out=False, denied=True,
                                  reason=f"workspace {workspace} is not writable inside the sandbox container. With Colima/Lima only your home "
                                         "directory is shared with the VM: keep the data dir under $HOME (or share the path in the VM settings).")
-        argv, _ = await _run_docker(command, workspace, timeout=timeout, allow_network=allow_network, image=img)
+        # Outside the mounted workspace: generated commands cannot replace the
+        # container ID and trick cleanup into targeting another container.
+        container_dir = tempfile.TemporaryDirectory(prefix='agentteam-container-')
+        cidfile = Path(container_dir.name) / 'cid'
+        argv, _ = await _run_docker(command, workspace, timeout=timeout, allow_network=allow_network, image=img, cidfile=cidfile)
         env = dict(os.environ)  # docker CLI needs its own env (DOCKER_HOST etc.); the container env is set via -e
     elif backend == "sandbox-exec":
         profile = _seatbelt_profile(workspace)
@@ -194,20 +209,67 @@ async def run_command(command: str, workspace: Path, *, timeout: float = 120.0, 
     try:
         proc = await asyncio.create_subprocess_exec(*argv, cwd=str(workspace), env=env,
                                                     stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
-                                                    stdin=asyncio.subprocess.DEVNULL)
+                                                    stdin=asyncio.subprocess.DEVNULL, start_new_session=True)
     except FileNotFoundError as e:
+        if backend == 'docker':
+            container_dir.cleanup()
         return SandboxResult(backend=backend, command=command, exit_code=None, stdout="", stderr=str(e), timed_out=False)
+    buffers = [bytearray(), bytearray()]
+    counts = [0, 0]
+    async def drain(stream, index):
+        while chunk := await stream.read(65536):
+            counts[index] += len(chunk)
+            buffers[index].extend(chunk[:max(0, max_output * 4 - len(buffers[index]))])
+    readers = [asyncio.create_task(drain(proc.stdout, 0)), asyncio.create_task(drain(proc.stderr, 1))]
+    async def terminate():
+        for reader in readers:
+            if not reader.done():
+                reader.cancel()
+        await asyncio.gather(*readers, return_exceptions=True)
+        if backend == 'docker' and cidfile.exists():
+            cid = cidfile.read_text().strip()
+            if re.fullmatch(r'[0-9a-f]{64}', cid):
+                cleanup = await asyncio.create_subprocess_exec('docker', 'rm', '-f', cid,
+                    stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL)
+                try:
+                    await asyncio.wait_for(cleanup.wait(), timeout=10)
+                except asyncio.TimeoutError:
+                    cleanup.kill(); await cleanup.wait()
+        if proc.returncode is None:
+            try:
+                if hasattr(os, 'killpg'):
+                    os.killpg(proc.pid, signal.SIGKILL)
+                else:
+                    proc.kill()
+            except ProcessLookupError:
+                pass
+        await asyncio.wait_for(asyncio.gather(proc.wait(), drain(proc.stdout, 0), drain(proc.stderr, 1)), timeout=10)
     try:
-        out, err = await asyncio.wait_for(proc.communicate(), timeout=timeout)
+        await asyncio.wait_for(asyncio.gather(proc.wait(), *readers), timeout=timeout)
         timed_out = False
     except asyncio.TimeoutError:
-        proc.kill()
-        out, err = b"", b"timed out"
+        await terminate()
         timed_out = True
-    o = out.decode("utf-8", errors="replace")
-    e = err.decode("utf-8", errors="replace")
+    except asyncio.CancelledError:
+        await terminate()
+        raise
+    finally:
+        for reader in readers:
+            if not reader.done():
+                reader.cancel()
+        await asyncio.gather(*readers, return_exceptions=True)
+        if backend == 'docker':
+            container_dir.cleanup()
+    o = buffers[0].decode("utf-8", errors="replace")
+    e = buffers[1].decode("utf-8", errors="replace")
     if len(o) > max_output:
         o = o[:max_output] + f"\n...[truncated {len(o) - max_output} chars]"
     if len(e) > max_output:
         e = e[:max_output] + f"\n...[truncated {len(e) - max_output} chars]"
+    if counts[0] > len(buffers[0]):
+        o += f'\n...[discarded {counts[0] - len(buffers[0])} additional bytes]'
+    if counts[1] > len(buffers[1]):
+        e += f'\n...[discarded {counts[1] - len(buffers[1])} additional bytes]'
+    if timed_out:
+        e += '\ntimed out'
     return SandboxResult(backend=backend, command=command, exit_code=proc.returncode, stdout=o, stderr=e, timed_out=timed_out)

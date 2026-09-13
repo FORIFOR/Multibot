@@ -1,0 +1,29 @@
+{
+  "recorded_at": "2026-09-13T20:34:00.427106+00:00",
+  "checks": [
+    "HTTPS certificate validation and original-host routing preserve exact published source bytes",
+    "actual HTTP-to-HTTPS redirect is followed through the same guarded transport",
+    "actual Python source archive download stops at the two-million-byte body limit"
+  ],
+  "source_url": "https://raw.githubusercontent.com/FORIFOR/Multibot/2a46e209f102f7cb094484aa24d099135e27cbc6/docs/PRODUCTION_PLAN.md",
+  "source_sha256": "1caafe82ced479429c9c8589300a314511e8f3589dab30e7b7ec0c34d330b703",
+  "redirect": {
+    "url": "https://docs.python.org/3/whatsnew/3.12.html",
+    "status": 200,
+    "content_type": "text/html",
+    "title": "What\u2019s New In Python 3.12 \u2014 Python 3.14.7 documentation",
+    "truncated": true,
+    "bytes": 443111,
+    "body_limit_reached": false
+  },
+  "bounded_download": {
+    "url": "https://www.python.org/ftp/python/3.12.12/Python-3.12.12.tgz",
+    "status": 200,
+    "content_type": "application/octet-stream",
+    "title": "",
+    "truncated": true,
+    "bytes": 2000000,
+    "body_limit_reached": true
+  },
+  "mocked_responses": false
+}

@@ -163,7 +163,8 @@ def create_app(service: AppService | None = None) -> FastAPI:
         needs_sandbox = any(a.enabled and set(a.tools) & {'sandbox_run', 'run_check'} for a in svc.config.agents)
         sandbox = await backend_name() if needs_sandbox else 'not_required'
         dispatcher_ready = not svc.manager.durable or (svc.manager._dispatcher is not None and not svc.manager._dispatcher.done())
-        ready = dispatcher_ready and not svc.stopping and free >= 500 * 1024 * 1024 and not problems and sandbox not in ('none', 'subprocess')
+        sandbox_ready = sandbox in ('docker', 'not_required') if svc.access.enabled else sandbox not in ('none', 'subprocess')
+        ready = dispatcher_ready and not svc.stopping and free >= 500 * 1024 * 1024 and not problems and sandbox_ready
         return JSONResponse({'ready': ready, 'disk_free_bytes': free, 'sandbox_backend': sandbox,
                              'audit_stream_id': svc.audit_stream_id,
                              'execution_dispatcher_ready': dispatcher_ready,
@@ -465,8 +466,8 @@ def create_app(service: AppService | None = None) -> FastAPI:
             raise HTTPException(503, 'insufficient storage space')
         if require_execution and svc.access.enabled and any(a.enabled and set(a.tools) & {'sandbox_run', 'run_check'} for a in svc.config.agents):
             from ..runtime.sandbox import backend_name
-            if await backend_name() in ('none', 'subprocess'):
-                raise HTTPException(503, 'configured tools require an isolated command sandbox')
+            if await backend_name() != 'docker':
+                raise HTTPException(503, 'secured command tools require Docker isolation')
 
     @app.get("/api/runs")
     async def list_runs(request: Request, limit: int = Query(default=50, ge=1, le=500)):

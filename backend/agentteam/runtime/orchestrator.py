@@ -221,7 +221,7 @@ class RunManager:
         bus = MessageBus(run.run_id, self.runs, self.events)
         rt = RunRuntime(run=run, config=cfg, agents=agents, policy=policy, events=self.events, artifacts=self.artifacts,
                         runs=self.runs, bus=bus, providers=registry, redactor=self.redactor, data_dir=self.data_dir,
-                        approval_wait_seconds=self.approval_wait_seconds)
+                        approval_wait_seconds=self.approval_wait_seconds, require_container=self.durable)
         return rt
 
     def start(self, run_id: str, *, resume: bool = False) -> asyncio.Task:
