@@ -89,7 +89,44 @@ async def run_task(svc: AppService, cfg, task: dict, rep: int, budget: float) ->
                          if e.type in ("task.failed", "task.blocked", "task.partial", "model.failed", "plan.rejected")]}
 
 
+async def regrade(args) -> int:
+    """Re-apply the graders to every recorded run (artifacts are re-read from the data dir's store) → results.regraded.jsonl.
+    Use after fixing a grader; the original results.jsonl is left untouched so both can be compared."""
+    svc = await AppService(args.data_dir).start()
+    try:
+        src = svc.data_dir / "results.jsonl"
+        out = svc.data_dir / "results.regraded.jsonl"
+        changed = 0
+        with open(out, "w") as f:
+            for line in src.read_text().splitlines():
+                if not line.strip():
+                    continue
+                r = json.loads(line)
+                if r.get("run_id"):
+                    metas = await svc.artifacts.list(r["run_id"], latest_only=True)
+                    arts = {}
+                    for m in metas:
+                        try:
+                            arts[m.logical_path] = (svc.artifacts.root / m.storage_path).read_text(encoding="utf-8")
+                        except UnicodeDecodeError:
+                            arts[m.logical_path] = ""
+                    g = T.grade(r["task"], {k: v for k, v in arts.items() if k != "final-report.md"})
+                    before = r.get("correct")
+                    r["correct"], r["score"] = g["correct"], g["score"]
+                    r["failed_checks"] = [c["name"] + (f" ({c['detail']})" if c["detail"] else "") for c in g["checks"] if not c["ok"]]
+                    r["false_completion"] = r.get("status") == "completed" and not g["correct"]
+                    r["regraded"] = True
+                    changed += before != r["correct"]
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+        print(f"regraded → {out} ({changed} verdicts changed)")
+        return 0
+    finally:
+        await svc.stop()
+
+
 async def main(args) -> int:
+    if args.regrade:
+        return await regrade(args)
     svc = await AppService(args.data_dir).start()
     try:
         if args.config:
@@ -139,4 +176,5 @@ if __name__ == "__main__":
     ap.add_argument("--parallel", type=int, default=4)
     ap.add_argument("--budget", type=float, default=6.0)
     ap.add_argument("--timeout", type=int, default=2400)
+    ap.add_argument("--regrade", action="store_true", help="re-grade recorded runs from the store instead of running anything")
     sys.exit(asyncio.run(main(ap.parse_args())))

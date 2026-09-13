@@ -367,7 +367,7 @@ task("doc-faq", "document",
      files={"product.txt": PRODUCT_NOTES})
 task("doc-email", "document",
      "添付のメモをもとに、A社へ見積を再提示する日本語のビジネスメール文面 `email.md` を作ってください。1行目は「件名: 」で始めること。メモに無い金額や納期を書かないでください。",
-     lambda a: [exists(a, "email.md"), regex(a, "email.md", r"\A\s*件名[:：]", 1, re.M), regex(a, "email.md", r"見積"), regex(a, "email.md", r"A社|A 社"),
+     lambda a: [exists(a, "email.md"), regex(a, "email.md", r"\A\s*件名[:：]", 1, re.M), regex(a, "email.md", r"見積"), regex(a, "email.md", r"A\s*社|株式会社\s*A|貴社|御社"),
                 not_regex(a, "email.md", r"\d[\d,]*\s*円|¥\s*\d")],
      files={"notes.txt": MEETING_NOTES})
 task("doc-jd", "document",
@@ -537,7 +537,7 @@ task("cs-classify", "customer_support",
      _grade_classify, files={"tickets.txt": "\n".join(f"{i}: {t}" for i, t, _ in TICKETS)})
 task("cs-policy-answer", "customer_support",
      "添付の返金ポリシーだけを根拠に、顧客からの質問「先週届いた未開封の商品を返品したい。返金はいつ・どこに戻りますか？」への回答 `answer.md` を日本語で作ってください。ポリシーに無いことは書かないでください。",
-     lambda a: [exists(a, "answer.md"), regex(a, "answer.md", r"14\s*日"), regex(a, "answer.md", r"5\s*営業日"), regex(a, "answer.md", r"元の支払い方法|同じ支払い方法"),
+     lambda a: [exists(a, "answer.md"), regex(a, "answer.md", r"14\s*日"), regex(a, "answer.md", r"5\s*営業日"), regex(a, "answer.md", r"元の(?:お)?支払い方法|同じ(?:お)?支払い方法|お支払い(?:いただいた|に使われた)方法"),
                 not_regex(a, "answer.md", r"30\s*日|7\s*日以内")],
      files={"policy.txt": REFUND_POLICY})
 task("cs-escalation", "customer_support",
