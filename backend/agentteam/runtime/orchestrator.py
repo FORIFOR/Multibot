@@ -229,6 +229,10 @@ class RunManager:
             return
         run.status = status  # report context; keep the stored run active until all output is ready
         report = await self._make_report(rt, status, reason)
+        if rt.policy.cancelled and status != RunStatus.cancelled:
+            status = run.status = RunStatus.cancelled
+            reason = "cancelled while preparing the final report"
+            report = await self._make_report(rt, status, reason)  # deterministic; no further model call
         run.finished_at = now_iso()
         ev = await self.events.append(run.run_id, {"completed": "run.completed", "partial": "run.partial", "failed": "run.failed",
                                                  "cancelled": "run.cancelled"}[str(status)],

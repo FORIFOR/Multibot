@@ -217,3 +217,42 @@ async def test_terminal_status_waits_for_report_and_complete_event_log(tmp_path)
         if rt:
             await rt.providers.aclose()
         await svc.stop()
+
+
+async def test_cancel_during_report_preparation_is_not_published_as_completed(tmp_path):
+    import asyncio
+    from agentteam.api.service import AppService
+    from agentteam.contracts import Run, RunStatus
+
+    profile = EVIDENCE.parents[1] / 'config/local-qwen25-7b-single.yaml'
+    svc = await AppService(tmp_path, config_yaml=profile.read_text()).start()
+    rt = None
+    try:
+        run = Run.model_validate(records('single-finalization'))
+        run.status = RunStatus.running
+        await svc.runs.create_run(run)
+        rt = svc.manager._build_runtime(run, svc.config)
+        queue = svc.events.subscribe(run.run_id)
+        async def cancel_after_report_generated():
+            while True:
+                event = await queue.get()
+                if event.type == 'report.generated':
+                    rt.policy.cancel()
+                    return
+        cancellation = asyncio.create_task(cancel_after_report_generated())
+        try:
+            await svc.manager._finish(rt, RunStatus.completed)
+            await asyncio.wait_for(cancellation, 5)
+        finally:
+            if not cancellation.done():
+                cancellation.cancel()
+                await asyncio.gather(cancellation, return_exceptions=True)
+            svc.events.unsubscribe(run.run_id, queue)
+        saved = await svc.runs.get_run(run.run_id)
+        assert saved.status == RunStatus.cancelled
+        assert saved.final_report['status'] == 'cancelled'
+        assert (await svc.events.list(run.run_id))[-1].type == 'run.cancelled'
+    finally:
+        if rt:
+            await rt.providers.aclose()
+        await svc.stop()
