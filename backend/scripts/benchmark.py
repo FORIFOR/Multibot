@@ -155,7 +155,7 @@ async def main(args) -> int:
         if args.tasks != "all":
             wanted = set(args.tasks.split(","))
             sel = [t for t in T.TASKS if t["id"] in wanted or t["category"] in wanted]
-        jobs = [(t, r) for r in range(1, args.repeat + 1) for t in sel]
+        jobs = [(t, r) for r in range(args.rep_start, args.rep_start + args.repeat) for t in sel]
         print(f"{len(jobs)} runs: {len(sel)} tasks × {args.repeat}, parallel {args.parallel}, profile {cfg.profile_name} ({cfg.defaults.team_mode})", flush=True)
         sem = asyncio.Semaphore(args.parallel)
         results_path = svc.data_dir / "results.jsonl"
@@ -196,6 +196,7 @@ if __name__ == "__main__":
     ap.add_argument("--config", default=None, help="config YAML (e.g. ../docs/config/single-agent.yaml); default: the data dir's config")
     ap.add_argument("--tasks", default="all", help="'all', or comma-separated task ids / categories")
     ap.add_argument("--repeat", type=int, default=1)
+    ap.add_argument("--rep-start", type=int, default=1, help="first repetition number (to resume a series after a provider quota reset)")
     ap.add_argument("--parallel", type=int, default=4)
     ap.add_argument("--budget", type=float, default=6.0)
     ap.add_argument("--timeout", type=int, default=2400)
