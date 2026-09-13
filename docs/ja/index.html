@@ -71,7 +71,7 @@
     </table></div>
     <div class="paths" style="margin-top:28px">
       <div class="path"><h3>失敗と部分完了の理由</h3><p>1 回目の失敗は、レビュー待ちのタスクに依存する別タスクが永遠に待つスケジューラの不具合でした（修正し、テストを追加）。再実行は指摘の修正と再検証まで進みましたが、レビュー・セッションが予算上限 $1.5 に 2 度達し、原文の逐一照合を残して partial になりました。調査系の依頼は最も費用が高く、最も安定しません。</p></div>
-      <div class="path"><h3>他のプロバイダ</h3><p>OpenAI 互換の gpt-4.1-mini は LP の依頼を 29 秒・$0.02 で完了。ローカル Ollama の qwen2.5:7b は成果物を公開したがレビュー手順を守れず partial。qwen2.5:3b は計画を出せませんでした。46 件の決定的テストと EN/JA の UI スモークも CI で実行しています。詳細: <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">docs/STATUS.md</a></p></div>
+      <div class="path"><h3>他のプロバイダ</h3><p>OpenAI 互換の gpt-4.1-mini は LP の依頼を 29 秒・$0.02 で完了。ローカル Ollama の qwen2.5:7b は成果物を公開したがレビュー手順を守れず partial。qwen2.5:3b は計画を出せませんでした。53 件の決定的テストと EN/JA の UI スモーク（headless Chrome）、Linux の Docker 隔離テストを CI で毎 push 実行しています。詳細: <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">docs/STATUS.md</a></p></div>
     </div>
   </section>
 

@@ -71,7 +71,7 @@
     </table></div>
     <div class="paths" style="margin-top:28px">
       <div class="path"><h3>Why one failed and one is partial</h3><p>The first attempt exposed a scheduler deadlock: a task depending on a task that itself awaited review waited forever. Fixed, with a test. The re-run got through the fixes and re-verification, but the review session hit its $1.5 budget cap twice, leaving the line-by-line source check undone. Research-heavy requests are the most expensive and the least stable.</p></div>
-      <div class="path"><h3>Other providers</h3><p>OpenAI-compatible gpt-4.1-mini completed the launch-page request in 29 s for $0.02. Local Ollama qwen2.5:7b published artifacts but did not follow the review protocol (partial); qwen2.5:3b could not produce a valid plan. 46 deterministic tests and an EN/JA UI smoke run in CI. Details: <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">docs/STATUS.md</a></p></div>
+      <div class="path"><h3>Other providers</h3><p>OpenAI-compatible gpt-4.1-mini completed the launch-page request in 29 s for $0.02. Local Ollama qwen2.5:7b published artifacts but did not follow the review protocol (partial); qwen2.5:3b could not produce a valid plan. 53 deterministic tests, an EN/JA headless-Chrome UI smoke and the Linux Docker isolation test run in CI on every push. Details: <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">docs/STATUS.md</a></p></div>
     </div>
   </section>
 
