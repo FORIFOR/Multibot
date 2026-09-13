@@ -59,18 +59,38 @@ def main(argv: list[str] | None = None) -> int:
     return 1
 
 
+def _probe_hint(error: str) -> str | None:
+    """A one-line next step for the most common first-run failures."""
+    e = error.lower()
+    if "not logged in" in e or "/login" in e:
+        return "Run `claude` once in a terminal and log in, then retry."
+    if "not found on path" in e:
+        return "Install Claude Code (https://claude.com/claude-code) or set AGENTTEAM_CLAUDE_BIN to the binary."
+    if "api key" in e or "authentication" in e or "401" in e:
+        return "Set the API key the connection references (see api_key_ref in Settings)."
+    return None
+
+
 async def _probe(args) -> int:
     from .providers.registry import ProviderRegistry
     svc = await AppService(args.data_dir).start()
     try:
         cid = args.connection or svc.config.defaults.connection_id
         model = args.model or svc.config.defaults.model
+        from .providers.base import ProviderError
         reg = ProviderRegistry(svc.config)
         try:
             res = await reg.adapter(cid).probe(model)
+        except ProviderError as e:  # e.g. claude CLI not on PATH: a structured reason, not a traceback
+            print(json.dumps({"ok": False, "connection": cid, "model_requested": model, "error": f"{e.kind}: {e}",
+                              "hint": _probe_hint(str(e))}, ensure_ascii=False, indent=1))
+            return 2
         finally:
             await reg.aclose()
-        print(json.dumps(res.__dict__, default=lambda o: o.__dict__, ensure_ascii=False, indent=1))
+        out = dict(res.__dict__)
+        if not res.ok and res.error:
+            out["hint"] = _probe_hint(res.error)
+        print(json.dumps(out, default=lambda o: o.__dict__, ensure_ascii=False, indent=1))
         cfg = svc.config.model_copy(deep=True)
         c = cfg.connection(cid)
         c.capability_check = "passed" if res.ok else "failed"
@@ -138,6 +158,8 @@ def _quickstart(args) -> int:
                     await svc.save_config(cfg, "quickstart probe")
                     ok = res.ok
                     print(f"probe: {'passed' if res.ok else 'failed'} (model reported: {res.model_reported}) {res.error or ''}")
+                    if not res.ok and res.error and _probe_hint(res.error):
+                        print(_probe_hint(res.error))
         await svc.stop()
         return svc, ok
 

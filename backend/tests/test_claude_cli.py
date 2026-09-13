@@ -62,3 +62,19 @@ async def test_session_broker_roundtrip():
             assert (await c.get(b.url(token) + "/tools")).status_code == 404
     finally:
         await b.stop()
+
+
+def test_probe_cli_reports_missing_binary_as_structured_json(tmp_path, monkeypatch, capsys):
+    """`agentteam probe` with the claude binary absent prints a JSON reason and exits 2 (no traceback)."""
+    from agentteam.cli import main
+    monkeypatch.setenv("AGENTTEAM_CLAUDE_BIN", "claude-binary-that-does-not-exist")
+    monkeypatch.setenv("AGENTTEAM_NO_SEATBELT", "1")
+    rc = main(["probe", "--data-dir", str(tmp_path / "data")])
+    out = json.loads(capsys.readouterr().out)
+    assert rc == 2 and out["ok"] is False and "not found on PATH" in out["error"] and "Install Claude Code" in out["hint"]
+
+
+def test_probe_hint_for_not_logged_in():
+    from agentteam.cli import _probe_hint
+    assert "log in" in _probe_hint("bad_request: Not logged in · Please run /login")
+    assert _probe_hint("something else") is None
