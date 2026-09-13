@@ -132,7 +132,7 @@ v0.2.0 の 5 シナリオは各 1 回だけだったので、4 シナリオを�
 | Master が受入済みの成果物の磨き込みを追加し続ける | milestone プロンプトに残予算をセッション数で提示し、「成果物が全て受入済みで残るのが表現の磨きだけなら何も追加しない」「予算で完走できない task は追加しない」を明記 |
 | partial / failed の run に理由が無い（`reason: None`） | 未受入 task とその理由を 1 行にまとめて run の `blocked_reason` に記録。当初計画が全て accepted なら、その旨を先頭に付ける |
 
-**修正後 1 回**（research、同一依頼・同一設定）: RESEARCH_R4_PLACEHOLDER
+**修正後 1 回**（research、同一依頼・同一設定）: **completed**（`research-postfix/research-run_1a0994af796a48c111f`）。計画は Researcher 1 + Reviewer 1、Reviewer が `web_fetch` で 3 出典を実際に再取得して 5/5 pass、milestone は「追加タスクなし」で終了。24 呼出、$2.05、8m44s。修正前 3 回の平均（$5.85、33 分、partial）に対して費用 1/3・時間 1/4 で完走。**ただし 1 回だけの結果**で、3 回シリーズの再実施はしていません。
 
 ### 実 run で見つかった Runtime の問題（2026-09-13、すべて修正・テスト追加済み）
 | 発見元 | 問題 | 対応 |

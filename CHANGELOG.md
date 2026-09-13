@@ -2,7 +2,7 @@
 
 All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/health` and the UI header read the same value.
 
-## Unreleased
+## 0.2.1 — 2026-09-13
 
 ### Changed (from the 3-run reproducibility evaluation, `docs/evidence/scenarios/rerun-2026-09-13/`)
 - The default reviewer can `web_fetch`, so source-grounded claims can be checked against their sources (all three research re-runs ended partial without it).
@@ -10,7 +10,7 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 - Partial and failed runs carry a one-line reason naming the unaccepted tasks (and note when every task of the original plan was accepted).
 
 ### Added
-- Reproducibility record: four requests × three runs, unfiltered, with per-run evidence.
+- Reproducibility record: four requests × three runs, unfiltered, with per-run evidence, plus one post-fix research run (completed, $2.05, 8m44s).
 - CI runs the headless-Chrome UI smoke (JA and EN) against the bundled UI with the scripted test provider, and the Docker sandbox isolation test on the Linux runner.
 - `agentteam probe` prints a structured JSON reason with a one-line next step (claude CLI missing / not logged in / API key) instead of a traceback; exit code 2 on failure.
 - `scripts/summarize_evals.py` aggregates `results.jsonl` files from `eval_scenarios.py` into a reproducibility table.

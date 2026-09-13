@@ -1,6 +1,6 @@
 [project]
 name = "agentteam"
-version = "0.2.0"
+version = "0.2.1"
 description = "An open-source AI team that ships real work, with a conversation you can follow."
 requires-python = ">=3.12"
 dependencies = [
