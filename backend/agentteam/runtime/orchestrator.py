@@ -227,15 +227,16 @@ class RunManager:
             await self.events.append(run.run_id, "run.interrupted" if status == RunStatus.interrupted else "task.blocked",
                                      {"reason": reason or str(status)})
             return
-        run.finished_at = now_iso()
-        run.status = status
-        await self.runs.update_run(run.run_id, status=status, finished_at=run.finished_at, blocked_reason=reason)
+        run.status = status  # report context; keep the stored run active until all output is ready
         report = await self._make_report(rt, status, reason)
-        await self.runs.update_run(run.run_id, final_report=report)
-        await self.events.append(run.run_id, {"completed": "run.completed", "partial": "run.partial", "failed": "run.failed",
-                                              "cancelled": "run.cancelled"}[str(status)],
-                                 {"reason": reason, "usage": rt.policy.usage.model_dump(),
-                                  "deliverables": report.get("deliverables") if report else []})
+        run.finished_at = now_iso()
+        ev = await self.events.append(run.run_id, {"completed": "run.completed", "partial": "run.partial", "failed": "run.failed",
+                                                 "cancelled": "run.cancelled"}[str(status)],
+                                      {"reason": reason, "usage": rt.policy.usage.model_dump(),
+                                       "deliverables": report.get("deliverables") if report else []}, notify=False)
+        await self.runs.update_run(run.run_id, status=status, finished_at=run.finished_at, blocked_reason=reason,
+                                   final_report=report)
+        self.events.notify(ev)  # SSE consumers now see the same complete state as polling/export clients
 
     async def _make_report(self, rt: RunRuntime, status: RunStatus, reason: str | None) -> dict[str, Any]:
         run = rt.run

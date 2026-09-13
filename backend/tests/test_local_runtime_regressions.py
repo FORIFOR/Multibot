@@ -178,3 +178,42 @@ async def test_actual_attachment_reaches_planner_and_duplicate_review_is_rejecte
         if rt:
             await rt.providers.aclose()
         await svc.stop()
+
+
+async def test_terminal_status_waits_for_report_and_complete_event_log(tmp_path):
+    import asyncio
+    from agentteam.api.service import AppService
+    from agentteam.contracts import Run, RunStatus
+
+    record = records('single-finalization')
+    profile = EVIDENCE.parents[1] / 'config/local-qwen25-7b-single.yaml'
+    svc = await AppService(tmp_path, config_yaml=profile.read_text()).start()
+    rt = None
+    try:
+        run = Run.model_validate(record)
+        run.status = RunStatus.running
+        await svc.runs.create_run(run)
+        rt = svc.manager._build_runtime(run, svc.config)
+        # The real single profile has no report agent: production code builds the deterministic report.
+        async def watch_terminal():
+            while True:
+                saved = await svc.runs.get_run(run.run_id)
+                if saved.status == RunStatus.completed:
+                    events = await svc.events.list(run.run_id)
+                    assert saved.final_report is not None
+                    assert events[-1].type == 'run.completed'
+                    assert any(e.type == 'report.generated' for e in events)
+                    return
+                await asyncio.sleep(0)
+        watcher = asyncio.create_task(watch_terminal())
+        try:
+            await svc.manager._finish(rt, RunStatus.completed)
+            await asyncio.wait_for(watcher, timeout=5)
+        finally:
+            if not watcher.done():
+                watcher.cancel()
+                await asyncio.gather(watcher, return_exceptions=True)
+    finally:
+        if rt:
+            await rt.providers.aclose()
+        await svc.stop()

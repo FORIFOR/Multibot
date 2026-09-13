@@ -31,6 +31,7 @@ class EventStore:
         actor_kind: str = "runtime",
         task_id: str | None = None,
         causation_id: str | None = None,
+        notify: bool = True,
     ) -> Event:
         payload = self.redactor(payload or {})
         async with self.db.write_lock:
@@ -47,9 +48,14 @@ class EventStore:
                 (ev.run_id, ev.seq, ev.event_id, ev.recorded_at, ev.actor_id, ev.actor_kind, ev.task_id,
                  ev.causation_id, ev.type, dumps(ev.payload)),
             )
-        for q in list(self._subscribers.get(run_id, ())):
-            q.put_nowait(ev)
+        if notify:
+            self.notify(ev)
         return ev
+
+    def notify(self, ev: Event) -> None:
+        """Publish an already-persisted event after dependent state is ready."""
+        for q in list(self._subscribers.get(ev.run_id, ())):
+            q.put_nowait(ev)
 
     async def list(self, run_id: str, after_seq: int = 0, limit: int = 10000, types: list[str] | None = None) -> list[Event]:
         sql = "SELECT * FROM events WHERE run_id=? AND seq>?"
