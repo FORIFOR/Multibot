@@ -14,3 +14,17 @@
 接続probeはツール呼び出しとJSON出力の双方を実モデルで確認します。これは業務品質の合格ではありません。次にファイル生成・独立レビューを含む予備試験を行い、その結果から採用するかを判断します。
 
 修正後の[接続probe](provider-probe.json)はtool calling / JSON schemaとも合格。回帰テスト72件とfrontend buildも通過しました。設定画面のOllama接続で推論モードを選択でき、設定の保存・再読込を確認しています。
+
+## 同じ構成を起動する
+
+リポジトリ直下から、未使用のデータディレクトリへ設定をコピーします。既に起動したデータディレクトリではSQLite内の設定が優先されるため、既存設定の変更は画面から行ってください。
+
+```bash
+ollama pull qwen3.5:9b
+ollama create agentteam-qwen35-9b-16k -f docs/config/Modelfile.qwen35-9b
+mkdir -p data-local-qwen35
+cp docs/config/local-qwen35-9b-team.yaml data-local-qwen35/agents.yaml
+backend/.venv/bin/agentteam quickstart --data-dir ./data-local-qwen35
+```
+
+これは評価用の設定です。接続確認の成功だけで、本番品質や業務完了を保証するものではありません。実行中に見つかった問題と追加修正は[修正記録](../local-fixes-2026-09-14/README.md)へ残します。

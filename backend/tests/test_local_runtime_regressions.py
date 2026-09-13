@@ -147,3 +147,34 @@ async def test_real_local_profile_keeps_thinking_setting_when_connection_is_edit
                 'ollama_thinking': None})
             assert r.status_code == 200, r.text
             assert load_config_file(svc.config_path).connection('ollama').ollama_thinking is None
+
+
+async def test_actual_attachment_reaches_planner_and_duplicate_review_is_rejected(tmp_path):
+    from agentteam.api.service import AppService
+    from agentteam.contracts import Run, RunInputs, RunStatus
+    from agentteam.runtime.context import SessionContext
+    from agentteam.runtime.planner import planning_message
+    from agentteam.runtime.scheduler import Scheduler
+    from agentteam.runtime.tools import ToolGateway
+
+    record = records('qwen35-review-input')
+    svc = await AppService(tmp_path).start()
+    rt = None
+    try:
+        run = Run(run_id=record['run_id'], status=RunStatus.running, goal=record['goal'],
+                  inputs=RunInputs.model_validate(record['inputs']), created_at=record['created_at'],
+                  plan=TeamPlan.model_validate(record['plan']))
+        await svc.runs.create_run(run)
+        rt = svc.manager._build_runtime(run, svc.config)
+        await Scheduler(rt).init_from_plan()
+        assert run.inputs.files[0]['content'] in planning_message(rt), 'the planner must see the real source, not only its filename'
+        ctx = SessionContext(rt=rt, agent=rt.agents['reviewer'], mode='task', task=rt.tasks['t2'],
+                             tools=rt.agents['reviewer'].tools)
+        result = await ToolGateway(ctx).call('submit_review', record['review'])
+        assert result.startswith('REJECTED: duplicate acceptance ids')
+        assert not ctx.reviews
+        assert (await svc.events.list(run.run_id))[-1].payload['ok'] is False
+    finally:
+        if rt:
+            await rt.providers.aclose()
+        await svc.stop()

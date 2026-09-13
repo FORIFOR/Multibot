@@ -185,7 +185,12 @@ def planning_message(rt) -> str:
     if inp.urls:
         lines.append("\n## Provided URLs\n" + "\n".join(f"- {u}" for u in inp.urls))
     if inp.files:
-        lines.append("\n## Attachments\n" + "\n".join(f"- {f.get('name')} ({len(str(f.get('content','')))} chars)" for f in inp.files))
+        lines.append("\n## Attachments (inline user input, not published artifacts or workspace files)")
+        for f in inp.files:
+            content = str(f.get("content", ""))
+            lines.append(f"\n### {f.get('name')}\n{content[:12000]}")
+            if len(content) > 12000:
+                lines.append("[Attachment truncated to 12000 characters for planning; do not assume omitted content.]")
     lines.append("\n## Available agents (enabled; you may only assign these)\n" + _registry_text(rt))
     lines.append(f"\n## Limits\nmax tasks {rt.config.limits.max_tasks}; max active workers {rt.config.limits.max_active_workers}; "
                  f"model calls {rt.config.limits.max_model_calls}; budget {rt.config.limits.budget_usd} USD; "
@@ -209,6 +214,8 @@ def planning_message(rt) -> str:
                  "- Master plans and reports; it does not own production tasks. Assign those to builder or researcher.\n"
                  "- When a reviewer is enabled, every final production task must have a reviewer depending on it. "
                  "Intermediate work can feed another production task which is then reviewed. Do not omit final review.\n"
+                 "- Acceptance criteria must cover the user’s factual constraints, not only file format. "
+                 "Check claims against original inputs; do not infer missing facts from attachment names.\n"
                  "- Acceptance criteria must be checkable; prefer programmatic where a registered check fits.\n"
                  "- Record reversible choices in assumptions instead of asking the user.\n"
                  "- Nothing is published externally; drafts only. Do not plan posting, sending or paying.")

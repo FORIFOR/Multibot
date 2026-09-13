@@ -437,6 +437,9 @@ class ToolGateway:
             return f"REJECTED: your task does not depend on {a['target_task_id']}; you may only review your declared targets"
         ids = {c.id for c in target.spec.acceptance}
         results = [ReviewResult(**r) for r in a["results"]]
+        reported_ids = [r.acceptance_id for r in results]
+        if len(set(reported_ids)) != len(reported_ids):
+            return "REJECTED: duplicate acceptance ids; submit exactly one result for each criterion"
         unknown = [r.acceptance_id for r in results if r.acceptance_id not in ids]
         if unknown:
             return f"REJECTED: unknown acceptance ids {unknown}; valid: {sorted(ids)}"

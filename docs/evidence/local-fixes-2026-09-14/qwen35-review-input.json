@@ -1,0 +1,91 @@
+{
+  "run_id": "run_1a09bebb0c14de71a85",
+  "status": "completed",
+  "goal": "添付のメモをもとに、A社へ見積を再提示する日本語のビジネスメール文面 `email.md` を作ってください。1行目は「件名: 」で始めること。メモに無い金額や納期を書かないでください。",
+  "created_at": "2026-09-13T17:58:29.825Z",
+  "inputs": {
+    "files": [
+      {
+        "content": "9/10 定例 参加: 山田(PM), 佐々木(開発), 井上(営業)\n- 井上: 顧客A社から見積の再提示依頼。締切は9/18。\n- 佐々木: 認証まわりの不具合#231は修正済み、9/12にリリース予定。\n- 山田: 次回のデモは9/20 15:00、場所は本社3F。\n- 決定: 価格改定は今期見送り。\n- 決定: A社向け見積は井上が9/16までに山田へドラフト送付。\n- 佐々木の懸念: ログ保持期間が未決。次回までに山田が法務に確認。\n",
+        "name": "notes.txt"
+      }
+    ],
+    "text": "",
+    "urls": []
+  },
+  "plan": {
+    "agents": [
+      "builder",
+      "reviewer"
+    ],
+    "assumptions": [
+      "メモに含まれる金額・納期を正確に反映し、それ以外の新規情報は付与しないこと。"
+    ],
+    "goal": "作成されたメモ (notes.txt) を読み取り、再提示用のビジネスメール文面 (email.md) を生成する。",
+    "schema_version": 1,
+    "tasks": [
+      {
+        "acceptance": [
+          {
+            "check_kind": "programmatic",
+            "description": "email.md が存在し、メモの内容（金額/納期）が反映されている。",
+            "id": "t1a1"
+          }
+        ],
+        "depends_on": [],
+        "id": "t1",
+        "input_artifacts": [],
+        "objective": "notes.txt を読み込み、その内容に基づき A 社への見積再提示メール文面を email.md に生成する。件名は「件名:」で開始し、メモの金額・納期以外を記さない。",
+        "output_paths": [
+          "email.md"
+        ],
+        "owner": "builder",
+        "write_scope": "workspaces/t1/"
+      },
+      {
+        "acceptance": [
+          {
+            "check_kind": "programmatic",
+            "description": "メール文面が作成ルール（件名形式、メモ範囲制限）に従っている。",
+            "id": "t2a1"
+          }
+        ],
+        "depends_on": [
+          "t1"
+        ],
+        "id": "t2",
+        "input_artifacts": [],
+        "objective": "t1 生成の email.md を検証し、件名形式と情報の漏洩・不整合がないか確認する。",
+        "output_paths": [],
+        "owner": "reviewer",
+        "write_scope": "workspaces/t2/"
+      }
+    ]
+  },
+  "review": {
+    "results": [
+      {
+        "acceptance_id": "t1a1",
+        "evidence": "email.md が存在し、件名は『件名:』で開始。メモの金額・納期以外の新規情報は含まれていない。価格改定なし（前回のままであり）と記述され範囲内。",
+        "note": "メール文面がルールに従っており、受入条件を満たす",
+        "status": "pass"
+      },
+      {
+        "acceptance_id": "t1a1",
+        "evidence": "件名形式は「件名:【見積書再提出のご連絡】A社向け見積書について」で開始しており、件名はメモの金額・納期以外の情報を含んでいない。メール本文も金額や納期の具体的な値を含まず、メモの範囲制限に従っている。",
+        "note": "t1a1 条件達成を確認",
+        "status": "pass"
+      }
+    ],
+    "summary": "t1 の email.md を検証：件名形式は「件名:」で開始しており正確、メモの金額・納期以外の新規情報は含まれていないため合格。",
+    "target_artifacts": [
+      {
+        "artifact_id": "email.md",
+        "revision": 1,
+        "sha256": "f67c357c2cc0dd285f11fe97cb561d8a73dc10c5f291684828ed51caada99151"
+      }
+    ],
+    "target_task_id": "t1"
+  },
+  "source": "Actual Qwen3.5 9B pilot on ac8837c, first review, before attachment/duplicate-review fixes."
+}

@@ -107,7 +107,9 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
             lines.append(f"[{m.message_id}] from={m.from_agent_id} purpose={m.purpose} artifacts={refs}\n{m.text}")
     inp = rt.run.inputs
     if inp.text or inp.urls or inp.files:
-        lines.append("\n## User-provided inputs")
+        lines.append("\n## User-provided inputs\nAttachment contents are included inline below. They are not "
+                     "published artifacts or files in your workspace unless separately listed there. "
+                     "Use the original inputs to check factual claims, including assumptions in the plan.")
         if inp.text:
             lines.append(inp.text[:20000])
         for u in inp.urls:
