@@ -61,7 +61,9 @@ async def test_docker_sandbox_isolation(tmp_path):
     if not await docker_available(refresh=True):
         pytest.skip("docker daemon not available")
     # Colima/Lima share only $HOME with the VM, so use a workspace under the home directory
-    home_tmp = pathlib.Path(tempfile.mkdtemp(prefix="agentteam-sbx-", dir=pathlib.Path.home() / ".cache"))
+    cache_dir = pathlib.Path.home() / ".cache"
+    cache_dir.mkdir(parents=True, exist_ok=True)  # absent on fresh CI runners
+    home_tmp = pathlib.Path(tempfile.mkdtemp(prefix="agentteam-sbx-", dir=cache_dir))
     tmp_path = home_tmp
     old = os.environ.get("AGENTTEAM_SANDBOX")
     os.environ["AGENTTEAM_SANDBOX"] = "docker"
