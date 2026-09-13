@@ -18,7 +18,7 @@ UI smoke without an API key (scripted provider, clearly labelled):
 
 ```bash
 cd backend && AGENTTEAM_ALLOW_FAKE_PROVIDER=1 .venv/bin/python scripts/demo_fake_server.py --port 8791
-cd ../frontend && node scripts/ui-smoke.mjs
+cd ../frontend && LANG_UI=ja node scripts/ui-smoke.mjs   # LANG_UI=en for the English UI; exits 1 on any error
 ```
 
 Real-LLM smoke (needs a key; this is the only thing that proves the product works end to end):

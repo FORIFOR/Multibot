@@ -26,3 +26,32 @@ jobs:
         with: { node-version: 22, cache: pnpm, cache-dependency-path: frontend/pnpm-lock.yaml }
       - run: pnpm install --frozen-lockfile && pnpm build
         working-directory: frontend
+  ui-smoke:
+    # Drives the bundled UI (backend/agentteam/ui) end to end with the scripted test provider in headless Chrome, JA and EN.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -e '.[dev]'
+        working-directory: backend
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm, cache-dependency-path: frontend/pnpm-lock.yaml }
+      - run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - name: start the fake-provider demo server
+        run: |
+          AGENTTEAM_ALLOW_FAKE_PROVIDER=1 AGENTTEAM_NO_SEATBELT=1 nohup .venv/bin/python scripts/demo_fake_server.py --port 8791 > /tmp/demo.log 2>&1 &
+          for i in $(seq 1 40); do curl -sf http://127.0.0.1:8791/api/health && break; sleep 0.5; done
+          curl -sf http://127.0.0.1:8791/api/health
+        working-directory: backend
+      - run: LANG_UI=ja SHOTS=/tmp/agentteam-shots node scripts/ui-smoke.mjs
+        working-directory: frontend
+      - run: LANG_UI=en SHOTS=/tmp/agentteam-shots node scripts/ui-smoke.mjs
+        working-directory: frontend
+      - if: always()
+        run: cat /tmp/demo.log | tail -20
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: ui-smoke-screenshots, path: /tmp/agentteam-shots, if-no-files-found: ignore }
