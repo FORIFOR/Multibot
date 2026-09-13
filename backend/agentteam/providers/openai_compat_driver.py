@@ -25,7 +25,9 @@ class OpenAICompatDriver:
         headers = {"content-type": "application/json"}
         if api_key:
             headers["authorization"] = f"Bearer {api_key}"
-        self.client = httpx.AsyncClient(timeout=timeout, headers=headers)
+        # A local/approved model endpoint must not be silently rerouted through
+        # process-wide proxy variables. Use an explicit approved base_url.
+        self.client = httpx.AsyncClient(timeout=timeout, headers=headers, trust_env=False)
 
     async def aclose(self) -> None:
         await self.client.aclose()
