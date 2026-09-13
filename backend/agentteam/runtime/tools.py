@@ -325,6 +325,13 @@ class ToolGateway:
             return f"NOT FOUND in workspace: {a['path']}. Write it first with workspace_write."
         data = p.read_bytes()
         logical = rt.policy.check_write_path(a["path"])
+        # Workspaces are separate, but published logical paths share one run namespace.
+        # Only the producing task may revise its own artifact, including reviewer sessions.
+        existing = await self._artifact_for_path(logical)
+        owner = next((t.spec.id for t in rt.tasks.values() if logical in t.spec.output_paths), None)
+        if (existing and existing.task_id != ctx.task_id) or (owner and owner != ctx.task_id):
+            return (f"REJECTED: {logical} belongs to another task. Send review feedback to its owner; "
+                    "publish your own report under a different path.")
         m = await rt.artifacts.publish(rt.run_id, logical, data, agent_id=ctx.agent.agent_id, task_id=ctx.task_id,
                                        media_type=a.get("media_type"), sources=list(a.get("sources") or []))
         ev = await rt.events.append(rt.run_id, "artifact.published",

@@ -1,0 +1,58 @@
+{
+  "task": "doc-email",
+  "category": "document",
+  "rep": 1,
+  "profile": "local-qwen25-7b-team",
+  "team_mode": "team",
+  "run_id": "run_1a09bde32a5ff07ac77",
+  "status": "partial",
+  "reason": "t1: required independent review was not submitted; t1 partial; t2 cancelled: agent ended its turn repeatedly without finish_task; t3 cancelled",
+  "protocol": {
+    "model_actors": [
+      "builder",
+      "master",
+      "reviewer"
+    ],
+    "review_submissions": 4,
+    "independent_review_submissions": 4,
+    "independently_reviewed_tasks": [
+      "t1"
+    ]
+  },
+  "correct": true,
+  "score": 1.0,
+  "failed_checks": [],
+  "false_completion": false,
+  "plan_tasks": 4,
+  "tasks_total": 4,
+  "attempts": 3,
+  "retries": 0,
+  "artifacts": [
+    "email.md"
+  ],
+  "runtime_checks": "0/0",
+  "review": "12/12",
+  "milestones": 2,
+  "usage": {
+    "model_calls": 33,
+    "tool_calls": 27,
+    "input_tokens": 113558,
+    "output_tokens": 5963,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "cost_usd": 0.0,
+    "reserved_usd": 0.0,
+    "wall_seconds": 365.97866204206366
+  },
+  "wall_s": 366,
+  "failures": [
+    [
+      "task.failed",
+      "agent ended its turn repeatedly without finish_task"
+    ],
+    [
+      "task.partial",
+      "review task ended without a verdict; outputs are published but unverified"
+    ]
+  ]
+}

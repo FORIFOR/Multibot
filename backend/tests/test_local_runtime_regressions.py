@@ -79,3 +79,47 @@ async def test_recorded_unverified_review_persists_partial_not_accepted(tmp_path
         if rt:
             await rt.providers.aclose()
         await svc.stop()
+
+
+async def test_recorded_reviewer_cannot_replace_producer_artifact_or_skip_dependency(tmp_path):
+    from agentteam.api.service import AppService
+    from agentteam.contracts import Run, RunInputs, RunStatus, TaskSpec
+    from agentteam.runtime.context import SessionContext
+    from agentteam.runtime.scheduler import Scheduler
+    from agentteam.runtime.tools import ToolGateway
+
+    record = records('intermediate-pilot')
+    # Reconstruct the first accepted plan; later tasks were added by the faulty milestone path.
+    initial = dict(record['plan'], tasks=record['plan']['tasks'][:2])
+    svc = await AppService(tmp_path).start()
+    rt = None
+    try:
+        run = Run(run_id=record['run_id'], status=RunStatus.running, goal=record['goal'], inputs=RunInputs(),
+                  created_at=record['created_at'], plan=TeamPlan.model_validate(initial))
+        await svc.runs.create_run(run)
+        rt = svc.manager._build_runtime(run, svc.config)
+        scheduler = Scheduler(rt)
+        await scheduler.init_from_plan()
+        events = record['events']
+        producer_write = next(e for e in events if e['type'] == 'tool.called' and e['actor_id'] == 'builder'
+                              and e['payload']['tool'] == 'workspace_write')
+        args = producer_write['payload']['args']
+        original = await rt.artifacts.publish(run.run_id, args['path'], args['content'].encode(),
+                                              agent_id='builder', task_id=producer_write['task_id'])
+        reviewer_write = next(e for e in events if e['type'] == 'tool.called' and e['actor_id'] == 'reviewer'
+                              and e['payload']['tool'] == 'workspace_write')
+        ctx = SessionContext(rt=rt, agent=rt.agents['reviewer'], mode='task', task=rt.tasks['t2'],
+                             tools=rt.agents['reviewer'].tools)
+        gateway = ToolGateway(ctx)
+        assert (await gateway.call('workspace_write', reviewer_write['payload']['args'])).startswith('OK')
+        denied = await gateway.call('publish_artifact', {'path': args['path']})
+        assert denied.startswith('REJECTED:') and 'another task' in denied
+        latest = await rt.artifacts.get(run.run_id, original.artifact_id)
+        assert latest.revision == 1 and latest.sha256 == original.sha256
+        assert (await svc.events.list(run.run_id))[-1].payload['ok'] is False
+        bad_task = next(t for t in record['plan']['tasks'] if t['owner'] == 'reviewer' and not t['depends_on'])
+        assert 'must depend' in await scheduler.add_task(TaskSpec.model_validate(bad_task))
+    finally:
+        if rt:
+            await rt.providers.aclose()
+        await svc.stop()

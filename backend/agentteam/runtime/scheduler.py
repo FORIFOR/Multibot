@@ -91,6 +91,10 @@ class Scheduler:
         owner = rt.agents.get(spec.owner)
         if owner is None or not owner.enabled:
             return f"REJECTED: owner {spec.owner} is not an enabled agent"
+        if owner.role == "reviewer" and not spec.depends_on:
+            return "REJECTED: a reviewer task must depend on the production task it reviews"
+        if rt.config.defaults.require_independent_review and owner.role in ("master", "reporter"):
+            return "REJECTED: assign production to a builder or researcher; master/reporter do not own deliverables"
         for d in spec.depends_on:
             if d not in rt.tasks:
                 return f"REJECTED: unknown dependency {d}"
