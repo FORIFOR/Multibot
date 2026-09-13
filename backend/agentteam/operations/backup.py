@@ -11,6 +11,7 @@ import time
 from contextlib import closing, contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
+from ..ids import new_id
 
 
 @contextmanager
@@ -128,6 +129,8 @@ def restore(source: Path, destination: Path):
             conn.execute('CREATE TABLE IF NOT EXISTS deployment_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)')
             conn.execute("INSERT INTO deployment_metadata(key,value) VALUES('oidc_valid_after',?) "
                          "ON CONFLICT(key) DO UPDATE SET value=excluded.value", (str(time.time()),))
+            conn.execute("INSERT INTO deployment_metadata(key,value) VALUES('audit_stream_id',?) "
+                         "ON CONFLICT(key) DO UPDATE SET value=excluded.value", (new_id('audit'),))
             if 'execution_jobs' in tables:
                 # A snapshot may precede later executions on the original host.
                 # No queued/leased intent from a restored snapshot auto-replays.

@@ -165,6 +165,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
         dispatcher_ready = not svc.manager.durable or (svc.manager._dispatcher is not None and not svc.manager._dispatcher.done())
         ready = dispatcher_ready and not svc.stopping and free >= 500 * 1024 * 1024 and not problems and sandbox not in ('none', 'subprocess')
         return JSONResponse({'ready': ready, 'disk_free_bytes': free, 'sandbox_backend': sandbox,
+                             'audit_stream_id': svc.audit_stream_id,
                              'execution_dispatcher_ready': dispatcher_ready,
                              'configuration_problems': [p['code'] for p in problems]}, status_code=200 if ready else 503)
 
@@ -210,8 +211,11 @@ def create_app(service: AppService | None = None) -> FastAPI:
         return {'ok': True, 'redirect': '/oauth2/sign_out' if p and p.source == 'oidc' else '/'}
 
     @app.get('/api/admin/audit')
-    async def audit_log(after_id: int = Query(default=0, ge=0), limit: int = Query(default=100, ge=1, le=1000)):
-        return [dict(r) for r in await svc.db.fetchall('SELECT * FROM audit_log WHERE id>? ORDER BY id LIMIT ?', (after_id, limit))]
+    async def audit_log(response: Response, after_id: int = Query(default=0, ge=0), limit: int = Query(default=100, ge=1, le=1000), latest: bool = False):
+        response.headers['X-Agentteam-Audit-Stream'] = svc.audit_stream_id
+        order = 'DESC' if latest else 'ASC'
+        rows = [dict(r) for r in await svc.db.fetchall(f'SELECT * FROM audit_log WHERE id>? ORDER BY id {order} LIMIT ?', (after_id, limit))]
+        return list(reversed(rows)) if latest else rows
 
     @app.exception_handler(JobConflict)
     async def queue_conflict(request: Request, exc: JobConflict):

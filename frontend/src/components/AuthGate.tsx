@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { getLang } from '../lib/i18n'
 
-export interface Identity { subject: string; role: 'admin' | 'operator' | 'viewer'; organization: string | null; display_name?: string; source?: string }
+export interface Identity { subject: string; role: 'admin' | 'operator' | 'viewer' | 'auditor'; organization: string | null; display_name?: string; source?: string }
 
 export default function AuthGate({ children }: { children: (identity: Identity, secured: boolean) => ReactNode }) {
   const [identity, setIdentity] = useState<Identity | null>(null)

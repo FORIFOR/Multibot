@@ -13,7 +13,7 @@ from urllib.parse import urlsplit
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
-Role = Literal['admin', 'operator', 'viewer']
+Role = Literal['admin', 'operator', 'viewer', 'auditor']
 
 
 class OIDCConfig(BaseModel):

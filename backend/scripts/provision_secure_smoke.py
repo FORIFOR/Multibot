@@ -16,7 +16,7 @@ async def provision(root, origin):
     root.mkdir(parents=True, mode=0o700)
     (root / 'security').mkdir(mode=0o700)
     access = root / 'security/access.json'
-    for subject, role in [('forifor', 'admin'), ('verification-operator', 'operator')]:
+    for subject, role in [('forifor', 'admin'), ('verification-operator', 'operator'), ('verification-auditor', 'auditor')]:
         issue_key(access, subject, role, root / (subject + '.key'), organization='FORIFOR/Multibot', public_origin=origin)
     docs = ROOT.parent / 'docs'
     svc = await AppService(root / 'data', config_yaml=(docs / 'config/local-qwen35-9b-team.yaml').read_text(), access_file=access).start()

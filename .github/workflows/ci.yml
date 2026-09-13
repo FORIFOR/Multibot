@@ -151,6 +151,7 @@ jobs:
           BASE: http://127.0.0.1:8796
           ADMIN_KEY_FILE: /tmp/agentteam-secured-check/forifor.key
           OPERATOR_KEY_FILE: /tmp/agentteam-secured-check/verification-operator.key
+          AUDITOR_KEY_FILE: /tmp/agentteam-secured-check/verification-auditor.key
           SHOTS: /tmp/agentteam-secured-check/screenshots
           RUN_ID: run_1a09bfe4acdc8c36d5f
       - run: backend/.venv/bin/python backend/scripts/check_secure_server.py --root /tmp/agentteam-secured-check

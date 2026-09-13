@@ -1,0 +1,105 @@
+{
+  "checks": [
+    "restricted role",
+    "actual HTTP outage",
+    "restart with persistent cursor",
+    "credential rotation",
+    "snapshot stream separation"
+  ],
+  "observations": [
+    {
+      "recorded_at": 1789330824.774465,
+      "state": "healthy",
+      "details": {
+        "ready": true,
+        "disk_free_bytes": 10244108288,
+        "sandbox_backend": "docker",
+        "audit_stream_id": "audit_1a09c6d9e2cf4ffc49d",
+        "execution_dispatcher_ready": true,
+        "configuration_problems": [],
+        "collected_records": 7
+      },
+      "audit_records_retained": 7,
+      "alerts_recorded": 0
+    },
+    {
+      "recorded_at": 1789330824.7916758,
+      "state": "healthy",
+      "details": {
+        "ready": true,
+        "disk_free_bytes": 10244026368,
+        "sandbox_backend": "docker",
+        "audit_stream_id": "audit_1a09c6d9e2cf4ffc49d",
+        "execution_dispatcher_ready": true,
+        "configuration_problems": [],
+        "collected_records": 8
+      },
+      "audit_records_retained": 15,
+      "alerts_recorded": 0
+    },
+    {
+      "recorded_at": 1789330824.969803,
+      "state": "unreachable",
+      "details": {
+        "reason": "connection or response validation failed"
+      },
+      "audit_records_retained": 15,
+      "alerts_recorded": 1
+    },
+    {
+      "recorded_at": 1789330824.996673,
+      "state": "healthy",
+      "details": {
+        "ready": true,
+        "disk_free_bytes": 10246373376,
+        "sandbox_backend": "docker",
+        "audit_stream_id": "audit_1a09c6d9e2cf4ffc49d",
+        "execution_dispatcher_ready": true,
+        "configuration_problems": [],
+        "collected_records": 8
+      },
+      "audit_records_retained": 23,
+      "alerts_recorded": 2
+    },
+    {
+      "recorded_at": 1789330825.008115,
+      "state": "collection_failed",
+      "details": {
+        "reason": "collector authentication or role rejected"
+      },
+      "audit_records_retained": 23,
+      "alerts_recorded": 3
+    },
+    {
+      "recorded_at": 1789330825.014137,
+      "state": "healthy",
+      "details": {
+        "ready": true,
+        "disk_free_bytes": 10246234112,
+        "sandbox_backend": "docker",
+        "audit_stream_id": "audit_1a09c6d9e2cf4ffc49d",
+        "execution_dispatcher_ready": true,
+        "configuration_problems": [],
+        "collected_records": 10
+      },
+      "audit_records_retained": 33,
+      "alerts_recorded": 4
+    },
+    {
+      "recorded_at": 1789330825.229453,
+      "state": "healthy",
+      "details": {
+        "ready": true,
+        "disk_free_bytes": 10246098944,
+        "sandbox_backend": "docker",
+        "audit_stream_id": "audit_1a09c6d9ff7e738d250",
+        "execution_dispatcher_ready": true,
+        "configuration_problems": [],
+        "collected_records": 41
+      },
+      "audit_records_retained": 74,
+      "alerts_recorded": 5
+    }
+  ],
+  "business_success_claimed": false
+}

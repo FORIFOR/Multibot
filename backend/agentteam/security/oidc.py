@@ -57,7 +57,7 @@ class OIDCVerifier:
             if not isinstance(groups, list) or not all(isinstance(g, str) for g in groups):
                 return None
             roles = {self.config.group_roles[g] for g in groups if g in self.config.group_roles}
-            role = next((r for r in ('admin', 'operator', 'viewer') if r in roles), None)
+            role = next((r for r in ('admin', 'operator', 'viewer', 'auditor') if r in roles), None)
             subject = 'oidc-' + digest(self.config.issuer + '\x00' + claims['sub'])
             if role is None or subject in self.config.disabled_subjects:
                 return None

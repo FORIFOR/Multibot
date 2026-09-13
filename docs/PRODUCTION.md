@@ -67,9 +67,9 @@ Administrators can `PUT /api/runs/{run_id}/access` with `subject` and `permissio
 ## Health, monitoring and incidents
 
 - `GET /api/health/live`: anonymous process liveness, no run identifiers or configuration.
-- `GET /api/admin/ready`: administrator authentication; checks SQLite, free storage, configured connection readiness and required sandbox availability. Returns 503 if prerequisites are missing. A passed past probe does not prove the provider is currently responsive or the generated work is correct.
+- `GET /api/admin/ready`: administrator/auditor authentication; checks SQLite, free storage, configured connection readiness and required sandbox availability. Returns 503 if prerequisites are missing. A passed past probe does not prove the provider is currently responsive or the generated work is correct.
 - `GET /api/admin/metrics`: authenticated Prometheus text for run statuses, active runs and disk space. No user/run IDs are metric labels.
-- `GET /api/admin/audit?after_id=...&limit=...`: administrator-only cursor export of audit records. Forward this to the organization's retained log service; no external sink or alert routing is configured yet.
+- `GET /api/admin/audit?after_id=...&limit=...`: administrator/auditor cursor export with a server stream identity. The [separate audit collector](OPERATIONS.md) commits records/cursors durably and reports health transitions; immutable external custody and actual alert routing remain deployment work.
 
 For an authentication failure, check the access file permissions, public origin/Host and key validity. For unexpected access, revoke the credential, retain the audit records and identify affected runs. For provider or sandbox failure, keep the run's interrupted/blocked state and review the reason before resume. For storage pressure, refuse new work, snapshot the data, then apply the agreed retention policy; no automatic deletion is enabled.
 

@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "admin login and settings navigation",
+    "authenticated replay of an actual saved run",
+    "logout returns to login",
+    "operator view excludes administrator configuration",
+    "auditor sees actual degraded readiness and audit records without workspace controls"
+  ],
+  "page_errors": []
+}

@@ -15,6 +15,7 @@ from .oidc import OIDCVerifier, Principal
 COOKIE = 'agentteam_session'
 PUBLIC = {'/api/health/live', '/api/auth/status', '/api/auth/login'}
 READ_ROUTES = {'/api/health', '/api/config', '/api/runs', '/api/approvals', '/api/auth/me'}
+AUDITOR_ROUTES = {'/api/auth/me', '/api/admin/ready', '/api/admin/metrics', '/api/admin/audit', '/api/admin/jobs'}
 WRITE_ROUTES = {'/api/runs', '/api/runs/{run_id}/cancel', '/api/runs/{run_id}/resume',
                 '/api/runs/{run_id}/fork', '/api/approvals/{approval_id}/resolve', '/api/auth/logout'}
 RUN_READ_ROUTES = {'/api/runs/{run_id}', '/api/runs/{run_id}/events', '/api/runs/{run_id}/chat',
@@ -112,6 +113,8 @@ class ServerAccess:
         if self.admin(request):
             return True
         p = self.principal(request)
+        if p.role == 'auditor':
+            return False
         if write and p.role == 'viewer':
             return False
         row = await self.svc.db.fetchone('SELECT permission FROM run_access WHERE run_id=? AND subject=?', (run_id, p.subject))
@@ -155,7 +158,10 @@ class ServerAccess:
         if not read and not request.headers.get('authorization'):
             if request.headers.get('origin') != self.config.public_origin:
                 await reject(403, 'same-origin request required')
-        if p.role != 'admin':
+        if p.role == 'auditor':
+            if not (route in AUDITOR_ROUTES if read else route == '/api/auth/logout'):
+                await reject(403, 'insufficient role')
+        elif p.role != 'admin':
             allowed = route in READ_ROUTES | RUN_READ_ROUTES if read else route in WRITE_ROUTES and (p.role == 'operator' or route == '/api/auth/logout')
             if not allowed:
                 await reject(403, 'insufficient role')

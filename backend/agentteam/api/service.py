@@ -10,6 +10,7 @@ from typing import Any
 from ..config.loader import DEFAULT_CONFIG_YAML, ConfigError, config_to_yaml, effective_all, list_skills, load_config_text
 from ..config.models import AgentTeamConfig
 from ..providers.base import ProviderAdapter
+from ..ids import new_id
 from ..runtime.orchestrator import RunManager
 from ..runtime.redaction import Redactor
 from ..store.artifact_store import ArtifactStore
@@ -71,6 +72,8 @@ class AppService:
         journal = await self.db.fetchone("SELECT name FROM sqlite_master WHERE type='table' AND name='purge_journal'")
         if journal and await self.db.fetchone("SELECT run_id FROM purge_journal WHERE state='pending' LIMIT 1"):
             raise RuntimeError('unfinished data deletion; run agentteam purge --resume --apply before starting the service')
+        await self.db.execute("INSERT OR IGNORE INTO deployment_metadata(key,value) VALUES('audit_stream_id',?)", (new_id('audit'),))
+        self.audit_stream_id = (await self.db.fetchone("SELECT value FROM deployment_metadata WHERE key='audit_stream_id'"))['value']
         bound = await self.db.fetchone("SELECT value FROM deployment_metadata WHERE key='organization'")
         if bound and not self.access.enabled:
             raise ValueError('this data directory requires its organization access configuration')

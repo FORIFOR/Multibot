@@ -16,11 +16,11 @@ Use one organization per installation. Only an operator of the private host edit
 | `jwks_url` | Administrator-approved HTTPS JWKS URL; never a URL supplied by a JWT |
 | `client_id` | The registered confidential browser client ID; must match token `azp` |
 | `audience` | Separate API resource audience, present in access tokens but absent from ID tokens |
-| `group_roles` | Explicit mapping of real IdP group values to `admin`, `operator` or `viewer` |
+| `group_roles` | Explicit mapping of real IdP group values to `admin`, `operator`, `viewer` or `auditor` |
 | `max_token_seconds` | 300 by default; permitted range 30–900 seconds |
 | `disabled_subjects` | Optional list of Agent Team `oidc-…` subjects to deny immediately |
 
-No matching group means no access. If several allowed groups apply, the highest configured role wins. The stable subject is derived from the verified issuer and IdP subject, not a changeable email address. `/api/auth/me` returns that subject and display name. An administrator can grant work to a subject after its first successful login with the existing `PUT /api/runs/{run_id}/access` API. Grants do not override viewer restrictions.
+No matching group means no access. If several allowed groups apply, the first role in `admin`, `operator`, `viewer`, `auditor` wins; roles are not combined. Give audit identities only their dedicated group. The stable subject is derived from the verified issuer and IdP subject, not a changeable email address. `/api/auth/me` returns that subject and display name. An administrator can grant work to a subject after its first successful login with the existing `PUT /api/runs/{run_id}/access` API. Grants do not override viewer/auditor restrictions.
 
 ## OAuth2 Proxy settings
 

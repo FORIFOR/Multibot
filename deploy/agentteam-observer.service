@@ -1,0 +1,34 @@
+[Unit]
+Description=Agent Team audit and readiness collector
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=agentteam-observer
+Group=agentteam-observer
+EnvironmentFile=/etc/agentteam-observer/environment
+ExecStart=/opt/agentteam/venv/bin/agentteam observe --url ${AGENTTEAM_PUBLIC_ORIGIN} --private-backend ${AGENTTEAM_PRIVATE_BACKEND} --credential-file /etc/agentteam-observer/collector.key --state-dir /var/lib/agentteam-observer --interval 30
+StateDirectory=agentteam-observer
+StateDirectoryMode=0700
+UMask=0077
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadWritePaths=/var/lib/agentteam-observer
+MemoryMax=256M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

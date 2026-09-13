@@ -38,11 +38,18 @@ def main(argv: list[str] | None = None) -> int:
     auth = sub.add_parser('access', help='issue, rotate or revoke an installation access key')
     auth.add_argument('--file', type=Path, required=True)
     auth.add_argument('--subject', required=True)
-    auth.add_argument('--role', choices=['admin', 'operator', 'viewer'], default='operator')
+    auth.add_argument('--role', choices=['admin', 'operator', 'viewer', 'auditor'], default='operator')
     auth.add_argument('--credential-file', type=Path)
     auth.add_argument('--organization')
     auth.add_argument('--public-origin')
     auth.add_argument('--revoke', action='store_true')
+    observer = sub.add_parser('observe', help='collect audit and readiness outside the application using an auditor key')
+    observer.add_argument('--url', required=True)
+    observer.add_argument('--private-backend', help='optional loopback HTTP backend; preserves the configured public Host')
+    observer.add_argument('--credential-file', type=Path, required=True)
+    observer.add_argument('--state-dir', type=Path, required=True)
+    observer.add_argument('--interval', type=int, default=30)
+    observer.add_argument('--once', action='store_true')
     purge = sub.add_parser('purge', help='preview or apply offline deletion of explicitly selected run data')
     purge.add_argument('--source', type=Path, required=True)
     purge.add_argument('--run-id', action='append', default=[])
@@ -66,6 +73,21 @@ def main(argv: list[str] | None = None) -> int:
         if command != 'verify-backup':
             op.add_argument('--destination', type=Path, required=True)
     args = p.parse_args(argv)
+    if args.cmd == 'observe':
+        import time
+        from .operations.observer import Observer
+        if not 5 <= args.interval <= 86400:
+            p.error('--interval must be between 5 and 86400 seconds')
+        collector = Observer(args.url, args.credential_file, args.state_dir, private_backend=args.private_backend)
+        try:
+            while True:
+                result = collector.collect()
+                print(json.dumps(result, ensure_ascii=False), flush=True)
+                if args.once:
+                    return 0 if result['state'] == 'healthy' else 2
+                time.sleep(args.interval)
+        except KeyboardInterrupt:
+            return 0
     if args.cmd in ('seal-backup', 'unseal-backup'):
         from .operations.encrypted_backup import seal, unseal
         result = (seal(args.source, args.destination, args.recipients_file, age_bin=args.age_bin)
