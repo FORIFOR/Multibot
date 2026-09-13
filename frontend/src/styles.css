@@ -74,6 +74,7 @@ textarea.input { resize: vertical; min-height: 80px; }
 .kv dt { color: var(--ink-3); }
 .kv dd { margin: 0; }
 .err { color: var(--bad); }
+.orb { display: inline-block; border: 0; border-radius: 50%; overflow: hidden; background: #030409; vertical-align: middle; pointer-events: none; margin-right: 8px; flex: none; }
 .pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--signal); animation: pulse 1.2s ease-in-out infinite; margin-right: 6px; vertical-align: middle; }
 @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.7); } }
 .reveal { animation: reveal 0.5s ease both; }

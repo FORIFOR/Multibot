@@ -2,6 +2,11 @@
 
 All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/health` and the UI header read the same value.
 
+## Unreleased
+
+### Added
+- A liquid-glass "thinking" orb in the run header while a run is live and next to the start button while a request starts (WebGPU; browsers without a WebGPU adapter keep the pulse dot). The orb is a standalone export of the MIT-licensed Liquid Orb Editor (LerSent001/orb), vendored as `frontend/src/assets/orb.html` with its parameter snapshot and license.
+
 ## 0.2.1 — 2026-09-13
 
 ### Changed (from the 3-run reproducibility evaluation, `docs/evidence/scenarios/rerun-2026-09-13/`)

@@ -1,4 +1,5 @@
 import { t } from '../lib/i18n'
+import Orb from '../components/Orb'
 import { useEffect, useState } from 'react'
 import { api, ApiError, fmtDate, money, type Config, type Run } from '../lib/api'
 import { Link } from '../lib/router'
@@ -57,7 +58,8 @@ export default function Home({ nav }: { nav: (p: string) => void }) {
           <div className="foot">
             <span className="muted small">{t("外部への投稿・送信は行いません（草案まで）。")}</span>
             <span className="spacer" />
-            <button className="btn signal" disabled={!goal.trim() || busy || !ready} onClick={start}>{busy ? '開始中…' : t('開始')}</button>
+            {busy && <Orb state="thinking" size={36} title={t("開始中…")} />}
+            <button className="btn signal" disabled={!goal.trim() || busy || !ready} onClick={start}>{busy ? t('開始中…') : t('開始')}</button>
           </div>
           {err && <p className="err">{err}</p>}
           {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code}>{p.message}</div>)} <Link to="/settings" nav={nav}>{t("設定へ")}</Link></div>}

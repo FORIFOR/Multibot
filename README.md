@@ -122,6 +122,10 @@ Master が成果物と完了条件を決め、必要な Bot（Researcher / Build
 
 上の GIF はテスト用のスクリプト provider（LLM 呼出なし、画面に「FAKE PROVIDER」と表示）で実 UI と実 Runtime を動かしたものです。実 LLM での協働は 2026-09-13 にローカルの Claude Code CLI（`claude-opus-5`）で実施し、LP・投稿案・レビュー・最終報告まで `completed` で完走しました（証拠: `docs/evidence/run4-*`）。API キー不要で、`claude` にログイン済みなら `agentteam probe` → `agentteam serve` で始められます。詳細は [`docs/STATUS.md`](docs/STATUS.md)。
 
+## Third-party
+
+- The "thinking" orb in the app header is a standalone export of the [Liquid Orb Editor](https://github.com/LerSent001/orb) (MIT, © 2026 LerSent001), vendored under `frontend/src/assets/` with its license and parameter snapshot.
+
 ## License
 
 MIT. Bundled prompts and skills are original to this project (see `docs/blueprint/REFERENCES.md`).

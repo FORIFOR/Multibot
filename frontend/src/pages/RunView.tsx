@@ -1,4 +1,5 @@
 import { t as tr } from '../lib/i18n'
+import Orb from '../components/Orb'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
 import { Link } from '../lib/router'
@@ -100,7 +101,8 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
       <div className="runhead">
         <div>
           <div className="row">
-            <span className={'tag status-' + run.status}>{live && <span className="pulse" />}{run.status}</span>
+            {live && <Orb state="thinking" size={44} title={tr("モデル呼出中")} />}
+            <span className={'tag status-' + run.status}>{!live && null}{run.status}</span>
             {run.provider_kind === 'fake' && <span className="tag fake">{tr("FAKE PROVIDER — 実 LLM ではありません")}</span>}
             {run.parent_run_id && <span className="tag">fork of <Link to={`/runs/${run.parent_run_id}`} nav={nav}>{run.parent_run_id.slice(0, 16)}</Link> @seq {run.fork_from_seq}</span>}
           </div>
