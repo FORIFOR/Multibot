@@ -1,0 +1,37 @@
+{
+  "attempts": [
+    {
+      "id": "initial",
+      "scope": "harness setup failure",
+      "error": "budget_usd=0 rejected by configuration schema",
+      "teamStarted": false
+    },
+    {
+      "id": "fixed-budget",
+      "scope": "capability probe",
+      "probe": {
+        "ok": false,
+        "driver": "ollama",
+        "model_requested": "qwen2.5:7b",
+        "model_reported": "qwen2.5:7b",
+        "tool_calling": false,
+        "json_schema": true,
+        "error": "tool calling or json schema output not confirmed",
+        "usage": {
+          "input_tokens": 171,
+          "output_tokens": 24,
+          "cache_read_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "request_id": null
+      },
+      "teamStarted": false
+    },
+    {
+      "id": "stable",
+      "scope": "one paired local pilot",
+      "report": "results.json",
+      "teamStarted": true
+    }
+  ]
+}

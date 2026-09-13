@@ -1,0 +1,85 @@
+{
+  "schema": "agentteam.workplace-benchmark.v1",
+  "sourceCommit": "4c63def7d6b8b5dcc4300a77e0acd46bc9d5f36d",
+  "model": "qwen2.5:7b",
+  "plannedCases": 50,
+  "requestedCases": 1,
+  "requestedRepeats": 1,
+  "scope": "paired local pilot; mechanical checks only; human rubric not scored; no claim of superiority",
+  "costExcludes": [
+    "hardware",
+    "electricity"
+  ],
+  "externalApiCostUsd": 0,
+  "results": [
+    {
+      "case": "research-1",
+      "repeat": 1,
+      "mode": "single",
+      "status": "completed",
+      "checks": {
+        "artifact_present": true,
+        "required_terms": true,
+        "no_forbidden_claims": true
+      },
+      "minimumAcceptancePassed": true,
+      "falseCompletionAtMinimumGate": false,
+      "durationSeconds": 8.716,
+      "usage": {
+        "input_tokens": 144,
+        "output_tokens": 392,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "error": null,
+      "humanInterventions": 0,
+      "artifactSha256": "57057df56028e3cb63809c25229ce77d0df737e8347c90fc73a2c27cd4e981ca"
+    },
+    {
+      "case": "research-1",
+      "repeat": 1,
+      "mode": "team",
+      "status": "partial",
+      "checks": {
+        "artifact_present": false,
+        "required_terms": false,
+        "no_forbidden_claims": true
+      },
+      "minimumAcceptancePassed": false,
+      "falseCompletionAtMinimumGate": false,
+      "durationSeconds": 169.455,
+      "usage": {
+        "model_calls": 15,
+        "tool_calls": 11,
+        "input_tokens": 36858,
+        "output_tokens": 5579,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 169.42500862502493
+      },
+      "error": null,
+      "humanInterventions": 0,
+      "artifactSha256": "7d019ecafdeee2c0fbe473f6f8e46ab99a71a01d36ba923a41dc03ae6abc0c83"
+    }
+  ],
+  "probe": {
+    "ok": true,
+    "driver": "ollama",
+    "model_requested": "qwen2.5:7b",
+    "model_reported": "qwen2.5:7b",
+    "tool_calling": true,
+    "json_schema": true,
+    "error": null,
+    "usage": {
+      "input_tokens": 171,
+      "output_tokens": 24,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0
+    },
+    "request_id": null
+  },
+  "sourceWorkingTreeDirty": true,
+  "evidenceNote": "Includes uncommitted deterministic local provider/probe changes. Later scheduler cancel fix and harness exception recording are not measured by this pilot."
+}
