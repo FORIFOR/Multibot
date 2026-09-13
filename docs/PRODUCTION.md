@@ -4,7 +4,7 @@ Status, 2026-09-14: **pre-production hardening is in progress; L3 has not been a
 
 ## What is enforced
 
-- Local mode accepts loopback hosts/clients and rejects foreign browser origins. `agentteam serve` refuses a non-loopback bind without an access configuration. Forwarded headers are not trusted.
+- The UI uses installed/system font fallbacks and makes no Google Fonts request. Local mode accepts loopback hosts/clients and rejects foreign browser origins. `agentteam serve` refuses a non-loopback bind without an access configuration. Forwarded headers are not trusted.
 - Secured mode requires a private access file and an exact public origin. HTTPS is mandatory outside loopback. The API checks authentication and authorization on every matched API route; unknown routes are not implicitly available to non-admin roles.
 - Administrators manage settings, credentials outside the API, and access grants. Operators create work, see their own runs and work explicitly shared with them, and cannot raise the installation budget or override models when forking. Viewers can read explicitly shared work. Raw artifacts, versions, events, SSE, exports, approvals and lists follow the same access boundary. Historic runs without grants are admin-only.
 - Provider-key settings reject plaintext values and accept only secret references. Keys contain 256 bits of randomness. The access configuration holds SHA-256 digests, never plaintext keys. Browser sessions use random tokens, store only digests in SQLite, expire by default after one hour, and use HttpOnly / SameSite=Strict cookies; Secure is set for HTTPS. Cookie mutations require the exact Origin. Bearer credentials are accepted only in Authorization, never query strings.

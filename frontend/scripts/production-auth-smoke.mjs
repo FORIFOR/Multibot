@@ -15,6 +15,10 @@ try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 960 }, locale: 'ja-JP' })
   const page = await context.newPage()
   page.on('pageerror', e => errors.push(e.message))
+  page.on('console', message => {
+    // A signed-out visit deliberately checks /api/auth/me and receives 401.
+    if (message.type() === 'error' && !message.text().includes('the server responded with a status of 401')) errors.push(message.text())
+  })
   await page.goto(base)
   await page.getByLabel(/アクセスキー|Access key/).waitFor()
   await page.screenshot({ path: `${shots}/login.png` })
