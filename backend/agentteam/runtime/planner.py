@@ -202,6 +202,33 @@ def planning_message(rt) -> str:
     return "\n".join(lines)
 
 
+ANY_OUTPUT = "*"  # output_paths sentinel: "at least one artifact published by this task" (single-agent runs)
+
+
+async def single_agent_plan(rt) -> TeamPlan:
+    """No Master call: the whole request becomes one task for the single enabled builder-role agent."""
+    solo = next((a for a in rt.enabled_agents() if a.role == "builder"), None)
+    if solo is None:
+        raise PlanError("single-agent mode needs one enabled agent with role builder")
+    others = [a.agent_id for a in rt.enabled_agents() if a.agent_id != solo.agent_id and a.role != "reporter"]
+    if others:
+        raise PlanError(f"single-agent mode: disable the other agents ({', '.join(others)}) or use team mode")
+    inputs = rt.run.inputs
+    objective = rt.run.goal
+    if inputs.text:
+        objective += "\n\nInput text:\n" + inputs.text
+    if inputs.urls:
+        objective += "\n\nInput URLs:\n" + "\n".join(f"- {u}" for u in inputs.urls)
+    task = TaskSpec(id="t1", owner=solo.agent_id, objective=objective, depends_on=[], output_paths=[ANY_OUTPUT],
+                    acceptance=[{"id": "s1", "description": "every deliverable the request asks for is published as an artifact",
+                                 "check_kind": "model_review"}], write_scope="workspaces/t1/")
+    plan = TeamPlan(goal=rt.run.goal, assumptions=["single-agent baseline: no planning call, no independent review"],
+                    agents=[solo.agent_id], tasks=[task])
+    await rt.events.append(rt.run_id, "plan.accepted", {"tasks": ["t1"], "agents": plan.agents, "assumptions": plan.assumptions,
+                                                        "mode": "single_agent"})
+    return plan
+
+
 async def plan_team(rt) -> TeamPlan:
     master = rt.agents.get("master") or next((a for a in rt.enabled_agents() if a.role == "master"), None)
     if master is None or not master.enabled:

@@ -23,7 +23,7 @@ from ..store.event_store import EventStore
 from ..store.run_store import RunStore
 from .context import RunRuntime
 from .mailbox import MessageBus
-from .planner import PlanError, final_report, plan_team
+from .planner import PlanError, final_report, plan_team, single_agent_plan
 from .policy import PolicyEngine
 from .redaction import Redactor
 from .scheduler import Scheduler
@@ -47,7 +47,13 @@ class RunManager:
         problems: list[dict[str, Any]] = []
         agents = {a.id: a for a in cfg.agents}
         master = agents.get("master")
-        if master is None or not master.enabled:
+        if cfg.defaults.team_mode == "single":
+            solos = [a for a in cfg.agents if a.enabled and a.role == "builder"]
+            others = [a.id for a in cfg.agents if a.enabled and a.role not in ("builder", "reporter")]
+            if len(solos) != 1 or others:
+                problems.append({"code": "single_agent_shape", "message": "team_mode=single needs exactly one enabled builder-role agent "
+                                                                          "and no other enabled agents (reporter may stay)"})
+        elif master is None or not master.enabled:
             problems.append({"code": "no_master", "message": "an enabled 'master' agent is required"})
         if cfg.limits.budget_usd <= 0:
             problems.append({"code": "budget", "message": "limits.budget_usd must be > 0"})
@@ -171,7 +177,7 @@ class RunManager:
             if not resume:
                 if run.plan is None:
                     try:
-                        plan = await plan_team(rt)
+                        plan = await (single_agent_plan(rt) if cfg.defaults.team_mode == "single" else plan_team(rt))
                     except PlanError as e:
                         await self._finish(rt, RunStatus.failed, reason=str(e))
                         return
