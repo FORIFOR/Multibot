@@ -13,10 +13,36 @@ from urllib.parse import urlsplit
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
+Role = Literal['admin', 'operator', 'viewer']
+
+
+class OIDCConfig(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    issuer: str
+    jwks_url: str
+    audience: str = Field(min_length=1, max_length=256)
+    client_id: str = Field(min_length=1, max_length=256)
+    group_roles: dict[str, Role] = Field(min_length=1, max_length=100)
+    max_token_seconds: int = Field(default=300, ge=30, le=900)
+    disabled_subjects: list[str] = Field(default_factory=list, max_length=10000)
+
+    @model_validator(mode='after')
+    def validate_oidc(self):
+        for value in (self.issuer, self.jwks_url):
+            u = urlsplit(value)
+            if not u.hostname or u.username or u.password or u.fragment or u.query:
+                raise ValueError('OIDC endpoints require explicit trusted URLs without credentials or query')
+            if u.scheme != 'https' and not (u.scheme == 'http' and u.hostname in ('127.0.0.1', 'localhost', '::1')):
+                raise ValueError('OIDC requires HTTPS outside loopback')
+        if self.issuer.endswith('/') or self.audience == self.client_id:
+            raise ValueError('Use an exact issuer and a separate API audience, not the browser client ID')
+        return self
+
+
 class Account(BaseModel):
     model_config = ConfigDict(extra='forbid')
     subject: str = Field(pattern=r'^[a-zA-Z0-9_.@-]{1,128}$')
-    role: Literal['admin', 'operator', 'viewer']
+    role: Role
     token_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
     disabled: bool = False
 
@@ -30,6 +56,7 @@ class AccessConfig(BaseModel):
     max_active_runs: int = Field(default=2, ge=1, le=32)
     max_request_bytes: int = Field(default=2_000_000, ge=1024, le=20_000_000)
     users: list[Account] = Field(min_length=1)
+    oidc: OIDCConfig | None = None
 
     @model_validator(mode='after')
     def validate_config(self):
@@ -40,13 +67,15 @@ class AccessConfig(BaseModel):
             raise ValueError('HTTPS is required outside loopback')
         if len({a.subject for a in self.users}) != len(self.users) or len({a.token_sha256 for a in self.users}) != len(self.users):
             raise ValueError('duplicate subject or credential')
+        if any(a.subject.startswith('oidc-') for a in self.users):
+            raise ValueError('oidc- subjects are reserved for verified SSO identities')
         if not any(a.role == 'admin' and not a.disabled for a in self.users):
             raise ValueError('at least one enabled administrator is required')
         return self
 
 
 def read_access_config(path: Path) -> AccessConfig:
-    if path.is_symlink() or path.stat().st_mode & 0o077:
+    if path.is_symlink() or not path.is_file() or path.stat().st_mode & 0o077:
         raise ValueError('access configuration must be a regular private file (chmod 600)')
     return AccessConfig.model_validate_json(path.read_text())
 

@@ -177,7 +177,8 @@ def create_app(service: AppService | None = None) -> FastAPI:
 
     @app.get('/api/auth/status')
     async def auth_status():
-        return {'enabled': svc.access.enabled}
+        svc.access.reload()
+        return {'enabled': svc.access.enabled, 'sso_login_url': '/oauth2/start?rd=/' if svc.access.oidc else None}
 
     @app.post('/api/auth/login')
     async def login(body: LoginBody, request: Request, response: Response):
@@ -190,13 +191,16 @@ def create_app(service: AppService | None = None) -> FastAPI:
     async def me(request: Request):
         p = svc.access.principal(request)
         return {'subject': p.subject if p else 'local', 'role': p.role if p else 'admin',
+                'display_name': p.display_name if p else '', 'source': p.source if p else 'local',
                 'organization': svc.access.config.organization if svc.access.enabled else None}
 
     @app.post('/api/auth/logout')
     async def logout(request: Request, response: Response):
+        await svc.access.logout_oidc(request)
         await svc.db.execute('DELETE FROM auth_sessions WHERE session_digest=?', (digest(request.cookies.get(COOKIE, '')),))
         response.delete_cookie(COOKIE, path='/')
-        return {'ok': True}
+        p = svc.access.principal(request)
+        return {'ok': True, 'redirect': '/oauth2/sign_out' if p and p.source == 'oidc' else '/'}
 
     @app.get('/api/admin/audit')
     async def audit_log(after_id: int = Query(default=0, ge=0), limit: int = Query(default=100, ge=1, le=1000)):
@@ -206,7 +210,9 @@ def create_app(service: AppService | None = None) -> FastAPI:
     async def grant_access(run_id: str, body: GrantBody, request: Request):
         if not svc.access.enabled or body.permission not in ('read', 'write', 'revoke'):
             raise HTTPException(400, 'invalid access grant')
-        if not any(a.subject == body.subject and not a.disabled for a in svc.access.config.users):
+        known_oidc = svc.access.config.oidc and body.subject not in svc.access.config.oidc.disabled_subjects and await svc.db.fetchone(
+            'SELECT subject FROM oidc_identities WHERE subject=? AND issuer=?', (body.subject, svc.access.config.oidc.issuer))
+        if not known_oidc and not any(a.subject == body.subject and not a.disabled for a in svc.access.config.users):
             raise HTTPException(400, 'unknown subject')
         if await svc.runs.get_run(run_id) is None:
             raise HTTPException(404, 'run not found')

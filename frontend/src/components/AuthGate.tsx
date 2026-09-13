@@ -1,11 +1,12 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { getLang } from '../lib/i18n'
 
-export interface Identity { subject: string; role: 'admin' | 'operator' | 'viewer'; organization: string | null }
+export interface Identity { subject: string; role: 'admin' | 'operator' | 'viewer'; organization: string | null; display_name?: string; source?: string }
 
 export default function AuthGate({ children }: { children: (identity: Identity, secured: boolean) => ReactNode }) {
   const [identity, setIdentity] = useState<Identity | null>(null)
   const [secured, setSecured] = useState(false)
+  const [ssoLogin, setSsoLogin] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
@@ -16,7 +17,9 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
       try {
         const status = await fetch('/api/auth/status')
         if (!status.ok) throw new Error('connection')
-        setSecured((await status.json()).enabled)
+        const settings = await status.json()
+        setSecured(settings.enabled)
+        setSsoLogin(settings.sso_login_url)
         const response = await fetch('/api/auth/me')
         if (response.ok) setIdentity(await response.json())
         else if (response.status !== 401) throw new Error('connection')
@@ -32,6 +35,7 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
   if (identity) return children(identity, secured)
   return <main className="main" style={{ maxWidth: 480, paddingTop: 96 }}>
     <h1>Agent Team</h1>
+    {ssoLogin && <><p className="lede">{ja ? '組織のアカウントでログインしてください。権限がない場合は管理者に確認してください。' : 'Sign in with your organization account. Contact your administrator if access is denied.'}</p><a className="btn signal" href={ssoLogin}>{ja ? '組織アカウントでログイン' : 'Sign in with SSO'}</a></>}
     <p className="lede">{ja ? '管理者から受け取ったアクセスキーでログインしてください。' : 'Sign in with the access key issued by your administrator.'}</p>
     <form className="stack" onSubmit={async event => {
       event.preventDefault(); setBusy(true); setError('')

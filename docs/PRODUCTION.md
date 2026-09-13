@@ -58,7 +58,7 @@ Only `security/` is mounted, read-only, at `/run/secrets`; keep plaintext issued
 
 ## Access and credential rotation
 
-Issue an operator or viewer with the same command, a new subject and a new private credential file. Distribute the credential over the organization's existing secure channel. Credentials currently provide installation access keys, **not SSO or MFA**.
+Issue an operator or viewer with the same command, a new subject and a new private credential file. Distribute the credential over the organization's existing secure channel. These are installation access keys. [OIDC SSO](SSO.md) is available separately through OAuth2 Proxy, with independently verified API tokens and explicit IdP group roles. Corporate MFA is enforced by the chosen IdP and remains deployment acceptance work.
 
 Repeat `agentteam access` for the same subject with a fresh credential filename to rotate it. Use `--revoke` to disable a subject; disabling the last enabled administrator is refused. Changes are picked up per request. Do not change the organization's identity in place: SQLite is bound to its original organization and rejects a mismatch or an attempted startup without authentication.
 
@@ -85,10 +85,10 @@ agentteam verify-backup --source "$AGENTTEAM_BACKUP_DESTINATION"
 agentteam restore --source "$AGENTTEAM_BACKUP_DESTINATION" --destination "$AGENTTEAM_RESTORE_DESTINATION"
 ```
 
-Restore into a new data directory, retain the original until acceptance, and start with the same organization's access configuration. Session records are cleared during restore; users must log in again. Verify the recovered artifacts and interrupted tasks before routing traffic. This is not a rolling-upgrade rollback procedure; use a compatible application version and snapshot together.
+Restore into a new data directory, retain the original until acceptance, and start with the same organization's access configuration. Access-key browser sessions are cleared, and OIDC tokens issued before restore are rejected; users must log in again. Verify the recovered artifacts and interrupted tasks before routing traffic. This is not a rolling-upgrade rollback procedure; use a compatible application version and snapshot together.
 
 Snapshots contain confidential source data, artifacts, prompts and audit records. They do not bundle external environment/keychain/file-based provider secrets or issued plaintext access keys. Encrypt the host/backup storage and manage those secrets separately. At-rest application encryption, automated off-site backups, scheduled retention and disaster-recovery objectives remain acceptance work.
 
 ## Evidence and limitations
 
-[Recorded validation](evidence/production-boundary-2026-09-14/README.md) covers real credential provisioning, API/SQLite authorization, a hardened container, browser login, revocation and recovery of saved real-model artifacts. It does not reclassify those artifacts as correct business work. L1's ten repeated workflows, SSO integration, durable distributed workers, availability testing, external security review and the customer's operational acceptance remain open.
+[Recorded validation](evidence/production-boundary-2026-09-14/README.md) covers real credential provisioning, API/SQLite authorization, a hardened container, browser login, revocation and recovery of saved real-model artifacts. [SSO validation](evidence/oidc-2026-09-14/README.md) adds a real local IdP, role mapping, key rotation, expiry and session recovery. These do not reclassify saved artifacts as correct business work. L1's ten repeated workflows, production IdP/MFA acceptance, durable distributed workers, availability testing, external security review and the customer's operational acceptance remain open.

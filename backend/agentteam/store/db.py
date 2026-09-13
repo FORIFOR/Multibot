@@ -117,6 +117,16 @@ CREATE TABLE IF NOT EXISTS auth_sessions (
   token_digest TEXT NOT NULL,
   expires_at REAL NOT NULL
 );
+CREATE TABLE IF NOT EXISTS oidc_identities (
+  subject TEXT PRIMARY KEY,
+  issuer TEXT NOT NULL,
+  display_name TEXT NOT NULL,
+  last_seen REAL NOT NULL
+);
+CREATE TABLE IF NOT EXISTS oidc_revoked_tokens (
+  token_digest TEXT PRIMARY KEY,
+  expires_at REAL NOT NULL
+);
 CREATE TABLE IF NOT EXISTS deployment_metadata (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL

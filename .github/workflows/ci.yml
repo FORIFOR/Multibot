@@ -4,6 +4,63 @@ on:
     branches: [main]
   pull_request:
 jobs:
+  oidc-integration:
+    # Real local Keycloak, OAuth2 Proxy, code-flow browser logins and API checks.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv venv backend/.venv --python 3.12 && uv pip install --python backend/.venv/bin/python -r backend/requirements.lock -e backend
+      - run: backend/.venv/bin/python backend/scripts/provision_oidc_staging.py --root /tmp/agentteam-oidc
+      - name: start isolated development IdP
+        run: |
+          docker run -d --name agentteam-oidc-keycloak --user 0:0 --cap-drop ALL --security-opt no-new-privileges --memory 1g --pids-limit 256 --env-file /tmp/agentteam-oidc/keycloak.env -e JAVA_OPTS_KC_HEAP='-Xms128m -Xmx512m' -p 127.0.0.1:8801:8080 -v /tmp/agentteam-oidc/keycloak-import:/opt/keycloak/data/import:ro quay.io/keycloak/keycloak@sha256:ff4257d0d64efbe99ed1ddfaf07765cc3c36dc7518bf8324d41961327f441c54 start-dev --hostname http://127.0.0.1:8801 --import-realm
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:8801/realms/agentteam/.well-known/openid-configuration > /dev/null && break; sleep 1; done
+          curl -sf http://127.0.0.1:8801/realms/agentteam/.well-known/openid-configuration > /dev/null
+      - name: download and verify OAuth2 Proxy
+        run: |
+          curl -fsSL -o /tmp/oauth2-proxy.tar.gz https://github.com/oauth2-proxy/oauth2-proxy/releases/download/v7.15.4/oauth2-proxy-v7.15.4.linux-amd64.tar.gz
+          curl -fsSL -o /tmp/oauth2-proxy.sha256 https://github.com/oauth2-proxy/oauth2-proxy/releases/download/v7.15.4/oauth2-proxy-v7.15.4.linux-amd64.tar.gz-sha256sum.txt
+          python3 - <<'PY'
+          import hashlib, pathlib
+          assert hashlib.sha256(pathlib.Path('/tmp/oauth2-proxy.tar.gz').read_bytes()).hexdigest() == pathlib.Path('/tmp/oauth2-proxy.sha256').read_text().split()[0]
+          PY
+          tar xzf /tmp/oauth2-proxy.tar.gz -C /tmp
+      - name: start secured API and proxy
+        run: |
+          AGENTTEAM_MODE=production AGENTTEAM_ACCESS_FILE=/tmp/agentteam-oidc/security/access.json nohup backend/.venv/bin/agentteam serve --port 8798 --data-dir /tmp/agentteam-oidc/data > /tmp/agentteam-oidc/server.log 2>&1 &
+          echo $! > /tmp/agentteam-oidc/server.pid
+          nohup /tmp/oauth2-proxy-v7.15.4.linux-amd64/oauth2-proxy --config /tmp/agentteam-oidc/oauth2-proxy.cfg > /tmp/agentteam-oidc/proxy-sanitized.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:8800/ping > /dev/null && break; sleep 1; done
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm, cache-dependency-path: frontend/pnpm-lock.yaml }
+      - run: pnpm install --frozen-lockfile && node scripts/oidc-smoke.mjs
+        working-directory: frontend
+        env:
+          OIDC_ROOT: /tmp/agentteam-oidc
+      - name: verify restored SSO sessions and actual identity outage
+        run: |
+          kill -TERM "$(cat /tmp/agentteam-oidc/server.pid)"
+          for i in $(seq 1 30); do kill -0 "$(cat /tmp/agentteam-oidc/server.pid)" 2>/dev/null || break; sleep 1; done
+          backend/.venv/bin/python backend/scripts/check_oidc_restore.py --root /tmp/agentteam-oidc
+          docker stop -t 30 agentteam-oidc-keycloak
+          backend/.venv/bin/python backend/scripts/check_oidc_restore.py --root /tmp/agentteam-oidc --check-outage
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oidc-integration-evidence
+          path: |
+            /tmp/agentteam-oidc/oidc-smoke.json
+            /tmp/agentteam-oidc/oidc-failure-*.json
+            /tmp/agentteam-oidc/oidc-restore.json
+            /tmp/agentteam-oidc/oidc-outage.json
+            /tmp/agentteam-oidc/screenshots
+          if-no-files-found: ignore
+      - if: always()
+        run: docker stop -t 30 agentteam-oidc-keycloak
   backend:
     runs-on: ubuntu-latest
     steps:

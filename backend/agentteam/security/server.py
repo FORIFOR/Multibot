@@ -10,6 +10,7 @@ from pathlib import Path
 from fastapi import HTTPException, Request
 
 from .accounts import Account, digest, read_access_config
+from .oidc import OIDCVerifier, Principal
 
 COOKIE = 'agentteam_session'
 PUBLIC = {'/api/health/live', '/api/auth/status', '/api/auth/login'}
@@ -29,6 +30,7 @@ class ServerAccess:
         self.initial_organization = self.config.organization if self.config else None
         self.initial_origin = self.config.public_origin if self.config else None
         self.login_attempts: dict[str, list[float]] = {}
+        self.oidc = OIDCVerifier(self.config.oidc) if self.config and self.config.oidc else None
 
     @property
     def enabled(self):
@@ -40,6 +42,8 @@ class ServerAccess:
                 cfg = read_access_config(self.path)
                 if cfg.organization != self.initial_organization or cfg.public_origin != self.initial_origin:
                     raise ValueError('organization/origin changes require a separate deployment or restart')
+                if cfg.oidc != self.config.oidc:
+                    self.oidc = OIDCVerifier(cfg.oidc) if cfg.oidc else None
                 self.config = cfg
             except (OSError, ValueError):
                 raise HTTPException(503, 'access configuration unavailable')
@@ -50,22 +54,55 @@ class ServerAccess:
         hashed = digest(token)
         return next((a for a in self.config.users if not a.disabled and secrets.compare_digest(a.token_sha256, hashed)), None)
 
-    async def authenticate(self, request: Request) -> Account | None:
+    async def authenticate(self, request: Request) -> Principal | None:
         self.reload()
         if not self.enabled:
             return None
         auth = request.headers.get('authorization')
         if auth is not None:
             scheme, _, token = auth.partition(' ')
-            return self.by_token(token) if scheme.lower() == 'bearer' else None
+            if scheme.lower() != 'bearer':
+                return None
+            account = self.by_token(token)
+            if account:
+                return Principal(account.subject, account.role)
+            return await self._oidc_principal(token)
+        forwarded = request.headers.get('x-forwarded-access-token')
+        if forwarded is not None:
+            # Signed access tokens are verified even on direct backend requests.
+            # Identity/email/role forwarding headers have no authority.
+            return await self._oidc_principal(forwarded)
         token = request.cookies.get(COOKIE, '')
         if not token:
             return None
         row = await self.svc.db.fetchone('SELECT token_digest FROM auth_sessions WHERE session_digest=? AND expires_at>?',
                                         (digest(token), time.time()))
-        return next((a for a in self.config.users if not a.disabled and row and a.token_sha256 == row['token_digest']), None)
+        account = next((a for a in self.config.users if not a.disabled and row and a.token_sha256 == row['token_digest']), None)
+        return Principal(account.subject, account.role) if account else None
 
-    def principal(self, request: Request) -> Account | None:
+    async def _oidc_principal(self, token: str) -> Principal | None:
+        if await self.svc.db.fetchone('SELECT token_digest FROM oidc_revoked_tokens WHERE token_digest=? AND expires_at>?',
+                                      (digest(token), time.time())):
+            return None
+        p = await self.oidc.authenticate(token) if self.oidc else None
+        boundary = await self.svc.db.fetchone("SELECT value FROM deployment_metadata WHERE key='oidc_valid_after'") if p else None
+        if p and boundary and p.issued_at <= float(boundary['value']):
+            return None
+        if p:
+            await self.svc.db.execute('INSERT INTO oidc_identities(subject,issuer,display_name,last_seen) VALUES(?,?,?,?) '
+                'ON CONFLICT(subject) DO UPDATE SET display_name=excluded.display_name,last_seen=excluded.last_seen',
+                (p.subject, self.config.oidc.issuer, p.display_name, time.time()))
+        return p
+
+    async def logout_oidc(self, request: Request):
+        p = self.principal(request)
+        if p and p.source == 'oidc':
+            auth = request.headers.get('authorization', '')
+            token = auth.partition(' ')[2] if auth else request.headers.get('x-forwarded-access-token', '')
+            await self.svc.db.execute('DELETE FROM oidc_revoked_tokens WHERE expires_at<=?', (time.time(),))
+            await self.svc.db.execute('INSERT OR IGNORE INTO oidc_revoked_tokens(token_digest,expires_at) VALUES(?,?)', (digest(token), p.expires_at))
+
+    def principal(self, request: Request) -> Principal | None:
         return getattr(request.state, 'principal', None)
 
     def admin(self, request: Request) -> bool:

@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-09-13T19:42:12.111Z",
+  "keycloak": "26.7.3",
+  "oauth2_proxy": "7.15.4",
+  "checks": [
+    "Browser authorization code + S256 PKCE + nonce; real administrator; original saved artifact view",
+    "Replayed callback without its CSRF cookie is rejected",
+    "Logout clears proxy and IdP sessions; copied pre-logout proxy cookie cannot regain API access",
+    "Three actual IdP group memberships map to admin/operator/viewer",
+    "Unmapped membership, real ID token, and unsigned forwarded identity are rejected",
+    "Forwarded access tokens require a signature; cookie/proxy mutations require same Origin",
+    "Administrator-only endpoints, viewer mutations, per-run isolation and SSO read grants enforced",
+    "Local SSO subject revocation applies on the next request, without waiting for token expiry",
+    "Real signed tokens rejected for wrong audience, issuer, authorized party or excessive lifetime",
+    "One-bit corruption of an actually issued signature is rejected",
+    "API logout revokes the actual access token without invalidating another user",
+    "Actual Keycloak RSA key rotation refreshes JWKS; valid tokens signed with the retained previous key still work",
+    "A real 30-second IdP access token is accepted before expiry and rejected after actual elapsed time",
+    "Application and sanitized proxy logs contain none of the actual issued access/ID/refresh tokens or callback code"
+  ],
+  "page_errors": [],
+  "grant_type": "authorization_code",
+  "pkce": "S256",
+  "direct_access_grants": false,
+  "fake_provider": false,
+  "passwords_or_tokens_in_evidence": false
+}

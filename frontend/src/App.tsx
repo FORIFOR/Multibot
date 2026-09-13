@@ -29,7 +29,7 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
       <header className="top">
         <Link to="/" nav={nav} className="brand">Agent Team <small>{version ? `v${version}` : ""} · local-first</small></Link>
         <nav className="nav">
-          {secured && <><span className="muted small">{identity.organization} · {identity.subject}</span><button className="langbtn" onClick={async () => { await fetch('/api/auth/logout', { method: 'POST' }); window.location.assign('/') }}>{getLang() === 'en' ? 'Sign out' : 'ログアウト'}</button></>}
+          {secured && <><span className="muted small">{identity.organization} · {identity.display_name || identity.subject}</span><button className="langbtn" onClick={async () => { const response = await fetch('/api/auth/logout', { method: 'POST' }); const result = response.ok ? await response.json() : {}; window.location.assign(result.redirect || '/') }}>{getLang() === 'en' ? 'Sign out' : 'ログアウト'}</button></>}
           <Link to="/" nav={nav} className={path === '/' ? 'active' : ''}>{t("依頼")}</Link>
           {identity.role === 'admin' && <Link to="/settings" nav={nav} className={path.startsWith('/settings') ? 'active' : ''}>{t("設定")}</Link>}
           {pending.length > 0 && <Link to={`/runs/${pending[0].run_id}?tab=approvals`} nav={nav} className="active" >承認待ち {pending.length}</Link>}

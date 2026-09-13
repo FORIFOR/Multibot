@@ -7,6 +7,7 @@ import json
 import os
 import shutil
 import sqlite3
+import time
 from contextlib import closing, contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -121,8 +122,11 @@ def restore(source: Path, destination: Path):
             tables = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
             if 'auth_sessions' in tables:
                 conn.execute('DELETE FROM auth_sessions')
+            conn.execute('CREATE TABLE IF NOT EXISTS deployment_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)')
+            conn.execute("INSERT INTO deployment_metadata(key,value) VALUES('oidc_valid_after',?) "
+                         "ON CONFLICT(key) DO UPDATE SET value=excluded.value", (str(time.time()),))
             conn.commit()
     except BaseException:
         shutil.rmtree(destination)
         raise
-    return {'restored_files': len(manifest['files']), 'sessions_revoked': True}
+    return {'restored_files': len(manifest['files']), 'sessions_revoked': True, 'pre_restore_oidc_tokens_revoked': True}

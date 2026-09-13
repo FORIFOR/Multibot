@@ -6,7 +6,7 @@ The working code and each evaluated checkout are tracked separately; the running
 
 | Area | Implemented / verified | Remaining acceptance work |
 | --- | --- | --- |
-| Identity | Real access keys, hashed storage, expiring browser sessions, role checks, rotation/revocation | OIDC SSO, organization identity policy, MFA enforcement through the IdP, real integration checks |
+| Identity | Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary | Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance |
 | Isolation | Per-installation organization binding, per-run grants, access checks for artifacts/events/SSE/export/approvals, protected settings and overrides | Independent attack review, customer-specific role/connector policy, permission lifecycle acceptance |
 | Execution | Per-run budgets, admission bounds, process exclusion, graceful interruption/checkpoints and restart detection | Durable job queue and worker ownership/leases, crash/retry/idempotency validation, approved HA topology |
 | Data | Offline snapshot/restore, checksum and artifact validation, session invalidation on restore | Data deletion/retention including backups, encryption/secret rotation strategy, off-site recovery drill, agreed RPO/RTO |
@@ -17,8 +17,8 @@ The working code and each evaluated checkout are tracked separately; the running
 
 Next engineering sequence:
 
-1. Finish and publish the authenticated deployment boundary with recorded API/browser/backup evidence and CI.
-2. Integrate standards-based SSO and enforce administrator-approved identity/role mappings. Verify with an actual identity service, not a stub.
+1. Done: authenticated deployment boundary with recorded API/browser/backup evidence and passing CI.
+2. Implemented: standards-based SSO and explicit identity/role mappings. Real local Keycloak integration verified; corporate IdP acceptance remains open.
 3. Add persistent run admission/worker leases and validate crash/recovery without duplicate work or false completion.
 4. Add retention/deletion, external audit export and deployable monitoring/backup supervision. Rehearse recovery on actual saved work.
 5. Run the representative workflow repeatedly with a fixed real local model; inspect outputs beyond regex grades. Fix observed implementation faults and preserve every attempt.

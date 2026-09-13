@@ -1,0 +1,7 @@
+{
+  "recorded_at": "2026-09-13T19:43:36.206164+00:00",
+  "real_idp_stopped": true,
+  "uncached_jwks_token_status": 503,
+  "emergency_admin_status": 200,
+  "fail_open": false
+}

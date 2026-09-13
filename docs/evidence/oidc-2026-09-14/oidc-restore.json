@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-09-13T19:43:11.256198+00:00",
+  "pre_restore_token_status": 200,
+  "same_token_after_restore_status": 401,
+  "emergency_admin_status": 200,
+  "actual_artifact_sha256": "23ed248581fd6129b2f0146b10189defd71b71d8603b404174d8d085ed5e80ea",
+  "restored_files": 3,
+  "sessions_revoked": true,
+  "pre_restore_oidc_tokens_revoked": true
+}
