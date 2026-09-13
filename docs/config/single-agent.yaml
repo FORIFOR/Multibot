@@ -1,0 +1,41 @@
+# Single-agent baseline for benchmarks: the same request, the same total budget and model-call limit, but no Master
+# planning call, no Researcher hand-off and no independent Reviewer. One builder-role agent with every tool does it all
+# in one session. Use it with `agentteam run` or `backend/scripts/eval_scenarios.py --config docs/config/single-agent.yaml`
+# to measure what the team protocol adds (and costs) on the same work.
+schema_version: 1
+profile_name: single-agent
+defaults:
+  connection_id: claude_cli
+  model: opus
+  language: ja
+  timezone: Asia/Tokyo
+  team_mode: single
+connections:
+- {id: claude_cli, driver: claude_cli, base_url: local://claude, api_key_ref: null, capability_check: not_run}
+limits:
+  max_active_workers: 1
+  max_tasks: 1
+  max_peer_messages_per_task: 1
+  max_revision_rounds: 1
+  max_model_calls: 120          # same as the team profile
+  max_tool_calls: 200
+  timeout_seconds: 2400
+  budget_usd: 6.0               # same total budget as the team profile
+  max_output_tokens: 8000
+  max_tool_output_chars: 12000
+  max_session_cost_usd: 6.0     # one session may use the whole budget (the team caps each session at 1.5)
+  max_session_turns: 120        # one session may use every model call
+  max_replans: 0
+policy: {external_mutation: approval, skill_install: approval, telemetry: 'off', share_replay: 'off', fallback: explicitly_approved_only}
+agents:
+- {id: master, role: master, enabled: false, connection_id: inherit, model: inherit, system_prompt_file: prompts/master.md, prompt_mode: auto_seed,
+   skill_ids: [artifact-handoff], tools: [create_task, update_task, send_message, read_messages, read_artifact, list_artifacts, workspace_read, workspace_write, publish_artifact, request_approval, report_blocker]}
+- {id: researcher, role: researcher, enabled: false, connection_id: inherit, model: inherit, system_prompt_file: prompts/researcher.md, prompt_mode: auto_seed,
+   skill_ids: [source-grounded-research, artifact-handoff], tools: [web_search, web_fetch, send_message, read_messages, read_artifact, list_artifacts, workspace_read, workspace_write, publish_artifact, report_blocker]}
+- {id: builder, role: builder, enabled: true, connection_id: inherit, model: inherit, system_prompt_file: prompts/builder.md, prompt_mode: auto_seed,
+   skill_ids: [source-grounded-research, artifact-handoff],
+   tools: [web_search, web_fetch, workspace_read, workspace_write, workspace_list, sandbox_run, run_check, read_artifact, list_artifacts, publish_artifact, report_blocker]}
+- {id: reviewer, role: reviewer, enabled: false, connection_id: inherit, model: inherit, system_prompt_file: prompts/reviewer.md, prompt_mode: auto_seed,
+   skill_ids: [evidence-review, artifact-handoff], tools: [read_artifact, list_artifacts, run_check, sandbox_run, web_fetch, workspace_read, workspace_write, send_message, read_messages, publish_artifact, submit_review, report_blocker]}
+- {id: reporter, role: reporter, enabled: false, connection_id: inherit, model: inherit, system_prompt_file: prompts/reporter.md, prompt_mode: auto_seed,
+   skill_ids: [], tools: [read_artifact, list_artifacts, read_events, publish_artifact]}

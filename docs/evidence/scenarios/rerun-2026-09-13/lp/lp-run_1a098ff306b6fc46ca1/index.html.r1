@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Team — 一度の依頼で、AIチームが実際に作業する</title>
+<meta name="description" content="Agent Team は Master / Researcher / Builder / Reviewer の4役割が一度の依頼から実作業を進め、成果物・Bot間の実メッセージ・時系列を同じ実行記録から表示する、オープンソースのローカルファーストなツールです。">
+<style>
+  :root{
+    --bg:#0e1116;
+    --panel:#161b22;
+    --panel2:#1c232d;
+    --line:#2a3240;
+    --fg:#e6edf3;
+    --muted:#9aa7b4;
+    --accent:#5fb0ff;
+    --accent2:#7ee0c0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",Meiryo,system-ui,sans-serif;
+    line-height:1.85;
+    font-size:16px;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px;}
+  a{color:var(--accent);}
+  header.site{
+    position:sticky;top:0;z-index:10;
+    background:rgba(14,17,22,.92);
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(6px);
+  }
+  header.site .wrap{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:12px 20px;}
+  .brand{font-weight:700;letter-spacing:.02em;}
+  nav.site ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px 16px;margin:0;padding:0;font-size:14px;}
+  nav.site a{color:var(--muted);text-decoration:none;padding:2px 0;border-bottom:1px solid transparent;}
+  nav.site a:hover,nav.site a:focus{color:var(--fg);border-bottom-color:var(--accent);}
+  .hero{padding:64px 0 48px;border-bottom:1px solid var(--line);}
+  h1{font-size:clamp(28px,5vw,44px);line-height:1.35;margin:0 0 18px;letter-spacing:.01em;}
+  .lead{font-size:clamp(16px,2.4vw,19px);color:var(--fg);margin:0 0 14px;}
+  .sub{color:var(--muted);margin:0 0 28px;font-size:15px;}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0 0 28px;}
+  .tags li{
+    font-size:13px;color:var(--accent2);
+    border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--panel);
+  }
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .btn{
+    display:inline-block;padding:12px 22px;border-radius:10px;
+    border:1px solid var(--line);background:var(--panel2);color:var(--fg);
+    text-decoration:none;font-weight:700;font-size:15px;
+  }
+  .btn.primary{border-color:#2f5f8f;background:#1b2d42;}
+  .btn[aria-disabled="true"]{opacity:.75;cursor:default;}
+  .btn-note{font-size:13px;color:var(--muted);}
+  section{padding:52px 0;border-bottom:1px solid var(--line);}
+  h2{font-size:clamp(21px,3.4vw,27px);margin:0 0 10px;letter-spacing:.01em;}
+  h3{font-size:17px;margin:0 0 8px;}
+  .section-note{color:var(--muted);font-size:15px;margin:0 0 26px;}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;
+  }
+  .card p{margin:0;color:var(--muted);font-size:14.5px;}
+  .role .tag{
+    display:inline-block;font-size:12px;color:var(--accent);border:1px solid var(--line);
+    border-radius:6px;padding:1px 8px;margin-bottom:8px;background:var(--panel2);
+  }
+  ol.flow{list-style:none;counter-reset:step;margin:0;padding:0;}
+  ol.flow li{
+    counter-increment:step;position:relative;
+    padding:0 0 22px 46px;border-left:2px solid var(--line);margin-left:14px;
+  }
+  ol.flow li:last-child{border-left-color:transparent;padding-bottom:0;}
+  ol.flow li::before{
+    content:counter(step);
+    position:absolute;left:-15px;top:0;
+    width:28px;height:28px;border-radius:50%;
+    background:var(--panel2);border:1px solid var(--line);color:var(--accent);
+    font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  ol.flow strong{display:block;font-size:16px;margin-bottom:2px;}
+  ol.flow span{color:var(--muted);font-size:14.5px;}
+  .record{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:14px;margin-top:8px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:13px;color:var(--muted);overflow-x:auto;
+  }
+  .record div{padding:3px 0;border-bottom:1px dashed var(--line);white-space:nowrap;}
+  .record div:last-child{border-bottom:0;}
+  .record b{color:var(--accent2);font-weight:600;}
+  .record em{color:var(--fg);font-style:normal;}
+  .price{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;
+  }
+  .price .big{font-size:clamp(22px,4vw,30px);font-weight:700;margin:0 0 10px;}
+  dl.faq{margin:0;}
+  dl.faq dt{font-weight:700;margin:22px 0 6px;font-size:16px;}
+  dl.faq dt:first-child{margin-top:0;}
+  dl.faq dd{margin:0;color:var(--muted);font-size:14.5px;}
+  ul.plain{margin:0;padding-left:1.2em;color:var(--muted);font-size:14.5px;}
+  ul.plain li{margin-bottom:6px;}
+  .cta-final{text-align:left;padding:56px 0;}
+  footer.site{padding:28px 0 48px;color:var(--muted);font-size:13px;}
+  footer.site p{margin:0 0 6px;}
+  .draft{
+    margin:0;padding:12px 20px;background:#20262f;border-bottom:1px solid var(--line);
+    color:var(--muted);font-size:13px;text-align:center;
+  }
+  @media (max-width:600px){
+    .hero{padding:44px 0 36px;}
+    section{padding:40px 0;}
+    .record div{white-space:normal;}
+  }
+</style>
+</head>
+<body>
+
+<p class="draft">このページは草案です。公開・配布はまだ行っていません。</p>
+
+<header class="site">
+  <div class="wrap">
+    <span class="brand">Agent Team</span>
+    <nav class="site" aria-label="ページ内ナビゲーション">
+      <ul>
+        <li><a href="#problem">課題</a></li>
+        <li><a href="#how">仕組み</a></li>
+        <li><a href="#features">特徴</a></li>
+        <li><a href="#audience">対象ユーザー</a></li>
+        <li><a href="#price">価格</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#cta">はじめる</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <div class="wrap">
+      <h1>一度の依頼から、AIチームが実際に作業する</h1>
+      <p class="lead">Agent Team は、Master / Researcher / Builder / Reviewer の4役割で構成されたAIチームが、一度の依頼を受けて実作業を進めるツールです。</p>
+      <p class="sub">成果物、Bot間の実メッセージ、時系列を、すべて同じ実行記録から表示します。オープンソースで、ローカルファーストです。</p>
+      <ul class="tags">
+        <li>オープンソース</li>
+        <li>ローカルファースト</li>
+        <li>4役割のAIチーム</li>
+        <li>同じ実行記録から表示</li>
+      </ul>
+      <div class="cta-row">
+        <span class="btn primary" aria-disabled="true">近日公開</span>
+        <span class="btn-note">配布方法は準備中です。</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="problem">
+    <div class="wrap">
+      <h2>課題</h2>
+      <p class="section-note">AIに作業を任せたとき、「結局どこまで進んだのか」が見えにくくなりがちです。</p>
+      <div class="grid">
+        <div class="card">
+          <h3>結果だけが返ってくる</h3>
+          <p>最終出力は受け取れても、その途中でどんなやり取りがあったのかが追えません。</p>
+        </div>
+        <div class="card">
+          <h3>役割が混ざる</h3>
+          <p>調べる・作る・見直すが一つの流れに溶け込み、どの判断が誰の担当だったのか分かりにくくなります。</p>
+        </div>
+        <div class="card">
+          <h3>記録がばらける</h3>
+          <p>成果物とやり取りと時間の流れが別々の場所にあると、後から経緯をたどるのに手間がかかります。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2>仕組み</h2>
+      <p class="section-note">依頼は一度だけです。そこから4つの役割が順に動き、その過程が同じ実行記録に残ります。</p>
+
+      <h3>4つの役割</h3>
+      <div class="grid" style="margin-bottom:34px;">
+        <div class="card role">
+          <span class="tag">Master</span>
+          <h3>依頼を受け止め、進行をまとめる</h3>
+          <p>依頼内容を整理し、各役割へ作業を割り当てて、チーム全体の進行を管理します。</p>
+        </div>
+        <div class="card role">
+          <span class="tag">Researcher</span>
+          <h3>必要な情報を集める</h3>
+          <p>作業の前提になる情報を調べ、判断材料としてチームに渡します。</p>
+        </div>
+        <div class="card role">
+          <span class="tag">Builder</span>
+          <h3>実際に作る</h3>
+          <p>集まった情報と方針にもとづいて、成果物そのものを作成します。</p>
+        </div>
+        <div class="card role">
+          <span class="tag">Reviewer</span>
+          <h3>できたものを見直す</h3>
+          <p>作られた成果物を確認し、そのままでよいか、直すべき点があるかを返します。</p>
+        </div>
+      </div>
+
+      <h3>一度の依頼から実作業が進む流れ</h3>
+      <ol class="flow">
+        <li><strong>依頼を出す</strong><span>やりたいことを一度伝えます。以降の細かい割り振りは Master が担います。</span></li>
+        <li><strong>Master が作業を割り当てる</strong><span>依頼を作業単位に分け、Researcher / Builder / Reviewer に渡します。</span></li>
+        <li><strong>各役割が実際に手を動かす</strong><span>調査・作成・確認が進み、その間の Bot 間メッセージがそのまま残ります。</span></li>
+        <li><strong>同じ実行記録から見る</strong><span>成果物・実メッセージ・時系列が、一つの実行記録を元に表示されます。</span></li>
+      </ol>
+
+      <div class="record" aria-label="実行記録の表示イメージ">
+        <div><b>[時系列]</b> <em>Master</em> → <em>Researcher</em> : 調査依頼を送信</div>
+        <div><b>[時系列]</b> <em>Researcher</em> → <em>Master</em> : 調査結果を返信</div>
+        <div><b>[時系列]</b> <em>Master</em> → <em>Builder</em> : 作成依頼を送信</div>
+        <div><b>[成果物]</b> <em>Builder</em> : ファイルを作成</div>
+        <div><b>[時系列]</b> <em>Builder</em> → <em>Reviewer</em> : 確認依頼を送信</div>
+        <div><b>[実メッセージ]</b> <em>Reviewer</em> → <em>Master</em> : 確認結果を返信</div>
+      </div>
+      <p class="section-note" style="margin:10px 0 0;">上の表示は画面構成のイメージです。実際の表示内容は依頼ごとに変わります。</p>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>特徴</h2>
+      <p class="section-note">Agent Team が備えているのは、次の3点です。</p>
+      <div class="grid">
+        <div class="card">
+          <h3>成果物・実メッセージ・時系列が同じ実行記録から</h3>
+          <p>出来上がったもの、Bot 間で実際にやり取りされたメッセージ、そして時間の流れを、同じ実行記録を元に表示します。別の場所を突き合わせる必要がありません。</p>
+        </div>
+        <div class="card">
+          <h3>オープンソース</h3>
+          <p>中身を読める形で公開される前提のツールです。どう動いているのかを自分で確かめられます。</p>
+        </div>
+        <div class="card">
+          <h3>ローカルファースト</h3>
+          <p>手元の環境を主役に置いた設計です。作業と記録が自分の手元を中心に進みます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="audience">
+    <div class="wrap">
+      <h2>対象ユーザー</h2>
+      <p class="section-note">Agent Team が想定している読み手は、次の方々です。</p>
+      <div class="grid">
+        <div class="card">
+          <h3>ソフトウェア開発者</h3>
+          <p>AI に任せた作業の経緯を、成果物とやり取りの両面から追いたい方に向いています。</p>
+        </div>
+        <div class="card">
+          <h3>個人開発者</h3>
+          <p>一人で調査から実装、見直しまで抱えている方が、役割ごとの進行をそのまま任せられます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="price">
+    <div class="wrap">
+      <h2>価格</h2>
+      <div class="price">
+        <p class="big">価格は未定です</p>
+        <p class="section-note" style="margin:0;">現時点で価格体系は決まっていません。金額や課金の有無について、このページでは一切お約束していません。決まり次第、この欄を更新します。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>FAQ</h2>
+      <dl class="faq">
+        <dt>Agent Team はどんなツールですか。</dt>
+        <dd>一度の依頼から Master / Researcher / Builder / Reviewer の4役割が実際に作業し、成果物・Bot 間の実メッセージ・時系列を同じ実行記録から表示するツールです。</dd>
+
+        <dt>4つの役割は何をしますか。</dt>
+        <dd>Master が進行をまとめ、Researcher が情報を集め、Builder が成果物を作り、Reviewer が出来たものを見直します。</dd>
+
+        <dt>途中のやり取りは見られますか。</dt>
+        <dd>はい。Bot 間の実メッセージを、成果物や時系列と同じ実行記録から確認できます。</dd>
+
+        <dt>オープンソースですか。</dt>
+        <dd>オープンソースのツールです。具体的なライセンス種別は、このページの作成時点で未確認のため記載していません。</dd>
+
+        <dt>ローカルファーストとはどういう意味ですか。</dt>
+        <dd>手元の環境を中心に動くことを指します。詳しい動作要件や対応環境は未確認のため、ここでは記載していません。</dd>
+
+        <dt>価格はいくらですか。</dt>
+        <dd>価格は未定です。決まっていない段階のため、金額も課金の有無もお伝えできません。</dd>
+
+        <dt>どこで入手できますか。</dt>
+        <dd>配布方法と入手先は準備中です。確認できていないため、このページでは入手先を案内していません。</dd>
+
+        <dt>画面のスクリーンショットはありますか。</dt>
+        <dd>このページ作成時点では用意できていません。仕組みの節にある表示イメージは、文字と装飾で構成した参考図です。</dd>
+      </dl>
+    </div>
+  </section>
+
+  <div class="cta-final" id="cta">
+    <div class="wrap">
+      <h2>はじめる</h2>
+      <p class="section-note">Agent Team は準備中です。入手方法が決まり次第、このページでお知らせします。</p>
+      <div class="cta-row">
+        <span class="btn primary" aria-disabled="true">近日公開</span>
+        <a class="btn" href="#how">仕組みをもう一度見る</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>Agent Team — 一度の依頼から、AIチームが実際に作業する。オープンソース／ローカルファースト。</p>
+    <p>このページは草案であり、記載のない仕様・実績・数値については何も主張していません。価格は未定です。</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -72,7 +72,11 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
             if m.task_id == dep and _artifact_line(m) not in inputs:
                 inputs.append(_artifact_line(m))
     lines.append("\n## Input artifacts (read with read_artifact)\n" + ("\n".join(inputs) if inputs else "(none)"))
-    if spec.output_paths:
+    if spec.output_paths == ["*"]:
+        lines.append("\n## Output\nYou are the only agent on this request: no planner, no reviewer. Produce every deliverable the "
+                     "request asks for, verify it yourself (run_check / sandbox_run where possible), publish each file with "
+                     "publish_artifact (paths of your choice), then call finish_task stating what you verified and what you did not.")
+    elif spec.output_paths:
         lines.append("\n## Output paths you must publish\n" + "\n".join(f"- {p}" for p in spec.output_paths))
     else:
         lines.append("\n## Output\nNo file outputs declared; deliver via submit_review / send_message as your role requires.")
@@ -117,8 +121,8 @@ async def auto_finish_if_outputs_published(ctx: SessionContext, reason: str) -> 
     if ctx.mode != "task" or ctx.task is None or ctx.agent.role == "reviewer" or not ctx.task.spec.output_paths:
         return None
     published = {m.logical_path: m for m in await rt.artifacts.list(rt.run_id, latest_only=True) if m.task_id == ctx.task.spec.id}
-    missing = [p for p in ctx.task.spec.output_paths if p not in published]
-    if missing:
+    missing = [p for p in ctx.task.spec.output_paths if p not in published and p != "*"]
+    if missing or (ctx.task.spec.output_paths == ["*"] and not published):
         return None
     ctx.finished = TaskResult(summary=f"[auto-finished by runtime] all output paths published; agent ended without finish_task ({reason})",
                               unverified=["agent did not state what it verified"], published=[m.ref() for m in published.values()])

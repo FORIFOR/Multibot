@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Team — 一度の依頼で、AIチームが実際に作業する</title>
+<meta name="description" content="Agent Team は Master / Researcher / Builder / Reviewer のAIチームが一度の依頼から実作業し、成果物・Bot間の実メッセージ・時系列を同じ実行記録から参照できる、オープンソースでローカルファーストなツールです。">
+<style>
+  :root{
+    --bg:#0e1116;
+    --panel:#161b22;
+    --panel2:#1c232d;
+    --line:#2b3441;
+    --text:#e6edf3;
+    --muted:#9aa7b4;
+    --accent:#5ec8a0;
+    --accent2:#7aa2f7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP","Meiryo",system-ui,sans-serif;
+    line-height:1.8;
+    font-size:16px;
+  }
+  a{color:var(--accent);}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
+  header.site{
+    border-bottom:1px solid var(--line);
+    position:sticky;top:0;background:rgba(14,17,22,0.95);z-index:10;
+  }
+  .navrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:12px 0;}
+  .brand{font-weight:700;letter-spacing:0.02em;margin-right:auto;}
+  nav ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px 16px;margin:0;padding:0;font-size:14px;}
+  nav a{text-decoration:none;color:var(--muted);}
+  nav a:hover,nav a:focus{color:var(--accent);text-decoration:underline;}
+  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  h1{font-size:30px;line-height:1.5;margin:0 0 16px;}
+  h2{font-size:22px;margin:0 0 20px;padding-left:12px;border-left:4px solid var(--accent);}
+  h3{font-size:17px;margin:0 0 8px;}
+  p{margin:0 0 14px;}
+  .lead{color:var(--muted);font-size:17px;max-width:44em;}
+  .hero{padding:64px 0 56px;}
+  .tagline{
+    display:inline-block;font-size:13px;color:var(--accent);
+    border:1px solid var(--accent);border-radius:999px;padding:3px 12px;margin-bottom:18px;
+  }
+  .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;}
+  .card p{margin:0;color:var(--muted);font-size:15px;}
+  .role{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;}
+  .role .tag{font-size:12px;color:var(--accent2);letter-spacing:0.08em;}
+  .flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin:0 0 18px;}
+  .flow .step{
+    flex:1 1 150px;background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;padding:14px;text-align:center;font-size:14px;
+  }
+  .flow .step b{display:block;color:var(--accent2);font-size:15px;margin-bottom:4px;}
+  .arrow{align-self:center;color:var(--muted);font-size:18px;}
+  .record{
+    background:#0b0e13;border:1px solid var(--line);border-radius:10px;
+    padding:16px;font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+    font-size:13px;line-height:1.9;color:var(--muted);overflow-x:auto;
+  }
+  .record .who{color:var(--accent2);}
+  .record .t{color:#5a6673;}
+  .price{background:var(--panel);border:1px dashed var(--accent);border-radius:10px;padding:22px;}
+  .price strong{font-size:19px;color:var(--accent);}
+  dl.faq{margin:0;}
+  dl.faq dt{font-weight:700;margin-top:18px;}
+  dl.faq dd{margin:6px 0 0;color:var(--muted);}
+  ul.plain{margin:0;padding-left:1.2em;color:var(--muted);}
+  ul.plain li{margin-bottom:6px;}
+  .note{font-size:14px;color:var(--muted);}
+  footer.site{padding:28px 0 40px;color:var(--muted);font-size:14px;}
+  @media (max-width:600px){h1{font-size:24px;}section{padding:40px 0;}}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap navrow">
+    <div class="brand">Agent Team</div>
+    <nav aria-label="ページ内ナビゲーション">
+      <ul>
+        <li><a href="#roles">チーム構成</a></li>
+        <li><a href="#features">特徴</a></li>
+        <li><a href="#record">実行記録</a></li>
+        <li><a href="#audience">対象</a></li>
+        <li><a href="#price">価格</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#notes">注記</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" id="top">
+    <div class="wrap">
+      <span class="tagline">オープンソース / ローカルファースト</span>
+      <h1>一度の依頼で、AIチームが実際に作業する。</h1>
+      <p class="lead">Agent Team は、Master・Researcher・Builder・Reviewer で構成されたAIチームが、あなたの一度の依頼を受けて実際に作業を進めるツールです。成果物、Bot間でやりとりされた実際のメッセージ、そして時系列を、同じ実行記録からまとめて確認できます。</p>
+      <p class="note">※ このページは提供された製品説明にもとづく紹介ページです。記載していない仕様・条件は本ページでは扱っていません。</p>
+    </div>
+  </section>
+
+  <section id="roles">
+    <div class="wrap">
+      <h2>4つの役割で構成されるAIチーム</h2>
+      <p class="lead">依頼は単体のAIではなく、役割の異なる4つのBotからなるチームが受け取ります。</p>
+      <div class="grid">
+        <div class="role">
+          <div class="tag">ROLE 01</div>
+          <h3>Master</h3>
+          <p class="note">依頼を受け取り、チーム全体の進行をまとめる役割です。</p>
+        </div>
+        <div class="role">
+          <div class="tag">ROLE 02</div>
+          <h3>Researcher</h3>
+          <p class="note">調査を担当する役割です。</p>
+        </div>
+        <div class="role">
+          <div class="tag">ROLE 03</div>
+          <h3>Builder</h3>
+          <p class="note">実装・作成を担当する役割です。</p>
+        </div>
+        <div class="role">
+          <div class="tag">ROLE 04</div>
+          <h3>Reviewer</h3>
+          <p class="note">確認・レビューを担当する役割です。</p>
+        </div>
+      </div>
+      <p class="note" style="margin-top:16px;">各役割の詳細な内部挙動や設定方法については、提供された説明の範囲外のため本ページでは記載していません。</p>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>特徴</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>成果物・実メッセージ・時系列が同じ場所に</h3>
+          <p>出来上がった成果物だけでなく、Bot間で実際にやりとりされたメッセージと時系列を、同じ実行記録から参照できます。</p>
+        </div>
+        <div class="card">
+          <h3>オープンソース</h3>
+          <p>オープンソースのツールです。中身を確認しながら使いたい開発者に向いています。</p>
+        </div>
+        <div class="card">
+          <h3>ローカルファースト</h3>
+          <p>ローカルファーストな設計のツールです。手元を起点に扱えることを重視しています。</p>
+        </div>
+        <div class="card">
+          <h3>一度の依頼が起点</h3>
+          <p>細かく手順を指示し直すのではなく、一度の依頼からチームが実際に作業を進めます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="record">
+    <div class="wrap">
+      <h2>同じ実行記録から、経過をたどる</h2>
+      <p class="lead">「何が出来たか」だけでなく「どういうやりとりを経てそうなったか」を、同一の実行記録上で追えます。以下は表示イメージのイラストです（実画面ではありません）。</p>
+      <div class="flow">
+        <div class="step"><b>Master</b>依頼を受け取る</div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="step"><b>Researcher</b>調べる</div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="step"><b>Builder</b>作る</div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="step"><b>Reviewer</b>確かめる</div>
+      </div>
+      <div class="record">
+        <div><span class="t">[時系列 01]</span> <span class="who">Master</span> → <span class="who">Researcher</span> ：調査を依頼</div>
+        <div><span class="t">[時系列 02]</span> <span class="who">Researcher</span> → <span class="who">Master</span> ：調査結果を返信</div>
+        <div><span class="t">[時系列 03]</span> <span class="who">Master</span> → <span class="who">Builder</span> ：作成を依頼</div>
+        <div><span class="t">[時系列 04]</span> <span class="who">Builder</span> → <span class="who">Reviewer</span> ：成果物を引き継ぎ</div>
+        <div><span class="t">[時系列 05]</span> <span class="who">Reviewer</span> → <span class="who">Master</span> ：確認結果を返信</div>
+        <div><span class="t">[成果物]</span> 実行記録から成果物を参照</div>
+      </div>
+      <p class="note" style="margin-top:14px;">上図・上記の記録表示は、説明文の内容をもとにした模式的な表現です。実際の画面構成・項目名は本ページでは確認していません。</p>
+    </div>
+  </section>
+
+  <section id="audience">
+    <div class="wrap">
+      <h2>こんな方に</h2>
+      <ul class="plain">
+        <li>ソフトウェア開発者の方</li>
+        <li>個人開発者の方</li>
+        <li>AIの出力そのものだけでなく、そこに至る経過も合わせて確認したい方</li>
+        <li>オープンソースで、ローカルファーストなツールを選びたい方</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="price">
+    <div class="wrap">
+      <h2>価格</h2>
+      <div class="price">
+        <p><strong>価格は未定です。</strong></p>
+        <p class="note" style="margin:0;">金額・課金形態・提供条件は現時点で決まっていないため、本ページでは記載していません。決定した時点で改めて案内します。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>Agent Team は何をするツールですか。</dt>
+        <dd>一度の依頼から、Master・Researcher・Builder・Reviewer のAIチームが実際に作業し、成果物とBot間の実際のメッセージ、時系列を同じ実行記録から表示します。</dd>
+
+        <dt>単体のAIに依頼するのと何が違いますか。</dt>
+        <dd>役割の異なる複数のBotがチームとして作業し、そのやりとり自体を実行記録から参照できる点が説明されている特徴です。それ以外の比較は本ページでは行っていません。</dd>
+
+        <dt>いくらで使えますか。</dt>
+        <dd>価格は未定です。金額や提供形態については決まり次第の案内となります。</dd>
+
+        <dt>ライセンスや動作環境を知りたいです。</dt>
+        <dd>オープンソースでローカルファーストなツールであること以外、ライセンス種別や動作環境の詳細は本ページでは確認できていないため記載していません。</dd>
+
+        <dt>導入方法・設定方法は。</dt>
+        <dd>導入手順は本ページの情報源に含まれていないため記載していません。</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="wrap">
+      <h2>本ページの注記</h2>
+      <ul class="plain">
+        <li>本ページは、提供された製品説明の範囲だけを根拠に作成した草案です。</li>
+        <li>価格は未定です。金額・課金形態に関する記述はありません。</li>
+        <li>ライセンス種別、対応環境、導入手順、導入実績、公開先やリポジトリの所在は未確認のため記載していません。</li>
+        <li>画面画像は提供されていないため、掲載している図はテキストと装飾による模式表現です。</li>
+        <li>リンク先が確定していないため、本ページのリンクはページ内の移動のみです。</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>Agent Team — 一度の依頼で、AIチームが実際に作業する、オープンソースでローカルファーストなツール。</p>
+    <p><a href="#top">ページ先頭へ戻る</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

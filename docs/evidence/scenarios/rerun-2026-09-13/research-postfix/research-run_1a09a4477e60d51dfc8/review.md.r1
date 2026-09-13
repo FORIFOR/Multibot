@@ -1,0 +1,113 @@
+# レビュー結果：research.md（revision 1, sha256 682bd8234b1c…）
+
+検証者: reviewer / 検証日: 2026-09-13 / 対象タスク: t1
+
+## 結論
+
+t1a1〜t1a6 すべて **pass**。出典に存在しない記述・推測補完・誤ったライセンス断定は **該当なし**。
+非ブロッカーの軽微な指摘を 2 件記載する。
+
+## 検証方法
+
+1. `read_artifact research.md rev1` で本文を読み取り（末尾 231 文字は表示上 truncate。後述の方法で補完確認）。
+2. `web_fetch` で 3 URL＋補助 1 URL を**独立に再取得**（reviewer 自身の取得、researcher の報告に依存しない）。
+   - https://github.com/langchain-ai/deepagents → status=200, truncated=False, retrieved_at=2026-09-13T10:27:29Z
+   - https://github.com/bytedance/deer-flow → status=200, truncated=True（末尾 28,425 文字が切り捨て）, retrieved_at=2026-09-13T10:27:35Z
+   - https://agentskills.io/specification → status=200, truncated=False, retrieved_at=2026-09-13T10:27:35Z
+   - https://github.com/bytedance/deer-flow/blob/main/LICENSE → status=200, truncated=False, retrieved_at=2026-09-13T10:27:53Z
+3. `run_check` を 10 件実行（markdown_basic / text_contains / regex_count ×5 / text_not_contains）。
+
+## プログラマティック検証（t1a1〜t1a3）
+
+| チェック | 引数 | 結果 |
+|---|---|---|
+| markdown_basic | sections=概要,取得結果一覧,各ページ詳細,比較表,取得不可・未確認事項 | pass（見出し20件、URL 17件、12,048文字、problems なし） |
+| text_contains | 3 URL 文字列 | pass（missing なし） |
+| regex_count | `#### 主張` min 3 | pass（count=3） |
+| regex_count | `#### 対象読者` min 3 | pass（count=3） |
+| regex_count | `#### ライセンス` min 3 | pass（count=3） |
+| text_not_contains | Apache License / GPL / BSD / AGPL / Creative Commons / CC BY | pass（found なし） |
+| text_contains | 「記載を確認できず」 | pass |
+
+## 出典照合（t1a4〜t1a6）
+
+### 1. langchain-ai/deepagents（全文取得で照合可能）
+
+| research.md の記述 | 出典本文 | 判定 |
+|---|---|---|
+| 「The batteries-included agent harness.」 | ページタイトル／README 冒頭に同文 | 一致 |
+| 「open source agent harness — an opinionated agent that runs out of the box. Extend, override, or replace any piece.」 | README に逐語一致 | 一致 |
+| 原則4点（Opinionated / Extensible / Model-agnostic / Production-ready、LangGraph・LangSmith 記載含む） | 「Principles:」節に逐語一致 | 一致 |
+| 機能8点（Sub-agents / Filesystem / Context management / Shell access / Persistent memory / Human-in-the-loop / Skills / Tools） | 「Features include:」節に逐語一致 | 一致 |
+| FAQ の LangGraph/LangChain 差分（"LangGraph is the graph runtime." 他） | FAQ に逐語一致 | 一致 |
+| 「Yes! Deep Agents is built on LangGraph, designed for production agent deployments.」 | FAQ「Can I use this in production?」に逐語一致 | 一致 |
+| セキュリティ "trust the LLM" 引用 | Security 節に逐語一致 | 一致 |
+| 「Inspired by Claude Code: …」 | Acknowledgements 節に逐語一致 | 一致 |
+| 対象読者：Python 開発者（`uv add deepagents` / `create_deep_agent`） | Quickstart に該当コードあり | 本文由来（読み取りである旨を注記済み） |
+| 対象読者：JS/TS（「available as a JavaScript/TypeScript library — see deepagents.js」） | 逐語一致 | 一致 |
+| 対象読者：LangChain/LangGraph 利用者（FAQ 2 問） | FAQ 見出しに逐語一致 | 一致 |
+| 対象読者：ターミナルのコーディングエージェント利用者（Deep Agents Code…similar to Claude Code or Cursor） | Note に逐語一致 | 一致 |
+| ライセンス：`LICENSE` ファイルあり、「Repository files navigation」欄と About > Resources に **MIT license** 表示 | 両欄に "MIT license" を確認 | 一致 |
+| ライセンス全文は未取得＝未確認と明記 | 妥当（本ページ本文に全文なし） | 妥当 |
+
+### 2. bytedance/deer-flow（reviewer 再取得でも truncated=True。**前半のみ照合可能**）
+
+| research.md の記述 | 出典本文 | 判定 |
+|---|---|---|
+| リポジトリ説明「An open-source long-horizon SuperAgent harness that researches, codes, and creates. …minutes to hours.」 | ページタイトル（リポジトリ description）に逐語一致 | 一致 |
+| 「DeerFlow (Deep Exploration and Efficient Research Flow) is an open-source super agent harness that orchestrates sub-agents, memory, and sandboxes to do almost anything — powered by extensible skills.」 | README 冒頭に逐語一致 | 一致 |
+| 「🦌 DeerFlow - 2.0」「ground-up rewrite. It shares no code with v1.」「1.x ブランチ維持」「Active development has moved to 2.0」 | Note 節に逐語一致 | 一致 |
+| 「On February 28th, 2026, DeerFlow claimed the 🏆 #1 spot on GitHub Trending following the launch of version 2.」 | README 冒頭バナーに逐語一致 | 一致（研究メモは「実績の主張」と帰属付けで記載しており、事実断定になっていない） |
+| `make setup` 対話ウィザード（LLM プロバイダ／web 検索／sandbox mode・bash access・file-write tools、`config.yaml` と `.env` 生成、約2分） | Quick Start に逐語相当 | 一致 |
+| `make doctor` / `make support-bundle`（issue 用 summary・draft・evidence zip） | 同節に記載あり | 一致 |
+| コーディングエージェント向けワンライン導入（Install.md の raw URL を渡す） | 「One-Line Agent Setup」節に一致 | 一致 |
+| LLM Space（デスクトップツール）／Volcengine Coding Plan／BytePlus 開発の InfoQuest | 「Sister Projects」節に一致 | 一致 |
+| 推奨モデル「Doubao-Seed-2.0-Code, DeepSeek v3.2 and Kimi 2.5」 | 「We strongly recommend using …」に逐語一致 | 一致 |
+| 多言語 README（English / 中文 / 日本語 / Français / Русский） | 冒頭言語リンクに一致 | 一致 |
+| 目次項目（Sandbox Mode, MCP Server, IM Channels, LangSmith/Langfuse/Monocle Tracing, Sub-Agents, Long-Term Memory, Scheduled Tasks, Terminal Workbench (TUI)）＋本文は未取得と明記 | Table of Contents に一致。本文は reviewer 側でも未取得 | 一致（未確認の明示が正しい） |
+| 対象読者：`git clone` → `make setup` → Docker / ローカル開発 | Quick Start＋目次「Option 1: Docker (Recommended)」「Option 2: Local Development」に一致 | 一致 |
+| 対象読者：「If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent…」 | 逐語一致 | 一致 |
+| 対象読者：`config.yaml` に OpenAI・OpenRouter・Responses API・vLLM の定義例 | 「Manual model configuration examples」に一致（gpt-4o / openrouter-gemini-2.5-flash / gpt-5-responses / qwen3-32b-vllm） | 一致 |
+| 対象読者：「中国大陆地区的开发者请点击这里」 | 逐語一致 | 一致 |
+| ライセンス：ファイル一覧に `LICENSE`、「Repository files navigation」欄に **MIT license** | 同欄に "MIT license" を確認 | 一致 |
+| LICENSE 本文「MIT License / Copyright (c) 2025 Bytedance Ltd. and/or its affiliates / Copyright (c) 2025-2026 DeerFlow Authors」 | LICENSE ページに逐語一致 | 一致 |
+| README「License」節本文は取得範囲外で未確認 | reviewer 側でも未取得 | 妥当 |
+| 「技術基盤は前半に明示なし（設定例に `langchain_openai:ChatOpenAI`）」 | 取得範囲に基盤フレームワークの明示なし、設定例に当該文字列あり | 一致 |
+
+### 3. agentskills.io/specification（全文取得で照合可能）
+
+| research.md の記述 | 出典本文 | 判定 |
+|---|---|---|
+| 「The complete format specification for Agent Skills.」 | ページ冒頭に逐語一致 | 一致 |
+| 最低限 `SKILL.md`、任意で `scripts/`（executable code）・`references/`（documentation）・`assets/`（templates, resources） | Directory structure に一致 | 一致 |
+| `SKILL.md` は YAML frontmatter＋Markdown 本文でなければならない | 「must contain YAML frontmatter followed by Markdown content」に一致 | 一致 |
+| `name`：必須・最大64文字・小文字英数字とハイフン・先頭末尾ハイフン不可・連続ハイフン不可・親ディレクトリ名一致 | Frontmatter 表＋`name` field 節に一致 | 一致 |
+| `description`：必須・最大1024文字・非空・何をするか＋いつ使うか | 同上 | 一致 |
+| `license` 任意 / `compatibility` 任意・最大500文字 / `metadata` 任意（文字列キー・値のマップ） / `allowed-tools` 任意・スペース区切り・Experimental | 各節に一致 | 一致 |
+| Progressive disclosure（メタデータ ~100 tokens／Instructions < 5000 tokens 推奨／Resources は必要時／SKILL.md 500行未満） | Progressive disclosure 節に一致 | 一致 |
+| ファイル参照は相対パス・1階層以内・深い連鎖を避ける | File references 節に一致 | 一致 |
+| 「Use the `skills-ref` reference library to validate your skills」「skills-ref validate ./my-skill」 | Validation 節に一致 | 一致 |
+| 本文にフォーマット制約なし、手順・入出力例・エッジケース推奨 | Body content 節に一致 | 一致 |
+| 「Agent Skills now has an official Discord server.」 | ページ上部告知に逐語一致 | 一致 |
+| 対象読者：ナビが「For skill creators」（Quickstart / Best practices / Optimizing descriptions / Evaluating skills / Using scripts）と「For client implementors」（Adding skills support）に分かれる | Navigation に一致 | 一致 |
+| 対象読者根拠：`metadata` の "Clients can use this to store additional properties not defined by the Agent Skills spec"、`allowed-tools` の "Support for this field may vary between agent implementations" | 逐語一致 | 一致 |
+| ライセンス：**ページ上で自サイト／自ページのライセンス記載を確認できず** | 取得全文にサイト利用ライセンス・著作権表示なし（reviewer 再取得でも同様） | 一致 |
+| `license: Proprietary. LICENSE.txt has complete terms` / frontmatter 例の `license: Apache-2.0` は「スキル側の値の例」である旨の但し書き | 両方とも出典に存在し、文脈も spec のフィールド例として正しい | 一致（誤ったライセンス断定ではない） |
+
+## 指摘（いずれも非ブロッカー）
+
+1. **deer-flow LICENSE の「末尾未取得」記述が過度に保守的**
+   - 対象: research.md「未確認・制約」4 および各ページ詳細 2 のライセンス欄
+   - 再現: `web_fetch https://github.com/bytedance/deer-flow/blob/main/LICENSE`（max_chars=8000）→ `truncated=False`、免責条項末尾（"...OR OTHER DEALINGS IN THE SOFTWARE."）まで取得可能。
+   - 影響: 事実誤りではない（researcher 自身の取得時は truncate されたと自己申告。過小主張であり、誤った断定ではない）。
+   - 最小修正案: max_chars を小さめに指定して再取得し、「MIT ライセンス全文（免責条項含む）を確認」に更新するか、truncate の原因（max_chars 設定）を併記する。
+
+2. **取得日時の独立検証は不可**
+   - 対象: 取得結果一覧の「2026-09-13T10:16:54Z」等の取得日時。
+   - 影響: reviewer は同日 10:27 台の再取得でのみ HTTP 200 を確認しており、10:16 台の取得時刻そのものは第三者検証できない（内容は一致）。
+   - 最小修正案: 不要（記録として妥当）。
+
+## 未検証事項
+
+- `read_artifact` の表示で research.md 末尾 231 文字が truncate され、直接目視できなかった。代替として `regex_count` で末尾領域を走査し、(a) 項目 7 が存在すること、(b) 末尾に MIT/Apache/BSD/「ライセンス名」の語が**出現しないこと**、(c) 「未確認／確認でき／推測／読み取り」等の限定表現が含まれることを確認した。したがって未読部に新規の出典主張や誤ったライセンス断定が混入している可能性は低いが、**逐語では未確認**。
+- deer-flow README 後半（Core Features 以降、License 節、Acknowledgments 等）は reviewer 再取得でも truncated=True のため未取得。research.md が当該範囲を「未確認」としている点は正しく、当該範囲に由来する本文記述は research.md に存在しないことを確認済み。

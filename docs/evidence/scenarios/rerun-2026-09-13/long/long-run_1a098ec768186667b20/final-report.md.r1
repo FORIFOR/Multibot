@@ -1,0 +1,82 @@
+# Final report — 小さな静的ドキュメントサイトを作ってください: `index.html`（トップ）、`docs/getting-started.html`、`docs/faq.html`、`styles.css` の4ファイル。内容は製品説明に基づく日本語。相互リンクが切れていないこと（html_links で検証）、各ページに title と viewport があること、外部 URL を書かないこと（プレースホルダ可）。Builder が全ファイルを公開し、Reviewer が全ページを検証してください。
+
+- Status: **completed**
+- Provider kind: real
+- Usage: 62 model calls, 58 tool calls, $1.6708, 998s
+
+## Summary
+run_1a098ec768186667b20（13:00:28→13:17:06 JST、wall 998.03秒、$1.670789、model_calls 62 / tool_calls 58、provider_kind=real）で、日本語静的ドキュメントサイト4ファイルを builder が rev1 として公開し、reviewer が独立検証して t1a1〜t1a7 を全 pass 判定。checks は計32件すべて status=pass、blockers/failures/approvals は0件、t1・t2 とも accepted。ブラウザ実描画・外部バリデータ・CSS構文検証は未実施のまま。
+
+## Deliverables
+- `docs/faq.html` — docs-faq.html r1 (sha256 a80a94bc4cca…) by builder / task t1
+- `docs/getting-started.html` — docs-getting-started.html r1 (sha256 f7e93236da26…) by builder / task t1
+- `index.html` — index.html r1 (sha256 bc7eec197ebf…) by builder / task t1
+- `styles.css` — styles.css r1 (sha256 dfca5db19f4c…) by builder / task t1
+
+## Tasks
+- t1 [accepted] builder: 静的ドキュメントサイト4ファイルを作成して公開する。(1) index.html: Agent Team の概要（一度の依頼から Master/Researcher/Builder/Reviewer のAIチームが実際に作業し、成果物・Bot間の実メッセージ・時系列を同じ実行記録から表示する、オープンソースでローカルファーストなツール / Claude Code があれば APIキー不要 / 価格は未定 / 対象はソフトウェア開発者と個人開発者）と docs/getting-started.html・docs/faq.html への相対リンク。(2) docs/getting-started.html: 導入と最初の実行の流れを日本語で説明し、../index.html と faq.html へのリンクを持つ。(3) docs/faq.html: 価格・APIキー・OSS・ローカルファースト・対象ユーザーのQ&Aと、../index.html と getting-started.html へのリンク。(4) styles.css: 3ページ共通の簡潔なスタイル。全HTMLに lang="ja"、meta charset、title、meta name=viewport、h1 を1つ含める。空 href のリンクや alt 欠落 img を作らない。http:// や https:// で始まる外部URL、localhost を含むリンクは一切書かない。提供された製品説明にない事実（具体的な価格、対応OS一覧、外部サービス名等）を追加しない。作成後に自分で html_basic と html_links を run_check で実行し、失敗を修正してから publish_artifact する。 (attempts 1)
+- t2 [accepted] reviewer: t1 の成果物4ファイルを検証する。html_basic（3ページ）、html_links（3ページ）、text_not_contains（外部URL・localhost）4ファイル、text_contains、regex_count を run_check で実際に実行し、各チェック名と結果を証拠として記録する。さらに read_artifact で相互リンクが双方向（index↔getting-started、index↔faq、getting-started↔faq）に張られているか、docs/ からの ../styles.css パスが正しいか、日本語内容が提供された製品説明と矛盾・超過していないかを目視確認する。t1a1〜t1a7 それぞれに pass/fail 判定と根拠（実行チェック・出力要約または引用）を付けて submit_review する。未実行の検証を合格として扱わない。 (attempts 1)
+
+## Verified (from checks and reviews)
+- check html_basic on {'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5', 'workspace_path': 'index.html'} → pass (seq 16)
+- check html_basic on {'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8', 'workspace_path': 'docs/getting-started.html'} → pass (seq 18)
+- check html_basic on {'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6', 'workspace_path': 'docs/faq.html'} → pass (seq 20)
+- check html_links on {'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5', 'workspace_path': 'index.html'} → pass (seq 22)
+- check html_links on {'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8', 'workspace_path': 'docs/getting-started.html'} → pass (seq 24)
+- check html_links on {'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6', 'workspace_path': 'docs/faq.html'} → pass (seq 26)
+- check text_contains on {'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5', 'workspace_path': 'index.html'} → pass (seq 28)
+- check text_contains on {'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8', 'workspace_path': 'docs/getting-started.html'} → pass (seq 30)
+- check text_contains on {'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6', 'workspace_path': 'docs/faq.html'} → pass (seq 32)
+- check regex_count on {'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5', 'workspace_path': 'index.html'} → pass (seq 34)
+- check regex_count on {'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8', 'workspace_path': 'docs/getting-started.html'} → pass (seq 36)
+- check regex_count on {'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6', 'workspace_path': 'docs/faq.html'} → pass (seq 38)
+- check text_not_contains on {'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5', 'workspace_path': 'index.html'} → pass (seq 40)
+- check text_not_contains on {'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8', 'workspace_path': 'docs/getting-started.html'} → pass (seq 42)
+- check text_not_contains on {'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6', 'workspace_path': 'docs/faq.html'} → pass (seq 44)
+- check text_not_contains on {'sha256': 'dfca5db19f4ca2c4df20129c8ad63f20b79db7359fc5eae5db01adc62558ae10', 'workspace_path': 'styles.css'} → pass (seq 46)
+- check html_basic on {'artifact_id': 'index.html', 'revision': 1, 'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5'} → pass (seq 74)
+- check html_basic on {'artifact_id': 'docs-getting-started.html', 'revision': 1, 'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8'} → pass (seq 76)
+- check html_basic on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6'} → pass (seq 78)
+- check html_links on {'artifact_id': 'index.html', 'revision': 1, 'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5'} → pass (seq 80)
+- check html_links on {'artifact_id': 'docs-getting-started.html', 'revision': 1, 'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8'} → pass (seq 82)
+- check html_links on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6'} → pass (seq 84)
+- check text_not_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5'} → pass (seq 86)
+- check text_not_contains on {'artifact_id': 'docs-getting-started.html', 'revision': 1, 'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8'} → pass (seq 88)
+- check text_not_contains on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6'} → pass (seq 90)
+- check text_not_contains on {'artifact_id': 'styles.css', 'revision': 1, 'sha256': 'dfca5db19f4ca2c4df20129c8ad63f20b79db7359fc5eae5db01adc62558ae10'} → pass (seq 92)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5'} → pass (seq 94)
+- check text_contains on {'artifact_id': 'docs-getting-started.html', 'revision': 1, 'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8'} → pass (seq 96)
+- check text_contains on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6'} → pass (seq 98)
+- check regex_count on {'artifact_id': 'index.html', 'revision': 1, 'sha256': 'bc7eec197ebfa2a76ec8824647881dc5aaf028593274e056d30fcf072bb31df5'} → pass (seq 100)
+- check regex_count on {'artifact_id': 'docs-getting-started.html', 'revision': 1, 'sha256': 'f7e93236da2613c2d3d7a08a02e15f67acfa3ee41088a978e705552296cbadd8'} → pass (seq 102)
+- check regex_count on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': 'a80a94bc4ccab1c4945495aa60526d96d2a4200e03d2c2a6fe4e7520148123a6'} → pass (seq 104)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=pass, t1a6=pass, t1a7=pass (seq 107)
+- checks 計32件すべて status=pass、problems/found/missing は空
+- builder 実行17件（workspace path 指定, seq16-46）: html_basic×3 / html_links×3 / text_contains×3 / regex_count×3 / text_not_contains×4
+- reviewer 実行15件（artifact_id+revision 指定, seq74-104）: html_basic×3 / html_links×3 / text_not_contains×4 / text_contains×3 / regex_count×3
+- reviewer の submit_review（seq107）で受入条件 t1a1〜t1a7 をすべて pass 判定、各項目に実行チェックの出力要約を根拠として記録
+- html_basic: 3ページとも title あり・viewport=true・empty_links=0・problems=[]
+- html_links: 3ページとも links=8・problems=[]（allowed_hosts 未指定）
+- text_not_contains（http:// / https:// / localhost）: 3HTML + styles.css の4件すべて pass
+- regex_count: 各HTMLの styles.css 参照が count=1
+- read_artifact による目視で index↔getting-started↔faq の6方向リンクが実在ファイルに解決、リンク切れ0件と記録
+- t1・t2 とも status=accepted（attempts=1）。blockers 0件、failures 0件、approvals 0件
+
+## Unresolved / pending
+- ブラウザでの実描画・CSS の見た目・レスポンシブ挙動は未検証（GUI 確認手段なし）
+- W3C 等の外部バリデータによる HTML 構文検証は未実施（ネットワーク不通）
+- styles.css の CSS 構文バリデータによる検証は未実施（該当 check kind なし）
+- ファイルをディスク配置し静的サーバ経由で動作確認する検証は未実施
+- 軽微指摘1件（非ブロッカー）: docs/getting-started.html の <ol class="steps"> 内 h3 の手書き番号と ol 既定マーカーの二重表示。CSS からの推定であり実描画は未確認、rev2 は未作成で未修正
+- builder→reviewer の handoff に 480 秒待機したが返信なし（その後 reviewer が独立に t2 を実施）
+- 外部への配信・デプロイは実施していない（ワークスペース内の publish_artifact のみ）
+
+## Next steps
+- 公開・配信する場合は、実ブラウザでの表示確認を人手で1回行う
+- docs/getting-started.html の ol 二重番号を修正する場合は、h3 の先頭数字削除または styles.css の .steps に list-style:none を追加する最小差分で対応し rev2 として再公開する
+- rev2 を公開した場合は html_basic / html_links / regex_count を新 revision に対して再実行し回帰確認する
+- ネットワーク利用可能な環境で外部 HTML/CSS バリデータによる構文検証を追加する
+
+## Trace
+- Messages delivered: 2 ({'handoff': 1, 'finding': 1})
+- Model usage by agent: master: 2 calls / $0.3278 (reported claude-opus-5), builder: 1 calls / $0.6650 (reported claude-opus-5), reviewer: 1 calls / $0.6780 (reported claude-opus-5)

@@ -1,0 +1,162 @@
+# research.md (rev1) 主張別 原典照合表 v2 — 生取得テキストとの文字列照合 — Reviewer t4
+
+対象成果物: `research.md` revision 1 / sha256 `ff60d0a1a92a…`（本タスクでは**書き換えていない**）
+照合元（すべて researcher/t3 が publish した web_fetch 生取得テキスト）:
+
+- `fetch-raw-deepagents.txt` rev1 / sha256 `8e8c922995aa…` — META: `url=https://github.com/langchain-ai/deepagents status=200 retrieved_at=2026-09-13T04:53:39.061Z truncated=False truncated_chars=0 max_chars_requested=40000`
+- `fetch-raw-deerflow.txt` rev1 / sha256 `d1febcdf5a97…` — META 2本: (1) `url=https://github.com/bytedance/deer-flow status=200 retrieved_at=2026-09-13T04:53:40.058Z truncated=True truncated_chars=28425`、(2) `url=https://raw.githubusercontent.com/bytedance/deer-flow/main/README.md`（`truncated_chars=28180`）
+- `fetch-raw-agentskills.txt` rev1 / sha256 `cc0bf85967be…` — META: `url=https://agentskills.io/specification status=200 retrieved_at=2026-09-13T04:53:45.427Z truncated=False truncated_chars=0`
+- `fetch-raw-licenses.txt` rev1 / sha256 `df9a0a815cf0…` — deer-flow / deepagents の `LICENSE` 本文（ともに status=200）
+
+## 本レビューで実際に実行したこと（証拠）
+
+1. `read_artifact` で上記4ファイル＋`claim-check.md` rev1＋`research.md` rev1 を読み取り。
+   - `fetch-raw-deepagents.txt` / `fetch-raw-agentskills.txt` / `fetch-raw-licenses.txt` は**全文**を読めた（前2者は `truncated=False`＝原典全文）。
+   - `fetch-raw-deerflow.txt` は read_artifact 側の表示制限により末尾約12,754文字が読み取れず（`...[truncated 12754 chars; stored in full in the event log]`）。この範囲は下記2の文字列検索で照合した。
+2. `run_check` による生テキストへの文字列/正規表現検索（= grep 相当、ファイル全体が対象）:
+   - `text_contains(fetch-raw-deerflow.txt, 23語)` → **pass**（missing なし）: `Doubao-Seed-2.0-Code`, `DeepSeek v3.2`, `Kimi 2.5`, `InfoQuest`, `BytePlus`, `make doctor`, `make setup`, `config.yaml`, `Windsurf`, `Deployment Sizing`, `Option 2: Local Development`, `README_ja.md`, `Русский`, `OpenRouter`, `use_responses_api`, `vllm_provider`, `Codex CLI`, `Claude Code OAuth`, `Terminal Workbench (TUI)`, `Embedded Python Client`, `Scheduled Tasks`, `Improper Deployment May Introduce Security Risks`, `deer-flow`
+   - `text_contains(fetch-raw-deerflow.txt, ["img.shields.io/badge/License-MIT-yellow.svg"])` → **pass**
+   - `text_contains(fetch-raw-deerflow.txt, ["META url=https://raw.githubusercontent.com/bytedance/deer-flow/main/README.md"])` → **pass**（2本目の META が raw README であることを確認）
+   - `regex_count(fetch-raw-deerflow.txt, "META url=[^\n]*")` → count=**2**
+   - `regex_count(fetch-raw-deerflow.txt, "truncated_chars=(28425|18425|28180)")` → count=**2**、`regex_count("truncated_chars=28180")` → count=**1** ⇒ 2本目（raw README）が 28180、1本目（GitHub ページ）が 28425、**18425 はファイル内に存在しない**
+   - `text_not_contains(fetch-raw-agentskills.txt, ["All rights reserved","©","Creative Commons","MIT","Copyright","copyright","LICENSE.md","licensed under"])` → **pass**（いずれも不在）
+3. `run_check command` で artifact をワークスペースに展開できないことを確認済み（`ls` に該当ファイルなし）。したがって照合は read_artifact ＋ run_check の文字列検索で実施した。
+
+判定凡例: **実在** = 生取得テキスト内に該当記述が存在（該当箇所を引用）/ **不一致** = 生テキストの実際の表記と食い違う / **生テキスト範囲外** = 切り詰め・別事象（再取得時刻の差など）により照合不能
+
+---
+
+## A. langchain-ai/deepagents（照合元: `fetch-raw-deepagents.txt` rev1、truncated=False＝全文）
+
+| # | research.md の主張 | 判定 | 生テキストの該当箇所（引用） |
+| --- | --- | --- | --- |
+| A1 | 「The batteries-included agent harness.」 | 実在 | `GitHub - langchain-ai/deepagents: The batteries-included agent harness. · GitHub` / About 欄 `The batteries-included agent harness.` |
+| A2 | 「Deep Agents is an open source agent harness — an opinionated agent that runs out of the box. Extend, override, or replace any piece.」 | 実在 | `Deep Agents is an open source agent harness — an opinionated agent that runs out of the box. Extend, override, or replace any piece.`（逐語一致） |
+| A3 | 原則4点 Opinionated / Extensible / Model-agnostic / Production-ready | 実在 | `Principles:` 直後に `Opinionated — defaults tuned for long-horizon, multi-step work` / `Extensible — override or replace any piece without forking` / `Model-agnostic — works with any LLM that supports tool calling: frontier, open-weight, or local` / `Production-ready — built on LangGraph (streaming, persistence, checkpointing) with first-class tracing, evaluation, and deployment via LangSmith` |
+| A4 | Features 8項目 | 実在 | `Features include:` 以下に `Sub-agents` / `Filesystem` / `Context management` / `Shell access` / `Persistent memory` / `Human-in-the-loop` / `Skills` / `Tools` の8件（順序も一致） |
+| A5 | `uv add deepagents` と `create_deep_agent(...)` | 実在 | `Quickstart` 節に `uv add deepagents`、`from deepagents import create_deep_agent` / `agent = create_deep_agent( model="openai:gpt-5.5", ...)` |
+| A6 | 「available as a JavaScript/TypeScript library — see deepagents.js」 | 実在 | `Deep Agents is available as a JavaScript/TypeScript library — see deepagents.js .`（原文は HTML 由来でリンク語 `deepagents.js` の前後が改行分割） |
+| A7 | 「Deep Agents Code — a pre-built coding agent in your terminal, similar to Claude Code or Cursor, powered by any LLM.」 | 実在 | `Deep Agents Code — a pre-built coding agent in your terminal, similar to Claude Code or Cursor, powered by any LLM.`（逐語一致） |
+| A8 | 「Inspired by Claude Code: an attempt to identify what makes it general-purpose, and push that further.」 | 実在 | `Acknowledgements` 節 `Inspired by Claude Code: an attempt to identify what makes it general-purpose, and push that further.`（逐語一致） |
+| A9 | FAQ の層構造説明（LangGraph=graph runtime / `create_agent`=最小ハーネス / Deep Agents=より opinionated） | 実在（要約として正確） | `How is this different from LangGraph or LangChain?` → `LangGraph is the graph runtime. LangChain's create_agent is a minimal agent harness on top of it. Deep Agents is a more opinionated harness on top of create_agent — same building blocks, but with filesystem, sub-agents, context management, and skills bundled in.` |
+| A10 | 「Yes! Deep Agents is built on LangGraph, designed for production agent deployments.」 | 実在 | `Can I use this in production?` → `Yes! Deep Agents is built on LangGraph, designed for production agent deployments.`（逐語一致） |
+| A11 | 「Yes. Any model that supports tool calling works」＋ Ollama / vLLM / llama.cpp | 実在 | `Yes. Any model that supports tool calling works — frontier APIs (OpenAI, Anthropic, Google), open-weight models hosted on providers like Baseten or Fireworks, and self-hosted models via Ollama, vLLM, or llama.cpp.` |
+| A12 | 「Use Deep Agents when you want the full harness — planning, context management, delegation — out of the box.」 | 実在 | `Use Deep Agents when you want the full harness — planning, context management, delegation — out of the box.`（逐語一致） |
+| A13 | 対象読者の明示節は無い（本文からの読み取り） | 実在（不在を全文で確認） | 生テキスト全文（truncated=False）に `Who is this for` / `Audience` / 「対象読者」に相当する見出しは存在しない。見出し相当は `Principles` / `Features include` / `Quickstart` / `FAQ` / `Resources` / `Acknowledgements` / `Security` / `About` のみ |
+| A14 | ライセンス MIT（ナビ行と About 欄 Resources、ファイル一覧の `LICENSE`） | 実在 | ナビ行 `README` `Code of conduct` `Contributing` `MIT license` `Security`、About 欄 `Resources` `Readme` `MIT license`、ファイル一覧に `LICENSE`。**追加裏付け**: `fetch-raw-licenses.txt` に `MIT License / Copyright (c) LangChain, Inc.`（raw LICENSE, status=200） |
+| A15 | 「`LICENSE` ファイル本文そのものは本調査では取得していない（未確認）」 | 実在（t1 時点の記述として正当） | t1 の取得範囲（GitHub ページのみ）に LICENSE 本文は含まれない。なお t3 が後から取得済みのため、**現時点では MIT が本文レベルで裏付け済み**（research.md の注記は誤りではないが更新余地あり） |
+| A16 | 取得メタ: HTTP 200 / 2026-09-13T04:35:47Z / 全文 | 一部実在・一部 生テキスト範囲外 | `status=200`・`truncated=False`（＝全文）は t3 再取得 META と一致。取得時刻 `04:35:47Z` は t3 の `retrieved_at=2026-09-13T04:53:39.061Z` とは別事象のため照合不能 |
+
+## B. bytedance/deer-flow（照合元: `fetch-raw-deerflow.txt` rev1、GitHub ページは truncated=True）
+
+| # | research.md の主張 | 判定 | 生テキストの該当箇所（引用） |
+| --- | --- | --- | --- |
+| B1 | リポジトリ説明「An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours.」 | 実在 | 冒頭タイトル行 `GitHub - bytedance/deer-flow: An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours. · GitHub`（逐語一致） |
+| B2 | 「DeerFlow (Deep Exploration and Efficient Research Flow) is an open-source super agent harness that orchestrates sub-agents, memory, and sandboxes to do almost anything — powered by extensible skills.」 | 実在 | `DeerFlow ( D eep E xploration and E fficient R esearch Flow ) is an open-source super agent harness that orchestrates sub-agents , memory , and sandboxes to do almost anything — powered by extensible skills .`（HTML 装飾由来の字間空白を除けば逐語一致） |
+| B3 | 「DeerFlow 2.0 is a ground-up rewrite. It shares no code with v1. If you're looking for the original Deep Research framework, it's maintained on the `1.x` branch」 | 実在 | `Note` ブロック `DeerFlow 2.0 is a ground-up rewrite. It shares no code with v1. If you're looking for the original Deep Research framework, it's maintained on the 1.x branch — contributions there are still welcome. Active development has moved to 2.0.` |
+| B4 | 目次項目の列挙（Quick Start / Configuration / Running the Application / Deployment Sizing / Docker / Sandbox Mode / MCP Server / IM Channels / 各 Tracing / Core Features 配下 / Embedded Python Client / Scheduled Tasks / Terminal Workbench (TUI) / Security Notice 等） | 実在 | `Table of Contents` 以下に `One-Line Agent Setup` `Quick Start` `Configuration` `Running the Application` `Deployment Sizing` `Option 1: Docker (Recommended)` `Option 2: Local Development` `Sandbox Mode` `MCP Server` `IM Channels` `LangSmith Tracing` `Langfuse Tracing` `Monocle Tracing` `Core Features` `Skills & Tools` `Claude Code Integration` `Session Goals` `Manual Context Compaction` `Sub-Agents` `Sandbox & File System` `Context Engineering` `Long-Term Memory` `Embedded Python Client` `Scheduled Tasks` `Terminal Workbench (TUI)` `⚠️ Security Notice` を確認（列挙内容・順序とも一致） |
+| B5 | `make setup` ウィザードで `config.yaml` と `.env` 生成、`make doctor` で検証 | 実在 | `Run the setup wizard` → `make setup` / `It generates a minimal config.yaml and writes your keys to .env. Takes about 2 minutes.` / `Run make doctor at any time to verify your setup and get actionable fix hints.` |
+| B6 | BytePlus の InfoQuest 統合、Volcengine Coding Plan（Doubao-Seed-2.0-Code / DeepSeek v3.2 / Kimi 2.5 推奨） | 実在（固有名詞すべて逐語一致） | `Coding Plan from ByteDance Volcengine` / `We strongly recommend using Doubao-Seed-2.0-Code, DeepSeek v3.2 and Kimi 2.5 to run DeerFlow` / `DeerFlow has newly integrated the intelligent search and crawling toolset independently developed by BytePlus-- InfoQuest (supports free online experience)`。`text_contains` でも5語すべて pass |
+| B7 | 目次に「⚠️ Security Notice」「Improper Deployment May Introduce Security Risks」 | 実在 | 目次 `⚠️ Security Notice` / `Improper Deployment May Introduce Security Risks` / `Security Recommendations`（`text_contains` pass） |
+| B8 | 「If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent, you can hand it the setup instructions in one sentence」 | 実在 | `One-Line Agent Setup` 節 `If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent, you can hand it the setup instructions in one sentence:`（逐語一致） |
+| B9 | Docker（推奨）/ ローカル開発の2オプション、Helm チャート `deploy/helm/deer-flow`、Deployment Sizing | 実在（ただし Helm は根拠がファイル一覧） | 目次 `Deployment Sizing` `Option 1: Docker (Recommended)` `Option 2: Local Development`。`deploy/helm/deer-flow` はリポジトリのファイル/ディレクトリ一覧 `deploy/ helm/ deer-flow` として存在（README 本文で「Helm チャート」と説明する記述は取得範囲内には見当たらない） |
+| B10 | README が English / 中文 / 日本語 / Français / Русский の5言語 | 実在 | 見出し直下 `English | 中文 | 日本語 | Français | Русский`、ファイル一覧に `README_fr.md` `README_ja.md` `README_ru.md` `README_zh.md` |
+| B11 | OpenRouter / Responses API / vLLM / Codex CLI / Claude Code OAuth の設定例 | 実在（ただし Codex CLI / Claude Code OAuth は「参照先の言及」） | `See config.example.yaml for the complete reference including CLI-backed providers (Codex CLI, Claude Code OAuth), OpenRouter, Responses API, subagent runtime caps ...`。OpenRouter・Responses API・vLLM は README 本文に YAML 設定例あり（`openrouter-gemini-2.5-flash` / `use_responses_api: true` / `deerflow.models.vllm_provider:VllmChatModel`）。Codex CLI / Claude Code OAuth の**設定例そのもの**は `config.example.yaml` 側で、README では名前の言及のみ |
+| B12 | 「『対象読者』を明示的に定義した節は、取得できた範囲には存在しない」 | 実在（取得範囲内で確認） | 目次（全項目が取得範囲内に存在）に対象読者に相当する節はない。切り詰め後半本文は照合不能だが、目次に該当項目がないことは確認できる |
+| B13 | ライセンス MIT。根拠(1) バッジ `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)`、(2) リポジトリページの「MIT license」表示と `LICENSE` ファイル | 実在 | (2) ナビ行 `README` `Code of conduct` `Contributing` `MIT license` `Security`、ファイル一覧に `LICENSE`（読み取り済み範囲）。(1) `img.shields.io/badge/License-MIT-yellow.svg` は `run_check text_contains` で生テキスト内に存在を確認（**pass**、raw README 側セクション）。**追加裏付け**: `fetch-raw-licenses.txt` に `MIT License / Copyright (c) 2025 Bytedance Ltd. and/or its affiliates / Copyright (c) 2025-2026 DeerFlow Authors` |
+| B14 | 「License 節本文と `LICENSE` 本文は切り詰めのため未取得（未確認）」 | 実在（t1 時点の記述として正当） | META `truncated=True` が切り詰めの事実を裏付ける。なお t3 が LICENSE 本文を別途取得済み（上記 B13） |
+| B15 | 取得メタ: HTTP 200 / `truncated=True` / **約18,425文字切り詰め（GitHub）**、約28,180文字切り詰め（raw README） | **不一致（GitHub 側の数値）** / 実在（raw README 側） | 生テキストの実際の表記は `truncated_chars=28425`（GitHub ページ, `retrieved_at=2026-09-13T04:53:40.058Z`, `max_chars_requested=40000`）。`regex_count("truncated_chars=(28425|18425|28180)")`=2、`regex_count("truncated_chars=28180")`=1 ⇒ **18425 はファイル内に不在**。raw README 側の `28180` は research.md の「約28,180文字」と一致。※t1 と t3 は別時刻の取得であり `max_chars_requested` が同一だった保証はないが、raw README 側の数値が完全一致していることから、GitHub 側だけ桁違い（1→2）の転記ミスの可能性が高い |
+
+## C. agentskills.io/specification（照合元: `fetch-raw-agentskills.txt` rev1、truncated=False＝全文）
+
+| # | research.md の主張 | 判定 | 生テキストの該当箇所（引用） |
+| --- | --- | --- | --- |
+| C1 | 「The complete format specification for Agent Skills.」 | 実在 | `The complete format specification for Agent Skills.`（逐語一致） |
+| C2 | 「A skill is a directory containing, at minimum, a `SKILL.md` file」＋ `scripts/` / `references/` / `assets/` | 実在 | `A skill is a directory containing, at minimum, a SKILL.md file:` およびツリー `├── scripts/ # Optional: executable code` `├── references/ # Optional: documentation` `├── assets/ # Optional: templates, resources` |
+| C3 | 「must contain YAML frontmatter followed by Markdown content」 | 実在 | `The SKILL.md file must contain YAML frontmatter followed by Markdown content.` |
+| C4 | `name`: 必須／**最大64文字**／小文字英数字とハイフン／先頭末尾ハイフン不可／連続ハイフン不可／親ディレクトリ名と一致 | 実在（数値含め全項目一致） | frontmatter 表 `name Yes Max 64 characters. Lowercase letters, numbers, and hyphens only. Must not start or end with a hyphen.`、`name field` 節 `Must be 1-64 characters` / `May only contain unicode lowercase alphanumeric characters (a-z, 0-9) and hyphens (-)` / `Must not start or end with a hyphen (-)` / `Must not contain consecutive hyphens (--)` / `Must match the parent directory name` |
+| C5 | `description`（必須/**最大1024文字**）、`compatibility`（任意/**最大500文字**）、`metadata`（任意/文字列→文字列）、`allowed-tools`（任意/空白区切り/Experimental） | 実在（数値含め全項目一致） | `description Yes Max 1024 characters. Non-empty.` / `Must be 1-1024 characters`；`compatibility No Max 500 characters.` / `Must be 1-500 characters if provided`；`metadata No Arbitrary key-value mapping ... (a map from string keys to string values)`；`allowed-tools No Space-separated string of pre-approved tools the skill may use. (Experimental)` |
+| C6 | `license`（任意、ライセンス名または同梱ライセンスファイルへの参照） | 実在 | `license No License name or reference to a bundled license file.` / `We recommend keeping it short (either the name of a license or the name of a bundled license file)` |
+| C7 | 「Metadata (~100 tokens)」「Instructions (< 5000 tokens recommended)」「Resources (as needed)」 | 実在 | `Metadata (~100 tokens): The name and description fields are loaded at startup for all skills` / `Instructions (< 5000 tokens recommended): The full SKILL.md body is loaded when the skill is activated` / `Resources (as needed): Files (e.g. those in scripts/ , references/ , or assets/ ) are loaded only when required` |
+| C8 | 「Keep your main SKILL.md under 500 lines.」 | 実在 | `Keep your main SKILL.md under 500 lines. Move detailed reference material to separate files.`（**500 lines** で一致） |
+| C9 | 「Keep file references one level deep from SKILL.md.」／相対パスは skill ルートから | 実在 | `When referencing other files in your skill, use relative paths from the skill root:` / `Keep file references one level deep from SKILL.md . Avoid deeply nested reference chains.` |
+| C10 | 「Use the `skills-ref` reference library to validate your skills」／`skills-ref validate ./my-skill` | 実在 | `Use the skills-ref reference library to validate your skills:` / `skills-ref validate ./my-skill` |
+| C11 | ナビ「For skill creators」（Quickstart / Best practices / Optimizing descriptions / Evaluating skills / Using scripts）と「For client implementors」（Adding skills support） | 実在 | `For skill creators` `Quickstart` `Best practices` `Optimizing descriptions` `Evaluating skills` `Using scripts` / `For client implementors` `Adding skills support`（項目・順序とも一致） |
+| C12 | 「Clients can use this to store additional properties not defined by the Agent Skills spec」 | 実在 | `metadata field` 節 `Clients can use this to store additional properties not defined by the Agent Skills spec`（逐語一致） |
+| C13 | 「Support for this field may vary between agent implementations」 | 実在 | `allowed-tools field` 節 `Experimental. Support for this field may vary between agent implementations` |
+| C14 | 「Agent Skills now has an official Discord server.」 | 実在 | ページ冒頭バナー `Agent Skills now has an official Discord server . See the announcement for details.` |
+| C15 | ライセンスは「記載なし（未確認）」＝ページ本文にサイト/仕様自体のライセンス表記が無い | 実在（不在を全文検索で確認） | `truncated=False`（全文）の生テキストに対し `text_not_contains(["All rights reserved","©","Creative Commons","MIT","Copyright","copyright","LICENSE.md","licensed under"])` → **pass**（8語すべて不在）。本文に現れる `license` は frontmatter フィールドの定義文脈のみ（`license field` 節、`license: Apache-2.0`、`license: Proprietary. LICENSE.txt has complete terms`）。※「サイト全体にライセンスが無い」ことの証明ではなく、当該ページ本文に表記が無いことの確認 |
+| C16 | 本文中の `license` は SKILL.md frontmatter のフィールドであってサイトのライセンスではない（例 `license: Apache-2.0`、`license: Proprietary. LICENSE.txt has complete terms`） | 実在 | `license: Apache-2.0`（Example with optional fields）、`license: Proprietary. LICENSE.txt has complete terms`（license field 節の Example）、`Specifies the license applied to the skill` — いずれも逐語一致 |
+
+## D. 横断・メタ記述
+
+| # | research.md の主張 | 判定 | 根拠 |
+| --- | --- | --- | --- |
+| D1 | 「取得不可: なし。3URL いずれも HTTP 200」 | 実在 | t3 の再取得 META でも3URL とも `status=200`（deepagents / deer-flow / agentskills）。加えて LICENSE 2URL も `status=200` |
+| D2 | deepagents / deer-flow はいずれも自らを agent harness と称する | 実在 | A1/A2（`agent harness`）、B1/B2（`SuperAgent harness` / `super agent harness`）がいずれも生テキストに逐語存在 |
+| D3 | スター数 deepagents 29.4k/4.1k、deer-flow 82.3k/11.4k（根拠には未使用） | 実在 | deepagents: `Fork 4.1k` `Star 29.4k` `Stars 29.4k stars` `Forks 4.1k forks`／deer-flow: `Fork 11.4k` `Star 82.3k` |
+| D4 | 取得日すべて 2026-09-13（UTC 04:35 前後） | 生テキスト範囲外 | t3 の生テキストは 04:53 台の**別取得**。t1 の取得時刻を裏付ける記録は artifact 化されていない（日付 2026-09-13 は一致） |
+| D5 | 比較表に「提供形態」列を追加 | 生テキスト範囲外 | 成果物構成に関する所見であり原典照合の対象外（受入条件違反ではない） |
+| D6 | 推測補完（原典に無い一般知識）の有無 | 実在（＝混入なしを確認） | A/B/C 全47件を生テキストと照合した結果、原典に存在しない内容の断定は**検出されず**。唯一の食い違いは B15 の取得ログ数値（下記） |
+
+---
+
+## t1a4（出典照合）の最終判定
+
+**t1a4 = pass（軽微な訂正1件を伴う条件付き pass）**
+
+集計（全53件）: 実在 **49件** / 不一致 **1件**（B15 の一部）/ 生テキスト範囲外 **3件**（A16 の取得時刻、D4、D5）
+
+判定理由:
+
+- ページ内容に関する実体的主張（A1–A15、B1–B14、C1–C16、D1–D3、D6）は**すべて生取得テキスト内に実在**を確認した。直接引用は装飾由来の空白・改行を除き逐語一致。
+- 重点照合項目はすべて **実在**:
+  - **C4/C5 の数値制約** — `Max 64 characters` / `Must be 1-64 characters`、`Max 1024 characters` / `Must be 1-1024 characters`、`Max 500 characters` / `Must be 1-500 characters if provided` がいずれも原文どおり。C8 の `under 500 lines` も一致。
+  - **B6 の固有名詞** — `Doubao-Seed-2.0-Code` `DeepSeek v3.2` `Kimi 2.5` `BytePlus` `InfoQuest` すべて逐語一致（誤記なし）。
+  - **A14/B13 のライセンス根拠** — GitHub 表示 `MIT license`・ファイル一覧 `LICENSE`・MIT バッジ URL の存在を確認。さらに `fetch-raw-licenses.txt` の `LICENSE` 本文（両リポジトリとも `MIT License`）で**本文レベルの裏付けが追加**された。
+  - **C15 の「記載なし（未確認）」** — 全文（truncated=False）に対する不在検索で、サイト/仕様自体のライセンス表記・著作権表示は不在を確認。research.md が断定を避けて「未確認」としている扱いも適切。
+- **fail としなかった理由**: 唯一の不一致 B15 は、ページ内容の主張ではなく取得ログのメタ数値（切り詰め文字数）であり、結論・比較表・ライセンス判定のいずれにも影響しない。ただし数値が誤っているため訂正を推奨する。
+- **一部未照合の範囲（明示）**:
+  1. deer-flow GitHub ページ／raw README とも t3 再取得でも `truncated=True` のため、README 後半（`From Deep Research to Super Agent Harness` 以降、`Core Features` 詳細、`Security Notice` 本文、`License` 節本文、`Acknowledgments`）は依然未取得。research.md はこの範囲について記述していないため、未照合＝欠陥ではない。
+  2. t1 時点の取得時刻（2026-09-13T04:35 前後）と GitHub ページの切り詰め文字数は、t3 の再取得（04:53 台）とは別事象であり厳密な再現照合はできない。
+  3. agentskills.io の別ページ（Overview、`agentskills/agentskills` リポジトリ等）は本照合の対象外。research.md も「断定しない」としており整合。
+
+---
+
+## 訂正提案（research.md 本体は本タスクでは書き換えていない）
+
+### 訂正1（必須・不一致）: B15 — deer-flow GitHub ページの切り詰め文字数
+
+- 対象箇所: research.md 「取得不可・未確認事項」1項目目
+- 修正前文字列:
+  `<https://github.com/bytedance/deer-flow> の取得結果は `truncated=True` で、約18,425文字が切り詰められた。`
+- 修正後文字列:
+  `<https://github.com/bytedance/deer-flow> の取得結果は `truncated=True` で、約28,425文字が切り詰められた（再取得ログ fetch-raw-deerflow.txt rev1 の META: `truncated_chars=28425`, `max_chars_requested=40000`）。`
+- 根拠: `regex_count(fetch-raw-deerflow.txt, "truncated_chars=(28425|18425|28180)")` → count=2、うち `truncated_chars=28180` が1件（raw README 側）。したがって GitHub 側は `28425` であり、`18425` は生テキストに存在しない。
+- 影響: 極小（取得ログの数値のみ。結論・比較表には影響なし）。
+
+### 訂正2（任意・記述の更新）: A15 / B14 — LICENSE 本文の取得状況
+
+- 対象箇所: research.md 「1. …/ライセンス」注記、「2. …/ライセンス」注記、「取得不可・未確認事項」2項目目
+- 修正前文字列:
+  `**LICENSE ファイル本文を未取得**: deepagents / deer-flow とも `LICENSE` ファイルの中身は取得していない。「MIT」の根拠は GitHub のライセンス表示およびバッジ表記のみ。`
+- 修正後文字列:
+  `**LICENSE ファイル本文**: 追加取得により、deepagents（`MIT License / Copyright (c) LangChain, Inc.`）、deer-flow（`MIT License / Copyright (c) 2025 Bytedance Ltd. and/or its affiliates`）とも MIT であることを本文レベルで確認済み（出典: <https://raw.githubusercontent.com/langchain-ai/deepagents/main/LICENSE>、<https://raw.githubusercontent.com/bytedance/deer-flow/main/LICENSE>、いずれも HTTP 200）。`
+- 根拠: `fetch-raw-licenses.txt` rev1。
+- 影響: 記述はより強い根拠に更新できるが、現行記述も誤りではない（当時の取得範囲の正確な申告）。**必須ではない**。
+
+### 訂正3（任意・表現の精度）: B11 — Codex CLI / Claude Code OAuth の位置づけ
+
+- 対象箇所: research.md 「2. …/対象読者・利用者」4項目目
+- 修正前文字列:
+  `OpenRouter、Responses API、vLLM、Codex CLI / Claude Code OAuth 等の設定例が README に含まれる。`
+- 修正後文字列:
+  `OpenRouter、Responses API、vLLM の設定例が README に含まれ、Codex CLI / Claude Code OAuth 等の CLI-backed provider は `config.example.yaml` を参照するよう案内されている。`
+- 根拠: 生テキスト `See config.example.yaml for the complete reference including CLI-backed providers (Codex CLI, Claude Code OAuth), OpenRouter, Responses API, ...`。README 本文の YAML 例は OpenRouter / Responses API / vLLM の3種。
+- 影響: 極小（誤りとまでは言えない表現上の精度）。
+
+### 訂正 不要と判断した箇所
+
+- C15 の「記載なし（未確認）」— 不在検索で裏付けが取れ、かつ断定回避の表現も適切。変更不要。
+- A13 / B12 の「明示の対象読者節なし」— A13 は全文で不在確認済み、B12 は目次ベースで確認済み。変更不要。
+- C4/C5/C7/C8 の数値 — すべて原文一致。変更不要。

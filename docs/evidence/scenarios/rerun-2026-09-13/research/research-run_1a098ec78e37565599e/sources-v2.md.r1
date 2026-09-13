@@ -1,0 +1,434 @@
+# sources-v2.md — 取得記録と原文抜粋（sources.md rev1 の後継・最終版）
+
+本ファイルは `research-v2.md` の各記述の根拠を示す取得ログです。抜粋は取得したページ本文の原文をそのまま引用しています。取得ツールは web_fetch です。
+
+- rev1（`sources.md` revision 1, 2026-09-13T04:01 台の取得）の内容をすべて引き継ぎ、2026-09-13T04:18–04:19（UTC）の再取得で得た抜粋を「追加取得」節として追記しています。
+- 取得日時は web_fetch が返した `retrieved_at`（UTC）をそのまま記載しています。
+
+---
+
+## 1. https://github.com/langchain-ai/deepagents
+
+- 取得日時: 2026-09-13T04:01:18Z（1回目）/ 2026-09-13T04:19:25Z（2回目・再取得, max_chars=20000）
+- 取得可否: 取得成功（両回とも）
+- HTTP ステータス: 200（content_type: text/html; charset=utf-8）
+- 切り詰め: なし（truncated=False、両回とも）
+- ページタイトル: `GitHub - langchain-ai/deepagents: The batteries-included agent harness. · GitHub`
+
+### 原文抜粋（主張）
+
+> The batteries-included agent harness.
+
+> Deep Agents is an open source agent harness — an opinionated agent that runs out of the box. Extend, override, or replace any piece.
+
+> Principles:
+> Opinionated — defaults tuned for long-horizon, multi-step work
+> Extensible — override or replace any piece without forking
+> Model-agnostic — works with any LLM that supports tool calling: frontier, open-weight, or local
+> Production-ready — built on LangGraph (streaming, persistence, checkpointing) with first-class tracing, evaluation, and deployment via LangSmith
+
+> Features include:
+> Sub-agents — delegate tasks to agents with isolated context windows
+> Filesystem — read, write, edit, or search over pluggable local, sandboxed, or remote backends
+> Context management — summarize long threads and offload tool outputs to disk
+> Shell access — run commands in your sandbox of choice
+> Persistent memory — pluggable state and store backends for cross-session recall
+> Human-in-the-loop — approve, edit, or reject tool calls before they run
+> Skills — reusable behaviors the agent can load on demand
+> Tools — bring your own functions or any MCP server
+
+> Inspired by Claude Code: an attempt to identify what makes it general-purpose, and push that further.
+
+### 原文抜粋（対象読者）
+
+> uv add deepagents
+> from deepagents import create_deep_agent
+> agent = create_deep_agent(
+>     model="openai:gpt-5.5",
+>     tools=[my_custom_tool],
+>     system_prompt="You are a research assistant.",
+> )
+
+> How is this different from LangGraph or LangChain?
+> LangGraph is the graph runtime. LangChain's create_agent is a minimal agent harness on top of it. Deep Agents is a more opinionated harness on top of create_agent — same building blocks, but with filesystem, sub-agents, context management, and skills bundled in.
+
+> When should I use Deep Agents vs. LangChain or LangGraph directly?
+> All three are layers in the same stack ... Use Deep Agents when you want the full harness — planning, context management, delegation — out of the box.
+
+> Can I use this in production?
+> Yes! Deep Agents is built on LangGraph, designed for production agent deployments.
+
+> Deep Agents is available as a JavaScript/TypeScript library — see deepagents.js.
+
+> Deep Agents Code — a pre-built coding agent in your terminal, similar to Claude Code or Cursor, powered by any LLM.
+
+> Deep Agents follows a "trust the LLM" model. The agent can do anything its tools allow. Enforce boundaries at the tool/sandbox level, not by expecting the model to self-police.
+
+### 追加取得（2026-09-13T04:19:25Z, HTTP 200, truncated=False）— "Going to production" ガイドへの案内
+
+rev1 で根拠抜粋が欠落していた「"Going to production" ガイドへの案内」の原文（FAQ "Can I use this in production?" の続き）:
+
+> Can I use this in production?
+> Yes! Deep Agents is built on LangGraph, designed for production agent deployments. Pair it with LangSmith for tracing, evaluation, and monitoring. See Going to production for the full guide.
+
+（"Going to production" はページ上のリンクテキスト。リンク先 URL 自体は web_fetch のテキスト抽出結果には現れないため未取得・未確認。）
+
+### 原文抜粋（ライセンス）
+
+リポジトリページ上の表示:
+
+> Repository files navigation
+> README
+> Code of conduct
+> Contributing
+> MIT license
+> Security
+
+> Resources
+> Readme
+> MIT license
+
+追跡した LICENSE ファイル本文（別 URL）:
+
+- URL: https://raw.githubusercontent.com/langchain-ai/deepagents/main/LICENSE
+- 取得日時: 2026-09-13T04:01:35Z（UTC）
+- 取得可否: 取得成功 / HTTP 200（content_type: text/plain）
+
+> MIT License
+>
+> Copyright (c) LangChain, Inc.
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+> of this software and associated documentation files (the "Software"), to deal
+> in the Software without restriction, ...
+
+---
+
+## 2. https://github.com/bytedance/deer-flow
+
+- 取得日時: 2026-09-13T04:01:19Z（UTC、1回目）/ 2026-09-13T04:01:24Z（UTC、2回目・max_chars=40000）
+- 取得可否: 部分取得（ページ前半のみ取得成功）
+- HTTP ステータス: 200（content_type: text/html; charset=utf-8）
+- 切り詰め: あり（truncated=True）。1回目は末尾 8,425 文字、2回目（max_chars=40000）は末尾 28,425 文字が切り詰められた。max_chars を拡大しても本文の取得範囲は伸びず、同一箇所（Manual model configuration examples 付近）で打ち切られた。
+  - 注: 1回目の max_chars 値は記録が残っていない（未記録）。切り詰め文字数のみが記録されている。
+- ページタイトル: `GitHub - bytedance/deer-flow: An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours. · GitHub`
+
+### 原文抜粋（主張）
+
+ページタイトル（リポジトリ説明文）:
+
+> An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours.
+
+README 冒頭:
+
+> 🦌 DeerFlow - 2.0
+> English | 中文 | 日本語 | Français | Русский
+
+> DeerFlow (Deep Exploration and Efficient Research Flow) is an open-source super agent harness that orchestrates sub-agents, memory, and sandboxes to do almost anything — powered by extensible skills.
+
+> On February 28th, 2026, DeerFlow claimed the 🏆 #1 spot on GitHub Trending following the launch of version 2.
+
+> DeerFlow 2.0 is a ground-up rewrite. It shares no code with v1. If you're looking for the original Deep Research framework, it's maintained on the 1.x branch — contributions there are still welcome. Active development has moved to 2.0.
+
+目次に現れる見出し名（本文は未取得）:
+
+> From Deep Research to Super Agent Harness / Core Features / Skills & Tools / Claude Code Integration / Session Goals / Manual Context Compaction / Sub-Agents / Sandbox & File System / Context Engineering / Long-Term Memory / Recommended Models / Embedded Python Client / Scheduled Tasks / Terminal Workbench (TUI) / Documentation / ⚠️ Security Notice / Contributing / License / Acknowledgments
+
+### 原文抜粋（対象読者）
+
+> If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent, you can hand it the setup instructions in one sentence:
+> Help me clone DeerFlow if needed, then bootstrap it for local development by following https://raw.githubusercontent.com/bytedance/deer-flow/main/Install.md
+> That prompt is intended for coding agents.
+
+> Clone the DeerFlow repository
+> git clone https://github.com/bytedance/deer-flow.git
+> cd deer-flow
+> Run the setup wizard
+> From the project root directory (deer-flow/), run: make setup
+
+> This launches an interactive wizard that guides you through choosing an LLM provider, optional web search, and execution/safety preferences such as sandbox mode, bash access, and file-write tools. It generates a minimal config.yaml and writes your keys to .env. Takes about 2 minutes.
+
+> Run make doctor at any time to verify your setup and get actionable fix hints.
+
+> If you are opening a GitHub issue about a local setup or runtime problem, run make support-bundle.
+
+> Advanced / manual configuration: If you prefer to edit config.yaml directly, run make config instead to copy the full template.
+
+> We strongly recommend using Doubao-Seed-2.0-Code, DeepSeek v3.2 and Kimi 2.5 to run DeerFlow
+
+目次に現れる運用向け見出し（本文は未取得）:
+
+> Deployment Sizing / Option 1: Docker (Recommended) / Option 2: Local Development / Sandbox Mode / MCP Server / IM Channels / LangSmith Tracing / Langfuse Tracing / Monocle Tracing / Using Multiple Providers / Personal Access Tokens
+
+### 原文抜粋（ライセンス）
+
+リポジトリページ上の表示（README 本文の "License" セクションは未取得）:
+
+> Repository files navigation
+> README
+> Code of conduct
+> Contributing
+> MIT license
+> Security
+
+追跡した LICENSE ファイル本文（別 URL）:
+
+- URL: https://raw.githubusercontent.com/bytedance/deer-flow/main/LICENSE
+- 取得日時: 2026-09-13T04:01:35Z（UTC）
+- 取得可否: 取得成功 / HTTP 200（content_type: text/plain）
+
+> MIT License
+>
+> Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+> Copyright (c) 2025-2026 DeerFlow Authors
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+> of this software and associated documentation files (the "Software"), to deal
+> in the Software without restriction, ...
+
+---
+
+## 2-R. 追加取得: https://raw.githubusercontent.com/bytedance/deer-flow/main/README.md（README 原文の再取得）
+
+- 取得日時: 2026-09-13T04:18:37Z（UTC）
+- リクエスト条件: max_chars=40000（web_fetch の上限値）
+- 取得可否: **部分取得**。HTTP 200（content_type: text/plain; charset=utf-8）、`truncated=True`
+- 観測した失敗事象: 応答末尾に `...[truncated 28180 chars]` と表示され、先頭から約 40,000 文字（"CLI-backed provider examples" の直後、`- ACP agent entri` で切断）までしか取得できなかった。max_chars の上限が 40000 のため、それ以降のオフセットを指定して取得する手段がなく、README 後半 28,180 文字は本タスクでは取得できていない。
+- 取得できた範囲: 冒頭バッジ 〜 Official Website / Sister Projects / Coding Plan from ByteDance Volcengine / InfoQuest / Table of Contents / One-Line Agent Setup / Quick Start > Configuration（Manual model configuration examples、CLI-backed provider examples を含む）まで。
+- 取得できなかった範囲: Running the Application（Deployment Sizing, Docker, Local Development）、Advanced（Sandbox Mode, MCP Server, IM Channels, 各 Tracing, Using Multiple Providers, Personal Access Tokens）、From Deep Research to Super Agent Harness、Core Features 以降のすべて（Skills & Tools, Claude Code Integration, Session Goals, Manual Context Compaction, Sub-Agents, Sandbox & File System, Context Engineering, Long-Term Memory, Recommended Models, Embedded Python Client, Scheduled Tasks, Terminal Workbench (TUI), Documentation, ⚠️ Security Notice, Contributing, **License**, Acknowledgments, Key Contributors, Star History）。
+
+### 原文抜粋（ライセンス関連・README 本文中のバッジ）
+
+> [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
+（README 本文の "License" セクションは上記のとおり未取得。README 本文から確認できるライセンス表示はこのバッジのみで、リンク先は同リポジトリの `./LICENSE`。）
+
+### 原文抜粋（ByteDance Volcengine の Coding Plan / BytePlus の InfoQuest）
+
+rev1 の research.md で根拠抜粋が欠落していた記述に対応する原文:
+
+> ## Coding Plan from ByteDance Volcengine
+>
+> - We strongly recommend using Doubao-Seed-2.0-Code, DeepSeek v3.2 and Kimi 2.5 to run DeerFlow
+> - [Learn more](https://www.byteplus.com/en/activity/codingplan?...)
+> - [中国大陆地区的开发者请点击这里](https://www.volcengine.com/activity/codingplan?...)
+
+> ## InfoQuest
+>
+> InfoQuest reader, web search, and image search use a 30-second HTTP connect/read
+> inactivity timeout. The crawl `timeout` and `navigation_timeout` settings remain
+> separate server-side options; they do not control the local HTTP timeout.
+>
+> DeerFlow has newly integrated the intelligent search and crawling toolset independently developed by BytePlus--[InfoQuest (supports free online experience)](https://docs.byteplus.com/en/docs/InfoQuest/What_is_Info_Quest)
+
+（Table of Contents にも `- [Coding Plan from ByteDance Volcengine](#coding-plan-from-bytedance-volcengine)` および `- [InfoQuest](#infoquest)` が節として存在する。）
+
+### 原文抜粋（config.example.yaml / vLLM / OpenRouter / Responses API の設定例）
+
+rev1 の research.md で根拠抜粋が欠落していた記述に対応する原文:
+
+> > **Advanced / manual configuration**: If you prefer to edit `config.yaml` directly, run `make config` instead to copy the full template. See `config.example.yaml` for the complete reference including CLI-backed providers (Codex CLI, Claude Code OAuth), OpenRouter, Responses API, subagent runtime caps such as `subagents.max_total_per_run`, and more.
+
+> <details>
+> <summary>Manual model configuration examples</summary>
+>
+> ```yaml
+> models:
+>   - name: gpt-4o
+>     ...
+>   - name: openrouter-gemini-2.5-flash
+>     display_name: Gemini 2.5 Flash (OpenRouter)
+>     use: langchain_openai:ChatOpenAI
+>     model: google/gemini-2.5-flash-preview
+>     api_key: $OPENROUTER_API_KEY
+>     base_url: https://openrouter.ai/api/v1
+>
+>   - name: gpt-5-responses
+>     display_name: GPT-5 (Responses API)
+>     use: langchain_openai:ChatOpenAI
+>     model: gpt-5
+>     api_key: $OPENAI_API_KEY
+>     use_responses_api: true
+>     output_version: responses/v1
+>
+>   - name: qwen3-32b-vllm
+>     display_name: Qwen3 32B (vLLM)
+>     use: deerflow.models.vllm_provider:VllmChatModel
+>     model: Qwen/Qwen3-32B
+>     api_key: $VLLM_API_KEY
+>     base_url: http://localhost:8000/v1
+> ```
+
+> OpenRouter and similar OpenAI-compatible gateways should be configured with `langchain_openai:ChatOpenAI` plus `base_url`.
+
+> To route OpenAI models through `/v1/responses`, keep using `langchain_openai:ChatOpenAI` and set `use_responses_api: true` with `output_version: responses/v1`.
+
+> For vLLM 0.19.0, use `deerflow.models.vllm_provider:VllmChatModel`.
+
+### 原文抜粋（One-Line Agent Setup / セットアップ導線・README 原文での再確認）
+
+> ## One-Line Agent Setup
+>
+> If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent, you can hand it the setup instructions in one sentence:
+> ...
+> That prompt is intended for coding agents. It tells the agent to clone the repo if needed, choose Docker when available, and stop with the exact next command plus any missing config the user still needs to provide.
+
+> This launches an interactive wizard that guides you through choosing an LLM provider, optional web search, and execution/safety preferences such as sandbox mode, bash access, and file-write tools. It generates a minimal `config.yaml` and writes your keys to `.env`. Takes about 2 minutes.
+
+---
+
+## 3. https://agentskills.io/specification
+
+- 取得日時: 2026-09-13T04:01:19Z（1回目）/ 2026-09-13T04:18:38Z（2回目・再取得, max_chars=40000）
+- 取得可否: 取得成功（両回とも）
+- HTTP ステータス: 200（content_type: text/html; charset=utf-8）
+- 切り詰め: なし（truncated=False、両回とも）
+- ページタイトル: `Specification - Agent Skills`
+
+### 原文抜粋（主張）
+
+> Specification
+> The complete format specification for Agent Skills.
+
+> Directory structure
+> A skill is a directory containing, at minimum, a SKILL.md file:
+> skill-name/
+> ├── SKILL.md          # Required: metadata + instructions
+> ├── scripts/          # Optional: executable code
+> ├── references/       # Optional: documentation
+> ├── assets/           # Optional: templates, resources
+
+> The SKILL.md file must contain YAML frontmatter followed by Markdown content.
+
+> Frontmatter
+> name Yes Max 64 characters. Lowercase letters, numbers, and hyphens only. Must not start or end with a hyphen.
+> description Yes Max 1024 characters. Non-empty. Describes what the skill does and when to use it.
+> license No License name or reference to a bundled license file.
+> compatibility No Max 500 characters. Indicates environment requirements (intended product, system packages, network access, etc.).
+> metadata No Arbitrary key-value mapping for additional metadata (a map from string keys to string values).
+> allowed-tools No Space-separated string of pre-approved tools the skill may use. (Experimental)
+
+> Progressive disclosure
+> Agents load skills progressively, pulling in more detail only as a task calls for it.
+> Metadata (~100 tokens): The name and description fields are loaded at startup for all skills
+> Instructions (< 5000 tokens recommended): The full SKILL.md body is loaded when the skill is activated
+> Resources (as needed): Files (e.g. those in scripts/, references/, or assets/) are loaded only when required
+
+> Keep your main SKILL.md under 500 lines. Move detailed reference material to separate files.
+
+> Validation
+> Use the skills-ref reference library to validate your skills:
+> skills-ref validate ./my-skill
+
+### 追加取得（2026-09-13T04:18:38Z）— 良い description / 悪い description の具体例
+
+rev1 で根拠抜粋が欠落していた記述に対応する原文（`description` field 節）:
+
+> description field
+> The required description field:
+> Must be 1-1024 characters
+> Should describe both what the skill does and when to use it
+> Should include specific keywords that help agents identify relevant tasks
+>
+> Good example:
+> description: Extracts text and tables from PDF files, fills PDF forms, and merges multiple PDFs. Use when working with PDF documents or when the user mentions PDFs, forms, or document extraction.
+>
+> Poor example:
+> description: Helps with PDFs.
+
+### 追加取得（2026-09-13T04:18:38Z）— 必須要件（Must）と推奨（Should / We recommend）の書き分け
+
+rev1 で根拠抜粋が欠落していた「規範と推奨を区別して書いている」に対応する原文。ページは各フィールドの説明で助動詞を使い分けている:
+
+`name` field（必須要件のみ、"Must" で列挙。加えて Valid / Invalid の例示）:
+
+> The required name field:
+> Must be 1-64 characters
+> May only contain unicode lowercase alphanumeric characters (a-z, 0-9) and hyphens (-)
+> Must not start or end with a hyphen (-)
+> Must not contain consecutive hyphens (--)
+> Must match the parent directory name
+>
+> Valid examples: name: pdf-processing / name: data-analysis / name: code-review
+> Invalid examples: name: PDF-Processing # uppercase not allowed / name: -pdf # cannot start with hyphen / name: pdf--processing # consecutive hyphens not allowed
+
+`description` field（"Must be 1-1024 characters" は要件、"Should describe both ..." は推奨）: 上記「良い/悪い例」節の抜粋を参照。
+
+`license` field / `compatibility` field / `metadata` field（"We recommend" / "Should only be included" と推奨表現）:
+
+> The optional license field:
+> Specifies the license applied to the skill
+> We recommend keeping it short (either the name of a license or the name of a bundled license file)
+
+> The optional compatibility field:
+> Must be 1-500 characters if provided
+> Should only be included if your skill has specific environment requirements
+> Most skills do not need the compatibility field.
+
+> The optional metadata field:
+> A map from string keys to string values
+> We recommend making your key names reasonably unique to avoid accidental conflicts
+
+（注: 本ページの "Must" / "Should" は RFC 2119 のような大文字キーワードとしての明示的な定義は置かれておらず、文頭の助動詞として使われている。RFC 2119 への言及はページ本文に見当たらない。）
+
+### 原文抜粋（対象読者）
+
+ナビゲーションのセクション見出し:
+
+> Navigation
+> Specification
+> Overview
+> Specification
+> Client Showcase
+> For skill creators
+> Quickstart
+> Best practices
+> Optimizing descriptions
+> Evaluating skills
+> Using scripts
+> For client implementors
+> Adding skills support
+
+> Supported languages depend on the agent implementation. Common options include Python, Bash, and JavaScript.
+
+> Experimental. Support for this field may vary between agent implementations
+
+> Clients can use this to store additional properties not defined by the Agent Skills spec
+
+> Agent Skills now has an official Discord server. See the announcement for details.
+
+### 原文抜粋（ライセンス）
+
+取得したページ本文中に、このページ／仕様そのもののライセンス表記（例: ライセンス名、著作権表示、利用条件）は見当たらなかった（2026-09-13T04:18:38Z の全文再取得でも同様）。ページ内で "license" が現れるのは、仕様が定義する SKILL.md フロントマターの任意フィールドとしての用法のみ:
+
+> license No License name or reference to a bundled license file.
+
+> The optional license field:
+> Specifies the license applied to the skill
+> We recommend keeping it short (either the name of a license or the name of a bundled license file)
+> Example:
+> license: Proprietary. LICENSE.txt has complete terms
+
+> license: Apache-2.0
+
+（上記 `Apache-2.0` は SKILL.md の記述例の一部であり、agentskills.io 自体のライセンスではない。）
+
+ページ末尾のフッター相当部分に確認できた記述:
+
+> Overview
+> Client Showcase
+> Assistant
+> Responses are generated using AI and may contain mistakes.
+
+---
+
+## 取得できなかった情報のまとめ（v2 時点）
+
+| 項目 | 状態 |
+| --- | --- |
+| deer-flow README 後半本文（Running the Application / Advanced 以降、Core Features、⚠️ Security Notice、License セクション本文、Acknowledgments 等） | **取得不可**。2026-09-13T04:18:37Z に raw README を max_chars=40000（ツール上限）で再取得したが `truncated=True`、末尾 28,180 文字が切り詰められた。オフセット指定手段がないため未取得 |
+| deer-flow README "License" セクション本文 | 取得不可（上記に含まれる）。README 本文から確認できるのは MIT バッジ（リンク先 `./LICENSE`）のみ。ライセンス根拠は別 URL の LICENSE 本文（取得成功）による |
+| deepagents "Going to production" のリンク先 URL / ガイド本文 | 未取得（リンクテキストのみ確認）。本メモではガイドの内容には触れていない |
+| agentskills.io/specification のサイト／仕様自体のライセンス表記 | 取得したページ本文内に記載を確認できず（2回の全文取得とも） |
+| deer-flow README 1回目取得（rev1, 2026-09-13T04:01:19Z）の max_chars 値 | 記録なし（未記録）。research-v2.md では値に言及しない |
+| 各リポジトリのスター数・フォーク数等の指標 | ページ上に表示はあったが、時点依存のため research-v2.md では主要な根拠に用いていない |

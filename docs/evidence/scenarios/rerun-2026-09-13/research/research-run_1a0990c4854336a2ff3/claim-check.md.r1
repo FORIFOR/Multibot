@@ -1,0 +1,124 @@
+# research.md (rev1) 主張別 原典照合表 — Reviewer t2
+
+対象: artifact `research.md` revision 1 / sha256 `ff60d0a1a92a47a0cbad7af85bbe54ba91e973e9019f954272a847ab8fd146c6`
+
+## 照合手段の実態（重要）
+
+本レビューで**実行できたこと**:
+
+- `read_artifact(research.md, rev1)` による全文読み取り（10,787文字 / 16,975B）
+- `run_check markdown_basic`（必須4セクション指定）→ **pass**
+- `run_check text_contains`（3URL）→ **pass**
+- `sandbox_run` によるネットワーク到達性の実測
+
+本レビューで**実行できなかったこと**:
+
+- **web_fetch による3URLの独立再取得**。理由は2点、いずれもツール実行結果で確認済み:
+  1. Reviewer に `web_fetch` ツールが付与されていない（利用可能ツール一覧に存在しない）
+  2. サンドボックスがネットワーク完全不通。`sandbox_run` の実測結果:
+     - `curl` は `DENIED: command contains denied token 'curl'`
+     - `python3` + `socket.gethostbyname` → `github.com` / `agentskills.io` / `raw.githubusercontent.com` すべて `gaierror [Errno -3] Temporary failure in name resolution`
+     - `urllib.request.urlopen` → `URLError <urlopen error [Errno -3] Temporary failure in name resolution>`
+
+したがって下表の「原典照合」列は、**実在を確認できた／できなかった**ではなく、**再取得不能により未確認**が正しい記録である。researcher に生取得テキストの artifact 公開を `send_message`(msg_1a099124166c22e6a22) で要求したが、締切までに回答・公開なし（`list_artifacts` で `research.md r1` のみを確認）。
+
+判定凡例: `未確認(再取得不能)` = 原典に存在するか否かを本レビューでは判定していない / `内部整合OK` = research.md 内の記述同士および注記との矛盾がないことのみ確認 / `不一致` = 矛盾を検出
+
+---
+
+## A. langchain-ai/deepagents（出典 https://github.com/langchain-ai/deepagents）
+
+| # | research.md の主張・引用 | 種別 | 照合先URL | 原典照合 | 備考 |
+| --- | --- | --- | --- | --- | --- |
+| A1 | 「The batteries-included agent harness.」（リポジトリ説明・見出し） | 直接引用 | github.com/langchain-ai/deepagents | 未確認(再取得不能) | 内部整合OK（比較表と一致） |
+| A2 | 「Deep Agents is an open source agent harness — an opinionated agent that runs out of the box. Extend, override, or replace any piece.」 | 直接引用 | 同上 | 未確認(再取得不能) | 内部整合OK |
+| A3 | 原則4点 Opinionated / Extensible / Model-agnostic / Production-ready | 要約＋部分引用 | 同上 | 未確認(再取得不能) | 括弧内の説明も原典依存 |
+| A4 | Features: Sub-agents, Filesystem, Context management, Shell access, Persistent memory, Human-in-the-loop, Skills, Tools | 列挙 | 同上 | 未確認(再取得不能) | — |
+| A5 | Quickstart に `uv add deepagents` と `create_deep_agent(...)` | 事実記述 | 同上 | 未確認(再取得不能) | — |
+| A6 | 「available as a JavaScript/TypeScript library — see deepagents.js」 | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| A7 | 「Deep Agents Code — a pre-built coding agent in your terminal, similar to Claude Code or Cursor, powered by any LLM.」 | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| A8 | 「Inspired by Claude Code: an attempt to identify what makes it general-purpose, and push that further.」 | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| A9 | FAQ「How is this different from LangGraph or LangChain?」の層構造説明 | 要約 | 同上 | 未確認(再取得不能) | 要約であり逐語ではない旨は本文に明示なし（軽微） |
+| A10 | 「Yes! Deep Agents is built on LangGraph, designed for production agent deployments.」 | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| A11 | 「Yes. Any model that supports tool calling works」＋ Ollama / vLLM / llama.cpp 言及 | 直接引用＋列挙 | 同上 | 未確認(再取得不能) | — |
+| A12 | 「Use Deep Agents when you want the full harness — planning, context management, delegation — out of the box.」 | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| A13 | 対象読者は本文からの読み取りであり明示節は無い | メタ注記 | 同上 | 未確認(再取得不能) | **良い実践**: 推論であることを明示している |
+| A14 | ライセンス MIT。根拠はナビ行「README / Code of conduct / Contributing / MIT license / Security」と About 欄 Resources、ファイル一覧の `LICENSE` | 事実記述 | 同上 | 未確認(再取得不能) | 内部整合OK |
+| A15 | 「`LICENSE` ファイル本文そのものは本調査では取得していない（未確認）」 | メタ注記 | — | 内部整合OK | **良い実践**: 根拠範囲を限定 |
+| A16 | 取得メタ: HTTP 200 / 2026-09-13T04:35:47Z / 全文 | メタ情報 | — | 未確認(再取得不能) | 取得ログ未公開のため検証不能 |
+
+## B. bytedance/deer-flow（出典 https://github.com/bytedance/deer-flow, https://raw.githubusercontent.com/bytedance/deer-flow/main/README.md）
+
+| # | research.md の主張・引用 | 種別 | 照合先URL | 原典照合 | 備考 |
+| --- | --- | --- | --- | --- | --- |
+| B1 | 「An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours.」 | 直接引用 | github.com/bytedance/deer-flow | 未確認(再取得不能) | — |
+| B2 | 「DeerFlow (Deep Exploration and Efficient Research Flow) is an open-source super agent harness that orchestrates sub-agents, memory, and sandboxes to do almost anything — powered by extensible skills.」 | 直接引用 | 同上 / raw README | 未確認(再取得不能) | — |
+| B3 | 「DeerFlow 2.0 is a ground-up rewrite. It shares no code with v1. If you're looking for the original Deep Research framework, it's maintained on the `1.x` branch」 | 直接引用 | 同上 | 未確認(再取得不能) | 節見出しの「(DeerFlow 2.0)」はこの引用が根拠、内部整合OK |
+| B4 | 目次項目の列挙（Quick Start / Configuration / Deployment Sizing / Docker / Sandbox Mode / MCP Server / IM Channels / Tracing / Core Features / Embedded Python Client / Scheduled Tasks / Terminal Workbench (TUI) / Security Notice 等） | 列挙 | 同上 | 未確認(再取得不能) | 切り詰め前の前半に目次がある前提。整合的 |
+| B5 | `make setup` 対話ウィザードで `config.yaml` と `.env` を生成、`make doctor` で検証 | 事実記述 | 同上 | 未確認(再取得不能) | — |
+| B6 | BytePlus の InfoQuest 統合、Volcengine Coding Plan（Doubao-Seed-2.0-Code / DeepSeek v3.2 / Kimi 2.5 推奨） | 事実記述 | 同上 | 未確認(再取得不能) | 固有名詞が多く、誤記リスクが相対的に高い箇所 |
+| B7 | 「⚠️ Security Notice」「Improper Deployment May Introduce Security Risks」が目次にある | 事実記述 | 同上 | 未確認(再取得不能) | 本文は未取得と別途明記あり（整合） |
+| B8 | 「If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent, you can hand it the setup instructions in one sentence」（One-Line Agent Setup 節） | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| B9 | Docker（推奨）/ ローカル開発の2オプション、Helm チャート `deploy/helm/deer-flow`、Deployment Sizing | 事実記述 | 同上 | 未確認(再取得不能) | — |
+| B10 | README が English / 中文 / 日本語 / Français / Русский の5言語 | 事実記述 | 同上 | 未確認(再取得不能) | — |
+| B11 | OpenRouter / Responses API / vLLM / Codex CLI / Claude Code OAuth の設定例 | 事実記述 | 同上 | 未確認(再取得不能) | — |
+| B12 | 「『対象読者』を明示的に定義した節は、取得できた範囲には存在しない」 | メタ注記 | — | 内部整合OK | **良い実践** |
+| B13 | ライセンス MIT。根拠(1) バッジ `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)`、(2) リポジトリページの「MIT license」表示と `LICENSE` ファイル | 事実記述＋引用 | 同上 | 未確認(再取得不能) | 内部整合OK |
+| B14 | 「License 節本文と `LICENSE` 本文は切り詰めのため未取得（未確認）」 | メタ注記 | — | 内部整合OK | **良い実践** |
+| B15 | 取得メタ: HTTP 200 / `truncated=True` / 約18,425文字切り詰め（GitHub）、約28,180文字切り詰め（raw README） | メタ情報 | — | 未確認(再取得不能) | 取得ログ未公開のため数値検証不能 |
+
+## C. agentskills.io/specification（出典 https://agentskills.io/specification）
+
+| # | research.md の主張・引用 | 種別 | 照合先URL | 原典照合 | 備考 |
+| --- | --- | --- | --- | --- | --- |
+| C1 | 「The complete format specification for Agent Skills.」 | 直接引用 | agentskills.io/specification | 未確認(再取得不能) | — |
+| C2 | 「A skill is a directory containing, at minimum, a `SKILL.md` file」、任意で `scripts/` / `references/` / `assets/` | 直接引用＋要約 | 同上 | 未確認(再取得不能) | — |
+| C3 | 「must contain YAML frontmatter followed by Markdown content」 | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| C4 | frontmatter 仕様: `name`(必須/最大64文字/小文字英数字とハイフン/先頭末尾ハイフン不可/連続ハイフン不可/親ディレクトリ名と一致) | 詳細事実 | 同上 | 未確認(再取得不能) | 数値制約は誤記リスクが高く要再取得 |
+| C5 | `description`(必須/最大1024文字)、`compatibility`(任意/最大500文字)、`metadata`(任意/文字列→文字列)、`allowed-tools`(任意/空白区切り/Experimental) | 詳細事実 | 同上 | 未確認(再取得不能) | 同上 |
+| C6 | `license`(任意、ライセンス名または同梱ライセンスファイルへの参照) | 詳細事実 | 同上 | 未確認(再取得不能) | — |
+| C7 | Progressive disclosure: 「Metadata (~100 tokens)」「Instructions (< 5000 tokens recommended)」「Resources (as needed)」 | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| C8 | 「Keep your main SKILL.md under 500 lines.」 | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| C9 | 「Keep file references one level deep from SKILL.md.」／参照は skill ルートからの相対パス | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| C10 | 「Use the `skills-ref` reference library to validate your skills」／`skills-ref validate ./my-skill` | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| C11 | ナビゲーション「For skill creators」（Quickstart / Best practices / Optimizing descriptions / Evaluating skills / Using scripts）と「For client implementors」（Adding skills support） | 直接引用＋列挙 | 同上 | 未確認(再取得不能) | 対象読者を「明示されている」と断定する唯一の根拠 |
+| C12 | 「Clients can use this to store additional properties not defined by the Agent Skills spec」（`metadata`） | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| C13 | 「Support for this field may vary between agent implementations」（`allowed-tools`） | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| C14 | 「Agent Skills now has an official Discord server.」（告知バナー） | 直接引用 | 同上 | 未確認(再取得不能) | — |
+| C15 | ライセンスは「記載なし（未確認）」。ページ本文にサイト/仕様自体のライセンス表記が無かった | **不在の主張** | 同上 | 未確認(再取得不能) | 不在証明は再取得なしでは原理的に検証不能。ただし「未確認」と明記しており断定回避は適切 |
+| C16 | 本文中の `license` は SKILL.md frontmatter のフィールドであってサイトのライセンスではない、という混同注意（例 `license: Apache-2.0`、`license: Proprietary. LICENSE.txt has complete terms`） | 解釈＋引用 | 同上 | 未確認(再取得不能) | 解釈としては妥当かつ有用 |
+
+## D. 横断・メタ記述
+
+| # | research.md の主張 | 照合 | 所見 |
+| --- | --- | --- | --- |
+| D1 | 「取得不可: **なし**。3URL いずれも HTTP 200 で取得できた」 | 未確認(再取得不能) | 取得ログ未公開のため HTTP 200 を裏取りできない |
+| D2 | deepagents / deer-flow はいずれも自らを agent harness と称する（概要の結論） | 内部整合OK | A1/A2/B1/B2 の引用から導出されており、引用の範囲を超えていない |
+| D3 | スター数 deepagents 29.4k/4.1k、deer-flow 82.3k/11.4k を「変動するため比較の根拠に使用していない」と記載 | 未確認(再取得不能) | 根拠に使っていない旨を明記しているため、成果物の結論には影響しない |
+| D4 | 取得日すべて 2026-09-13（UTC 04:35 前後）、以後変更されうる旨の注記 | 未確認(再取得不能) | **良い実践**: 鮮度限界を明示 |
+| D5 | 比較表に「提供形態」列を追加（指示は 主張/対象読者/ライセンス の3列） | 内部整合OK | 必須3列は揃っており追加列は違反ではない |
+| D6 | 推測補完の痕跡（原典に無さそうな一般知識の混入） | 内部検査のみ | research.md 内に、出典未提示のまま断定している一般知識的記述は**検出されず**。対象読者の推論箇所・未取得箇所には毎回「読み取り」「未取得」「未確認」の注記が付いている |
+
+---
+
+## 検出した指摘事項
+
+### 指摘1（軽微・成果物の欠陥ではない / 手続き上の欠落）: 取得ログが成果物化されていない
+
+- 対象: research.md rev1 全体
+- 内容: 引用の原典所在（HTTP 200、truncated 文字数、取得時刻）はすべて研究者側の自己申告であり、第三者が照合できる生取得テキストが artifact として残っていない。
+- 影響: 受入条件 t1a4（source_check）を独立検証できず **unverified** になる。
+- 最小修正案: web_fetch の生出力3ファイル（deepagents / deer-flow＋raw README / agentskills）をそのまま artifact 公開する。research.md 本文の修正は不要。
+
+### 指摘2（軽微・表現）: A9 の FAQ 説明が逐語か要約か不明瞭
+
+- 対象: 「1. langchain-ai/deepagents」→「対象読者・利用者」2項目目
+- 内容: 「LangGraph = graph runtime、LangChain の `create_agent` = 最小ハーネス、Deep Agents = その上のより opinionated なハーネス」は日本語要約だが、他の引用が鉤括弧付き原文なのに対し出所の粒度が揃っていない。
+- 影響: 極小。誤りとは言えない。
+- 最小修正案: 「（要約）」と付記、または原文を併記。
+
+### 指摘なしと判断した点
+
+- 「取得不可」と書くべきなのに内容が書かれている箇所: **検出せず**。deer-flow の切り詰め部分は「未取得＝未確認」と明記され、記述が前半＋目次に限定されている旨も宣言されている。
+- ライセンスの推測補完: **検出せず**。agentskills.io は「記載なし（未確認）」とし、`license` フィールドとの混同も明示的に切り分けている。GitHub 2件の MIT も「表示・バッジが根拠、LICENSE 本文は未取得」と限定している。
+- 必須3項目の欠落: **検出せず**。3ページ×3項目=9セルすべてに記載あり。

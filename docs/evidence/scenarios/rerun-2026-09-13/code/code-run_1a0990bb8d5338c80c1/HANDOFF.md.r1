@@ -1,0 +1,70 @@
+# HANDOFF: wc_plus（Builder → Reviewer）
+
+## 成果物（すべて rev1 公開済み）
+
+| artifact_id | rev | sha256 |
+| --- | --- | --- |
+| `wc_plus.py` | 1 | `eddf6c775db2e914c1062f557ca9845098794d197d2243944c5641f64e5bc807` |
+| `test_wc_plus.py` | 1 | `2a14d6f792c7d0dc51c9c064bbe9e62850a820f2ca047bb364eba69bcd214d08` |
+| `README.md` | 1 | `59f86b185fd6c62d4df733fe03a0396491e3934b7515c4835f1a5a16d44b892d` |
+
+## 公開前に実行したテスト（t1a8 の証拠）
+
+- 実行コマンド: `python3 -m unittest -v`
+- 実行環境: sandbox_run（backend=docker）/ **Python 3.12.14**
+- 結果: **`Ran 17 tests in 0.002s` → `OK`**（exit_code=0、failures=0、errors=0、skipped=0）
+- 全 17 ケースが個別に `... ok` を出力（下記 6 クラス）
+  - `CountTextTests`（5）: 基本カウント / 末尾改行なし / Unicode 文字数 / 大文字小文字非区別 / 空テキスト
+  - `TopWordsTests`（3）: トップ5の件数と頻度降順 / 同数の辞書順タイブレーク / 空カウンタの `-` 表示
+  - `CliSingleFileTests`（2）: 単一ファイルは total 行なし / 空ファイル
+  - `CliMultiFileTests`（2）: 2 ファイルで total 行を出力・合算 / 成功 1 件のみなら total なし
+  - `CliErrorTests`（3）: 存在しないファイルは stderr 警告 + exit 1 / エラー後も残りを処理 / ディレクトリ指定
+  - `CliOptionTests`（2）: `--top N` / `--top 0` は既定 5 にフォールバック
+- 公開は上記 OK 判定を確認した **後** に実施（失敗→修正の再実行は発生せず、初回実行で OK）
+
+## 実行した programmatic チェック（すべて pass）
+
+| ID | kind | 対象 | 結果 |
+| --- | --- | --- | --- |
+| t1a1 | python_syntax | `wc_plus.py` | pass |
+| t1a2 | python_syntax | `test_wc_plus.py` | pass |
+| t1a3 | command `python3 -m unittest -v` | workspace | pass (exit 0, Ran 17 / OK) |
+| t1a4 | regex_count `def test_` (min 5) | `test_wc_plus.py` | pass (count=17) |
+| t1a5 | text_not_contains（numpy/pandas/click/requests） | 両 .py | pass (found=[]) |
+| t1a6 | markdown_basic（使い方 / 出力例 / テスト実行方法） | `README.md` | pass (14 見出し) |
+| t1a7 | text_contains（`python3 wc_plus.py`, `python3 -m unittest`） | `README.md` | pass |
+
+## 実装仕様（レビュー観点）
+
+- 標準ライブラリのみ: `argparse`, `re`, `sys`, `collections.Counter`（テストは `io`, `os`, `tempfile`, `unittest`）
+- 単語 = `re.compile(r"\w+", re.UNICODE)` にマッチする連続部分。頻度集計時に `.lower()` で小文字化（大文字小文字を区別しない）
+- ソート順: `key=lambda kv: (-kv[1], kv[0])` により 頻度降順 → 単語の辞書順（同数でも出力が安定）
+- `chars` は `len(text)`（Unicode 文字数、バイト数ではない）。ファイルは既定 UTF-8 で読む
+- `lines` は `text.count("\n")` + 末尾に改行がなければ +1
+- 複数ファイル時: **成功したファイルが 2 件以上**のときだけ `total` ブロックを出力
+- エラー時: `OSError` / `UnicodeDecodeError` を捕捉し `wc_plus: <path>: <理由>` を stderr に出力、残りを継続処理、最終 exit code は 1
+- `main(argv, stdout, stderr)` がストリームを注入できる設計のため、テストはサブプロセスなしで stdout/stderr/exit code を検証できる
+- 追加オプション（要件外の拡張）: `--top N`, `--encoding ENC`
+
+## 再現手順
+
+```bash
+# 3 ファイルを同一ディレクトリに配置して
+python3 -m unittest -v
+
+# 動作確認
+printf 'the quick brown fox\njumps over the lazy dog\nThe DOG barks and the fox runs\n' > sample1.txt
+printf 'Hello world\nhello again world\n' > sample2.txt
+python3 wc_plus.py sample1.txt sample2.txt
+```
+
+## 未検証 / 既知の留意点
+
+- **Python 3.8〜3.11 での実行は未検証**。sandbox で利用できたのは 3.12.14 のみ。
+  型注釈に `Counter | None` / `list[tuple[str, int]]` を使っているが、`from __future__ import annotations` により
+  評価が遅延されるため 3.8 でも構文上は動作する想定（実機未確認）。
+- **macOS ホスト上での直接実行は未検証**（sandbox_run は docker backend）。
+- パーミッションエラー（読み取り権限なし）のケースは、テストでは `IsADirectoryError` 系の
+  `test_directory_argument_is_reported_as_error` で `OSError` 経路を代表検証しており、
+  `chmod 000` による実パーミッション拒否は未検証（root 実行だと再現しないため）。
+- README の出力例は sandbox_run の実出力をそのまま転記（パスのみ `/tmp/demo/` を除去して相対表記に変更）。

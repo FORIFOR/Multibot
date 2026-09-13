@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Team — 一度の依頼で、AIチームが実際に作業する</title>
+<meta name="description" content="Agent Team は Master / Researcher / Builder / Reviewer のAIチームが一度の依頼から実際に作業し、成果物とBot間の実メッセージ、時系列を同じ実行記録から表示する、オープンソースのローカルファーストなツールです。">
+<style>
+:root{
+  --bg:#0e1116;
+  --panel:#161b22;
+  --line:#2a323d;
+  --text:#e6edf3;
+  --muted:#9fb0c0;
+  --accent:#5ac8fa;
+  --accent2:#7ee787;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+  line-height:1.9;
+  font-size:16px;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px;}
+header.site{
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;
+  background:rgba(14,17,22,0.92);
+  z-index:10;
+}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:14px 0;}
+.brand{font-weight:700;letter-spacing:.04em;font-size:1.05rem;}
+nav.site a{
+  color:var(--muted);text-decoration:none;font-size:.88rem;
+  padding:4px 2px;border-bottom:1px solid transparent;
+}
+nav.site a:hover{color:var(--accent);border-bottom-color:var(--accent);}
+nav.site{display:flex;flex-wrap:wrap;gap:6px 14px;}
+section{padding:56px 0;border-bottom:1px solid var(--line);}
+h1{font-size:2rem;line-height:1.5;margin:0 0 18px;letter-spacing:.01em;}
+h2{font-size:1.4rem;margin:0 0 14px;letter-spacing:.02em;}
+h3{font-size:1.02rem;margin:0 0 6px;color:var(--accent);}
+p{margin:0 0 14px;}
+.lead{font-size:1.06rem;color:var(--muted);}
+.hero{padding:72px 0 60px;}
+.tagline{
+  display:inline-block;font-size:.78rem;color:var(--accent2);
+  border:1px solid var(--accent2);border-radius:999px;
+  padding:3px 12px;margin-bottom:18px;letter-spacing:.06em;
+}
+.grid{display:flex;flex-wrap:wrap;gap:16px;margin:20px 0 0;}
+.card{
+  flex:1 1 240px;background:var(--panel);
+  border:1px solid var(--line);border-radius:10px;padding:18px 20px;
+}
+.card p{margin:0;color:var(--muted);font-size:.93rem;}
+.flow{list-style:none;margin:22px 0 0;padding:0;counter-reset:step;}
+.flow li{
+  background:var(--panel);border:1px solid var(--line);
+  border-left:3px solid var(--accent);border-radius:8px;
+  padding:14px 18px;margin:0 0 12px;
+}
+.flow li strong{display:block;color:var(--accent);font-size:.95rem;margin-bottom:4px;}
+.flow li span{color:var(--muted);font-size:.93rem;}
+ul.plain{margin:0;padding-left:1.25em;color:var(--muted);}
+ul.plain li{margin-bottom:8px;}
+dl.faq{margin:0;}
+dl.faq dt{font-weight:700;margin:20px 0 6px;}
+dl.faq dt:first-child{margin-top:0;}
+dl.faq dd{margin:0;color:var(--muted);}
+.cta{text-align:center;border-bottom:none;}
+.cta-box{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:30px 24px;margin-top:18px;
+}
+.cta-label{
+  display:inline-block;margin-top:10px;padding:12px 26px;
+  border:1px solid var(--accent);border-radius:8px;
+  color:var(--accent);font-weight:700;letter-spacing:.04em;
+}
+.note{font-size:.84rem;color:var(--muted);}
+footer.site{padding:28px 0 40px;color:var(--muted);font-size:.84rem;}
+@media (max-width:600px){
+  h1{font-size:1.55rem;}
+  section{padding:44px 0;}
+  .hero{padding:52px 0 44px;}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap bar">
+    <div class="brand">Agent Team</div>
+    <nav class="site">
+      <a href="#problem">課題</a>
+      <a href="#how">仕組み</a>
+      <a href="#features">特徴</a>
+      <a href="#audience">対象</a>
+      <a href="#faq">FAQ</a>
+      <a href="#cta">はじめる</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <span class="tagline">オープンソース / ローカルファースト</span>
+      <h1>一度の依頼から、AIチームが実際に作業する。</h1>
+      <p class="lead">Agent Team は、Master・Researcher・Builder・Reviewer の4ロールからなるAIチームが、一度の依頼をもとに実際に作業を進めるツールです。出来上がった成果物だけでなく、Bot間でやり取りされた実際のメッセージと、その時系列を、同じ実行記録から確認できます。</p>
+      <p class="note">価格は未定です。</p>
+    </div>
+  </section>
+
+  <section id="problem">
+    <div class="wrap">
+      <h2>やり取りの中身が見えないと、結果を信頼しづらい</h2>
+      <p>AIに作業を任せたとき、手元に残るのは最終的な出力だけ、ということがあります。どの役割がどの順番で何を判断し、どこで受け渡しが起きたのかが分からないままでは、出力を読み直しても納得しにくくなります。</p>
+      <p>Agent Team は、成果物とBot間の実メッセージ、そして時系列を、同じ実行記録から表示します。結果と、その結果に至る過程を、別々の場所ではなく一つの記録として追えるようにするという考え方です。</p>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2>仕組み：4つのロールが役割を分けて動く</h2>
+      <p class="lead">依頼は一度で構いません。以下の4ロールがチームとして作業します。</p>
+      <ul class="flow">
+        <li><strong>Master</strong><span>依頼を受け取り、チーム全体の作業を取りまとめる役割。</span></li>
+        <li><strong>Researcher</strong><span>作業に必要な情報を調べる役割。</span></li>
+        <li><strong>Builder</strong><span>実際の成果物をつくる役割。</span></li>
+        <li><strong>Reviewer</strong><span>出来上がったものを確認する役割。</span></li>
+      </ul>
+      <p class="note">各ロールのやり取りは実行記録に残り、成果物と同じ実行記録から時系列として参照できます。</p>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>特徴</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>オープンソース</h3>
+          <p>オープンソースとして公開されているツールです。中で何をしているかを、実装そのものから確かめられます。</p>
+        </div>
+        <div class="card">
+          <h3>ローカルファースト</h3>
+          <p>ローカルファーストな設計。手元の環境を起点に動かすという前提でつくられています。</p>
+        </div>
+        <div class="card">
+          <h3>実行記録の一貫表示</h3>
+          <p>成果物、Bot間の実メッセージ、時系列を、同じ実行記録から表示します。要約ではなく実際のやり取りを追えます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="audience">
+    <div class="wrap">
+      <h2>こんな方に</h2>
+      <ul class="plain">
+        <li>ソフトウェア開発者 — AIに任せた作業の過程を、実際のメッセージと時系列で確認したい方。</li>
+        <li>個人開発者 — 調査・実装・確認までを一度の依頼から進め、手元の環境で完結させたい方。</li>
+        <li>オープンソースのツールを、自分で読んで理解したうえで使いたい方。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>価格はいくらですか。</dt>
+        <dd>価格は未定です。</dd>
+
+        <dt>どんな役割が動きますか。</dt>
+        <dd>Master、Researcher、Builder、Reviewer の4つのロールがチームとして作業します。</dd>
+
+        <dt>作業の過程は見られますか。</dt>
+        <dd>成果物とBot間の実メッセージ、時系列を、同じ実行記録から表示します。</dd>
+
+        <dt>ソースコードは公開されていますか。</dt>
+        <dd>オープンソースのツールです。</dd>
+
+        <dt>どこで動きますか。</dt>
+        <dd>ローカルファーストなツールとして設計されています。</dd>
+
+        <dt>誰向けのツールですか。</dt>
+        <dd>ソフトウェア開発者と個人開発者を対象としています。</dd>
+      </dl>
+      <p class="note">このページに記載していない仕様・対応環境・提供時期については、現時点では未定または未公表です。</p>
+    </div>
+  </section>
+
+  <section class="cta" id="cta">
+    <div class="wrap">
+      <h2>一度の依頼から、試してみる</h2>
+      <div class="cta-box">
+        <p class="lead">Master・Researcher・Builder・Reviewer が実際に作業し、そのやり取りを実行記録から確認できる。Agent Team はオープンソースのローカルファーストなツールです。</p>
+        <span class="cta-label">Agent Team を試す</span>
+        <p class="note" style="margin-top:16px;">価格は未定です。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>Agent Team — オープンソース / ローカルファースト。価格は未定です。</p>
+    <p><a href="#hero">ページ先頭へ戻る</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

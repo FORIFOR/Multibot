@@ -16,6 +16,9 @@ class Defaults(BaseModel):
     model: str
     language: str = "ja"
     timezone: str = "Asia/Tokyo"
+    # "team": the Master plans a DAG for Researcher/Builder/Reviewer. "single": no planning call, no review — one enabled
+    # builder-role agent gets the whole request as one task with the same total budget (the single-agent baseline).
+    team_mode: Literal["team", "single"] = "team"
 
 
 class Connection(BaseModel):
@@ -96,6 +99,7 @@ class AgentTeamConfig(BaseModel):
         """Shape that validates against schemas/agent-config.schema.json (extensions removed)."""
         d = self.model_dump(mode="json")
         d.pop("pricing", None)
+        d["defaults"].pop("team_mode", None)
         for c in d["connections"]:
             for k in ("capability_detail", "refusal_fallback", "allowed_fallback_connections"):
                 c.pop(k, None)

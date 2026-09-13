@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>はじめかた — Agent Team</title>
+<meta name="description" content="Agent Team の導入と、最初の依頼を実行するまでの流れを日本語で説明します。">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Agent Team</div>
+    <nav class="site">
+      <ul>
+        <li><a href="../index.html">トップ</a></li>
+        <li><a href="getting-started.html">はじめかた</a></li>
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>はじめかた</h1>
+    <p class="lead">Agent Team を用意して、最初の依頼を実行し、結果を確認するまでの流れをまとめます。</p>
+
+    <h2>前提</h2>
+    <div class="card">
+      <ul>
+        <li>Agent Team はオープンソースです。ソースコードを入手して手元で動かします。</li>
+        <li>ローカルファーストなツールのため、作業と実行記録は手元を起点に扱います。</li>
+        <li><strong>Claude Code があれば、API キーの用意は不要です。</strong></li>
+      </ul>
+      <p class="note">入手先や導入コマンドは環境によって異なるため、このページでは具体的な手順の代わりに流れのみを示します。</p>
+    </div>
+
+    <h2>最初の実行の流れ</h2>
+    <ol class="steps">
+      <li>
+        <h3>1. 依頼をひとつ書く</h3>
+        <p>作ってほしいもの、調べてほしいことを、一度の依頼としてまとめて書きます。役割ごとに分けて指示する必要はありません。</p>
+      </li>
+      <li>
+        <h3>2. Master が受け取り、分担を決める</h3>
+        <p>Master が依頼を読み、タスクに分割して Researcher / Builder / Reviewer に割り当てます。</p>
+      </li>
+      <li>
+        <h3>3. チームが実際に作業する</h3>
+        <p>Researcher が必要な情報を集め、Builder が成果物を作り、Reviewer がそれを検証します。エージェント同士は必要に応じてメッセージをやり取りしながら進みます。</p>
+      </li>
+      <li>
+        <h3>4. 実行記録を確認する</h3>
+        <p>できあがった成果物に加えて、Bot 間の実メッセージと時系列を、同じ実行記録から確認します。どの成果物がどのやり取りの結果なのかを、そのまま追えます。</p>
+      </li>
+      <li>
+        <h3>5. 必要なら依頼し直す</h3>
+        <p>結果と経緯を見たうえで、足りない点を次の依頼に反映します。どこで判断がずれたかが記録から分かるため、指示の直し方を絞り込めます。</p>
+      </li>
+    </ol>
+
+    <h2>最初の依頼を書くときのコツ</h2>
+    <ul>
+      <li><strong>ゴールを1文で書く</strong> — 何ができれば完了かを先に書きます。</li>
+      <li><strong>成果物の形を指定する</strong> — ファイルなのか、調査メモなのかを明示します。</li>
+      <li><strong>やってほしくないことを書く</strong> — 触ってほしくない範囲を書いておくと、分担時のブレが減ります。</li>
+      <li><strong>確認方法を添える</strong> — 何をもって合格とするかを書くと、Reviewer の検証がかみ合います。</li>
+    </ul>
+
+    <h2>うまく進まないと感じたら</h2>
+    <p>まず実行記録の時系列とメッセージを見て、依頼の解釈がどこで分かれたかを確認します。出力だけを見て直すより、やり取りの分岐点を直すほうが早いことが多いです。</p>
+
+    <h2>関連ページ</h2>
+    <ul>
+      <li><a href="../index.html">トップ（../index.html）</a> — Agent Team の概要。</li>
+      <li><a href="faq.html">よくある質問（faq.html）</a> — 価格・API キー・OSS・ローカルファースト・対象ユーザー。</li>
+    </ul>
+
+    <nav class="pagenav">
+      <a href="../index.html">トップに戻る</a>
+      <a href="faq.html">よくある質問へ進む</a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p class="note">Agent Team ドキュメント（下書き）。記載内容は製品説明の範囲に限定しています。</p>
+  </div>
+</footer>
+</body>
+</html>

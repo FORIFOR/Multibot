@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+"""wc_plus - 行数・単語数・文字数と最頻出単語トップ5を表示する CLI ツール。
+
+標準ライブラリのみで実装している。
+
+単語の定義:
+    正規表現 ``\\w+`` にマッチする連続部分を 1 単語とする。
+    頻度集計時は小文字化するため、大文字小文字は区別しない。
+
+文字数:
+    Unicode 文字数（バイト数ではない）。改行文字も 1 文字として数える。
+"""
+
+from __future__ import annotations
+
+import argparse
+import re
+import sys
+from collections import Counter
+
+TOP_N = 5
+WORD_RE = re.compile(r"\w+", re.UNICODE)
+
+
+class Stats:
+    """1 ファイル分（または合計分）の集計結果。"""
+
+    def __init__(self, lines: int = 0, words: int = 0, chars: int = 0,
+                 counter: Counter | None = None) -> None:
+        self.lines = lines
+        self.words = words
+        self.chars = chars
+        self.counter: Counter = Counter() if counter is None else counter
+
+    def add(self, other: "Stats") -> None:
+        """別の Stats を合算する（total 行の作成に使う）。"""
+        self.lines += other.lines
+        self.words += other.words
+        self.chars += other.chars
+        self.counter.update(other.counter)
+
+    def top_words(self, n: int = TOP_N) -> list[tuple[str, int]]:
+        """頻度降順 → 単語の辞書順で上位 n 件を返す（同数でも順序が安定する）。"""
+        return sorted(self.counter.items(), key=lambda kv: (-kv[1], kv[0]))[:n]
+
+
+def count_text(text: str) -> Stats:
+    """テキスト文字列から行数・単語数・文字数・単語頻度を集計する。
+
+    行数は改行 ``\\n`` の個数を数える。末尾に改行のない最終行がある場合は
+    その分を 1 行として加算する（``wc -l`` より直感的な数え方）。
+    """
+    chars = len(text)
+    lines = text.count("\n")
+    if text and not text.endswith("\n"):
+        lines += 1
+    tokens = WORD_RE.findall(text)
+    counter = Counter(token.lower() for token in tokens)
+    return Stats(lines=lines, words=len(tokens), chars=chars, counter=counter)
+
+
+def count_file(path: str, encoding: str = "utf-8") -> Stats:
+    """ファイルを UTF-8 で読み込んで集計する。失敗時は OSError 系を送出する。"""
+    with open(path, "r", encoding=encoding) as handle:
+        return count_text(handle.read())
+
+
+def format_top_words(top: list[tuple[str, int]]) -> str:
+    """トップ単語の一覧を ``word:count`` のカンマ区切り文字列にする。"""
+    if not top:
+        return "-"
+    return ", ".join("{0}:{1}".format(word, count) for word, count in top)
+
+
+def format_report(label: str, stats: Stats, top_n: int = TOP_N) -> str:
+    """1 件分のレポート文字列を組み立てる。"""
+    header = "{0}\n  lines: {1}\n  words: {2}\n  chars: {3}".format(
+        label, stats.lines, stats.words, stats.chars
+    )
+    top_line = "  top{0}: {1}".format(top_n, format_top_words(stats.top_words(top_n)))
+    return header + "\n" + top_line
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="wc_plus.py",
+        description=(
+            "テキストファイルの行数・単語数・文字数と、"
+            "最頻出の単語トップ5を表示します。"
+        ),
+    )
+    parser.add_argument(
+        "files",
+        metavar="FILE",
+        nargs="+",
+        help="集計対象のテキストファイル（複数指定可）",
+    )
+    parser.add_argument(
+        "--top",
+        type=int,
+        default=TOP_N,
+        help="表示する最頻出単語の件数（既定: %(default)s）",
+    )
+    parser.add_argument(
+        "--encoding",
+        default="utf-8",
+        help="ファイルの文字エンコーディング（既定: %(default)s）",
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None,
+         stdout=None,
+         stderr=None) -> int:
+    """CLI 本体。終了コードを返す（読み取り失敗が 1 件でもあれば 1）。"""
+    out = sys.stdout if stdout is None else stdout
+    err = sys.stderr if stderr is None else stderr
+
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    top_n = args.top if args.top > 0 else TOP_N
+
+    total = Stats()
+    succeeded = 0
+    failed = 0
+    blocks: list[str] = []
+
+    for path in args.files:
+        try:
+            stats = count_file(path, encoding=args.encoding)
+        except OSError as exc:
+            print("wc_plus: {0}: {1}".format(path, exc.strerror or exc), file=err)
+            failed += 1
+            continue
+        except UnicodeDecodeError as exc:
+            print("wc_plus: {0}: デコードできません ({1})".format(path, exc.reason),
+                  file=err)
+            failed += 1
+            continue
+
+        blocks.append(format_report(path, stats, top_n))
+        total.add(stats)
+        succeeded += 1
+
+    if succeeded >= 2:
+        blocks.append(format_report("total", total, top_n))
+
+    if blocks:
+        print("\n\n".join(blocks), file=out)
+
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    sys.exit(main())

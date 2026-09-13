@@ -207,7 +207,7 @@ agents:
   system_prompt_file: prompts/reviewer.md
   prompt_mode: auto_seed
   skill_ids: [evidence-review, artifact-handoff]
-  tools: [read_artifact, list_artifacts, run_check, sandbox_run, workspace_read, workspace_write, send_message, read_messages, publish_artifact, submit_review, report_blocker]
+  tools: [read_artifact, list_artifacts, run_check, sandbox_run, web_fetch, workspace_read, workspace_write, send_message, read_messages, publish_artifact, submit_review, report_blocker]
 - id: reporter
   role: reporter
   enabled: false

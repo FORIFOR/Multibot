@@ -197,10 +197,15 @@ class ToolGateway:
             return "OK"
         spec = self.ctx.task.spec
         missing = []
-        for path in spec.output_paths:
-            m = await self._artifact_for_path(path)
-            if m is None or m.task_id != spec.id:
-                missing.append(path)
+        if spec.output_paths == ["*"]:  # single-agent runs: any published artifact counts
+            mine = [m for m in await self.rt.artifacts.list(self.rt.run_id, latest_only=True) if m.task_id == spec.id]
+            if not mine and self.ctx.agent.role != "reviewer":
+                return "REJECTED: nothing published yet. Write the deliverables with workspace_write, publish each with publish_artifact, then call finish_task again."
+        else:
+            for path in spec.output_paths:
+                m = await self._artifact_for_path(path)
+                if m is None or m.task_id != spec.id:
+                    missing.append(path)
         if missing and self.ctx.agent.role != "reviewer":
             return ("REJECTED: these output paths are not published by this task yet: " + ", ".join(missing)
                     + ". Write them with workspace_write and publish with publish_artifact, then call finish_task again.")

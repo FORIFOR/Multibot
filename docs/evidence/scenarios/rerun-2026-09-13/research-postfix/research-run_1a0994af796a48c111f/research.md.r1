@@ -1,0 +1,128 @@
+# 3ページ比較調査メモ（deepagents / DeerFlow / Agent Skills 仕様）
+
+## 概要
+
+指定された3つの公開ページを `web_fetch` で実際に取得し、各ページ本文から「主張」「対象読者」「ライセンス」の3観点を抽出して比較した。
+
+- 3URLすべて HTTP 200 で取得に成功した（取得不可のページはなし）。
+- ただし `https://github.com/bytedance/deer-flow` は本文が長く、抽出テキストが途中で打ち切られた（truncated）。そのため README 後半（「License」節の本文、Core Features 以降の詳細）は**未取得**であり、本メモでは取得できた範囲だけを根拠にしている。
+- 本メモの事実記述はすべて、下記「取得ログ」に記録した取得結果のページ本文に由来する。ページ本文で確認できない事項は「記載なし」「未確認」と明記し、推測で補っていない。
+- 記述の性質は次の通り区別している: 〔本文記載〕= ページ本文の文言そのもの、〔推定〕= ページ本文の記述から読み取った解釈。
+
+## 取得ログ
+
+| # | URL | 取得成否 | HTTPステータス | 取得日時（UTC） | 備考 |
+|---|-----|---------|--------------|----------------|------|
+| 1 | https://github.com/langchain-ai/deepagents | 成功 | 200 | 2026-09-13T05:44:21Z | `truncated=False`（README表示部分および右カラム About/Resources まで取得） |
+| 2 | https://github.com/bytedance/deer-flow | 成功（部分） | 200 | 2026-09-13T05:44:21Z / 再取得 2026-09-13T05:44:30Z | `truncated=True`。`max_chars` を 25000→40000 に上げて再取得したが、抽出テキストの到達点は変わらず README 前半までしか取得できなかった |
+| 3 | https://agentskills.io/specification | 成功 | 200 | 2026-09-13T05:44:22Z | `truncated=False`（ページ全文＋左ナビゲーション項目まで取得） |
+
+取得日: 2026-09-13（JST では 2026-09-13 14:44 頃）。
+
+## 個別まとめ
+
+### 1. langchain-ai/deepagents
+
+出典: https://github.com/langchain-ai/deepagents （2026-09-13 取得）
+
+**主張**
+
+- 〔本文記載〕ページタイトル／リポジトリ説明は "The batteries-included agent harness."（全部入りのエージェント・ハーネス）。
+- 〔本文記載〕"Deep Agents is an open source agent harness — an opinionated agent that runs out of the box. Extend, override, or replace any piece."（すぐ動く意見の強いエージェントで、任意の部品を拡張・上書き・置換できる）。
+- 〔本文記載〕原則として4点を掲げる: **Opinionated**（長期・多段作業向けにチューニングされた既定値）、**Extensible**（フォークせずに任意の部品を置換可能）、**Model-agnostic**（tool calling に対応する任意の LLM で動作。フロンティア／オープンウェイト／ローカル）、**Production-ready**（LangGraph 上に構築され、streaming・persistence・checkpointing、LangSmith による tracing・evaluation・deployment）。
+- 〔本文記載〕機能として Sub-agents、Filesystem、Context management、Shell access、Persistent memory、Human-in-the-loop、Skills、Tools（自前関数または任意の MCP サーバー）を列挙。
+- 〔本文記載〕JavaScript/TypeScript ライブラリとしても提供（deepagents.js）。ターミナル上の既製コーディングエージェント "Deep Agents Code" にも言及。
+- 〔本文記載〕FAQ で LangGraph（グラフランタイム）／LangChain の `create_agent`（最小ハーネス）との階層関係を説明し、Deep Agents はその上の「より意見の強いハーネス」と位置づけている。
+- 〔本文記載〕Security 節に「Deep Agents follows a "trust the LLM" model.」とあり、境界の強制はツール／サンドボックス層で行うべきと述べている。
+
+**対象読者**
+
+- 〔推定〕LangChain / LangGraph エコシステム上で自らエージェントを実装する開発者。根拠: Quickstart が `uv add deepagents` と Python コード（`create_deep_agent(...)`）である点、Topics に `python` / `typescript` が並ぶ点。
+- 〔推定〕本番運用を想定する開発チーム。根拠: FAQ "Can I use this in production?" に "Yes!" と回答し、"Going to production" ガイドへ誘導している点。
+- 〔本文記載〕ページ上に「対象読者」を明示した節はない。上記はいずれも本文記述からの解釈。
+
+**ライセンス**
+
+- 〔本文記載〕リポジトリファイルナビゲーションおよび右カラム Resources に **"MIT license"** と表示。ルートに `LICENSE` ファイルが存在する。
+- 注記: 本メモは MIT と表示されている事実までを確認しており、`LICENSE` ファイル本文そのものは未取得。
+
+### 2. bytedance/deer-flow（DeerFlow）
+
+出典: https://github.com/bytedance/deer-flow （2026-09-13 取得。本文は途中まで／truncated）
+
+**主張**
+
+- 〔本文記載〕リポジトリ説明は "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours."
+- 〔本文記載〕README 冒頭: "DeerFlow (Deep Exploration and Efficient Research Flow) is an open-source super agent harness that orchestrates sub-agents, memory, and sandboxes to do almost anything — powered by extensible skills."
+- 〔本文記載〕"On February 28th, 2026, DeerFlow claimed the 🏆 #1 spot on GitHub Trending following the launch of version 2."
+- 〔本文記載〕"DeerFlow 2.0 is a ground-up rewrite. It shares no code with v1." 旧 Deep Research フレームワークは `1.x` ブランチで維持されている。
+- 〔本文記載〕セットアップは `make setup`（対話ウィザードで LLM プロバイダ、任意の web search、sandbox mode / bash access / file-write tools などの実行・安全設定を選択、所要約2分）。`make doctor` で設定検証、`make support-bundle` で issue 用の診断バンドル生成。
+- 〔本文記載〕BytePlus 製の検索・クロールツール群 **InfoQuest** を統合。ByteDance Volcengine の Coding Plan にも言及し、Doubao-Seed-2.0-Code / DeepSeek v3.2 / Kimi 2.5 の利用を推奨している。
+- 〔本文記載〕目次に Sandbox Mode、MCP Server、IM Channels、LangSmith/Langfuse/Monocle Tracing、Sub-Agents、Long-Term Memory、Terminal Workbench (TUI)、Scheduled Tasks、Security Notice などの節が並ぶ（各節の本文は今回の取得範囲外＝未取得）。
+- 〔本文記載〕README は英語・中文・日本語・Français・Русский の多言語版へのリンクを持つ。
+
+**対象読者**
+
+- 〔推定〕自分でクローンしてローカル／Docker にデプロイする開発者・運用者。根拠: Quick Start が `git clone` + `make setup` であり、目次に "Deployment Sizing" "Option 1: Docker (Recommended)" "Option 2: Local Development" が含まれる点。
+- 〔本文記載〕コーディングエージェントの利用者も明示的に想定: "If you use Claude Code, Codex, Cursor, Windsurf, or another coding agent, you can hand it the setup instructions in one sentence"（One-Line Agent Setup 節）。
+- 〔本文記載〕目次に "⚠️ Security Notice / Improper Deployment May Introduce Security Risks / Security Recommendations" があり、自己ホスト運用者を想定した注意喚起がある（節の本文は未取得）。
+
+**ライセンス**
+
+- 〔本文記載〕リポジトリファイルナビゲーションに **"MIT license"** と表示。ルートに `LICENSE` ファイルが存在し、README 目次にも "License" 節がある。
+- 注記: README の "License" 節の本文は取得テキストが打ち切られたため**未取得**。表示されている MIT のバッジ表記までが今回確認できた範囲。
+
+### 3. Agent Skills — Specification
+
+出典: https://agentskills.io/specification （2026-09-13 取得）
+
+**主張**
+
+- 〔本文記載〕ページ冒頭の要約は "The complete format specification for Agent Skills."（Agent Skills の完全なフォーマット仕様）。
+- 〔本文記載〕skill は最低限 `SKILL.md` を含むディレクトリであり、任意で `scripts/`（実行可能コード）、`references/`（追加ドキュメント）、`assets/`（テンプレート・画像・データ）を持てる。
+- 〔本文記載〕`SKILL.md` は YAML frontmatter + Markdown 本文。frontmatter のフィールドは **必須**: `name`（最大64文字、小文字英数字とハイフンのみ、先頭末尾ハイフン不可、連続ハイフン不可、親ディレクトリ名と一致）、`description`（最大1024文字、何をするか＋いつ使うかを書く）。**任意**: `license`、`compatibility`（最大500文字）、`metadata`（文字列key-valueのマップ）、`allowed-tools`（空白区切り、Experimental）。
+- 〔本文記載〕**Progressive disclosure**（段階的開示）を掲げる: Metadata（約100トークン、`name` と `description` は起動時に全 skill 分ロード）→ Instructions（`SKILL.md` 本文、5000トークン未満推奨、skill 起動時にロード）→ Resources（必要時のみロード）。`SKILL.md` は500行未満に保つことを推奨。
+- 〔本文記載〕ファイル参照は skill ルートからの相対パスを使い、参照は `SKILL.md` から1階層に留める。
+- 〔本文記載〕Validation は `skills-ref` リファレンスライブラリで行う（`skills-ref validate ./my-skill`）。
+- 〔本文記載〕ページ上部に「Agent Skills now has an official Discord server.」の告知あり。
+
+**対象読者**
+
+- 〔本文記載〕左ナビゲーションが対象読者別に分かれている: **"For skill creators"**（Quickstart / Best practices / Optimizing descriptions / Evaluating skills / Using scripts）と **"For client implementors"**（Adding skills support）。すなわち skill を作る側と、skill 対応を実装するクライアント側の双方が想定読者。
+- 〔本文記載〕`metadata` フィールドの説明に "Clients can use this to store additional properties not defined by the Agent Skills spec" とあり、クライアント実装者向けの記述が含まれる。
+
+**ライセンス**
+
+- **記載なし（本ページ上で確認できず）**。取得したページ本文にこの仕様・ページ自体のライセンス表記は含まれていなかった。
+- 混同注意: ページ内に `license` という語は登場するが、これは **`SKILL.md` frontmatter の任意フィールド**の説明であり、仕様書自体のライセンスではない。〔本文記載〕"The optional `license` field: Specifies the license applied to the skill"、例として `license: Apache-2.0`、`license: Proprietary. LICENSE.txt has complete terms` が挙げられている。
+
+## 比較表
+
+| 観点 | langchain-ai/deepagents | bytedance/deer-flow (DeerFlow) | Agent Skills Specification | 出典URL |
+|------|------------------------|-------------------------------|---------------------------|---------|
+| **主張** | "The batteries-included agent harness."／すぐ動く opinionated なオープンソース・エージェントハーネス。LangGraph 上に構築され、任意の部品を拡張・置換可能。sub-agents / filesystem / context management / shell / memory / HITL / skills / tools を同梱。model-agnostic。 | "open-source super agent harness"／sub-agents・memory・sandbox をオーケストレーションし、extensible skills で駆動。数分〜数時間かかる long-horizon タスク（research / code / create）を扱う。2.0 は v1 と無関係のフルリライト。 | "The complete format specification for Agent Skills."／skill ディレクトリ構造と `SKILL.md`（YAML frontmatter + Markdown）のフォーマット仕様、および progressive disclosure の原則を定義する規格文書。 | 1: https://github.com/langchain-ai/deepagents<br>2: https://github.com/bytedance/deer-flow<br>3: https://agentskills.io/specification |
+| **対象読者** | 〔推定〕LangChain/LangGraph 上でエージェントを実装する Python/TypeScript 開発者、および本番運用を検討する開発チーム（Quickstart が `uv add deepagents`、FAQ に production 項目）。明示節はなし。 | 〔推定〕クローンして Docker/ローカルに自己ホストする開発者・運用者。〔本文記載〕Claude Code / Codex / Cursor / Windsurf 等のコーディングエージェント利用者も明示的に想定。 | 〔本文記載〕"For skill creators"（skill を作る人）と "For client implementors"（skill 対応を実装するクライアント開発者）の2区分がナビゲーションに明示。 | 同上 |
+| **ライセンス** | **MIT license**（ページのファイルナビゲーションおよび Resources 欄に表示。ルートに `LICENSE` あり） | **MIT license**（ページのファイルナビゲーションに表示。ルートに `LICENSE` あり。README "License" 節の本文は未取得） | **記載なし（本ページ上で確認できず）**。ページ内の `license` は `SKILL.md` frontmatter の任意フィールドの説明であり、仕様書自体のライセンスではない | 同上 |
+
+### 比較から読み取れる差分（解釈）
+
+- 〔推定〕deepagents と DeerFlow はいずれも自らを "agent harness"（DeerFlow は "super agent harness"）と称しており、カテゴリが近い。両者とも sub-agents・memory・skills・sandbox/filesystem を掲げる点も共通（各ページ本文の機能列挙より）。
+- 〔推定〕差分は提供形態にある。deepagents は `uv add deepagents` で組み込むライブラリ／ハーネスとして提示され、DeerFlow は `git clone` + `make setup` + Docker デプロイを前提としたアプリケーション寄りの構成として提示されている。
+- 〔推定〕Agent Skills Specification は実装ではなく**フォーマット規格**であり、他2件とはレイヤーが異なる。なお deepagents・DeerFlow の両ページとも機能に "Skills" を挙げているが、それらが Agent Skills 仕様に準拠するかは**どのページ本文からも確認できていない**（未確認）。
+
+## 取得できなかったページ
+
+- **なし**。指定3URLはいずれも HTTP 200 で取得に成功した。
+
+（部分的に取得できなかった範囲）
+- `https://github.com/bytedance/deer-flow`: 抽出テキストが途中で打ち切られ（`truncated=True`）、README の "Core Features" 以降、"Documentation"、"⚠️ Security Notice"、"Contributing"、**"License" 節の本文**、"Acknowledgments" などは取得できていない。`max_chars` を 25000 → 40000 に上げて再取得したが到達点は改善しなかった。当該範囲の内容は本メモに一切記載していない。
+
+## 未確認事項
+
+1. DeerFlow の README "License" 節の本文（上記の通り未取得）。ページ上の "MIT license" バッジ表示までが確認できた範囲で、LICENSE ファイル本文は未確認。出典: https://github.com/bytedance/deer-flow
+2. deepagents の `LICENSE` ファイル本文も未取得（ページ上の "MIT license" 表示のみ確認）。出典: https://github.com/langchain-ai/deepagents
+3. https://agentskills.io/specification 上には仕様書／サイト自体のライセンス表記が見当たらなかったが、他ページ（サイトの Overview や `/llms.txt`、GitHub リポジトリ `agentskills/agentskills`）に記載がある可能性は未確認。本タスクの範囲外として追跡していない。
+4. 各ページの「公開日」「最終更新日」は本文から特定できなかった（GitHub 2件は commit 数の表示はあるが日付テキストは抽出されず）。本メモに記載した日付は**取得日**（2026-09-13）のみ。
+5. 「対象読者」は、Agent Skills を除き明示的な記述がないため〔推定〕とした。deepagents・DeerFlow のページ本文に「誰向けか」を直接述べた文はない。
+6. 3プロジェクトの "Skills" 概念が相互に互換かどうかは未確認（前述）。
+7. DeerFlow ページに記載された GitHub Trending 1位（2026年2月28日）や star 数などの数値は、ページ上の表示をそのまま引用したものであり、第三者ソースでの裏取りは行っていない。

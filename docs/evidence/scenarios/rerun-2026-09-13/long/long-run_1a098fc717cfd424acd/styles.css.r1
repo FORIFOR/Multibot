@@ -1,0 +1,237 @@
+/* Agent Team ドキュメントサイト 共通スタイル */
+
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --text: #1d2430;
+  --muted: #5a6472;
+  --accent: #2f5d9e;
+  --border: #dfe3ea;
+  --code-bg: #eef1f6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.85;
+  font-size: 16px;
+}
+
+.wrap {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 20px 64px;
+}
+
+/* ヘッダーとナビゲーション */
+
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0 18px;
+  margin-bottom: 32px;
+}
+
+.site-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.92rem;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+
+.site-nav a:hover,
+.site-nav a:focus {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* 見出し */
+
+h1 {
+  font-size: 1.7rem;
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+
+h2 {
+  font-size: 1.22rem;
+  margin: 40px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+}
+
+h3 {
+  font-size: 1.02rem;
+  margin: 26px 0 8px;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 1.02rem;
+  margin: 0 0 8px;
+}
+
+/* 本文要素 */
+
+p {
+  margin: 0 0 14px;
+}
+
+a {
+  color: var(--accent);
+}
+
+ul,
+ol {
+  padding-left: 1.4em;
+  margin: 0 0 16px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+code {
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+/* カード・注記 */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 0 0 18px;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.note {
+  background: var(--surface);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.placeholder {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* 手順リスト */
+
+.steps {
+  counter-reset: step;
+  list-style: none;
+  padding-left: 0;
+}
+
+.steps > li {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px 16px 56px;
+  margin-bottom: 14px;
+}
+
+.steps > li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-title {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* FAQ */
+
+.faq dt {
+  font-weight: 700;
+  margin: 22px 0 6px;
+}
+
+.faq dd {
+  margin: 0 0 14px;
+  color: var(--text);
+}
+
+/* 次に読む */
+
+.next-links {
+  border-top: 1px solid var(--border);
+  margin-top: 44px;
+  padding-top: 18px;
+}
+
+/* フッター */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 48px;
+  padding-top: 16px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 560px) {
+  body {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 1.45rem;
+  }
+}

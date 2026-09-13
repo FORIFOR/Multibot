@@ -1,0 +1,58 @@
+META url=https://raw.githubusercontent.com/bytedance/deer-flow/main/LICENSE status=200 content_type=text/plain; charset=utf-8 retrieved_at=2026-09-13T04:53:50.484Z truncated=False truncated_chars=0 max_chars_requested=40000 tool=web_fetch
+---
+MIT License
+
+Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+Copyright (c) 2025-2026 DeerFlow Authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+
+META url=https://raw.githubusercontent.com/langchain-ai/deepagents/main/LICENSE status=200 content_type=text/plain; charset=utf-8 retrieved_at=2026-09-13T04:53:50.697Z truncated=False truncated_chars=0 max_chars_requested=40000 tool=web_fetch
+---
+MIT License
+
+Copyright (c) LangChain, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+
+取得メモ:
+- 上記2つの LICENSE URL はいずれも HTTP 200 で取得成功（再取得不可の項目はなし）。
+- agentskills.io のライセンス表示については、本タスクでは対象 URL が指定されていないため本ファイルには含まない。
+  （https://agentskills.io/specification の生取得テキストは fetch-raw-agentskills.txt を参照。当該本文中に
+  ライセンス名の記載は現れないが、それは「サイト全体にライセンス記載がない」ことの証明ではない。）

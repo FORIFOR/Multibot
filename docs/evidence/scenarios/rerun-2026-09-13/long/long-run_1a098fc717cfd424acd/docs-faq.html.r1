@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>よくある質問 — Agent Team ドキュメント</title>
+<meta name="description" content="Agent Team についてのよくある質問。API キーの有無、価格（未定）、対象ユーザー、ローカルファーストとオープンソースについて。">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <p class="site-title">Agent Team ドキュメント</p>
+    <nav class="site-nav" aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="../index.html">トップ</a></li>
+        <li><a href="getting-started.html">はじめかた</a></li>
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h1>よくある質問</h1>
+  <p class="lead">Agent Team について、現時点で答えられることをまとめています。</p>
+
+  <section>
+    <h2>API キーについて</h2>
+    <dl class="faq">
+      <dt>API キーは必要ですか。</dt>
+      <dd>Claude Code があれば API キーは不要です。</dd>
+
+      <dt>Claude Code は必要ですか。</dt>
+      <dd>はい。Claude Code があるという前提で、API キーなしに使えます。</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>価格について</h2>
+    <dl class="faq">
+      <dt>いくらかかりますか。</dt>
+      <dd>価格は未定です。金額や課金の形は、まだ決まっていません。</dd>
+
+      <dt>有料プランの内容を知りたいです。</dt>
+      <dd>価格が未定のため、プランの内容についてもお伝えできることはありません。</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>対象ユーザーについて</h2>
+    <dl class="faq">
+      <dt>誰向けのツールですか。</dt>
+      <dd>ソフトウェア開発者と個人開発者を対象としています。</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>ローカルファーストとオープンソースについて</h2>
+    <dl class="faq">
+      <dt>ローカルファーストとはどういう意味ですか。</dt>
+      <dd>Agent Team はローカルファーストなツールとして動作します。</dd>
+
+      <dt>オープンソースですか。</dt>
+      <dd>はい。Agent Team はオープンソースです。</dd>
+
+      <dt>ソースコードや配布物はどこで見られますか。</dt>
+      <dd>公開場所についてはこのページでは案内していません。<span class="placeholder">（リンク未定）</span></dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>できることについて</h2>
+    <dl class="faq">
+      <dt>依頼は何回投げる必要がありますか。</dt>
+      <dd>一度の依頼から AI チーム（Master / Researcher / Builder / Reviewer）が実際に作業します。</dd>
+
+      <dt>作業の中身はどこまで見えますか。</dt>
+      <dd>成果物と、Bot 間の実メッセージ、そして時系列を見られます。これらはいずれも同じ実行記録から表示されます。</dd>
+
+      <dt>表示されるメッセージは要約ですか。</dt>
+      <dd>Bot 間で実際にやり取りされたメッセージが表示されます。</dd>
+    </dl>
+  </section>
+
+  <section class="next-links">
+    <h2>関連ページ</h2>
+    <ul>
+      <li><a href="getting-started.html">はじめかた</a> — 前提の確認から実行記録を見るまでの手順。</li>
+      <li><a href="../index.html">トップページ</a> — Agent Team の概要。</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Agent Team ドキュメント — このページに記載していない機能・実績・数値はまだ確定していません。</p>
+  </div>
+</footer>
+
+</body>
+</html>

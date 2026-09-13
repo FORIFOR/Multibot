@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Team — 一度の依頼でAIチームが実作業するローカルファーストなOSSツール</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <p class="site-title">Agent Team ドキュメント</p>
+    <nav class="nav" aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="index.html" aria-current="page">トップ</a></li>
+        <li><a href="docs/getting-started.html">はじめに</a></li>
+        <li><a href="docs/faq.html">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>一度の依頼で、AIチームが実際に作業する</h1>
+    <p class="lead">Agent Team は、ひとつの依頼から Master / Researcher / Builder / Reviewer で構成されるAIチームが実際に作業を進めるツールです。成果物だけでなく、Bot 間で交わされた実際のメッセージと時系列を、同じ実行記録から確認できます。</p>
+
+    <h2>Agent Team とは</h2>
+    <p>依頼をひとつ渡すと、役割の異なる4つの Bot がチームとして動きます。Master が段取りを決め、Researcher が調べ、Builder が作り、Reviewer が確認する——その一連の流れが「実際の作業」として進みます。</p>
+    <p>出来上がった成果物と、その途中で Bot たちが交わしたメッセージ、そして何がいつ起きたかという時系列は、すべて同一の実行記録から表示されます。結果だけを渡されて経緯が分からない、という状態になりません。</p>
+
+    <h2>特徴</h2>
+    <div class="card">
+      <h3>4つの役割が分担して動く</h3>
+      <p>Master / Researcher / Builder / Reviewer という役割ごとに Bot が存在し、それぞれが実作業を担当します。</p>
+    </div>
+    <div class="card">
+      <h3>成果物・メッセージ・時系列を同じ記録から表示</h3>
+      <p>成果物、Bot 間の実際のメッセージ、時系列は別々の資料ではなく、同一の実行記録に基づいて表示されます。</p>
+    </div>
+    <div class="card">
+      <h3>オープンソース</h3>
+      <p>Agent Team はオープンソースのツールです。</p>
+    </div>
+    <div class="card">
+      <h3>ローカルファースト</h3>
+      <p>ローカルファーストな設計のツールとして動作します。</p>
+    </div>
+    <div class="card">
+      <h3>Claude Code があれば API キーは不要</h3>
+      <p>Claude Code が利用できる環境であれば、別途 API キーを用意する必要はありません。</p>
+    </div>
+
+    <h2>こんな方に向いています</h2>
+    <ul>
+      <li>ソフトウェア開発者</li>
+      <li>個人開発者</li>
+    </ul>
+    <p>ひとつの依頼に対して、調査・実装・レビューまでをまとめて進めたい方、そして「なぜその成果物になったのか」をメッセージと時系列から追いたい方に向いています。</p>
+
+    <h2>価格</h2>
+    <p>価格は<strong>未定</strong>です。決まり次第あらためてご案内します。</p>
+
+    <h2>次の一歩</h2>
+    <p>導入の前提と初回実行までの流れは「はじめに」、API キーや価格などのよくある疑問は「FAQ」にまとめています。</p>
+    <ul class="next-steps">
+      <li><a href="docs/getting-started.html">はじめに（セットアップと初回実行）</a></li>
+      <li><a href="docs/faq.html">FAQ（よくある質問）</a></li>
+    </ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Agent Team ドキュメント（ドラフト）。本サイトに記載のない項目は未定です。</p>
+  </div>
+</footer>
+</body>
+</html>

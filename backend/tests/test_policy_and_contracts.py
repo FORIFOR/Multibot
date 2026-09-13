@@ -106,3 +106,12 @@ def test_fake_driver_not_selectable_from_config():
     cfg = load_config_text(DEFAULT_CONFIG_YAML)
     assert cfg.defaults.connection_id == "claude_cli" and cfg.connection("anthropic").capability_check == "not_run"
     assert cfg.connection("claude_cli").capability_check == "not_run"  # never runnable before a real probe
+
+
+def test_default_reviewer_can_fetch_cited_sources():
+    """All three research re-runs ended partial because the reviewer, asked to check claims against their sources,
+    had no web_fetch; the Master then added workaround tasks that hit the budget."""
+    from agentteam.config.loader import DEFAULT_CONFIG_YAML, load_config_text
+    cfg = load_config_text(DEFAULT_CONFIG_YAML)
+    reviewer = next(a for a in cfg.agents if a.id == "reviewer")
+    assert "web_fetch" in reviewer.tools

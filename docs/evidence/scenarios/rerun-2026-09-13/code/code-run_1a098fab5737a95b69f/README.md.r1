@@ -1,0 +1,195 @@
+# wc_plus
+
+`wc` 風の集計（行数・単語数・文字数）に、**最頻出の単語トップ5** を加えた CLI ツールです。
+
+## 概要
+
+- 引数に渡したテキストファイル群について、ファイルごとに 1 行の集計行を表示します。
+- 各集計行のあとに、そのファイルで最も多く出現した単語のトップ5（既定）を表示します。
+- ファイルを 2 つ以上指定した場合は、最後に `total` 行と全体のトップ5を表示します。
+
+## インストール
+
+**インストール不要です。** Python 3.8 以降の標準ライブラリのみを使用しています
+（`argparse` / `re` / `collections.Counter` / `sys`）。外部パッケージ・ネットワークアクセスはありません。
+
+`wc_plus.py` を任意のディレクトリに置いて、そのまま実行してください。
+
+```bash
+python3 wc_plus.py FILE [FILE ...]
+```
+
+実行権限を付けてパスを通せば `wc_plus.py ...` としても実行できます（シバン付き）。
+
+動作確認環境: Python 3.12.14（Linux コンテナ）。
+
+## 使い方
+
+```
+usage: wc_plus [-h] [-n N] [--version] FILE [FILE ...]
+
+テキストファイルの行数・単語数・文字数と、最頻出の単語トップ N を表示します。
+
+positional arguments:
+  FILE           集計対象のテキストファイル（複数指定可）
+
+options:
+  -h, --help     show this help message and exit
+  -n N, --top N  表示する最頻出単語の件数（既定: 5）
+  --version      show program's version number and exit
+```
+
+### オプション一覧
+
+| オプション | 既定値 | 説明 |
+| --- | --- | --- |
+| `FILE ...` | （必須） | 集計対象のテキストファイル。複数指定可。 |
+| `-n N`, `--top N` | `5` | 表示する最頻出単語の件数。`0` を指定すると単語一覧は空表示になる。負数はエラー（終了コード 2）。 |
+| `-h`, `--help` | - | ヘルプを表示して終了。 |
+| `--version` | - | バージョンを表示して終了。 |
+
+### 出力フォーマット
+
+```
+   <行数>  <単語数>  <文字数> <ファイル名>
+    top 5 words:
+      1. <単語>          <出現回数>
+      ...
+```
+
+### カウントの定義
+
+- **行数**: 改行で区切られた行数。末尾に改行が無い最終行も 1 行として数えます。空ファイルは 0 行。
+- **単語数**: 正規表現 `\w+` にマッチした個数。
+- **文字数**: Python の文字列長（Unicode コードポイント数）。UTF-8 のバイト数ではありません。
+- **単語の頻度**: 小文字化して集計します（`Dog` と `dog` は同一語）。
+  出現回数が同数の場合は**単語の辞書順**で並べます（出力は安定）。
+- 入力は UTF-8 として読み込み、デコードできないバイトは `errors='replace'`（U+FFFD）で置換します。
+
+### 終了コード
+
+| コード | 意味 |
+| --- | --- |
+| `0` | 全ファイルの読み込みと集計に成功 |
+| `1` | 読めないファイルがあった（stderr に警告を出し、そのファイルはスキップ） |
+| `2` | 引数が無い、または不正な引数（argparse の既定） |
+
+標準入力からの読み取りには対応していません。
+
+## 実行例
+
+例として次の 2 ファイルを用意します。
+
+`sample1.txt`
+```
+the quick brown fox jumps over the lazy dog
+the dog barks and the fox runs
+```
+
+`sample2.txt`
+```
+hello world
+hello wc_plus
+```
+
+### 1 ファイルを指定した場合
+
+```console
+$ python3 wc_plus.py sample1.txt
+       2       16       75 sample1.txt
+    top 5 words:
+      1. the              4
+      2. dog              2
+      3. fox              2
+      4. and              1
+      5. barks            1
+$ echo $?
+0
+```
+
+`and` と `barks` はどちらも 1 回ですが、同数のため辞書順に並んでいます。
+
+### 複数ファイルを指定した場合（`total` 行が付く）
+
+```console
+$ python3 wc_plus.py sample1.txt sample2.txt
+       2       16       75 sample1.txt
+    top 5 words:
+      1. the              4
+      2. dog              2
+      3. fox              2
+      4. and              1
+      5. barks            1
+       2        4       26 sample2.txt
+    top 5 words:
+      1. hello            2
+      2. wc_plus          1
+      3. world            1
+       4       20      101 total
+    top 5 words:
+      1. the              4
+      2. dog              2
+      3. fox              2
+      4. hello            2
+      5. and              1
+```
+
+### 表示件数を変える
+
+```console
+$ python3 wc_plus.py --top 3 sample1.txt
+       2       16       75 sample1.txt
+    top 3 words:
+      1. the              4
+      2. dog              2
+      3. fox              2
+```
+
+### 読めないファイルが含まれる場合
+
+警告を stderr に出し、そのファイルをスキップして処理を続け、終了コードは `1` になります。
+`total` 行は `wc` と同じく「引数が 2 つ以上」のときに出力され、読めなかったファイルは合算対象外です。
+
+```console
+$ python3 wc_plus.py nope.txt sample2.txt
+wc_plus: nope.txt: No such file or directory
+       2        4       26 sample2.txt
+    top 5 words:
+      1. hello            2
+      2. wc_plus          1
+      3. world            1
+       2        4       26 total
+    top 5 words:
+      1. hello            2
+      2. wc_plus          1
+      3. world            1
+$ echo $?
+1
+```
+
+## テスト実行方法
+
+`wc_plus.py` と `test_wc_plus.py` があるディレクトリで、標準の `unittest` を実行します。
+
+```bash
+python3 -m unittest -v
+```
+
+ファイルを直接指定する場合:
+
+```bash
+python3 -m unittest -v test_wc_plus
+# または
+python3 test_wc_plus.py
+```
+
+テストは `tempfile` で一時ファイルを作り、実ファイル I/O を伴う形で以下を検証します。
+
+- 基本の行数・単語数・文字数（改行なし最終行、Unicode 文字数を含む）
+- トップ5の順位付け、同数時の辞書順、大文字小文字の同一視、`--top` オプション
+- 複数ファイル指定時の `total` 行と合算トップ5、単一ファイル時に `total` が出ないこと
+- 空ファイル・空白のみのファイル・不正 UTF-8 バイトの扱い
+- 存在しないファイルの警告出力と終了コード 1、引数なし時の終了コード 2
+- 内部ヘルパ（`count_lines` / `tokenize` / `top_words`）の単体テスト
+
+実行結果（Python 3.12.14 / Linux コンテナ）: **19 テストすべて成功（`OK`、exit 0）**。

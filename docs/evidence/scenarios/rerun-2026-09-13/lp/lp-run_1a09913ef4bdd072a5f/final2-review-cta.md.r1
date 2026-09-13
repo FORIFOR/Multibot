@@ -1,0 +1,79 @@
+# t5 独立検証レポート（final2/index.html rev1）
+
+- 検証対象: `final2-index.html` rev1 / logical_path `final2/index.html` / sha256 `8e02ac34eb7b85805a9cc21cd0e4abf1a6deccdc281a5700892a2ed3c8228659`（by builder, task t5）
+- 比較基準: `final-index.html` rev1 / logical_path `final/index.html` / sha256 `28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4`（by builder, task t3）
+- 検証者: reviewer（task t6）。ネットワークなし・サンドボックス内で実測。
+- 総合判定: **t5a1 pass / t5a2 fail（文言レベル、下記の条件間矛盾あり）/ t5a3 pass / t5a4 pass / t5a5 pass**
+
+## 0. 検証手順（再現可能性）
+
+published artifact はサンドボックスのファイルシステムにマウントされない（`find .. -name '*.html'` の結果は自分が書いた検証用コピー1件のみ）。そのため:
+
+1. `read_artifact(final2-index.html, rev1)` の本文をワークスペース `check/final2.html` に書き出した。
+2. `sha256sum` 相当（python hashlib）で `check/final2.html` を計測 → `8e02ac34eb7b85805a9cc21cd0e4abf1a6deccdc281a5700892a2ed3c8228659`（9,573 bytes、末尾改行あり）。**公開 artifact の sha256 と完全一致**。したがって以下の全チェックは artifact rev1 のバイト列そのものに対する実測である（末尾改行なし版は `97d3a81c…` で不一致＝再現は「末尾改行あり」で確定）。
+3. run_check（html_basic / html_links）および python による文字列・正規表現検査を同ファイルに対して実行。
+
+## 1. t5a1〜t5a5 の実測結果
+
+| ID | 条件 | 判定 | 実行したチェックと出力要約 |
+|---|---|---|---|
+| t5a1 | 「そのやり取りを実行記録から確認できる。」を含む | **pass** | python: `"そのやり取りを実行記録から確認できる。" in text` → `True`。CTA節 `.cta-box` の `<p class="lead">` 内に1箇所（出現回数1）。 |
+| t5a2 | 「そのまま残る」「手元に残」が一切含まれない | **fail** | python: `text.count("そのまま残る")` → **0**、`text.count("手元に残")` → **1**。残存箇所は `#problem` 節「AIに作業を任せたとき、**手元に残る**のは最終的な出力だけ、ということがあります。」（rev1 由来、CTA外）。 |
+| t5a3 | script/img/外部リンクなし、href はページ内アンカーのみ | **pass** | python 正規表現: `<script` → 0件、`<img` → 0件、`https?://` → 0件。`href` 抽出結果 = `['#problem','#how','#features','#audience','#faq','#cta','#hero']`（全7件が `#` 始まり）。run_check html_basic → `status: pass`（scripts 0、inline_handlers 0、empty_links 0、viewport true、headings 10）。run_check html_links → `status: pass`（links 7 / anchors 7 / problems なし）。 |
+| t5a4 | rev1 との差分が当該1文のみ（逆適用で rev1 と完全一致） | **pass** | 下記2章の sha256 一致検証のとおり。 |
+| t5a5 | 「価格は未定」が残り、金額・無料/有料表現が追加されていない | **pass** | python: `text.count("価格は未定")` → **4**（hero note / FAQ回答 / CTA note / footer）。禁止語検査 `["円","¥","$","無料","有料","月額","年額","フリープラン","サブスク","ドル","税込"]` → 該当 **0件**（空リスト）。 |
+
+### t5a2 fail の詳細と最小修正案
+
+- 対象: `final2/index.html` `#problem` 節 第1段落。
+- 再現手順: 上記2でバイト一致を確認したファイルに対し `python3 -c 'print(open("final2.html").read().count("手元に残"))'` → `1`。
+- 影響の評価: 当該文は「AIに任せると手元に残るのは最終的な出力だけ」という**課題提示（従来の状況の描写）**であり、Agent Team の保存・永続性を主張する文ではない。t4 で posts.md から削除された「手元に残ります」（製品の効能としての永続性主張）とは意味が異なる。ただし t5a2 は文字列として「手元に残」の不在を求めているため、**条件の文言どおりには不合格**。
+- 条件間の矛盾: t5 の指示は「CTAの1文のみ変更、他は1バイトも変更しない」であり、t5a4 と t5a2 は同時に満たせない（`手元に残` は rev1 から存在）。builder は指示（および t5a4）に従っている。
+- 最小修正案（採るなら要判断）: `#problem` の該当語を「得られるのは最終的な出力だけ」等に置換。ただしこれを行うと t5a4（差分1文のみ）は成立しなくなるため、t5a2 の判定基準を「CTA節に限る」または「製品の永続性主張に限る」へ明確化する、のいずれかが必要。判断は master に委ねる（t6 の範囲では事実のみ報告）。
+
+## 2. rev1 への逆適用による一致検証（t5a4）
+
+置換対象（t5 指示どおり）:
+
+- new: `Master・Researcher・Builder・Reviewer が実際に作業し、そのやり取りを実行記録から確認できる。Agent Team はオープンソースのローカルファーストなツールです。`（final2 内の出現回数 **1**）
+- old: `Master・Researcher・Builder・Reviewer が実際に作業し、その記録がそのまま残る。Agent Team はオープンソースのローカルファーストなツールです。`
+
+結果:
+
+| 対象 | sha256 | 一致 |
+|---|---|---|
+| final2/index.html rev1（実測、末尾改行あり 9,573 bytes） | `8e02ac34eb7b85805a9cc21cd0e4abf1a6deccdc281a5700892a2ed3c8228659` | 公開 artifact の sha256 と**一致** |
+| 上記に new→old を逆適用した本文 | `28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4` | final-index.html rev1 の sha256 と**完全一致** |
+| 参考：末尾改行を除いた版の逆適用 | `faa9976492f804c6c27de9e73390d2a00efaea8f63511a34335aed611f31aa10` | 不一致（末尾改行ありが正） |
+
+→ **final2/index.html rev1 と final/index.html rev1 の差分は当該CTA 1文のみ**であることをハッシュ一致で確認（他の箇所に1バイトの変更もない）。CSS・構造・FAQ・footer も無変更。
+
+## 3. 修正文における「提供テキスト外の新たな主張」の有無（t6a3）
+
+提供テキスト: 「一度の依頼からAIチーム（Master/Researcher/Builder/Reviewer）が実際に作業し、成果物とBot間の実メッセージ、時系列を同じ実行記録から表示するオープンソースのローカルファーストなツール。価格は未定。対象はソフトウェア開発者と個人開発者。」
+
+修正後CTA文の要素ごとの対応:
+
+| 修正文の要素 | 提供テキストの根拠 | 判定 |
+|---|---|---|
+| 「Master・Researcher・Builder・Reviewer が実際に作業し」 | 「AIチーム（Master/Researcher/Builder/Reviewer）が実際に作業し」 | 根拠あり |
+| 「そのやり取りを実行記録から確認できる」 | 「Bot間の実メッセージ、時系列を同じ実行記録から表示する」 | 根拠あり（「表示する」→「確認できる」は同義の言い換え。保存期間・永続性への言及なし） |
+| 「オープンソースのローカルファーストなツールです」 | 「オープンソースのローカルファーストなツール」 | 根拠あり |
+
+- 保存・永続性: 旧文「その記録が**そのまま残る**」＝保存の含意が削除され、新文は「確認できる」に限定。**新たな永続性主張は無い**（改善）。
+- 性能・速度: 修正文に該当語なし（「速い」「効率」「時間短縮」等を含まない）。
+- 実績・数値: 修正文にユーザー数・導入企業・ベンチマーク・日付などの数値表現なし。
+- 価格: 修正文に金額・無料/有料表現なし。ページ全体でも禁止語0件（1章 t5a5 参照）、「価格は未定」4箇所を維持。
+
+**判定: 修正文に提供テキスト外の新たな主張は無い（pass）。** 根拠は上表の語句対応と、1章の禁止語検査結果（実測0件）。
+
+## 4. 未検証項目（pass ではない）
+
+以下は本レポートでは**未検証**であり、pass として扱っていない。
+
+1. **ブラウザでの実描画**: 実ブラウザ表示・スクリーンショットは取得していない（サンドボックスにブラウザ・GUI・ネットワークなし）。sticky header の重なり、`scroll-behavior:smooth` の挙動、ダーク配色のコントラスト比、日本語フォントのフォールバック結果は未確認。
+2. **レスポンシブ実挙動**: `@media (max-width:600px)` の実機/実ビューポートでの折返しは未確認（CSS 記述の存在のみ確認）。
+3. **アンカーのスクロール到達**: `href="#..."` の id 定義存在は run_check html_links が pass（anchors 7/7）で確認済みだが、実際のスクロール位置・見出しの隠れは未確認。
+4. **HTML 仕様適合の網羅的検証**: W3C バリデータ等の外部検証は未実施（ネットワークなし）。run_check html_basic の範囲（title/viewport/heading/empty link/script 数）に限る。
+5. **final2/posts.md**: t5 では posts.md は変更不要とされ、本タスクの検証対象外（`final/posts.md` rev1 を最終版とする前提）。t6 では posts.md の再検証を行っていない。
+6. **artifact 本文取得経路**: 本レポートの全チェックは `read_artifact` 本文を書き出したコピーに対する実行だが、sha256 が公開 artifact 値と一致しているため内容同一性は担保されている（この点のみ検証済み）。

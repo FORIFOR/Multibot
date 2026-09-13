@@ -57,6 +57,7 @@ async def run_one(svc: AppService, name: str, budget: float) -> dict:
         for e in events:
             f.write(json.dumps(e.model_dump(), ensure_ascii=False) + "\n")
     res = {"scenario": name, "run_id": run.run_id, "status": str(run.status), "reason": run.blocked_reason,
+           "profile": svc.config.profile_name, "team_mode": svc.config.defaults.team_mode,
            "models": models, "plan_tasks": [(t.id, t.owner) for t in (plan.tasks if plan else [])],
            "task_status": {t.spec.id: (str(t.status), t.attempt) for t in tasks},
            "artifacts": [f"{m.artifact_id}@r{m.revision}" for m in arts if m.artifact_id != "final-report.md"],
@@ -72,7 +73,11 @@ async def run_one(svc: AppService, name: str, budget: float) -> dict:
 async def main(args) -> int:
     svc = await AppService(args.data_dir).start()
     try:
-        cfg = svc.config.model_copy(deep=True)
+        if args.config:  # e.g. docs/config/single-agent.yaml for the single-agent baseline
+            from agentteam.config.loader import load_config_text
+            cfg = load_config_text(Path(args.config).read_text(encoding="utf-8"))
+        else:
+            cfg = svc.config.model_copy(deep=True)
         if args.connection:
             cfg.defaults.connection_id = args.connection
         if args.model:
@@ -115,6 +120,7 @@ async def main(args) -> int:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--data-dir", default=str(Path.home() / ".cache" / "agentteam-evals"))
+    ap.add_argument("--config", default=None, help="config YAML to load into the data dir first (e.g. docs/config/single-agent.yaml)")
     ap.add_argument("--connection", default=None)
     ap.add_argument("--model", default=None)
     ap.add_argument("--scenarios", default="code,research,long")

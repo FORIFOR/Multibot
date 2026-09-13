@@ -1,0 +1,63 @@
+# Final report — Python で CLI ツール `wc_plus` を作ってください: 引数のテキストファイル群について行数・単語数・文字数と、最頻出の単語トップ5を表示する。標準ライブラリのみ。`wc_plus.py`（実装）、`test_wc_plus.py`（unittest、最低5ケース）、`README.md`（使い方）を出力し、Builder は sandbox_run で `python3 -m unittest -v` を実際に実行してから公開、Reviewer も同じテストを再実行して判定してください。
+
+- Status: **completed**
+- Provider kind: real
+- Usage: 63 model calls, 59 tool calls, $3.1446, 887s
+
+## Summary
+wc_plus CLI（Python 標準ライブラリのみ）を builder が実装・公開し、reviewer が独立再検証。成果物 4 件すべて revision 1、受入条件 t1a1〜t1a7 全件 pass、`python3 -m unittest -v` は builder・reviewer 双方が docker sandbox (Python 3.12.14) で実行し Ran 18 tests / OK / exit 0 を確認。run は 13:00:30〜13:15:16 JST（886.6s）、費用 $3.1446。ブロッカー・失敗・承認待ちなし。未検証は Python 3.8〜3.11 互換、macOS ホスト直接実行、権限エラー/巨大ファイル/非UTF-8 挙動、および未修正の文書不一致 2 件。
+
+## Deliverables
+- `HANDOFF.md` — HANDOFF.md r1 (sha256 0af282c7cd23…) by builder / task t1
+- `README.md` — README.md r1 (sha256 6dc2f197af83…) by builder / task t1
+- `test_wc_plus.py` — test_wc_plus.py r1 (sha256 110687065dec…) by builder / task t1
+- `wc_plus.py` — wc_plus.py r1 (sha256 bdebab00b48d…) by builder / task t1
+
+## Tasks
+- t1 [accepted] builder: 標準ライブラリのみで `wc_plus.py`（argparse ベースの CLI: 複数ファイル引数、行数・単語数・文字数の集計、最頻出単語トップ5表示、複数ファイル時の total 行、存在しないファイルのエラー処理と非0終了）、`test_wc_plus.py`（unittest、最低5ケース: 基本集計・複数ファイルと total・トップ5の順序と同数時タイブレーク・空ファイル/空入力・存在しないファイルのエラー処理。tempfile で一時ファイルを作り副作用を残さない）、`README.md`（概要・インストール不要である旨・使い方 Usage・実行例と出力例・オプション説明・テスト実行方法）を作成する。公開前に必ず sandbox_run で `python3 -m unittest -v` を実行し、全テスト成功を確認してから publish_artifact する。テストが失敗した場合は実装を修正して再実行し、合格するまで公開しない。実行したコマンドと出力要約を成果物の引き継ぎメモに残す。 (attempts 1)
+- t2 [accepted] reviewer: t1 の成果物を独立検証する。(1) sandbox_run で `python3 -m unittest -v` を自分で再実行し、実際の出力（テスト数・OK/FAIL）を証拠として記録する。(2) `python3 wc_plus.py` を実在ファイルと存在しないファイルの両方に対して実行し、集計値・トップ5・エラー処理と終了コードが README の記述どおりかを確認する。(3) wc_plus.py / test_wc_plus.py を読み、標準ライブラリのみ使用であること、テストが実装と独立に意味のある検証をしていること（トートロジーでないこと）を確認する。(4) README の使い方・出力例が実際の挙動と一致するかを照合する。t1 の各受入条件 t1a1〜t1a7 に対して pass/fail と根拠（実行コマンドと出力抜粋）を付けて submit_review する。未実行の検証を合格と記載しない。 (attempts 1)
+
+## Verified (from checks and reviews)
+- check python_syntax on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': 'bdebab00b48d968b7805f9fe95ca85ed1e3f71f29c1a7181f4fafb604a26f5f2'} → pass (seq 28)
+- check python_syntax on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '110687065decab8623a886dfc73f4748bd86c8d07f3081a14a76fbb2f6c19ab3'} → pass (seq 30)
+- check regex_count on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '110687065decab8623a886dfc73f4748bd86c8d07f3081a14a76fbb2f6c19ab3'} → pass (seq 32)
+- check markdown_basic on {'artifact_id': 'README.md', 'revision': 1, 'sha256': '6dc2f197af8346690471411e5ed2a7aa93ab1926f6c738812d9485721f93213f'} → pass (seq 34)
+- check command on {} → pass (seq 36)
+- check command on {} → pass (seq 38)
+- check text_not_contains on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': 'bdebab00b48d968b7805f9fe95ca85ed1e3f71f29c1a7181f4fafb604a26f5f2'} → pass (seq 40)
+- check text_not_contains on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '110687065decab8623a886dfc73f4748bd86c8d07f3081a14a76fbb2f6c19ab3'} → pass (seq 42)
+- check python_syntax on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': 'bdebab00b48d968b7805f9fe95ca85ed1e3f71f29c1a7181f4fafb604a26f5f2'} → pass (seq 74)
+- check python_syntax on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '110687065decab8623a886dfc73f4748bd86c8d07f3081a14a76fbb2f6c19ab3'} → pass (seq 76)
+- check regex_count on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '110687065decab8623a886dfc73f4748bd86c8d07f3081a14a76fbb2f6c19ab3'} → pass (seq 78)
+- check text_not_contains on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': 'bdebab00b48d968b7805f9fe95ca85ed1e3f71f29c1a7181f4fafb604a26f5f2'} → pass (seq 80)
+- check text_not_contains on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '110687065decab8623a886dfc73f4748bd86c8d07f3081a14a76fbb2f6c19ab3'} → pass (seq 82)
+- check markdown_basic on {'artifact_id': 'README.md', 'revision': 1, 'sha256': '6dc2f197af8346690471411e5ed2a7aa93ab1926f6c738812d9485721f93213f'} → pass (seq 84)
+- check command on {} → pass (seq 86)
+- check command on {} → pass (seq 88)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=pass, t1a6=pass, t1a7=pass (seq 93)
+- sandbox_run (backend=docker, Python 3.12.14) で `python3 -m unittest -v` → Ran 18 tests / OK / exit 0（builder・reviewer 双方が実行）
+- 受入条件 t1a1〜t1a7 すべて pass（reviewer submit_review, seq 93）
+- checks 16 件すべて status=pass（builder seq 28〜42、reviewer seq 74〜88）
+- `python3 wc_plus.py README.md` → exit 0、188/389/3643 + Top5（1=28,3=19,2=18,5=16,txt=16）、GNU wc および reviewer 自作オラクルと一致
+- import 全列挙により標準ライブラリのみ使用を確認（argparse, re, sys, collections, dataclasses, typing / io, os, tempfile, unittest）
+- reviewer が公開 revision を SHA256 一致で復元して検証（レビュー対象は公開物そのもの）
+- ミューテーション 7 種すべてがテストを失敗させ、テストが非トートロジーであることを実証（killed=7, survived=0）
+- README の Usage ヘルプ・終了コード 0/1/2 が実行結果と一致
+- テストは tempfile.TemporaryDirectory + addCleanup を使い副作用を残さない
+
+## Unresolved / pending
+- Python 3.8〜3.11 での動作は未検証（実行環境は Python 3.12.14 のみ。README の 3.8+ 主張は根拠なし）
+- macOS ホスト上での直接実行は未検証（すべて docker/Linux コンテナ）
+- 権限エラー（読み取り不可ファイル）、巨大ファイル、非 UTF-8 実データでの挙動は未検証
+- reviewer が送付した非ブロッキング finding 2 件（`-n 0` 時の README 記述と実挙動の差、対応バージョン表記）は未修正
+- 成果物はワークスペース内ドラフトのみで、外部公開・配布・リポジトリへのコミットは未実施
+
+## Next steps
+- README の `-n 0` の説明を実挙動（`Top 0 words: (no words)` 表示）に合わせる、または top_n<=0 時にブロックを省く（任意対応）
+- README 冒頭の対応バージョン表記を検証済み範囲（Python 3.12.14 で動作確認、3.8+ は想定・未検証）へ修正する（任意対応）
+- 必要であれば Python 3.8 環境での互換確認を追加する
+- 上記はいずれも受入条件外の軽微な文書不一致のため、修正なしで完了扱い可
+
+## Trace
+- Messages delivered: 2 ({'handoff': 1, 'finding': 1})
+- Model usage by agent: master: 2 calls / $0.4214 (reported claude-opus-5), builder: 1 calls / $1.1370 (reported claude-opus-5), reviewer: 1 calls / $1.5862 (reported claude-opus-5)

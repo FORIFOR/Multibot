@@ -82,21 +82,24 @@ evals/            40-case acceptance plan and coverage map
 
 ## What is verified — and what isn't
 
-Real runs through the local Claude Code CLI (`claude-opus-5`, provider-reported), 2026-09-13. Every row is one run of the request as written; artifacts, reports and full event logs are committed unedited under [`docs/evidence/`](docs/evidence/).
+Real runs through the local Claude Code CLI (`claude-opus-5`, provider-reported). Artifacts, reports and full event logs are committed unedited under [`docs/evidence/`](docs/evidence/).
 
-| Request | Result | Tasks | Artifacts | Checks | Review | Cost | Time |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Launch page + 3 post drafts | completed | 2 | 4 | 10/10 | 6/6 | $1.66 | 18 min |
-| CLI tool in Python with unittest + README | completed | 2 | 4 | 14/14 | 7/7 | $1.87 | 16 min |
-| Source-grounded comparison of 3 web pages (1st) | **failed** | 3 | 2 | – | – | $0.91 | 5 min |
-| … same, after the scheduler fix | partial | 7 | 5 | 10/13 | 5/8 | $6.07 | 24 min |
-| 4-file static docs site | completed | 2 | 5 | 39/39 | 12/12 | $3.03 | 15 min |
+**Reproducibility, 2026-09-13 afternoon — the same four requests, three runs each, nothing filtered** ([`docs/evidence/scenarios/rerun-2026-09-13/`](docs/evidence/scenarios/rerun-2026-09-13/), budget $6 and 120 model calls per run):
 
-The reviewer re-ran the generated unit tests inside the Docker sandbox; I re-ran them independently as well (16 tests, OK). The failed research run exposed a real scheduler deadlock (a task depending on a task that itself awaited review), now fixed and covered by a test; the re-run produced a revised memo with the reviewer's three findings fixed and cited, but hit the per-session budget cap twice, so it ended *partial* with the budget exhausted (cap raised, continuation added). Other providers on the launch-page request: OpenAI-compatible `gpt-4.1-mini` completed in 29 s for $0.02; local Ollama `qwen2.5:7b` reached *partial* (artifacts published, review incomplete); `qwen2.5:3b` could not produce a valid plan.
+| Request | Completed | Plan size | Review pass | Cost / run | Time / run |
+| --- | --- | --- | --- | --- | --- |
+| CLI tool in Python with unittest + README | **3 / 3** | 2 tasks every time | 22/22 | $2.09–3.14 | 16–19 min |
+| 4-file static docs site | **3 / 3** | 2 tasks every time | 22/22 | $1.62–1.72 | 15–17 min |
+| Launch page + 3 post drafts | **2 / 3** | 2 (one run grew to 6) | 38/39 | $1.70–5.67 | 20–37 min |
+| Source-grounded comparison of 3 web pages | **0 / 3** (all *partial*) | 4–5 | 21/24 | $5.48–6.11 | 31–35 min |
 
-Also verified: **46 deterministic tests** (DAG validation, real delivery with a question/answer round trip, review → revise → re-review, milestone replanning, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, Docker and seatbelt sandbox confinement, SSE cursor replay, event-schema conformance) and a headless-Chrome UI smoke in English and Japanese.
+I re-ran the generated unit tests myself for all three code runs (18 / 19 / 17 tests, OK) and checked the three generated sites for broken internal links (none). The launch-page run that ended *partial* had both planned tasks accepted at $1.29; the Master then added two rounds of wording polish and the last task hit the model-call limit. All three research runs had their planned `research.md` accepted, then ended *partial* for one structural reason: the default reviewer had no `web_fetch`, so it could not check claims against their sources as the request asked, and the Master's workaround tasks exhausted the budget. Both are fixed after this evaluation (reviewer gets `web_fetch`; a milestone replan is skipped and recorded when less than one agent session of budget or model calls remains; the Master is told not to add polish once every deliverable is accepted; partial runs carry a reason). The fixes are covered by deterministic tests; one post-fix research run **completed** (reviewer fetched all three sources, 5/5 review pass, $2.05, 8m44s, [`research-postfix/`](docs/evidence/scenarios/rerun-2026-09-13/research-postfix/)) — one run, not a new 3-run series.
 
-Still open: five request types, one run each, is not a benchmark; plans vary between runs because the Master decides; research-heavy requests are the most expensive and the least reliable; local 7B models complete the mechanics but not the review protocol. Full matrix and the list of bugs found by real runs: [`docs/STATUS.md`](docs/STATUS.md). Security boundaries: [`SECURITY.md`](SECURITY.md).
+Earlier single runs (v0.2.0, 2026-09-13 morning): launch page completed ($1.66, 18 min); code completed ($1.87, 16 min); research failed on a scheduler deadlock, then *partial* after the fix ($6.07, 24 min); docs site completed ($3.03, 15 min). Other providers on the launch-page request: OpenAI-compatible `gpt-4.1-mini` completed in 29 s for $0.02; local Ollama `qwen2.5:7b` reached *partial*; `qwen2.5:3b` could not produce a valid plan.
+
+Also verified: **53 deterministic tests** (DAG validation, real delivery with a question/answer round trip, review → revise → re-review, milestone replanning and its budget gate, budget reservation, approvals with hash/nonce, cancel → resume, fork, redaction, SSRF guard, Docker and seatbelt sandbox confinement, SSE cursor replay, event-schema conformance), and in CI on every push: the Docker isolation test on Linux and a headless-Chrome UI smoke of the bundled UI in English and Japanese (start a request → run view → final report → settings, exits non-zero on any error).
+
+Still open: three runs per request is a record, not a benchmark; plans vary because the Master decides; research-heavy requests are the most expensive (about $6 at list price) and the least reliable; local 7B models complete the mechanics but not the review protocol; no one outside the author has used it yet. Full matrix and the list of bugs found by real runs: [`docs/STATUS.md`](docs/STATUS.md). Security boundaries: [`SECURITY.md`](SECURITY.md).
 
 ## Read more
 

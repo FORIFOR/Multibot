@@ -1,0 +1,74 @@
+# Final report — 次の3つの公開ページを実際に取得して読み、それぞれの「主張・対象読者・ライセンス（記載があれば）」を出典URL付きで比較した調査メモ `research.md` を日本語で作ってください。取得できなかったページは『取得不可』と明記し、本文を推測で埋めないでください。Reviewer は各主張が出典に実在するかを read_artifact と web_fetch で照合してください。
+
+- Status: **partial**
+- Provider kind: real
+- Usage: 87 model calls, 80 tool calls, $5.9677, 2085s
+
+## Deliverables
+- `research-v2.md` — research-v2.md r2 (sha256 cb4fe0960b42…) by researcher / task t3
+- `research.md` — research.md r1 (sha256 bbcd58470bcf…) by researcher / task t1
+- `sources-v2.md` — sources-v2.md r1 (sha256 e71cd13e00cb…) by researcher / task t3
+- `sources.md` — sources.md r1 (sha256 b32ae326eb92…) by researcher / task t1
+
+## Tasks
+- t1 [accepted] researcher: web_fetch で以下3URLを実際に取得する: (1) https://github.com/langchain-ai/deepagents (2) https://github.com/bytedance/deer-flow (3) https://agentskills.io/specification 。取得結果のみを根拠に、日本語の比較調査メモ research.md を作成する。構成は『概要』『比較表（主張/対象読者/ライセンス）』『個別メモ（3ページ分）』『取得できなかったページ』『出典一覧』。各ページについて (a) そのページが掲げる主張・売り、(b) 想定する対象読者、(c) ライセンス記載（本文に明記がある場合のみ。無ければ『記載確認できず』）を、該当する出典URLを各項目に付けて記述する。取得に失敗したURLは当該セクションに『取得不可』と明記し、失敗理由（HTTPステータスやエラー内容）を書き、本文の内容は一切推測で埋めない。同時に sources.md を作成し、URLごとに『取得日時・取得可否・HTTPステータスまたはエラー・research.md の各記述の根拠となる原文抜粋（短い引用、原文言語のまま）』を列挙して、後続レビューが照合できる形にする。research.md の断定的記述はすべて sources.md の抜粋に対応させる。 (attempts 1)
+- t2 [accepted] reviewer: read_artifact で research.md と sources.md を読み、research.md の各記述（主張・対象読者・ライセンス）が sources.md の原文抜粋に実在の根拠を持つかを1件ずつ照合する。根拠のない記述、抜粋と食い違う記述、取得不可ページについての推測記述、ライセンスの推測記載を不合格として列挙する。t1 の受入条件 t1a1〜t1a5 それぞれに合否と根拠（該当箇所の引用）を付けて submit_review で提出する。web_fetch は自分の権限に無いため一次ソースへの再アクセスは行わず、『原典再取得は未実施』を限界として明記する。再取得が不可欠と判断した記述がある場合は report_blocker で差し戻す。成果物ファイルは作らない。 (attempts 1)
+- t3 [review_pending] researcher: research.md rev1 / sources.md rev1 の残課題を解消した最終版を、新しい logical path `research-v2.md` / `sources-v2.md` として公開する（rev1 の全内容を引き継いだ自己完結の全文。差分メモではない）。作業は次の2点に限定し、既に根拠のある記述の書き換えやリファクタはしない。
+
+(A) 根拠欠落の解消（必須）: research.md の全記述を1件ずつ sources.md rev1 の原文抜粋と突き合わせ、対応する根拠がない記述を洗い出す。少なくとも以下は sources.md rev1 に対応抜粋が見当たらない（マスター確認済み）:
+ 1. deepagents「"Going to production" ガイドへの案内」
+ 2. DeerFlow「ByteDance Volcengine の Coding Plan、BytePlus 製の検索・クロールツール群 InfoQuest」
+ 3. DeerFlow「config.example.yaml、vLLM / OpenRouter / Responses API 等の設定例」
+ 4. agentskills.io「良い description / 悪い description の具体例」
+ 5. agentskills.io「規範（MUST/SHOULD）と推奨を区別して書いている」
+ 6. research.md 記載の「1回目 max_chars=20000」（sources.md rev1 に1回目の max_chars 値の記録がない）
+各項目について、web_fetch で該当ページを再取得して原文抜粋を sources-v2.md に追記するか、原文を確認できない場合は research-v2.md から当該記述を削除する。抜粋を作れない記述を残さない。原文未確認の内容を言い換えて残すのも不可。
+
+(B) deer-flow README 後半の再取得（試行必須・成功は必須ではない）: https://raw.githubusercontent.com/bytedance/deer-flow/main/README.md を web_fetch で取得し、必要なら max_chars や取得範囲を変えて複数回に分けて README 後半（Core Features 以降、License セクション本文、Security Notice 等）を取得する。取得できた範囲は sources-v2.md に原文抜粋＋取得日時＋URL を追記し、research-v2.md の「取得できなかったページ・範囲」を実態に合わせて更新する。README の License セクション本文が取得できた場合はライセンス欄の出典に反映する。再取得しても取得できない範囲は、実際に観測した失敗事象（truncated 等）とともに引き続き「取得不可」と明記する。取得できていない内容を推測で書かない。
+
+research-v2.md 冒頭に「本ファイルが research.md rev1 の後継（最終版）である」旨と、末尾に「改訂履歴」節（追加した抜粋・削除した記述・取得可否の変化）を記載する。 (attempts 2)
+- t4 [failed] reviewer: research-v2.md と sources-v2.md を read_artifact で通読し、t2 で unverified だった「sources に根拠抜粋のない記述」が解消されたかを再判定する。手順:
+1. research-v2.md の主張・対象読者・ライセンスに関する記述を1件ずつ列挙し、sources-v2.md の原文抜粋に対応根拠があるかを照合する。特に t3 で指摘した6項目（deepagents の "Going to production"、DeerFlow の Volcengine Coding Plan / InfoQuest、DeerFlow の config.example.yaml・vLLM/OpenRouter/Responses API、agentskills.io の description 良例悪例、agentskills.io の MUST/SHOULD 区別、1回目 max_chars=20000）が「抜粋追加で裏付けられた」「記述削除で解消された」「未解消」のいずれかを明示する。
+2. deer-flow README 再取得の結果が sources-v2.md に記録され、research-v2.md の取得可否記述と矛盾しないことを確認する。取得不可範囲について推測記述が混入していないかを確認する。
+3. ライセンス欄に推測の SPDX 識別子や未確認の断定がないことを確認する。
+4. 判定結果を submit_review で提出する。根拠なし記述が残る場合は該当箇所を引用して不合格とし、修正案（削除 or 追記）を具体的に示す。
+注意: reviewer に web_fetch はなく原典再取得はできない。抜粋と原文の一致は検証範囲外であることを結果に明記する。 (attempts 2) — budget: budget 6.00 USD would be exceeded (spent 5.9677 + reserved 0.0000 + session cap 0.0500)
+
+## Verified (from checks and reviews)
+- check markdown_basic on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'bbcd58470bcf1a20c13aa172d459fb1def6f376cc803a836ecdfeaee3938b559'} → pass (seq 37)
+- check text_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'bbcd58470bcf1a20c13aa172d459fb1def6f376cc803a836ecdfeaee3938b559'} → pass (seq 39)
+- check markdown_basic on {'artifact_id': 'sources.md', 'revision': 1, 'sha256': 'b32ae326eb92ebbca23c24ae7a87a0a1315a1df97fcbc5ffc76388e58c79939f'} → pass (seq 41)
+- check text_not_contains on {'artifact_id': 'sources.md', 'revision': 1, 'sha256': 'b32ae326eb92ebbca23c24ae7a87a0a1315a1df97fcbc5ffc76388e58c79939f'} → pass (seq 44)
+- check text_not_contains on {'artifact_id': 'sources.md', 'revision': 1, 'sha256': 'b32ae326eb92ebbca23c24ae7a87a0a1315a1df97fcbc5ffc76388e58c79939f'} → pass (seq 46)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'bbcd58470bcf1a20c13aa172d459fb1def6f376cc803a836ecdfeaee3938b559'} → pass (seq 48)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'bbcd58470bcf1a20c13aa172d459fb1def6f376cc803a836ecdfeaee3938b559'} → pass (seq 50)
+- check text_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'bbcd58470bcf1a20c13aa172d459fb1def6f376cc803a836ecdfeaee3938b559'} → pass (seq 52)
+- check regex_count on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'bbcd58470bcf1a20c13aa172d459fb1def6f376cc803a836ecdfeaee3938b559'} → pass (seq 54)
+- check command on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 105)
+- check text_contains on {'artifact_id': 'sources-v2.md', 'revision': 1, 'sha256': 'e71cd13e00cb4c0869d0e4fc66e5869a7eaba8bdf002ae31a005d417f497d1fb'} → pass (seq 107)
+- check text_contains on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 109)
+- check text_contains on {'artifact_id': 'sources-v2.md', 'revision': 1, 'sha256': 'e71cd13e00cb4c0869d0e4fc66e5869a7eaba8bdf002ae31a005d417f497d1fb'} → fail (seq 111)
+- check text_contains on {'artifact_id': 'sources-v2.md', 'revision': 1, 'sha256': 'e71cd13e00cb4c0869d0e4fc66e5869a7eaba8bdf002ae31a005d417f497d1fb'} → pass (seq 115)
+- check text_not_contains on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → pass (seq 117)
+- check regex_count on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 120)
+- check regex_count on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → pass (seq 122)
+- check markdown_basic on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → pass (seq 124)
+- check regex_count on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 126)
+- check regex_count on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 128)
+- check regex_count on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 130)
+- check text_contains on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 132)
+- check regex_count on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 134)
+- check regex_count on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → pass (seq 136)
+- check regex_count on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → pass (seq 138)
+- check regex_count on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 140)
+- check text_contains on {'artifact_id': 'research-v2.md', 'revision': 1, 'sha256': 'a3adb7117abe6d0006d2f5955bf1e6e7ee975705558fb21b2b04b6b682fb594b'} → fail (seq 142)
+- check text_contains on {'artifact_id': 'sources-v2.md', 'revision': 1, 'sha256': 'e71cd13e00cb4c0869d0e4fc66e5869a7eaba8bdf002ae31a005d417f497d1fb'} → fail (seq 144)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=unverified (seq 56)
+- review of t3 by reviewer: t3a1=fail, t3a2=pass, t3a3=pass, t3a4=pass, t3a5=pass (seq 147)
+
+## Unresolved / pending
+- task.failed task=t4: budget: budget 6.00 USD would be exceeded (spent 5.9677 + reserved 0.0000 + session cap 0.0500) (seq 171)
+
+## Trace
+- Messages delivered: 4 ({'handoff': 1, 'finding': 2, 'request': 1})
+- Model usage by agent: master: 2 calls / $0.6916 (reported claude-opus-5), researcher: 3 calls / $3.2255 (reported claude-opus-5), reviewer: 2 calls / $2.0507 (reported claude-opus-5)

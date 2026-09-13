@@ -1,0 +1,81 @@
+# Final report — この製品説明をもとに、日本語の紹介LP（index.html）とSNS投稿草案（posts.md、3案）を作ってください。不足情報は推定して前提として記録し、公開はせず草案まで。Reviewerに実検証させてください。
+
+- Status: **completed**
+- Provider kind: real
+- Usage: 59 model calls, 55 tool calls, $2.2665, 1322s
+
+## Summary
+Agent Team 製品のLP・SNS草案・前提記録の3成果物を rev1 で作成し、Builder と Reviewer が同一の登録済みチェック10件を各自 run_check で実行して全 pass。t1a10/t1a11 を含む全11受入条件が Reviewer レビュー(seq 103)で pass、t1・t2 とも accepted。公開・投稿・外部送信は未実施。所要 13:20:56〜13:42:57 JST、コスト $2.266511。
+
+## Deliverables
+- `assumptions.md` — assumptions.md r1 (sha256 7f7326746f38…) by builder / task t1
+- `index.html` — index.html r1 (sha256 002ff0ab7ab5…) by builder / task t1
+- `posts.md` — posts.md r1 (sha256 39ec64e21a54…) by builder / task t1
+
+## Tasks
+- t1 [accepted] builder: 提供された製品説明と上記前提のみを根拠に、次の3ファイルを作成する。(1) index.html: 日本語の単一ファイルLP。構成はヒーロー（製品名・一行価値提案）、課題、仕組み（Master/Researcher/Builder/Reviewer の4役割と一度の依頼から実作業が進む流れ）、特徴（成果物・Bot間の実メッセージ・時系列を同じ実行記録から表示／オープンソース／ローカルファースト）、対象ユーザー（ソフトウェア開発者・個人開発者）、価格（未定と明記）、FAQ、CTA（外部リンク無しのプレースホルダ）。title・meta viewport・h1/h2見出し・内部アンカー（ページ内ナビ）を備え、外部ホストへのリンクやlocalhostリンク、画像altの欠落、空リンクを含めない。CSSはインライン<style>、スクリプトは原則0個。(2) posts.md: SNS投稿草案3案。各案は '## 案1/案2/案3' 見出し配下に、狙い・想定読者・本文（280文字以内）・ハッシュタグ・未確認事項の注記を記載。URLは記載しない。(3) assumptions.md: 不足情報と推定内容、推定根拠、確認が必要な項目（価格、ライセンス名、配布URL、対応OS、スクリーンショット有無など）を表形式で記録。全ファイルで製品説明に無い実績・数値・受賞・比較優位の主張を書かないこと。作成後、自身で該当する登録済みチェックを run_check で実行し、結果を報告する。 (attempts 1)
+- t2 [accepted] reviewer: t1 の成果物（index.html / posts.md / assumptions.md）を実検証する。(1) t1a1〜t1a9 の登録済みチェックを run_check で自分で再実行し、各チェックの実行結果（pass/fail と出力要約）を記録する。推測や再実行なしの合格判定は禁止。(2) t1a10 は提供製品説明文と assumptions.md を突き合わせ、出典外・誇張・未確認の主張を行単位で列挙する。(3) t1a11 は各投稿本文の文字数を実測（sandbox_run で計測可）し、切り口の重複有無を判定する。(4) 全 t1 受入条件に対し pass/fail/要修正 の判定と根拠を submit_review で提出し、fail があれば具体的な修正指示を builder へ send_message で返す。外部公開・投稿は行わない。 (attempts 1)
+
+## Verified (from checks and reviews)
+- check html_basic on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 24)
+- check html_links on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 26)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 28)
+- check text_not_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 30)
+- check file_size_max on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 32)
+- check markdown_basic on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': '39ec64e21a54b68153b842291a40db27b56e7bbf32dc02e187ee4b56c83e91ee'} → pass (seq 34)
+- check regex_count on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': '39ec64e21a54b68153b842291a40db27b56e7bbf32dc02e187ee4b56c83e91ee'} → pass (seq 36)
+- check text_not_contains on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': '39ec64e21a54b68153b842291a40db27b56e7bbf32dc02e187ee4b56c83e91ee'} → pass (seq 38)
+- check markdown_basic on {'artifact_id': 'assumptions.md', 'revision': 1, 'sha256': '7f7326746f385dad81c45e7c0e560e72d24628055057aa37e86f1633a8f13d4d'} → pass (seq 40)
+- check text_contains on {'artifact_id': 'assumptions.md', 'revision': 1, 'sha256': '7f7326746f385dad81c45e7c0e560e72d24628055057aa37e86f1633a8f13d4d'} → pass (seq 42)
+- check html_basic on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 61)
+- check html_links on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 63)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 65)
+- check text_not_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 67)
+- check file_size_max on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 69)
+- check markdown_basic on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': '39ec64e21a54b68153b842291a40db27b56e7bbf32dc02e187ee4b56c83e91ee'} → pass (seq 71)
+- check regex_count on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': '39ec64e21a54b68153b842291a40db27b56e7bbf32dc02e187ee4b56c83e91ee'} → pass (seq 73)
+- check text_not_contains on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': '39ec64e21a54b68153b842291a40db27b56e7bbf32dc02e187ee4b56c83e91ee'} → pass (seq 75)
+- check markdown_basic on {'artifact_id': 'assumptions.md', 'revision': 1, 'sha256': '7f7326746f385dad81c45e7c0e560e72d24628055057aa37e86f1633a8f13d4d'} → pass (seq 77)
+- check text_contains on {'artifact_id': 'assumptions.md', 'revision': 1, 'sha256': '7f7326746f385dad81c45e7c0e560e72d24628055057aa37e86f1633a8f13d4d'} → pass (seq 79)
+- check regex_count on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → fail (seq 83)
+- check text_not_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → fail (seq 85)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → fail (seq 87)
+- check regex_count on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → pass (seq 89)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → fail (seq 91)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → fail (seq 93)
+- check command on {'sha256': '39ec64e21a54b68153b842291a40db27b56e7bbf32dc02e187ee4b56c83e91ee', 'workspace_path': 'posts_copy.md'} → pass (seq 95)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → fail (seq 97)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → fail (seq 99)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '002ff0ab7ab5d7bdfa15119d5171f1e95d9bb34e9b9a99647decbbd8e15af4b2'} → fail (seq 101)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=pass, t1a6=pass, t1a7=pass, t1a8=pass, t1a9=pass, t1a10=pass, t1a11=pass (seq 103)
+- index.html rev1: html_basic pass (seq24 builder / seq61 reviewer)
+- index.html rev1: html_links allowed_hosts=[] pass (seq26/63)
+- index.html rev1: text_contains 9語 pass (seq28/65)
+- index.html rev1: text_not_contains 6語 pass (seq30/67)
+- index.html rev1: file_size_max 16017<=80000 pass (seq32/69)
+- posts.md rev1: markdown_basic pass (seq34/71)
+- posts.md rev1: regex_count '(?m)^## 案[123]' count=3 pass (seq36/73)
+- posts.md rev1: text_not_contains pass (seq38/75)
+- assumptions.md rev1: markdown_basic pass (seq40/77) と text_contains pass (seq42/79)
+- SNS本文文字数の実測 案1=138/案2=144/案3=135（command チェック seq95 pass、posts_copy.md の sha256 が公開artifactと一致）
+- submit_review seq103 で t1a1〜t1a11 全件 pass、t1/t2 とも status=accepted
+- blockers 0件 / failures 0件 / approvals 0件、メッセージ2件(handoff1, finding1)
+
+## Unresolved / pending
+- Reviewer の探索的スキャン seq 83/85/87/91/93/97/99/101 が status=fail として記録に残存（受入条件ではないとの説明だが記録上の不整合）
+- Builder 記録では『Reviewer 返信なし・独立検証未完了』とあるが、その後 seq103 のレビューが成立しており経緯に食い違い
+- ブラウザでの実描画・レイアウト・レスポンシブ実機確認は未実施
+- CSS の backdrop-filter / scroll-behavior / clamp() の実環境挙動は未確認
+- コピー品質（訴求力）の評価は未実施
+- 価格・ライセンス名・配布URL・対応OS・スクリーンショット有無は依頼元から未提供（assumptions.md §4）
+- 非ブロッカー改善2件（title/h1 の助詞ゆれ、特徴節『公開される前提』表現）の採否が未決
+
+## Next steps
+- 非ブロッカー改善2件を採用するか Master が判断する
+- assumptions.md §4 の未確認10項目を依頼元へ確認し、判明後に LP と CTA を更新する
+- 公開前にブラウザ実機でのレンダリング／レスポンシブ確認を人手で実施する
+- Reviewer の fail 記録（seq 83 以降）が探索用途である旨を記録上で明確化する
+
+## Trace
+- Messages delivered: 2 ({'handoff': 1, 'finding': 1})
+- Model usage by agent: master: 2 calls / $0.1636 (reported claude-opus-5), builder: 1 calls / $0.9405 (reported claude-opus-5), reviewer: 1 calls / $1.1624 (reported claude-opus-5)

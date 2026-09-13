@@ -328,9 +328,23 @@ class Scheduler:
                     for t in queued:  # unsatisfiable dependencies
                         await self._set(t, TaskStatus.blocked, "task.blocked", {"reason": "dependencies can never be satisfied"})
                 # milestone: let the Master extend the plan if the goal is not yet met (bounded by max_replans)
-                if (self._replans < rt.config.limits.max_replans and not rt.policy.cancelled
-                        and any(t.status in (TaskStatus.accepted, TaskStatus.partial) for t in rt.tasks.values())
-                        and rt.policy.remaining_budget() > 0.05 and rt.remaining_seconds() > 60):
+                can_replan = (self._replans < rt.config.limits.max_replans and not rt.policy.cancelled
+                              and any(t.status in (TaskStatus.accepted, TaskStatus.partial) for t in rt.tasks.values())
+                              and rt.remaining_seconds() > 60)
+                # a replan that cannot afford a single agent session would only add tasks that fail on budget
+                # (seen twice in the research scenario re-runs: milestone-added tasks ended the run partial at the cap)
+                calls_left = rt.config.limits.max_model_calls - rt.policy.usage.model_calls
+                short = None
+                if can_replan and rt.policy.remaining_budget() < rt.config.limits.max_session_cost_usd:
+                    short = (f"remaining budget {rt.policy.remaining_budget():.2f} USD is below one agent session "
+                             f"({rt.config.limits.max_session_cost_usd:.2f} USD)")
+                elif can_replan and calls_left < rt.config.limits.max_session_turns:
+                    short = f"remaining model calls {calls_left} are below one agent session ({rt.config.limits.max_session_turns} turns)"
+                if short:
+                    await rt.events.append(rt.run_id, "plan.milestone", {"round": self._replans + 1, "skipped": "limits",
+                                                                          "reason": short + "; the Master was not asked to extend the plan"})
+                    can_replan = False
+                if can_replan:
                     self._replans += 1
                     try:
                         res = await milestone_replan(rt, self._replans)

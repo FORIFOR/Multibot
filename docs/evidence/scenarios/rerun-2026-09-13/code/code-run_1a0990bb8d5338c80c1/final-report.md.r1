@@ -1,0 +1,62 @@
+# Final report — Python で CLI ツール `wc_plus` を作ってください: 引数のテキストファイル群について行数・単語数・文字数と、最頻出の単語トップ5を表示する。標準ライブラリのみ。`wc_plus.py`（実装）、`test_wc_plus.py`（unittest、最低5ケース）、`README.md`（使い方）を出力し、Builder は sandbox_run で `python3 -m unittest -v` を実際に実行してから公開、Reviewer も同じテストを再実行して判定してください。
+
+- Status: **completed**
+- Provider kind: real
+- Usage: 52 model calls, 48 tool calls, $2.0881, 950s
+
+## Summary
+run_1a0990bb8d5338c80c1（wc_plus CLI）は completed。Builder(t1)・Reviewer(t2) とも accepted、受入条件 t1a1〜t1a8 全件 pass。成果物4点をすべて rev1 で公開。Builder が公開前に sandbox_run で `python3 -m unittest -v` を実行し Ran 17 tests/OK/exit 0 を確認、Reviewer が sha256 一致を確認したファイルで同テストを独立再実行し同結果を再現。ブロッカー・承認待ち・失敗なし。所要 949.76 秒（13:34:37→13:50:27 JST）、コスト $2.0879。
+
+## Deliverables
+- `HANDOFF.md` — HANDOFF.md r1 (sha256 42af377a224c…) by builder / task t1
+- `README.md` — README.md r1 (sha256 59f86b185fd6…) by builder / task t1
+- `test_wc_plus.py` — test_wc_plus.py r1 (sha256 2a14d6f792c7…) by builder / task t1
+- `wc_plus.py` — wc_plus.py r1 (sha256 eddf6c775db2…) by builder / task t1
+
+## Tasks
+- t1 [accepted] builder: wc_plus.py（標準ライブラリのみの CLI 実装: 引数の各テキストファイルについて行数・単語数・文字数と最頻出単語トップ5を表示、複数ファイル時は total 行、読み取り失敗はstderr警告＋exit 1）、test_wc_plus.py（unittest、最低5ケース: 基本カウント、トップ5の順序と同数タイブレーク、複数ファイルとtotal、空ファイル、存在しないファイルのエラー処理）、README.md（概要・インストール不要である旨・使い方・引数・出力例・単語定義と大文字小文字の扱い・テスト実行方法）を作成する。公開（publish_artifact）の前に必ず sandbox_run で `python3 -m unittest -v` を実行し、全テスト成功（OK, failures=0, errors=0）を確認する。失敗した場合は修正して再実行し、成功を確認してから公開する。実行ログの要点（テスト数と結果）を成果物受け渡しメモに残す。 (attempts 1)
+- t2 [accepted] reviewer: t1 の成果物を独立に検証する。成果物を読んだうえで、自分の workspace で sandbox_run により `python3 -m unittest -v` を再実行し、実際の出力（テスト件数・OK/FAILED）を証拠として記録する。あわせて (a) 標準ライブラリのみで完結しているか、(b) テストが5ケース以上あり、トップ5の順序・複数ファイル・空ファイル・エラー処理など意味のある観点を実際に検証しているか（アサーションが空でないか）、(c) README の使い方・出力例が実装の実際の挙動と一致しているか、(d) t1 の各受入条件それぞれに pass/fail の判定を付けたか、を確認して submit_review で判定を出す。テストを実行できない、または再実行が失敗した場合は合格にせず report_blocker する。 (attempts 1)
+
+## Verified (from checks and reviews)
+- check command on {'sha256': 'eddf6c775db2e914c1062f557ca9845098794d197d2243944c5641f64e5bc807', 'workspace_path': 'wc_plus.py'} → pass (seq 16)
+- check python_syntax on {'sha256': 'eddf6c775db2e914c1062f557ca9845098794d197d2243944c5641f64e5bc807', 'workspace_path': 'wc_plus.py'} → pass (seq 18)
+- check python_syntax on {'sha256': '2a14d6f792c7d0dc51c9c064bbe9e62850a820f2ca047bb364eba69bcd214d08', 'workspace_path': 'test_wc_plus.py'} → pass (seq 20)
+- check regex_count on {'sha256': '2a14d6f792c7d0dc51c9c064bbe9e62850a820f2ca047bb364eba69bcd214d08', 'workspace_path': 'test_wc_plus.py'} → pass (seq 22)
+- check markdown_basic on {'sha256': '59f86b185fd6c62d4df733fe03a0396491e3934b7515c4835f1a5a16d44b892d', 'workspace_path': 'README.md'} → pass (seq 24)
+- check text_contains on {'sha256': '59f86b185fd6c62d4df733fe03a0396491e3934b7515c4835f1a5a16d44b892d', 'workspace_path': 'README.md'} → pass (seq 26)
+- check text_not_contains on {'sha256': 'eddf6c775db2e914c1062f557ca9845098794d197d2243944c5641f64e5bc807', 'workspace_path': 'wc_plus.py'} → pass (seq 28)
+- check text_not_contains on {'sha256': '2a14d6f792c7d0dc51c9c064bbe9e62850a820f2ca047bb364eba69bcd214d08', 'workspace_path': 'test_wc_plus.py'} → pass (seq 30)
+- check python_syntax on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': 'eddf6c775db2e914c1062f557ca9845098794d197d2243944c5641f64e5bc807'} → pass (seq 65)
+- check python_syntax on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '2a14d6f792c7d0dc51c9c064bbe9e62850a820f2ca047bb364eba69bcd214d08'} → pass (seq 67)
+- check command on {} → pass (seq 69)
+- check regex_count on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '2a14d6f792c7d0dc51c9c064bbe9e62850a820f2ca047bb364eba69bcd214d08'} → pass (seq 71)
+- check text_not_contains on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': 'eddf6c775db2e914c1062f557ca9845098794d197d2243944c5641f64e5bc807'} → pass (seq 73)
+- check text_not_contains on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '2a14d6f792c7d0dc51c9c064bbe9e62850a820f2ca047bb364eba69bcd214d08'} → pass (seq 75)
+- check markdown_basic on {'artifact_id': 'README.md', 'revision': 1, 'sha256': '59f86b185fd6c62d4df733fe03a0396491e3934b7515c4835f1a5a16d44b892d'} → pass (seq 77)
+- check text_contains on {'artifact_id': 'README.md', 'revision': 1, 'sha256': '59f86b185fd6c62d4df733fe03a0396491e3934b7515c4835f1a5a16d44b892d'} → pass (seq 79)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=pass, t1a6=pass, t1a7=pass, t1a8=pass (seq 81)
+- Builder: sandbox_run(docker, Python 3.12.14) で `python3 -m unittest -v` → Ran 17 tests in 0.002s / OK / exit_code=0（failures=0, errors=0, skipped=0）を公開前に実行
+- Reviewer: 公開rev1とsha256一致を確認したファイルで同コマンドを独立再実行 → 17件すべて ok / OK / EXIT=0
+- 機械チェック16件すべて pass（builder seq16-30 の8件、reviewer seq65-79 の8件）
+- 標準ライブラリのみ: AST抽出 + sys.stdlib_module_names 照合で非標準0件
+- README の使い方・出力例が実行結果と文字単位で一致（単一 lines3/words16/chars75、複数+total lines5/words21/chars105、欠損ファイル exit1、引数なし exit2）
+- HANDOFF.md rev1 に公開前テスト件数・OK判定・exit_code・実行環境が記録されている
+- submit_review(seq81) で t1a1〜t1a8 に個別 verdict が付与され全件 pass
+
+## Unresolved / pending
+- Python 3.8〜3.11 での動作は未検証（sandbox は 3.12.14 のみ、README の『3.8 以上』は実機未確認）
+- macOS ホスト上での直接実行は未検証（実行は docker backend）
+- chmod 000 等の実パーミッション拒否ケースは未検証（ディレクトリ指定での OSError 代表検証のみ）
+- --encoding に UTF-8 以外を指定した場合および UnicodeDecodeError 経路は未テスト
+- Reviewer の軽微な finding 2件（テストコメントの数値誤記、README の対応バージョン表記）は未修正で rev2 未公開
+- t2 自体のレビューは未実施（review=null）
+- セッション履歴に『19 tests』との記述があるが run のイベント証拠は 17 tests。本報告は 17 を採用
+
+## Next steps
+- builder が finding 2件を修正する場合は rev2 を公開し再レビューを依頼する
+- UnicodeDecodeError / 非UTF-8・--encoding 指定ミス経路のテストケース追加を検討する
+- README の対応バージョン表記を実検証済み環境（3.12）に合わせるか、Python 3.8 実機スモークを実施する
+
+## Trace
+- Messages delivered: 2 ({'handoff': 1, 'finding': 1})
+- Model usage by agent: master: 2 calls / $0.3405 (reported claude-opus-5), builder: 1 calls / $0.8062 (reported claude-opus-5), reviewer: 1 calls / $0.9414 (reported claude-opus-5)

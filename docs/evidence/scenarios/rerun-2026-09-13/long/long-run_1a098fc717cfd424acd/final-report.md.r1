@@ -1,0 +1,73 @@
+# Final report — 小さな静的ドキュメントサイトを作ってください: `index.html`（トップ）、`docs/getting-started.html`、`docs/faq.html`、`styles.css` の4ファイル。内容は製品説明に基づく日本語。相互リンクが切れていないこと（html_links で検証）、各ページに title と viewport があること、外部 URL を書かないこと（プレースホルダ可）。Builder が全ファイルを公開し、Reviewer が全ページを検証してください。
+
+- Status: **completed**
+- Provider kind: real
+- Usage: 58 model calls, 54 tool calls, $1.6170, 927s
+
+## Summary
+静的ドキュメントサイト4ファイル（index.html, docs/getting-started.html, docs/faq.html, styles.css）を builder が rev1 で公開し、reviewer が run_check 計28件と submit_review で受入条件 t1a1〜t1a8 を全て pass 判定。run は completed、blockers/failures なし。実測コスト $1.617002、wall 926.7秒（JST 13:17:56→13:33:22）。ブラウザ実レンダリングと CSS lint、t2 自身のレビューは未検証。
+
+## Deliverables
+- `docs/faq.html` — docs-faq.html r1 (sha256 2e1e045f5639…) by builder / task t1
+- `docs/getting-started.html` — docs-getting-started.html r1 (sha256 ba6233df35bc…) by builder / task t1
+- `index.html` — index.html r1 (sha256 8f22f8755db3…) by builder / task t1
+- `styles.css` — styles.css r1 (sha256 e2b60a4f04e6…) by builder / task t1
+
+## Tasks
+- t1 [accepted] builder: 提供された製品説明のみを根拠に、日本語の静的ドキュメントサイト4ファイルを作成し、全てを publish_artifact する。index.html：製品概要（Master/Researcher/Builder/Reviewer の AI チームが一度の依頼で実作業し、成果物・Bot間の実メッセージ・時系列を同じ実行記録から表示する、オープンソースのローカルファーストツール）と「Claude Code があれば API キー不要」「価格は未定」「対象：ソフトウェア開発者・個人開発者」を含め、docs/getting-started.html と docs/faq.html へリンクする。docs/getting-started.html：前提（Claude Code）と、依頼を1件投げて実行記録（成果物・メッセージ・時系列）を見るまでの手順を手順形式で記載。docs/faq.html：APIキーの有無、価格（未定）、対象ユーザー、ローカルファースト/OSS についての Q&A。styles.css：3ページ共通スタイル。全 HTML に title / viewport / h1 を置き、styles.css を相対パスで読み込み、index ↔ docs 2ページの相互リンクを張る。空リンク（href="#"や空テキスト）、外部 URL、localhost、画像、script は使わない。 (attempts 1)
+- t2 [accepted] reviewer: t1 の成果物4ファイルを読み、t1 の受入条件 t1a1〜t1a8 を実際に検証する。html_basic と html_links を3つの HTML に run_check で実行し、text_contains / text_not_contains を該当ファイルに実行。リンク先（index.html ↔ docs/*.html、styles.css / ../styles.css）の実ファイル存在も確認する。各条件に pass/fail の verdict と根拠（実行した check 名と出力要約）を付けて submit_review する。fail があればファイル名・箇所・修正指示を明記して差し戻す。未実行の検査を pass と記録しない。 (attempts 1)
+
+## Verified (from checks and reviews)
+- check html_basic on {'sha256': '8f22f8755db38e18ba5cd9e062e027b88d586692ab6e1ece2c6732fc25d86952', 'workspace_path': 'index.html'} → pass (seq 15)
+- check html_basic on {'sha256': 'ba6233df35bcbb97a0a753a28d7ca0f5c577f3b8b20d56410747ac3e0b5289d9', 'workspace_path': 'docs/getting-started.html'} → pass (seq 17)
+- check html_basic on {'sha256': '2e1e045f5639deaf3633a78f886edaa5dd6665f8317bb1138eff7b6c8bd23087', 'workspace_path': 'docs/faq.html'} → pass (seq 19)
+- check html_links on {'sha256': '8f22f8755db38e18ba5cd9e062e027b88d586692ab6e1ece2c6732fc25d86952', 'workspace_path': 'index.html'} → pass (seq 21)
+- check html_links on {'sha256': 'ba6233df35bcbb97a0a753a28d7ca0f5c577f3b8b20d56410747ac3e0b5289d9', 'workspace_path': 'docs/getting-started.html'} → pass (seq 23)
+- check html_links on {'sha256': '2e1e045f5639deaf3633a78f886edaa5dd6665f8317bb1138eff7b6c8bd23087', 'workspace_path': 'docs/faq.html'} → pass (seq 25)
+- check text_not_contains on {'sha256': 'e2b60a4f04e683983997c3422e4d3c93db90a54dd613898d27c91f964cbf6a3c', 'workspace_path': 'styles.css'} → pass (seq 27)
+- check text_not_contains on {'sha256': '8f22f8755db38e18ba5cd9e062e027b88d586692ab6e1ece2c6732fc25d86952', 'workspace_path': 'index.html'} → pass (seq 29)
+- check text_not_contains on {'sha256': 'ba6233df35bcbb97a0a753a28d7ca0f5c577f3b8b20d56410747ac3e0b5289d9', 'workspace_path': 'docs/getting-started.html'} → pass (seq 31)
+- check text_not_contains on {'sha256': '2e1e045f5639deaf3633a78f886edaa5dd6665f8317bb1138eff7b6c8bd23087', 'workspace_path': 'docs/faq.html'} → pass (seq 33)
+- check text_contains on {'sha256': '8f22f8755db38e18ba5cd9e062e027b88d586692ab6e1ece2c6732fc25d86952', 'workspace_path': 'index.html'} → pass (seq 35)
+- check text_contains on {'sha256': 'ba6233df35bcbb97a0a753a28d7ca0f5c577f3b8b20d56410747ac3e0b5289d9', 'workspace_path': 'docs/getting-started.html'} → pass (seq 37)
+- check text_contains on {'sha256': '2e1e045f5639deaf3633a78f886edaa5dd6665f8317bb1138eff7b6c8bd23087', 'workspace_path': 'docs/faq.html'} → pass (seq 39)
+- check html_basic on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '8f22f8755db38e18ba5cd9e062e027b88d586692ab6e1ece2c6732fc25d86952'} → pass (seq 67)
+- check html_basic on {'artifact_id': 'docs-getting-started.html', 'revision': 1, 'sha256': 'ba6233df35bcbb97a0a753a28d7ca0f5c577f3b8b20d56410747ac3e0b5289d9'} → pass (seq 69)
+- check html_basic on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': '2e1e045f5639deaf3633a78f886edaa5dd6665f8317bb1138eff7b6c8bd23087'} → pass (seq 71)
+- check html_links on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '8f22f8755db38e18ba5cd9e062e027b88d586692ab6e1ece2c6732fc25d86952'} → pass (seq 73)
+- check html_links on {'artifact_id': 'docs-getting-started.html', 'revision': 1, 'sha256': 'ba6233df35bcbb97a0a753a28d7ca0f5c577f3b8b20d56410747ac3e0b5289d9'} → pass (seq 75)
+- check html_links on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': '2e1e045f5639deaf3633a78f886edaa5dd6665f8317bb1138eff7b6c8bd23087'} → pass (seq 77)
+- check text_not_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '8f22f8755db38e18ba5cd9e062e027b88d586692ab6e1ece2c6732fc25d86952'} → pass (seq 79)
+- check text_not_contains on {'artifact_id': 'docs-getting-started.html', 'revision': 1, 'sha256': 'ba6233df35bcbb97a0a753a28d7ca0f5c577f3b8b20d56410747ac3e0b5289d9'} → pass (seq 81)
+- check text_not_contains on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': '2e1e045f5639deaf3633a78f886edaa5dd6665f8317bb1138eff7b6c8bd23087'} → pass (seq 83)
+- check text_not_contains on {'artifact_id': 'styles.css', 'revision': 1, 'sha256': 'e2b60a4f04e683983997c3422e4d3c93db90a54dd613898d27c91f964cbf6a3c'} → pass (seq 85)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '8f22f8755db38e18ba5cd9e062e027b88d586692ab6e1ece2c6732fc25d86952'} → pass (seq 87)
+- check text_contains on {'artifact_id': 'docs-getting-started.html', 'revision': 1, 'sha256': 'ba6233df35bcbb97a0a753a28d7ca0f5c577f3b8b20d56410747ac3e0b5289d9'} → pass (seq 89)
+- check text_contains on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': '2e1e045f5639deaf3633a78f886edaa5dd6665f8317bb1138eff7b6c8bd23087'} → pass (seq 91)
+- check text_contains on {'artifact_id': 'docs-faq.html', 'revision': 1, 'sha256': '2e1e045f5639deaf3633a78f886edaa5dd6665f8317bb1138eff7b6c8bd23087'} → pass (seq 93)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=pass, t1a6=pass, t1a7=pass, t1a8=pass (seq 98)
+- html_basic: index.html / docs/getting-started.html / docs/faq.html すべて status=pass, problems=[]（builder seq15/17/19、reviewer seq67/69/71）
+- html_links: 同3ファイルすべて status=pass, problems=[]（seq21/23/25、seq73/75/77）
+- text_not_contains [http://, https://, localhost]: 3 HTML + styles.css すべて pass（seq27/29/31/33、seq79/81/83/85）
+- text_contains: index.html、docs/getting-started.html、docs/faq.html すべて pass（seq35/37/39、seq87/89/91/93）
+- submit_review seq98（target_task_id=t1）で t1a1〜t1a8 の8条件すべてに pass verdict と根拠を記録、fail 0
+- t1・t2 とも status=accepted（attempts=1）、blockers 0 / approvals 0 / failures 0
+- run status=completed、usage 実測: model_calls=58, tool_calls=54, cost_usd=1.617002, wall_seconds=926.7325925000478
+
+## Unresolved / pending
+- ブラウザでの実レンダリング（CSS 適用結果・レイアウト崩れ・レスポンシブ・.steps カウンタ表示）は未検証：サンドボックスに成果物ファイルが不在で GUI もないため
+- styles.css の CSS 構文 lint は未実行（対応する check kind が未登録）。セレクタと HTML クラスの対応は読み合わせのみ
+- 成果物を再構成した独立なリンクグラフ解析は未実施（html_links と list_artifacts の logical_path 突合に依拠）
+- t2 の受入条件 t2a1〜t2a3 に対するレビューは未受領（reviews は t1 対象の1件のみ、t2.review=null）
+- Builder→Reviewer の handoff は480秒待機しても返信未着信（Reviewer は独立に検証を実施）
+- index.html の役割カード説明が提供テキストに明示のない一般的補足である点（Reviewer は不具合ではなく修正不要と判定）
+
+## Next steps
+- ブラウザで index.html を開き、docs 2ページへの遷移と CSS 適用を目視確認する（実機作業が必要）
+- 必要なら CSS 構文 lint 手段を用意し styles.css を検査する
+- t2 の受入条件 t2a1〜t2a3 に対するレビューを実施するか、不要と判断して明示的にクローズする
+- index.html の役割カード説明を提供テキスト準拠に絞るかを別途判断する
+
+## Trace
+- Messages delivered: 2 ({'handoff': 1, 'finding': 1})
+- Model usage by agent: master: 2 calls / $0.2674 (reported claude-opus-5), builder: 1 calls / $0.6308 (reported claude-opus-5), reviewer: 1 calls / $0.7188 (reported claude-opus-5)

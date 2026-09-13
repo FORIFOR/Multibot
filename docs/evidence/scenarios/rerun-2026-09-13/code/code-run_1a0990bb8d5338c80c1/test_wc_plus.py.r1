@@ -1,0 +1,184 @@
+#!/usr/bin/env python3
+"""wc_plus の unittest。tempfile で一時ファイルを作り CLI 関数を直接呼ぶ。"""
+
+import io
+import os
+import tempfile
+import unittest
+
+import wc_plus
+
+
+class TempFileMixin(unittest.TestCase):
+    """テスト用に一時ディレクトリと UTF-8 ファイルを用意するヘルパ。"""
+
+    def setUp(self) -> None:
+        self._tmpdir = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmpdir.cleanup)
+
+    def write(self, name: str, text: str) -> str:
+        path = os.path.join(self._tmpdir.name, name)
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write(text)
+        return path
+
+    def run_cli(self, argv):
+        out = io.StringIO()
+        err = io.StringIO()
+        code = wc_plus.main(argv, stdout=out, stderr=err)
+        return code, out.getvalue(), err.getvalue()
+
+
+class CountTextTests(unittest.TestCase):
+    """count_text の基本カウント仕様。"""
+
+    def test_basic_counts(self):
+        stats = wc_plus.count_text("hello world\nsecond line\n")
+        self.assertEqual(stats.lines, 2)
+        self.assertEqual(stats.words, 4)
+        self.assertEqual(stats.chars, len("hello world\nsecond line\n"))
+
+    def test_last_line_without_newline_is_counted(self):
+        stats = wc_plus.count_text("a\nb")
+        self.assertEqual(stats.lines, 2)
+        self.assertEqual(stats.words, 2)
+        self.assertEqual(stats.chars, 3)
+
+    def test_chars_are_unicode_not_bytes(self):
+        text = "日本語テキスト\n"
+        stats = wc_plus.count_text(text)
+        self.assertEqual(stats.chars, 8)
+        self.assertNotEqual(stats.chars, len(text.encode("utf-8")))
+
+    def test_word_counting_is_case_insensitive(self):
+        stats = wc_plus.count_text("Apple apple APPLE banana")
+        self.assertEqual(stats.words, 4)
+        self.assertEqual(dict(stats.counter), {"apple": 3, "banana": 1})
+
+    def test_empty_text_has_zero_counts(self):
+        stats = wc_plus.count_text("")
+        self.assertEqual((stats.lines, stats.words, stats.chars), (0, 0, 0))
+        self.assertEqual(stats.top_words(), [])
+
+
+class TopWordsTests(unittest.TestCase):
+    """トップ5の件数・順序・同数タイブレーク。"""
+
+    def test_top_words_limited_to_five_and_sorted_by_frequency(self):
+        text = "a a a a a b b b b c c c d d e f g"
+        stats = wc_plus.count_text(text)
+        self.assertEqual(
+            stats.top_words(),
+            [("a", 5), ("b", 4), ("c", 3), ("d", 2), ("e", 1)],
+        )
+
+    def test_ties_are_broken_by_alphabetical_order(self):
+        text = "delta charlie bravo alpha"
+        stats = wc_plus.count_text(text)
+        self.assertEqual(
+            [word for word, _ in stats.top_words()],
+            ["alpha", "bravo", "charlie", "delta"],
+        )
+
+    def test_format_top_words_of_empty_counter(self):
+        self.assertEqual(wc_plus.format_top_words([]), "-")
+
+
+class CliSingleFileTests(TempFileMixin):
+    """単一ファイル指定時の CLI 出力。"""
+
+    def test_single_file_report_has_no_total_line(self):
+        path = self.write("a.txt", "one two two\nthree three three\n")
+        code, out, err = self.run_cli([path])
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        self.assertIn("lines: 2", out)
+        self.assertIn("words: 6", out)
+        self.assertIn("chars: 30", out)
+        self.assertIn("top5: three:3, two:2, one:1", out)
+        self.assertNotIn("total", out)
+
+    def test_empty_file_reports_zero_and_dash(self):
+        path = self.write("empty.txt", "")
+        code, out, err = self.run_cli([path])
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        self.assertIn("lines: 0", out)
+        self.assertIn("words: 0", out)
+        self.assertIn("chars: 0", out)
+        self.assertIn("top5: -", out)
+
+
+class CliMultiFileTests(TempFileMixin):
+    """複数ファイル指定時の total 行と合算。"""
+
+    def test_multiple_files_emit_total_line(self):
+        first = self.write("a.txt", "alpha beta\n")
+        second = self.write("b.txt", "alpha gamma\n")
+        code, out, err = self.run_cli([first, second])
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        self.assertIn("total", out)
+        # total: lines 2, words 4, chars 12
+        total_block = out.split("total", 1)[1]
+        self.assertIn("lines: 2", total_block)
+        self.assertIn("words: 4", total_block)
+        self.assertIn("chars: 23", total_block)
+        self.assertIn("top5: alpha:2, beta:1, gamma:1", total_block)
+
+    def test_total_is_not_emitted_when_only_one_file_succeeds(self):
+        good = self.write("good.txt", "word\n")
+        missing = os.path.join(self._tmpdir.name, "missing.txt")
+        code, out, err = self.run_cli([good, missing])
+        self.assertEqual(code, 1)
+        self.assertNotIn("total", out)
+        self.assertIn("missing.txt", err)
+
+
+class CliErrorTests(TempFileMixin):
+    """存在しない / 読めないファイルのエラー処理。"""
+
+    def test_missing_file_warns_on_stderr_and_exits_one(self):
+        missing = os.path.join(self._tmpdir.name, "nope.txt")
+        code, out, err = self.run_cli([missing])
+        self.assertEqual(code, 1)
+        self.assertEqual(out, "")
+        self.assertIn("wc_plus:", err)
+        self.assertIn("nope.txt", err)
+
+    def test_remaining_files_are_still_processed_after_error(self):
+        missing = os.path.join(self._tmpdir.name, "nope.txt")
+        first = self.write("a.txt", "alpha\n")
+        second = self.write("b.txt", "beta\n")
+        code, out, err = self.run_cli([missing, first, second])
+        self.assertEqual(code, 1)
+        self.assertIn("a.txt", out)
+        self.assertIn("b.txt", out)
+        self.assertIn("total", out)
+        self.assertIn("nope.txt", err)
+
+    def test_directory_argument_is_reported_as_error(self):
+        code, out, err = self.run_cli([self._tmpdir.name])
+        self.assertEqual(code, 1)
+        self.assertIn("wc_plus:", err)
+
+
+class CliOptionTests(TempFileMixin):
+    """--top オプションの挙動。"""
+
+    def test_top_option_limits_word_list(self):
+        path = self.write("a.txt", "a a b b c\n")
+        code, out, _ = self.run_cli(["--top", "2", path])
+        self.assertEqual(code, 0)
+        self.assertIn("top2: a:2, b:2", out)
+        self.assertNotIn("c:1", out)
+
+    def test_non_positive_top_falls_back_to_default(self):
+        path = self.write("a.txt", "a b c\n")
+        code, out, _ = self.run_cli(["--top", "0", path])
+        self.assertEqual(code, 0)
+        self.assertIn("top5:", out)
+
+
+if __name__ == "__main__":
+    unittest.main()

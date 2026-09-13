@@ -1,0 +1,61 @@
+# Final report — Python で CLI ツール `wc_plus` を作ってください: 引数のテキストファイル群について行数・単語数・文字数と、最頻出の単語トップ5を表示する。標準ライブラリのみ。`wc_plus.py`（実装）、`test_wc_plus.py`（unittest、最低5ケース）、`README.md`（使い方）を出力し、Builder は sandbox_run で `python3 -m unittest -v` を実際に実行してから公開、Reviewer も同じテストを再実行して判定してください。
+
+- Status: **completed**
+- Provider kind: real
+- Usage: 56 model calls, 52 tool calls, $2.6441, 1069s
+
+## Summary
+run_1a098fab5737a95b69f は completed。wc_plus CLI の3成果物を revision 1 で公開し、Builder の sandbox_run と Reviewer の独立再実行の双方で `python3 -m unittest -v` が 19件全成功・exit 0 を記録。受入条件 t1a1〜t1a7 は全 PASS、FAIL・ブロッカー・承認待ちはゼロ。実測所要 約17分49秒、コスト $2.6441（表示予算 $1.5 を超過）。未検証は Python 3.8〜3.11 / macOS・Windows・PyPy 実行、PermissionError 実機確認、性能実測。
+
+## Deliverables
+- `README.md` — README.md r1 (sha256 4d1c737f7408…) by builder / task t1
+- `test_wc_plus.py` — test_wc_plus.py r1 (sha256 58233c8881f3…) by builder / task t1
+- `wc_plus.py` — wc_plus.py r1 (sha256 56e3895d3fc2…) by builder / task t1
+
+## Tasks
+- t1 [accepted] builder: 標準ライブラリのみで `wc_plus.py`（argparse ベースの CLI。複数テキストファイルを受け取り、各ファイルの行数・単語数・文字数と最頻出単語トップ5を表示。複数ファイル時は total 行も出力。読み取り失敗は stderr 警告＋exit 1）、`test_wc_plus.py`（unittest、最低5ケース: 基本集計/トップ5順位と同数時の辞書順/複数ファイルと total/空ファイル/存在しないファイルのエラー処理。tempfile を使い実ファイル I/O を伴うテスト）、`README.md`（概要・インストール不要である旨・使い方・実行例の入出力・オプション一覧・テスト実行方法）を作成する。作成後 sandbox_run で `python3 -m unittest -v` を実際に実行し、全テスト成功の出力を確認してから publish_artifact する。テストが失敗した場合は実装を修正して再実行し、成功するまで公開しない。実行していない検証を成功と書かないこと。 (attempts 1)
+- t2 [accepted] reviewer: t1 の成果物を検証する。(1) sandbox_run で `python3 -m unittest -v` を自分で再実行し、実際の出力（テスト数・OK/FAIL）を証拠として記録する。(2) `python3 wc_plus.py` を実サンプルファイルに対して実行し、README の実行例と挙動（トップ5の件数・順序、複数ファイル時の total、存在しないファイル時の stderr と終了コード）が一致するか確認する。(3) 標準ライブラリのみであること、README の記載と実装の不一致を確認する。t1 の各受入条件に PASS/FAIL と根拠（コマンドと出力抜粋）を付けて submit_review する。再実行できなかった項目は「未検証」と明記し、合格に変えない。 (attempts 1)
+
+## Verified (from checks and reviews)
+- check python_syntax on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': '56e3895d3fc2bceb674c235df615d67d27e6f515d60030e0eec7b6cd23bdac9e'} → pass (seq 26)
+- check python_syntax on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '58233c8881f33553cd2856c0848abf0950c44a33dfdd75f05e5ef944dd186ec8'} → pass (seq 28)
+- check regex_count on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '58233c8881f33553cd2856c0848abf0950c44a33dfdd75f05e5ef944dd186ec8'} → pass (seq 30)
+- check markdown_basic on {'artifact_id': 'README.md', 'revision': 1, 'sha256': '4d1c737f74085cf6207d0fc047c0c59b57f3ea28c881cc798b48e3bdf6d2ac31'} → pass (seq 32)
+- check command on {} → pass (seq 34)
+- check command on {} → pass (seq 36)
+- check text_not_contains on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': '56e3895d3fc2bceb674c235df615d67d27e6f515d60030e0eec7b6cd23bdac9e'} → pass (seq 38)
+- check text_not_contains on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '58233c8881f33553cd2856c0848abf0950c44a33dfdd75f05e5ef944dd186ec8'} → pass (seq 40)
+- check python_syntax on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': '56e3895d3fc2bceb674c235df615d67d27e6f515d60030e0eec7b6cd23bdac9e'} → pass (seq 68)
+- check python_syntax on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '58233c8881f33553cd2856c0848abf0950c44a33dfdd75f05e5ef944dd186ec8'} → pass (seq 70)
+- check regex_count on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '58233c8881f33553cd2856c0848abf0950c44a33dfdd75f05e5ef944dd186ec8'} → pass (seq 72)
+- check markdown_basic on {'artifact_id': 'README.md', 'revision': 1, 'sha256': '4d1c737f74085cf6207d0fc047c0c59b57f3ea28c881cc798b48e3bdf6d2ac31'} → pass (seq 74)
+- check text_not_contains on {'artifact_id': 'wc_plus.py', 'revision': 1, 'sha256': '56e3895d3fc2bceb674c235df615d67d27e6f515d60030e0eec7b6cd23bdac9e'} → pass (seq 76)
+- check text_not_contains on {'artifact_id': 'test_wc_plus.py', 'revision': 1, 'sha256': '58233c8881f33553cd2856c0848abf0950c44a33dfdd75f05e5ef944dd186ec8'} → pass (seq 78)
+- check command on {} → pass (seq 80)
+- check command on {} → pass (seq 82)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=pass, t1a6=pass, t1a7=pass (seq 87)
+- Builder sandbox_run: `python3 -m unittest -v` → Ran 19 tests / OK / exit 0（Python 3.12.14, docker backend）
+- Reviewer 独立再実行: `cd /workspace && python3 -m unittest -v` → 19件 ok / 'Ran 19 tests in 0.066s' / OK / EXIT=0
+- registered check 16件すべて pass（python_syntax×4, regex_count×2, markdown_basic×2, text_not_contains×4, command×4）
+- `python3 wc_plus.py README.md` exit 0、'     195      509     4170 README.md' と top 5 words を出力
+- read_artifact 再構成ファイルの sha256 が公開 revision 1 と完全一致（56e3895d… / 58233c88… / 4d1c737f…）
+- README 実行例 EX1〜EX4 の出力と終了コード 0/0/0/1 が実挙動と一致、`--help` も usage ブロックと一致
+- AST 抽出 + sys.stdlib_module_names 照合で非標準 import 0 件（標準ライブラリのみ）
+- 別実装 oracle とランダム文書30本の突合が全一致、system `wc -lwm` とも数値一致、同数時辞書順がシャッフル5回で決定的
+- 受入条件 t1a1〜t1a7 すべて PASS で submit_review 済み、t1/t2 ともに accepted
+
+## Unresolved / pending
+- README の「Python 3.8 以降」表明は未検証（検証環境は Python 3.12.14 のみ）
+- macOS / Windows / PyPy での実行は未検証
+- PermissionError（EACCES）の実機確認は未実施（ディレクトリ引数の OSError 経路で間接確認のみ）
+- 巨大ファイル・極端なメモリ条件での性能実測は未実施
+- 実測コスト $2.6441 がセッション表示予算 $1.5 を超過している点の扱い
+
+## Next steps
+- 必要なら Python 3.8 系および macOS ホストでの実行検証を追加する
+- EACCES（権限不足ファイル）ケースの実機テストを追加する
+- 予算超過（$2.6441 / $1.5）の扱いをユーザーに確認する
+
+## Trace
+- Messages delivered: 1 ({'handoff': 1})
+- Model usage by agent: master: 2 calls / $0.1958 (reported claude-opus-5), builder: 1 calls / $1.0424 (reported claude-opus-5), reviewer: 1 calls / $1.4058 (reported claude-opus-5)
