@@ -15,9 +15,16 @@ jobs:
       - run: backend/.venv/bin/python backend/scripts/provision_oidc_staging.py --root /tmp/agentteam-oidc
       - name: start isolated development IdP
         run: |
+          # Linux root without DAC_OVERRIDE cannot read a runner-owned 0600
+          # import. Transfer only this disposable private import to its UID.
+          sudo chown -R 0:0 /tmp/agentteam-oidc/keycloak-import
           docker run -d --name agentteam-oidc-keycloak --user 0:0 --cap-drop ALL --security-opt no-new-privileges --memory 1g --pids-limit 256 --env-file /tmp/agentteam-oidc/keycloak.env -e JAVA_OPTS_KC_HEAP='-Xms128m -Xmx512m' -p 127.0.0.1:8801:8080 -v /tmp/agentteam-oidc/keycloak-import:/opt/keycloak/data/import:ro quay.io/keycloak/keycloak@sha256:ff4257d0d64efbe99ed1ddfaf07765cc3c36dc7518bf8324d41961327f441c54 start-dev --hostname http://127.0.0.1:8801 --import-realm
           for i in $(seq 1 60); do curl -sf http://127.0.0.1:8801/realms/agentteam/.well-known/openid-configuration > /dev/null && break; sleep 1; done
-          curl -sf http://127.0.0.1:8801/realms/agentteam/.well-known/openid-configuration > /dev/null
+          if ! curl -sf http://127.0.0.1:8801/realms/agentteam/.well-known/openid-configuration > /dev/null; then
+            docker inspect agentteam-oidc-keycloak --format '{{json .State}}'
+            docker logs --tail 40 agentteam-oidc-keycloak
+            exit 1
+          fi
       - name: download and verify OAuth2 Proxy
         run: |
           curl -fsSL -o /tmp/oauth2-proxy.tar.gz https://github.com/oauth2-proxy/oauth2-proxy/releases/download/v7.15.4/oauth2-proxy-v7.15.4.linux-amd64.tar.gz
