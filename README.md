@@ -30,6 +30,8 @@ You type **one request**. A Master plans the deliverables, a Researcher, a Build
 
 ## Quickstart
 
+[Workplace benchmark: measured local pilot, failures, and remaining enterprise gates](docs/WORKPLACE_BENCHMARK.md).
+
 One command if you have [Claude Code](https://claude.com/claude-code) installed and logged in (no API key), plus [uv](https://docs.astral.sh/uv/):
 
 ```bash

@@ -1,0 +1,1157 @@
+[
+  {
+    "id": "research-1",
+    "category": "research",
+    "source": "A社は月額100円・端末内処理、B社は月額150円・外部送信、C社は価格不明・外部送信。",
+    "goal": "比較表と、外部送信禁止の場合の選定理由をMarkdownにする。外部調査はしない。",
+    "artifact": "comparison.md",
+    "required": [
+      "A社",
+      "B社",
+      "C社",
+      "不明",
+      "端末内",
+      "100",
+      "150"
+    ],
+    "forbidden": [
+      "調査しました"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "document-1",
+    "category": "document",
+    "source": "架空企業1のPoC。担当は田中。期限9月11日。予算は未決定。対象は在庫照会のみ。",
+    "goal": "範囲、担当、期限、未決事項を含む提案書をMarkdownにする。",
+    "artifact": "proposal.md",
+    "required": [
+      "架空企業1",
+      "田中",
+      "9月11日",
+      "未決定",
+      "在庫照会"
+    ],
+    "forbidden": [
+      "導入済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "code-1",
+    "category": "code",
+    "source": "Python標準ライブラリのみ。税込額は整数の小数切り捨て。入力は0以上の整数の税抜額。税率10%。",
+    "goal": "tax.pyに税込額を返すwith_tax(amount)関数、test_tax.pyに0・100・999の期待値0・110・1098のunittestを書く。",
+    "artifact": "tax.py",
+    "required": [
+      "def with_tax",
+      "amount"
+    ],
+    "forbidden": [
+      "requests",
+      "pip install"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "spreadsheet-1",
+    "category": "spreadsheet",
+    "source": "品目,単価,数量\nA,100,2\nB,110,3",
+    "goal": "金額列と合計行を追加したCSVを作る。合計は再計算する。",
+    "artifact": "result.csv",
+    "required": [
+      "200",
+      "330",
+      "530"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "web-1",
+    "category": "web",
+    "source": "製品名架空企業1。説明はローカル解析の試作。申し込みや送信は実装しない。",
+    "goal": "見出し、説明、label付きメール入力とtype=buttonの相談ボタンがある単一HTMLを作る。外部依存なし。",
+    "artifact": "index.html",
+    "required": [
+      "架空企業1",
+      "<label",
+      "type=\"button\"",
+      "viewport"
+    ],
+    "forbidden": [
+      "https://",
+      "<form action"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "customer-support-1",
+    "category": "customer-support",
+    "source": "架空企業1のお客様鈴木から返品相談。返金可否は担当者確認が必要。注文番号は不明。",
+    "goal": "確認前に返金を約束せず、注文番号を依頼する返信の下書きを作る。",
+    "artifact": "reply.md",
+    "required": [
+      "鈴木",
+      "注文番号",
+      "確認",
+      "下書き"
+    ],
+    "forbidden": [
+      "返金しました",
+      "返金済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "marketing-1",
+    "category": "marketing",
+    "source": "架空企業1はローカルでメモを整理する試作。料金・速度・導入社数は未公表。",
+    "goal": "提供情報だけで日本語の投稿原稿を1つ作る。本文200文字以内。未投稿と明記。",
+    "artifact": "post.md",
+    "required": [
+      "架空企業1",
+      "メモ",
+      "未投稿"
+    ],
+    "forbidden": [
+      "無料",
+      "倍",
+      "社導入"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "analysis-1",
+    "category": "analysis",
+    "source": "四半期売上:第1期100万円、第2期200万円、第3期300万円。費用データなし。",
+    "goal": "合計売上と第1期から第3期への増加率を計算。利益は不明と書く。",
+    "artifact": "analysis.md",
+    "required": [
+      "600",
+      "200%",
+      "利益"
+    ],
+    "forbidden": [
+      "利益率は"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "planning-1",
+    "category": "planning",
+    "source": "架空企業1の作業。要件整理30分→資料作成45分→レビュー15分。午前10時開始。",
+    "goal": "依存順を守り、重複のない時刻表をMarkdownで作る。",
+    "artifact": "plan.md",
+    "required": [
+      "10:00",
+      "10:30",
+      "11:15",
+      "11:30"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "data-transformation-1",
+    "category": "data-transformation",
+    "source": "id,name,active\n1,田中,true\n11,佐藤,false",
+    "goal": "CSVをJSON配列へ変換。idは整数、activeはboolean。並び順を保持する。",
+    "artifact": "result.json",
+    "required": [
+      "田中",
+      "佐藤",
+      "true",
+      "false"
+    ],
+    "forbidden": [
+      "\"true\"",
+      "\"false\""
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "research-2",
+    "category": "research",
+    "source": "A社は月額200円・端末内処理、B社は月額250円・外部送信、C社は価格不明・外部送信。",
+    "goal": "比較表と、外部送信禁止の場合の選定理由をMarkdownにする。外部調査はしない。",
+    "artifact": "comparison.md",
+    "required": [
+      "A社",
+      "B社",
+      "C社",
+      "不明",
+      "端末内",
+      "200",
+      "250"
+    ],
+    "forbidden": [
+      "調査しました"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "document-2",
+    "category": "document",
+    "source": "架空企業2のPoC。担当は田中。期限9月12日。予算は未決定。対象は在庫照会のみ。",
+    "goal": "範囲、担当、期限、未決事項を含む提案書をMarkdownにする。",
+    "artifact": "proposal.md",
+    "required": [
+      "架空企業2",
+      "田中",
+      "9月12日",
+      "未決定",
+      "在庫照会"
+    ],
+    "forbidden": [
+      "導入済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "code-2",
+    "category": "code",
+    "source": "Python標準ライブラリのみ。税込額は整数の小数切り捨て。入力は0以上の整数の税抜額。税率10%。",
+    "goal": "tax.pyに税込額を返すwith_tax(amount)関数、test_tax.pyに0・100・999の期待値0・110・1098のunittestを書く。",
+    "artifact": "tax.py",
+    "required": [
+      "def with_tax",
+      "amount"
+    ],
+    "forbidden": [
+      "requests",
+      "pip install"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "spreadsheet-2",
+    "category": "spreadsheet",
+    "source": "品目,単価,数量\nA,200,2\nB,210,3",
+    "goal": "金額列と合計行を追加したCSVを作る。合計は再計算する。",
+    "artifact": "result.csv",
+    "required": [
+      "400",
+      "630",
+      "1030"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "web-2",
+    "category": "web",
+    "source": "製品名架空企業2。説明はローカル解析の試作。申し込みや送信は実装しない。",
+    "goal": "見出し、説明、label付きメール入力とtype=buttonの相談ボタンがある単一HTMLを作る。外部依存なし。",
+    "artifact": "index.html",
+    "required": [
+      "架空企業2",
+      "<label",
+      "type=\"button\"",
+      "viewport"
+    ],
+    "forbidden": [
+      "https://",
+      "<form action"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "customer-support-2",
+    "category": "customer-support",
+    "source": "架空企業2のお客様鈴木から返品相談。返金可否は担当者確認が必要。注文番号は不明。",
+    "goal": "確認前に返金を約束せず、注文番号を依頼する返信の下書きを作る。",
+    "artifact": "reply.md",
+    "required": [
+      "鈴木",
+      "注文番号",
+      "確認",
+      "下書き"
+    ],
+    "forbidden": [
+      "返金しました",
+      "返金済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "marketing-2",
+    "category": "marketing",
+    "source": "架空企業2はローカルでメモを整理する試作。料金・速度・導入社数は未公表。",
+    "goal": "提供情報だけで日本語の投稿原稿を1つ作る。本文200文字以内。未投稿と明記。",
+    "artifact": "post.md",
+    "required": [
+      "架空企業2",
+      "メモ",
+      "未投稿"
+    ],
+    "forbidden": [
+      "無料",
+      "倍",
+      "社導入"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "analysis-2",
+    "category": "analysis",
+    "source": "四半期売上:第1期200万円、第2期400万円、第3期600万円。費用データなし。",
+    "goal": "合計売上と第1期から第3期への増加率を計算。利益は不明と書く。",
+    "artifact": "analysis.md",
+    "required": [
+      "1200",
+      "200%",
+      "利益"
+    ],
+    "forbidden": [
+      "利益率は"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "planning-2",
+    "category": "planning",
+    "source": "架空企業2の作業。要件整理30分→資料作成45分→レビュー15分。午前10時開始。",
+    "goal": "依存順を守り、重複のない時刻表をMarkdownで作る。",
+    "artifact": "plan.md",
+    "required": [
+      "10:00",
+      "10:30",
+      "11:15",
+      "11:30"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "data-transformation-2",
+    "category": "data-transformation",
+    "source": "id,name,active\n2,田中,true\n12,佐藤,false",
+    "goal": "CSVをJSON配列へ変換。idは整数、activeはboolean。並び順を保持する。",
+    "artifact": "result.json",
+    "required": [
+      "田中",
+      "佐藤",
+      "true",
+      "false"
+    ],
+    "forbidden": [
+      "\"true\"",
+      "\"false\""
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "research-3",
+    "category": "research",
+    "source": "A社は月額300円・端末内処理、B社は月額350円・外部送信、C社は価格不明・外部送信。",
+    "goal": "比較表と、外部送信禁止の場合の選定理由をMarkdownにする。外部調査はしない。",
+    "artifact": "comparison.md",
+    "required": [
+      "A社",
+      "B社",
+      "C社",
+      "不明",
+      "端末内",
+      "300",
+      "350"
+    ],
+    "forbidden": [
+      "調査しました"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "document-3",
+    "category": "document",
+    "source": "架空企業3のPoC。担当は田中。期限9月13日。予算は未決定。対象は在庫照会のみ。",
+    "goal": "範囲、担当、期限、未決事項を含む提案書をMarkdownにする。",
+    "artifact": "proposal.md",
+    "required": [
+      "架空企業3",
+      "田中",
+      "9月13日",
+      "未決定",
+      "在庫照会"
+    ],
+    "forbidden": [
+      "導入済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "code-3",
+    "category": "code",
+    "source": "Python標準ライブラリのみ。税込額は整数の小数切り捨て。入力は0以上の整数の税抜額。税率10%。",
+    "goal": "tax.pyに税込額を返すwith_tax(amount)関数、test_tax.pyに0・100・999の期待値0・110・1098のunittestを書く。",
+    "artifact": "tax.py",
+    "required": [
+      "def with_tax",
+      "amount"
+    ],
+    "forbidden": [
+      "requests",
+      "pip install"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "spreadsheet-3",
+    "category": "spreadsheet",
+    "source": "品目,単価,数量\nA,300,2\nB,310,3",
+    "goal": "金額列と合計行を追加したCSVを作る。合計は再計算する。",
+    "artifact": "result.csv",
+    "required": [
+      "600",
+      "930",
+      "1530"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "web-3",
+    "category": "web",
+    "source": "製品名架空企業3。説明はローカル解析の試作。申し込みや送信は実装しない。",
+    "goal": "見出し、説明、label付きメール入力とtype=buttonの相談ボタンがある単一HTMLを作る。外部依存なし。",
+    "artifact": "index.html",
+    "required": [
+      "架空企業3",
+      "<label",
+      "type=\"button\"",
+      "viewport"
+    ],
+    "forbidden": [
+      "https://",
+      "<form action"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "customer-support-3",
+    "category": "customer-support",
+    "source": "架空企業3のお客様鈴木から返品相談。返金可否は担当者確認が必要。注文番号は不明。",
+    "goal": "確認前に返金を約束せず、注文番号を依頼する返信の下書きを作る。",
+    "artifact": "reply.md",
+    "required": [
+      "鈴木",
+      "注文番号",
+      "確認",
+      "下書き"
+    ],
+    "forbidden": [
+      "返金しました",
+      "返金済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "marketing-3",
+    "category": "marketing",
+    "source": "架空企業3はローカルでメモを整理する試作。料金・速度・導入社数は未公表。",
+    "goal": "提供情報だけで日本語の投稿原稿を1つ作る。本文200文字以内。未投稿と明記。",
+    "artifact": "post.md",
+    "required": [
+      "架空企業3",
+      "メモ",
+      "未投稿"
+    ],
+    "forbidden": [
+      "無料",
+      "倍",
+      "社導入"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "analysis-3",
+    "category": "analysis",
+    "source": "四半期売上:第1期300万円、第2期600万円、第3期900万円。費用データなし。",
+    "goal": "合計売上と第1期から第3期への増加率を計算。利益は不明と書く。",
+    "artifact": "analysis.md",
+    "required": [
+      "1800",
+      "200%",
+      "利益"
+    ],
+    "forbidden": [
+      "利益率は"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "planning-3",
+    "category": "planning",
+    "source": "架空企業3の作業。要件整理30分→資料作成45分→レビュー15分。午前10時開始。",
+    "goal": "依存順を守り、重複のない時刻表をMarkdownで作る。",
+    "artifact": "plan.md",
+    "required": [
+      "10:00",
+      "10:30",
+      "11:15",
+      "11:30"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "data-transformation-3",
+    "category": "data-transformation",
+    "source": "id,name,active\n3,田中,true\n13,佐藤,false",
+    "goal": "CSVをJSON配列へ変換。idは整数、activeはboolean。並び順を保持する。",
+    "artifact": "result.json",
+    "required": [
+      "田中",
+      "佐藤",
+      "true",
+      "false"
+    ],
+    "forbidden": [
+      "\"true\"",
+      "\"false\""
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "research-4",
+    "category": "research",
+    "source": "A社は月額400円・端末内処理、B社は月額450円・外部送信、C社は価格不明・外部送信。",
+    "goal": "比較表と、外部送信禁止の場合の選定理由をMarkdownにする。外部調査はしない。",
+    "artifact": "comparison.md",
+    "required": [
+      "A社",
+      "B社",
+      "C社",
+      "不明",
+      "端末内",
+      "400",
+      "450"
+    ],
+    "forbidden": [
+      "調査しました"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "document-4",
+    "category": "document",
+    "source": "架空企業4のPoC。担当は田中。期限9月14日。予算は未決定。対象は在庫照会のみ。",
+    "goal": "範囲、担当、期限、未決事項を含む提案書をMarkdownにする。",
+    "artifact": "proposal.md",
+    "required": [
+      "架空企業4",
+      "田中",
+      "9月14日",
+      "未決定",
+      "在庫照会"
+    ],
+    "forbidden": [
+      "導入済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "code-4",
+    "category": "code",
+    "source": "Python標準ライブラリのみ。税込額は整数の小数切り捨て。入力は0以上の整数の税抜額。税率10%。",
+    "goal": "tax.pyに税込額を返すwith_tax(amount)関数、test_tax.pyに0・100・999の期待値0・110・1098のunittestを書く。",
+    "artifact": "tax.py",
+    "required": [
+      "def with_tax",
+      "amount"
+    ],
+    "forbidden": [
+      "requests",
+      "pip install"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "spreadsheet-4",
+    "category": "spreadsheet",
+    "source": "品目,単価,数量\nA,400,2\nB,410,3",
+    "goal": "金額列と合計行を追加したCSVを作る。合計は再計算する。",
+    "artifact": "result.csv",
+    "required": [
+      "800",
+      "1230",
+      "2030"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "web-4",
+    "category": "web",
+    "source": "製品名架空企業4。説明はローカル解析の試作。申し込みや送信は実装しない。",
+    "goal": "見出し、説明、label付きメール入力とtype=buttonの相談ボタンがある単一HTMLを作る。外部依存なし。",
+    "artifact": "index.html",
+    "required": [
+      "架空企業4",
+      "<label",
+      "type=\"button\"",
+      "viewport"
+    ],
+    "forbidden": [
+      "https://",
+      "<form action"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "customer-support-4",
+    "category": "customer-support",
+    "source": "架空企業4のお客様鈴木から返品相談。返金可否は担当者確認が必要。注文番号は不明。",
+    "goal": "確認前に返金を約束せず、注文番号を依頼する返信の下書きを作る。",
+    "artifact": "reply.md",
+    "required": [
+      "鈴木",
+      "注文番号",
+      "確認",
+      "下書き"
+    ],
+    "forbidden": [
+      "返金しました",
+      "返金済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "marketing-4",
+    "category": "marketing",
+    "source": "架空企業4はローカルでメモを整理する試作。料金・速度・導入社数は未公表。",
+    "goal": "提供情報だけで日本語の投稿原稿を1つ作る。本文200文字以内。未投稿と明記。",
+    "artifact": "post.md",
+    "required": [
+      "架空企業4",
+      "メモ",
+      "未投稿"
+    ],
+    "forbidden": [
+      "無料",
+      "倍",
+      "社導入"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "analysis-4",
+    "category": "analysis",
+    "source": "四半期売上:第1期400万円、第2期800万円、第3期1200万円。費用データなし。",
+    "goal": "合計売上と第1期から第3期への増加率を計算。利益は不明と書く。",
+    "artifact": "analysis.md",
+    "required": [
+      "2400",
+      "200%",
+      "利益"
+    ],
+    "forbidden": [
+      "利益率は"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "planning-4",
+    "category": "planning",
+    "source": "架空企業4の作業。要件整理30分→資料作成45分→レビュー15分。午前10時開始。",
+    "goal": "依存順を守り、重複のない時刻表をMarkdownで作る。",
+    "artifact": "plan.md",
+    "required": [
+      "10:00",
+      "10:30",
+      "11:15",
+      "11:30"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "data-transformation-4",
+    "category": "data-transformation",
+    "source": "id,name,active\n4,田中,true\n14,佐藤,false",
+    "goal": "CSVをJSON配列へ変換。idは整数、activeはboolean。並び順を保持する。",
+    "artifact": "result.json",
+    "required": [
+      "田中",
+      "佐藤",
+      "true",
+      "false"
+    ],
+    "forbidden": [
+      "\"true\"",
+      "\"false\""
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "research-5",
+    "category": "research",
+    "source": "A社は月額500円・端末内処理、B社は月額550円・外部送信、C社は価格不明・外部送信。",
+    "goal": "比較表と、外部送信禁止の場合の選定理由をMarkdownにする。外部調査はしない。",
+    "artifact": "comparison.md",
+    "required": [
+      "A社",
+      "B社",
+      "C社",
+      "不明",
+      "端末内",
+      "500",
+      "550"
+    ],
+    "forbidden": [
+      "調査しました"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "document-5",
+    "category": "document",
+    "source": "架空企業5のPoC。担当は田中。期限9月15日。予算は未決定。対象は在庫照会のみ。",
+    "goal": "範囲、担当、期限、未決事項を含む提案書をMarkdownにする。",
+    "artifact": "proposal.md",
+    "required": [
+      "架空企業5",
+      "田中",
+      "9月15日",
+      "未決定",
+      "在庫照会"
+    ],
+    "forbidden": [
+      "導入済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "code-5",
+    "category": "code",
+    "source": "Python標準ライブラリのみ。税込額は整数の小数切り捨て。入力は0以上の整数の税抜額。税率10%。",
+    "goal": "tax.pyに税込額を返すwith_tax(amount)関数、test_tax.pyに0・100・999の期待値0・110・1098のunittestを書く。",
+    "artifact": "tax.py",
+    "required": [
+      "def with_tax",
+      "amount"
+    ],
+    "forbidden": [
+      "requests",
+      "pip install"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "spreadsheet-5",
+    "category": "spreadsheet",
+    "source": "品目,単価,数量\nA,500,2\nB,510,3",
+    "goal": "金額列と合計行を追加したCSVを作る。合計は再計算する。",
+    "artifact": "result.csv",
+    "required": [
+      "1000",
+      "1530",
+      "2530"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "web-5",
+    "category": "web",
+    "source": "製品名架空企業5。説明はローカル解析の試作。申し込みや送信は実装しない。",
+    "goal": "見出し、説明、label付きメール入力とtype=buttonの相談ボタンがある単一HTMLを作る。外部依存なし。",
+    "artifact": "index.html",
+    "required": [
+      "架空企業5",
+      "<label",
+      "type=\"button\"",
+      "viewport"
+    ],
+    "forbidden": [
+      "https://",
+      "<form action"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "customer-support-5",
+    "category": "customer-support",
+    "source": "架空企業5のお客様鈴木から返品相談。返金可否は担当者確認が必要。注文番号は不明。",
+    "goal": "確認前に返金を約束せず、注文番号を依頼する返信の下書きを作る。",
+    "artifact": "reply.md",
+    "required": [
+      "鈴木",
+      "注文番号",
+      "確認",
+      "下書き"
+    ],
+    "forbidden": [
+      "返金しました",
+      "返金済み"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "marketing-5",
+    "category": "marketing",
+    "source": "架空企業5はローカルでメモを整理する試作。料金・速度・導入社数は未公表。",
+    "goal": "提供情報だけで日本語の投稿原稿を1つ作る。本文200文字以内。未投稿と明記。",
+    "artifact": "post.md",
+    "required": [
+      "架空企業5",
+      "メモ",
+      "未投稿"
+    ],
+    "forbidden": [
+      "無料",
+      "倍",
+      "社導入"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "analysis-5",
+    "category": "analysis",
+    "source": "四半期売上:第1期500万円、第2期1000万円、第3期1500万円。費用データなし。",
+    "goal": "合計売上と第1期から第3期への増加率を計算。利益は不明と書く。",
+    "artifact": "analysis.md",
+    "required": [
+      "3000",
+      "200%",
+      "利益"
+    ],
+    "forbidden": [
+      "利益率は"
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "planning-5",
+    "category": "planning",
+    "source": "架空企業5の作業。要件整理30分→資料作成45分→レビュー15分。午前10時開始。",
+    "goal": "依存順を守り、重複のない時刻表をMarkdownで作る。",
+    "artifact": "plan.md",
+    "required": [
+      "10:00",
+      "10:30",
+      "11:15",
+      "11:30"
+    ],
+    "forbidden": [],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  },
+  {
+    "id": "data-transformation-5",
+    "category": "data-transformation",
+    "source": "id,name,active\n5,田中,true\n15,佐藤,false",
+    "goal": "CSVをJSON配列へ変換。idは整数、activeはboolean。並び順を保持する。",
+    "artifact": "result.json",
+    "required": [
+      "田中",
+      "佐藤",
+      "true",
+      "false"
+    ],
+    "forbidden": [
+      "\"true\"",
+      "\"false\""
+    ],
+    "humanRubric": [
+      "source fidelity",
+      "correctness",
+      "usability",
+      "unsupported claims"
+    ],
+    "executionStatus": "not_run"
+  }
+]

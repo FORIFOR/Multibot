@@ -225,15 +225,18 @@ class RunManager:
             await self.events.append(run.run_id, "run.interrupted" if status == RunStatus.interrupted else "task.blocked",
                                      {"reason": reason or str(status)})
             return
-        run.finished_at = now_iso()
         run.status = status
-        await self.runs.update_run(run.run_id, status=status, finished_at=run.finished_at, blocked_reason=reason)
         report = await self._make_report(rt, status, reason)
         await self.runs.update_run(run.run_id, final_report=report)
+        await rt.persist_usage()
         await self.events.append(run.run_id, {"completed": "run.completed", "partial": "run.partial", "failed": "run.failed",
                                               "cancelled": "run.cancelled"}[str(status)],
                                  {"reason": reason, "usage": rt.policy.usage.model_dump(),
                                   "deliverables": report.get("deliverables") if report else []})
+        # Polling clients can stop reading once they see a terminal status.
+        # Keep the stored run active until its report and final event exist.
+        run.finished_at = now_iso()
+        await self.runs.update_run(run.run_id, status=status, finished_at=run.finished_at, blocked_reason=reason)
 
     async def _make_report(self, rt: RunRuntime, status: RunStatus, reason: str | None) -> dict[str, Any]:
         run = rt.run

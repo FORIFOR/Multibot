@@ -203,7 +203,11 @@ class Scheduler:
                                  "unverified": ctx.finished.unverified if ctx.finished else []})
             return
         if kind == "cancelled":
-            await self._set(t, TaskStatus.cancelled, "task.cancelled", {"reason": outcome.detail})
+            # A run-level stop must remain resumable. The worker can observe
+            # cancellation and finish before _cancel_all gets to it; treating
+            # that race as a permanently cancelled task also kills dependants.
+            status = TaskStatus.interrupted if rt.policy.cancelled else TaskStatus.cancelled
+            await self._set(t, status, f"task.{status}", {"reason": outcome.detail})
             return
         if kind == "approval_pending":
             t.blocked_reason = f"approval {outcome.detail} pending"
@@ -368,7 +372,8 @@ class Scheduler:
                     await self._set(t, TaskStatus.failed)
                     continue
                 if ctx is None:
-                    await self._set(rt.tasks[tid], TaskStatus.cancelled, "task.cancelled", {"reason": "cancelled"})
+                    status = TaskStatus.interrupted if rt.policy.cancelled else TaskStatus.cancelled
+                    await self._set(rt.tasks[tid], status, f"task.{status}", {"reason": "cancelled"})
                     continue
                 await self._handle(tid, ctx, outcome)
                 await self.checkpoint()

@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import argparse
 import json
-from collections import defaultdict
 from pathlib import Path
 
 
@@ -82,18 +81,15 @@ def main(args) -> int:
     if args.reviewer:
         rows = load(args.reviewer)
         planted = sum(r.get("planted", 0) for r in rows)
-        caught = sum(r.get("caught", 0) for r in rows)
-        print(f"\n## Reviewer catch rate\n{len(rows)} runs, {planted} planted errors, {caught} caught ({pct(caught, planted)}), "
+        print(f"\n## Reviewer evidence (ungraded)\n{len(rows)} runs, {planted} planted errors, catch rate not measured, "
               f"runs completed {sum(1 for r in rows if r.get('status') == 'completed')}/{len(rows)}, "
               f"memo verbatim {sum(1 for r in rows if r.get('memo_verbatim'))}/{len(rows)}, "
               f"cost total ${sum(r.get('usage', {}).get('cost_usd', 0) for r in rows):.2f}")
-        missed = defaultdict(int)
-        for r in rows:
-            for k, v in (r.get("caught_detail") or {}).items():
-                if not v:
-                    missed[f"{r['doc']}:{k}"] += 1
-        if missed:
-            print("missed: " + ", ".join(f"{k}×{v}" for k, v in sorted(missed.items())))
+        hits = sum(r.get("keyword_hit_count", 0) for r in rows)
+        legacy = sum(1 for r in rows if r.get("caught") is not None)
+        print(f"keyword matches: {hits}; inspect the raw findings against the source before grading detection.")
+        if legacy:
+            print(f"{legacy} legacy rows used keyword matches as caught counts; those counts are not a validated catch rate.")
     return 0
 
 

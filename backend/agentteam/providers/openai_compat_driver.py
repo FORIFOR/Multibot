@@ -66,6 +66,10 @@ class OpenAICompatDriver:
             "messages": self._convert_messages(req.system, req.messages),
             "max_tokens": req.max_tokens,
         }
+        # Role execution and capability checks depend on reproducible tool/JSON
+        # output. Ollama's server default is suited to creative text, not this.
+        if self.driver == 'ollama':
+            body['temperature'] = 0
         if req.tools:
             body["tools"] = [{"type": "function", "function": {"name": t.name, "description": t.description,
                                                               "parameters": t.input_schema}} for t in req.tools]
@@ -120,7 +124,8 @@ class OpenAICompatDriver:
                 tools=[ToolSpec("ping", "Connectivity probe.", {"type": "object", "properties": {"ok": {"type": "boolean"}},
                                                                "required": ["ok"]})], max_tokens=256))
             usage.input_tokens += r1.usage.input_tokens; usage.output_tokens += r1.usage.output_tokens
-            tool_ok = any(c.name == "ping" for c in r1.tool_calls)
+            tool_ok = (len(r1.tool_calls) == 1 and r1.tool_calls[0].name == 'ping'
+                       and r1.tool_calls[0].arguments.get('ok') is True)
             r2 = await self.complete(LLMRequest(
                 model=model, system="Return the requested JSON only.",
                 messages=[{"role": "user", "content": [{"type": "text", "text": "Return {\"ok\": true}."}]}],
