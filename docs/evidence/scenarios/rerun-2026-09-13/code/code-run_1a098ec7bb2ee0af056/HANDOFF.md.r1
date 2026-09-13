@@ -1,0 +1,56 @@
+# HANDOFF: wc_plus (t1 / Builder → Reviewer)
+
+## 成果物（immutable revision）
+| artifact_id | rev | sha256 |
+| --- | --- | --- |
+| `wc_plus.py` | 1 | bdebab00b48d968b7805f9fe95ca85ed1e3f71f29c1a7181f4fafb604a26f5f2 |
+| `test_wc_plus.py` | 1 | 110687065decab8623a886dfc73f4748bd86c8d07f3081a14a76fbb2f6c19ab3 |
+| `README.md` | 1 | 6dc2f197af8346690471411e5ed2a7aa93ab1926f6c738812d9485721f93213f |
+
+## 再現手順
+3 ファイルを同一ディレクトリに置き、そのディレクトリで:
+
+```
+python3 -m unittest -v        # 18 tests, OK
+python3 wc_plus.py README.md  # exit 0
+```
+
+## 実行したコマンドと結果（すべて sandbox_run / run_check の実行結果）
+| コマンド | 環境 | 結果 |
+| --- | --- | --- |
+| `python3 --version` | sandbox_run (backend=docker) | `Python 3.12.14` |
+| `python3 -m unittest -v` | sandbox_run (backend=docker) | 最初の実行で 4 failures（いずれもテスト側の期待値の計算違い）→ 期待値修正後 `Ran 18 tests ... OK`, exit 0 |
+| `python3 -m unittest -v` | run_check kind=command | status=pass, exit_code=0, `Ran 18 tests in 0.003s / OK` |
+| `python3 wc_plus.py README.md` | run_check kind=command | status=pass, exit_code=0。出力: `188 / 389 / 3643` と Top 5 words（`1`=28, `3`=19, `2`=18, `5`=16, `txt`=16） |
+| `python3 wc_plus.py a.txt` / `a.txt b.txt` / `a.txt missing.txt` / `-n 3 a.txt` / `--help` | sandbox_run (backend=docker) | README.md の Example / Usage に貼った出力はこの実行結果をそのまま転記（total 行、missing 時 exit=1、`-n` 動作を確認） |
+
+最初の失敗 4 件の内訳（実装ではなくテストの期待値を修正）:
+- `chars` 期待値: `b"ab\xff cd\n"` → 7 文字（8 と誤記）
+- 複数ファイル total `chars`: 18（19 と誤記）
+- `"Don't stop; DON'T stop_now"` の `stop` は 1 回（`stop_now` は別トークン）
+- `format_table` の整列アサートを実出力との完全一致比較に変更
+
+## programmatic チェック結果（すべて pass）
+- t1a1 python_syntax `wc_plus.py` rev1 → pass
+- t1a2 python_syntax `test_wc_plus.py` rev1 → pass
+- t1a3 command `python3 -m unittest -v` → pass (exit 0)
+- t1a4 regex_count `def test_` → count=18 (>=5) pass
+- t1a5 text_not_contains（numpy/requests/click/pandas）→ 両ファイル pass
+- t1a6 markdown_basic `README.md`（Usage / Example / Test）→ pass
+- t1a7 command `python3 wc_plus.py README.md` → pass (exit 0, 集計 + Top 5 出力)
+
+## 仕様メモ（レビュー観点）
+- `lines` = `\n` の個数（GNU wc 互換、末尾改行なしの最終行は数えない）
+- `words` = `[A-Za-z0-9_']+` のマッチ数、ランキングは小文字化して集計
+- `chars` = デコード後の Unicode 文字数、`errors='replace'`
+- 並び順 = 出現数降順 → 単語の辞書順（安定）
+- `total` 行は**読み取り成功が2件以上**のとき出力（1件スキップで残り1件なら total を出さない）
+- 終了コード: 0 = 全成功 / 1 = 読めないファイルあり / 2 = 使用法エラー（`--top` 負数含む）
+- 追加オプション: `-n/--top`（既定5、0 で非表示）、`-e/--encoding`（既定 utf-8）、`--version`
+- 公開範囲: ワークスペース内ドラフトのみ。外部公開・配布・ネットワーク処理なし。
+
+## 未検証 / 既知の限界
+- macOS ホストでの直接実行は未検証（実行は run_check/sandbox_run の docker backend, Python 3.12.14 のみ）
+- Python 3.8〜3.11 での実行は未検証（3.8 互換の構文・API のみ使用しているという静的判断）
+- 権限エラー（chmod 000）や巨大ファイル・非 UTF-8 実データでの動作は未検証（ディレクトリ指定と不正コーデックは test で検証済み）
+- 標準入力（`-`）からの読み込みは未実装（要求にないため）

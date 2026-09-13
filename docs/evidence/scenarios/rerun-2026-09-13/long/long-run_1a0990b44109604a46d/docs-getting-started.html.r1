@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>はじめに — Agent Team ドキュメント</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <p class="site-title">Agent Team ドキュメント</p>
+    <nav class="nav" aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="../index.html">トップ</a></li>
+        <li><a href="getting-started.html" aria-current="page">はじめに</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>はじめに</h1>
+    <p class="lead">Agent Team を使い始めるための前提と、最初の依頼を実行するまでの流れをまとめます。</p>
+
+    <h2>前提</h2>
+    <p>Agent Team は Claude Code があれば API キーなしで利用できます。まずは Claude Code が使える状態になっているかを確認してください。</p>
+    <div class="note">
+      <p>Claude Code が利用できる環境であれば、別途 API キーを用意する必要はありません。API キーの扱いについては <a href="faq.html">FAQ</a> も参照してください。</p>
+    </div>
+    <p>また Agent Team はローカルファーストなツールです。手元の環境で動かす前提で準備を進めます。</p>
+
+    <h2>セットアップ</h2>
+    <p>Agent Team はオープンソースのツールとして公開されています。次の順に進めてください。</p>
+    <ol>
+      <li>Claude Code が使える状態になっていることを確認する。</li>
+      <li>Agent Team のソースコードを手元の環境に用意する（入手先は未定のため、配布情報が公開され次第ご案内します）。</li>
+      <li>手元の環境で Agent Team を起動できる状態にする。</li>
+      <li>API キーの設定は不要なため、Claude Code が動作することだけを確認する。</li>
+    </ol>
+
+    <h2>初回の実行</h2>
+    <p>準備ができたら、依頼をひとつ渡すところから始めます。</p>
+    <ol>
+      <li>やりたいことを一度の依頼としてまとめる。調査・作成・確認が混ざっていても構いません。</li>
+      <li>依頼を Agent Team に渡して実行する。</li>
+      <li>Master / Researcher / Builder / Reviewer がそれぞれの役割で実作業を進めるのを待つ。</li>
+      <li>実行が進む様子を時系列で確認する。</li>
+    </ol>
+
+    <h2>結果の見かた</h2>
+    <p>実行後に確認できるものは大きく3つです。いずれも同一の実行記録から表示されます。</p>
+    <table>
+      <thead>
+        <tr><th>見るもの</th><th>内容</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>成果物</td><td>Bot が実際に作ったもの。</td></tr>
+        <tr><td>Bot 間の実メッセージ</td><td>Master / Researcher / Builder / Reviewer が実際にやり取りした内容。</td></tr>
+        <tr><td>時系列</td><td>何がどの順番で起きたかの流れ。</td></tr>
+      </tbody>
+    </table>
+    <p>成果物が期待と違ったときは、メッセージと時系列をさかのぼることで、どの段階で認識がずれたのかを確認できます。</p>
+
+    <h2>次に読む</h2>
+    <ul class="next-steps">
+      <li><a href="faq.html">FAQ（よくある質問）</a></li>
+      <li><a href="../index.html">トップに戻る</a></li>
+    </ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Agent Team ドキュメント（ドラフト）。本サイトに記載のない項目は未定です。</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+"""wc_plus - 行数 / 単語数 / 文字数 に「最頻出単語トップN」を足した CLI ツール。
+
+標準ライブラリのみで動作する。使い方は README.md を参照。
+
+集計ルール:
+  lines : テキスト中の改行文字 ('\\n') の個数 (GNU wc 互換)
+  words : 正規表現 [A-Za-z0-9_']+ にマッチするトークン数
+  chars : デコード後の Unicode 文字数 (バイト数ではない)
+  top N : 単語を小文字化して集計し、出現数降順 -> 単語の辞書順で安定化
+"""
+
+from __future__ import annotations
+
+import argparse
+import re
+import sys
+from collections import Counter
+from dataclasses import dataclass, field
+from typing import Iterable, List, Optional, Sequence, TextIO, Tuple
+
+__version__ = "1.0.0"
+
+#: 単語として扱うトークン (英数字 / アンダースコア / アポストロフィ)
+WORD_RE = re.compile(r"[A-Za-z0-9_']+")
+
+DEFAULT_TOP_N = 5
+DEFAULT_ENCODING = "utf-8"
+TOTAL_LABEL = "total"
+
+
+@dataclass
+class Stats:
+    """1 ファイル (または合計) の集計結果。"""
+
+    name: str
+    lines: int = 0
+    words: int = 0
+    chars: int = 0
+    counter: Counter = field(default_factory=Counter)
+
+    def merge(self, other: "Stats") -> None:
+        """other の集計値を自身に足し込む (total 行の生成に使う)。"""
+        self.lines += other.lines
+        self.words += other.words
+        self.chars += other.chars
+        self.counter.update(other.counter)
+
+
+def count_text(text: str, name: str = "-") -> Stats:
+    """テキストを集計して Stats を返す。"""
+    counter: Counter = Counter()
+    words = 0
+    for match in WORD_RE.finditer(text):
+        counter[match.group(0).lower()] += 1
+        words += 1
+    return Stats(
+        name=name,
+        lines=text.count("\n"),
+        words=words,
+        chars=len(text),
+        counter=counter,
+    )
+
+
+def top_words(counter: Counter, top_n: int = DEFAULT_TOP_N) -> List[Tuple[str, int]]:
+    """出現数降順、同数なら単語の辞書順で上位 top_n 件を返す。"""
+    if top_n <= 0:
+        return []
+    ordered = sorted(counter.items(), key=lambda item: (-item[1], item[0]))
+    return ordered[:top_n]
+
+
+def read_text(path: str, encoding: str = DEFAULT_ENCODING) -> str:
+    """ファイルを読む。デコード不能バイトは errors='replace' で置換する。"""
+    with open(path, "r", encoding=encoding, errors="replace", newline="") as handle:
+        return handle.read()
+
+
+def format_table(rows: Sequence[Stats]) -> List[str]:
+    """集計行を列整形したテキスト行のリストにする。"""
+    headers = ("lines", "words", "chars")
+    values = [(str(r.lines), str(r.words), str(r.chars)) for r in rows]
+    widths = [
+        max([len(h)] + [len(v[i]) for v in values]) for i, h in enumerate(headers)
+    ]
+    out = ["  ".join(h.rjust(w) for h, w in zip(headers, widths)) + "  file"]
+    for row, value in zip(rows, values):
+        out.append(
+            "  ".join(v.rjust(w) for v, w in zip(value, widths)) + "  " + row.name
+        )
+    return out
+
+
+def format_top(stats: Stats, top_n: int, label: Optional[str] = None) -> List[str]:
+    """トップ単語ブロックを整形する。"""
+    title = "Top %d words" % top_n
+    if label is not None:
+        title += " [%s]" % label
+    out = [title + ":"]
+    entries = top_words(stats.counter, top_n)
+    if not entries:
+        out.append("  (no words)")
+        return out
+    rank_width = len(str(len(entries)))
+    word_width = max(len(word) for word, _ in entries)
+    count_width = max(len(str(count)) for _, count in entries)
+    for rank, (word, count) in enumerate(entries, start=1):
+        out.append(
+            "  %s. %s  %s"
+            % (
+                str(rank).rjust(rank_width),
+                word.ljust(word_width),
+                str(count).rjust(count_width),
+            )
+        )
+    return out
+
+
+def build_report(rows: Sequence[Stats], total: Optional[Stats], top_n: int) -> str:
+    """集計結果全体を1つの出力文字列にする。"""
+    table_rows: List[Stats] = list(rows)
+    if total is not None:
+        table_rows.append(total)
+    lines: List[str] = format_table(table_rows)
+    multi = total is not None
+    for row in rows:
+        lines.append("")
+        lines.extend(format_top(row, top_n, row.name if multi else None))
+    if total is not None:
+        lines.append("")
+        lines.extend(format_top(total, top_n, TOTAL_LABEL))
+    return "\n".join(lines) + "\n"
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="wc_plus",
+        description=(
+            "テキストファイルの行数・単語数・文字数と、最頻出の単語トップNを表示する。"
+        ),
+    )
+    parser.add_argument("files", nargs="+", metavar="FILE", help="集計対象のテキストファイル")
+    parser.add_argument(
+        "-n",
+        "--top",
+        type=int,
+        default=DEFAULT_TOP_N,
+        metavar="N",
+        help="表示する最頻出単語の件数 (既定: %d)" % DEFAULT_TOP_N,
+    )
+    parser.add_argument(
+        "-e",
+        "--encoding",
+        default=DEFAULT_ENCODING,
+        metavar="ENC",
+        help="入力ファイルのエンコーディング (既定: %s)" % DEFAULT_ENCODING,
+    )
+    parser.add_argument("--version", action="version", version="wc_plus " + __version__)
+    return parser
+
+
+def main(
+    argv: Optional[Iterable[str]] = None,
+    stdout: Optional[TextIO] = None,
+    stderr: Optional[TextIO] = None,
+) -> int:
+    """CLI エントリポイント。戻り値が終了コード。"""
+    out = stdout if stdout is not None else sys.stdout
+    err = stderr if stderr is not None else sys.stderr
+    args = build_parser().parse_args(list(argv) if argv is not None else None)
+
+    if args.top < 0:
+        print("wc_plus: error: --top には0以上の整数を指定してください", file=err)
+        return 2
+
+    rows: List[Stats] = []
+    failed = False
+    for path in args.files:
+        try:
+            text = read_text(path, args.encoding)
+        except OSError as exc:
+            print(
+                "wc_plus: %s: %s" % (path, exc.strerror or exc.__class__.__name__),
+                file=err,
+            )
+            failed = True
+            continue
+        except LookupError as exc:
+            print("wc_plus: %s: %s" % (path, exc), file=err)
+            failed = True
+            continue
+        rows.append(count_text(text, path))
+
+    if rows:
+        total: Optional[Stats] = None
+        if len(rows) > 1:
+            total = Stats(name=TOTAL_LABEL)
+            for row in rows:
+                total.merge(row)
+        out.write(build_report(rows, total, args.top))
+
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    sys.exit(main())

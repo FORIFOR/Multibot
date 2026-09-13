@@ -1,0 +1,13 @@
+probe: True claude-opus-5 
+=== code #1
+{"status": "completed", "plan_tasks": [["t1", "builder"], ["t2", "reviewer"]], "artifacts": ["HANDOFF.md@r1", "README.md@r1", "test_wc_plus.py@r1", "wc_plus.py@r1"], "checks_pass": 16, "checks_total": 16, "review_pass": 7, "review_total": 7, "wall_s": 932}
+=== code #2
+{"status": "completed", "plan_tasks": [["t1", "builder"], ["t2", "reviewer"]], "artifacts": ["README.md@r1", "test_wc_plus.py@r1", "wc_plus.py@r1"], "checks_pass": 16, "checks_total": 16, "review_pass": 7, "review_total": 7, "wall_s": 1115}
+=== code #3
+{"status": "completed", "plan_tasks": [["t1", "builder"], ["t2", "reviewer"]], "artifacts": ["HANDOFF.md@r1", "README.md@r1", "test_wc_plus.py@r1", "wc_plus.py@r1"], "checks_pass": 16, "checks_total": 16, "review_pass": 8, "review_total": 8, "wall_s": 996}
+
+| scenario | status | tasks | artifacts | checks | review | msgs | calls | cost | time |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| code | completed | 2 | 4 | 16/16 | 7/7 | 2 | 64 | $3.14 | 932s |
+| code | completed | 2 | 3 | 16/16 | 7/7 | 1 | 57 | $2.64 | 1115s |
+| code | completed | 2 | 4 | 16/16 | 8/8 | 2 | 53 | $2.09 | 996s |

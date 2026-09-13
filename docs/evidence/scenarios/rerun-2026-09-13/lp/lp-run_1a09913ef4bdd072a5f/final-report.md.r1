@@ -1,0 +1,66 @@
+# Final report — この製品説明をもとに、日本語の紹介LP（index.html）とSNS投稿草案（posts.md、3案）を作ってください。不足情報は推定して前提として記録し、公開はせず草案まで。Reviewerに実検証させてください。
+
+- Status: **partial**
+- Provider kind: real
+- Usage: 123 model calls, 114 tool calls, $5.6680, 2194s
+
+## Deliverables
+- `final/index.html` — final-index.html r1 (sha256 28fe0db70415…) by builder / task t3
+- `final/posts.md` — final-posts.md r1 (sha256 10518799953f…) by builder / task t3
+- `final/review-final.md` — final-review-final.md r1 (sha256 c403cad8f8b7…) by reviewer / task t4
+- `final2/index.html` — final2-index.html r1 (sha256 8e02ac34eb7b…) by builder / task t5
+- `final2/review-cta.md` — final2-review-cta.md r1 (sha256 bb179d8b335f…) by reviewer / task t6
+- `index.html` — index.html r1 (sha256 58228af046e0…) by builder / task t1
+- `posts.md` — posts.md r1 (sha256 adb90a81a832…) by builder / task t1
+
+## Tasks
+- t1 [accepted] builder: 提供された製品説明と前提のみを根拠に、日本語LP index.html と SNS投稿草案 posts.md（3案）を作成する。index.html は単一ファイル完結（インラインstyle、script無し）、title・viewport・見出し階層・画像にalt（画像を使う場合）を備え、リンクはページ内アンカーのみで localhost や架空の外部URLを含めない。本文には Master / Researcher / Builder / Reviewer の4ロール、オープンソース、ローカルファースト、成果物とBot間の実メッセージと時系列を同じ実行記録から表示する点、対象=ソフトウェア開発者・個人開発者、価格は『未定』である旨を含める。金額・無料/有料表現、および提供テキストにない実績値は書かない。posts.md は `## 案1` `## 案2` `## 案3` の3セクションで、各案に本文（全角140字以内）と想定媒体・訴求軸・ハッシュタグを併記する。作成後、自身で run_check により html_basic / html_links / markdown_basic / text_contains / text_not_contains を実行し、失敗があれば修正してから完了する。 (attempts 1)
+- t2 [accepted] reviewer: t1 の成果物（index.html, posts.md）を独立検証する。read_artifact で本文を読み、run_check で t1a1〜t1a7 の各プログラムチェックを自分で再実行し、実測結果（pass/fail と失敗内容）を記録する。加えて t1a8 について、提供テキスト（製品名・4ロール・OSS・ローカルファースト・実行記録の一貫表示・対象ユーザー・価格未定）と成果物の記述を1件ずつ突き合わせ、根拠の無い主張・架空URL・金額表現・全角140字超の投稿案があれば指摘する。submit_review で t1 の全受入条件に対する判定（pass/fail＋証拠）と、修正が必要な場合の具体的な指摘を提出する。チェック未実行のものを pass と記載しない。 (attempts 1)
+- t3 [accepted] builder: t2 の Reviewer 指摘（提供テキストに根拠のない表現4種）を修正した最終版を、新パス final/index.html と final/posts.md として作成・公開する。ベースは index.html rev1 / posts.md rev1 を read_artifact で取得した本文とし、以下4点のみを最小差分で修正する（他の文章・CSS・構成は変更しない）。(1) #how の「成果物と同じ画面上で時系列として参照できます」→ UI（画面）の断定をやめ「成果物と同じ実行記録から時系列として参照できます」。(2) FAQ「価格は未定です。決まり次第あらためてお知らせします。」→ 告知の約束を削除し「価格は未定です。」のみ。(3) CTA の「配布方法および入手先は別途ご案内します。」を削除（同段落の「価格は未定です。」は残す）。(4) posts.md 案1「できた成果物はそのまま手元に残ります。」／案3「実行記録も手元に残ります。」→ 保存仕様の断定をやめ、提供テキスト範囲（成果物とBot間の実メッセージ、時系列を同じ実行記録から確認できる）の表現に書き換え。書き換え後の各案本文の字数を python3 の len() で実測し、実測値を task summary に記載する。公開・投稿は行わない（草案）。 (attempts 1)
+- t4 [accepted] reviewer: t3 の最終版（final/index.html, final/posts.md）を独立検証し、検証レポートを final/review-final.md として公開する。(a) run_check で t3a1〜t3a5 相当のチェックを自分で再実行し pass/fail と失敗内容を実測記録する。(b) rev1（index.html rev1 / posts.md rev1）と本文を突合し、修正が指摘4点に限定され意図しない削除・改変がないことを確認する。(c) 提供テキストと前提の範囲を超える新たな断定（機能・実績・数値・対応環境・提供時期・金額・外部URL・架空アカウント）が追加されていないことを確認する。(d) SNS3案の本文字数を python3 の len() で実測し値を記載する。ブラウザ実描画など実施できない検証は「未検証」と明記する。 (attempts 1)
+- t5 [failed] builder: final/index.html（artifact_id=final-index.html rev1）の CTA セクション1文のみを最小差分で修正し、新パス final2/index.html として作成・公開する。read_artifact で final-index.html rev1 本文を取得し、文字列「Master・Researcher・Builder・Reviewer が実際に作業し、その記録がそのまま残る。Agent Team はオープンソースのローカルファーストなツールです。」を「Master・Researcher・Builder・Reviewer が実際に作業し、そのやり取りを実行記録から確認できる。Agent Team はオープンソースのローカルファーストなツールです。」に置換する。理由: 「そのまま残る」は提供テキストに根拠のない保存・永続性の含意で、posts.md で削除済みの「手元に残ります」と同種（Reviewer t4 指摘）。他の箇所は1バイトも変更しないこと。該当文字列が見つからない場合は report_blocker。posts.md は変更不要（final/posts.md rev1 をそのまま最終版とする）。 (attempts 2) — max_model_calls: model call limit 120 reached
+- t6 [queued] reviewer: t5 の final2/index.html を独立検証し、結果を final2/review-cta.md として公開する。(a) run_check で t5a1〜t5a5 相当を自分で再実行し pass/fail と失敗内容を実測記録する。(b) final-index.html rev1 本文に対して指定置換を逆適用したものと final2/index.html が完全一致することを sandbox_run 等で実測（sha256 比較）し、差分が CTA 1文のみであることを確認する。(c) 修正文に提供テキスト外の新たな主張（保存・永続性、性能、実績、価格）が入っていないことを判定する。判定不能な項目は「未検証」と明記し、pass に変えない。 (attempts 1)
+
+## Verified (from checks and reviews)
+- check html_basic on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 19)
+- check html_links on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 21)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 23)
+- check text_not_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 25)
+- check markdown_basic on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': 'adb90a81a8328950755185f60ea21bb95961a25518ad40dba9ec04bc78d6ee69'} → pass (seq 27)
+- check regex_count on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': 'adb90a81a8328950755185f60ea21bb95961a25518ad40dba9ec04bc78d6ee69'} → pass (seq 29)
+- check text_not_contains on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': 'adb90a81a8328950755185f60ea21bb95961a25518ad40dba9ec04bc78d6ee69'} → pass (seq 31)
+- check html_basic on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 47)
+- check html_links on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 49)
+- check text_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 51)
+- check text_not_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 53)
+- check markdown_basic on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': 'adb90a81a8328950755185f60ea21bb95961a25518ad40dba9ec04bc78d6ee69'} → pass (seq 55)
+- check regex_count on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': 'adb90a81a8328950755185f60ea21bb95961a25518ad40dba9ec04bc78d6ee69'} → pass (seq 57)
+- check text_not_contains on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': 'adb90a81a8328950755185f60ea21bb95961a25518ad40dba9ec04bc78d6ee69'} → pass (seq 59)
+- check text_contains on {'artifact_id': 'posts.md', 'revision': 1, 'sha256': 'adb90a81a8328950755185f60ea21bb95961a25518ad40dba9ec04bc78d6ee69'} → pass (seq 64)
+- check regex_count on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → fail (seq 66)
+- check regex_count on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 68)
+- check text_not_contains on {'artifact_id': 'index.html', 'revision': 1, 'sha256': '58228af046e0fc56dcc4c0cf37639810b75b69fca6e312e26a171304c13d3466'} → pass (seq 70)
+- check html_basic on {'artifact_id': 'final-index.html', 'revision': 1, 'sha256': '28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4'} → pass (seq 111)
+- check html_links on {'artifact_id': 'final-index.html', 'revision': 1, 'sha256': '28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4'} → pass (seq 113)
+- check text_not_contains on {'artifact_id': 'final-index.html', 'revision': 1, 'sha256': '28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4'} → pass (seq 115)
+- check text_not_contains on {'artifact_id': 'final-posts.md', 'revision': 1, 'sha256': '10518799953f5aca0a4683d956f59c5efeff077a4beafd50a845b436871c958c'} → pass (seq 117)
+- check text_not_contains on {'artifact_id': 'final-index.html', 'revision': 1, 'sha256': '28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4'} → pass (seq 144)
+- check text_not_contains on {'artifact_id': 'final-posts.md', 'revision': 1, 'sha256': '10518799953f5aca0a4683d956f59c5efeff077a4beafd50a845b436871c958c'} → pass (seq 146)
+- check regex_count on {'artifact_id': 'final-index.html', 'revision': 1, 'sha256': '28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4'} → fail (seq 148)
+- check text_contains on {'artifact_id': 'final-index.html', 'revision': 1, 'sha256': '28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4'} → pass (seq 150)
+- check html_links on {'artifact_id': 'final-index.html', 'revision': 1, 'sha256': '28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4'} → pass (seq 152)
+- check html_basic on {'artifact_id': 'final-index.html', 'revision': 1, 'sha256': '28fe0db70415b2dae5fcc9283f0ca21dc2b9bbad45b86c04d54d8036e00ee3c4'} → pass (seq 154)
+- check text_contains on {'artifact_id': 'final2-index.html', 'revision': 1, 'sha256': '8e02ac34eb7b85805a9cc21cd0e4abf1a6deccdc281a5700892a2ed3c8228659'} → pass (seq 190)
+- check html_links on {'artifact_id': 'final2-index.html', 'revision': 1, 'sha256': '8e02ac34eb7b85805a9cc21cd0e4abf1a6deccdc281a5700892a2ed3c8228659'} → pass (seq 192)
+- check html_basic on {'sha256': '8e02ac34eb7b85805a9cc21cd0e4abf1a6deccdc281a5700892a2ed3c8228659', 'workspace_path': 'check/final2.html'} → pass (seq 211)
+- check html_links on {'sha256': '8e02ac34eb7b85805a9cc21cd0e4abf1a6deccdc281a5700892a2ed3c8228659', 'workspace_path': 'check/final2.html'} → pass (seq 213)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=pass, t1a5=pass, t1a6=pass, t1a7=pass, t1a8=pass (seq 72)
+- review of t3 by reviewer: t3a1=pass, t3a2=pass, t3a3=pass, t3a4=pass, t3a5=pass, t3a6=pass (seq 161)
+- review of t5 by reviewer: t5a1=pass, t5a2=fail, t5a3=pass, t5a4=pass, t5a5=pass (seq 218)
+
+## Unresolved / pending
+- task.failed task=t5: max_model_calls: model call limit 120 reached (seq 230)
+
+## Trace
+- Messages delivered: 5 ({'handoff': 2, 'finding': 3})
+- Model usage by agent: master: 3 calls / $0.8387 (reported claude-opus-5), builder: 3 calls / $2.0076 (reported claude-opus-5), reviewer: 3 calls / $2.8216 (reported claude-opus-5)

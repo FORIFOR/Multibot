@@ -1,0 +1,198 @@
+#!/usr/bin/env python3
+"""wc_plus - wc 風の集計に「最頻出単語トップ N」を足した CLI ツール.
+
+標準ライブラリのみで実装している。
+
+使い方:
+    python3 wc_plus.py FILE [FILE ...] [--top N]
+
+仕様:
+    * 行数   : 改行区切りの行数。末尾に改行が無い最終行も 1 行として数える。
+               空ファイルは 0 行。
+    * 単語数 : 正規表現 ``\\w+`` にマッチした個数。
+    * 文字数 : Python の文字列長（Unicode コードポイント数）。
+    * 単語の頻度集計は小文字化して行い、頻度が同数の場合は単語の辞書順で並べる。
+    * 入力は UTF-8 として読み、デコード不能バイトは errors='replace' で置換する。
+    * 読めないファイルは stderr に警告を出してスキップし、終了コードは 1。
+    * 引数が無い場合は argparse の既定どおり usage を表示して終了コード 2。
+"""
+
+from __future__ import annotations
+
+import argparse
+import re
+import sys
+from collections import Counter
+from typing import Iterable, List, Sequence, Tuple
+
+__version__ = "1.0.0"
+
+#: 単語とみなすパターン（\w+）。
+WORD_RE = re.compile(r"\w+", re.UNICODE)
+
+#: 集計行の数値カラム幅（wc の見た目に寄せる）。
+COLUMN_WIDTH = 8
+
+
+class Stats:
+    """1 つの入力（ファイル or 合計）の集計結果。"""
+
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self.lines = 0
+        self.words = 0
+        self.chars = 0
+        self.counter: Counter = Counter()
+
+    def add_text(self, text: str) -> None:
+        """テキストを 1 つ取り込んで集計へ反映する。"""
+        self.lines += count_lines(text)
+        self.chars += len(text)
+        words = tokenize(text)
+        self.words += len(words)
+        self.counter.update(words)
+
+    def merge(self, other: "Stats") -> None:
+        """別の Stats を合算する（total 行用）。"""
+        self.lines += other.lines
+        self.words += other.words
+        self.chars += other.chars
+        self.counter.update(other.counter)
+
+    def top_words(self, n: int) -> List[Tuple[str, int]]:
+        """頻度降順・同数なら辞書順で上位 n 件を返す。"""
+        return top_words(self.counter, n)
+
+
+def count_lines(text: str) -> int:
+    """行数を数える。末尾に改行が無い最終行も 1 行として数える。"""
+    if not text:
+        return 0
+    n = text.count("\n")
+    if not text.endswith("\n"):
+        n += 1
+    return n
+
+
+def tokenize(text: str) -> List[str]:
+    """``\\w+`` で単語を切り出し、小文字化して返す。"""
+    return [m.group(0).lower() for m in WORD_RE.finditer(text)]
+
+
+def top_words(counter: Counter, n: int) -> List[Tuple[str, int]]:
+    """頻度降順・同数なら単語の辞書順でソートし、上位 n 件を返す。"""
+    if n <= 0:
+        return []
+    items = sorted(counter.items(), key=lambda kv: (-kv[1], kv[0]))
+    return items[:n]
+
+
+def read_text(path: str) -> str:
+    """UTF-8 として読み込む。デコード不能バイトは置換文字にする。"""
+    with open(path, "r", encoding="utf-8", errors="replace") as fh:
+        return fh.read()
+
+
+def format_summary_line(stats: Stats) -> str:
+    """wc 互換に近い集計行を組み立てる。"""
+    return "{:>{w}} {:>{w}} {:>{w}} {}".format(
+        stats.lines, stats.words, stats.chars, stats.name, w=COLUMN_WIDTH
+    )
+
+
+def format_top_words(stats: Stats, n: int) -> List[str]:
+    """トップ N 単語の表示行（インデント済み）を組み立てる。"""
+    entries = stats.top_words(n)
+    if not entries:
+        return ["    top {} words: (none)".format(n)]
+    lines = ["    top {} words:".format(n)]
+    for rank, (word, count) in enumerate(entries, start=1):
+        lines.append("      {}. {:<16} {}".format(rank, word, count))
+    return lines
+
+
+def render(all_stats: Sequence[Stats], top_n: int) -> List[str]:
+    """全 Stats の出力行を組み立てる（total は呼び出し側で含める）。"""
+    out: List[str] = []
+    for stats in all_stats:
+        out.append(format_summary_line(stats))
+        out.extend(format_top_words(stats, top_n))
+    return out
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="wc_plus",
+        description=(
+            "テキストファイルの行数・単語数・文字数と、"
+            "最頻出の単語トップ N を表示します。"
+        ),
+    )
+    parser.add_argument(
+        "files",
+        metavar="FILE",
+        nargs="+",
+        help="集計対象のテキストファイル（複数指定可）",
+    )
+    parser.add_argument(
+        "-n",
+        "--top",
+        type=int,
+        default=5,
+        metavar="N",
+        help="表示する最頻出単語の件数（既定: 5）",
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="wc_plus {}".format(__version__),
+    )
+    return parser
+
+
+def process(files: Iterable[str], top_n: int, out, err) -> int:
+    """ファイル群を処理して出力する。戻り値はプロセスの終了コード。"""
+    file_list = list(files)
+    collected: List[Stats] = []
+    exit_code = 0
+
+    for path in file_list:
+        try:
+            text = read_text(path)
+        except OSError as exc:
+            print(
+                "wc_plus: {}: {}".format(path, exc.strerror or exc),
+                file=err,
+            )
+            exit_code = 1
+            continue
+        stats = Stats(path)
+        stats.add_text(text)
+        collected.append(stats)
+
+    if not collected:
+        return exit_code
+
+    display: List[Stats] = list(collected)
+    if len(file_list) > 1:
+        total = Stats("total")
+        for stats in collected:
+            total.merge(stats)
+        display.append(total)
+
+    for line in render(display, top_n):
+        print(line, file=out)
+
+    return exit_code
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if args.top < 0:
+        parser.error("--top には 0 以上の整数を指定してください")
+    return process(args.files, args.top, sys.stdout, sys.stderr)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

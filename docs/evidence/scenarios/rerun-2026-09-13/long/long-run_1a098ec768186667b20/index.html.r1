@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Team — 一度の依頼でAIチームが実際に作業するツール</title>
+<meta name="description" content="Agent Team は、一度の依頼から Master / Researcher / Builder / Reviewer のAIチームが実際に作業し、成果物・Bot間の実メッセージ・時系列を同じ実行記録から表示する、オープンソースでローカルファーストなツールです。">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Agent Team</div>
+    <nav class="site">
+      <ul>
+        <li><a href="index.html">トップ</a></li>
+        <li><a href="docs/getting-started.html">はじめかた</a></li>
+        <li><a href="docs/faq.html">よくある質問</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>一度の依頼から、AIチームが実際に作業する</h1>
+    <p class="lead">Agent Team は、あなたが一度依頼するだけで、Master / Researcher / Builder / Reviewer という役割を持つAIチームが実際に作業を進めるツールです。オープンソースで、ローカルファーストに動きます。</p>
+
+    <h2>Agent Team とは</h2>
+    <div class="card">
+      <p>依頼はひとつ。そこから先は、複数の役割を持つエージェントがチームとして手を動かします。できあがった成果物だけでなく、Bot 同士が実際にやり取りしたメッセージと、その時系列を、すべて同じ実行記録から確認できます。</p>
+      <p>「なんとなく良さそうな出力が返ってきた」ではなく、「誰が、いつ、何を根拠に、何を作ったか」を後から追えることを重視した設計です。</p>
+    </div>
+
+    <h2>4つの役割</h2>
+    <ul class="roles">
+      <li><strong>Master</strong><br>依頼を受け取り、タスクの分割と割り当てを行い、チーム全体の進行を管理します。</li>
+      <li><strong>Researcher</strong><br>作業に必要な情報を調べ、根拠となる材料をチームに渡します。</li>
+      <li><strong>Builder</strong><br>実際に成果物を作り、ファイルとして形にします。</li>
+      <li><strong>Reviewer</strong><br>できあがった成果物を検証し、問題があれば指摘します。</li>
+    </ul>
+
+    <h2>ひとつの実行記録に、すべてが残る</h2>
+    <ul>
+      <li><strong>成果物</strong> — Builder が作った実ファイル。</li>
+      <li><strong>Bot 間の実メッセージ</strong> — 要約や再構成ではなく、エージェントが実際にやり取りした本文。</li>
+      <li><strong>時系列</strong> — どの作業がどの順に進んだかの流れ。</li>
+    </ul>
+    <p>これらは別々のログではなく、同じ実行記録から表示されます。成果物とその経緯が食い違わないため、レビューや振り返りのときに突き合わせる手間がありません。</p>
+
+    <h2>オープンソース / ローカルファースト</h2>
+    <div class="card">
+      <p>Agent Team はオープンソースです。動作の中身をコードで確認できます。</p>
+      <p>また、ローカルファーストな作りになっており、作業と実行記録は手元を起点に扱えます。</p>
+      <p><strong>Claude Code があれば、API キーは不要です。</strong></p>
+    </div>
+
+    <h2>こんな人に</h2>
+    <ul>
+      <li>ソフトウェア開発者</li>
+      <li>個人開発者</li>
+    </ul>
+    <p>AI に一度に任せる範囲を広げつつ、出力の根拠と経緯を自分で確認したい方に向いています。</p>
+
+    <h2>価格</h2>
+    <p><strong>価格は未定です。</strong>決まっていない金額や提供時期については、このページでは案内していません。</p>
+
+    <h2>次に読む</h2>
+    <ul>
+      <li><a href="docs/getting-started.html">はじめかた（docs/getting-started.html）</a> — 導入から最初の実行までの流れ。</li>
+      <li><a href="docs/faq.html">よくある質問（docs/faq.html）</a> — 価格・API キー・OSS・ローカルファースト・対象ユーザーについて。</li>
+    </ul>
+
+    <nav class="pagenav">
+      <a href="docs/getting-started.html">はじめかたへ進む</a>
+      <a href="docs/faq.html">よくある質問を見る</a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p class="note">Agent Team ドキュメント（下書き）。記載内容は製品説明の範囲に限定しています。</p>
+  </div>
+</footer>
+</body>
+</html>

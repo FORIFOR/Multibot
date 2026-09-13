@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ — Agent Team ドキュメント</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <p class="site-title">Agent Team ドキュメント</p>
+    <nav class="nav" aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="../index.html">トップ</a></li>
+        <li><a href="getting-started.html">はじめに</a></li>
+        <li><a href="faq.html" aria-current="page">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>よくある質問</h1>
+    <p class="lead">Agent Team について、よく聞かれる点をまとめました。ここに記載のない項目は未定です。</p>
+
+    <h2>利用の前提</h2>
+    <dl>
+      <dt>API キーは必要ですか。</dt>
+      <dd>Claude Code があれば API キーは不要です。まずは Claude Code が使える状態かをご確認ください。準備の流れは <a href="getting-started.html">はじめに</a> にまとめています。</dd>
+
+      <dt>ローカルファーストとはどういう意味ですか。</dt>
+      <dd>Agent Team はローカルファーストなツールとして提供されます。詳細な動作要件は現時点では未定です。</dd>
+
+      <dt>オープンソースですか。</dt>
+      <dd>はい。Agent Team はオープンソースのツールです。配布場所やライセンスの詳細は未定のため、本サイトでは記載していません。</dd>
+    </dl>
+
+    <h2>価格</h2>
+    <dl>
+      <dt>いくらで使えますか。</dt>
+      <dd>価格は未定です。決まり次第ご案内します。</dd>
+    </dl>
+
+    <h2>対象ユーザー</h2>
+    <dl>
+      <dt>誰向けのツールですか。</dt>
+      <dd>ソフトウェア開発者と個人開発者を対象としています。</dd>
+    </dl>
+
+    <h2>仕組みと使い方</h2>
+    <dl>
+      <dt>どんな Bot が動きますか。</dt>
+      <dd>Master / Researcher / Builder / Reviewer の4つの役割が、ひとつの依頼に対して実際に作業します。</dd>
+
+      <dt>成果物以外に何が見られますか。</dt>
+      <dd>成果物に加えて、Bot 間で実際に交わされたメッセージと、作業の時系列を確認できます。これらは同一の実行記録から表示されます。</dd>
+
+      <dt>依頼は何回に分けて出す必要がありますか。</dt>
+      <dd>一度の依頼から作業が始まります。役割ごとに依頼を出し直す必要はありません。</dd>
+
+      <dt>結果が期待と違ったときはどうすればよいですか。</dt>
+      <dd>同じ実行記録に残っているメッセージと時系列をたどることで、どの段階でずれたのかを確認できます。</dd>
+    </dl>
+
+    <h2>そのほか</h2>
+    <dl>
+      <dt>対応環境や導入手順の詳細を知りたいです。</dt>
+      <dd>現時点で公開できる情報は本サイトに記載した範囲のみです。それ以外は未定のため、確定情報が出た段階でご案内します（掲載先は未定）。</dd>
+    </dl>
+
+    <h2>関連ページ</h2>
+    <ul class="next-steps">
+      <li><a href="getting-started.html">はじめに（セットアップと初回実行）</a></li>
+      <li><a href="../index.html">トップに戻る</a></li>
+    </ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Agent Team ドキュメント（ドラフト）。本サイトに記載のない項目は未定です。</p>
+  </div>
+</footer>
+</body>
+</html>

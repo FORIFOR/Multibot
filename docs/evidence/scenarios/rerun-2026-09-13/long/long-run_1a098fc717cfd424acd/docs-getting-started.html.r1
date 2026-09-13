@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>はじめかた — Agent Team ドキュメント</title>
+<meta name="description" content="Agent Team の前提（Claude Code）を確認し、依頼を1件投げて実行記録（成果物・Bot間の実メッセージ・時系列）を見るまでの手順です。">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <p class="site-title">Agent Team ドキュメント</p>
+    <nav class="site-nav" aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="../index.html">トップ</a></li>
+        <li><a href="getting-started.html">はじめかた</a></li>
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h1>はじめかた</h1>
+  <p class="lead">前提を確認し、依頼を1件投げて、実行記録を見るまでの流れです。</p>
+
+  <section>
+    <h2>前提</h2>
+    <div class="note">
+      <p><strong>Claude Code</strong> が使える状態であること。Claude Code があれば、別途 API キーを用意する必要はありません。</p>
+    </div>
+    <p>Agent Team はローカルファーストなツールとして動作します。</p>
+    <p class="placeholder">入手方法・インストール手順の詳細（リンク未定）</p>
+  </section>
+
+  <section>
+    <h2>手順</h2>
+    <ol class="steps">
+      <li>
+        <span class="step-title">Claude Code が使えることを確認する</span>
+        <p>Claude Code が動く環境であれば、API キーの準備は不要です。</p>
+      </li>
+      <li>
+        <span class="step-title">Agent Team を手元で起動する</span>
+        <p>ローカルファーストなツールなので、自分の環境で動かします。</p>
+        <p class="placeholder">起動コマンド・配布物の場所（未定）</p>
+      </li>
+      <li>
+        <span class="step-title">依頼を1件だけ書いて投げる</span>
+        <p>やってほしいことを1件の依頼としてまとめて渡します。ここから先は AI チームが動きます。</p>
+      </li>
+      <li>
+        <span class="step-title">AI チームの作業が進むのを待つ</span>
+        <p>Master / Researcher / Builder / Reviewer が実際に作業します。依頼は1回で済み、途中で役割ごとに投げ直す必要はありません。</p>
+      </li>
+      <li>
+        <span class="step-title">実行記録を開く</span>
+        <p>成果物・Bot 間の実メッセージ・時系列は、いずれも同じ実行記録から表示されます。</p>
+      </li>
+      <li>
+        <span class="step-title">成果物を確認する</span>
+        <p>チームが実際に作ったものを見ます。</p>
+      </li>
+      <li>
+        <span class="step-title">Bot 間の実メッセージを確認する</span>
+        <p>要約ではなく、Bot 同士が実際にやり取りしたメッセージを読めます。どの判断がどのやり取りから出たのかを追えます。</p>
+      </li>
+      <li>
+        <span class="step-title">時系列を確認する</span>
+        <p>いつ何が起きたかを順に追います。成果物とメッセージが同じ記録に紐づいているため、突き合わせて確認できます。</p>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>確認できること</h2>
+    <ul>
+      <li>依頼1件に対して、AI チームが実際に作業したかどうか。</li>
+      <li>出てきた成果物が、どのやり取りを経て作られたか。</li>
+      <li>作業がどの順番で進んだか。</li>
+    </ul>
+  </section>
+
+  <section class="next-links">
+    <h2>関連ページ</h2>
+    <ul>
+      <li><a href="faq.html">よくある質問</a> — API キー、価格、対象ユーザー、ローカルファースト / オープンソースについて。</li>
+      <li><a href="../index.html">トップページ</a> — Agent Team の概要。</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Agent Team ドキュメント — このページに記載していない機能・実績・数値はまだ確定していません。</p>
+  </div>
+</footer>
+
+</body>
+</html>

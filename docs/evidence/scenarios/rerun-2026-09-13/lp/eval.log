@@ -1,0 +1,13 @@
+probe: True claude-opus-5 
+=== lp #1
+{"status": "completed", "plan_tasks": [["t1", "builder"], ["t2", "reviewer"]], "artifacts": ["index.html@r1", "posts.md@r1"], "checks_pass": 15, "checks_total": 16, "review_pass": 9, "review_total": 9, "wall_s": 1226}
+=== lp #2
+{"status": "completed", "plan_tasks": [["t1", "builder"], ["t2", "reviewer"]], "artifacts": ["assumptions.md@r1", "index.html@r1", "posts.md@r1"], "checks_pass": 22, "checks_total": 30, "review_pass": 11, "review_total": 11, "wall_s": 1360}
+=== lp #3
+{"status": "partial", "plan_tasks": [["t1", "builder"], ["t2", "reviewer"], ["t3", "builder"], ["t4", "reviewer"], ["t5", "builder"], ["t6", "reviewer"]], "artifacts": ["final-index.html@r1", "final-posts.md@r1", "final-review-final.md@r1", "final2-index.html@r1", "final2-review-cta.md@r1", "index.html@r1", "posts.md@r1"], "checks_pass": 30, "checks_total": 32, "review_pass": 18, "review_total": 19, "wall_s": 2192}
+
+| scenario | status | tasks | artifacts | checks | review | msgs | calls | cost | time |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| lp | completed | 2 | 2 | 15/16 | 9/9 | 2 | 42 | $1.70 | 1226s |
+| lp | completed | 2 | 3 | 22/30 | 11/11 | 2 | 60 | $2.27 | 1360s |
+| lp | partial | 6 | 7 | 30/32 | 18/19 | 5 | 123 | $5.67 | 2192s |

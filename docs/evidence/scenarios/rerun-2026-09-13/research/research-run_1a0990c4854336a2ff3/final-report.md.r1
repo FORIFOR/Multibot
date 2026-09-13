@@ -1,0 +1,58 @@
+# Final report — 次の3つの公開ページを実際に取得して読み、それぞれの「主張・対象読者・ライセンス（記載があれば）」を出典URL付きで比較した調査メモ `research.md` を日本語で作ってください。取得できなかったページは『取得不可』と明記し、本文を推測で埋めないでください。Reviewer は各主張が出典に実在するかを read_artifact と web_fetch で照合してください。
+
+- Status: **partial**
+- Provider kind: real
+- Usage: 103 model calls, 95 tool calls, $6.1121, 2086s
+
+## Deliverables
+- `claim-check-v2.md` — claim-check-v2.md r1 (sha256 8dc9a88d2f7f…) by reviewer / task t4
+- `claim-check.md` — claim-check.md r1 (sha256 f94b69631299…) by reviewer / task t2
+- `fetch-raw-agentskills.txt` — fetch-raw-agentskills.txt r1 (sha256 cc0bf85967be…) by researcher / task t3
+- `fetch-raw-deepagents.txt` — fetch-raw-deepagents.txt r1 (sha256 8e8c922995aa…) by researcher / task t3
+- `fetch-raw-deerflow.txt` — fetch-raw-deerflow.txt r1 (sha256 d1febcdf5a97…) by researcher / task t3
+- `fetch-raw-licenses.txt` — fetch-raw-licenses.txt r1 (sha256 df9a0a815cf0…) by researcher / task t3
+- `research.md` — research.md r1 (sha256 ff60d0a1a92a…) by researcher / task t1
+
+## Tasks
+- t1 [accepted] researcher: web_fetch で https://github.com/langchain-ai/deepagents 、 https://github.com/bytedance/deer-flow 、 https://agentskills.io/specification の3ページを個別に取得する。取得結果の本文からのみ、各ページの(1)主張・何を提供すると述べているか (2)想定する対象読者・利用者 (3)ライセンスに関する記載（ライセンス名・記載箇所。見つからなければ『記載なし（未確認）』）を抽出し、各項目に出典URLを付す。取得に失敗したページは該当節に『取得不可』と失敗理由を明記し、本文内容を推測で書かない。最後に3ページの比較表（行=3ページ、列=主張/対象読者/ライセンス）と、取得不可・未確認事項の節、出典一覧を含む日本語Markdown research.md を workspace_write で作成する。 (attempts 1)
+- t2 [accepted] reviewer: read_artifact で research.md を読み、記載された主張・引用・ライセンス記述を1件ずつ列挙したうえで、web_fetch で該当URLを再取得して原典に実在するか照合する。実在しない/原典に根拠がない記述、推測で埋められた箇所、『取得不可』と書くべきなのに内容が書かれている箇所を指摘する。t1 の全受入条件に対して合否判定を記録し submit_review で提出する。成果物の本文は書き換えない。 (attempts 1)
+- t3 [accepted] researcher: research.md rev1 の主張を第三者が照合可能にするため、web_fetch の生取得テキストを無加工で artifact 化する。(1) https://github.com/langchain-ai/deepagents 、 https://github.com/bytedance/deer-flow （＋ https://raw.githubusercontent.com/bytedance/deer-flow/main/README.md ）、 https://agentskills.io/specification を web_fetch し、取得本文を要約・整形せずそのまま fetch-raw-deepagents.txt / fetch-raw-deerflow.txt / fetch-raw-agentskills.txt に保存して publish する。各ファイル先頭に「URL / HTTPステータス / 取得時刻 / truncated有無・切り詰め文字数」の1行メタのみ追記してよい。再取得が失敗した場合はエラー本文をそのまま記録し『再取得不可』と明記する。(2) https://raw.githubusercontent.com/bytedance/deer-flow/main/LICENSE と https://raw.githubusercontent.com/langchain-ai/deepagents/main/LICENSE を web_fetch し、生テキストまたはエラー内容を fetch-raw-licenses.txt として publish する。research.md は本タスクでは変更しない。生テキストに存在しない内容を書き足さないこと。 (attempts 1)
+- t4 [accepted] reviewer: t3 が公開した生取得テキスト（fetch-raw-deepagents.txt / fetch-raw-deerflow.txt / fetch-raw-agentskills.txt / fetch-raw-licenses.txt）を read_artifact で読み、claim-check.md rev1 に列挙した research.md rev1 の各主張（A1-A16, B1-B15, C1-C16, D1-D6）を1件ずつ生テキストと文字列照合して、原典に実在するか判定し直す。判定は『実在（該当箇所を引用）』『不一致（生テキストの実際の表記を併記）』『生テキスト範囲外（切り詰め等で照合不能）』の3値。特に C4/C5 の数値制約（64/1024/500文字）、B6 の固有名詞、A14/B13 のライセンス根拠、C15 の『記載なし（未確認）』（生テキスト内に license 表記が本当に無いかを検索して確認）を重点照合する。結果を claim-check-v2.md として publish し、t1a4（source_check）が pass か fail かを明示する。research.md 本体の書き換えは行わず、訂正が必要な箇所は「修正前文字列 / 修正後文字列」の形で列挙する。 (attempts 1)
+- t5 [failed] researcher: claim-check-v2.md（t4）の照合結果を反映した正誤・追補メモ research-errata.md を publish する。内容: (1) t4 が『不一致』と判定した主張ごとに、research.md rev1 の該当箇所・誤った記述・生取得テキストに基づく正しい記述・出典URLを記載する。不一致が0件なら『訂正なし』と明記する。(2) fetch-raw-licenses.txt で LICENSE 本文が取得できた場合、deepagents / deer-flow のライセンス確定根拠を更新（LICENSE 本文の冒頭行を短く引用）し、取得できなかった場合は『取得不可』と理由を記す。(3) claim-check.md rev1 の指摘2（deepagents 節 FAQ 層構造説明が要約である旨の明示）を追補として記載する。(4) research.md rev1 と本メモの関係（本メモが優先される訂正であること）を冒頭1段落で明記する。生取得テキストに無い内容を追加しないこと。 (attempts 1) — budget: budget 6.00 USD would be exceeded (spent 6.1121 + reserved 0.0000 + session cap 0.0500)
+
+## Verified (from checks and reviews)
+- check markdown_basic on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'ff60d0a1a92a47a0cbad7af85bbe54ba91e973e9019f954272a847ab8fd146c6'} → pass (seq 29)
+- check text_contains on {'artifact_id': 'research.md', 'revision': 1, 'sha256': 'ff60d0a1a92a47a0cbad7af85bbe54ba91e973e9019f954272a847ab8fd146c6'} → pass (seq 31)
+- check text_contains on {'artifact_id': 'fetch-raw-deerflow.txt', 'revision': 1, 'sha256': 'd1febcdf5a97b97f83a67a6028fc750033c4c7679fae066c024d15e9a9551d74'} → pass (seq 111)
+- check text_contains on {'artifact_id': 'fetch-raw-deerflow.txt', 'revision': 1, 'sha256': 'd1febcdf5a97b97f83a67a6028fc750033c4c7679fae066c024d15e9a9551d74'} → pass (seq 113)
+- check regex_count on {'artifact_id': 'fetch-raw-deerflow.txt', 'revision': 1, 'sha256': 'd1febcdf5a97b97f83a67a6028fc750033c4c7679fae066c024d15e9a9551d74'} → pass (seq 115)
+- check command on {'artifact_id': 'fetch-raw-deerflow.txt', 'revision': 1, 'sha256': 'd1febcdf5a97b97f83a67a6028fc750033c4c7679fae066c024d15e9a9551d74'} → fail (seq 117)
+- check text_contains on {'artifact_id': 'fetch-raw-deerflow.txt', 'revision': 1, 'sha256': 'd1febcdf5a97b97f83a67a6028fc750033c4c7679fae066c024d15e9a9551d74'} → pass (seq 119)
+- check regex_count on {'artifact_id': 'fetch-raw-deerflow.txt', 'revision': 1, 'sha256': 'd1febcdf5a97b97f83a67a6028fc750033c4c7679fae066c024d15e9a9551d74'} → fail (seq 121)
+- check regex_count on {'artifact_id': 'fetch-raw-deerflow.txt', 'revision': 1, 'sha256': 'd1febcdf5a97b97f83a67a6028fc750033c4c7679fae066c024d15e9a9551d74'} → pass (seq 123)
+- check text_not_contains on {'artifact_id': 'fetch-raw-agentskills.txt', 'revision': 1, 'sha256': 'cc0bf85967be77be119a71fcc87b4b235c5015a67a0087d4b0ce033b6c45f229'} → pass (seq 125)
+- check regex_count on {'artifact_id': 'claim-check-v2.md', 'revision': 1, 'sha256': '8dc9a88d2f7f2e45e73b38bf8a40a7e3b8a1c353177c010628de758773027089'} → pass (seq 133)
+- check text_contains on {'artifact_id': 'claim-check-v2.md', 'revision': 1, 'sha256': '8dc9a88d2f7f2e45e73b38bf8a40a7e3b8a1c353177c010628de758773027089'} → pass (seq 135)
+- check text_contains on {'artifact_id': 'fetch-raw-deepagents.txt', 'revision': 1, 'sha256': '8e8c922995aa8bf98d019a48f55a28fd235090062b5dde520e98a8061f0fc49c'} → fail (seq 137)
+- check text_contains on {'artifact_id': 'fetch-raw-licenses.txt', 'revision': 1, 'sha256': 'df9a0a815cf0be949cba114fe02c24e5f5bd1f3e68d5e3ebdb1a593ce8d8b243'} → pass (seq 139)
+- check regex_count on {'artifact_id': 'fetch-raw-deepagents.txt', 'revision': 1, 'sha256': '8e8c922995aa8bf98d019a48f55a28fd235090062b5dde520e98a8061f0fc49c'} → pass (seq 141)
+- check text_contains on {'artifact_id': 'fetch-raw-deerflow.txt', 'revision': 1, 'sha256': 'd1febcdf5a97b97f83a67a6028fc750033c4c7679fae066c024d15e9a9551d74'} → pass (seq 143)
+- check text_contains on {'artifact_id': 'fetch-raw-agentskills.txt', 'revision': 1, 'sha256': 'cc0bf85967be77be119a71fcc87b4b235c5015a67a0087d4b0ce033b6c45f229'} → pass (seq 145)
+- check regex_count on {'artifact_id': 'claim-check-v2.md', 'revision': 1, 'sha256': '8dc9a88d2f7f2e45e73b38bf8a40a7e3b8a1c353177c010628de758773027089'} → fail (seq 147)
+- check regex_count on {'artifact_id': 'claim-check-v2.md', 'revision': 1, 'sha256': '8dc9a88d2f7f2e45e73b38bf8a40a7e3b8a1c353177c010628de758773027089'} → pass (seq 149)
+- check text_contains on {'artifact_id': 'fetch-raw-deepagents.txt', 'revision': 1, 'sha256': '8e8c922995aa8bf98d019a48f55a28fd235090062b5dde520e98a8061f0fc49c'} → pass (seq 151)
+- check regex_count on {'artifact_id': 'claim-check-v2.md', 'revision': 1, 'sha256': '8dc9a88d2f7f2e45e73b38bf8a40a7e3b8a1c353177c010628de758773027089'} → pass (seq 153)
+- check text_contains on {'artifact_id': 'claim-check-v2.md', 'revision': 1, 'sha256': '8dc9a88d2f7f2e45e73b38bf8a40a7e3b8a1c353177c010628de758773027089'} → pass (seq 155)
+- check regex_count on {'artifact_id': 'claim-check-v2.md', 'revision': 1, 'sha256': '8dc9a88d2f7f2e45e73b38bf8a40a7e3b8a1c353177c010628de758773027089'} → pass (seq 159)
+- check text_contains on {'artifact_id': 'claim-check-v2.md', 'revision': 1, 'sha256': '8dc9a88d2f7f2e45e73b38bf8a40a7e3b8a1c353177c010628de758773027089'} → pass (seq 161)
+- check regex_count on {'artifact_id': 'fetch-raw-licenses.txt', 'revision': 1, 'sha256': 'df9a0a815cf0be949cba114fe02c24e5f5bd1f3e68d5e3ebdb1a593ce8d8b243'} → pass (seq 163)
+- check text_contains on {'artifact_id': 'fetch-raw-licenses.txt', 'revision': 1, 'sha256': 'df9a0a815cf0be949cba114fe02c24e5f5bd1f3e68d5e3ebdb1a593ce8d8b243'} → pass (seq 165)
+- review of t1 by reviewer: t1a1=pass, t1a2=pass, t1a3=pass, t1a4=unverified (seq 44)
+- review of t3 by reviewer: t3a1=pass, t3a2=pass, t3a3=pass, t3a4=pass (seq 167)
+
+## Unresolved / pending
+- task.failed task=t5: budget: budget 6.00 USD would be exceeded (spent 6.1121 + reserved 0.0000 + session cap 0.0500) (seq 194)
+
+## Trace
+- Messages delivered: 6 ({'handoff': 2, 'request': 1, 'finding': 2, 'question': 1})
+- Model usage by agent: master: 2 calls / $0.5897 (reported claude-opus-5), researcher: 3 calls / $2.4434 (reported claude-opus-5), reviewer: 3 calls / $3.0791 (reported claude-opus-5)

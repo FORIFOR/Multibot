@@ -1,0 +1,13 @@
+probe: True claude-opus-5 
+=== research #1
+{"status": "partial", "plan_tasks": [["t1", "researcher"], ["t2", "reviewer"], ["t3", "researcher"], ["t4", "reviewer"]], "artifacts": ["research-v2.md@r2", "research.md@r1", "sources-v2.md@r1", "sources.md@r1"], "checks_pass": 16, "checks_total": 28, "review_pass": 8, "review_total": 10, "wall_s": 2085}
+=== research #2
+{"status": "partial", "plan_tasks": [["t1", "researcher"], ["t2", "reviewer"], ["t3", "researcher"], ["t4", "reviewer"], ["t5", "researcher"]], "artifacts": ["claim-check-v2.md@r1", "claim-check.md@r1", "fetch-raw-agentskills.txt@r1", "fetch-raw-deepagents.txt@r1", "fetch-raw-deerflow.txt@r1", "fetch-raw-licenses.txt@r1", "research.md@r1"], "checks_pass": 22, "checks_total": 26, "review_pass": 7, "review_total": 8, "wall_s": 2084}
+=== research #3
+{"status": "partial", "plan_tasks": [["t1", "researcher"], ["t2", "reviewer"], ["t3", "researcher"], ["t4", "reviewer"]], "artifacts": ["fetch-log.md@r1", "research.md@r1", "review.md@r1"], "checks_pass": 67, "checks_total": 75, "review_pass": 6, "review_total": 6, "wall_s": 1887}
+
+| scenario | status | tasks | artifacts | checks | review | msgs | calls | cost | time |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| research | partial | 4 | 4 | 16/28 | 8/10 | 4 | 87 | $5.97 | 2085s |
+| research | partial | 5 | 7 | 22/26 | 7/8 | 6 | 103 | $6.11 | 2084s |
+| research | partial | 4 | 3 | 67/75 | 6/6 | 4 | 128 | $5.48 | 1887s |

@@ -3,10 +3,10 @@
 ## 検証の種別
 | 種別 | 状態 | 根拠 |
 | --- | --- | --- |
-| 決定論的テスト（fake provider） | **46 件 PASS** | `cd backend && .venv/bin/python -m pytest -q`（Docker サンドボックスのテストは daemon がある時のみ実行） |
+| 決定論的テスト（fake provider） | **53 件 PASS**（CI では Linux の Docker 隔離テストも実行） | `cd backend && .venv/bin/python -m pytest -q`（Docker サンドボックスのテストは daemon がある時のみ実行） |
 | 実 LLM 協働スモーク | **実施（claude_cli / claude-opus-5）** | 2026-09-13。run 1: 成果物 3 点・検証 12 件 pass・handoff 2 件・$1.69（定価換算）・760 秒。最終状態は `partial`（複数ターゲットレビューのバグ、修正済み）。run 2/3 は計画呼出の `max_turns` と `max_model_calls=30` の上限で失敗 → いずれも修正・調整済み。証拠: `docs/evidence/run1-*` |
 | 実 API の疎通確認（probe） | **実施（claude_cli）** | tool calling / JSON schema ともに pass、`model_reported=claude-opus-5` |
-| ブラウザ UI スモーク（headless Chrome） | 実施（fake provider） | `frontend/scripts/ui-smoke.mjs`：Home → 依頼開始 → Run 画面（チャット/時系列/報告）→ 設定。console/page error 0 件 |
+| ブラウザ UI スモーク（headless Chrome） | 実施（fake provider、**CI で毎 push、JA/EN**） | `frontend/scripts/ui-smoke.mjs`：Home → 依頼開始 → Run 画面（チャット/時系列/報告）→ 設定 → run が completed になるまで待機。console/page error 0 件、エラー時は exit 1 |
 | 手動 GUI スモーク（人手） | 未実施 | — |
 
 **fake provider はテスト・UI 確認専用**で、設定ファイルからは選べません（`AGENTTEAM_ALLOW_FAKE_PROVIDER=1` + コード注入のみ）。
@@ -88,6 +88,51 @@ fake を使った run は `provider_kind=fake` として保存され、UI に赤
 | 複数ファイル制作（4 ファイルの静的サイト） | completed | 2 | 5 | 39/39 | 12/12 | 89 | $3.03 | 14m50s | 3 ページのリンクを headless Chrome で確認。途中 1 セッションが予算上限で失敗 → Master の例外処理で再試行して完走 |
 
 **読み方**: 完走 3 / 5 種（LP・コード・複数ファイル）、partial 1（調査、成果物あり・一部未検証）、failed 1（Runtime バグ、修正済み）。すべて同じ依頼文を 1 回ずつ。ベンチマークではなく、失敗も含めた記録です。
+
+## 再現性評価（2026-09-13 午後、同一依頼 × 3 回、`docs/evidence/scenarios/rerun-2026-09-13/`）
+
+v0.2.0 の 5 シナリオは各 1 回だけだったので、4 シナリオを同じ依頼文・同じ設定（claude_cli / opus、予算 $6、上限 120 呼出）で 3 回ずつ、4 プロセス並列で実行しました。
+`backend/scripts/eval_scenarios.py` で実行し、`backend/scripts/summarize_evals.py` で集計。**フィルタなし**（失敗も含めて全 run を数えています）。
+「検証」は run 中に走った全 check イベントの累計で、途中 revision で fail → 修正 → pass した分も含みます（最終レビューは別列）。費用は定価換算です。
+
+| シナリオ | runs | completed | partial | failed | タスク数 | 検証 pass | レビュー pass | 呼出 | 費用 | 時間 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| コード生成（CLI + unittest + README） | 3 | **3** | 0 | 0 | 2 | 48/48 | 22/22 | 53–64 | $2.09–3.14 | 16–19 min |
+| 複数ファイル制作（4 ファイルの静的サイト） | 3 | **3** | 0 | 0 | 2 | 91/93 | 22/22 | 59–66 | $1.62–1.72 | 15–17 min |
+| LP + 投稿案 | 3 | **2** | 1 | 0 | 2–6 | 67/78 | 38/39 | 42–123 | $1.70–5.67 | 20–37 min |
+| 出典付き調査（3 URL 比較） | 3 | **0** | 3 | 0 | 4–5 | 105/129 | 21/24 | 87–128 | $5.48–6.11 | 31–35 min |
+
+| シナリオ | # | run_id | 結果 | タスク | 成果物 | 検証 | レビュー | 呼出 | 費用 | 時間 | 失敗理由 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| code | 1 | run_1a098ec7bb2ee0af056 | completed | 2 | 4 | 16/16 | 7/7 | 64 | $3.14 | 15m32s | — |
+| code | 2 | run_1a098fab5737a95b69f | completed | 2 | 3 | 16/16 | 7/7 | 57 | $2.64 | 18m35s | — |
+| code | 3 | run_1a0990bb8d5338c80c1 | completed | 2 | 4 | 16/16 | 8/8 | 53 | $2.09 | 16m36s | — |
+| long | 1 | run_1a098ec768186667b20 | completed | 2 | 4 | 32/32 | 7/7 | 63 | $1.67 | 17m27s | — |
+| long | 2 | run_1a098fc717cfd424acd | completed | 2 | 4 | 27/27 | 8/8 | 59 | $1.62 | 16m11s | — |
+| long | 3 | run_1a0990b44109604a46d | completed | 2 | 4 | 32/34 | 7/7 | 66 | $1.72 | 15m16s | — |
+| lp | 1 | run_1a098ec7a10d7e2b8bb | completed | 2 | 2 | 15/16 | 9/9 | 42 | $1.70 | 20m26s | — |
+| lp | 2 | run_1a098ff306b6fc46ca1 | completed | 2 | 3 | 22/30 | 11/11 | 60 | $2.27 | 22m40s | — |
+| lp | 3 | run_1a09913ef4bdd072a5f | partial | 6 | 7 | 30/32 | 18/19 | 123 | $5.67 | 36m32s | 当初計画 2 task は $1.29 で accepted。milestone 2 回で文言修正 task を 4 つ追加し、最後の Builder が 120 呼出上限に到達 |
+| research | 1 | run_1a098ec78e37565599e | partial | 4 | 4 | 16/28 | 8/10 | 87 | $5.97 | 34m45s | 当初計画 2 task は accepted。milestone 追加の t3/t4 が予算 $6 到達 |
+| research | 2 | run_1a0990c4854336a2ff3 | partial | 5 | 7 | 22/26 | 7/8 | 103 | $6.11 | 34m44s | 当初計画 2 task + 追加 t3/t4 は accepted。追加 t5（訂正メモ）が予算 $6 到達 |
+| research | 3 | run_1a0992c15d5de322963 | partial | 4 | 3 | 67/75 | 6/6 | 128 | $5.48 | 31m27s | 当初計画 2 task は accepted。追加 t4 が 120 呼出上限に到達 |
+
+**独立確認**: code 3 run の生成テストを私が手元で `python3 -m unittest` 実行 → 18 / 19 / 17 件すべて OK。long 3 run の 4 ファイルを自前スクリプトで検査 → 内部リンク切れ 0、外部 URL 0、全ページ title と viewport あり。
+
+**読み方**
+- コードと複数ファイル制作は 3/3 完走、計画は毎回 Builder 1 + Reviewer 1 で安定。費用・時間のばらつきも小さい。
+- LP は 3 回中 2 回完走。partial の 1 回は成果物が受入済みのあとに Master が「表現の根拠」の磨き込みを 2 回追加し、上限に当たったもの。
+- 出典付き調査は 3 回とも partial。**共通原因は 2 つ**: (1) Reviewer の既定ツールに `web_fetch` が無く、依頼文が求める「出典に実在するか」の照合ができない → Master が代替 task（生取得ログ・機械照合）を追加 → (2) 追加 task が予算 $6 または 120 呼出に到達。3 回とも**当初計画の research.md は accepted** で、成果物自体は出ています。
+
+**この評価から入れた修正**（すべて評価後、決定論的テストで確認。実 run での再確認は下の「修正後 1 回」のみ）
+| 問題 | 修正 |
+| --- | --- |
+| Reviewer が出典を取得できない | 既定の Reviewer ツールに `web_fetch` を追加、Reviewer プロンプトに「出典は取得して照合、取得不可は unverified」を追記 |
+| 残予算・残呼出が 1 セッション分に満たないのに milestone 再計画が task を追加し、その task が上限で失敗して run が partial になる | 残予算 < `max_session_cost_usd` または残呼出 < `max_session_turns` なら再計画をスキップし、`plan.milestone` イベントに `skipped: limits` と理由を記録 |
+| Master が受入済みの成果物の磨き込みを追加し続ける | milestone プロンプトに残予算をセッション数で提示し、「成果物が全て受入済みで残るのが表現の磨きだけなら何も追加しない」「予算で完走できない task は追加しない」を明記 |
+| partial / failed の run に理由が無い（`reason: None`） | 未受入 task とその理由を 1 行にまとめて run の `blocked_reason` に記録。当初計画が全て accepted なら、その旨を先頭に付ける |
+
+**修正後 1 回**（research、同一依頼・同一設定）: RESEARCH_R4_PLACEHOLDER
 
 ### 実 run で見つかった Runtime の問題（2026-09-13、すべて修正・テスト追加済み）
 | 発見元 | 問題 | 対応 |

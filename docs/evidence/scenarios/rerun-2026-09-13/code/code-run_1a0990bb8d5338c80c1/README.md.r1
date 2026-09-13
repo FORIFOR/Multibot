@@ -1,0 +1,179 @@
+# wc_plus
+
+テキストファイルの **行数・単語数・文字数** に加えて、**最頻出の単語トップ5** を表示する CLI ツールです。
+
+`wc` の出力に「よく出てくる単語」の情報を足したもの、というイメージです。
+
+## 特長
+
+- Python 標準ライブラリのみ（`argparse` / `re` / `collections` / `sys`）で動作
+- 複数ファイルをまとめて集計し、2 ファイル以上なら `total` 行を出力
+- 読めないファイルがあっても残りの処理は続行し、終了コードで失敗を通知
+
+## インストール
+
+**インストール不要です。** サードパーティ製パッケージへの依存はありません。
+`wc_plus.py` を任意の場所に置けばそのまま実行できます。
+
+- 必要環境: Python 3.8 以上
+- 追加の `pip install` は不要
+
+## 使い方
+
+```bash
+python3 wc_plus.py FILE [FILE ...]
+```
+
+例:
+
+```bash
+python3 wc_plus.py sample1.txt
+python3 wc_plus.py sample1.txt sample2.txt
+python3 wc_plus.py --top 3 sample1.txt
+```
+
+実行権限を付ければ直接呼び出すこともできます。
+
+```bash
+chmod +x wc_plus.py
+./wc_plus.py sample1.txt
+```
+
+## 引数とオプション
+
+| 引数 / オプション | 必須 | 既定値 | 説明 |
+| --- | --- | --- | --- |
+| `FILE ...` | 必須 | - | 集計対象のテキストファイル。1 つ以上、複数指定可 |
+| `--top N` | 任意 | `5` | 表示する最頻出単語の件数。`0` 以下を渡した場合は既定の 5 に戻す |
+| `--encoding ENC` | 任意 | `utf-8` | ファイルを読むときの文字エンコーディング |
+| `-h`, `--help` | 任意 | - | ヘルプを表示して終了 |
+
+## 出力例
+
+以下は次の 2 ファイルを用意して実行した実際の出力です。
+
+`sample1.txt`
+
+```text
+the quick brown fox
+jumps over the lazy dog
+The DOG barks and the fox runs
+```
+
+`sample2.txt`
+
+```text
+Hello world
+hello again world
+```
+
+### 単一ファイル
+
+```console
+$ python3 wc_plus.py sample1.txt
+sample1.txt
+  lines: 3
+  words: 16
+  chars: 75
+  top5: the:4, dog:2, fox:2, and:1, barks:1
+```
+
+1 ファイルだけのときは `total` 行を出しません。
+
+### 複数ファイル（`total` 行あり）
+
+```console
+$ python3 wc_plus.py sample1.txt sample2.txt
+sample1.txt
+  lines: 3
+  words: 16
+  chars: 75
+  top5: the:4, dog:2, fox:2, and:1, barks:1
+
+sample2.txt
+  lines: 2
+  words: 5
+  chars: 30
+  top5: hello:2, world:2, again:1
+
+total
+  lines: 5
+  words: 21
+  chars: 105
+  top5: the:4, dog:2, fox:2, hello:2, world:2
+```
+
+### 読めないファイルが混ざった場合
+
+```console
+$ python3 wc_plus.py sample1.txt missing.txt
+wc_plus: missing.txt: No such file or directory
+sample1.txt
+  lines: 3
+  words: 16
+  chars: 75
+  top5: the:4, dog:2, fox:2, and:1, barks:1
+$ echo $?
+1
+```
+
+警告は **標準エラー出力** に出ます。集計結果は標準出力に出るため、パイプで繋いでも警告が混ざりません。
+なお、集計に成功したファイルが 1 つだけになった場合は `total` 行を出しません。
+
+## 単語の定義と大文字小文字の扱い
+
+- **単語の区切り**: 正規表現 `\w+`（Unicode 対応）にマッチする連続部分を 1 単語として数えます。
+  - 英数字とアンダースコアに加え、日本語などの文字も `\w` に含まれます。
+  - `don't` は `don` と `t` の 2 単語、`foo-bar` は `foo` と `bar` の 2 単語として数えられます。
+- **大文字小文字**: 頻度集計は **小文字化して行う**ため、大文字小文字を区別しません。
+  上の例で `The` / `the` / `THE` はすべて `the` として合算されます。表示も小文字になります。
+- **同数のときの順序**: 出現回数の降順、回数が同じ場合は **単語の辞書順（昇順）** で並べます。
+  そのため、同じ入力に対して出力順が常に安定します。
+
+## カウントの定義
+
+| 項目 | 定義 |
+| --- | --- |
+| `lines` | 改行 `\n` の個数。末尾に改行のない最終行がある場合は +1 する |
+| `words` | `\w+` にマッチした単語の総数（小文字化前の個数と同じ） |
+| `chars` | Unicode の **文字数**（バイト数ではない）。改行文字も 1 文字として数える |
+
+空ファイルは `lines: 0` / `words: 0` / `chars: 0`、トップ単語は `-` と表示されます。
+
+## 終了コード
+
+| コード | 意味 |
+| --- | --- |
+| `0` | すべてのファイルを正常に処理した |
+| `1` | 読み取りに失敗したファイルが 1 つ以上あった（残りのファイルは処理済み） |
+| `2` | 引数エラー（`argparse` による。ファイル未指定など） |
+
+## テスト実行方法
+
+`wc_plus.py` と `test_wc_plus.py` を同じディレクトリに置いた状態で、次を実行します。
+
+```bash
+python3 -m unittest -v
+```
+
+特定のテストファイルだけを指定する場合:
+
+```bash
+python3 -m unittest -v test_wc_plus
+```
+
+テストは `tempfile` で一時ファイルを作成し、CLI のエントリポイント `wc_plus.main()` を
+直接呼び出して標準出力・標準エラー出力・終了コードを検証します。サブプロセスは起動しません。
+
+実行結果（Python 3.12.14 で確認）:
+
+```text
+Ran 17 tests in 0.002s
+
+OK
+```
+
+## ライセンス / 依存
+
+- 依存パッケージ: なし（Python 標準ライブラリのみ）
+- 対応バージョン: Python 3.8 以上

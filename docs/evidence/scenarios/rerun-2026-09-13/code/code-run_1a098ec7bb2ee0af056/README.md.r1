@@ -1,0 +1,188 @@
+# wc_plus
+
+`wc` 風の集計（行数・単語数・文字数）に加えて、**最頻出の単語トップ5**を表示する Python CLI ツールです。
+
+- Python 3.8 以降（動作確認: Python 3.12.14 / Linux コンテナ）
+- **標準ライブラリのみ**（`argparse` / `re` / `collections` / `dataclasses`）
+
+## Install
+
+インストール不要です。`wc_plus.py` を任意のディレクトリに置いて、そのまま実行してください。
+
+```
+python3 wc_plus.py FILE [FILE ...]
+```
+
+実行権限を付けて直接起動することもできます。
+
+```
+chmod +x wc_plus.py
+./wc_plus.py FILE [FILE ...]
+```
+
+## Usage
+
+```
+usage: wc_plus [-h] [-n N] [-e ENC] [--version] FILE [FILE ...]
+
+テキストファイルの行数・単語数・文字数と、最頻出の単語トップNを表示する。
+
+positional arguments:
+  FILE                  集計対象のテキストファイル
+
+options:
+  -h, --help            show this help message and exit
+  -n N, --top N         表示する最頻出単語の件数 (既定: 5)
+  -e ENC, --encoding ENC
+                        入力ファイルのエンコーディング (既定: utf-8)
+  --version             show program's version number and exit
+```
+
+### オプション
+
+| オプション | 既定値 | 説明 |
+| --- | --- | --- |
+| `FILE...` | （必須） | 集計対象のテキストファイル。1 個以上、複数指定可。 |
+| `-n N`, `--top N` | `5` | 表示する最頻出単語の件数。`0` を指定すると単語ランキングを出さない。負数は使用法エラー（終了コード 2）。 |
+| `-e ENC`, `--encoding ENC` | `utf-8` | 入力ファイルのエンコーディング。不正なコーデック名は stderr にエラーを出し非0終了。 |
+| `-h`, `--help` | - | ヘルプを表示。 |
+| `--version` | - | バージョン（`wc_plus 1.0.0`）を表示。 |
+
+## Example
+
+サンプルファイルを用意します。
+
+```
+printf 'the quick brown fox\njumps over the lazy dog\nthe dog barks\n' > a.txt
+printf "the cat naps\nDon't wake the cat\n" > b.txt
+```
+
+### 1 ファイルの場合
+
+```
+$ python3 wc_plus.py a.txt
+lines  words  chars  file
+    3     12     58  a.txt
+
+Top 5 words:
+  1. the    3
+  2. dog    2
+  3. barks  1
+  4. brown  1
+  5. fox    1
+$ echo $?
+0
+```
+
+### 複数ファイルの場合（`total` 行が付く）
+
+各ファイルのランキングに加えて、全ファイルを合算した `total` のランキングも表示します。
+
+```
+$ python3 wc_plus.py a.txt b.txt
+lines  words  chars  file
+    3     12     58  a.txt
+    2      7     32  b.txt
+    5     19     90  total
+
+Top 5 words [a.txt]:
+  1. the    3
+  2. dog    2
+  3. barks  1
+  4. brown  1
+  5. fox    1
+
+Top 5 words [b.txt]:
+  1. cat    2
+  2. the    2
+  3. don't  1
+  4. naps   1
+  5. wake   1
+
+Top 5 words [total]:
+  1. the    5
+  2. cat    2
+  3. dog    2
+  4. barks  1
+  5. brown  1
+```
+
+### 表示件数を変える
+
+```
+$ python3 wc_plus.py -n 3 a.txt
+lines  words  chars  file
+    3     12     58  a.txt
+
+Top 3 words:
+  1. the    3
+  2. dog    2
+  3. barks  1
+```
+
+### 読めないファイルがあった場合
+
+stderr にエラーを出して、そのファイルだけスキップします。読めたファイルの集計は表示し、**終了コードは 1**（非0）になります。
+
+```
+$ python3 wc_plus.py a.txt missing.txt
+wc_plus: missing.txt: No such file or directory
+lines  words  chars  file
+    3     12     58  a.txt
+
+Top 5 words:
+  1. the    3
+  2. dog    2
+  3. barks  1
+  4. brown  1
+  5. fox    1
+$ echo $?
+1
+```
+
+（上の例では `wc_plus:` 行が stderr、表は stdout に出力されます。）
+
+## 集計ルール
+
+| 項目 | 定義 |
+| --- | --- |
+| `lines` | テキスト中の改行文字 `\n` の個数（GNU `wc` 互換。末尾に改行がない最終行は数えない）。 |
+| `words` | 正規表現 `[A-Za-z0-9_']+` にマッチするトークン数。記号・空白・日本語などは区切り扱い。 |
+| `chars` | デコード後の Unicode 文字数（バイト数ではない）。 |
+| 単語ランキング | 単語を小文字化して集計し、**出現数の降順 → 同数なら単語の辞書順**で安定に並べる。上位 N 件（既定 5 件）を表示。 |
+| `total` 行 | 読み取りに成功したファイルが 2 個以上あるときだけ出力する。 |
+| デコード不能バイト | `errors='replace'` で `U+FFFD` に置換して処理を続行する（エラーにしない）。 |
+| 単語が 0 件 | ランキング欄に `(no words)` と表示する。 |
+
+## 終了コード
+
+| コード | 意味 |
+| --- | --- |
+| `0` | 指定した全ファイルを読めて集計できた。 |
+| `1` | 1 個以上のファイルが読めなかった（存在しない・ディレクトリ・権限エラー・不正なエンコーディング名など）。読めたファイルは集計済み。 |
+| `2` | 引数の使用法エラー（`argparse` のエラー、`--top` に負数を指定した場合など）。 |
+
+## Test
+
+`wc_plus.py` と `test_wc_plus.py` を同じディレクトリに置き、そのディレクトリで実行します。
+
+```
+python3 -m unittest -v
+```
+
+個別に実行する場合:
+
+```
+python3 -m unittest -v test_wc_plus
+python3 -m unittest -v test_wc_plus.TestCli.test_cli_multiple_files_adds_total_row
+```
+
+テストは `tempfile.TemporaryDirectory` で一時ファイルを作るため、カレントディレクトリに副作用を残しません。
+
+実行結果（Python 3.12.14 / Linux コンテナ）:
+
+```
+Ran 18 tests in 0.002s
+
+OK
+```

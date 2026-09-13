@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>よくある質問 — Agent Team</title>
+<meta name="description" content="Agent Team の価格、API キー、オープンソース、ローカルファースト、対象ユーザーについてのよくある質問と回答。">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Agent Team</div>
+    <nav class="site">
+      <ul>
+        <li><a href="../index.html">トップ</a></li>
+        <li><a href="getting-started.html">はじめかた</a></li>
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>よくある質問</h1>
+    <p class="lead">Agent Team についてよく聞かれることをまとめました。確定していない事項は「未定」とだけ記載しています。</p>
+
+    <h2>価格について</h2>
+    <div class="card">
+      <h3>Q. 料金はいくらですか？</h3>
+      <p>A. <strong>価格は未定です。</strong>金額や課金の形は決まっていないため、このページでは案内していません。</p>
+      <h3>Q. いつから有料になりますか？</h3>
+      <p>A. 未定です。時期についても確定した情報はありません。</p>
+    </div>
+
+    <h2>API キーについて</h2>
+    <div class="card">
+      <h3>Q. 利用に API キーは必要ですか？</h3>
+      <p>A. <strong>Claude Code があれば API キーは不要です。</strong></p>
+      <h3>Q. API キーを別途登録する必要はありますか？</h3>
+      <p>A. Claude Code がある場合、そのための登録は不要です。それ以外の構成については、確定した案内はありません。</p>
+    </div>
+
+    <h2>オープンソースについて</h2>
+    <div class="card">
+      <h3>Q. ソースコードは公開されていますか？</h3>
+      <p>A. はい。Agent Team はオープンソースのツールです。</p>
+      <h3>Q. 中で何をしているか確認できますか？</h3>
+      <p>A. オープンソースであるため、動作の中身をコードで確認できます。加えて、実行のたびに成果物・Bot 間の実メッセージ・時系列が同じ実行記録に残るため、実際の挙動もそこから追えます。</p>
+    </div>
+
+    <h2>ローカルファーストについて</h2>
+    <div class="card">
+      <h3>Q. ローカルファーストとはどういう意味ですか？</h3>
+      <p>A. 手元を起点に動く作りである、という意味です。作業と実行記録は手元で扱えます。</p>
+      <h3>Q. 実行記録はどこで見られますか？</h3>
+      <p>A. 成果物、Bot 間の実メッセージ、時系列は、すべて同じ実行記録から表示されます。別々の場所を突き合わせる必要はありません。</p>
+    </div>
+
+    <h2>対象ユーザーについて</h2>
+    <div class="card">
+      <h3>Q. 誰向けのツールですか？</h3>
+      <p>A. ソフトウェア開発者と個人開発者です。</p>
+      <h3>Q. AI が何をしたか分からないのが不安です。</h3>
+      <p>A. Agent Team は、成果物だけでなく Bot 間の実メッセージと時系列を同じ実行記録から見せます。誰がいつ何をしたかを後から確認できることを重視しています。</p>
+    </div>
+
+    <h2>チーム構成について</h2>
+    <div class="card">
+      <h3>Q. どんな役割のエージェントがいますか？</h3>
+      <p>A. Master、Researcher、Builder、Reviewer の4つの役割です。一度の依頼から、この4者がチームとして実際に作業します。</p>
+    </div>
+
+    <h2>関連ページ</h2>
+    <ul>
+      <li><a href="../index.html">トップ（../index.html）</a> — Agent Team の概要。</li>
+      <li><a href="getting-started.html">はじめかた（getting-started.html）</a> — 導入と最初の実行の流れ。</li>
+    </ul>
+
+    <nav class="pagenav">
+      <a href="../index.html">トップに戻る</a>
+      <a href="getting-started.html">はじめかたに戻る</a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p class="note">Agent Team ドキュメント（下書き）。記載内容は製品説明の範囲に限定しています。</p>
+  </div>
+</footer>
+</body>
+</html>

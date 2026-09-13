@@ -1,0 +1,217 @@
+#!/usr/bin/env python3
+"""wc_plus の unittest。tempfile を使い、ワークスペースに副作用を残さない。"""
+
+from __future__ import annotations
+
+import io
+import os
+import tempfile
+import unittest
+from collections import Counter
+
+import wc_plus
+
+
+class TempFileMixin(unittest.TestCase):
+    """テストごとに使い捨ての一時ディレクトリを用意する。"""
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory(prefix="wc_plus_test_")
+        self.addCleanup(self._tmp.cleanup)
+        self.tmpdir = self._tmp.name
+
+    def write(self, name: str, text: str, encoding: str = "utf-8") -> str:
+        path = os.path.join(self.tmpdir, name)
+        with open(path, "w", encoding=encoding, newline="") as handle:
+            handle.write(text)
+        return path
+
+    def write_bytes(self, name: str, data: bytes) -> str:
+        path = os.path.join(self.tmpdir, name)
+        with open(path, "wb") as handle:
+            handle.write(data)
+        return path
+
+    def run_cli(self, argv):
+        """main() を呼び、(exit_code, stdout, stderr) を返す。"""
+        out, err = io.StringIO(), io.StringIO()
+        code = wc_plus.main(argv, stdout=out, stderr=err)
+        return code, out.getvalue(), err.getvalue()
+
+
+class TestCountText(unittest.TestCase):
+    def test_basic_counts(self):
+        """行数は改行数、単語数はトークン数、文字数は Unicode 文字数。"""
+        stats = wc_plus.count_text("hello world\nhello again\n", name="x")
+        self.assertEqual(stats.lines, 2)
+        self.assertEqual(stats.words, 4)
+        self.assertEqual(stats.chars, len("hello world\nhello again\n"))
+        self.assertEqual(stats.counter["hello"], 2)
+
+    def test_word_tokens_and_case_folding(self):
+        """アポストロフィ/アンダースコアは単語内、記号は区切り。大小文字は同一視。"""
+        stats = wc_plus.count_text("Don't stop; DON'T stop_now 42 42", name="x")
+        self.assertEqual(stats.words, 6)
+        self.assertEqual(
+            dict(stats.counter),
+            {"don't": 2, "stop": 1, "stop_now": 1, "42": 2},
+        )
+
+    def test_unicode_chars_not_bytes(self):
+        """マルチバイト文字はバイト数ではなく文字数で数える。"""
+        text = "日本語テキスト\n"
+        stats = wc_plus.count_text(text, name="x")
+        self.assertEqual(stats.chars, 8)
+        self.assertEqual(stats.lines, 1)
+        self.assertEqual(stats.words, 0)
+
+    def test_no_trailing_newline_counts_newlines_only(self):
+        """末尾に改行がない場合は GNU wc と同じく改行数を返す。"""
+        stats = wc_plus.count_text("a\nb", name="x")
+        self.assertEqual(stats.lines, 1)
+        self.assertEqual(stats.words, 2)
+
+
+class TestTopWords(unittest.TestCase):
+    def test_top_words_order_and_tiebreak(self):
+        """出現数降順、同数なら辞書順。上限は top_n 件。"""
+        counter = Counter(
+            {"b": 3, "a": 3, "zz": 2, "c": 2, "d": 1, "e": 1, "f": 1}
+        )
+        self.assertEqual(
+            wc_plus.top_words(counter, 5),
+            [("a", 3), ("b", 3), ("c", 2), ("zz", 2), ("d", 1)],
+        )
+
+    def test_top_words_empty_and_zero(self):
+        self.assertEqual(wc_plus.top_words(Counter(), 5), [])
+        self.assertEqual(wc_plus.top_words(Counter({"a": 1}), 0), [])
+
+
+class TestCli(TempFileMixin):
+    def test_cli_single_file_output(self):
+        """単一ファイルではヘッダ行・集計行・Top 5 words が出て total 行は出ない。"""
+        path = self.write("one.txt", "apple banana apple\ncherry apple banana\n")
+        code, out, err = self.run_cli([path])
+        self.assertEqual(code, 0, msg=err)
+        self.assertEqual(err, "")
+        lines = out.splitlines()
+        self.assertEqual(lines[0].split(), ["lines", "words", "chars", "file"])
+        self.assertEqual(lines[1].split()[:3], ["2", "6", "39"])
+        self.assertIn("Top 5 words:", out)
+        self.assertNotIn("total", out)
+        body = out.split("Top 5 words:", 1)[1].splitlines()
+        self.assertEqual(body[1].split(), ["1.", "apple", "3"])
+        self.assertEqual(body[2].split(), ["2.", "banana", "2"])
+        self.assertEqual(body[3].split(), ["3.", "cherry", "1"])
+
+    def test_cli_multiple_files_adds_total_row(self):
+        """複数ファイル指定では各ファイル行に加えて total 行と total ブロックが出る。"""
+        a = self.write("a.txt", "aa bb\n")
+        b = self.write("b.txt", "bb cc dd\nee\n")
+        code, out, err = self.run_cli([a, b])
+        self.assertEqual(code, 0, msg=err)
+        rows = [ln.split() for ln in out.splitlines() if ln.strip()]
+        total_row = [r for r in rows if r[-1] == "total"][0]
+        self.assertEqual(total_row[:3], ["3", "6", "18"])
+        self.assertIn("Top 5 words [total]:", out)
+        self.assertIn("Top 5 words [%s]:" % a, out)
+        self.assertIn("Top 5 words [%s]:" % b, out)
+        total_block = out.split("Top 5 words [total]:", 1)[1].splitlines()
+        self.assertEqual(total_block[1].split(), ["1.", "bb", "2"])
+
+    def test_cli_empty_file(self):
+        """空ファイルは 0/0/0 で '(no words)' を表示し、終了コードは 0。"""
+        path = self.write("empty.txt", "")
+        code, out, err = self.run_cli([path])
+        self.assertEqual(code, 0, msg=err)
+        self.assertEqual(out.splitlines()[1].split()[:3], ["0", "0", "0"])
+        self.assertIn("(no words)", out)
+
+    def test_cli_missing_file_reports_error_and_nonzero_exit(self):
+        """存在しないファイルは stderr に出して skip、終了コードは非0。"""
+        missing = os.path.join(self.tmpdir, "nope.txt")
+        code, out, err = self.run_cli([missing])
+        self.assertNotEqual(code, 0)
+        self.assertIn("nope.txt", err)
+        self.assertEqual(out, "")
+
+    def test_cli_missing_file_skipped_but_others_counted(self):
+        """一部が存在しない場合も残りは集計し、終了コードは非0のまま。"""
+        ok = self.write("ok.txt", "word word\n")
+        missing = os.path.join(self.tmpdir, "ghost.txt")
+        code, out, err = self.run_cli([missing, ok])
+        self.assertEqual(code, 1)
+        self.assertIn("ghost.txt", err)
+        self.assertIn("ok.txt", out)
+        self.assertNotIn("total", out)
+        self.assertEqual(out.splitlines()[1].split()[:3], ["1", "2", "10"])
+
+    def test_cli_top_option_limits_entries(self):
+        """-n で表示件数を変更できる。"""
+        path = self.write("n.txt", "a a a b b c d e f\n")
+        code, out, err = self.run_cli(["-n", "2", path])
+        self.assertEqual(code, 0, msg=err)
+        self.assertIn("Top 2 words:", out)
+        ranked = [
+            ln for ln in out.splitlines() if ln.strip().split(".")[0].strip().isdigit()
+        ]
+        self.assertEqual(len(ranked), 2)
+        self.assertEqual(ranked[0].split(), ["1.", "a", "3"])
+
+    def test_cli_negative_top_is_usage_error(self):
+        path = self.write("x.txt", "a\n")
+        code, out, err = self.run_cli(["--top", "-1", path])
+        self.assertEqual(code, 2)
+        self.assertIn("--top", err)
+        self.assertEqual(out, "")
+
+    def test_cli_undecodable_bytes_are_replaced(self):
+        """デコード不能バイトは errors='replace' で読み、例外にしない。"""
+        path = self.write_bytes("bin.txt", b"ab\xff cd\n")
+        code, out, err = self.run_cli([path])
+        self.assertEqual(code, 0, msg=err)
+        self.assertEqual(out.splitlines()[1].split()[:3], ["1", "2", "7"])
+        self.assertIn("ab", out)
+
+    def test_cli_directory_argument_is_error(self):
+        """ディレクトリ指定は OSError として報告し、非0で終わる。"""
+        code, out, err = self.run_cli([self.tmpdir])
+        self.assertNotEqual(code, 0)
+        self.assertIn(self.tmpdir, err)
+
+    def test_cli_unknown_encoding_is_reported(self):
+        path = self.write("enc.txt", "hello\n")
+        code, out, err = self.run_cli(["--encoding", "no-such-codec", path])
+        self.assertNotEqual(code, 0)
+        self.assertIn("no-such-codec", err)
+
+
+class TestFormatting(unittest.TestCase):
+    def test_format_table_is_right_aligned(self):
+        rows = [
+            wc_plus.Stats(name="a.txt", lines=1, words=2, chars=3),
+            wc_plus.Stats(name="b.txt", lines=100000, words=2, chars=3),
+        ]
+        table = wc_plus.format_table(rows)
+        self.assertEqual(
+            table,
+            [
+                " lines  words  chars  file",
+                "     1      2      3  a.txt",
+                "100000      2      3  b.txt",
+            ],
+        )
+
+    def test_stats_merge_accumulates(self):
+        a = wc_plus.count_text("x y\n")
+        b = wc_plus.count_text("y z\n")
+        total = wc_plus.Stats(name="total")
+        total.merge(a)
+        total.merge(b)
+        self.assertEqual((total.lines, total.words, total.chars), (2, 4, 8))
+        self.assertEqual(total.counter["y"], 2)
+
+
+if __name__ == "__main__":
+    unittest.main()

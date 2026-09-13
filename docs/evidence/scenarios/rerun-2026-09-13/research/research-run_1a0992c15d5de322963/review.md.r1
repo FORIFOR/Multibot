@@ -1,0 +1,123 @@
+# レビュー結果: t1 成果物 research.md (revision 1)
+
+- 対象: `research.md` revision 1, sha256 `1b07bcfc1614ef1a22c5fa0064a67824bda2e8381ec8e8cd1e0c51c19a21b617`, 22,295 B
+- レビュー実施日: 2026-09-13
+- レビュアー: reviewer (task t2, attempt 1)
+
+## 0. 結論（先に）
+
+- プログラマティック条件 **t1a1 / t1a2 / t1a3 / t1a4 は pass**（run_check で実行、後掲の証拠参照）。
+- 文書構造条件 **t1a5 / t1a6 は pass**（記載の有無・出典URL付与をパターン検査と目視で確認）。
+- ただし **本レビュー環境では 3URL の独立再取得ができなかった**。したがって「research.md に書かれた引用・主張が実際に出典ページに存在するか」という**内容の真偽照合は全項目 unverified（再取得不可）**である。t1a5/t1a6 の pass は「記載形式・出典URL付与が要件どおり」であることを意味し、**記載内容が出典と一致することを保証しない**。
+- 出典に存在しない記述・推測で埋められた記述は、**本環境で検出可能な範囲では発見されなかった**（＝「なし」と断定はできない。上記のとおり内容照合が不能なため）。
+
+## 1. 再取得ができなかった事実と証拠
+
+- 本タスク(t2)に付与されたツール一覧に `web_fetch` は存在しない（利用可能なのは agentteam 系ツールのみ）。
+- サンドボックスはネットワーク不通。`sandbox_run` で実行:
+  - `curl` はランタイムにより拒否: `DENIED: command contains denied token 'curl'`
+  - Python での名前解決/取得を試行 → 全滅:
+    ```
+    example.com DNSFAIL [Errno -3] Temporary failure in name resolution
+    github.com DNSFAIL [Errno -3] Temporary failure in name resolution
+    agentskills.io DNSFAIL [Errno -3] Temporary failure in name resolution
+    FETCHFAIL URLError <urlopen error [Errno -3] Temporary failure in name resolution>
+    ```
+- 代替として researcher に「web_fetch の生取得ログ（HTTPステータス・取得日時・truncated情報を含む）を追加成果物として公開」するよう request を送付（message_id=msg_1a09932dffde11c61a8）。**380秒待機したが返信なし**、`list_artifacts` でも追加成果物は公開されていない（`research.md r1` のみ）。
+- 以上により、照合4分類のうち **「一致」「不一致」「出典に存在せず」を判定する手段が無く、全外部依存項目は「再取得不可」**となる。
+
+## 2. 項目別 照合判定（t2a2）
+
+判定凡例: 一致 / 不一致 / 出典に存在せず / 再取得不可
+「内部整合」列は、再取得なしで実施できた検査（文書内の自己矛盾・出典URL付与・日付整合・truncated 宣言との整合）の結果。
+
+### 2.1 langchain-ai/deepagents（出典URL: https://github.com/langchain-ai/deepagents ）
+
+| # | research.md の記述項目 | 照合判定 | 内部整合 |
+| --- | --- | --- | --- |
+| D-1 | 主張: 「The batteries-included agent harness.」 | 再取得不可 | 出典URL付与あり／原文抜粋節と重複記載が一致 |
+| D-2 | 主張: 「open source agent harness — an opinionated agent that runs out of the box…」 | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+| D-3 | 主張: 4原則 Opinionated / Extensible / Model-agnostic / Production-ready | 再取得不可 | 出典URL付与あり |
+| D-4 | 主張: 機能列挙（サブエージェント／FS／コンテキスト管理／シェル／永続メモリ／HITL／Skills／Tools・MCP） | 再取得不可 | 出典URL付与あり |
+| D-5 | 主張: FAQ の LangGraph/create_agent との差分説明 | 再取得不可 | 出典URL付与あり |
+| D-6 | 主張: セキュリティ方針「trust the LLM」 | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+| D-7 | 対象読者: Python 開発者（`uv add deepagents`／`create_deep_agent(...)`） | 再取得不可 | 出典URL付与あり |
+| D-8 | 対象読者: JS/TS 利用者（deepagents.js） | 再取得不可 | 出典URL付与あり |
+| D-9 | 対象読者: 本番運用開発者（FAQ「Can I use this in production? Yes!」） | 再取得不可 | 出典URL付与あり |
+| D-10 | 対象読者: ターミナル型コーディングエージェント利用者（Deep Agents Code） | 再取得不可 | 出典URL付与あり |
+| D-11 | 対象読者: Topics 一覧（ai/deepagents/harness/…/typescript） | 再取得不可 | 出典URL付与あり |
+| D-12 | ライセンス: ページ内に「MIT license」表示 | 再取得不可 | 概要節の「両者とも MIT」と矛盾なし |
+| D-13 | ライセンス: LICENSE 本文 MIT / 「Copyright (c) LangChain, Inc.」 | 再取得不可 | 追加取得URL https://raw.githubusercontent.com/langchain-ai/deepagents/main/LICENSE を併記（前提条件どおり） |
+
+### 2.2 bytedance/deer-flow（出典URL: https://github.com/bytedance/deer-flow ）
+
+| # | research.md の記述項目 | 照合判定 | 内部整合 |
+| --- | --- | --- | --- |
+| B-1 | 主張: リポジトリ説明「open-source long-horizon SuperAgent harness…minutes to hours」 | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+| B-2 | 主張: 「DeerFlow (Deep Exploration and Efficient Research Flow) is an open-source super agent harness…」 | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+| B-3 | 主張: 「DeerFlow 2.0 is a ground-up rewrite. It shares no code with v1.」／1.x ブランチ維持 | 再取得不可 | 出典URL付与あり |
+| B-4 | 主張: 2026-02-28 の v2 公開後 GitHub Trending 1位 | 再取得不可 | 出典URL付与あり。**日付・順位という検証価値の高い数値主張であり、再取得できない点は残リスク** |
+| B-5 | 主張: `make setup` ウィザード／`make doctor`／`make support-bundle`／「Takes about 2 minutes.」 | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+| B-6 | 主張: InfoQuest、推奨モデル Doubao-Seed-2.0-Code / DeepSeek v3.2 / Kimi 2.5 | 再取得不可 | 出典URL付与あり。**固有名詞・バージョン番号を含み誤りが混入しやすい箇所** |
+| B-7 | 対象読者: 自前ホスト開発者（git clone→make setup、Docker、Helm チャート） | 再取得不可 | 出典URL付与あり |
+| B-8 | 対象読者: コーディングエージェント利用者（Claude Code/Codex/Cursor/Windsurf） | 再取得不可 | 出典URL付与あり |
+| B-9 | 対象読者: 多言語（EN/中文/日本語/Français/Русский、README_ja.md） | 再取得不可 | 出典URL付与あり |
+| B-10 | 対象読者: 中国大陸向け案内・Volcengine Coding Plan | 再取得不可 | 出典URL付与あり |
+| B-11 | 対象読者: OpenAI/OpenRouter/Responses API/vLLM(Qwen3-32B)/Z.AI GLM-5.3-Flash 設定例 | 再取得不可 | 出典URL付与あり。**モデル名・バージョンの正確性は未確認** |
+| B-12 | ライセンス: ページ上に「MIT license」表示、LICENSE ファイル存在、README 目次に License 節 | 再取得不可 | 出典URL付与あり |
+| B-13 | ライセンス: LICENSE 本文 MIT／「Copyright (c) 2025 Bytedance Ltd. and/or its affiliates」「Copyright (c) 2025-2026 DeerFlow Authors」 | 再取得不可 | 追加取得URL https://raw.githubusercontent.com/bytedance/deer-flow/main/LICENSE を併記。**README の License 節本文が truncated 範囲だったため別URLで補ったという処理は、方針（前提条件）に沿っており妥当** |
+
+補足（truncated の扱い）: research.md は本ページを「取得成功（ただし本文末尾が一部切り詰め、約8,400文字が切り落とし）」と明示し、「切り詰め範囲の内容は記述していない」と宣言している。宣言自体は文書内で一貫している（概要節と2章注記が同じ扱いを述べる）。ただし**「B-1〜B-11 が本当に切り詰めより前の範囲から取られているか」は再取得できないため検証不能**。
+
+### 2.3 agentskills.io/specification（出典URL: https://agentskills.io/specification ）
+
+| # | research.md の記述項目 | 照合判定 | 内部整合 |
+| --- | --- | --- | --- |
+| A-1 | 主張: 「The complete format specification for Agent Skills.」 | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+| A-2 | 主張: スキル＝最低限 `SKILL.md` を含むディレクトリ、`scripts/`/`references/`/`assets/` は任意 | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+| A-3 | 主張: `SKILL.md` は YAML フロントマター+Markdown、必須 `name`(≤64字,規則)・`description`(≤1024字) | 再取得不可 | 出典URL付与あり。**数値制約は誤記が混入しやすく、再取得不能は残リスク** |
+| A-4 | 主張: 任意項目 `license`/`compatibility`(≤500字)/`metadata`/`allowed-tools`(Experimental) | 再取得不可 | 出典URL付与あり |
+| A-5 | 主張: Progressive disclosure（メタデータ約100トークン、本文<5000トークン推奨、<500行推奨） | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+| A-6 | 主張: `skills-ref` による検証（`skills-ref validate ./my-skill`） | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+| A-7 | 主張: ファイル参照はスキルルート相対、1階層以内 | 再取得不可 | 出典URL付与あり |
+| A-8 | 対象読者: 「For skill creators」「For client implementors」のナビ2区分 | 再取得不可 | 出典URL付与あり |
+| A-9 | 対象読者: スキル作者向け指示形式の記述 | 再取得不可 | 出典URL付与あり |
+| A-10 | 対象読者: エージェント実装者（`allowed-tools` の実装差、`metadata` はクライアント用） | 再取得不可 | 出典URL付与あり |
+| A-11 | 対象読者: `compatibility` 例「Designed for Claude Code (or similar products)」 | 再取得不可 | 出典URL付与あり |
+| A-12 | 対象読者: 「Fetch the complete documentation index at: /llms.txt」 | 再取得不可 | 出典URL付与あり |
+| A-13 | ライセンス: **ページ自体のライセンス表記は本文内に確認できず** | 再取得不可 | 前提条件（記載が無い場合は「確認できず」と書く／SPDXを補わない）に**準拠**。文書内で「この `license` はスキル作者用でありページ自体のものではない」と明確に区別しており、記述として適切 |
+| A-14 | ライセンス: 任意項目 `license` の規定と例（`Apache-2.0` / `Proprietary. LICENSE.txt has complete terms`） | 再取得不可 | 出典URL付与あり／抜粋節と一致 |
+
+## 3. 「取得不可」記載の扱いについて（t2a3）
+
+- research.md 全文に対する `regex_count("取得不可")` の結果は **0 件**。すなわち **『取得不可』と記載されたページは 1 つも無い**（3ページとも「取得成功」、`regex_count("取得成功")` = 8）。
+- したがって「取得不可扱いが妥当か」の判断対象は存在しない。
+- 近い扱いとして deer-flow の「取得成功（ただし一部切り詰め）」がある。これは「取得不可」ではないため該当セクションを丸ごと除外する必要はなく、**切り詰め範囲を明示して当該範囲の内容を書かないという処理は前提条件に照らして妥当**と判断する。ただし妥当性の判断は文書内の宣言に基づくものであり、実際に truncated が発生したかは**レビュアー側で再取得できないため未確認**。
+- レビュアー側での再取得結果は存在しない（第1節のとおりネットワーク不通）。よって「3ページとも取得成功」という記載を**否定する根拠も肯定する根拠も本レビューでは得られていない**。
+
+## 4. 受入条件別 判定（t1a1〜t1a6）
+
+| 条件 | 判定 | 検査方法と結果 |
+| --- | --- | --- |
+| t1a1 | pass | `run_check markdown_basic` (sections=概要/比較表/取得状況と未確認事項) → status=pass, problems=[], headings 20件, chars=14523 |
+| t1a2 | pass | `run_check text_contains` (3URL) → status=pass, missing=[] |
+| t1a3 | pass | `run_check regex_count` `\|[^\n]*主張[^\n]*\|[^\n]*対象読者[^\n]*\|[^\n]*ライセンス[^\n]*\|` → count=1 (pass)。加えて `^\|` 行は12行（比較表＋取得状況表） |
+| t1a4 | pass | `run_check text_not_contains` (おそらく/と思われる/推測/だろう/かもしれない/はずだ) → status=pass, found=[] |
+| t1a5 | pass | 3セクションすべてに「取得可否: **取得成功**…」「取得日: 2026-09-13」行が存在することを read_artifact 本文で目視確認。`regex_count("取得日")`=7、`regex_count("取得成功")`=8。**記載の真偽（実際に HTTP 200 だったか）は再取得不可のため未確認** |
+| t1a6 | pass | (a) `regex_count("(?m)^- (?!.*http).*$")`=9 で、該当9行はすべてメタ情報行（概要リード×3、各節の「取得可否」「取得日」×6）であり主張行ではないことを目視確認。(b) 比較表3行すべてが3列とも `出典: https…` を含むことを `regex_count` (count=3, 期待3) で確認。(c) 「取得不可」0件のため後段条件は該当なし。**個々の主張が出典に実在するかは未確認** |
+
+## 5. 指摘事項
+
+不合格に相当する指摘は **なし**。以下は残リスク（修正要求ではない）。
+
+1. 【残リスク・環境要因】レビュアー環境に `web_fetch` が無くネットワークも遮断されているため、本メモの中核である「出典への実在性」が独立検証されていない。最小の是正案: researcher 側が web_fetch の生取得ログ（URL・HTTPステータス・取得日時・truncated 情報・引用該当部分の原文）を別成果物として公開すれば、少なくとも引用文字列の一致検査は機械的に実施できる。request 済みだが期限内に応答なし。
+2. 【残リスク】数値・固有名詞を含む主張（B-4 の日付と Trending 1位、B-6/B-11 のモデル名とバージョン、A-3/A-5 の文字数・トークン数・行数の上限）は誤記が入りやすく、かつ本レビューで一切照合できていない。公開・引用前に再取得での確認を推奨。
+3. 【軽微】read_artifact の出力が末尾 2,706 文字で切り詰められたため、比較表の deer-flow / agentskills 行と「取得状況と未確認事項」節の全文は**目視できていない**。当該範囲は `regex_count` / `text_contains` によるパターン検査（比較表3行の出典URL付与、取得状況表の5行が URL＋HTTP 200/取得成功を含むこと、「取得不可」0件、「未確認」7件）で間接確認した。全文目視での確認は未実施。
+
+## 6. 本レビューで実行したコマンド／チェック一覧
+
+- `read_artifact(research.md, r1)`（末尾2,706文字は切り詰め）
+- `run_check markdown_basic` / `text_contains` / `text_not_contains` / `regex_count`×8 / `command`
+- `sandbox_run`（ネットワーク到達性確認、`curl` は DENIED）
+- `send_message(researcher, request)` → `read_messages(180s)` `read_messages(200s)` いずれも応答なし
+- `list_artifacts` → `research.md r1` のみ

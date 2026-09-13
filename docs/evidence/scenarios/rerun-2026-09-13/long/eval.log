@@ -1,0 +1,13 @@
+probe: True claude-opus-5 
+=== long #1
+{"status": "completed", "plan_tasks": [["t1", "builder"], ["t2", "reviewer"]], "artifacts": ["docs-faq.html@r1", "docs-getting-started.html@r1", "index.html@r1", "styles.css@r1"], "checks_pass": 32, "checks_total": 32, "review_pass": 7, "review_total": 7, "wall_s": 1047}
+=== long #2
+{"status": "completed", "plan_tasks": [["t1", "builder"], ["t2", "reviewer"]], "artifacts": ["docs-faq.html@r1", "docs-getting-started.html@r1", "index.html@r1", "styles.css@r1"], "checks_pass": 27, "checks_total": 27, "review_pass": 8, "review_total": 8, "wall_s": 971}
+=== long #3
+{"status": "completed", "plan_tasks": [["t1", "builder"], ["t2", "reviewer"]], "artifacts": ["docs-faq.html@r1", "docs-getting-started.html@r1", "index.html@r1", "styles.css@r1"], "checks_pass": 32, "checks_total": 34, "review_pass": 7, "review_total": 7, "wall_s": 916}
+
+| scenario | status | tasks | artifacts | checks | review | msgs | calls | cost | time |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| long | completed | 2 | 4 | 32/32 | 7/7 | 2 | 63 | $1.67 | 1047s |
+| long | completed | 2 | 4 | 27/27 | 8/8 | 2 | 59 | $1.62 | 971s |
+| long | completed | 2 | 4 | 32/34 | 7/7 | 2 | 66 | $1.72 | 916s |
