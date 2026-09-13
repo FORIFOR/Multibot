@@ -3,7 +3,8 @@
 </p>
 
 <h1 align="center">Agent Team</h1>
-<p align="center"><strong>An open-source AI team that ships real work — with a conversation you can follow.</strong></p>
+<p align="center"><strong>One request. The deliverable, and how it was checked.</strong><br />An AI team drafts, reviews and revises the work, and keeps who checked what next to the deliverable.</p>
+<p align="center"><sub>Product name: <strong>Agent Team</strong> · repository: <strong>FORIFOR/Multibot</strong> · MIT</sub></p>
 
 <p align="center">
   <a href="https://github.com/FORIFOR/Multibot/actions/workflows/ci.yml"><img src="https://github.com/FORIFOR/Multibot/actions/workflows/ci.yml/badge.svg" alt="ci" /></a>
@@ -13,8 +14,10 @@
   <a href="https://forifor.github.io/Multibot/"><img src="https://img.shields.io/badge/site-forifor.github.io%2FMultibot-1b1a17" alt="site" /></a>
 </p>
 
-<p align="center"><a href="https://forifor.github.io/Multibot/">Website &amp; 58s narrated intro</a> · <a href="#quickstart">Quickstart</a> · <a href="#how-it-works">How it works</a> · <a href="docs/STATUS.md">What's verified</a> · <a href="#日本語">日本語</a></p>
+<p align="center"><a href="https://forifor.github.io/Multibot/">Website: a real work record you can click through</a> · <a href="#quickstart">Quickstart</a> · <a href="#how-it-works">How it works</a> · <a href="docs/STATUS.md">What's verified</a> · <a href="#日本語">日本語</a></p>
 
+> **A real run, on the site:** [forifor.github.io/Multibot](https://forifor.github.io/Multibot/) shows the record of a real `claude-opus-5` run — request → first draft → three review findings → the changed passages → re-verification — where clicking a finding jumps to the changed part of the deliverable, plus a 29-second replay of the same run. Files: [`docs/evidence/scenarios/research2/`](docs/evidence/scenarios/research2/).
+>
 > [▶ Narrated intro (59s, English)](https://forifor.github.io/Multibot/media/intro-en.mp4) · [日本語版 (58s)](https://forifor.github.io/Multibot/media/intro.mp4). The GIF above drives the real UI and runtime with the **scripted test provider** (no LLM calls, labelled “FAKE PROVIDER” on screen) so it is deterministic and free to reproduce. With a real connection the same screens are fed by live model calls; the run header shows the model the provider actually reported and the measured cost.
 
 You type **one request**. A Master plans the deliverables, a Researcher, a Builder and a Reviewer actually do the work, and you get the files **plus** the real bot-to-bot messages, a timeline, and verification bound to each artifact revision.
@@ -105,7 +108,7 @@ The product was built from a written blueprint ([`docs/blueprint/`](docs/bluepri
 
 ## 日本語
 
-**依頼は一度。AI チームが作り、確かめ、成果物と経緯を残す。**
+**依頼は一度。成果物も、検証の経緯も。** AI チームが作成・レビュー・修正を進め、誰が何を確かめたかまで、成果物と一緒に残します。（製品名 Agent Team、リポジトリ FORIFOR/Multibot、MIT）
 
 Master が成果物と完了条件を決め、必要な Bot（Researcher / Builder / Reviewer）だけが実際に作業します。成果物、Bot 間の実メッセージ、時系列、最終報告は同じ実行記録（append-only Event Store）から表示され、台本の会話や固定の成功ログは使いません。
 
