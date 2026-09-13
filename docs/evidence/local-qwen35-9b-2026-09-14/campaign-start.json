@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-09-13T18:31:31.351092+00:00",
+  "state_at_recording": "running",
+  "completed_runs_at_recording": 0,
+  "target_runs": 300,
+  "fingerprint": {
+    "team": "1c86d755a8e52f05177b8f750c44ffabab634f1036e7c38fa9ef0db3da22f8ce",
+    "single": "d9b73136e07b6738f89ebbeea617a319faae0ae10becfab0123eaed68d364aaf",
+    "tasks": "d93dc92095989470e0bdc386b23b9c79851096b3fb5b4b1695c733e8a00a7291",
+    "commit": "57f7fe5ce6d33df874be210ae570bedef7ac98f3",
+    "ollama_version": "0.33.3",
+    "model_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866"
+  },
+  "thinking": false,
+  "timeout_seconds": 600,
+  "max_parallel": 1,
+  "note": "Start evidence only; this is not a completed benchmark or business-quality pass."
+}
