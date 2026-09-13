@@ -97,3 +97,28 @@ async def test_dependent_task_starts_while_dependency_awaits_review(tmp_path):
         assert run.status == "completed", run.blocked_reason
         tasks = {t.spec.id: t.status for t in await h.runs.list_tasks(run.run_id)}
         assert tasks == {"t1": "accepted", "t2": "accepted", "t3": "accepted"}
+
+
+async def test_milestone_skipped_when_budget_cannot_afford_one_session(tmp_path):
+    """Both research re-runs ended partial because milestone-added tasks failed on budget. With less than one agent
+    session's budget left, the Master is not asked to extend the plan and the record says why."""
+    cfg = FAKE_CONFIG.replace("max_revision_rounds: 2,", "max_revision_rounds: 2, max_session_cost_usd: 100.0,")
+    async with Harness(tmp_path, script=script, config_yaml=cfg) as h:
+        run = await h.run_goal("LP")
+        assert run.status == "completed"
+        evs = await h.events.list(run.run_id)
+        ms = [e for e in evs if e.type == "plan.milestone"]
+        assert len(ms) == 1 and ms[0].payload["skipped"] == "budget" and "one agent session" in ms[0].payload["reason"]
+        assert {t.spec.id for t in await h.runs.list_tasks(run.run_id)} == {"t1"}, "no task was added without a Master session"
+
+
+async def test_partial_run_carries_a_reason_naming_the_unaccepted_task(tmp_path):
+    def failing_script(req):
+        md = req.metadata
+        if md.get("agent_id") == "builder" and md.get("mode") == "task" and "posts.md" in req.messages[0]["content"][0]["text"]:
+            raise RuntimeError("simulated provider outage")
+        return script(req)
+    async with Harness(tmp_path, script=failing_script) as h:
+        run = await h.run_goal("LP")
+        assert run.status in ("partial", "failed"), run.status
+        assert run.blocked_reason and "t2" in run.blocked_reason, run.blocked_reason

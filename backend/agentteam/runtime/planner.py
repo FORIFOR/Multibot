@@ -323,13 +323,17 @@ async def milestone_replan(rt, round_no: int) -> dict[str, Any]:
                      + (f" — next: {'; '.join(t.result.next_steps)[:200]}" if t.result and t.result.next_steps else ""))
     lines.append("\n## Published artifacts")
     lines += [f"- {m.artifact_id} r{m.revision} ({m.media_type}, {m.size}B) by {m.agent_id}/{m.task_id}" for m in arts] or ["(none)"]
+    sessions = int(rt.policy.remaining_budget() // max(rt.config.limits.max_session_cost_usd, 0.01))
     lines.append(f"\n## Remaining budget\nmodel calls {rt.config.limits.max_model_calls - rt.policy.usage.model_calls}, "
-                 f"USD {rt.policy.remaining_budget():.2f}, wall clock {int(rt.remaining_seconds())}s, "
-                 f"task slots {rt.config.limits.max_tasks - len(rt.tasks)}.")
+                 f"USD {rt.policy.remaining_budget():.2f} (about {sessions} agent session(s) at the per-session cap of "
+                 f"{rt.config.limits.max_session_cost_usd:.2f} USD; a task with a revision round needs two), "
+                 f"wall clock {int(rt.remaining_seconds())}s, task slots {rt.config.limits.max_tasks - len(rt.tasks)}.")
     lines.append("\nDecide whether the goal's deliverables are complete and verified. If something the user asked for is "
                  "missing, unverified, or a task ended partial, create the minimal additional tasks with create_task "
                  "(depends_on may reference accepted tasks; give each task acceptance criteria; add a reviewer task when "
-                 "something worth verifying is produced). Do not re-do accepted work. Then call finish_task with a one-line verdict.")
+                 "something worth verifying is produced). Only add tasks the remaining budget can finish — a task that starts and "
+                 "fails on budget leaves the run partial; if the budget cannot cover the missing work, add nothing and say "
+                 "so in the verdict. Do not re-do accepted work. Then call finish_task with a one-line verdict.")
     runner = AgentRunner(ctx)
     out = await runner.run("\n".join(lines))
     added = sorted(set(rt.tasks) - before)
