@@ -112,6 +112,11 @@ def delivery_schema(expected):
         'パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|'
         'デリル|アドバザリ|ステール|リカスケル|マニファクト|'
         'バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|'
+        # v12 exposed additional half-transliterated technical terms that a
+        # Japanese-character check and the independent Reviewer previously
+        # allowed through.  Keep these exact observed fragments rejected so a
+        # readiness report cannot silently change the meaning of the source.
+        'キーcloak|パインされた|バックス|'
         '演算主体|アクター監査|actor-scoped|per-run|requester-owned|'
         'resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'
     )

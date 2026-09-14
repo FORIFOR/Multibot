@@ -6,7 +6,7 @@
 
 本番化では、認証・SSO・権限・永続キュー・削除・暗号化復元・監査収集と監視画面を実装し、[更新とロールバックの13項目](evidence/release-operations-2026-09-14/README.md)も実機で確認しました。[通信経路の修正後は102件pass](evidence/provider-transport-2026-09-14/README.md)。実資料の初回業務試験では、日本語要約の欠落をReviewerが見逃し、誤完了しました。[元の失敗を保持](evidence/real-readiness-v1-2026-09-14/README.md)し、依頼者の必須条件を実行基盤でも検査する修正を加えています。本番の設置先・企業IdP・業務品質・運用条件の受入は未完了です。
 
-修正版では、Reviewer's `run_check(json_schema)` が依頼者の保存済みSchemaを直接使えるようにし、不正Schemaを `blocked` として記録します。現行の決定論的テストは **101 passed / 1 skipped**。実資料のQwenローカル試験v3は[3実行分を保存](evidence/real-readiness-v3-2026-09-14/README.md)し、旧ランタイムの合格を再監査で不合格にした語崩れを次系列の配信Schemaへ反映しました。
+修正版では、Reviewer's `run_check(json_schema)` が依頼者の保存済みSchemaを直接使えるようにし、不正Schemaを `blocked` として記録します。現行の決定論的テストは **103 passed / 1 skipped**。実資料のQwenローカル試験v3は[3実行分を保存](evidence/real-readiness-v3-2026-09-14/README.md)し、旧ランタイムの合格を再監査で不合格にした語崩れを次系列の配信Schemaへ反映しました。
 
 qwen2.5-7Bの次系列は[実能力プローブで停止](evidence/real-readiness-v4-qwen25-2026-09-14/README.md)しました。JSON Schemaは通過しましたがtool callingを通過せず、実資料runや成果物を受入れに算入していません。
 
@@ -19,6 +19,8 @@ v8は初回計画を受理し、初版を公開したものの、`stale`と「�
 v10は実Ollamaの初版`readiness.json`が依頼者Schemaをpassしましたが、Masterが受入条件IDを出力パスとして宣言したためpartialで停止しました。計画Validatorにこの誤りの拒否を追加し、証跡を[保存](evidence/real-readiness-v10-qwen35-2026-09-14/README.md)しました。Reviewer受入と10回条件は未達です。
 
 v11ではその計画誤りを拒否して再生成し、run 1・2が実Ollamaで初版不合格→revision 2、Schema pass、独立Reviewer pass、`completed`まで到達しました。run 3はSchema不合格後にBuilderがpartialとなり、Reviewer起動前に停止しました。[全証跡](evidence/real-readiness-v11-qwen35-2026-09-14/README.md)を保存しています。受入済みは2/10で、10回条件とL2/L3は未達です。
+
+v12ではRuntimeの`max_tokens`後コンテキスト圧縮を実Ollamaで検証しました。run 1は初版の監査用語違反を検出後、revision 2、Schema pass、独立Reviewer pass、`completed`まで到達しました。[全証跡](evidence/real-readiness-v12-qwen35-2026-09-14/README.md)を保存しています。run 1の出力にはReviewerが検出できなかった「キーcloak」「パインされた」「バックス」が残ったため、これらを契約で拒否する回帰テストを追加しました。run 2は英語`remaining`を検出後も実行中で、受入数には算入していません。v11とv12を合わせた受入済みは3/20で、10回条件とL2/L3は未達です。
 
 50課題×3回の比較は、追加記録を反映した最新ペアでチーム69 completed / 5 partial / 76 failed、単一150 completedです。上限の影響は79ペア。前回47/3/100の記録も残し、重複を除くチーム252試行を台帳に含めています。元の採点ではチームにも完了後不合格が1件あり、誤完了ゼロとは主張しません。
 
