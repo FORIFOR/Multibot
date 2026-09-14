@@ -25,9 +25,9 @@ for (const [name, path] of [['en', '/'], ['ja', '/ja/']]) {
     r.events = await page.evaluate(() => (window.dataLayer || []).map((e) => e.event))
     r.videoPoster = await page.evaluate(() => !!document.querySelector('#replay-video').poster && document.querySelector('#replay-video').autoplay === false)
     r.videoEvents = await page.evaluate(async () => { const v = document.getElementById('replay-video'); v.muted = true; try { await v.play() } catch (e) {} await new Promise((r) => { if (v.readyState >= 1) r(); else v.addEventListener('loadedmetadata', r, { once: true }) }); v.currentTime = Math.max(0, v.duration - 0.2); await new Promise((r) => { const t = setTimeout(r, 6000); v.addEventListener('ended', () => { clearTimeout(t); r() }, { once: true }) }); return (window.dataLayer || []).filter((e) => e.kind === 'replay').map((e) => e.event) })
-    r.brand = await page.evaluate(() => /Agent Team/.test(document.querySelector('.brand').textContent) && /FORIFOR\/Multibot/.test(document.querySelector('.brand').textContent) && /MIT/.test(document.querySelector('footer').textContent))
-    r.leadHref = await page.evaluate(() => document.querySelector('a[data-track="lead_submit"]').href)
-    r.quickstart = await page.evaluate(() => !!document.querySelector('#quickstart .term'))
+    r.brand = await page.evaluate(() => /Agent Team/.test(document.querySelector('.brand').textContent) && /Multibot/.test(document.querySelector('.brand').textContent) && /MIT/.test(document.querySelector('footer').textContent) && !!document.querySelector('a[href="https://github.com/FORIFOR/Multibot"]'))
+    r.leadForm = await page.evaluate(() => !!document.querySelector('#portfolio-form button[type="submit"]'))
+    r.quickstart = await page.evaluate(() => !!document.querySelector('#github .term'))
     out[`${name}-${vp}`] = r
     await ctx.close()
   }

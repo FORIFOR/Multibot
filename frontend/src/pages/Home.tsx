@@ -1,13 +1,23 @@
 import { t } from '../lib/i18n'
 import Orb from '../components/Orb'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ChangeEvent } from 'react'
 import { api, ApiError, fmtDate, money, type Config, type Run } from '../lib/api'
 import { Link } from '../lib/router'
+
+const MAX_ATTACHMENT_BYTES = 512 * 1024
+const ATTACHMENT_EXTENSIONS = new Set(['.txt', '.md', '.markdown', '.csv'])
+
+function extensionOf(name: string) {
+  const dot = name.lastIndexOf('.')
+  return dot >= 0 ? name.slice(dot).toLowerCase() : ''
+}
 
 export default function Home({ nav, readOnly = false, canConfigure = true }: { nav: (p: string) => void; readOnly?: boolean; canConfigure?: boolean }) {
   const [goal, setGoal] = useState('')
   const [text, setText] = useState('')
   const [urls, setUrls] = useState('')
+  const [files, setFiles] = useState<{ name: string; content: string }[]>([])
+  const [fileError, setFileError] = useState<string | null>(null)
   const [budget, setBudget] = useState('')
   const [cfg, setCfg] = useState<Config | null>(null)
   const [runs, setRuns] = useState<Run[]>([])
@@ -21,7 +31,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
     setBusy(true); setErr(null); setProblems([])
     try {
       const run = await api.createRun({
-        goal, inputs: { text, urls: urls.split(/\s+/).filter(Boolean), files: [] },
+        goal, inputs: { text, urls: urls.split(/\s+/).filter(Boolean), files },
         budget_usd: budget ? Number(budget) : null,
       })
       nav(`/runs/${run.run_id}`)
@@ -29,6 +39,34 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
       if (e instanceof ApiError && e.status === 409 && e.body?.problems) setProblems(e.body.problems)
       else setErr(String(e))
     } finally { setBusy(false) }
+  }
+  const onFiles = async (event: ChangeEvent<HTMLInputElement>) => {
+    const selected = Array.from(event.currentTarget.files || [])
+    // Let the same file be selected again after a correction/removal.
+    event.currentTarget.value = ''
+    if (selected.length === 0) return
+    const accepted: { name: string; content: string }[] = []
+    const errors: string[] = []
+    for (const file of selected) {
+      const ext = extensionOf(file.name)
+      if (!ATTACHMENT_EXTENSIONS.has(ext)) {
+        errors.push(`${file.name}: ${t('txt / md / csv のみ添付できます。')}`)
+        continue
+      }
+      if (file.size > MAX_ATTACHMENT_BYTES) {
+        errors.push(`${file.name}: ${t('512KB 以下のファイルを選んでください。')}`)
+        continue
+      }
+      try {
+        accepted.push({ name: file.name, content: await file.text() })
+      } catch {
+        errors.push(`${file.name}: ${t('ファイルを読み込めませんでした。')}`)
+      }
+    }
+    if (accepted.length) {
+      setFiles((prev) => [...prev.filter((old) => !accepted.some((next) => next.name === old.name)), ...accepted])
+    }
+    setFileError(errors.length ? errors.join(' ') : null)
   }
   const ready = cfg ? cfg.problems.length === 0 : false
   const model = cfg ? cfg.defaults.model : '…'
@@ -52,6 +90,17 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
             <div className="stack" style={{ marginTop: 8 }}>
               <textarea className="input" placeholder={t("製品説明などのテキスト（任意）")} value={text} onChange={(e) => setText(e.target.value)} />
               <input className="input" placeholder={t("参照URL（空白区切り、任意）")} value={urls} onChange={(e) => setUrls(e.target.value)} />
+              <div className="attachment-picker">
+                <label className="attachment-label" htmlFor="run-attachments">{t('依頼に含める資料')} <span className="muted">{t('txt / md / csv、1ファイル512KBまで')}</span></label>
+                <input id="run-attachments" className="input" type="file" accept=".txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv" multiple onChange={onFiles} />
+                {files.length > 0 && <div className="attachment-list" aria-label={t('添付済み資料')}>
+                  {files.map((file) => <div className="attachment-item" key={file.name}>
+                    <span className="mono">{file.name}</span><span className="muted small">{file.content.length.toLocaleString()} {t('文字')}</span>
+                    <button type="button" className="btn sm ghost" onClick={() => setFiles((prev) => prev.filter((item) => item.name !== file.name))}>{t('削除')}</button>
+                  </div>)}
+                </div>}
+                {fileError && <p className="err small" role="alert">{fileError}</p>}
+              </div>
               <input className="input" placeholder={`この run の予算上限 USD（既定 ${cfg ? cfg.limits.budget_usd : '…'}）`} value={budget} onChange={(e) => setBudget(e.target.value)} />
             </div>
           </details>

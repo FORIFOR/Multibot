@@ -6,6 +6,7 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 
 ### Added
 - A liquid-glass "thinking" orb in the run header while a run is live and next to the start button while a request starts (WebGPU; browsers without a WebGPU adapter keep the pulse dot). The orb is a standalone export of the MIT-licensed Liquid Orb Editor (LerSent001/orb), vendored as `frontend/src/assets/orb.html` with its parameter snapshot and license.
+- Requests can include real `.txt`, `.md`, `.markdown` or `.csv` attachments (the UI reads each file locally and caps it at 512KB). Human directions sent from the run chat are persisted as `instruction.received` events and included in the next task session.
 
 ### Changed
 - The public Japanese and English homepages were reorganized around one real work record: a shorter explanation, a readable deliverable/findings view, a deliverable-linked work list, explicit runtime/data conditions, and one consolidated business inquiry entry. The page uses a white, shared sans-serif theme and keeps the limitation (partial run and unverified source check) next to the example.
@@ -14,6 +15,8 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 - The run view's team chat uses a brighter conversation layout: deterministic bot avatars, role and route context, purpose and artifact badges, a delivered-message count, and one-click links back to the matching timeline event. The underlying chat data remains the delivered-message projection.
 - The run view now makes the delivered-message log the primary workspace, with team state and artifacts arranged in a supporting rail. The message log is exposed as an accessible live region and the layout collapses into a single-column reading order on smaller screens.
 - The chat view now summarizes the observed collaboration flow and offers labeled message search plus task-thread filters, so multi-bot handoffs can be followed without losing the underlying event order.
+- The request and run screens now expose the handoff boundary directly: attached material is listed before start, and the instruction composer states that the current plan is not silently rewritten.
+- The CSP now hash-pins the vendored thinking-orb srcdoc module so WebGPU-enabled browsers can render it without relaxing the app-wide script policy.
 
 ## 0.2.1 — 2026-09-13
 

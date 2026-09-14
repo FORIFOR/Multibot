@@ -10,7 +10,7 @@ import re
 from urllib.parse import urlsplit
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
@@ -22,6 +22,7 @@ from .. import __version__
 from ..config.loader import ConfigError, PKG_ROOT, REPO_ROOT, config_to_yaml, effective_agent, list_skills, load_config_text
 from ..config.models import Connection
 from ..contracts import RunInputs, RunStatus
+from ..ids import new_id
 from ..projections.views import chat_view, timeline_view
 from ..providers.registry import ProviderRegistry
 from .service import AppService
@@ -82,6 +83,13 @@ class ForkBody(BaseModel):
     overrides: dict[str, Any] = Field(default_factory=dict)
     from_seq: int | None = None
     start: bool = True
+
+
+class InstructionBody(BaseModel):
+    """A human instruction captured in the run's append-only event log."""
+    text: str = Field(min_length=1, max_length=4000)
+    kind: Literal["change", "question", "edit", "control"] = "change"
+    expected_seq: int | None = Field(default=None, ge=0)
 
 
 class LoginBody(BaseModel):
@@ -145,7 +153,9 @@ def create_app(service: AppService | None = None) -> FastAPI:
         response.headers['x-content-type-options'] = 'nosniff'
         response.headers['referrer-policy'] = 'no-referrer'
         response.headers['cache-control'] = 'no-store'
-        response.headers.setdefault('content-security-policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
+        # The thinking orb is a vendored, hash-pinned srcdoc. Keeping its one
+        # inline module behind an exact hash preserves the app's strict CSP.
+        response.headers.setdefault('content-security-policy', "default-src 'self'; script-src 'self' 'sha256-pSDgbC5U49gGSJKpiKwMZpKYroR0uC9NFWpUnGxH0B8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
         if origin.startswith('https://'):
             response.headers['strict-transport-security'] = 'max-age=31536000'
         return response
@@ -508,6 +518,41 @@ def create_app(service: AppService | None = None) -> FastAPI:
     @app.get("/api/runs/{run_id}/timeline")
     async def run_timeline(run_id: str, tools: bool = True):
         return timeline_view(await svc.events.list(run_id), include_tool_calls=tools)
+
+    @app.post("/api/runs/{run_id}/instructions", status_code=202)
+    async def add_instruction(run_id: str, body: InstructionBody, request: Request):
+        """Record a human direction for the next task session in this run.
+
+        Instructions are deliberately event-backed. They are not silently treated
+        as an in-place plan edit: a worker that starts after this event receives
+        them in its task prompt, while the original plan remains auditable.
+        """
+        run = await svc.runs.get_run(run_id)
+        if run is None:
+            raise HTTPException(404, "run not found")
+        if not await svc.access.can_access(request, run_id, write=True):
+            raise HTTPException(404, "run not found")
+        if run.status not in (RunStatus.created, RunStatus.queued, RunStatus.planning, RunStatus.running):
+            raise HTTPException(409, f"instructions cannot be added while run is {run.status}; resume or fork it first")
+        current_seq = await svc.events.last_seq(run_id)
+        if body.expected_seq is not None and body.expected_seq != current_seq:
+            raise HTTPException(409, f"run changed since it was displayed (expected seq {body.expected_seq}, current seq {current_seq})")
+        text = body.text.strip()
+        if not text:
+            raise HTTPException(422, "instruction text must not be blank")
+        principal = svc.access.principal(request)
+        actor_id = principal.subject if principal else "user"
+        event = await svc.events.append(
+            run_id,
+            "instruction.received",
+            {"instruction_id": new_id("instruction"), "kind": body.kind, "text": text,
+             "expected_seq": body.expected_seq, "state": "received",
+             "handoff": "next_task_session"},
+            actor_id=actor_id,
+            actor_kind="human",
+        )
+        return {"instruction_id": event.payload["instruction_id"], "state": "received", "seq": event.seq,
+                "event": event.model_dump()}
 
     @app.get("/api/runs/{run_id}/stream")
     async def run_stream(run_id: str, request: Request, after_seq: int = 0):

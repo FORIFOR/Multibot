@@ -28,13 +28,14 @@
 >
 > **Enterprise readiness:** demonstration material is available, but the required ten repeated runs of one workflow are not yet verified. L2 customer-data PoC and L3 production readiness are not claimed. [L1 / L2 / L3 acceptance criteria](docs/ENTERPRISE_READINESS.md).
 
-You type **one request**. A Master plans the deliverables, a Researcher, a Builder and a Reviewer actually do the work, and you get the files **plus** the real bot-to-bot messages, a timeline, and verification bound to each artifact revision.
+You type **one request**. Attach the source files the team should use, then a Master plans the deliverables, a Researcher, a Builder and a Reviewer actually do the work. You get the files **plus** the real bot-to-bot messages, a timeline, and verification bound to each artifact revision. While a run is active, a human direction is recorded as an event and handed to the next task session; the existing plan is not silently rewritten.
 
 - **No scripted chat.** The chat panel is a projection of `message.sent` events — messages that were really delivered to another bot's mailbox. A question wakes the other bot to answer.
 - **Evidence, not vibes.** Checks and review verdicts are events bound to an artifact revision hash. The final report is compiled from the event log; a model summary cannot upgrade “started” to “done”.
 - **Runtime-enforced limits.** Tool scope, write scope, budget reservation, approvals and cancellation are enforced in code, not by prompt wording.
 - **Per-bot configuration.** Each bot inherits a default connection and model and can override endpoint, model, effort and system prompt (lockable). Configured vs. provider-reported model are both shown. No silent fallbacks.
 - **Replay, resume, fork, export.** Replay never calls a model. Fork from a checkpoint with a different model for one bot and compare. Export the whole run as JSONL.
+- **Real inputs and handoff.** Attach `.txt`, `.md` or `.csv` material (up to 512KB per file in the UI). Send a change, question or edit from the team chat and keep the received direction in the run timeline.
 
 ## Quickstart
 

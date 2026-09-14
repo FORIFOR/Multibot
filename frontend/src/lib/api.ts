@@ -30,6 +30,7 @@ export interface Config {
 }
 export interface ChatMessage { seq: number; event_id: string; recorded_at: string; from: string; to: string; task_id: string; purpose: string; text: string; artifact_refs: ArtifactRef[]; reply_to: string | null; causation_id: string | null }
 export interface TimelineItem { seq: number; event_id: string; recorded_at: string; actor_id: string; actor_kind: string; task_id: string | null; causation_id: string | null; type: string; title: string; detail: string }
+export interface InstructionReceipt { instruction_id: string; state: 'received'; seq: number; event: Event }
 
 export class ApiError extends Error {
   status: number
@@ -71,6 +72,8 @@ export const api = {
   events: (id: string, after = 0) => req<Event[]>('GET', `/api/runs/${id}/events?after_seq=${after}`),
   chat: (id: string) => req<ChatMessage[]>('GET', `/api/runs/${id}/chat`),
   timeline: (id: string, tools = true) => req<TimelineItem[]>('GET', `/api/runs/${id}/timeline?tools=${tools}`),
+  instruction: (id: string, body: { text: string; kind: 'change' | 'question' | 'edit' | 'control'; expected_seq?: number }) =>
+    req<InstructionReceipt>('POST', `/api/runs/${id}/instructions`, body),
   createRun: (body: { goal: string; inputs: { text: string; urls: string[]; files: { name: string; content: string }[] }; budget_usd?: number | null }) => req<Run>('POST', '/api/runs', body, true),
   cancel: (id: string) => req<{ cancel_requested: boolean }>('POST', `/api/runs/${id}/cancel`),
   resume: (id: string) => req<Run>('POST', `/api/runs/${id}/resume`, undefined, true),

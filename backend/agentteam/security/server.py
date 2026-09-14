@@ -17,7 +17,8 @@ PUBLIC = {'/api/health/live', '/api/auth/status', '/api/auth/login'}
 READ_ROUTES = {'/api/health', '/api/config', '/api/runs', '/api/approvals', '/api/auth/me'}
 AUDITOR_ROUTES = {'/api/auth/me', '/api/admin/ready', '/api/admin/metrics', '/api/admin/audit', '/api/admin/jobs'}
 WRITE_ROUTES = {'/api/runs', '/api/runs/{run_id}/cancel', '/api/runs/{run_id}/resume',
-                '/api/runs/{run_id}/fork', '/api/approvals/{approval_id}/resolve', '/api/auth/logout'}
+                '/api/runs/{run_id}/fork', '/api/runs/{run_id}/instructions',
+                '/api/approvals/{approval_id}/resolve', '/api/auth/logout'}
 RUN_READ_ROUTES = {'/api/runs/{run_id}', '/api/runs/{run_id}/events', '/api/runs/{run_id}/chat',
                    '/api/runs/{run_id}/timeline', '/api/runs/{run_id}/stream', '/api/runs/{run_id}/export',
                    '/api/artifacts/{run_id}/{artifact_id}/versions/{revision}',

@@ -121,3 +121,17 @@ async def test_health_reports_package_version(client):
     from importlib.metadata import version
     h = (await client.get("/api/health")).json()
     assert h["ok"] is True and h["version"] == version("agentteam")
+
+
+async def test_human_instruction_is_event_backed_and_cursor_checked(client):
+    created = await client.post("/api/runs", json={"goal": "資料を整理する", "start": False})
+    assert created.status_code == 202
+    run_id = created.json()["run_id"]
+    received = await client.post(f"/api/runs/{run_id}/instructions", json={"kind": "change", "text": "結論を先に書いてください。"})
+    assert received.status_code == 202
+    payload = received.json()
+    assert payload["state"] == "received" and payload["event"]["type"] == "instruction.received"
+    timeline = (await client.get(f"/api/runs/{run_id}/timeline")).json()
+    assert timeline[-1]["type"] == "instruction.received"
+    stale = await client.post(f"/api/runs/{run_id}/instructions", json={"text": "古い前提", "expected_seq": 0})
+    assert stale.status_code == 409

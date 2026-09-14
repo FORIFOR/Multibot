@@ -1,6 +1,6 @@
 import { t as tr } from '../lib/i18n'
 import Orb from '../components/Orb'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
 import { Link } from '../lib/router'
 
@@ -16,6 +16,10 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
   const [selTask, setSelTask] = useState<string | null>(null)
   const [showTools, setShowTools] = useState(false)
   const [err, setErr] = useState<string | null>(null)
+  const [instructionText, setInstructionText] = useState('')
+  const [instructionKind, setInstructionKind] = useState<'change' | 'question' | 'edit'>('change')
+  const [instructionBusy, setInstructionBusy] = useState(false)
+  const [instructionNotice, setInstructionNotice] = useState<string | null>(null)
   const [hiSeq, setHiSeq] = useState<number | null>(null)
   const lastSeq = useRef(0)
 
@@ -54,15 +58,15 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
         if (ev.seq <= lastSeq.current) return
         lastSeq.current = ev.seq
         setEvents((prev) => [...prev, ev])
-        if (/^(task|run|artifact\.published|approval|plan|report)/.test(ev.type)) reload()
-        if (ev.type === 'message.sent' || ev.type.startsWith('run.') || ev.type === 'check.completed' || ev.type === 'review.submitted') reloadProjections()
+        if (/^(task|run|artifact\.published|approval|plan|report|instruction)/.test(ev.type)) reload()
+        if (ev.type === 'message.sent' || ev.type.startsWith('run.') || ev.type === 'check.completed' || ev.type === 'review.submitted' || ev.type === 'instruction.received') reloadProjections()
         else setTimeline((prev) => [...prev, { seq: ev.seq, event_id: ev.event_id, recorded_at: ev.recorded_at, actor_id: ev.actor_id, actor_kind: ev.actor_kind, task_id: ev.task_id, causation_id: ev.causation_id, type: ev.type, title: ev.type, detail: '' }])
       }
       // named SSE events: subscribe to every type we know plus the generic 'message'
       const types = ['run.created', 'run.started', 'run.completed', 'run.partial', 'run.failed', 'run.cancelled', 'run.interrupted', 'run.resumed', 'run.forked', 'run.blocked', 'config.resolved',
         'plan.proposed', 'plan.rejected', 'plan.accepted', 'task.created', 'task.ready', 'task.started', 'task.waiting', 'task.blocked', 'task.review_pending', 'task.accepted', 'task.partial', 'task.failed',
         'task.cancelled', 'task.interrupted', 'task.updated', 'model.called', 'model.failed', 'tool.called', 'message.sent', 'message.read', 'artifact.published', 'artifact.read', 'check.completed',
-        'review.submitted', 'approval.requested', 'approval.resolved', 'blocker.reported', 'checkpoint.saved', 'report.generated', 'budget.exceeded', 'policy.denied']
+        'review.submitted', 'approval.requested', 'approval.resolved', 'blocker.reported', 'checkpoint.saved', 'report.generated', 'budget.exceeded', 'policy.denied', 'instruction.received']
       for (const t of types) es.addEventListener(t, onEvent as EventListener)
       es.addEventListener('end', () => { es?.close(); reload(); reloadProjections() })
       es.onerror = () => { /* EventSource reconnects with Last-Event-ID */ }
@@ -82,6 +86,17 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
   }, [run])
 
   const act = async (fn: () => Promise<unknown>) => { setErr(null); try { await fn(); await reload() } catch (e) { setErr(String(e)) } }
+  const syncAfterInstruction = useCallback(async () => {
+    const fresh = await api.events(runId, lastSeq.current)
+    if (fresh.length) {
+      lastSeq.current = fresh[fresh.length - 1].seq
+      setEvents((prev) => {
+        const known = new Set(prev.map((event) => event.event_id))
+        return [...prev, ...fresh.filter((event) => !known.has(event.event_id))]
+      })
+    }
+    await Promise.all([reload(), reloadProjections()])
+  }, [runId, reload, reloadProjections])
   const doFork = async () => {
     if (run?.access && !run.access.can_override) {
       await act(async () => { const child = await api.fork(runId, {}); nav(`/runs/${child.run_id}`) })
@@ -151,7 +166,12 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             {tab === 'timeline' && <label className="small muted" style={{ marginLeft: 'auto' }}><input type="checkbox" checked={showTools} onChange={(e) => setShowTools(e.target.checked)} /> {tr("ツール呼出も表示")}</label>}
           </header>
           <div className="body">
-            {tab === 'chat' && <Chat chat={chat} agents={agents} tz={tz} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />}
+            {tab === 'chat' && <>
+              <Chat chat={chat} agents={agents} tz={tz} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
+              <InstructionComposer runId={runId} run={run} events={events} canWrite={canWrite} instructionText={instructionText}
+                setInstructionText={setInstructionText} instructionKind={instructionKind} setInstructionKind={setInstructionKind}
+                busy={instructionBusy} setBusy={setInstructionBusy} notice={instructionNotice} setNotice={setInstructionNotice} onSent={syncAfterInstruction} />
+            </>}
             {tab === 'timeline' && <Timeline items={timeline.filter((i) => showTools || !['tool.called', 'message.read', 'artifact.read', 'checkpoint.saved', 'model.called'].includes(i.type))} tz={tz} hiSeq={hiSeq} selTask={selTask} />}
             {tab === 'report' && <Report run={run} />}
             {tab === 'approvals' && <Approvals approvals={run.approvals} onResolved={reload} readOnly={!canWrite} />}
@@ -372,6 +392,71 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
           )
         })}
       </div>
+    </section>
+  )
+}
+
+function InstructionComposer({
+  runId, run, events, canWrite, instructionText, setInstructionText, instructionKind, setInstructionKind,
+  busy, setBusy, notice, setNotice,
+  onSent,
+}: {
+  runId: string
+  run: RunDetail
+  events: Event[]
+  canWrite: boolean
+  instructionText: string
+  setInstructionText: (value: string) => void
+  instructionKind: 'change' | 'question' | 'edit'
+  setInstructionKind: (value: 'change' | 'question' | 'edit') => void
+  busy: boolean
+  setBusy: (value: boolean) => void
+  notice: string | null
+  setNotice: (value: string | null) => void
+  onSent: () => Promise<void>
+}) {
+  const [error, setError] = useState<string | null>(null)
+  const history = events.filter((e) => e.type === 'instruction.received').slice(-3)
+  const sendable = canWrite && ['created', 'queued', 'planning', 'running'].includes(run.status)
+  const submit = async (event: FormEvent) => {
+    event.preventDefault()
+    const text = instructionText.trim()
+    if (!text || busy || !sendable) return
+    setBusy(true); setError(null); setNotice(null)
+    try {
+      await api.instruction(runId, { text, kind: instructionKind })
+      setInstructionText('')
+      setNotice(tr('指示を受信しました。'))
+      await onSent()
+    } catch (e) {
+      setError(`${tr('指示を送信できませんでした。')} ${String(e)}`)
+    } finally { setBusy(false) }
+  }
+  return (
+    <section className="instruction-composer" aria-label={tr('人間の指示')}>
+      <header>
+        <span className="chat-spark" aria-hidden="true">↗</span>
+        <div>
+          <h3>{tr('人間の指示')}</h3>
+          <p className="instruction-note">{sendable ? tr('次に開始するタスクへ引き継ぎます。実行中の計画は自動で書き換えません。') : run.status === 'blocked' || TERMINAL.includes(run.status) ? tr('再開または分岐してから指示を送ってください。') : tr('この run が進行中または開始前のときだけ送信できます。')}</p>
+        </div>
+      </header>
+      <form onSubmit={submit}>
+        <textarea className="input" maxLength={4000} placeholder={tr('指示を入力')} value={instructionText} onChange={(e) => setInstructionText(e.target.value)} disabled={!sendable || busy} />
+        <div className="instruction-foot">
+          <select className="input" aria-label={tr('人間の指示')} value={instructionKind} onChange={(e) => setInstructionKind(e.target.value as 'change' | 'question' | 'edit')} disabled={!sendable || busy}>
+            <option value="change">{tr('変更')}</option>
+            <option value="question">{tr('質問')}</option>
+            <option value="edit">{tr('編集')}</option>
+          </select>
+          <button className="btn signal" type="submit" disabled={!sendable || busy || !instructionText.trim()}>{busy ? tr('送信中…') : tr('指示を送る')}</button>
+          {notice && <span className="small" style={{ color: 'var(--ok)' }}>{notice}</span>}
+          {error && <span className="err small" role="alert">{error}</span>}
+        </div>
+      </form>
+      {history.length > 0 && <div className="instruction-history" aria-label={tr('人間の指示')}>
+        {history.map((e) => <div className="instruction-history-item" key={e.event_id}><span className="mono">#{e.seq} {e.payload.kind || 'change'}</span>{String(e.payload.text || '')}</div>)}
+      </div>}
     </section>
   )
 }

@@ -2,7 +2,7 @@
 
 ## Hero (日本語 / English)
 - H1: 資料やコードの作成を、レビューまで任せる。 / Let the drafting run through review.
-- 説明: 複数のAIが、作成とレビューを分担して進めます。できたファイルと一緒に、修正した箇所や、確認できなかった点を残します。 / Multiple AI agents split drafting and review. The files they make, the changes they apply and the things they could not verify stay together.
+- 説明: 複数のAIが、作成とレビューを分担して進めます。実ファイルを添付でき、実行中の指示を次のタスクへ引き継ぎます。できたファイルと一緒に、修正した箇所や、確認できなかった点を残します。 / Multiple AI agents split drafting and review. Attach real files and pass directions into the next task while the work is running. The files they make, the changes they apply and the things they could not verify stay together.
 - 主CTA: 実例を見る / See a real example
 - 副CTA: 自分の環境で使う / Use it in your environment
 - 条件: オープンソース（MIT）。実行には対応するAI接続が必要です。 / Open source (MIT). A compatible AI connection is required.
@@ -24,6 +24,7 @@
 - 自分の環境で実行する。Ollamaなどのローカル接続、Claude Code、OpenAI互換接続に対応する。
 - MITライセンスとAI接続の契約・利用料を分けて説明する。
 - ローカル接続では入力は自分の環境に留まり、クラウドモデルを選ぶ場合は選択したプロバイダへ送信されることを明記する。
+- 依頼にはtxt・md・csvの実ファイルを添付できる。実行中の人間の指示は`instruction.received`イベントとして保存し、次のタスクセッションへ引き継ぐ。既存の計画を自動で書き換えるとは表示しない。
 - `uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart` を表示し、コピーは導入完了と扱わない。
 
 ## 業務利用の相談

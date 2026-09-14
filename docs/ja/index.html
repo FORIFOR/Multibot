@@ -31,9 +31,9 @@
       <div class="hero-copy">
         <p class="kicker">オープンソース（MIT）</p>
         <h1 id="hero-heading">資料やコードの作成を、<br />レビューまで任せる。</h1>
-        <p class="lede">複数のAIが、作成とレビューを分担して進めます。できたファイルと一緒に、修正した箇所や、確認できなかった点を残します。</p>
+        <p class="lede">複数のAIが、作成とレビューを分担して進めます。実ファイルを添付でき、実行中の指示も次のタスクへ引き継ぎます。できたファイルと一緒に、修正した箇所や、確認できなかった点を残します。</p>
         <div class="cta"><a class="btn primary" href="#example" data-track="example_open">実例を見る</a><a class="btn secondary" href="#how-to">自分の環境で使う</a></div>
-        <p class="hero-note">実行には対応するAI接続が必要です。ローカルのOllama、Claude Code、OpenAI互換接続に対応しています。</p>
+        <p class="hero-note">実行には対応するAI接続が必要です。ローカルのOllama、Claude Code、OpenAI互換接続から選べます。Claude Codeは必須ではありません。</p>
       </div>
 
       <div class="hero-example" id="example" aria-labelledby="example-heading">
@@ -45,7 +45,7 @@
         <details class="video-details">
           <summary>実行画面の動画を見る</summary>
           <p>動画は操作の流れを確認するための補助資料です。ページを開いただけでは再生しません。</p>
-          <video controls playsinline preload="none" poster="../media/replay-research-poster.jpg" aria-label="実行画面の操作動画"><source src="../media/real-walkthrough-ja-silent.mp4" type="video/mp4"><track kind="captions" src="../media/real-walkthrough-ja-silent.vtt" srclang="ja" label="日本語" default></video>
+          <video id="replay-video" controls playsinline preload="none" poster="../media/replay-research-poster.jpg" aria-label="実行画面の操作動画"><source src="../media/real-walkthrough-ja-silent.mp4" type="video/mp4"><track kind="captions" src="../media/real-walkthrough-ja-silent.vtt" srclang="ja" label="日本語" default></video>
           <p class="caption">32秒に編集した既存の実行記録です。実際の実行時間や、未完了の状態は上の記録とリンク先で確認してください。</p>
         </details>
       </div>
@@ -70,10 +70,11 @@
         <div><h3>どこで動くか</h3><p>自分の環境で実行します。Ollamaなどのローカル接続か、Claude Code・OpenAI互換の接続を選びます。</p></div>
         <div><h3>費用は何にかかるか</h3><p>ソフトウェアはMITライセンスです。接続するAIサービスの契約料・利用料は別途かかります。</p></div>
         <div><h3>データはどこへ送られるか</h3><p>ローカル接続では自分の環境に留まります。クラウドモデルを選ぶ場合は、選択したプロバイダへ入力が送信されます。</p></div>
+        <div><h3>途中で方向を変える</h3><p>txt・md・csvの資料を依頼に添付できます。実行中に送った指示はイベントとして記録され、次に開始するタスクへ引き継がれます。</p></div>
       </div>
       <div class="install-block" id="github">
         <h3>導入コマンド</h3>
-        <p>READMEの手順に沿って、Claude CodeまたはOllamaなどの接続を準備してください。コマンドをコピーしただけでは導入完了になりません。</p>
+        <p>READMEの手順に沿って、Ollamaなどのローカル接続、Claude CodeまたはOpenAI互換接続を準備してください。コマンドをコピーしただけでは導入完了になりません。</p>
         <div class="term"><pre id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div>
         <div class="install-actions"><button class="btn secondary copy-install" type="button">導入コマンドをコピー</button><span class="copy-status" role="status" aria-live="polite"></span><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">READMEと接続設定を見る ↗</a></div>
       </div>

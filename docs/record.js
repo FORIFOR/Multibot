@@ -74,7 +74,7 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function nl(s) { return esc(s).replace(/\n/g, '<br>'); }
   window.track = window.track || function (name, props) {
-    if(window.productEvent) window.productEvent(name);
+    if(window.productEvent) window.productEvent(name, props);
   };
   var TARGET = { f1: ['f1', 'f13'], f2: ['f2'], f3: ['f3', 'f13'] };
   function render(root) {

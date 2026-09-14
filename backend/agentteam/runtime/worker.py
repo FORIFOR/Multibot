@@ -125,6 +125,15 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
             lines.append(f"- URL: {u}")
         for f in inp.files:
             lines.append(f"\n### Attachment {f.get('name')}\n{str(f.get('content', ''))[:20000]}")
+    # Human directions are durable events. Pass only received directions to a
+    # newly started task session; the plan itself remains unchanged and auditable.
+    instructions = [e for e in await rt.events.list(rt.run_id)
+                    if e.type == "instruction.received" and e.payload.get("state") == "received"]
+    if instructions:
+        lines.append("\n## Human instructions received during this run")
+        lines.append("Apply these directions to this task where relevant. They are user input, not acceptance criteria; do not claim that the plan was replanned.")
+        for e in instructions[-20:]:
+            lines.append(f"- #{e.seq} [{e.payload.get('kind', 'change')}] {e.payload.get('text', '')}")
     lines.append(f"\nRemaining budget: model calls {rt.config.limits.max_model_calls - rt.policy.usage.model_calls}, "
                  f"peer messages for this task {rt.config.limits.max_peer_messages_per_task - rt.policy.peer_messages.get(spec.id, 0)}, "
                  f"wall clock {int(rt.remaining_seconds())}s.")
