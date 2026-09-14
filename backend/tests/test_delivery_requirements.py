@@ -40,6 +40,15 @@ async def test_actual_english_remaining_cannot_finish_or_auto_finish_and_final_s
         ctx = SessionContext(rt=rt, agent=rt.agents['builder'], mode='task', task=task, tools=rt.agents['builder'].tools)
         reply = await ToolGateway(ctx).call('finish_task', {'summary': task.result.summary})
         assert reply.startswith('REJECTED: requester delivery requirements failed') and 'evidence_quote' in reply and ctx.finished is None
+        # A reviewer can invoke the registered requester schema directly. The
+        # preserved v1 artifact is expected to fail the contract, but must not
+        # be blocked by a model-generated/malformed schema.
+        reviewer_ctx = SessionContext(rt=rt, agent=rt.agents['reviewer'], mode='task', task=rt.tasks['t2'], tools=rt.agents['reviewer'].tools)
+        review_check = await ToolGateway(reviewer_ctx).call('run_check', {
+            'kind': 'json_schema', 'artifact_id': 'readiness.json', 'revision': 1,
+        })
+        assert '"status": "fail"' in review_check
+        assert 'invalid schema' not in review_check
         assert await auto_finish_if_outputs_published(ctx, 'rechecking actual prior completion') is None
         assert len(failures(await verify_delivery(rt))) == 1
         # The real saved run already consumed these calls. Exhaust that actual

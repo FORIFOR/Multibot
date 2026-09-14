@@ -73,7 +73,8 @@ TOOL_SPECS: dict[str, ToolSpec] = {
                             _obj({"command": {"type": "string"}, "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300}}, ["command"])),
     "run_check": ToolSpec("run_check",
                           "Run a registered check against a published artifact revision (or a workspace path). Kinds: "
-                          + "; ".join(f"{k}: {v}" for k, v in CHECK_KINDS.items()),
+                          + "; ".join(f"{k}: {v}" for k, v in CHECK_KINDS.items())
+                          + ". For json_schema, omitting args.schema on an artifact whose logical path has a requester delivery requirement uses that exact registered schema.",
                           _obj({"kind": {"type": "string", "enum": list(CHECK_KINDS)}, "artifact_id": {"type": "string"},
                                 "revision": {"type": "integer"}, "path": {"type": "string"},
                                 "args": {"type": "object", "additionalProperties": True}}, ["kind"])),
@@ -385,12 +386,22 @@ class ToolGateway:
         kind = a["kind"]
         data: bytes | None = None
         target: dict[str, Any] = {}
+        contract_requirement = None
         if a.get("artifact_id"):
             m = await self._artifact(a["artifact_id"], a.get("revision"))
             if m is None:
                 return f"NOT FOUND: artifact {a['artifact_id']}"
             data = rt.artifacts.read_bytes(m)
             target = {"artifact_id": m.artifact_id, "revision": m.revision, "sha256": m.sha256}
+            # Reviewers must be able to run the requester-owned delivery check
+            # without reconstructing (and potentially corrupting) its schema.
+            # Resolve it by logical path only; other checks keep their explicit
+            # arguments and behavior.
+            if kind == "json_schema":
+                contract_requirement = next(
+                    (r for r in rt.run.inputs.delivery_requirements if r.logical_path == m.logical_path),
+                    None,
+                )
         elif a.get("path"):
             p = self._ws_path(a["path"])
             if not p.is_file():
@@ -400,8 +411,14 @@ class ToolGateway:
             target = {"workspace_path": a["path"], "sha256": hashlib.sha256(data).hexdigest()}
         elif kind != "command":
             return "REJECTED: provide artifact_id (published revision) or path (workspace file)"
-        result = await run_check(kind, data, dict(a.get("args") or {}), ctx.workspace, require_container=rt.require_container)
-        await rt.events.append(rt.run_id, "check.completed", {"kind": kind, "target": target, "args": a.get("args") or {},
+        check_args = dict(a.get("args") or {})
+        if kind == "json_schema" and "schema" not in check_args and contract_requirement is not None:
+            check_args["schema"] = contract_requirement.json_schema
+        result = await run_check(kind, data, check_args, ctx.workspace, require_container=rt.require_container)
+        recorded_args = dict(a.get("args") or {})
+        if contract_requirement is not None and kind == "json_schema" and "schema" not in recorded_args:
+            recorded_args["schema_source"] = "requester_delivery_requirement"
+        await rt.events.append(rt.run_id, "check.completed", {"kind": kind, "target": target, "args": recorded_args,
                                                               "result": result},
                                actor_id=ctx.agent.agent_id, actor_kind="agent", task_id=ctx.task_id, causation_id=cid)
         return json.dumps({"kind": kind, "target": target, "result": result}, ensure_ascii=False, indent=1)

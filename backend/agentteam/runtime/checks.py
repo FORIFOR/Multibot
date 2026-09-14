@@ -126,7 +126,14 @@ def json_schema_check(data: bytes, schema: dict[str, Any] | None) -> dict[str, A
         doc = json.loads(data.decode("utf-8"))
     except Exception as e:
         return {"status": "fail", "problems": [f"invalid JSON: {e}"]}
-    errs = [f"{'/'.join(str(x) for x in e.path) or '$'}: {e.message}" for e in Draft202012Validator(schema).iter_errors(doc)]
+    try:
+        Draft202012Validator.check_schema(schema)
+        validator = Draft202012Validator(schema)
+    except Exception as exc:
+        # A model-supplied schema is untrusted input. Keep malformed schema
+        # errors bounded and explicit instead of leaking a worker traceback.
+        return {"status": "blocked", "problems": [f"invalid schema: {type(exc).__name__}"]}
+    errs = [f"{'/'.join(str(x) for x in e.path) or '$'}: {e.message}" for e in validator.iter_errors(doc)]
     return {"status": "pass" if not errs else "fail", "problems": errs[:20]}
 
 
