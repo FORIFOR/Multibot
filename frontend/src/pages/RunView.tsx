@@ -138,10 +138,8 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
         </div>
       </div>
 
-      <div className="work">
-        <TeamPane run={run} agents={agents} selTask={selTask} setSelTask={setSelTask} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
-        <ArtifactPane run={run} artifactsById={artifactsById} sel={selArt} setSel={setSelArt} events={events} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
-        <section className="pane chat-pane">
+      <div className="work work-chat-first">
+        <section className="pane chat-pane chat-main">
           <header>
             <div className="tabs">
               {(['chat', 'timeline', 'report', 'approvals'] as Tab[]).map((t) => (
@@ -159,6 +157,10 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             {tab === 'approvals' && <Approvals approvals={run.approvals} onResolved={reload} readOnly={!canWrite} />}
           </div>
         </section>
+        <aside className="chat-side" aria-label={tr('実行の補助情報')}>
+          <TeamPane run={run} agents={agents} selTask={selTask} setSelTask={setSelTask} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
+          <ArtifactPane run={run} artifactsById={artifactsById} sel={selArt} setSel={setSelArt} events={events} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
+        </aside>
       </div>
     </div>
   )
@@ -297,12 +299,12 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
         <div className="chat-live"><span className="chat-live-dot" aria-hidden="true" />{tr('実メッセージ')}<b>{chat.length}</b></div>
       </div>
       <p className="chat-caption">{tr('実際に受信箱へ届いたメッセージを、担当Botごとに表示しています。')}</p>
-      <div className="chat-stream">
+      <div className="chat-stream" role="log" aria-live="polite" aria-relevant="additions text" aria-label={tr('実行のコミュニケーション')}>
         {chat.map((m, index) => {
           const agent = agents[m.from]
           const tone = avatarTone(m.from)
           return (
-            <article key={m.event_id} className={'chat-card' + (index === chat.length - 1 ? ' latest' : '')}>
+            <article key={m.event_id} className={'chat-card' + (index === chat.length - 1 ? ' latest' : '')} aria-label={`${m.from} → ${m.to}`}>
               <div className={'chat-avatar tone-' + tone} aria-hidden="true">{initials(m.from)}</div>
               <div className="chat-card-main">
                 <div className="chat-authorline">

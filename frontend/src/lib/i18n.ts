@@ -26,6 +26,7 @@ const EN: Record<string, string> = {
   'が': ' requests approval for ', 'の承認を要求': '', '承認': 'Approve', '却下': 'Reject', '承認待ち': 'Pending approval', '承認待ち {n} 件': '{n} pending approval(s)',
   '読み込み中…': 'Loading…', 'Master が記録した前提': 'Assumption recorded by the Master', '前提': 'assumption',
   'チームチャット': 'Team chat', '時系列': 'Timeline', '最終報告': 'Final report', 'Master が計画中…': 'Master is planning…',
+  '実行の補助情報': 'Run supporting information',
   'メッセージを待っています': 'Waiting for messages', '実行のコミュニケーション': 'Run communication', '実メッセージ': 'Delivered messages',
   '実際に受信箱へ届いたメッセージを、担当Botごとに表示しています。': 'Messages delivered to a recipient mailbox, grouped by bot.', '返信': 'reply', 'メッセージを時系列で見る': 'View message in timeline',
   '手動固定プロンプト': 'user-locked prompt', '公開': 'published', '検証': 'check', 'レビュー': 'review', 'メッセージ': 'message',
