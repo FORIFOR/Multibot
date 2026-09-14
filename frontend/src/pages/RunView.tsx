@@ -1,7 +1,7 @@
 import { t as tr } from '../lib/i18n'
 import Orb from '../components/Orb'
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
-import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
+import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ArtifactSelection, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
 import { Link } from '../lib/router'
 
 type Tab = 'chat' | 'timeline' | 'report' | 'approvals'
@@ -58,7 +58,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
         if (ev.seq <= lastSeq.current) return
         lastSeq.current = ev.seq
         setEvents((prev) => [...prev, ev])
-        if (/^(task|run|artifact\.published|approval|plan|report|instruction)/.test(ev.type)) reload()
+        if (/^(task|run|artifact\.(published|adopted)|approval|plan|report|instruction)/.test(ev.type)) reload()
         if (ev.type === 'message.sent' || ev.type.startsWith('run.') || ev.type === 'check.completed' || ev.type === 'review.submitted' || ev.type === 'instruction.received') reloadProjections()
         else setTimeline((prev) => [...prev, { seq: ev.seq, event_id: ev.event_id, recorded_at: ev.recorded_at, actor_id: ev.actor_id, actor_kind: ev.actor_kind, task_id: ev.task_id, causation_id: ev.causation_id, type: ev.type, title: ev.type, detail: '' }])
       }
@@ -66,7 +66,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
       const types = ['run.created', 'run.started', 'run.completed', 'run.partial', 'run.failed', 'run.cancelled', 'run.interrupted', 'run.resumed', 'run.forked', 'run.blocked', 'config.resolved',
         'plan.proposed', 'plan.rejected', 'plan.accepted', 'task.created', 'task.ready', 'task.started', 'task.waiting', 'task.blocked', 'task.review_pending', 'task.accepted', 'task.partial', 'task.failed',
         'task.cancelled', 'task.interrupted', 'task.updated', 'model.called', 'model.failed', 'tool.called', 'message.sent', 'message.read', 'artifact.published', 'artifact.read', 'check.completed',
-        'review.submitted', 'approval.requested', 'approval.resolved', 'blocker.reported', 'checkpoint.saved', 'report.generated', 'budget.exceeded', 'policy.denied', 'instruction.received']
+        'review.submitted', 'approval.requested', 'approval.resolved', 'blocker.reported', 'checkpoint.saved', 'report.generated', 'budget.exceeded', 'policy.denied', 'instruction.received', 'artifact.adopted']
       for (const t of types) es.addEventListener(t, onEvent as EventListener)
       es.addEventListener('end', () => { es?.close(); reload(); reloadProjections() })
       es.onerror = () => { /* EventSource reconnects with Last-Event-ID */ }
@@ -177,9 +177,10 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             {tab === 'approvals' && <Approvals approvals={run.approvals} onResolved={reload} readOnly={!canWrite} />}
           </div>
         </section>
-        <aside className="chat-side" aria-label={tr('実行の補助情報')}>
+          <aside className="chat-side" aria-label={tr('実行の補助情報')}>
           <TeamPane run={run} agents={agents} selTask={selTask} setSelTask={setSelTask} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
-          <ArtifactPane run={run} artifactsById={artifactsById} sel={selArt} setSel={setSelArt} events={events} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
+          <ArtifactPane run={run} artifactsById={artifactsById} selections={run.artifact_selection || {}} sel={selArt} setSel={setSelArt} events={events} canWrite={canWrite}
+            onChanged={reload} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
         </aside>
       </div>
     </div>
@@ -236,11 +237,17 @@ function TeamPane({ run, agents, selTask, setSelTask, onJump }: { run: RunDetail
   )
 }
 
-function ArtifactPane({ run, artifactsById, sel, setSel, events, onJump }: { run: RunDetail; artifactsById: Map<string, Artifact[]>; sel: { id: string; rev: number } | null; setSel: (s: { id: string; rev: number }) => void; events: Event[]; onJump: (seq: number) => void }) {
+function ArtifactPane({ run, artifactsById, selections, sel, setSel, events, canWrite, onChanged, onJump }: { run: RunDetail; artifactsById: Map<string, Artifact[]>; selections: Record<string, ArtifactSelection>; sel: { id: string; rev: number } | null; setSel: (s: { id: string; rev: number }) => void; events: Event[]; canWrite: boolean; onChanged: () => Promise<void>; onJump: (seq: number) => void }) {
   const [detail, setDetail] = useState<any>(null)
+  const [diffFrom, setDiffFrom] = useState<number | null>(null)
+  const [diffText, setDiffText] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [notice, setNotice] = useState<string | null>(null)
   useEffect(() => { if (sel) api.artifact(run.run_id, sel.id, sel.rev).then(setDetail).catch(() => setDetail(null)) }, [sel, run.run_id, run.last_seq])
+  useEffect(() => { setDiffText(null); setDiffFrom(null); setNotice(null) }, [sel?.id, sel?.rev])
   const revs = sel ? artifactsById.get(sel.id) || [] : []
   const cur = revs.find((r) => r.revision === sel?.rev)
+  const adopted = sel ? selections[sel.id] : undefined
   const isHtml = !!cur && cur.media_type.includes('html')
   const related = sel ? events.filter((e) => (e.type === 'artifact.published' && e.payload.artifact_id === sel.id && e.payload.revision === sel.rev)
     || (e.type === 'check.completed' && e.payload.target?.artifact_id === sel.id && e.payload.target?.revision === sel.rev)
@@ -251,6 +258,7 @@ function ArtifactPane({ run, artifactsById, sel, setSel, events, onJump }: { run
       <header>
         <h3>{tr("成果物")}</h3>
         <span className="muted small" style={{ marginLeft: 'auto' }}>{artifactsById.size} files</span>
+        <a className="btn sm ghost" href={`/api/runs/${run.run_id}/export?fmt=zip`}>{tr('まとめて取得')}</a>
       </header>
       <div className="body stack">
         <div className="art-list">
@@ -272,7 +280,22 @@ function ArtifactPane({ run, artifactsById, sel, setSel, events, onJump }: { run
               <div className="revs">{revs.map((r) => <button key={r.revision} className={r.revision === sel?.rev ? 'active' : ''} onClick={() => setSel({ id: r.artifact_id, rev: r.revision })}>r{r.revision}</button>)}</div>
               <span className="mono muted small">sha256 {cur.sha256.slice(0, 16)}… · {cur.media_type} · {cur.size}B · {fmtTime(cur.created_at)}</span>
               <a className="btn sm ghost" href={api.artifactRawUrl(run.run_id, cur.artifact_id, cur.revision)} target="_blank" rel="noreferrer">raw</a>
+              {canWrite && adopted?.revision !== cur.revision && <button className="btn sm signal" disabled={busy} onClick={async () => {
+                setBusy(true); setNotice(null)
+                try { await api.adoptArtifact(run.run_id, cur.artifact_id, { revision: cur.revision, expected_selected_revision: adopted?.revision }); setNotice(tr('この版を採用しました。')); await onChanged() }
+                catch (e) { setNotice(String(e)) } finally { setBusy(false) }
+              }}>{busy ? tr('採用中…') : tr('この版を採用')}</button>}
+              {adopted?.revision === cur.revision && <span className="tag status-completed">{tr('採用版')}</span>}
             </div>
+            {revs.length > 1 && <div className="artifact-diff-controls">
+              <select className="input" value={diffFrom ?? ''} onChange={(e) => setDiffFrom(e.target.value ? Number(e.target.value) : null)} aria-label={tr('比較元の版')}>
+                <option value="">{tr('比較する版を選択')}</option>
+                {revs.filter((r) => r.revision !== cur.revision).map((r) => <option key={r.revision} value={r.revision}>r{r.revision}</option>)}
+              </select>
+              <button className="btn sm ghost" disabled={!diffFrom} onClick={async () => { if (!diffFrom || !cur) return; setBusy(true); try { const d = await api.artifactDiff(run.run_id, cur.artifact_id, diffFrom, cur.revision); setDiffText(d.supported ? d.diff || tr('変更はありません。') : d.reason || tr('この形式の差分には対応していません。')) } catch (e) { setDiffText(String(e)) } finally { setBusy(false) } }}>{tr('差分を見る')}</button>
+            </div>}
+            {notice && <p className="small" role="status">{notice}</p>}
+            {diffText !== null && <pre className="artifact-diff" aria-label={tr('成果物の差分')}>{diffText}</pre>}
             <div className="preview">
               {isHtml ? <iframe title={cur.logical_path} sandbox="" src={api.artifactRawUrl(run.run_id, cur.artifact_id, cur.revision)} />
                 : <pre>{detail?.text ?? '(binary)'}</pre>}

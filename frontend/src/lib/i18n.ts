@@ -15,7 +15,7 @@ const EN: Record<string, string> = {
     'e.g. From this product description, build a launch page, a README and three social posts. Research what is missing. Stop before publishing.',
   '製品説明などのテキスト（任意）': 'Text such as a product description (optional)', '参照URL（空白区切り、任意）': 'Reference URLs (space-separated, optional)',
   '依頼に含める資料': 'Materials for this request', 'txt / md / csv、1ファイル512KBまで': 'txt / md / csv, up to 512KB per file',
-  '添付済み資料': 'Attached materials', 'txt / md / csv のみ添付できます。': 'Only txt, md or csv files can be attached.',
+  '添付済み資料': 'Attached materials', 'txt / md / csv のみ添付できます。': 'Only txt, md or csv files can be attached.', 'まとめて取得': 'Download bundle', 'この版を採用': 'Adopt this version', '採用版': 'Adopted', '採用中…': 'Adopting…', 'この版を採用しました。': 'This version is adopted.', '比較元の版': 'Compare from revision', '比較する版を選択': 'Choose a revision to compare', '差分を見る': 'View diff', '成果物の差分': 'Artifact diff', '変更はありません。': 'No changes.', 'この形式の差分には対応していません。': 'Text diff is not available for this format.',
   '512KB 以下のファイルを選んでください。': 'Choose a file up to 512KB.', 'ファイルを読み込めませんでした。': 'The file could not be read.',
   '削除': 'Remove', '人間の指示': 'Human instruction', '受信': 'Received',
   '次に開始するタスクへ引き継ぎます。実行中の計画は自動で書き換えません。': 'Passed to the next task session. The current plan is not rewritten automatically.',

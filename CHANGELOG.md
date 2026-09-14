@@ -7,6 +7,7 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 ### Added
 - A liquid-glass "thinking" orb in the run header while a run is live and next to the start button while a request starts (WebGPU; browsers without a WebGPU adapter keep the pulse dot). The orb is a standalone export of the MIT-licensed Liquid Orb Editor (LerSent001/orb), vendored as `frontend/src/assets/orb.html` with its parameter snapshot and license.
 - Requests can include real `.txt`, `.md`, `.markdown` or `.csv` attachments (the UI reads each file locally and caps it at 512KB). Human directions sent from the run chat are persisted as `instruction.received` events and included in the next task session.
+- Artifact revisions expose text diffs, an explicit human adoption event, and a run-level ZIP containing the latest artifacts, report, and event log.
 
 ### Changed
 - The public Japanese and English homepages were reorganized around one real work record: a shorter explanation, a readable deliverable/findings view, a deliverable-linked work list, explicit runtime/data conditions, and one consolidated business inquiry entry. The page uses a white, shared sans-serif theme and keeps the limitation (partial run and unverified source check) next to the example.

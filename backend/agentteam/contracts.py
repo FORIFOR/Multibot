@@ -138,6 +138,7 @@ class EventType(StrEnum):
     budget_exceeded = "budget.exceeded"
     policy_denied = "policy.denied"
     instruction_received = "instruction.received"
+    artifact_adopted = "artifact.adopted"
 
 
 class Event(BaseModel):

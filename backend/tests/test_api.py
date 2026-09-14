@@ -1,5 +1,7 @@
 import asyncio
 import json
+import zipfile
+from io import BytesIO
 
 import httpx
 import pytest
@@ -51,6 +53,17 @@ async def test_run_lifecycle_events_cursor_and_artifacts(client):
     assert exp.status_code == 200 and len(exp.text.strip().splitlines()) == len(evs)
     md = await client.get(f"/api/runs/{run_id}/export?fmt=md")
     assert "Final report" in md.text
+    diff = await client.get(f"/api/artifacts/{run_id}/index.html/versions/2/diff?from_revision=1")
+    assert diff.status_code == 200 and diff.json()["supported"] and "+++" in diff.json()["diff"]
+    adopted = await client.post(f"/api/artifacts/{run_id}/index.html/adopt", json={"revision": 2, "note": "確認済み"})
+    assert adopted.status_code == 202 and adopted.json()["revision"] == 2
+    detail = (await client.get(f"/api/runs/{run_id}")).json()
+    assert detail["artifact_selection"]["index.html"]["revision"] == 2
+    bundle = await client.get(f"/api/runs/{run_id}/export?fmt=zip")
+    assert bundle.status_code == 200
+    with zipfile.ZipFile(BytesIO(bundle.content)) as archive:
+        assert "final-report.md" in archive.namelist()
+        assert any(name.endswith("artifacts/index.html") for name in archive.namelist())
 
 
 async def test_stream_replays_from_cursor_and_dedupes(client):

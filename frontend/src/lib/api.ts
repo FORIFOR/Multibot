@@ -17,7 +17,9 @@ export interface Run {
   config_snapshot: { agents?: Record<string, EffectiveAgent>; provider_kind?: string } | null
   parent_run_id: string | null; fork_from_seq: number | null; final_report: any; blocked_reason: string | null; provider_kind: string
 }
-export interface RunDetail extends Run { access?: { can_write: boolean; can_override: boolean }; tasks: TaskState[]; artifacts: Artifact[]; approvals: Approval[]; last_seq: number; live: boolean }
+export interface RunDetail extends Run { access?: { can_write: boolean; can_override: boolean }; tasks: TaskState[]; artifacts: Artifact[]; approvals: Approval[]; artifact_selection?: Record<string, ArtifactSelection>; last_seq: number; live: boolean }
+export interface ArtifactSelection { revision: number; seq: number; event_id: string; actor_id: string; note: string }
+export interface ArtifactDiff { supported: boolean; from_revision: number; revision: number; artifact_id?: string; logical_path?: string; diff?: string; reason?: string }
 export interface EffectiveAgent { agent_id: string; role: string; enabled: boolean; connection_id: string; driver: string; base_url: string; model: string; prompt_mode: string; system_prompt: string; system_prompt_sha256: string; skills: { name: string; description: string; sha256: string }[]; tools: string[]; effort: string | null; api_key_ref: string | null }
 export interface AgentSpec { id: string; role: string; enabled: boolean; connection_id: string; model: string; system_prompt_file: string; prompt_mode: 'auto_seed' | 'user_locked'; skill_ids: string[]; tools: string[]; system_prompt_override: string | null; effort: string | null }
 export interface Connection { id: string; driver: string; base_url: string; api_key_ref: string | null; capability_check: 'not_run' | 'passed' | 'failed'; capability_detail: any; refusal_fallback: boolean; ollama_thinking?: boolean | null }
@@ -82,6 +84,10 @@ export const api = {
   approvals: (status?: string) => req<Approval[]>('GET', `/api/approvals${status ? `?status=${status}` : ''}`),
   resolveApproval: (id: string, body: { decision: string; note?: string; expected_hash?: string; nonce?: string }) => req<Approval>('POST', `/api/approvals/${id}/resolve`, body),
   artifact: (runId: string, artifactId: string, rev: number) => req<Artifact & { text?: string; checks: Event[]; reviews: Event[] }>('GET', `/api/artifacts/${runId}/${artifactId}/versions/${rev}`),
+  artifactDiff: (runId: string, artifactId: string, from: number, to: number) =>
+    req<ArtifactDiff>('GET', `/api/artifacts/${runId}/${artifactId}/versions/${to}/diff?from_revision=${from}`),
+  adoptArtifact: (runId: string, artifactId: string, body: { revision: number; expected_selected_revision?: number; note?: string }) =>
+    req<{ artifact_id: string; revision: number; seq: number; event: Event }>('POST', `/api/artifacts/${runId}/${artifactId}/adopt`, body),
   artifactRawUrl: (runId: string, artifactId: string, rev: number) => `/api/artifacts/${runId}/${artifactId}/versions/${rev}/raw`,
   patchAgent: (id: string, body: Record<string, unknown>) => req<{ revision: number }>('PATCH', `/api/agents/${id}`, body),
   putConnection: (id: string, body: Record<string, unknown>) => req<{ revision: number }>('PUT', `/api/connections/${id}`, body),

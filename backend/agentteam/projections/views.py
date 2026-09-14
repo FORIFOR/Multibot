@@ -18,6 +18,7 @@ TITLES = {
     "run.failed": "失敗", "run.cancelled": "取消", "run.interrupted": "中断", "run.resumed": "再開", "run.forked": "分岐",
     "run.blocked": "開始不可", "report.generated": "最終報告を生成", "budget.exceeded": "予算超過", "policy.denied": "権限拒否",
     "instruction.received": "人間の指示を受信",
+    "artifact.adopted": "成果物を採用",
 }
 
 
@@ -51,6 +52,8 @@ def timeline_view(events: list[Event], *, include_tool_calls: bool = True) -> li
             detail = f"{p.get('from_agent_id')} → {p.get('to_agent_id')} [{p.get('purpose')}]"
         elif e.type == "instruction.received":
             detail = f"[{p.get('kind', 'change')}] {str(p.get('text', ''))[:240]} → 次のタスクへ引き継ぎ"
+        elif e.type == "artifact.adopted":
+            detail = f"{p.get('artifact_id')} r{p.get('revision')} を採用"
         elif e.type == "check.completed":
             detail = f"{p.get('kind')}: {(p.get('result') or {}).get('status')}"
         elif e.type == "delivery.checked":

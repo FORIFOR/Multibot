@@ -125,6 +125,7 @@ The product was built from a written blueprint ([`docs/blueprint/`](docs/bluepri
 Master が成果物と完了条件を決め、必要な Bot（Researcher / Builder / Reviewer）だけが実際に作業します。成果物、Bot 間の実メッセージ、時系列、最終報告は同じ実行記録（append-only Event Store）から表示され、台本の会話や固定の成功ログは使いません。
 
 - 成果物を開くと、誰が作り、何を引き継ぎ、どの検証を通ったかまで辿れる
+- 成果物の版間差分を確認して採用版を明示でき、成果物・最終報告・イベントログを run 単位の ZIP で取得できる
 - 各 Bot の接続先・モデル・システムプロンプトを個別に上書きできる（共通設定を継承、手動固定あり）
 - 停止・再開・分岐（Bot のモデルを変えて別案）・再生（LLM 呼出なし）・JSONL エクスポート
 - 権限・予算・回数上限・承認はプロンプトではなく Runtime が強制

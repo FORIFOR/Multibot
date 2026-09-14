@@ -2,11 +2,14 @@
 from __future__ import annotations
 
 import asyncio
+import difflib
+import io
 import json
 import secrets
 import ipaddress
 import shutil
 import re
+import zipfile
 from urllib.parse import urlsplit
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -83,6 +86,12 @@ class ForkBody(BaseModel):
     overrides: dict[str, Any] = Field(default_factory=dict)
     from_seq: int | None = None
     start: bool = True
+
+
+class AdoptArtifactBody(BaseModel):
+    revision: int = Field(ge=1)
+    expected_selected_revision: int | None = Field(default=None, ge=1)
+    note: str = Field(default="", max_length=1000)
 
 
 class InstructionBody(BaseModel):
@@ -495,6 +504,18 @@ def create_app(service: AppService | None = None) -> FastAPI:
         d = run.model_dump()
         d["tasks"] = [t.model_dump() for t in await svc.runs.list_tasks(run_id)]
         d["artifacts"] = [m.model_dump() for m in await svc.artifacts.list(run_id)]
+        # Adoption is an explicit human decision recorded in the event log. A
+        # run with no adoption yet presents its latest revision as a candidate,
+        # but never claims that candidate was accepted by a person.
+        adoption_events = await svc.events.list(run_id, types=["artifact.adopted"])
+        selected: dict[str, dict[str, Any]] = {}
+        for e in adoption_events:
+            artifact_id = e.payload.get("artifact_id")
+            revision = e.payload.get("revision")
+            if artifact_id and isinstance(revision, int):
+                selected[artifact_id] = {"revision": revision, "seq": e.seq, "event_id": e.event_id,
+                                         "actor_id": e.actor_id, "note": e.payload.get("note", "")}
+        d["artifact_selection"] = selected
         d["approvals"] = [a.model_dump() for a in await svc.runs.list_approvals(run_id)]
         d["last_seq"] = await svc.events.last_seq(run_id)
         d["live"] = run_id in svc.manager.live
@@ -658,9 +679,11 @@ def create_app(service: AppService | None = None) -> FastAPI:
         return reply
 
     @app.get("/api/runs/{run_id}/export")
-    async def export_run(run_id: str, fmt: str = "jsonl"):
+    async def export_run(run_id: str, request: Request, fmt: str = "jsonl"):
         run = await svc.runs.get_run(run_id)
         if run is None:
+            raise HTTPException(404, "run not found")
+        if not await svc.access.can_access(request, run_id):
             raise HTTPException(404, "run not found")
         evs = await svc.events.list(run_id)
         if fmt == "jsonl":
@@ -669,6 +692,23 @@ def create_app(service: AppService | None = None) -> FastAPI:
                                      headers={"content-disposition": f'attachment; filename="{run_id}.events.jsonl"'})
         final = await svc.artifacts.get(run_id, "final-report.md")
         md = svc.artifacts.read_text(final) if final else f"# {run.goal}\n\n(no report yet)\n"
+        if fmt == "zip":
+            artifacts = await svc.artifacts.list(run_id, latest_only=True)
+            total = sum(a.size for a in artifacts) + len(md.encode("utf-8"))
+            if total > 50 * 1024 * 1024:
+                raise HTTPException(413, "export exceeds the 50MB download limit")
+            buf = io.BytesIO()
+            with zipfile.ZipFile(buf, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+                archive.writestr("final-report.md", md)
+                archive.writestr("events.jsonl", "\n".join(json.dumps(e.model_dump(), ensure_ascii=False) for e in evs) + "\n")
+                for artifact in artifacts:
+                    # logical_path is validated before publication; using a
+                    # POSIX name here keeps the bundle portable and prevents
+                    # archive traversal when consumed by another tool.
+                    name = str(Path(artifact.logical_path).as_posix()).lstrip("/")
+                    archive.writestr(f"artifacts/{name}", svc.artifacts.read_bytes(artifact))
+            return Response(content=buf.getvalue(), media_type="application/zip",
+                            headers={"content-disposition": f'attachment; filename="{run_id}.artifacts.zip"'})
         return PlainTextResponse(md, media_type="text/markdown")
 
     # ------------------------------------------------------------------ approvals
@@ -692,7 +732,9 @@ def create_app(service: AppService | None = None) -> FastAPI:
 
     # ------------------------------------------------------------------ artifacts
     @app.get("/api/artifacts/{run_id}/{artifact_id}/versions/{revision}")
-    async def artifact_version(run_id: str, artifact_id: str, revision: int):
+    async def artifact_version(run_id: str, artifact_id: str, revision: int, request: Request):
+        if not await svc.access.can_access(request, run_id):
+            raise HTTPException(404, "artifact revision not found")
         m = await svc.artifacts.get(run_id, artifact_id, revision)
         if m is None:
             raise HTTPException(404, "artifact revision not found")
@@ -705,6 +747,52 @@ def create_app(service: AppService | None = None) -> FastAPI:
         if m.media_type.startswith("text/") or m.media_type in ("application/json", "image/svg+xml"):
             d["text"] = svc.artifacts.read_text(m)
         return d
+
+    @app.get("/api/artifacts/{run_id}/{artifact_id}/versions/{revision}/diff")
+    async def artifact_diff(run_id: str, artifact_id: str, revision: int, request: Request,
+                            from_revision: int = Query(..., ge=1)):
+        if not await svc.access.can_access(request, run_id):
+            raise HTTPException(404, "artifact revision not found")
+        if from_revision == revision:
+            raise HTTPException(400, "from_revision and revision must differ")
+        old = await svc.artifacts.get(run_id, artifact_id, from_revision)
+        new = await svc.artifacts.get(run_id, artifact_id, revision)
+        if old is None or new is None:
+            raise HTTPException(404, "artifact revision not found")
+        text_types = {old.media_type, new.media_type}
+        if not all(mt.startswith("text/") or mt in ("application/json", "image/svg+xml") for mt in text_types):
+            return {"supported": False, "from_revision": from_revision, "revision": revision,
+                    "reason": "binary artifacts do not have a text diff"}
+        old_lines = svc.artifacts.read_text(old).splitlines(keepends=True)
+        new_lines = svc.artifacts.read_text(new).splitlines(keepends=True)
+        diff = "".join(difflib.unified_diff(old_lines, new_lines,
+                                             fromfile=f"{old.logical_path}@r{old.revision}",
+                                             tofile=f"{new.logical_path}@r{new.revision}"))
+        return {"supported": True, "from_revision": from_revision, "revision": revision,
+                "artifact_id": artifact_id, "logical_path": new.logical_path, "diff": diff}
+
+    @app.post("/api/artifacts/{run_id}/{artifact_id}/adopt", status_code=202)
+    async def adopt_artifact(run_id: str, artifact_id: str, body: AdoptArtifactBody, request: Request):
+        run = await svc.runs.get_run(run_id)
+        if run is None or not await svc.access.can_access(request, run_id, write=True):
+            raise HTTPException(404, "run not found")
+        artifact = await svc.artifacts.get(run_id, artifact_id, body.revision)
+        if artifact is None:
+            raise HTTPException(404, "artifact revision not found")
+        prior_events = await svc.events.list(run_id, types=["artifact.adopted"])
+        selected = next((e.payload.get("revision") for e in reversed(prior_events)
+                         if e.payload.get("artifact_id") == artifact_id), None)
+        if body.expected_selected_revision is not None and selected != body.expected_selected_revision:
+            raise HTTPException(409, f"artifact selection changed (expected revision {body.expected_selected_revision}, current {selected})")
+        principal = svc.access.principal(request)
+        actor_id = principal.subject if principal else "user"
+        event = await svc.events.append(
+            run_id, "artifact.adopted",
+            {"artifact_id": artifact_id, "revision": body.revision, "sha256": artifact.sha256,
+             "logical_path": artifact.logical_path, "note": body.note.strip()},
+            actor_id=actor_id, actor_kind="human",
+        )
+        return {"artifact_id": artifact_id, "revision": body.revision, "seq": event.seq, "event": event.model_dump()}
 
     @app.get("/api/artifacts/{run_id}/{artifact_id}/versions/{revision}/raw")
     async def artifact_raw(run_id: str, artifact_id: str, revision: int):
