@@ -104,6 +104,11 @@ def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dic
             if p in outputs:
                 errors.append(f"task {t.id}: output path {p} also produced by task {outputs[p]}")
             outputs[p] = t.id
+            # Acceptance identifiers are verdict keys, not deliverable paths.
+            # Rejecting this common model mix-up prevents a worker from being
+            # trapped trying to publish a file whose name was never requested.
+            if any(c.id == p for c in t.acceptance):
+                errors.append(f"task {t.id}: output path {p} duplicates an acceptance id; declare the actual file path")
         if agent_roles.get(t.owner) == "reviewer" and not t.depends_on:
             errors.append(f"task {t.id}: reviewer task must depend on the task it reviews")
         if agent_roles.get(t.owner) != "reviewer" and not t.output_paths:

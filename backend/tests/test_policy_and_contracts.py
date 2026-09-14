@@ -100,6 +100,12 @@ def test_plan_rejects_cycle_unknown_owner_and_duplicates():
     assert any("unknown dependency" in e for e in validate_plan(p, ENABLED, ROLES, 12))
 
 
+def test_plan_rejects_acceptance_id_as_output_path():
+    p = _plan()
+    p.tasks[0].output_paths = ["c1"]
+    assert any("duplicates an acceptance id" in e for e in validate_plan(p, ENABLED, ROLES, 12))
+
+
 def test_fake_driver_not_selectable_from_config():
     with pytest.raises((ConfigError, Exception)):
         load_config_text(FAKE_CONFIG)  # allow_fake defaults to False
