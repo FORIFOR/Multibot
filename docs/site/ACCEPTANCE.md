@@ -18,10 +18,10 @@
 - demo_start / demo_complete（実行記録の再生）、record_finding（指摘クリック、固有操作）、artifact_open、artifact_download、github_outbound（`intent: repo | star`）、quickstart_open、contact_submit。
 
 ## 実行ログ（2026-09-13）
-- `node frontend/scripts/site-check.mjs http://127.0.0.1:8799` → en/ja × pc/mobile の 4 通りで: JS エラー 0、横スクロールなし、H1 56/36px、本文 18px、ボタン 48px、成果物が折り返し前に表示、F-1/F-2/F-3 のジャンプ先 `data-fix` 一致かつ画面内、`record_finding`×3 → `demo_complete`、ポスターあり・自動再生なし、ブランド表記あり、相談 CTA の href が X の DM。
+- `node frontend/scripts/site-check.mjs http://127.0.0.1:8799` → en/ja × pc/mobile の 4 通りで: JS エラー 0、横スクロールなし、H1 56/36px、本文 18px、ボタン 48px、成果物が折り返し前に表示、F-1/F-2/F-3 のジャンプ先 `data-fix` 一致かつ画面内、`record_finding`×3 → `demo_complete`、ポスターあり・自動再生なし、ブランド表記あり、相談フォームとGitHub/Quickstart CTAを確認。
 - ヒーロー 3 案の比較画像: `variants/hero-a.png` `hero-b.png` `hero-c.png`（同一コピー・同一データ）。採用 A（`DESIGN.md`）。
 - CWV: フィールドデータなしのため **未計測**。
-- 公開後（commit 952c1fc、GitHub Pages built）: `node frontend/scripts/site-check.mjs https://forifor.github.io/Multibot` → 4 通りすべて同結果、映像は `demo_start` → `demo_complete` まで発火。
+- 公開後（commit `b550e0e`、GitHub Pages built、2026-09-15 JST）: `node frontend/scripts/site-check.mjs https://forifor.github.io/Multibot` → EN/JA × PC/mobile の4通りすべて JSエラー0、横スクロールなし、ジャンプ先一致、動画イベント発火を確認。収集側が400を返す未対応イベントは送信しないため、公開ページ操作時の計測エラーは0件。
 
 ## Portfolio inquiry correction, 2026-09-13
 Private form delivery replaces public business Issues/DM-click completion. Only durable accepted inquiries count as lead submissions. Event storage is now configured, restricted to enum event/product/language with DNT/GPC respected. No arbitrary URLs or user content is sent. Existing earlier validation statements describe their original revision. Final portfolio validation is recorded separately.
