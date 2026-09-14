@@ -1,18 +1,22 @@
 # 実装・検証状況
 
+## 2026-09-15 最新の実資料試験
+
+現行main（commit `6013e73`）と固定したローカル Ollama の `agentteam-qwen35-9b-16k` を使い、実際の `PRODUCTION_PLAN.md` と運用資料だけを入力にした10回系列を開始しました。第1・2回は旧配信契約では機械検証とReviewer提出を通過しましたが、出力に「パイン」「ロカル」「アデュータ」「actual-source」などの翻訳崩れが残る契約の抜けを確認したため、系列を停止しました。[証跡](evidence/real-readiness-v18-qwen35-fixed-2026-09-15/README.md)を保存し、現行コードの配信境界に検出語を追加済みです。修正後の新しい固定系列は未開始です。10回すべてと意味品質の独立評価が揃うまで、L1の反復条件・L2・L3を達成扱いにしません。
+
 ## 2026-09-14 監査更新
 
 [企業紹介・有償PoC・本番の判定基準](ENTERPRISE_READINESS.md)を分離しました。L1資料はありますが、同一代表業務10回の条件は未達。L2・L3も未到達です。
 
 本番化では、認証・SSO・権限・永続キュー・削除・暗号化復元・監査収集と監視画面を実装し、[更新とロールバックの13項目](evidence/release-operations-2026-09-14/README.md)も実機で確認しました。[通信経路の修正後は102件pass](evidence/provider-transport-2026-09-14/README.md)。実資料の初回業務試験では、日本語要約の欠落をReviewerが見逃し、誤完了しました。[元の失敗を保持](evidence/real-readiness-v1-2026-09-14/README.md)し、依頼者の必須条件を実行基盤でも検査する修正を加えています。本番の設置先・企業IdP・業務品質・運用条件の受入は未完了です。
 
-修正版では、Reviewer's `run_check(json_schema)` が依頼者の保存済みSchemaを直接使えるようにし、不正Schemaを `blocked` として記録します。現行の決定論的テストは **103 passed / 1 skipped**。実資料のQwenローカル試験v3は[3実行分を保存](evidence/real-readiness-v3-2026-09-14/README.md)し、旧ランタイムの合格を再監査で不合格にした語崩れを次系列の配信Schemaへ反映しました。
+修正版では、Reviewer's `run_check(json_schema)` が依頼者の保存済みSchemaを直接使えるようにし、不正Schemaを `blocked` として記録します。現行の決定論的テストは **105 passed / 1 skipped**。実資料のQwenローカル試験v3は[3実行分を保存](evidence/real-readiness-v3-2026-09-14/README.md)し、旧ランタイムの合格を再監査で不合格にした語崩れを次系列の配信Schemaへ反映しました。
 
 qwen2.5-7Bの次系列は[実能力プローブで停止](evidence/real-readiness-v4-qwen25-2026-09-14/README.md)しました。JSON Schemaは通過しましたがtool callingを通過せず、実資料runや成果物を受入れに算入していません。
 
 tool callingを通過したqwen3.5の[実資料v5系列](evidence/real-readiness-v5-qwen35-2026-09-14/README.md)を開始し、1回目は初版不合格→revision 2修正、Reviewer全条件pass、機械判定passで完了しました。10回条件の残りは継続中で、本番導入可能判定はしていません。
 
-強化契約の[v6](evidence/real-readiness-v6-qwen35-2026-09-14/README.md)は英語原文コピー後にmodel callが停止し、[v7](evidence/real-readiness-v7-qwen35-2026-09-14/README.md)は4revisionを公開したものの監査領域の必須語不足で停止しました。両方ともReviewer未実行で、10回条件には算入していません。必須語をBuilder指示へ明示したv8を同じ実Ollamaモデルで実行中です。
+強化契約の[v6](evidence/real-readiness-v6-qwen35-2026-09-14/README.md)は英語原文コピー後にmodel callが停止し、[v7](evidence/real-readiness-v7-qwen35-2026-09-14/README.md)は4revisionを公開したものの監査領域の必須語不足で停止しました。両方ともReviewer未実行で、10回条件には算入していません。現在の反復受入は、これらの停止系列とは別の固定チェックアウトで実行します。
 
 v8は初回計画を受理し、初版を公開したものの、`stale`と「アクター監査」の混在を検出後に修正ループが`max_tokens`へ達しました。Builderをpartial、Reviewerをcancelledとして停止し、成果物とイベントを[保存](evidence/real-readiness-v8-qwen35-2026-09-14/README.md)しました。10回条件には算入していません。
 

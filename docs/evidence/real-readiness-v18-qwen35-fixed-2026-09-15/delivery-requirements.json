@@ -1,0 +1,477 @@
+[
+  {
+    "logical_path": "readiness.json",
+    "json_schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "product",
+        "production_ready",
+        "deployment",
+        "summary",
+        "areas"
+      ],
+      "$defs": {
+        "row": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "area",
+            "implemented",
+            "remaining",
+            "source_file",
+            "evidence_quote"
+          ],
+          "properties": {
+            "area": {
+              "type": "string"
+            },
+            "implemented": {
+              "type": "string",
+              "description": "Japanese summary required. Do not copy the English source quotation.",
+              "minLength": 1,
+              "maxLength": 4000,
+              "pattern": "[ぁ-んァ-ン一-龯]",
+              "not": {
+                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+              }
+            },
+            "remaining": {
+              "type": "string",
+              "description": "Japanese summary required. Do not copy the English source quotation.",
+              "minLength": 1,
+              "maxLength": 4000,
+              "pattern": "[ぁ-んァ-ン一-龯]",
+              "not": {
+                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+              }
+            },
+            "source_file": {
+              "const": "PRODUCTION_PLAN.md"
+            },
+            "evidence_quote": {
+              "type": "string",
+              "description": "Exact English source quotation; do not translate or alter."
+            }
+          }
+        }
+      },
+      "properties": {
+        "product": {
+          "const": "Multibot"
+        },
+        "production_ready": {
+          "const": false
+        },
+        "deployment": {
+          "const": "dedicated-single-host"
+        },
+        "summary": {
+          "type": "string",
+          "description": "Japanese summary required. Do not copy the English source quotation.",
+          "minLength": 1,
+          "maxLength": 4000,
+          "pattern": "[ぁ-んァ-ン一-龯]",
+          "not": {
+            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+          }
+        },
+        "areas": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Identity"
+                    },
+                    "evidence_quote": {
+                      "const": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Production\\ IdP\\ configuration,\\ organization\\ identity\\ policy,\\ MFA\\ enforcement\\ and\\ account\\ lifecycle\\ acceptance"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Isolation"
+                    },
+                    "evidence_quote": {
+                      "const": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Independent\\ attack\\ review,\\ customer\\-specific\\ role/connector/egress\\ policy,\\ permission\\ lifecycle\\ acceptance"
+                          }
+                        }
+                      ]
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "pattern": "アーティファクト"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Execution"
+                    },
+                    "evidence_quote": {
+                      "const": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Workload/load\\ acceptance,\\ external\\-action\\ retry\\ policy,\\ approved\\ availability\\ topology;\\ no\\ distributed\\ workers/HA"
+                          }
+                        }
+                      ]
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "pattern": "(?:idempotent|冪等|べき等)"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Data"
+                    },
+                    "evidence_quote": {
+                      "const": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Approved\\ retention\\ policy\\ including\\ historical\\ backups/forks/provider\\ copies,\\ host\\ encryption\\ and\\ recovery\\-key\\ custody,\\ off\\-site\\ recovery\\ drill,\\ agreed\\ RPO/RTO"
+                          }
+                        }
+                      ]
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "allOf": [
+                            {
+                              "pattern": "age"
+                            },
+                            {
+                              "pattern": "再開可能"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Audit / monitoring"
+                    },
+                    "evidence_quote": {
+                      "const": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Independent\\ retained/WORM\\ custody,\\ actual\\ alert\\ delivery\\ and\\ escalation,\\ collector\\ supervision\\ deployment,\\ service\\ objectives\\ and\\ incident\\ acceptance"
+                          }
+                        }
+                      ]
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "allOf": [
+                            {
+                              "pattern": "監査者"
+                            },
+                            {
+                              "pattern": "カーソル"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Deployment"
+                    },
+                    "evidence_quote": {
+                      "const": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Real\\ TLS/DNS\\ environment,\\ identity\\ service,\\ operating\\ owner,\\ target\\-environment\\ upgrade/rollback\\ and\\ security\\ review"
+                          }
+                        }
+                      ]
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "pattern": "アドバイザリ"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Business quality"
+                    },
+                    "evidence_quote": {
+                      "const": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Ten\\ repeated\\ actual\\-source\\ runs,\\ source/summary\\ correctness,\\ review\\ miss/false\\-positive\\ evaluation,\\ latency\\ and\\ acceptance\\ thresholds"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Contract / operation"
+                    },
+                    "evidence_quote": {
+                      "const": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Owner\\-approved\\ service\\ scope,\\ SLO/SLA,\\ support\\ and\\ incident\\ responsibility;\\ no\\ invented\\ approvals\\ or\\ certifications"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+]

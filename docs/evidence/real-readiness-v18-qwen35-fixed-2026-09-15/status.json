@@ -1,0 +1,6 @@
+{
+  "state": "paused",
+  "updated_at": "2026-09-14T19:06:38.527850+00:00",
+  "target_runs": 10,
+  "reason": "STOP requested; prior attempts preserved"
+}

@@ -98,8 +98,61 @@ def grade(raw, expected):
     contract = json_schema_check(raw.encode(), delivery_schema(expected))
     if contract['status'] != 'pass':
         problems.extend('delivery contract: ' + p for p in contract.get('problems', []))
+    # A Japanese-character check and exact-quote check do not establish that
+    # the summaries cover the source facts.  Require at least two independent
+    # anchors from each source row in both summaries.  This is a conservative
+    # content check, not a claim of full semantic equivalence; the remaining
+    # independent reviewer assessment is recorded separately.
+    if isinstance(areas, list) and len(areas) == len(expected):
+        for row in areas:
+            area = row.get('area') if isinstance(row, dict) else None
+            anchors = SUMMARY_ANCHORS.get(area, {})
+            for field, terms in anchors.items():
+                value = row.get(field, '') if isinstance(row, dict) else ''
+                matches = [term for term in terms if term in value]
+                if len(matches) < 2:
+                    problems.append(f'{area}: {field} covers fewer than two source anchors ({", ".join(matches) or "none"})')
     return {'mechanical_pass': not problems, 'problems': problems, 'semantic_review': 'pending',
             'delivery_contract': contract}
+
+
+# Terms are direct, reviewable concepts from PRODUCTION_PLAN.md.  Synonyms are
+# intentionally limited so a fluent but unsupported paraphrase cannot pass by
+# merely containing Japanese characters.
+SUMMARY_ANCHORS = {
+    'Identity': {
+        'implemented': ('アクセスキー', 'セッション', 'ロール', 'Keycloak', 'SSO'),
+        'remaining': ('IdP', 'MFA', 'アカウント', 'ライフサイクル'),
+    },
+    'Isolation': {
+        'implemented': ('組織', 'アーティファクト', 'イベント', 'SSE', 'Docker', 'IP'),
+        'remaining': ('攻撃', 'ロール', 'コネクタ', 'egress', '権限'),
+    },
+    'Execution': {
+        'implemented': ('予算', 'キュー', '冪等', 'idempotent', 'ワーカー', '回復', 'ドリル'),
+        'remaining': ('負荷', '再試行', 'リトライ', '可用性', '分散', 'HA'),
+    },
+    'Data': {
+        'implemented': ('スナップショット', '復元', 'チェックサム', '再開可能', 'age', '復号'),
+        'remaining': ('保持', 'バックアップ', '暗号化', '鍵', 'オフサイト', 'RPO', 'RTO'),
+    },
+    'Audit / monitoring': {
+        'implemented': ('監査者', 'カーソル', 'コレクター', 'メトリクス', '復旧', 'ブラウザ'),
+        'remaining': ('WORM', 'アラート', 'エスカレーション', '監視', 'サービス', 'インシデント'),
+    },
+    'Deployment': {
+        'implemented': ('ランタイム', 'コンテナ', 'ブラウザ', 'ロールバック', 'アドバイザリ', '依存'),
+        'remaining': ('TLS', 'DNS', 'IdP', 'アイデンティティ', 'オーナー', 'ロールバック', 'セキュリティ'),
+    },
+    'Business quality': {
+        'implemented': ('失敗', '合成', '比較', '出力', '入力'),
+        'remaining': ('10', 'ソース', '出典', 'レビュー', 'レイテンシ', '受入'),
+    },
+    'Contract / operation': {
+        'implemented': ('制限', '文書', '説明', '承認', '認証'),
+        'remaining': ('スコープ', 'SLO', 'SLA', 'サポート', 'インシデント', '責任'),
+    },
+}
 
 
 def delivery_schema(expected):
@@ -118,7 +171,12 @@ def delivery_schema(expected):
         # readiness report cannot silently change the meaning of the source.
         'キーcloak|パインされた|バックス|'
         '演算主体|アクター監査|actor-scoped|per-run|requester-owned|'
-        'resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'
+        'resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|'
+        # v18 exposed additional half-transliterated or English labels that
+        # contain Japanese characters elsewhere in the same sentence.  They
+        # are rejected at the delivery boundary rather than counted as a
+        # successful summary.
+        'パイン|ロカル|アデュータ|actual-source|サマリー'
     )
     japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
                 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]',

@@ -1,0 +1,50 @@
+# Final report — 企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。
+成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まずJSONをそのまま公開してください。
+トップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。
+areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。
+日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。
+技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。
+意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。
+用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。
+提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。
+
+- Status: **completed**
+- Provider kind: real
+- Usage: 16 model calls, 14 tool calls, $0.0000, 533s
+
+## Summary
+Multibot の本番化現状（run_1a0a14661f12703d41d）について、PRODUCTION_PLAN.md に基づく全 8 領域の分析を実施。readiness.json (rev2) へ最終報告を更新しました。production_ready はfalse であり、deployment は dedicated-single-host です。Identity から Contract / operation までの順序で areas を配置し、evidence_quote には PRODUCTION_PLAN.md の原文を引用、implemented/remaining には日本語要約のみを記載しています。
+
+## Deliverables
+- `readiness.json` — readiness.json r2 (sha256 5e6d1e39b021…) by builder / task t1
+
+## Requester delivery requirements
+- `readiness.json` on {'artifact_id': 'readiness.json', 'revision': 2, 'sha256': '5e6d1e39b0218b00b0378a5d56d39a01021be085a4264538f8f864b69742642e'} → pass (seq 38)
+- `readiness.json` on {'artifact_id': 'readiness.json', 'revision': 2, 'sha256': '5e6d1e39b0218b00b0378a5d56d39a01021be085a4264538f8f864b69742642e'} → pass (seq 62)
+
+## Tasks
+- t1 [accepted] builder: PRODUCTION_PLAN.md の 8 領域ごとの実装状況・残工数・引用を基に readiness.json を作成し、schema 制約（暗号化ツール age, アクター監査 auditor カーソル cursor, idempotent 冪等性 などの用語定義と禁止語彙リスト）を満たす。summary は 8 領域の全体像を日本語で要約する。production_ready は false に設定する。deployment は dedicated-single-host とし、areas は Identity から Contract / operation まで順に配置する。 (attempts 1)
+- t2 [accepted] reviewer: 読み取り専用で t1 により作成された readiness.json を検証し、PRODUCTION_PLAN.md の原文引用との一致と日本語要約の事実性を確認する。すべての項目が schema 要件を満たしていることを報告する。 (attempts 1)
+
+## Verified (from checks and reviews)
+- check json_schema on {'artifact_id': 'readiness.json', 'revision': 1, 'sha256': 'e7bb48a0d7113f59dc4007452de20b3cfd4803e0bf53dfa88fd99a2fed4fbd26'} → fail (seq 24)
+- check json_schema on {'artifact_id': 'readiness.json', 'revision': 1, 'sha256': 'e7bb48a0d7113f59dc4007452de20b3cfd4803e0bf53dfa88fd99a2fed4fbd26'} → fail (seq 29)
+- check json_schema on {'artifact_id': 'readiness.json', 'revision': 2, 'sha256': '5e6d1e39b0218b00b0378a5d56d39a01021be085a4264538f8f864b69742642e'} → pass (seq 35)
+- check json_schema on {'artifact_id': 'readiness.json', 'revision': 2, 'sha256': '5e6d1e39b0218b00b0378a5d56d39a01021be085a4264538f8f864b69742642e'} → pass (seq 48)
+- review of t1 by reviewer: t1a1=pass (seq 54)
+- readiness.json rev2 の JSON スキーマ検証（seq 35 pass）
+- PRODUCTION_PLAN.md 引用照合と日本語要約の事実性確認
+- 全 8 領域が Identity から順に配置されていること
+- evidence_quote が原文をそのまま引用し、禁止語彙を含まないこと
+
+## Unresolved / pending
+- plan.rejected task=None: None (seq 7)
+- production_ready は false（L3 判定未達成）
+- PRODUCTION_PLAN.md に明記された残りの受入条件が domains (identity/contract/operation/etc) で解決済みではない
+
+## Next steps
+- 承認待ち: PRODUCTION_PLAN.md の全領域の remaining 工数の完了確認
+
+## Trace
+- Messages delivered: 0 ({})
+- Model usage by agent: master: 2 calls / $0.0000 (reported agentteam-qwen35-9b-16k), builder: 9 calls / $0.0000 (reported agentteam-qwen35-9b-16k), reviewer: 5 calls / $0.0000 (reported agentteam-qwen35-9b-16k)

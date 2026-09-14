@@ -14,7 +14,7 @@
 | CWV | LCP ≤ 2.5s、INP ≤ 200ms、CLS ≤ 0.1 | **未計測**（フィールドデータなし。Lighthouse のラボ値のみ参考に記録） |
 
 ## 計測イベント
-`track(name, props)` が `window.dataLayer` に積み、`<meta name="analytics-endpoint">` が設定されていれば `sendBeacon` で送る。**現在 endpoint は未設定**（送信先なし。ページ内の `window.dataLayer` で確認可能）。
+`track(name, props)` は `window.dataLayer` に積み、`portfolio.js` の固定されたサイト収集エンドポイントへ公開ページから `fetch` で送る（DNT/GPC が有効な場合は送信しない）。2026-09-15 JST に GitHub Pages の許可オリジンから `github_outbound` を送信し、HTTP 204 を確認した。集計を閲覧する管理画面や、投稿単位の流入を特定する機能は未確認である。`<meta name="analytics-endpoint">` は現行スクリプトの送信先設定には使用していないため、未設定のまま残している。
 - demo_start / demo_complete（実行記録の再生）、record_finding（指摘クリック、固有操作）、artifact_open、artifact_download、github_outbound（`intent: repo | star`）、quickstart_open、contact_submit。
 
 ## 実行ログ（2026-09-13）
