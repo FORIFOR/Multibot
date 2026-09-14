@@ -1,0 +1,16 @@
+[
+  {
+    "artifact_id": "readiness.json",
+    "revision": 1,
+    "sha256": "d26cdc3526831c0ba5cedac28a80aa60c560579a362ef304c2a0e5456f9e5fcf",
+    "media_type": "application/json",
+    "size": 5676,
+    "logical_path": "readiness.json",
+    "task_id": "t1",
+    "agent_id": "builder",
+    "created_at": "2026-09-14T19:35:47.745Z",
+    "event_id": "run_1a0a167b9192a19065b:18",
+    "sources": [],
+    "evidence_file": "artifact-000.bin"
+  }
+]

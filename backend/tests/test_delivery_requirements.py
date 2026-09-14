@@ -18,6 +18,7 @@ REAL = EVIDENCE.parent / 'real-readiness-v1-2026-09-14'
 V5 = EVIDENCE.parent / 'real-readiness-v5-qwen35-2026-09-14'
 V12 = EVIDENCE.parent / 'real-readiness-v12-qwen35-2026-09-14'
 V18 = EVIDENCE.parent / 'real-readiness-v18-qwen35-fixed-2026-09-15'
+V20 = EVIDENCE.parent / 'real-readiness-v20-qwen35-fixed-2026-09-15'
 
 
 def test_observed_v5_translation_drift_is_rejected_by_the_current_contract():
@@ -55,6 +56,19 @@ def test_observed_v18_translation_drift_is_rejected_by_the_current_contract():
     assert result['status'] == 'fail'
     assert any(term in problem for problem in result['problems']
                for term in ('パイン', 'ロカル', 'アデュータ', 'actual-source', 'サマリー'))
+
+
+def test_observed_v20_translation_drift_is_rejected_by_the_current_contract():
+    """The repair-prompt retry still emitted drift, so it must remain unaccepted."""
+    script = Path(__file__).resolve().parents[1] / 'scripts' / 'production_workflow.py'
+    module_spec = importlib.util.spec_from_file_location('v20_translation_contract_workflow', script)
+    workflow = importlib.util.module_from_spec(module_spec); module_spec.loader.exec_module(workflow)
+    expected = workflow.source_rows((EVIDENCE.parents[1] / 'PRODUCTION_PLAN.md').read_text())
+    raw = (V20 / '01' / 'artifact-000.bin').read_bytes()
+    result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
+    assert result['status'] == 'fail'
+    assert any(term in problem for problem in result['problems']
+               for term in ('パイン', 'ステール', '演算主体', 'actual-source'))
 
 
 async def test_actual_english_remaining_cannot_finish_or_auto_finish_and_final_status_is_partial(tmp_path):

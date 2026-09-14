@@ -1,0 +1,23 @@
+{
+  "run_id": "run_1a0a167b9192a19065b",
+  "status": "cancelled",
+  "provider_kind": "real",
+  "model": "agentteam-qwen35-9b-16k",
+  "deployment": "dedicated-single-host",
+  "production_ready": false,
+  "last_event_seq": 22,
+  "usage": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "cost_usd": 0.0,
+    "input_tokens": 53999,
+    "model_calls": 5,
+    "output_tokens": 1743,
+    "reserved_usd": 0.0,
+    "tool_calls": 3,
+    "wall_seconds": 226.9786585830152
+  },
+  "mechanical_pass": false,
+  "semantic_review": "pending",
+  "reason": "修復プロンプト強化後も、実資料の日本語要約に翻訳ドリフトが残ったため、1回目の検査失敗を保存して系列を停止"
+}
