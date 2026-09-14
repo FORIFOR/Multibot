@@ -1,0 +1,1 @@
+{"status":"stopped","reason":"actual local capability probe returned tool_calling=false; no workflow run was admitted","model_profile":"docs/config/local-qwen25-7b-team.yaml","process_exit":"ValueError: actual local capability probe failed"}

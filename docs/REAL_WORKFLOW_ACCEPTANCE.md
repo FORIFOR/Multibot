@@ -10,6 +10,8 @@ The first 600-second series failed on its first actual output: all eight remaini
 
 The first two v2 attempts are also preserved in [their evidence directory](evidence/real-readiness-v2-2026-09-14/README.md). The runtime rejected a model revision that still copied English `remaining` values and stopped at the wall limit. The subsequent [v3 series](evidence/real-readiness-v3-2026-09-14/README.md) used the local Qwen model three times: two completed runs and one interrupted run. The old runtime and reviewer marked the first two outputs as pass, but an independent regrade against the current contract found translation drift in all three. The series was stopped after that finding; no output was edited into a pass.
 
+The [v4 qwen2.5-7B probe](evidence/real-readiness-v4-qwen25-2026-09-14/README.md) was stopped before admission: the real model returned `json_schema=true` but `tool_calling=false` for the current Ollama/OpenAI-compatible boundary. It produced no workflow run or artifact and does not count toward L1. A model that passes the actual capability gate is required for the next fixed series.
+
 Run only from a clean, fixed checkout and while no other local LLM campaign is running:
 
 ```bash

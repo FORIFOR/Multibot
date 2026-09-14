@@ -8,6 +8,8 @@
 
 修正版では、Reviewer's `run_check(json_schema)` が依頼者の保存済みSchemaを直接使えるようにし、不正Schemaを `blocked` として記録します。現行の決定論的テストは **101 passed / 1 skipped**。実資料のQwenローカル試験v3は[3実行分を保存](evidence/real-readiness-v3-2026-09-14/README.md)し、旧ランタイムの合格を再監査で不合格にした語崩れを次系列の配信Schemaへ反映しました。
 
+qwen2.5-7Bの次系列は[実能力プローブで停止](evidence/real-readiness-v4-qwen25-2026-09-14/README.md)しました。JSON Schemaは通過しましたがtool callingを通過せず、実資料runや成果物を受入れに算入していません。
+
 50課題×3回の比較は、追加記録を反映した最新ペアでチーム69 completed / 5 partial / 76 failed、単一150 completedです。上限の影響は79ペア。前回47/3/100の記録も残し、重複を除くチーム252試行を台帳に含めています。元の採点ではチームにも完了後不合格が1件あり、誤完了ゼロとは主張しません。
 
 [追加記録・Reviewer試験の限界・再開手順](evidence/readiness-2026-09-14/README.md)。週次上限の停止判定と重複スナップショットの集計を、実記録を用いた6テストで確認しました。以下は過去時点の記録を含みます。
