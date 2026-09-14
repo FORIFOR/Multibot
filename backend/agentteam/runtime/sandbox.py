@@ -237,10 +237,17 @@ async def run_command(command: str, workspace: Path, *, timeout: float = 120.0, 
                     cleanup.kill(); await cleanup.wait()
         if proc.returncode is None:
             try:
-                if hasattr(os, 'killpg'):
-                    os.killpg(proc.pid, signal.SIGKILL)
-                else:
-                    proc.kill()
+                    if hasattr(os, 'killpg'):
+                        try:
+                            os.killpg(proc.pid, signal.SIGKILL)
+                        except PermissionError:
+                            # macOS can deny a process-group signal after the
+                            # Docker client has already re-parented its child.
+                            # Kill the owned client process directly so
+                            # cancellation still reaches the bounded cleanup.
+                            proc.kill()
+                    else:
+                        proc.kill()
             except ProcessLookupError:
                 pass
         await asyncio.wait_for(asyncio.gather(proc.wait(), drain(proc.stdout, 0), drain(proc.stderr, 1)), timeout=10)
