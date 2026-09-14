@@ -1,0 +1,64 @@
+{
+  "product": "Multibot",
+  "production_ready": false,
+  "deployment": "dedicated-single-host",
+  "summary": "Multibot の本番導入を整理した資料です。L3 は未達成であり、実装されつつ残る受入条件があります。8 つの領域を確認しました。",
+  "areas": [
+    {
+      "area": "Identity",
+      "implemented": "実証鍵、ハッシュセッション、ロールチェツク、OIDC SSO（Keycloak/ブラウザ認証）、グループマッピング、トークン破棄、有効期限、キーローテーションと回復境界まで検証済み。",
+      "remaining": "生産 IdP 構成、組織アイデンティティ策、MFA 強制とアカウントライフサイクル承認が完了していません。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+    },
+    {
+      "area": "Isolation",
+      "implemented": "インストール単位での組織バインディング、ランごとの付与、アーティファクト/イベント/SSE/export アクセスチェツク、保護設定；Docker 制のツール、固定パブリック IP フェッチと有界キャプチャまで実装済み。",
+      "remaining": "独立攻撃リヴュー、顧客固有のロール/コネクター/エグレス策、権限ライフサイクル承認が残っています。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+    },
+    {
+      "area": "Execution",
+      "implemented": "ランごと予算、永続シングルホストキュー、操作主体ごとの冪等な受入、ワーカーリース、中断ジョブリヴュー、回復と局所 LLM SIGKILL ドリル、依頼者所有アーティファクト要件と有界検証まで実装済み。",
+      "remaining": "ワークロード/負荷承認、外部アクション再試行策、承認された可用性トポロジー；分散ワーカー/HA 禁止が残っています。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+    },
+    {
+      "area": "Data",
+      "implemented": "オフラインスナップショット/リストア、チェックサムとアーティファクト検証、セッション無効化；再開可能ラン削除と陳腐化再試行拒否、age 暗号化と確認された復号まで実装済み。",
+      "remaining": "承認された保持策（履歴バックアップ/フォーク/プロバイダーコピー）、ホスト暗号化と回復鍵管理、遠隔地リストアドリル、合意 RPO/RTO がありません。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "implemented": "操作主体監査記録、制限された監査者ロール、独立永続コリクター/カーソル、リストアストリーム別離、準備状況/メトリクス、記録された障害/ローテーション/回復、ブラウザ操作ビューまで実装済み。",
+      "remaining": "独立保持 WORM 保管、実際警告配信とエスカレーション、コリクター監督デプロイ、 サービス目標とインシデント承認が残っています。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+    },
+    {
+      "area": "Deployment",
+      "implemented": "固定ランタイム依存、固定ベース、ハードニングコンテナ、ブラウザ/API チェツク；実際インストールウイールアップデート/ロールバックと破損回復、現在のパッケージアドバイススキャンまで実装済み。",
+      "remaining": "本番 TLS/DNS 環境、アイデンティティサービス、運用責任者、ターゲット環境アップグレード/ロールバックとセキュリティリヴューがありません。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+    },
+    {
+      "area": "Business quality",
+      "implemented": "オリジナルフェイル保持；合成比較停止。実際ソース v1 で 8 つの欠落日本語要約と age 翻訳誤りに見い出され、モデルレビューパス；必須出力チェツクと入力取得追加まで完了。",
+      "remaining": "十回以上の実際ソースラン、ソース/要約正当性、レビューミス/ファルズポジティブ評価、レイテンシーと承認閾値が残っています。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds"
+    },
+    {
+      "area": "Contract / operation",
+      "implemented": "技術的制限が文書化されました。",
+      "remaining": "所有者承認サービススコープ、SLO/SLA、サポートとインシデント責任；虚構承認または認証禁止が残っています。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+    }
+  ]
+}
