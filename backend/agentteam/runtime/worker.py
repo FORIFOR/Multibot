@@ -237,10 +237,15 @@ class AgentRunner:
             "前回の応答は長すぎてツール呼出し前に上限へ達しました。説明は禁止し、直ちにツールを使ってください。"
             f"readiness.json{revision}をread_artifactで読み、必要ならPRODUCTION_PLAN.mdをread_input_fileで読み直してください。"
             "Schema検査に失敗したフィールドだけをworkspace_writeで修正し、publish_artifact、run_check(kind=json_schema)、"
-            "finish_taskの順で完了してください。要約欄では英語原語や「アクター監査」を使わず、staleは「陳腐化」、"
-            "artifactは「アーティファクト」、actor-scopedは「操作主体ごとの」、drillは「ドリル」、"
-            "advisoryは「アドバイザリ」としてください。Dataのimplementedにはageと「再開可能」、"
-            "Audit / monitoringのimplementedには「監査者」と「カーソル」をそのまま含めてください。"
+            "finish_taskの順で完了してください。production_readyは資料どおり必ずfalseのままにし、remainingを空にしたり、"
+            "資料にないverified/next_stepsフィールドを追加したりしないでください。"
+            "要約欄では英語原語や「アクター監査」を使わず、staleは「陳腐化」、artifactは「アーティファクト」、"
+            "actor-scopedは「操作主体ごとの」、drillは「ドリル」、advisoryは「アドバイザリ」としてください。"
+            "Dataのimplementedは、例えば「ageによる暗号化、スナップショット復元、再開可能なランの検証を確認しました。」"
+            "のように、日本語の文中へageと「再開可能」を同時に含めてください。"
+            "Audit / monitoringのimplementedは、例えば「監査者が独立収集のカーソルを用い、メトリクスと復旧を確認しました。」"
+            "のように、「監査者」と「カーソル」を同時に含めてください。"
+            "検査結果に does not match と出た必須語は削除せず、同じフィールドへ上記の正確な語を追加してください。"
         )}]}]
         self.nudges = 0
 
