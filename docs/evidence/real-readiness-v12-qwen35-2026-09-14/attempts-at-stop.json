@@ -1,0 +1,128 @@
+[
+  {
+    "rep": 1,
+    "request_key": "workflow_1a09e7a58ee75bec00d",
+    "run_id": "run_1a09e7a5cdc83e9f62a",
+    "result": {
+      "rep": 1,
+      "run_id": "run_1a09e7a5cdc83e9f62a",
+      "status": "completed",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master",
+        "reviewer"
+      ],
+      "review_submissions": 1,
+      "usage": {
+        "model_calls": 16,
+        "tool_calls": 15,
+        "input_tokens": 184542,
+        "output_tokens": 6331,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 673.1674666249892
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-production/20260914-real-readiness-v12-qwen35/campaign/evidence/01-run_1a09e7a5cdc83e9f62a"
+    }
+  },
+  {
+    "rep": 2,
+    "request_key": "workflow_1a09e84a34276719789",
+    "run_id": "run_1a09e84a3449aa4c8f5",
+    "result": {
+      "rep": 2,
+      "run_id": "run_1a09e84a3449aa4c8f5",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "Identity: Japanese remaining summary missing",
+        "Isolation: Japanese remaining summary missing",
+        "Execution: Japanese remaining summary missing",
+        "Data: Japanese remaining summary missing",
+        "Audit / monitoring: Japanese remaining summary missing",
+        "Deployment: Japanese remaining summary missing",
+        "Business quality: Japanese remaining summary missing",
+        "Contract / operation: Japanese remaining summary missing",
+        "delivery contract: areas/0/remaining: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/0/remaining: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/0/remaining: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' should not be valid under {'pattern': 'Production\\\\ IdP\\\\ configuration,\\\\ organization\\\\ identity\\\\ policy,\\\\ MFA\\\\ enforcement\\\\ and\\\\ account\\\\ lifecycle\\\\ acceptance'}",
+        "delivery contract: areas/1/remaining: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/1/remaining: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/1/remaining: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' should not be valid under {'pattern': 'Independent\\\\ attack\\\\ review,\\\\ customer\\\\-specific\\\\ role/connector/egress\\\\ policy,\\\\ permission\\\\ lifecycle\\\\ acceptance'}",
+        "delivery contract: areas/1/implemented: 'インストール単位で組織紐付け、アクセスチェック、保護設定を実施。' does not match 'アーティファクト'",
+        "delivery contract: areas/2/remaining: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/2/remaining: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/2/remaining: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' should not be valid under {'pattern': 'Workload/load\\\\ acceptance,\\\\ external\\\\-action\\\\ retry\\\\ policy,\\\\ approved\\\\ availability\\\\ topology;\\\\ no\\\\ distributed\\\\ workers/HA'}",
+        "delivery contract: areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+        "delivery contract: areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+        "delivery contract: areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' should not be valid under {'pattern': 'Approved\\\\ retention\\\\ policy\\\\ including\\\\ historical\\\\ backups/forks/provider\\\\ copies,\\\\ host\\\\ encryption\\\\ and\\\\ recovery\\\\-key\\\\ custody,\\\\ off\\\\-site\\\\ recovery\\\\ drill,\\\\ agreed\\\\ RPO/RTO'}",
+        "delivery contract: areas/4/implemented: 'アクター監査記録、制限された監査者ロール、分離した収集ユニット/カーソル、準備状況/メトリクス、障害記録を実施。システムドメインデプロイメントと独立した保存は残る。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+        "delivery contract: areas/4/remaining: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/4/remaining: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/4/remaining: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' should not be valid under {'pattern': 'Independent\\\\ retained/WORM\\\\ custody,\\\\ actual\\\\ alert\\\\ delivery\\\\ and\\\\ escalation,\\\\ collector\\\\ supervision\\\\ deployment,\\\\ service\\\\ objectives\\\\ and\\\\ incident\\\\ acceptance'}",
+        "delivery contract: areas/4/implemented: 'アクター監査記録、制限された監査者ロール、分離した収集ユニット/カーソル、準備状況/メトリクス、障害記録を実施。システムドメインデプロイメントと独立した保存は残る。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}"
+      ],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "fail",
+        "problems": [
+          "areas/0/remaining: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/0/remaining: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/0/remaining: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' should not be valid under {'pattern': 'Production\\\\ IdP\\\\ configuration,\\\\ organization\\\\ identity\\\\ policy,\\\\ MFA\\\\ enforcement\\\\ and\\\\ account\\\\ lifecycle\\\\ acceptance'}",
+          "areas/1/remaining: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/1/remaining: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/1/remaining: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' should not be valid under {'pattern': 'Independent\\\\ attack\\\\ review,\\\\ customer\\\\-specific\\\\ role/connector/egress\\\\ policy,\\\\ permission\\\\ lifecycle\\\\ acceptance'}",
+          "areas/1/implemented: 'インストール単位で組織紐付け、アクセスチェック、保護設定を実施。' does not match 'アーティファクト'",
+          "areas/2/remaining: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/2/remaining: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/2/remaining: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' should not be valid under {'pattern': 'Workload/load\\\\ acceptance,\\\\ external\\\\-action\\\\ retry\\\\ policy,\\\\ approved\\\\ availability\\\\ topology;\\\\ no\\\\ distributed\\\\ workers/HA'}",
+          "areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+          "areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+          "areas/3/remaining: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' should not be valid under {'pattern': 'Approved\\\\ retention\\\\ policy\\\\ including\\\\ historical\\\\ backups/forks/provider\\\\ copies,\\\\ host\\\\ encryption\\\\ and\\\\ recovery\\\\-key\\\\ custody,\\\\ off\\\\-site\\\\ recovery\\\\ drill,\\\\ agreed\\\\ RPO/RTO'}",
+          "areas/4/implemented: 'アクター監査記録、制限された監査者ロール、分離した収集ユニット/カーソル、準備状況/メトリクス、障害記録を実施。システムドメインデプロイメントと独立した保存は残る。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+          "areas/4/remaining: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/4/remaining: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/4/remaining: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' should not be valid under {'pattern': 'Independent\\\\ retained/WORM\\\\ custody,\\\\ actual\\\\ alert\\\\ delivery\\\\ and\\\\ escalation,\\\\ collector\\\\ supervision\\\\ deployment,\\\\ service\\\\ objectives\\\\ and\\\\ incident\\\\ acceptance'}",
+          "areas/4/implemented: 'アクター監査記録、制限された監査者ロール、分離した収集ユニット/カーソル、準備状況/メトリクス、障害記録を実施。システムドメインデプロイメントと独立した保存は残る。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}"
+        ]
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 17,
+        "tool_calls": 13,
+        "input_tokens": 131454,
+        "output_tokens": 10714,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.86562658404
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-production/20260914-real-readiness-v12-qwen35/campaign/evidence/02-run_1a09e84a3449aa4c8f5"
+    }
+  },
+  {
+    "rep": 3,
+    "request_key": "workflow_1a09e96f84e82495d3f",
+    "run_id": "run_1a09e96f853171586c4"
+  }
+]

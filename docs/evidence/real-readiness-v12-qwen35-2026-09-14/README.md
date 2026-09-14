@@ -19,13 +19,17 @@ Runtimeのコンテキスト圧縮と、実行時の依頼者Schemaを固定し�
 
 run 1の保存済みJSONには、後から確認できる半端な技術語（「キーcloak」「パインされた」「バックス」）が残った。Reviewerのpassだけでは自然な用語変換まで保証できないため、これらを検出する契約回帰テストを追加した。過去の合格記録は改変せず、次回系列からは同じ出力を自動不合格とする。
 
-## run 2
+## run 2 / run 3
 
-run 2は同じ固定条件で開始し、初版の`remaining`英語コピーを検出した。現在は実行中のため、受入数には算入していない。完了・partial・timeoutのいずれになっても、保存済みイベントと成果物を確認してから判定する。
+run 2は同じ固定条件で開始し、初版の`remaining`英語コピーと必須語不足を検出した。Builderは1200秒の壁時計上限までに修正版を公開できず、Reviewerは起動前だった。Runtimeは`interrupted`、`wall-clock limit reached`として保存し、機械判定はfail、review submissionは0件とした。受入には算入しない。
+
+run 3はrun 2の停止後に開始されたが、系列停止のためサーバ終了時に`interrupted`となった。成果物を受入へ算入せず、run 2の全イベント・revision・利用量と、系列停止時のattempts/statusを収録した。
 
 ## 収録ファイル
 
 - `fingerprint.json`、`probe.json`、`goal.txt`、`delivery-requirements.json`: 系列固定値と実能力プローブ
 - `01-run_1a09e7a5cdc83e9f62a/`: run 1の全イベント、初版・修正版・最終レポートの実bytesとSHA台帳
+- `02-run_1a09e84a3449aa4c8f5/`: run 2の上限停止、初版成果物、全イベントとSHA台帳
+- `series-status-at-stop.json`、`attempts-at-stop.json`: run 3停止時の系列状態と全試行記録
 
 受入済みはこの系列で1/10（v11と合わせて3/20）であり、L1の10回反復条件、L2、L3の達成を意味しない。`production_ready`は資料どおり`false`で、外部IdP、TLS/DNS、独立攻撃レビュー、可用性、保持・RPO/RTO、アラート運用、SLO/SLAは未検証のまま記録されている。
