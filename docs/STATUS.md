@@ -6,6 +6,8 @@
 
 本番化では、認証・SSO・権限・永続キュー・削除・暗号化復元・監査収集と監視画面を実装し、[更新とロールバックの13項目](evidence/release-operations-2026-09-14/README.md)も実機で確認しました。[通信経路の修正後は102件pass](evidence/provider-transport-2026-09-14/README.md)。実資料の初回業務試験では、日本語要約の欠落をReviewerが見逃し、誤完了しました。[元の失敗を保持](evidence/real-readiness-v1-2026-09-14/README.md)し、依頼者の必須条件を実行基盤でも検査する修正を加えています。本番の設置先・企業IdP・業務品質・運用条件の受入は未完了です。
 
+修正版では、Reviewer's `run_check(json_schema)` が依頼者の保存済みSchemaを直接使えるようにし、不正Schemaを `blocked` として記録します。現行の決定論的テストは **101 passed / 1 skipped**。実資料のQwenローカル試験v3は[3実行分を保存](evidence/real-readiness-v3-2026-09-14/README.md)し、旧ランタイムの合格を再監査で不合格にした語崩れを次系列の配信Schemaへ反映しました。
+
 50課題×3回の比較は、追加記録を反映した最新ペアでチーム69 completed / 5 partial / 76 failed、単一150 completedです。上限の影響は79ペア。前回47/3/100の記録も残し、重複を除くチーム252試行を台帳に含めています。元の採点ではチームにも完了後不合格が1件あり、誤完了ゼロとは主張しません。
 
 [追加記録・Reviewer試験の限界・再開手順](evidence/readiness-2026-09-14/README.md)。週次上限の停止判定と重複スナップショットの集計を、実記録を用いた6テストで確認しました。以下は過去時点の記録を含みます。

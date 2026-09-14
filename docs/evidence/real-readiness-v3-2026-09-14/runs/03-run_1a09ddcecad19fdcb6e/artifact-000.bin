@@ -1,0 +1,64 @@
+{
+  "product": "Multibot",
+  "production_ready": false,
+  "deployment": "dedicated-single-host",
+  "summary": "Multibot は技術実装や検証を一部実施していますが、L3 の本番導入には IdP/MFA 承認や顧客固有ポリシー、外部契約要件が残っており、unverified/undelivered 状態でリリース準備不可です。",
+  "areas": [
+    {
+      "area": "Identity",
+      "implemented": "実アクセス鍵、ハッシュ化セッション、ロールチェック。OIDC SSO で Keycloak/Browser 検証、グループマッピング、トークン破棄、有効期限、鍵回秘とリストア境界を実装",
+      "remaining": "生産 IdP 設定、組織アイデンティティポリシー、MFA 強制およびアカウントライフサイクル受入が必要",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+    },
+    {
+      "area": "Isolation",
+      "implemented": "インストールごとの組織バインド、実行ごとの付与、アバター/SSE/export アクセス確認、保護設定。Docker 限りの secured コマンドツール、ピン固定 IP フェッチと bounded キャプチャを実施",
+      "remaining": "独立攻撃レビュー、顧客固有ロール/コネクター/egress ポリシー、パーミッションライフサイクル受入が必要",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+    },
+    {
+      "area": "Execution",
+      "implemented": "実行ごとの予算。永続シングルホストキュー、actor スコープ idempotent 受入、ワーカーリース、中断ジョブレビュー、回復と actual local-LLM SIGKILL ドリルを成功。リクイヤー所有アバター要件と bounded 検証を実装",
+      "remaining": "ワークロード/負荷受入、外部アクション再試行ポリシー、承認 availability トポロジーが必要です。distributed workers/HA は未対応",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+    },
+    {
+      "area": "Data",
+      "implemented": "オフラインスナップショット/リストア、checksum とアバター検証、セッション破棄。再開可能実行削除と stale-retry 拒否。actual age 暗号化/verified 復号を実現",
+      "remaining": "承認 retention ポリシー（履歴バックアップ/forks/provider コピー）、ホスト暗号化と recovery-key 保管、off-site recovery drill、合意 RPO/RTO が必要",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "implemented": "アクター検証レコード、制限 auditor ロール、永続 collector/cursor、リストアストリーム分離、readiness/metrics、記録アウトエイジ/rotation/recovery、ブラウザ操作ビューを実装",
+      "remaining": "独立 retained/WORM 保管、実際アラート配信とエスカレーション、コレクター監督展開、サービス目標とインシデント受入が必要",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+    },
+    {
+      "area": "Deployment",
+      "implemented": "ロック ed ランタイム依存関係、ピン固定ベース、ハードニングコンテナ、ブラウザ/API チェック。実際インストールホイール更新/rollback と corruption 回復を成功。パッケージ advisory スキャンを実行",
+      "remaining": "actual TLS/DNS 環境、id サービス、operating owner、ターゲット環境 upgrade/rollback とセキュリティレビューが必要",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+    },
+    {
+      "area": "Business quality",
+      "implemented": "元 failure を保存。synthetic comparison 停止。actual-source v1 で 8 つの日本語要約欠落と age 翻訳エラーを検出。必須出力チェックと input retrieval 追加済み",
+      "remaining": "十回実際 source 実行、ソース/summary 正しさ、review miss/false-positive 評価、latency と acceptance thresholds が必要",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds"
+    },
+    {
+      "area": "Contract / operation",
+      "implemented": "技術制限文書化済み",
+      "remaining": "owner 承認サービススコープ、SLO/SLA、サポートとインシデント責任が必要。invented approvals/certifications は不可",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+    }
+  ]
+}
