@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Agent Team — one request; the deliverable, and how it was checked</title>
-<meta name="description" content="An open-source (MIT) AI team — Master, Researcher, Builder, Reviewer — that drafts, reviews and revises real work and keeps who checked what next to the deliverable. GitHub: FORIFOR/Multibot" />
-<meta property="og:title" content="Agent Team — one request. The deliverable, and how it was checked." />
-<meta property="og:description" content="An AI team drafts, reviews and revises the work, and keeps who checked what next to the deliverable. Open source (MIT). GitHub: FORIFOR/Multibot" />
+<title>Agent Team — Let the work run through review.</title>
+<meta name="description" content="An open-source (MIT) workspace where multiple AI agents share drafting and review, leaving the deliverable and the change trail together. GitHub: FORIFOR/Multibot" />
+<meta property="og:title" content="Agent Team — Let the work run through review." />
+<meta property="og:description" content="Multiple AI agents split drafting and review, leaving the deliverable and the change trail together. Open source (MIT)." />
 <meta property="og:image" content="https://forifor.github.io/Multibot/media/og.png" />
 <meta property="og:url" content="https://forifor.github.io/Multibot/" />
 <link rel="canonical" href="https://forifor.github.io/Multibot/" />
@@ -15,120 +15,24 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="alternate" hreflang="ja" href="https://forifor.github.io/Multibot/ja/" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="site.css" />
-<link rel="stylesheet" href="portfolio.css"></head>
+<link rel="stylesheet" href="portfolio.css" />
+</head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <a class="brand" href="./">Agent Team <small>GitHub: FORIFOR/Multibot · MIT</small></a>
-    <nav><a href="#record">Work record</a><a href="#replay">Replay</a><a href="#chat-view">Chat view</a><a href="#how">How it works</a><a href="#results">Results</a><a href="#quickstart">Install</a><a href="#consult">Consulting</a><a href="ja/">日本語</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
-  </header>
-
-  <section class="hero">
-    <div class="eyebrow">OPEN SOURCE · LOCAL FIRST · MIT</div>
-    <h1>One request,<br><em>worked through in team chat.</em></h1>
-    <p class="lede">The Master splits the work, then Researcher, Builder and Reviewer coordinate through real messages. Follow the chat, deliverables and checks in one execution record.</p>
-    <div class="cta">
-      <a class="btn signal" href="#replay" id="cta-record">Watch the real workflow</a>
-      <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">View on GitHub</a>
-      <span class="hint">Open source · MIT · Claude Code / Ollama / OpenAI-compatible</span>
-    </div>
-    <div class="hero-film" id="replay">
-      <div class="film-top"><span>A REAL WORK RECORD</span><span>32s · claude-opus-5 · 2026-09-13</span></div>
-      <video id="replay-video" controls playsinline preload="none" poster="media/replay-research-poster.jpg" aria-label="Real-model run replay with Japanese narration"><source src="media/real-walkthrough-ja.mp4" type="video/mp4"><track kind="captions" src="media/real-walkthrough-ja.vtt" srclang="ja" label="日本語" default></video>
-      <p class="film-note">Edited replay of a real-model run, with waiting time removed and Japanese synthesized narration. Result: partial; source verification remained unfinished at the budget limit.</p>
-    </div>
-    <div class="proof-strip"><span>Open the deliverables</span><span>Trace every revision</span><span>See what remains unchecked</span></div>
-  </section>
-
-  <section id="chat-view" class="chat-story" aria-labelledby="chat-view-heading">
-    <div class="eyebrow">CHAT-FIRST RUN VIEW</div>
-    <h2 id="chat-view-heading">Conversation, deliverables and progress in one view.</h2>
-    <p class="sub">Chat is the main surface, with the active team and artifacts alongside it. The messages are not scripted: they are the bot-to-bot deliveries recorded in the same run.</p>
-    <div class="chat-story-grid">
-      <div class="chat-flow-card" aria-label="Collaboration flow">
-        <div class="chat-card-label">COLLABORATION FLOW</div>
-        <div class="chat-flow" aria-label="Roles from Master to Reviewer">
-          <span>Master</span><b aria-hidden="true">→</b><span>Researcher</span><b aria-hidden="true">→</b><span>Builder</span><b aria-hidden="true">→</b><span>Reviewer</span>
-        </div>
-        <p class="caption">Only the roles needed for the work join the run; handoffs, questions, answers and reviews remain in order.</p>
-      </div>
-      <dl class="chat-facts">
-        <div><dt>Request</dt><dd>Starts from one goal</dd></div>
-        <div><dt>Collaboration</dt><dd>Real messages grouped by task</dd></div>
-        <div><dt>Verification</dt><dd>Revisions, checks and reviews share the record</dd></div>
-      </dl>
-    </div>
-    <p class="caption">The public video is a replay of a real run. In the app, you can search the live chat and filter it by task thread.</p>
-  </section>
-
-  <section aria-label="Work record">
-    <div class="eyebrow">EVIDENCE YOU CAN EXPLORE</div>
-    <h2>From a finding to the changed passage.</h2>
-    <p class="who">Below is the record of a run made on 2026-09-13 with a real model (claude-opus-5, as reported by the provider). Every line is quoted from the deliverables and reviews.</p>
-    <div id="record" data-record data-lang="en" data-layout="a"></div>
-    <p class="caption">This run ended <b>partial</b>: the final review hit its budget cap. The three findings were fixed and re-verified as pass; the line-by-line source check stayed unverified because the review sandbox has no network. All 171 events: <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/events.jsonl" data-track="artifact_download">events.jsonl</a> · <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/final-report.md.r1" data-track="artifact_open">final report</a></p>
-  </section>
-
-  <section id="how">
-    <div class="eyebrow">How it works</div>
-    <h2>The Master plans. Bots do the work. The runtime checks.</h2>
-    <div class="how">
-      <div><b>1. The plan is structured output</b><p>The Master emits deliverables, acceptance criteria and a task DAG. The runtime validates schema, cycles, owners, tool scope and write scope, and sends an invalid plan back once.</p></div>
-      <div><b>2. Work is real messages and real files</b><p>A bot-to-bot message is a recorded delivery into the other bot's mailbox, not a script. Deliverables are immutable revisions with a SHA-256 hash.</p></div>
-      <div><b>3. Verification binds to a revision</b><p>Checks and review verdicts attach to a revision hash. The final report is compiled from the event log, so a model summary cannot upgrade “started” to “done”.</p></div>
-    </div>
-    <p class="caption" style="margin-top:24px">Budgets, call limits, permissions, approvals and cancellation are enforced by the runtime, not by prompt wording. Builder and Reviewer commands run in Docker (no network, read-only root) or the macOS seatbelt; with neither, they are refused.</p>
-  </section>
-
-  <section id="results">
-    <div class="eyebrow">Results</div>
-    <h2>Completed work. And work that stopped.</h2>
-    <p class="sub">2026-09-13, through the local Claude Code CLI (no API key). Every number is read from the run's own event log; deliverables and logs are committed unedited. The runs that did not finish are listed too.</p>
-    <div class="audit-note"><div class="eyebrow">MEASUREMENT UPDATE · 2026-09-14</div><h3>The comparison, including its interruption.</h3><p>We audited an existing 50-task × 3 comparison. Team: 47 completed, 3 partial, 100 provider-limit failures. Single agent: 150 completed. The test includes constructed evaluation inputs; these are not real-customer success rates. A team quality advantage is not established.</p><a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/benchmark-2026-09-13/README.md">Read the results, grading corrections and limitations ↗</a></div>
-    <p class="caption">Below: initial runs from September 13 morning. See the audit above and README for later evaluations.</p>
-    <div class="tbl"><table>
-      <tr><th>Request</th><th>Result</th><th>Checks</th><th>Review</th><th>Cost</th><th>Time</th><th>Record</th></tr>
-      <tr><td>Launch page + 3 post drafts (Japanese)</td><td><span class="tag ok">completed</span></td><td>10/10</td><td>6/6</td><td>$1.66</td><td>18 min</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence" data-track="artifact_open">run4-*</a></td></tr>
-      <tr><td>Python CLI + unittest + README (tests re-run in Docker)</td><td><span class="tag ok">completed</span></td><td>14/14</td><td>7/7</td><td>$1.87</td><td>16 min</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/code" data-track="artifact_open">scenarios/code</a></td></tr>
-      <tr><td>4-file static docs site</td><td><span class="tag ok">completed</span></td><td>39/39</td><td>12/12</td><td>$3.03</td><td>15 min</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/long" data-track="artifact_open">scenarios/long</a></td></tr>
-      <tr><td>Source-grounded comparison of 3 pages (1st attempt)</td><td><span class="tag bad">failed</span></td><td>–</td><td>–</td><td>$0.91</td><td>5 min</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/research" data-track="artifact_open">scenarios/research</a></td></tr>
-      <tr><td>Same request after the scheduler fix (the record above)</td><td><span class="tag warn">partial</span></td><td>10/13</td><td>5/8</td><td>$6.07</td><td>24 min</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/research2" data-track="artifact_open">scenarios/research2</a></td></tr>
-    </table></div>
-    <div class="paths" style="margin-top:28px">
-      <div class="path"><h3>Why one failed and one is partial</h3><p>The first attempt exposed a scheduler deadlock: a task depending on a task that itself awaited review waited forever. Fixed, with a test. The re-run got through the fixes and re-verification, but the review session hit its $1.5 budget cap twice, leaving the line-by-line source check undone. Research-heavy requests are the most expensive and the least stable.</p></div>
-      <div class="path"><h3>Other providers</h3><p>OpenAI-compatible gpt-4.1-mini completed the launch-page request in 29 s for $0.02. Local Ollama qwen2.5:7b published artifacts but did not follow the review protocol (partial); qwen2.5:3b could not produce a valid plan. 53 deterministic tests, an EN/JA headless-Chrome UI smoke and the Linux Docker isolation test run in CI on every push. Details: <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">docs/STATUS.md</a></p></div>
-    </div>
-  </section>
-
-<section id="paths">
-    <div class="eyebrow">Two paths</div>
-    <h2>Run it yourself, or talk to us.</h2>
-    <div class="paths">
-      <div class="path" id="quickstart"><h3>Use the open-source project</h3><p>Connect Claude Code, Ollama or an OpenAI-compatible endpoint. A small real call confirms tool calling and JSON-schema output before the UI opens; choose the connection in the README.</p>
-        <div class="term"><pre id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div><button class="btn ghost copy-install" type="button">Copy install command</button><span class="copy-status" role="status"></span>
-        <p style="margin-top:14px"><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">README and other providers ↗</a></p>
-        <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="star">View on GitHub</a></div>
-      <div class="path" id="consult"><h3>Turn your own workflow into an AI team</h3><p>For teams that want research → draft → review → revise shaped around their own work, with the verification trail kept. Use the private inquiry form below.</p>
-        <a class="btn signal" href="#business" >Start a private inquiry</a>
-        <p class="caption">Bugs and proposals go to <a href="https://github.com/FORIFOR/Multibot/issues">GitHub Issues</a>.</p></div>
-    </div>
-  </section>
-
-  <section class="portfolio-contact" id="business" aria-labelledby="business-heading"><p>BUSINESS INQUIRIES · Agent Team</p><h2 id="business-heading">Discuss an AI team for your workflow</h2><p class="contact-intro">Tell us what work to delegate and how its outcome should be checked.</p><p class="readiness">Available for demonstrations and workflow-scoping discussions. Paid customer-data trials, production SLAs, SSO and organization isolation are not claimed as ready. Start by assessing fit with public information.</p><p class="privacy">Availability, scope, timing and fees are confirmed individually. Sending an inquiry creates no contract or payment.</p><details><summary>Start a private inquiry</summary><form id="portfolio-form"><label>Name<input name="name" required maxlength="80" autocomplete="name"></label><label>Reply email<input name="email" type="email" required maxlength="254" autocomplete="email"></label><label class="wide">Organization (optional)<input name="organization" maxlength="120" autocomplete="organization"></label><label class="wide">What would you like to discuss?<textarea name="message" required minlength="10" maxlength="2000"></textarea></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><p class="privacy wide">Your inquiry is stored privately in Google Cloud for the operator to follow up. It is not used as AI input or analytics, and becomes eligible for deletion after 90 days. It is not posted to a public issue.</p><label class="consent wide"><input type="checkbox" name="consent" required>I agree to this handling of my inquiry.</label><button type="submit">Send inquiry</button><p class="wide" id="portfolio-status" role="status" aria-live="polite"></p></form></details></section><footer>
-    <span>Agent Team · MIT · <a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">github.com/FORIFOR/Multibot</a></span>
-    <span><a href="https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a">dev.to</a> · <a href="https://zenn.dev/forifori/articles/agent-team-launch">Zenn (日本語)</a> · <a href="https://github.com/FORIFOR/Multibot/tree/main/docs/site">site design docs</a></span>
-    <span>No star count, growth rate or benchmark is promised. The deliverables and the record are.</span>
-  </footer>
+  <header class="top"><a class="brand" href="./">Agent Team <small>Multibot · MIT</small></a><nav aria-label="Main navigation"><a href="#example">Example</a><a href="#work">Work it can return</a><a href="#how-to">How to use</a><a href="#consult">Discuss</a><a href="ja/">日本語</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav></header>
+  <main>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-copy"><p class="kicker">Open source (MIT)</p><h1 id="hero-heading">Let the drafting run<br />through review.</h1><p class="lede">Multiple AI agents split drafting and review. The files they make, the changes they apply and the things they could not verify stay together.</p><div class="cta"><a class="btn primary" href="#example" data-track="example_open">See a real example</a><a class="btn secondary" href="#how-to">Use it in your environment</a></div><p class="hero-note">A compatible AI connection is required. Connect local Ollama, Claude Code or an OpenAI-compatible endpoint.</p></div>
+      <div class="hero-example" id="example" aria-labelledby="example-heading"><div class="section-kicker">A work record</div><h2 id="example-heading">See how one piece of work moves.</h2><p class="section-intro">Request, deliverable, finding, change and re-check are available in one execution record. This record is quoted from a real model run on 2026-09-13.</p><div id="record" data-record data-lang="en" data-layout="a"></div><p class="evidence-note"><strong>Constraint:</strong> three findings were fixed, but the line-by-line source check was unfinished, so the run ended <span class="status partial">partial</span>. Open the <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/events.jsonl" data-track="artifact_download">event record</a> or the <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/final-report.md.r1" data-track="artifact_open">final report</a>.</p><details class="video-details"><summary>Watch the recorded screen</summary><p>The video is a supporting view of the interaction. It does not autoplay.</p><video controls playsinline preload="none" poster="media/replay-research-poster.jpg" aria-label="Recorded execution screen"><source src="media/real-walkthrough-ja-silent.mp4" type="video/mp4"><track kind="captions" src="media/real-walkthrough-ja-silent.vtt" srclang="ja" label="Japanese" default></video><p class="caption">This is the existing 32-second edit of a real run. The full execution time and unfinished state are in the record and linked files above.</p></details></div>
+    </section>
+    <section id="work" aria-labelledby="work-heading"><p class="section-kicker">Work it can return</p><h2 id="work-heading">Open the output before you decide.</h2><p class="section-intro">Each example pairs a task with its deliverable and the checks that were run. The links are execution records saved in the repository.</p><div class="deliverable-list"><a class="deliverable" href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/code" data-track="artifact_open"><span class="deliverable-title">Build a small tool</span><span>Code, tests and README</span><span class="deliverable-link">Open example ↗</span></a><a class="deliverable" href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/long" data-track="artifact_open"><span class="deliverable-title">Build a documentation site</span><span>The pages made and the checks run</span><span class="deliverable-link">Open example ↗</span></a><a class="deliverable" href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/research2" data-track="artifact_open"><span class="deliverable-title">Compare public sources</span><span>Comparison memo, sources, changes and unknowns</span><span class="deliverable-link">Open example ↗</span></a></div><p class="small-note">An individual run is not a success rate for the whole use case. Failed, partial and unverified work stays visible with the successful records. <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">Read the evaluation and limits</a></p></section>
+    <section id="how-to" aria-labelledby="how-heading"><p class="section-kicker">How to use it</p><h2 id="how-heading">Check what you need before you start.</h2><div class="conditions"><div><h3>Where it runs</h3><p>Run it in your own environment. Choose a local connection such as Ollama, or connect Claude Code or an OpenAI-compatible endpoint.</p></div><div><h3>What costs money</h3><p>The software is MIT licensed. The contract and usage fees for the AI connection are separate.</p></div><div><h3>Where data goes</h3><p>With a local connection, input stays in your environment. A cloud model sends input to the provider you select.</p></div></div><div class="install-block" id="github"><h3>Install command</h3><p>Prepare Claude Code, Ollama or another connection using the README. Copying this command does not mean that installation is complete.</p><div class="term"><pre id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div><div class="install-actions"><button class="btn secondary copy-install" type="button">Copy install command</button><span class="copy-status" role="status" aria-live="polite"></span><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">README and connection settings ↗</a></div></div></section>
+    <section id="consult" class="portfolio-contact" aria-labelledby="business-heading"><p class="section-kicker">Discuss using it at work</p><h2 id="business-heading">Discuss whether it fits your work.</h2><p class="contact-intro">Tell us what you want to delegate and which conditions need checking. We will narrow the task and assess the usable scope.</p><p class="readiness">Demonstrations and workflow-scoping discussions are available. Paid customer-data trials, production SLAs, SSO and organization isolation are not claimed as ready. Availability, scope, timing and fees are confirmed individually.</p><details><summary>Start a private inquiry</summary><form id="portfolio-form"><label>Name<input name="name" required maxlength="80" autocomplete="name"></label><label>Reply email<input name="email" type="email" required maxlength="254" autocomplete="email"></label><label class="wide">Organization (optional)<input name="organization" maxlength="120" autocomplete="organization"></label><label class="wide">What would you like to discuss?<textarea name="message" required minlength="10" maxlength="2000"></textarea></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><p class="privacy wide">Your inquiry is stored privately in Google Cloud for the operator to follow up. It is not used as AI input or analytics, and becomes eligible for deletion after 90 days. It is not posted to a public issue.</p><label class="consent wide"><input type="checkbox" name="consent" required>I agree to this handling of my inquiry.</label><button type="submit">Send inquiry</button><p class="wide" id="portfolio-status" role="status" aria-live="polite"></p></form></details></section>
+  </main>
+  <footer><span>Agent Team · Multibot · MIT · <a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></span><span><a href="https://zenn.dev/forifori/articles/agent-team-launch">Zenn</a> · <a href="https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a">dev.to</a> · <a href="https://github.com/FORIFOR/Multibot/tree/main/docs/site">Site docs</a></span><span>Deliverables, execution records, evaluation and limits are public.</span></footer>
 </div>
-<script src="record.js"></script>
-<script>
-(function(){
-  document.querySelectorAll('a[data-track]').forEach(function(a){ if(a.closest('[data-record]')) return; a.addEventListener('click',function(){ track(a.getAttribute('data-track'),{href:a.href,intent:a.getAttribute('data-intent')||undefined}); }); });
-  var v=document.getElementById('replay-video'); if(v){ var started=false; v.addEventListener('play',function(){ if(!started){started=true;track('demo_start',{kind:'replay'});} }); v.addEventListener('ended',function(){ track('demo_complete',{kind:'replay'}); }); }
-})();
-</script>
-<script src="launch.js"></script>
-<script src="portfolio.js" data-product="agent-team"></script></body>
+<script src="record.js"></script><script src="launch.js"></script><script src="portfolio.js" data-product="agent-team"></script>
+</body>
 </html>

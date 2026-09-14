@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Agent Team — 依頼は一度。成果物も、検証の経緯も。</title>
-<meta name="description" content="AIチーム（Master / Researcher / Builder / Reviewer）が作成・レビュー・修正を進め、誰が何を確かめたかまで成果物と一緒に残す、オープンソース（MIT）のツール。GitHub: FORIFOR/Multibot" />
-<meta property="og:title" content="Agent Team — 依頼は一度。成果物も、検証の経緯も。" />
-<meta property="og:description" content="AIチームが作成・レビュー・修正を進め、誰が何を確かめたかまで、成果物と一緒に残します。オープンソース（MIT）。GitHub: FORIFOR/Multibot" />
+<title>Agent Team — 資料やコードの作成を、レビューまで任せる。</title>
+<meta name="description" content="複数のAIが作成とレビューを分担し、成果物と修正の経緯を残すオープンソース（MIT）の作業環境。GitHub: FORIFOR/Multibot" />
+<meta property="og:title" content="Agent Team — 資料やコードの作成を、レビューまで任せる。" />
+<meta property="og:description" content="複数のAIが作成とレビューを分担し、成果物と修正の経緯を残します。オープンソース（MIT）。" />
 <meta property="og:image" content="https://forifor.github.io/Multibot/media/og.png" />
 <meta property="og:url" content="https://forifor.github.io/Multibot/ja/" />
 <link rel="canonical" href="https://forifor.github.io/Multibot/ja/" />
@@ -15,120 +15,83 @@
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="alternate" hreflang="en" href="https://forifor.github.io/Multibot/" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../site.css" />
-<link rel="stylesheet" href="../portfolio.css"></head>
+<link rel="stylesheet" href="../portfolio.css" />
+</head>
 <body>
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="./">Agent Team <small>GitHub: FORIFOR/Multibot · MIT</small></a>
-    <nav><a href="#record">作業記録</a><a href="#replay">再生</a><a href="#chat-view">チャット画面</a><a href="#how">仕組み</a><a href="#results">実績</a><a href="#quickstart">導入</a><a href="#consult">相談</a><a href="../">English</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
+    <a class="brand" href="./">Agent Team <small>Multibot · MIT</small></a>
+    <nav aria-label="メインナビゲーション"><a href="#example">実例</a><a href="#work">任せられる作業</a><a href="#how-to">使い方</a><a href="#consult">相談</a><a href="../">English</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
   </header>
 
-  <section class="hero">
-    <div class="eyebrow">OPEN SOURCE · LOCAL FIRST · MIT</div>
-    <h1>一つの依頼を、<br><em>Botチームのチャットで進める。</em></h1>
-    <p class="lede">Master が作業を分け、Researcher・Builder・Reviewer が実際のメッセージで連携します。チャット、成果物、検証の経緯を、ひとつの実行記録で追えます。</p>
-    <div class="cta">
-      <a class="btn signal" href="#replay" id="cta-record">32秒で実例を見る</a>
-      <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub で見る</a>
-      <span class="hint">オープンソース · MIT · Claude Code / Ollama / OpenAI互換</span>
-    </div>
-    <div class="hero-film" id="replay">
-      <div class="film-top"><span>実際の作業記録</span><span>32s · claude-opus-5 · 2026-09-13</span></div>
-      <video id="replay-video" controls playsinline preload="none" poster="../media/replay-research-poster.jpg" aria-label="実モデル実行の再生と日本語解説"><source src="../media/real-walkthrough-ja.mp4" type="video/mp4"><track kind="captions" src="../media/real-walkthrough-ja.vtt" srclang="ja" label="日本語" default></video>
-      <p class="film-note">実モデルの記録を再生・編集。待ち時間を短縮、日本語合成音声付き。結果は partial：予算上限で原文照合が未完了。</p>
-    </div>
-    <div class="proof-strip"><span>成果物を開ける</span><span>修正箇所まで辿れる</span><span>未検証も残す</span></div>
-  </section>
-
-  <section id="chat-view" class="chat-story" aria-labelledby="chat-view-heading">
-    <div class="eyebrow">CHAT-FIRST RUN VIEW</div>
-    <h2 id="chat-view-heading">会話・成果物・進行状況を一つの画面に。</h2>
-    <p class="sub">チャットを主役に、右側で参加Botと成果物を確認できます。表示されるメッセージは台本ではなく、同じ実行記録に保存されたBot間の実メッセージです。</p>
-    <div class="chat-story-grid">
-      <div class="chat-flow-card" aria-label="実行の協働フロー">
-        <div class="chat-card-label">協働フロー</div>
-        <div class="chat-flow" aria-label="MasterからReviewerまでの役割">
-          <span>Master</span><b aria-hidden="true">→</b><span>Researcher</span><b aria-hidden="true">→</b><span>Builder</span><b aria-hidden="true">→</b><span>Reviewer</span>
-        </div>
-        <p class="caption">必要なBotだけが参加し、引き継ぎ・質問・回答・レビューが時系列で残ります。</p>
+  <main>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-copy">
+        <p class="kicker">オープンソース（MIT）</p>
+        <h1 id="hero-heading">資料やコードの作成を、<br />レビューまで任せる。</h1>
+        <p class="lede">複数のAIが、作成とレビューを分担して進めます。できたファイルと一緒に、修正した箇所や、確認できなかった点を残します。</p>
+        <div class="cta"><a class="btn primary" href="#example" data-track="example_open">実例を見る</a><a class="btn secondary" href="#how-to">自分の環境で使う</a></div>
+        <p class="hero-note">実行には対応するAI接続が必要です。ローカルのOllama、Claude Code、OpenAI互換接続に対応しています。</p>
       </div>
-      <dl class="chat-facts">
-        <div><dt>依頼</dt><dd>1つのGoalから開始</dd></div>
-        <div><dt>協働</dt><dd>タスク別に整理された実メッセージ</dd></div>
-        <div><dt>検証</dt><dd>改訂・検査・レビューを同じ記録に保存</dd></div>
-      </dl>
-    </div>
-    <p class="caption">公開ページの動画は実行記録の再生です。アプリ画面では、実行中のチャットを検索し、タスクのスレッドごとに絞り込めます。</p>
-  </section>
 
-  <section aria-label="Work record">
-    <div class="eyebrow">EVIDENCE YOU CAN EXPLORE</div>
-    <h2>指摘から、修正した一文へ。</h2>
-    <p class="who">下は 2026-09-13 に実モデル（claude-opus-5、provider 報告値）で実行した記録そのものです。文章はすべて成果物とレビューから引用しています。</p>
-    <div id="record" data-record data-lang="ja" data-layout="a"></div>
-    <p class="caption">この実行は最終レビューが予算上限に達し <b>partial</b> で終了しました。指摘 3 件の修正は再検証で pass、出典の原文照合はレビュー環境にネットワークがなく unverified のままです。全 171 イベント: <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/events.jsonl" data-track="artifact_download">events.jsonl</a> · <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/final-report.md.r1" data-track="artifact_open">最終報告</a></p>
-  </section>
+      <div class="hero-example" id="example" aria-labelledby="example-heading">
+        <div class="section-kicker">実行記録から見る</div>
+        <h2 id="example-heading">一つの仕事が、どう進むか。</h2>
+        <p class="section-intro">依頼、成果物、指摘、修正、再検証を、同じ実行記録で確認できます。下の記録は、2026-09-13に実モデルで行った実行から引用しています。</p>
+        <div id="record" data-record data-lang="ja" data-layout="a"></div>
+        <p class="evidence-note"><strong>制約：</strong>指摘3件を修正しましたが、原文の照合は未完了のため、実行全体は <span class="status partial">partial</span> で終了しています。<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/events.jsonl" data-track="artifact_download">イベント記録</a>と<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/final-report.md.r1" data-track="artifact_open">最終報告</a>を開けます。</p>
+        <details class="video-details">
+          <summary>実行画面の動画を見る</summary>
+          <p>動画は操作の流れを確認するための補助資料です。ページを開いただけでは再生しません。</p>
+          <video controls playsinline preload="none" poster="../media/replay-research-poster.jpg" aria-label="実行画面の操作動画"><source src="../media/real-walkthrough-ja-silent.mp4" type="video/mp4"><track kind="captions" src="../media/real-walkthrough-ja-silent.vtt" srclang="ja" label="日本語" default></video>
+          <p class="caption">32秒に編集した既存の実行記録です。実際の実行時間や、未完了の状態は上の記録とリンク先で確認してください。</p>
+        </details>
+      </div>
+    </section>
 
-  <section id="how">
-    <div class="eyebrow">仕組み</div>
-    <h2>Master が計画し、Bot が作り、Runtime が確かめる。</h2>
-    <div class="how">
-      <div><b>1. 計画は構造化出力</b><p>Master が成果物・完了条件・タスクの依存関係を出す。Runtime がスキーマ、循環、担当、ツール範囲、書込範囲を検証し、通らない計画は 1 度だけ差し戻す。</p></div>
-      <div><b>2. 作業は実メッセージと実ファイル</b><p>Bot 間の送信は相手の受信箱に届く事実の記録で、台本ではない。成果物は SHA-256 付きの改訂として不変に保存される。</p></div>
-      <div><b>3. 検証は改訂に束ねる</b><p>検査とレビュー判定は改訂ハッシュに結び付く。最終報告はイベント記録から組み立てるので、モデルの要約が「着手」を「完了」に格上げできない。</p></div>
-    </div>
-    <p class="caption" style="margin-top:24px">予算・回数上限・権限・承認・停止はプロンプトではなく Runtime が強制。Builder / Reviewer のコマンドは Docker（ネットワーク遮断・読み取り専用）か macOS の seatbelt で実行し、どちらも無ければ実行を拒否します。</p>
-  </section>
+    <section id="work" aria-labelledby="work-heading">
+      <p class="section-kicker">任せられる作業</p>
+      <h2 id="work-heading">返ってくるものを、先に確認できます。</h2>
+      <p class="section-intro">作業の名前だけでなく、成果物と確認内容を一緒に残します。掲載しているリンクは、リポジトリに保存された実行記録です。</p>
+      <div class="deliverable-list">
+        <a class="deliverable" href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/code" data-track="artifact_open"><span class="deliverable-title">小さなツールを作る</span><span>コード、テスト、README</span><span class="deliverable-link">実例を開く ↗</span></a>
+        <a class="deliverable" href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/long" data-track="artifact_open"><span class="deliverable-title">ドキュメントサイトを作る</span><span>作成したページと、確認した項目</span><span class="deliverable-link">実例を開く ↗</span></a>
+        <a class="deliverable" href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/research2" data-track="artifact_open"><span class="deliverable-title">公開資料を比較する</span><span>比較メモ、参照元、修正内容、未確認事項</span><span class="deliverable-link">実例を開く ↗</span></a>
+      </div>
+      <p class="small-note">個別の実行例は用途全体の成功率を示しません。成功した記録だけでなく、失敗・部分完了・未確認も表示します。<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">評価と制約の詳細</a></p>
+    </section>
 
-  <section id="results">
-    <div class="eyebrow">実績</div>
-    <h2>成功も、途中で止まった仕事も。</h2>
-    <p class="sub">2026-09-13、ローカルの Claude Code CLI 経由（API キー不要）。数字はすべて各実行のイベント記録から読み取った値で、成果物と記録はリポジトリに未編集で置いています。完了しなかったものも並べます。</p>
-    <div class="audit-note"><div class="eyebrow">MEASUREMENT UPDATE · 2026-09-14</div><h3>比較試験の途中経過も公開。</h3><p>既存の50課題×3回の比較試験を監査しました。チーム側は47回完了・3回部分完了・100回がプロバイダ利用上限で失敗。単一側は150回完了しました。構成した評価入力を含む試験であり、実顧客業務の成功率ではありません。チームの品質優位はまだ主張できません。</p><a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/benchmark-2026-09-13/README.md">生の集計・採点修正・制約を読む ↗</a></div>
-    <p class="caption">以下は9月13日午前の初期実行記録。後続評価は上の監査と README を参照。</p>
-    <div class="tbl"><table>
-      <tr><th>依頼</th><th>結果</th><th>検査</th><th>レビュー</th><th>費用</th><th>時間</th><th>記録</th></tr>
-      <tr><td>LP + 投稿案 3 本（日本語）</td><td><span class="tag ok">completed</span></td><td>10/10</td><td>6/6</td><td>$1.66</td><td>18 分</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence" data-track="artifact_open">run4-*</a></td></tr>
-      <tr><td>Python CLI + unittest + README（テストは Docker 内で再実行）</td><td><span class="tag ok">completed</span></td><td>14/14</td><td>7/7</td><td>$1.87</td><td>16 分</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/code" data-track="artifact_open">scenarios/code</a></td></tr>
-      <tr><td>4 ファイルの静的 docs サイト</td><td><span class="tag ok">completed</span></td><td>39/39</td><td>12/12</td><td>$3.03</td><td>15 分</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/long" data-track="artifact_open">scenarios/long</a></td></tr>
-      <tr><td>3 ページの出典付き比較メモ（1 回目）</td><td><span class="tag bad">failed</span></td><td>–</td><td>–</td><td>$0.91</td><td>5 分</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/research" data-track="artifact_open">scenarios/research</a></td></tr>
-      <tr><td>同じ依頼（スケジューラ修正後、上の作業記録）</td><td><span class="tag warn">partial</span></td><td>10/13</td><td>5/8</td><td>$6.07</td><td>24 分</td><td><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/research2" data-track="artifact_open">scenarios/research2</a></td></tr>
-    </table></div>
-    <div class="paths" style="margin-top:28px">
-      <div class="path"><h3>失敗と部分完了の理由</h3><p>1 回目の失敗は、レビュー待ちのタスクに依存する別タスクが永遠に待つスケジューラの不具合でした（修正し、テストを追加）。再実行は指摘の修正と再検証まで進みましたが、レビュー・セッションが予算上限 $1.5 に 2 度達し、原文の逐一照合を残して partial になりました。調査系の依頼は最も費用が高く、最も安定しません。</p></div>
-      <div class="path"><h3>他のプロバイダ</h3><p>OpenAI 互換の gpt-4.1-mini は LP の依頼を 29 秒・$0.02 で完了。ローカル Ollama の qwen2.5:7b は成果物を公開したがレビュー手順を守れず partial。qwen2.5:3b は計画を出せませんでした。53 件の決定的テストと EN/JA の UI スモーク（headless Chrome）、Linux の Docker 隔離テストを CI で毎 push 実行しています。詳細: <a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">docs/STATUS.md</a></p></div>
-    </div>
-  </section>
+    <section id="how-to" aria-labelledby="how-heading">
+      <p class="section-kicker">使い方</p>
+      <h2 id="how-heading">必要なものを確認してから始める。</h2>
+      <div class="conditions">
+        <div><h3>どこで動くか</h3><p>自分の環境で実行します。Ollamaなどのローカル接続か、Claude Code・OpenAI互換の接続を選びます。</p></div>
+        <div><h3>費用は何にかかるか</h3><p>ソフトウェアはMITライセンスです。接続するAIサービスの契約料・利用料は別途かかります。</p></div>
+        <div><h3>データはどこへ送られるか</h3><p>ローカル接続では自分の環境に留まります。クラウドモデルを選ぶ場合は、選択したプロバイダへ入力が送信されます。</p></div>
+      </div>
+      <div class="install-block" id="github">
+        <h3>導入コマンド</h3>
+        <p>READMEの手順に沿って、Claude CodeまたはOllamaなどの接続を準備してください。コマンドをコピーしただけでは導入完了になりません。</p>
+        <div class="term"><pre id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div>
+        <div class="install-actions"><button class="btn secondary copy-install" type="button">導入コマンドをコピー</button><span class="copy-status" role="status" aria-live="polite"></span><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">READMEと接続設定を見る ↗</a></div>
+      </div>
+    </section>
 
-<section id="paths">
-    <div class="eyebrow">二つの導線</div>
-    <h2>自分で動かすか、相談するか。</h2>
-    <div class="paths">
-      <div class="path" id="quickstart"><h3>オープンソースで使う</h3><p>Claude Code、Ollama、OpenAI互換接続に対応しています。小さな実呼出でツール呼出と JSON スキーマ出力を確認してから UI を開きます。接続方法は README で選べます。</p>
-        <div class="term"><pre id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div><button class="btn ghost copy-install" type="button">導入コマンドをコピー</button><span class="copy-status" role="status"></span>
-        <p style="margin-top:14px"><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">README と他のプロバイダ設定 ↗</a></p>
-        <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="star">GitHub で見る</a></div>
-      <div class="path" id="consult"><h3>自社の作業フローを AI チーム化する相談</h3><p>調査 → 作成 → レビュー → 修正の流れを自社の業務に合わせて組み、検証の経緯ごと残したい方向けです。公開の Issue ではなく、非公開フォームで受け付けます。</p>
-        <a class="btn signal" href="#business" >非公開で相談する</a>
-        <p class="caption">不具合と提案は <a href="https://github.com/FORIFOR/Multibot/issues">GitHub Issues</a> へ。</p></div>
-    </div>
-  </section>
+    <section id="consult" class="portfolio-contact" aria-labelledby="business-heading">
+      <p class="section-kicker">業務利用の相談</p>
+      <h2 id="business-heading">自社の仕事で使えるか、相談する。</h2>
+      <p class="contact-intro">任せたい作業と、確認が必要な条件を教えてください。対象の仕事を絞って、適用できる範囲を確認します。</p>
+      <p class="readiness">企業向けデモ・導入設計の相談を受け付けています。顧客データでの有償PoC、本番SLA、SSO、組織分離は提供済みとしていません。提供可否・範囲・納期・料金は個別に確認します。</p>
+      <details><summary>非公開で相談する</summary><form id="portfolio-form"><label>お名前<input name="name" required maxlength="80" autocomplete="name"></label><label>返信先メール<input name="email" type="email" required maxlength="254" autocomplete="email"></label><label class="wide">会社・団体名（任意）<input name="organization" maxlength="120" autocomplete="organization"></label><label class="wide">相談したい内容<textarea name="message" required minlength="10" maxlength="2000"></textarea></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><p class="privacy wide">入力内容は運営者への非公開の問い合わせとしてGoogle Cloudに保存し、返信のために利用します。AIの入力やアクセス解析には利用しません。90日後から順次削除します。公開Issueには投稿されません。</p><label class="consent wide"><input type="checkbox" name="consent" required>上記の取り扱いに同意して送信します。</label><button type="submit">相談を送信</button><p class="wide" id="portfolio-status" role="status" aria-live="polite"></p></form></details>
+    </section>
+  </main>
 
-  <section class="portfolio-contact" id="business" aria-labelledby="business-heading"><p>事業・導入の相談 · Agent Team</p><h2 id="business-heading">自社の作業フローをAIチーム化する相談</h2><p class="contact-intro">調査・作成・レビューなど、任せたい仕事と確かめたい条件を教えてください。</p><p class="readiness">企業向けデモ・導入設計の相談を受付中です。顧客データでの有償PoC、本番SLA、SSO、組織分離は提供済みとしていません。まず公開情報で業務の適合を確認します。</p><p class="privacy">提供可否・範囲・納期・料金は個別に確認します。送信による契約や課金はありません。</p><details><summary>非公開で相談する</summary><form id="portfolio-form"><label>お名前<input name="name" required maxlength="80" autocomplete="name"></label><label>返信先メール<input name="email" type="email" required maxlength="254" autocomplete="email"></label><label class="wide">会社・団体名（任意）<input name="organization" maxlength="120" autocomplete="organization"></label><label class="wide">相談したい内容<textarea name="message" required minlength="10" maxlength="2000"></textarea></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><p class="privacy wide">入力内容は運営者への非公開の問い合わせとしてGoogle Cloudに保存し、返信のために利用します。AIの入力やアクセス解析には利用しません。90日後から順次削除します。公開Issueには投稿されません。</p><label class="consent wide"><input type="checkbox" name="consent" required>上記の取り扱いに同意して送信します。</label><button type="submit">相談を送信</button><p class="wide" id="portfolio-status" role="status" aria-live="polite"></p></form></details></section><footer>
-    <span>Agent Team · MIT · <a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">github.com/FORIFOR/Multibot</a></span>
-    <span><a href="https://zenn.dev/forifori/articles/agent-team-launch">Zenn</a> · <a href="https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a">dev.to (English)</a> · <a href="https://github.com/FORIFOR/Multibot/tree/main/docs/site">サイトの設計文書</a></span>
-    <span>スター数・成長率・ベンチマークは約束しません。成果物と記録だけを示します。</span>
-  </footer>
+  <footer><span>Agent Team · Multibot · MIT · <a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></span><span><a href="https://zenn.dev/forifori/articles/agent-team-launch">Zenn</a> · <a href="https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a">dev.to</a> · <a href="https://github.com/FORIFOR/Multibot/tree/main/docs/site">サイトの設計文書</a></span><span>成果物と実行記録、評価方法と制約を公開しています。</span></footer>
 </div>
 <script src="../record.js"></script>
-<script>
-(function(){
-  document.querySelectorAll('a[data-track]').forEach(function(a){ if(a.closest('[data-record]')) return; a.addEventListener('click',function(){ track(a.getAttribute('data-track'),{href:a.href,intent:a.getAttribute('data-intent')||undefined}); }); });
-  var v=document.getElementById('replay-video'); if(v){ var started=false; v.addEventListener('play',function(){ if(!started){started=true;track('demo_start',{kind:'replay'});} }); v.addEventListener('ended',function(){ track('demo_complete',{kind:'replay'}); }); }
-})();
-</script>
 <script src="../launch.js"></script>
-<script src="../portfolio.js" data-product="agent-team"></script></body>
+<script src="../portfolio.js" data-product="agent-team"></script>
+</body>
 </html>

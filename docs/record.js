@@ -121,6 +121,18 @@
       });
     });
     root.querySelectorAll('a[data-track]').forEach(function (a) { a.addEventListener('click', function () { window.track(a.getAttribute('data-track'), { href: a.href }); }); });
+    // Show one recorded finding on first paint so the example explains itself
+    // without autoplaying media or sending an analytics event.
+    var initial = root.querySelector('.finding');
+    if (initial) {
+      initial.classList.add('on');
+      var initialFix = initial.getAttribute('data-fix');
+      var initialIds = TARGET[initialFix] || [initialFix];
+      initialIds.forEach(function (id, i) {
+        var block = root.querySelector('.blk[data-fix="' + id + '"]');
+        if (block) block.classList.add(i ? 'hit2' : 'hit');
+      });
+    }
   }
   document.querySelectorAll('[data-record]').forEach(render);
 })();
