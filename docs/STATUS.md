@@ -18,7 +18,7 @@ v8は初回計画を受理し、初版を公開したものの、`stale`と「�
 
 v10は実Ollamaの初版`readiness.json`が依頼者Schemaをpassしましたが、Masterが受入条件IDを出力パスとして宣言したためpartialで停止しました。計画Validatorにこの誤りの拒否を追加し、証跡を[保存](evidence/real-readiness-v10-qwen35-2026-09-14/README.md)しました。Reviewer受入と10回条件は未達です。
 
-v11ではその計画誤りを拒否して再生成し、run 1が実Ollamaで初版不合格→revision 2、Schema pass、独立Reviewer pass、`completed`まで到達しました。[run 1証跡](evidence/real-readiness-v11-qwen35-2026-09-14/README.md)を保存し、同じ固定条件のrun 2〜10を継続中です。10回条件とL2/L3は未達です。
+v11ではその計画誤りを拒否して再生成し、run 1・2が実Ollamaで初版不合格→revision 2、Schema pass、独立Reviewer pass、`completed`まで到達しました。[run 1・2証跡](evidence/real-readiness-v11-qwen35-2026-09-14/README.md)を保存し、同じ固定条件のrun 3〜10を継続中です。10回条件とL2/L3は未達です。
 
 50課題×3回の比較は、追加記録を反映した最新ペアでチーム69 completed / 5 partial / 76 failed、単一150 completedです。上限の影響は79ペア。前回47/3/100の記録も残し、重複を除くチーム252試行を台帳に含めています。元の採点ではチームにも完了後不合格が1件あり、誤完了ゼロとは主張しません。
 

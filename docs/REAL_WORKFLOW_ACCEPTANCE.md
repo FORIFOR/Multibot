@@ -20,7 +20,7 @@ The [v8 qwen3.5 run](evidence/real-readiness-v8-qwen35-2026-09-14/README.md) pas
 
 The [v10 qwen3.5 run](evidence/real-readiness-v10-qwen35-2026-09-14/README.md) produced a contract-passing first artifact with the real model. It nevertheless stopped partial because the Master plan mistakenly declared an acceptance id as an output path; a deterministic plan validator now rejects that mix-up. Reviewer acceptance and the ten-run condition remain open.
 
-The [v11 qwen3.5 series](evidence/real-readiness-v11-qwen35-2026-09-14/README.md) corrected that plan error. Run 1 completed with a real local model after one rejected revision, delivery Schema pass and independent Reviewer pass; runs 2–10 are still being executed under the same fixed fingerprint. One accepted run is not the ten-run L1 condition, and L2/L3 remain open.
+The [v11 qwen3.5 series](evidence/real-readiness-v11-qwen35-2026-09-14/README.md) corrected that plan error. Runs 1 and 2 completed with a real local model after rejected revisions, delivery Schema pass and independent Reviewer pass; runs 3–10 are still being executed under the same fixed fingerprint. Two accepted runs are not the ten-run L1 condition, and L2/L3 remain open.
 
 Run only from a clean, fixed checkout and while no other local LLM campaign is running:
 
