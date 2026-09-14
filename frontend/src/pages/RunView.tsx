@@ -279,6 +279,8 @@ function ArtifactPane({ run, artifactsById, sel, setSel, events, onJump }: { run
 }
 
 function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Record<string, any>; tz?: string; onJump: (seq: number) => void }) {
+  const [query, setQuery] = useState('')
+  const [taskFilter, setTaskFilter] = useState<string | null>(null)
   if (chat.length === 0) return (
     <div className="chat-empty">
       <div className="chat-empty-icon" aria-hidden="true">✦</div>
@@ -286,6 +288,17 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
       <p className="muted small">{tr("Bot 間のメッセージはまだありません。表示されるのは実際に宛先の受信箱へ配送されたメッセージだけです。")}</p>
     </div>
   )
+  const taskIds = [...new Set(chat.map((m) => m.task_id).filter(Boolean))]
+  const flow = chat.reduce<string[]>((ids, m) => {
+    for (const id of [m.from, m.to]) if (ids[ids.length - 1] !== id) ids.push(id)
+    return ids
+  }, [])
+  const needle = query.trim().toLocaleLowerCase()
+  const visibleChat = chat.filter((m) => {
+    if (taskFilter && m.task_id !== taskFilter) return false
+    if (!needle) return true
+    return [m.from, m.to, m.task_id, m.purpose, m.text].join(' ').toLocaleLowerCase().includes(needle)
+  })
   return (
     <section className="chat-shell" aria-label={tr('チームチャット')}>
       <div className="chat-hero">
@@ -299,8 +312,37 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
         <div className="chat-live"><span className="chat-live-dot" aria-hidden="true" />{tr('実メッセージ')}<b>{chat.length}</b></div>
       </div>
       <p className="chat-caption">{tr('実際に受信箱へ届いたメッセージを、担当Botごとに表示しています。')}</p>
+      <div className="chat-overview">
+        <div className="chat-overview-main">
+          <span className="chat-section-label">{tr('協働フロー')}</span>
+          <div className="chat-flow" aria-label={tr('協働フロー')}>
+            {flow.map((id, index) => (
+              <span className="chat-flow-segment" key={id + index}>
+                {index > 0 && <span className="chat-flow-arrow" aria-hidden="true">→</span>}
+                <span className={'chat-flow-node tone-' + avatarTone(id)}><span className="chat-avatar micro" aria-hidden="true">{initials(id)}</span><b>{id}</b></span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="chat-metrics" aria-label={tr('参加Bot')}>
+          <span><b>{new Set(chat.flatMap((m) => [m.from, m.to])).size}</b>{tr('参加Bot')}</span>
+          <span><b>{taskIds.length}</b>{tr('作業スレッド')}</span>
+        </div>
+      </div>
+      <div className="chat-controls" role="group" aria-label={tr('メッセージを整理')}>
+        <label className="chat-search">
+          <span>{tr('メッセージを検索')}</span>
+          <input value={query} onChange={(e) => setQuery(e.target.value)} aria-label={tr('メッセージを検索')} />
+        </label>
+        <div className="chat-task-filters" role="group" aria-label={tr('作業スレッド')}>
+          <button type="button" className={!taskFilter ? 'active' : ''} aria-pressed={!taskFilter} onClick={() => setTaskFilter(null)}>{tr('すべて')}</button>
+          {taskIds.map((id) => <button type="button" key={id} className={taskFilter === id ? 'active' : ''} aria-pressed={taskFilter === id} onClick={() => setTaskFilter(taskFilter === id ? null : id)}>{id}</button>)}
+        </div>
+        <span className="chat-result-count">{visibleChat.length}/{chat.length}{tr('件表示')}</span>
+      </div>
       <div className="chat-stream" role="log" aria-live="polite" aria-relevant="additions text" aria-label={tr('実行のコミュニケーション')}>
-        {chat.map((m, index) => {
+        {visibleChat.length === 0 && <div className="chat-filter-empty">{tr('該当するメッセージはありません')}</div>}
+        {visibleChat.map((m, index) => {
           const agent = agents[m.from]
           const tone = avatarTone(m.from)
           return (

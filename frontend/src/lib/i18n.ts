@@ -29,6 +29,7 @@ const EN: Record<string, string> = {
   '実行の補助情報': 'Run supporting information',
   'メッセージを待っています': 'Waiting for messages', '実行のコミュニケーション': 'Run communication', '実メッセージ': 'Delivered messages',
   '実際に受信箱へ届いたメッセージを、担当Botごとに表示しています。': 'Messages delivered to a recipient mailbox, grouped by bot.', '返信': 'reply', 'メッセージを時系列で見る': 'View message in timeline',
+  '協働フロー': 'Collaboration flow', '参加Bot': 'bots', '作業スレッド': 'work threads', 'メッセージを整理': 'Organize messages', 'メッセージを検索': 'Search messages', 'すべて': 'All', '件表示': ' shown', '該当するメッセージはありません': 'No matching messages',
   '手動固定プロンプト': 'user-locked prompt', '公開': 'published', '検証': 'check', 'レビュー': 'review', 'メッセージ': 'message',
   '報告はありません。': 'No report.', '実行完了後に、成果物・検証・未解決・費用・経緯参照をまとめた報告が生成されます。': 'After the run completes, a report of deliverables, checks, unresolved items, cost and trace references is generated.',
   '要約: 生成なし（証拠のみ）': 'Summary: not generated (evidence only)', '見積': 'estimate', '期限': 'expires',

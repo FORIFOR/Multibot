@@ -10,6 +10,7 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 ### Changed
 - The run view's team chat uses a brighter conversation layout: deterministic bot avatars, role and route context, purpose and artifact badges, a delivered-message count, and one-click links back to the matching timeline event. The underlying chat data remains the delivered-message projection.
 - The run view now makes the delivered-message log the primary workspace, with team state and artifacts arranged in a supporting rail. The message log is exposed as an accessible live region and the layout collapses into a single-column reading order on smaller screens.
+- The chat view now summarizes the observed collaboration flow and offers labeled message search plus task-thread filters, so multi-bot handoffs can be followed without losing the underlying event order.
 
 ## 0.2.1 — 2026-09-13
 
