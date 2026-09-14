@@ -110,7 +110,10 @@ def delivery_schema(expected):
     forbidden_translation_fragments = (
         '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|'
         'パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|'
-        'デリル|アドバザリ|ステール|リカスケル|マニファクト'
+        'デリル|アドバザリ|ステール|リカスケル|マニファクト|'
+        'バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|'
+        '演算主体|アクター監査|actor-scoped|per-run|requester-owned|'
+        'resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'
     )
     japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
                 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]',
@@ -123,8 +126,12 @@ def delivery_schema(expected):
     technical_constraints = {
         # Keep terms whose meaning is unsafe to infer from a loose katakana
         # transliteration. The Japanese alternatives are explicit and narrow.
+        # These are requester terms, rather than a model's free-form review.
+        'Isolation': {'implemented': {'pattern': 'アーティファクト'}},
         'Execution': {'implemented': {'pattern': '(?:idempotent|冪等|べき等)'}},
-        'Data': {'implemented': {'pattern': 'age'}},
+        'Data': {'implemented': {'allOf': [{'pattern': 'age'}, {'pattern': '再開可能'}]}},
+        'Audit / monitoring': {'implemented': {'allOf': [{'pattern': '監査者'}, {'pattern': 'カーソル'}]}},
+        'Deployment': {'implemented': {'pattern': 'アドバイザリ'}},
     }
     def row_constraints(area, remaining):
         properties = {
@@ -135,7 +142,7 @@ def delivery_schema(expected):
             'remaining': {'allOf': [japanese, {'not': {'pattern': re.escape(remaining)}}]},
         }
         for name, constraint in technical_constraints.get(area, {}).items():
-            properties[name] = {**japanese, **constraint}
+            properties[name] = {'allOf': [japanese, constraint]}
         return properties
     return {'$schema': 'https://json-schema.org/draft/2020-12/schema', 'type': 'object', 'additionalProperties': False,
             'required': ['product', 'production_ready', 'deployment', 'summary', 'areas'], '$defs': {'row': row},

@@ -15,6 +15,19 @@ from agentteam.runtime.worker import auto_finish_if_outputs_published
 from .test_server_security import EVIDENCE, PROFILE, provision
 
 REAL = EVIDENCE.parent / 'real-readiness-v1-2026-09-14'
+V5 = EVIDENCE.parent / 'real-readiness-v5-qwen35-2026-09-14'
+
+
+def test_observed_v5_translation_drift_is_rejected_by_the_current_contract():
+    """The real second run exposed garbled terms that the first contract missed."""
+    script = Path(__file__).resolve().parents[1] / 'scripts' / 'production_workflow.py'
+    module_spec = importlib.util.spec_from_file_location('translation_contract_workflow', script)
+    workflow = importlib.util.module_from_spec(module_spec); module_spec.loader.exec_module(workflow)
+    expected = workflow.source_rows((EVIDENCE.parents[1] / 'PRODUCTION_PLAN.md').read_text())
+    raw = (V5 / '02-run_1a09e007b47ce3b4033' / 'artifact-001.bin').read_bytes()
+    result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
+    assert result['status'] == 'fail'
+    assert any(term in problem for problem in result['problems'] for term in ('バイントーリング', 'レジャーリー', 'アデュータ', 'コッレクター'))
 
 
 async def test_actual_english_remaining_cannot_finish_or_auto_finish_and_final_status_is_partial(tmp_path):
