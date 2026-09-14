@@ -1,0 +1,50 @@
+[
+  {
+    "run_id": "run_1a09e09a38fa66e373c",
+    "artifact_id": "final-report.md",
+    "revision": 1,
+    "sha256": "daf14f6676954f293813116ca74132da6eb03a78090dc6e92edf05ad4906e043",
+    "media_type": "text/markdown",
+    "size": 6003,
+    "logical_path": "final-report.md",
+    "storage_path": "run_1a09e09a38fa66e373c/artifacts/final-report.md/r1/final-report.md",
+    "task_id": null,
+    "agent_id": "master",
+    "created_at": "2026-09-14T04:08:28.320Z",
+    "event_id": "run_1a09e09a38fa66e373c:68",
+    "sources": [],
+    "evidence_file": "artifact-000.bin"
+  },
+  {
+    "run_id": "run_1a09e09a38fa66e373c",
+    "artifact_id": "readiness.json",
+    "revision": 1,
+    "sha256": "879e14240ba56c6368a76c7b4f32e650172a91b6333294a4ffba1c342ff86ee0",
+    "media_type": "application/json",
+    "size": 5753,
+    "logical_path": "readiness.json",
+    "storage_path": "run_1a09e09a38fa66e373c/artifacts/readiness.json/r1/readiness.json",
+    "task_id": "t1",
+    "agent_id": "builder",
+    "created_at": "2026-09-14T03:53:16.805Z",
+    "event_id": "run_1a09e09a38fa66e373c:15",
+    "sources": [],
+    "evidence_file": "artifact-001.bin"
+  },
+  {
+    "run_id": "run_1a09e09a38fa66e373c",
+    "artifact_id": "readiness.json",
+    "revision": 2,
+    "sha256": "be2d1897d73608e75fcfb06ef25b6e157a14baf2eac77a07c45436a48bc48fdb",
+    "media_type": "application/json",
+    "size": 5780,
+    "logical_path": "readiness.json",
+    "storage_path": "run_1a09e09a38fa66e373c/artifacts/readiness.json/r2/readiness.json",
+    "task_id": "t1",
+    "agent_id": "builder",
+    "created_at": "2026-09-14T03:57:01.295Z",
+    "event_id": "run_1a09e09a38fa66e373c:23",
+    "sources": [],
+    "evidence_file": "artifact-002.bin"
+  }
+]

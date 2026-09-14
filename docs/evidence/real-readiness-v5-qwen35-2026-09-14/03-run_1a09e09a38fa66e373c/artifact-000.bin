@@ -1,0 +1,48 @@
+# Final report — 企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。
+成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まずJSONをそのまま公開してください。
+トップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。
+areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。
+日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。
+技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。
+意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。
+用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。
+提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。
+
+- Status: **completed**
+- Provider kind: real
+- Usage: 21 model calls, 16 tool calls, $0.0000, 1037s
+
+## Summary
+PRODUCTION_PLAN.md を元に行われた 8 領域の解析に基づき、readiness.json の最終版（revision 2）を作成・検証しました。検証結果として JSON スキーマはパッセージし、必要な用語（Data: `age`, Execution: `冪等`/idempotent）は正しく記載されていますが、L3 未達のため `production_ready` は false です。
+
+## Deliverables
+- `readiness.json` — readiness.json r2 (sha256 be2d1897d736…) by builder / task t1
+
+## Requester delivery requirements
+- `readiness.json` on {'artifact_id': 'readiness.json', 'revision': 2, 'sha256': 'be2d1897d73608e75fcfb06ef25b6e157a14baf2eac77a07c45436a48bc48fdb'} → pass (seq 32)
+- `readiness.json` on {'artifact_id': 'readiness.json', 'revision': 2, 'sha256': 'be2d1897d73608e75fcfb06ef25b6e157a14baf2eac77a07c45436a48bc48fdb'} → pass (seq 66)
+
+## Tasks
+- t1 [accepted] builder: Construct readiness.json by parsing PRODUCTION_PLAN.md table rows, converting evidence columns to exact English quotes, implementing columns to Japanese summaries containing required terms (age for Data, idempotent for Execution), and remaining columns to Japanese summaries while excluding forbidden characters. (attempts 1)
+- t2 [accepted] reviewer: Verify readiness.json contents against original PRODUCTION_PLAN.md text for exact quote matching, term correctness (e.g., age, idempotent), exclusion of forbidden characters in Japanese summaries, and logical consistency (production_ready=false because L3 unachieved). Flag any deviation. (attempts 1)
+
+## Verified (from checks and reviews)
+- check json_schema on {'artifact_id': 'readiness.json', 'revision': 1, 'sha256': '879e14240ba56c6368a76c7b4f32e650172a91b6333294a4ffba1c342ff86ee0'} → fail (seq 18)
+- check json_schema on {'artifact_id': 'readiness.json', 'revision': 2, 'sha256': 'be2d1897d73608e75fcfb06ef25b6e157a14baf2eac77a07c45436a48bc48fdb'} → pass (seq 26)
+- check text_contains on {'artifact_id': 'readiness.json', 'revision': 2, 'sha256': 'be2d1897d73608e75fcfb06ef25b6e157a14baf2eac77a07c45436a48bc48fdb'} → pass (seq 29)
+- check json_schema on {'artifact_id': 'readiness.json', 'revision': 2, 'sha256': 'be2d1897d73608e75fcfb06ef25b6e157a14baf2eac77a07c45436a48bc48fdb'} → pass (seq 46)
+- review of t1 by reviewer: t1a1=pass (seq 58)
+- json_schema validation pass (seq. 26, 46, 58)
+- text_contains checks pass (seq. 29)
+- delivery_checks pass (seq. 32, 66)
+
+## Unresolved / pending
+- L3 unachieved: production_ready set to false
+
+## Next steps
+- 未解決の受入条件（残項要約）について追加テストを実施する。
+- 承認が得られるまで `production_ready` を true にしないこと。
+
+## Trace
+- Messages delivered: 0 ({})
+- Model usage by agent: master: 1 calls / $0.0000 (reported agentteam-qwen35-9b-16k), builder: 8 calls / $0.0000 (reported agentteam-qwen35-9b-16k), reviewer: 12 calls / $0.0000 (reported agentteam-qwen35-9b-16k)

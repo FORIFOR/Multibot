@@ -6,7 +6,7 @@
 
 ## 実測（進行中）
 
-現在2/10回が完了し、どちらも現行機械契約と独立Reviewerをpassした。3回目以降は同じ固定条件で継続中である。
+3/10回が完了し、旧契約では3回とも機械判定と独立Reviewerをpassした。3回目終了後にSTOPを要求し、旧系列を停止した。2回目・3回目の成果物を強化後の契約で再検査すると、英語混在や誤った語のため不合格になった。したがって旧契約の3/3はL1受入の根拠に採用せず、強化契約のv6系列で再試験する。
 
 ### 1回目
 
@@ -39,6 +39,21 @@
 | 実行時間 | 599.494秒 |
 | 使用量 | 20 model calls / 15 tool calls / 204,880 input tokens / 6,382 output tokens |
 
+### 3回目
+
+| 項目 | 結果 |
+| --- | --- |
+| run | `run_1a09e09a38fa66e373c` |
+| 結果 | `completed` |
+| 成果物 | `readiness.json` revision 2 |
+| 成果物SHA-256 | `be2d1897d73608e75fcfb06ef25b6e157a14baf2eac77a07c45436a48bc48fdb` |
+| 旧契約判定 | pass |
+| 強化後契約の再検査 | fail（`per-run`、`actor-scoped`、`auditor`、`cursor`など） |
+| Reviewer | 1件、旧契約のt1a1 pass |
+| 誤完了（旧機械判定） | false |
+| 実行時間 | 1081.351秒 |
+| 使用量 | 22 model calls / 16 tool calls / 254,321 input tokens / 11,841 output tokens |
+
 1回目は10回条件の1回分にすぎず、L1の10回再現条件、L2、L3の達成を意味しない。`readiness.json` 内の`production_ready`も資料どおり`false`である。本番TLS/DNS、企業IdP、独立攻撃レビュー、負荷・可用性、保持・RPO/RTO、アラート運用、SLO/SLAなどの外部受入条件は未達のまま記録されている。
 
 ## 収録ファイル
@@ -49,4 +64,4 @@
 - `artifact-001.bin`: 不合格だった初版
 - `artifact-002.bin`: Reviewerが確認したrevision 2
 
-3回目以降は同じモデルdigest・checkout・Schemaでバックグラウンド実行中である。各runは完了後に個別の証跡として追加し、失敗・中断・部分完了を成功へ書き換えない。
+v5の3回目までの全runは個別証跡として保存した。強化契約を含む次の固定系列v6は別checkoutで開始し、失敗・中断・部分完了を成功へ書き換えない。
