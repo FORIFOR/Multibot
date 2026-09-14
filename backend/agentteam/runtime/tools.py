@@ -33,6 +33,28 @@ def _obj(props: dict[str, Any], required: list[str] | None = None) -> dict[str, 
     return {"type": "object", "properties": props, "required": required or [], "additionalProperties": False}
 
 
+def _delivery_repair_hint(schema: dict[str, Any], result: dict[str, Any]) -> str:
+    """Keep schema repair feedback actionable when a model has little context left.
+
+    The full validator output remains recorded as evidence. This short, stable
+    hint is only a prompt aid; it never changes the validator verdict.
+    """
+    if result.get("status") == "pass":
+        return ""
+    encoded = json.dumps(schema, ensure_ascii=False)
+    hints = ["検査結果を正として、失敗したフィールドだけを一度修正し、説明を書かずに公開して再検査してください。"]
+    mappings = (("stale", "陳腐化"), ("artifact", "アーティファクト"),
+                ("actor-scoped", "操作主体ごとの"), ("resumable", "再開可能"),
+                ("auditor", "監査者"), ("cursor", "カーソル"),
+                ("advisory", "アドバイザリ"), ("drill", "ドリル"))
+    present = [f"{src}は「{dst}」" for src, dst in mappings if src in encoded]
+    if present:
+        hints.append("要約欄では英語の原語や「アクター監査」を使わず、" + "、".join(present) + "へ置換してください。英語を残せるのは evidence_quote と、Data の暗号化ツール名 age だけです。")
+    if "監査者" in encoded and "カーソル" in encoded:
+        hints.append("Audit / monitoring の implemented には「監査者」と「カーソル」をそのまま含めてください。")
+    return " ".join(hints)
+
+
 TOOL_SPECS: dict[str, ToolSpec] = {
     'read_input_file': ToolSpec('read_input_file', 'Read an original user attachment by exact name. These are input sources, not published artifacts and have no revision. Returns source hash and a bounded character range.',
         _obj({'name': {'type': 'string'}, 'start_char': {'type': 'integer', 'minimum': 0},
@@ -421,7 +443,12 @@ class ToolGateway:
         await rt.events.append(rt.run_id, "check.completed", {"kind": kind, "target": target, "args": recorded_args,
                                                               "result": result},
                                actor_id=ctx.agent.agent_id, actor_kind="agent", task_id=ctx.task_id, causation_id=cid)
-        return json.dumps({"kind": kind, "target": target, "result": result}, ensure_ascii=False, indent=1)
+        response = {"kind": kind, "target": target, "result": result}
+        if contract_requirement is not None and kind == "json_schema":
+            hint = _delivery_repair_hint(contract_requirement.json_schema, result)
+            if hint:
+                response["repair_hint"] = hint
+        return json.dumps(response, ensure_ascii=False, indent=1)
 
     async def t_web_fetch(self, a, cid):
         r = await web_fetch(a["url"], max_chars=int(a.get("max_chars") or 12000))

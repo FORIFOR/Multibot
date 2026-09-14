@@ -62,6 +62,7 @@ async def test_actual_english_remaining_cannot_finish_or_auto_finish_and_final_s
         })
         assert '"status": "fail"' in review_check
         assert 'invalid schema' not in review_check
+        assert 'repair_hint' in review_check and '失敗したフィールドだけ' in review_check
         assert await auto_finish_if_outputs_published(ctx, 'rechecking actual prior completion') is None
         assert len(failures(await verify_delivery(rt))) == 1
         # The real saved run already consumed these calls. Exhaust that actual

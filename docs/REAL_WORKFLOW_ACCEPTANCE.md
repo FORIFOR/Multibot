@@ -16,6 +16,8 @@ The [v5 qwen3.5 series](evidence/real-readiness-v5-qwen35-2026-09-14/README.md) 
 
 The strengthened-contract [v6 qwen3.5 run](evidence/real-readiness-v6-qwen35-2026-09-14/README.md) and [v7 qwen3.5 run](evidence/real-readiness-v7-qwen35-2026-09-14/README.md) also passed the real capability gate but were stopped before Reviewer acceptance. v6 exposed an English-copy failure and a model-call stop; v7 exposed repeated omission of required Japanese terms after four published revisions. Neither run counts toward the ten-run L1 condition. The Builder prompt now states the required literal terms and the next fixed checkout is v8.
 
+The [v8 qwen3.5 run](evidence/real-readiness-v8-qwen35-2026-09-14/README.md) passed the same capability gate and accepted the initial plan, but its first artifact mixed the English `stale` and the prohibited 「アクター監査」. The repair loop exhausted its context and the runtime recorded a partial Builder and cancelled Reviewer. It is preserved as a failed real run and does not count toward L1.
+
 Run only from a clean, fixed checkout and while no other local LLM campaign is running:
 
 ```bash
