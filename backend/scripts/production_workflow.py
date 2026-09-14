@@ -33,7 +33,7 @@ SOURCES = ['docs/PRODUCTION_PLAN.md', 'docs/evidence/operations-2026-09-14/READM
 GOAL = '''企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。
 成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まずJSONをそのまま公開してください。
 トップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。
-areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。
+areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。
 日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。
 技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。'''
@@ -94,11 +94,13 @@ def grade(raw, expected):
 
 def delivery_schema(expected):
     """Requester rules derived from the actual source, independent of the model plan."""
-    japanese = {'type': 'string', 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]'}
+    japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
+                'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]'}
     row = {'type': 'object', 'additionalProperties': False,
            'required': ['area', 'implemented', 'remaining', 'source_file', 'evidence_quote'],
            'properties': {'area': {'type': 'string'}, 'implemented': japanese, 'remaining': japanese,
-                          'source_file': {'const': 'PRODUCTION_PLAN.md'}, 'evidence_quote': {'type': 'string'}}}
+                          'source_file': {'const': 'PRODUCTION_PLAN.md'},
+                          'evidence_quote': {'type': 'string', 'description': 'Exact English source quotation; do not translate or alter.'}}}
     return {'$schema': 'https://json-schema.org/draft/2020-12/schema', 'type': 'object', 'additionalProperties': False,
             'required': ['product', 'production_ready', 'deployment', 'summary', 'areas'], '$defs': {'row': row},
             'properties': {'product': {'const': 'Multibot'}, 'production_ready': {'const': False},
@@ -123,9 +125,10 @@ async def main(root, repeat):
     cfg.limits.max_tasks = 4; cfg.limits.max_model_calls = 40; cfg.limits.max_tool_calls = 80
     cfg.limits.max_replans = 0; cfg.limits.max_session_turns = 18; cfg.limits.max_output_tokens = 5000
     cfg.limits.max_active_workers = 1
-    # v1 consumed 579s without revising its failed output. Record a separate,
-    # fixed 900s series with room for the mandatory check/revision cycle.
-    cfg.limits.timeout_seconds = 900
+    # v1/v2 consumed their 600/900s windows while revising the failed output.
+    # Record a separate fixed 1200s series with room for a real correction and
+    # independent review; this is not a latency or SLA claim.
+    cfg.limits.timeout_seconds = 1200
     next(a for a in cfg.agents if a.id == 'researcher').enabled = False
     async with httpx.AsyncClient(timeout=10, trust_env=False) as local:
         version = (await local.get('http://127.0.0.1:11434/api/version')).json()['version']

@@ -239,7 +239,10 @@ class ToolGateway:
                     + ". Write them with workspace_write and publish with publish_artifact, then call finish_task again.")
         required_failures = failures(await verify_delivery(self.rt, task_id=spec.id, actor_id=self.ctx.agent.agent_id))
         if required_failures:
-            return 'REJECTED: requester delivery requirements failed. Revise, publish another revision and retry finish_task. ' + ' | '.join(required_failures)[:6000]
+            return ('REJECTED: requester delivery requirements failed. Revise, publish another revision and retry finish_task. '
+                    'For this contract, `evidence_quote` must remain the exact English source quotation; translate/paraphrase '
+                    'only `implemented` and `remaining` into Japanese. Do not copy an English evidence_quote into remaining. '
+                    + ' | '.join(required_failures)[:6000])
         if self.ctx.agent.role == "reviewer":
             targets = [d for d in spec.depends_on if self.rt.tasks.get(d) and self.rt.agents.get(self.rt.tasks[d].spec.owner)
                        and self.rt.agents[self.rt.tasks[d].spec.owner].role != "reviewer"]

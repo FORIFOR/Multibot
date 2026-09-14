@@ -8,6 +8,8 @@ The replacement task creates a Japanese enterprise-readiness handoff from this p
 
 The first 600-second series failed on its first actual output: all eight remaining-work summaries were English, while the reviewer and runtime reported success. Inspection also found `age` mistranslated as 「年齢」. [Original failed evidence](evidence/real-readiness-v1-2026-09-14/README.md) is preserved. The next series includes explicit technical-name guidance, original-attachment retrieval, and [requester-owned delivery requirements](DELIVERY_REQUIREMENTS.md) derived from the actual source table. Missing fields, wrong source quotes/order or absent Japanese text cannot be overridden by a model's passing review. The 900-second budget provides room to revise; it is not presented as the same configuration as v1.
 
+The first two v2 attempts are also preserved in [their evidence directory](evidence/real-readiness-v2-2026-09-14/README.md). The runtime rejected a model revision that still copied English `remaining` values and stopped at the wall limit. This is a second real failure, not a successful trial. The next fixed series gives the correction loop 1,200 seconds and repeats the field distinction in the task context and rejection response.
+
 Run only from a clean, fixed checkout and while no other local LLM campaign is running:
 
 ```bash

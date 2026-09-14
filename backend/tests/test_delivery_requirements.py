@@ -39,7 +39,7 @@ async def test_actual_english_remaining_cannot_finish_or_auto_finish_and_final_s
         task = rt.tasks['t1']
         ctx = SessionContext(rt=rt, agent=rt.agents['builder'], mode='task', task=task, tools=rt.agents['builder'].tools)
         reply = await ToolGateway(ctx).call('finish_task', {'summary': task.result.summary})
-        assert reply.startswith('REJECTED: requester delivery requirements failed') and ctx.finished is None
+        assert reply.startswith('REJECTED: requester delivery requirements failed') and 'evidence_quote' in reply and ctx.finished is None
         assert await auto_finish_if_outputs_published(ctx, 'rechecking actual prior completion') is None
         assert len(failures(await verify_delivery(rt))) == 1
         # The real saved run already consumed these calls. Exhaust that actual
