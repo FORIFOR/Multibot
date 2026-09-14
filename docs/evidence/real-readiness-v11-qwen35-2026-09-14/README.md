@@ -21,8 +21,11 @@ run 2も同じ固定条件で完了した。初版は英語混在と必須語不
 
 2/10回が受入済みであり、L1の10回反復条件、L2、L3の達成を意味しない。`production_ready`は資料どおり`false`で、外部IdP、TLS/DNS、独立攻撃レビュー、可用性、保持・RPO/RTO、アラート運用、SLO/SLAは未検証のまま記録されている。
 
+run 3は初版で複数の英語混在と必須語不足が検出された。Builderが修正説明を繰り返して`max_tokens`に達し、Runtimeはpartialを記録した。Masterの例外処理で許可されていない`report_blocker`操作が拒否され、Reviewerは起動前に停止した。run 3は受入数に算入しない。
+
 ## 収録ファイル
 
 - `fingerprint.json`、`probe.json`、`goal.txt`、`delivery-requirements.json`: 系列固定値と実能力プローブ
 - `01-run_1a09e54e396dd8adf35/`: run JSON、全イベント、初版・修正版・最終レポートの実bytesとSHA台帳
 - `02-run_1a09e60c5aa5e243693/`: run 2の同一形式の実行証跡
+- `03-run_1a09e6dff27b275f707/`: run 3のSchema不合格・partial停止の全イベントと実revision

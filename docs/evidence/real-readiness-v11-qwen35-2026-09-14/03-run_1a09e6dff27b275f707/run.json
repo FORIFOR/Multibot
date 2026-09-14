@@ -1,0 +1,61 @@
+{
+  "run_id": "run_1a09e6dff27b275f707",
+  "status": "interrupted",
+  "campaign_status": {
+    "state": "stopped",
+    "updated_at": "2026-09-14T05:50:20.592488+00:00",
+    "target_runs": 10,
+    "error_type": "CancelledError",
+    "message": "inspect retained run and private process log; no automatic success claim"
+  },
+  "probe": {
+    "ok": true,
+    "driver": "ollama",
+    "model_requested": "agentteam-qwen35-9b-16k",
+    "model_reported": "agentteam-qwen35-9b-16k",
+    "tool_calling": true,
+    "json_schema": true,
+    "error": null,
+    "usage": {
+      "input_tokens": 317,
+      "output_tokens": 32,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0
+    },
+    "request_id": null
+  },
+  "model": {
+    "commit": "af15e98c3ae8075a49454ae5ba2f1d52bf492085",
+    "source_sha256": {
+      "PRODUCTION_PLAN.md": "56c1e29d19bfde1bb6fbae173a1fb3904cf2a550d72ea180fc821dc7434e2503",
+      "README.md": "fda3abfcdea7fc7c1e3d766f0f950d06103cd108ce8abd588ff22756d1dd42e1"
+    },
+    "goal_sha256": "7d3e2968ef40779ad95b9d04907845e6a0fdd95bef489df15ab8113fd1e7e325",
+    "config_sha256": "2cc8d2eff9668a829087d805b8ef795e755be2b273a258abf6ceb4756e711397",
+    "delivery_requirements_sha256": "d43ea251020a9e17171abdc5d545ac7da30a061f1e63fb4290118fed645aac11",
+    "model": "agentteam-qwen35-9b-16k",
+    "model_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+    "ollama_version": "0.33.3",
+    "target_runs": 10
+  },
+  "event_count": 37,
+  "last_event": {
+    "seq": 37,
+    "type": "run.interrupted"
+  },
+  "tasks": [
+    {
+      "task_id": "t1",
+      "status": "partial",
+      "owner": "builder",
+      "state_json": "{\"attempt\": 1, \"blocked_reason\": \"agent ended its turn repeatedly without finish_task\", \"result\": null, \"review\": null, \"revision_round\": 0, \"run_id\": \"run_1a09e6dff27b275f707\", \"spec\": {\"acceptance\": [{\"check_kind\": \"programmatic\", \"description\": \"JSON schema validation pass against provided rules\", \"id\": \"t1a1\"}, {\"check_kind\": \"programmatic\", \"description\": \"all 8 rows present in areas array in correct order\", \"id\": \"t1a2\"}, {\"check_kind\": \"programmatic\", \"description\": \"each row contains accurate Japanese summary for implemented and Japanese summary for remaining without copying English quotes\", \"id\": \"t1a3\"}, {\"check_kind\": \"programmatic\", \"description\": \"evidence_quote contains exact English string from PRODUCTION_PLAN.md Remaining acceptance work column\", \"id\": \"t1a4\"}], \"depends_on\": [], \"id\": \"t1\", \"input_artifacts\": [], \"objective\": \"read PRODUCTION_PLAN.md to extract content for 8 areas, then generate readiness.json with all required constraints.\", \"output_paths\": [\"artifacts/readiness.json\"], \"owner\": \"builder\", \"write_scope\": \"workspaces/t1/\"}, \"status\": \"partial\", \"updated_at\": \"2026-09-14T05:49:47.946Z\"}"
+    },
+    {
+      "task_id": "t2",
+      "status": "queued",
+      "owner": "reviewer",
+      "state_json": "{\"attempt\": 0, \"blocked_reason\": null, \"result\": null, \"review\": null, \"revision_round\": 0, \"run_id\": \"run_1a09e6dff27b275f707\", \"spec\": {\"acceptance\": [{\"check_kind\": \"programmatic\", \"description\": \"json_schema check passes with no structural errors\", \"id\": \"t2a1\"}, {\"check_kind\": \"programmatic\", \"description\": \"pattern restrictions on implemented and remaining fields are respected (no prohibited characters/words)\", \"id\": \"t2a2\"}], \"depends_on\": [\"t1\"], \"id\": \"t2\", \"input_artifacts\": [], \"objective\": \"Verify readiness.json against JSON Schema and domain constraints.\", \"output_paths\": [], \"owner\": \"reviewer\", \"write_scope\": \"workspaces/t2/\"}, \"status\": \"queued\", \"updated_at\": \"2026-09-14T05:40:33.296Z\"}"
+    }
+  ],
+  "evidence_note": "Run 3 Builder failed the delivery contract and ended without finish_task; Master accepted partial, Reviewer was never started, and the process was stopped. No success claim."
+}
