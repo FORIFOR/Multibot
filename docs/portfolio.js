@@ -4,10 +4,14 @@
  const endpoint='https://ai-meeting-broker-pdygkns5gq-an.a.run.app/api/site/';
  const words=(ja,en)=>language==='ja'?ja:en;
  const allowed=new Set(['demo_start','demo_complete','example_open','artifact_open','artifact_download','github_outbound','quickstart_open','quickstart_copy','record_finding','contact_submit']);
+ // The deployed collector currently accepts only this subset. Keep the full
+ // local dataLayer vocabulary for UX/QA, but do not create repeated 400s for
+ // events that the collector has not enabled yet.
+ const remoteAllowed=new Set(['demo_start','demo_complete','artifact_open','artifact_download','github_outbound','quickstart_open']);
  const localHost=location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.hostname==='[::1]';
  let budget=40;
  window.dataLayer=window.dataLayer||[];
- function event(name,props){if(!allowed.has(name)||budget<=0||navigator.doNotTrack==='1'||navigator.globalPrivacyControl)return;budget--;window.dataLayer.push({event:name,kind:props&&props.kind,scenario:product,language});if(localHost)return;void fetch(endpoint+'events',{method:'POST',headers:{'content-type':'application/json'},credentials:'omit',referrerPolicy:'no-referrer',keepalive:true,body:JSON.stringify({event:name,scenario:product,language})}).catch(()=>{});}
+ function event(name,props){if(!allowed.has(name)||budget<=0||navigator.doNotTrack==='1'||navigator.globalPrivacyControl)return;budget--;window.dataLayer.push({event:name,kind:props&&props.kind,scenario:product,language});if(localHost||!remoteAllowed.has(name))return;void fetch(endpoint+'events',{method:'POST',headers:{'content-type':'application/json'},credentials:'omit',referrerPolicy:'no-referrer',keepalive:true,body:JSON.stringify({event:name,scenario:product,language})}).catch(()=>{});}
  window.productEvent=event;
  document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;if(a.dataset.track){if(!a.closest('[data-record]'))event(a.dataset.track,{href:a.href,intent:a.getAttribute('data-intent')||undefined});return;}const href=a.getAttribute('href')||'';if(a.download||/\.zip(?:$|\?)/.test(href))event('artifact_download');else if(/github\.com/.test(href))event(/TESTING|README|quickstart/.test(href)?'quickstart_open':'github_outbound');else if(/#start|#quickstart/.test(href))event('quickstart_open');else if(a.dataset.artifact||/orbit\.html|kit-site/.test(href))event('artifact_open');});
  document.querySelectorAll('video,audio').forEach(v=>{let started=false;v.addEventListener('play',()=>{if(!started){event('demo_start',{kind:'replay'});started=true;}document.querySelectorAll('video,audio').forEach(o=>{if(o!==v)o.pause()});});v.addEventListener('ended',()=>event('demo_complete',{kind:'replay'}));});
