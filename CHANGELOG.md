@@ -8,6 +8,7 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 - A liquid-glass "thinking" orb in the run header while a run is live and next to the start button while a request starts (WebGPU; browsers without a WebGPU adapter keep the pulse dot). The orb is a standalone export of the MIT-licensed Liquid Orb Editor (LerSent001/orb), vendored as `frontend/src/assets/orb.html` with its parameter snapshot and license.
 
 ### Changed
+- The public Japanese and English homepages now lead with the chat-first app experience: collaboration flow, real message records, task organization, and supported local/provider connections. The static pages do not present fabricated conversation text or success logs.
 - The run view's team chat uses a brighter conversation layout: deterministic bot avatars, role and route context, purpose and artifact badges, a delivered-message count, and one-click links back to the matching timeline event. The underlying chat data remains the delivered-message projection.
 - The run view now makes the delivered-message log the primary workspace, with team state and artifacts arranged in a supporting rail. The message log is exposed as an accessible live region and the layout collapses into a single-column reading order on smaller screens.
 - The chat view now summarizes the observed collaboration flow and offers labeled message search plus task-thread filters, so multi-bot handoffs can be followed without losing the underlying event order.

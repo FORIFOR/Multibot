@@ -1,10 +1,15 @@
 # CONTENT.md — Agent Team サイト コピー
 
 ## ヒーロー（日本語 / English）
-- H1: 依頼は一度。成果物も、検証の経緯も。 / One request. The deliverable — and how it was checked.
-- 補足: AIチームが作成・レビュー・修正を進め、誰が何を確かめたかまで、成果物と一緒に残します。 / An AI team drafts, reviews and revises the work, and keeps who checked what next to the deliverable.
+- H1: 一つの依頼を、Botチームのチャットで進める。 / One request, worked through in team chat.
+- 補足: Master が作業を分け、Researcher・Builder・Reviewer が実際のメッセージで連携します。チャット、成果物、検証の経緯をひとつの実行記録で追えます。 / The Master splits the work, then Researcher, Builder and Reviewer coordinate through real messages. Follow the chat, deliverables and checks in one execution record.
 - 主 CTA: 実際の作業記録を見る / See a real work record
 - 副 CTA: GitHub で見る / View on GitHub
+
+## チャット中心のアプリ画面（日本語 / English）
+- チャットを主画面にし、参加Bot、タスク別スレッド、成果物、検査・レビューを同じ実行記録から表示する。
+- 説明用の協働フローは Master → Researcher → Builder → Reviewer。架空の会話本文や成功ログは掲載しない。
+- アプリでは実メッセージを検索し、タスク単位で絞り込める。公開ページは静的な製品説明と実行記録への導線に限定する。
 
 ## 作業記録（実データ、2026-09-13、claude-opus-5）
 - 依頼 21:13Z: 3 つの公開ページを取得し「主張・対象読者・ライセンス」を出典 URL 付きで比較する調査メモ。推測で埋めない。

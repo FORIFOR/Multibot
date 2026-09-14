@@ -22,17 +22,17 @@
 <div class="wrap">
   <header class="top">
     <a class="brand" href="./">Agent Team <small>GitHub: FORIFOR/Multibot · MIT</small></a>
-    <nav><a href="#record">作業記録</a><a href="#replay">再生</a><a href="#how">仕組み</a><a href="#results">実績</a><a href="#quickstart">導入</a><a href="#consult">相談</a><a href="../">English</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
+    <nav><a href="#record">作業記録</a><a href="#replay">再生</a><a href="#chat-view">チャット画面</a><a href="#how">仕組み</a><a href="#results">実績</a><a href="#quickstart">導入</a><a href="#consult">相談</a><a href="../">English</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
   </header>
 
   <section class="hero">
     <div class="eyebrow">OPEN SOURCE · LOCAL FIRST · MIT</div>
-    <h1>調べる。作る。<br><em>確かめて、渡す。</em></h1>
-    <p class="lede">3つの公開ページから比較資料を作り、レビューの指摘を修正。成果物も、誰が何を確かめたかも、ひとつの記録に。</p>
+    <h1>一つの依頼を、<br><em>Botチームのチャットで進める。</em></h1>
+    <p class="lede">Master が作業を分け、Researcher・Builder・Reviewer が実際のメッセージで連携します。チャット、成果物、検証の経緯を、ひとつの実行記録で追えます。</p>
     <div class="cta">
       <a class="btn signal" href="#replay" id="cta-record">32秒で実例を見る</a>
       <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub で見る</a>
-      <span class="hint">オープンソース · MIT · API キー不要（Claude Code）</span>
+      <span class="hint">オープンソース · MIT · Claude Code / Ollama / OpenAI互換</span>
     </div>
     <div class="hero-film" id="replay">
       <div class="film-top"><span>実際の作業記録</span><span>32s · claude-opus-5 · 2026-09-13</span></div>
@@ -40,6 +40,27 @@
       <p class="film-note">実モデルの記録を再生・編集。待ち時間を短縮、日本語合成音声付き。結果は partial：予算上限で原文照合が未完了。</p>
     </div>
     <div class="proof-strip"><span>成果物を開ける</span><span>修正箇所まで辿れる</span><span>未検証も残す</span></div>
+  </section>
+
+  <section id="chat-view" class="chat-story" aria-labelledby="chat-view-heading">
+    <div class="eyebrow">CHAT-FIRST RUN VIEW</div>
+    <h2 id="chat-view-heading">会話・成果物・進行状況を一つの画面に。</h2>
+    <p class="sub">チャットを主役に、右側で参加Botと成果物を確認できます。表示されるメッセージは台本ではなく、同じ実行記録に保存されたBot間の実メッセージです。</p>
+    <div class="chat-story-grid">
+      <div class="chat-flow-card" aria-label="実行の協働フロー">
+        <div class="chat-card-label">協働フロー</div>
+        <div class="chat-flow" aria-label="MasterからReviewerまでの役割">
+          <span>Master</span><b aria-hidden="true">→</b><span>Researcher</span><b aria-hidden="true">→</b><span>Builder</span><b aria-hidden="true">→</b><span>Reviewer</span>
+        </div>
+        <p class="caption">必要なBotだけが参加し、引き継ぎ・質問・回答・レビューが時系列で残ります。</p>
+      </div>
+      <dl class="chat-facts">
+        <div><dt>依頼</dt><dd>1つのGoalから開始</dd></div>
+        <div><dt>協働</dt><dd>タスク別に整理された実メッセージ</dd></div>
+        <div><dt>検証</dt><dd>改訂・検査・レビューを同じ記録に保存</dd></div>
+      </dl>
+    </div>
+    <p class="caption">公開ページの動画は実行記録の再生です。アプリ画面では、実行中のチャットを検索し、タスクのスレッドごとに絞り込めます。</p>
   </section>
 
   <section aria-label="Work record">
@@ -85,7 +106,7 @@
     <div class="eyebrow">二つの導線</div>
     <h2>自分で動かすか、相談するか。</h2>
     <div class="paths">
-      <div class="path" id="quickstart"><h3>オープンソースで使う</h3><p>Claude Code にログイン済みで uv があれば 1 コマンド。小さな実呼出でツール呼出と JSON スキーマ出力を確認してから UI を開きます。</p>
+      <div class="path" id="quickstart"><h3>オープンソースで使う</h3><p>Claude Code、Ollama、OpenAI互換接続に対応しています。小さな実呼出でツール呼出と JSON スキーマ出力を確認してから UI を開きます。接続方法は README で選べます。</p>
         <div class="term"><pre id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div><button class="btn ghost copy-install" type="button">導入コマンドをコピー</button><span class="copy-status" role="status"></span>
         <p style="margin-top:14px"><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">README と他のプロバイダ設定 ↗</a></p>
         <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="star">GitHub で見る</a></div>

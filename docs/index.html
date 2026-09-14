@@ -22,17 +22,17 @@
 <div class="wrap">
   <header class="top">
     <a class="brand" href="./">Agent Team <small>GitHub: FORIFOR/Multibot · MIT</small></a>
-    <nav><a href="#record">Work record</a><a href="#replay">Replay</a><a href="#how">How it works</a><a href="#results">Results</a><a href="#quickstart">Install</a><a href="#consult">Consulting</a><a href="ja/">日本語</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
+    <nav><a href="#record">Work record</a><a href="#replay">Replay</a><a href="#chat-view">Chat view</a><a href="#how">How it works</a><a href="#results">Results</a><a href="#quickstart">Install</a><a href="#consult">Consulting</a><a href="ja/">日本語</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
   </header>
 
   <section class="hero">
     <div class="eyebrow">OPEN SOURCE · LOCAL FIRST · MIT</div>
-    <h1>From a request<br>to <em>reviewed work.</em></h1>
-    <p class="lede">Turn three public pages into a comparison brief. Follow the review findings, the revisions, and the files your AI team delivers.</p>
+    <h1>One request,<br><em>worked through in team chat.</em></h1>
+    <p class="lede">The Master splits the work, then Researcher, Builder and Reviewer coordinate through real messages. Follow the chat, deliverables and checks in one execution record.</p>
     <div class="cta">
       <a class="btn signal" href="#replay" id="cta-record">Watch the real workflow</a>
       <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">View on GitHub</a>
-      <span class="hint">Open source · MIT · no API key with Claude Code</span>
+      <span class="hint">Open source · MIT · Claude Code / Ollama / OpenAI-compatible</span>
     </div>
     <div class="hero-film" id="replay">
       <div class="film-top"><span>A REAL WORK RECORD</span><span>32s · claude-opus-5 · 2026-09-13</span></div>
@@ -40,6 +40,27 @@
       <p class="film-note">Edited replay of a real-model run, with waiting time removed and Japanese synthesized narration. Result: partial; source verification remained unfinished at the budget limit.</p>
     </div>
     <div class="proof-strip"><span>Open the deliverables</span><span>Trace every revision</span><span>See what remains unchecked</span></div>
+  </section>
+
+  <section id="chat-view" class="chat-story" aria-labelledby="chat-view-heading">
+    <div class="eyebrow">CHAT-FIRST RUN VIEW</div>
+    <h2 id="chat-view-heading">Conversation, deliverables and progress in one view.</h2>
+    <p class="sub">Chat is the main surface, with the active team and artifacts alongside it. The messages are not scripted: they are the bot-to-bot deliveries recorded in the same run.</p>
+    <div class="chat-story-grid">
+      <div class="chat-flow-card" aria-label="Collaboration flow">
+        <div class="chat-card-label">COLLABORATION FLOW</div>
+        <div class="chat-flow" aria-label="Roles from Master to Reviewer">
+          <span>Master</span><b aria-hidden="true">→</b><span>Researcher</span><b aria-hidden="true">→</b><span>Builder</span><b aria-hidden="true">→</b><span>Reviewer</span>
+        </div>
+        <p class="caption">Only the roles needed for the work join the run; handoffs, questions, answers and reviews remain in order.</p>
+      </div>
+      <dl class="chat-facts">
+        <div><dt>Request</dt><dd>Starts from one goal</dd></div>
+        <div><dt>Collaboration</dt><dd>Real messages grouped by task</dd></div>
+        <div><dt>Verification</dt><dd>Revisions, checks and reviews share the record</dd></div>
+      </dl>
+    </div>
+    <p class="caption">The public video is a replay of a real run. In the app, you can search the live chat and filter it by task thread.</p>
   </section>
 
   <section aria-label="Work record">
@@ -85,7 +106,7 @@
     <div class="eyebrow">Two paths</div>
     <h2>Run it yourself, or talk to us.</h2>
     <div class="paths">
-      <div class="path" id="quickstart"><h3>Use the open-source project</h3><p>One command if Claude Code is installed and logged in and you have uv. It makes one small real call to confirm tool calling and JSON-schema output, then opens the UI.</p>
+      <div class="path" id="quickstart"><h3>Use the open-source project</h3><p>Connect Claude Code, Ollama or an OpenAI-compatible endpoint. A small real call confirms tool calling and JSON-schema output before the UI opens; choose the connection in the README.</p>
         <div class="term"><pre id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div><button class="btn ghost copy-install" type="button">Copy install command</button><span class="copy-status" role="status"></span>
         <p style="margin-top:14px"><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">README and other providers ↗</a></p>
         <a class="btn ghost" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="star">View on GitHub</a></div>
