@@ -10,6 +10,7 @@
 | 信頼 | partial / failed の行に理由と証拠リンクがある | 実績表に記載 |
 | 事業導線 | 「相談」フォームが非公開チャネルへ、送信成功時に`contact_submit`発火 | 確認 |
 | OSS 導線 | GitHub リンクと uvx コマンド、`github_outbound` / `quickstart_open` 発火 | 確認 |
+| Reachmade導線 | 製品サイトと親サイトの製品一覧が英語・日本語フッターから開ける | `multibot.reachmade.com` は GitHub Pages へリダイレクト、`reachmade.com/products/#agent-team` は HTTP 200 を確認（2026-09-15 JST） |
 | 表記 | Agent Team / FORIFOR/Multibot / MIT がヘッダ・フッタ・OG にある | 確認 |
 | CWV | LCP ≤ 2.5s、INP ≤ 200ms、CLS ≤ 0.1 | **未計測**（フィールドデータなし。Lighthouse のラボ値のみ参考に記録） |
 

@@ -35,4 +35,5 @@
 
 ## 表記
 - 製品名Agent Team、リポジトリFORIFOR/Multibot、MITをヘッダーとフッターに併記する。
+- Reachmade Labの製品であることと、製品サイト（`multibot.reachmade.com`）・親サイトの製品一覧（`reachmade.com/products/#agent-team`）へのリンクをフッターに置く。製品サイトの配信元やアプリ本体の移管を意味しない。
 - 成果物、イベント記録、評価方法、制約へのリンクを用意する。スター数・成長率・ベンチマークの約束はしない。
