@@ -27,6 +27,7 @@ from agentteam.api.service import AppService
 from agentteam.config.loader import config_to_yaml, load_config_file
 from agentteam.ids import new_id
 from agentteam.providers.registry import ProviderRegistry
+from agentteam.runtime.checks import json_schema_check
 from agentteam.security.accounts import issue_key
 
 SOURCES = ['docs/PRODUCTION_PLAN.md', 'docs/evidence/operations-2026-09-14/README.md']
@@ -90,7 +91,14 @@ def grade(raw, expected):
             for name in ('implemented', 'remaining'):
                 if not isinstance(row.get(name), str) or not re.search(r'[ぁ-んァ-ン一-龯]', row.get(name, '')):
                     problems.append(f'{area}: Japanese {name} summary missing')
-    return {'mechanical_pass': not problems, 'problems': problems, 'semantic_review': 'pending'}
+    # Re-run the exact requester contract in the evidence collector. This
+    # keeps campaign grading aligned with the runtime's immutable delivery
+    # decision, including translation-drift and copied-quote guards.
+    contract = json_schema_check(raw.encode(), delivery_schema(expected))
+    if contract['status'] != 'pass':
+        problems.extend('delivery contract: ' + p for p in contract.get('problems', []))
+    return {'mechanical_pass': not problems, 'problems': problems, 'semantic_review': 'pending',
+            'delivery_contract': contract}
 
 
 def delivery_schema(expected):
