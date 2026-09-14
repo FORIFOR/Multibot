@@ -1,0 +1,1642 @@
+{
+  "run_id": "run_1a09e60c5aa5e243693",
+  "status": "completed",
+  "goal": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まずJSONをそのまま公開してください。\nトップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。\nareasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。\n日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。\n技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。\n意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。\n用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。\n提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。",
+  "inputs": {
+    "text": "",
+    "urls": [],
+    "files": [
+      {
+        "content": "# Production acceptance plan\n\nGoal: advance Multibot to L3 for a clearly scoped enterprise workflow. **L3 remains unachieved.** The first deployment shape is an isolated installation per organization. A shared multi-tenant SaaS would require another architecture and isolation audit.\n\nThe working code and each evaluated checkout are tracked separately. The legacy 300-trial comparison stays pinned and preserved, but is paused: its 50 tasks include fictional products and synthetic business data, contrary to the user's no-dummy-data requirement for new acceptance work. It is not real-enterprise acceptance evidence. The replacement workflow uses actual repository source documents with recorded hashes and a separate fixed series.\n\n| Area | Implemented / verified | Remaining acceptance work |\n| --- | --- | --- |\n| Identity | Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary | Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance |\n| Isolation | Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture | Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance |\n| Execution | Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation | Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA |\n| Data | Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption | Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO |\n| Audit / monitoring | Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view | Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance |\n| Deployment | Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans | Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review |\n| Business quality | Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added | Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds |\n| Contract / operation | Technical limitations documented | Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications |\n\nNext engineering sequence:\n\n1. Done: authenticated deployment boundary with recorded API/browser/backup evidence and passing CI.\n2. Implemented: standards-based SSO and explicit identity/role mappings. Real local Keycloak integration verified; corporate IdP acceptance remains open.\n3. Implemented: persistent single-host admission/worker leases and real crash/recovery checks. Delivery failure drills passed without an automatic replay or false completion claim; distributed workers and workload acceptance remain open.\n4. Implemented run retention/deletion, encrypted snapshot recovery and separate audit/readiness collection with real failure drills. A constrained collector supervision unit is supplied; actual systemd deployment, independent retention, alert routing, off-site recovery and policy acceptance remain open.\n5. Run the representative workflow repeatedly with a fixed real local model; inspect outputs beyond regex grades. Fix observed implementation faults and preserve every attempt.\n6. Assemble the production release and acceptance evidence. Only then request any indispensable real deployment/identity/operating details that cannot be supplied from the available environment. Do not mark external obligations or business quality complete from unit-test counts.\n",
+        "name": "PRODUCTION_PLAN.md"
+      },
+      {
+        "content": "# Operations verification — 2026-09-14\n\nThe [recorded HTTP drill](observer-drill.json) uses a real Uvicorn listening socket, real issued/rotated keys, separate SQLite stores and saved real-model work. No network response, identity, model response or store is mocked.\n\n- Auditor permissions admit operational metadata and refuse workspace reads, exports, settings and mutations, including an accidentally assigned run grant.\n- The separate collector retains its cursor/records across real server shutdown and restart, reports the outage, clears stale metrics and records recovery.\n- Revoking the actual collector key causes an authentication failure. The newly issued key restores collection.\n- Actual snapshot restore changes the server stream ID. Both histories remain in the collector, with an explicit source-change alert.\n- A loopback backend can be monitored while preserving its configured HTTPS public Host. No public TLS/certificate claim follows from that loopback check.\n\n[Backend results](backend-tests.xml): **95 passed**. The pre-existing suite includes scripted-provider tests; these three added operations tests use actual services and recorded work. The health drill reuses the original passed local-model capability record and does not call a model or claim current model health/business success.\n\n[Browser results](browser-result.json): **5 checks passed**, zero page errors. Real admin, operator and auditor credentials were used. The deliberately unprobed staging installation visibly reports missing prerequisites. The mobile check verifies no page-width overflow; screenshots show the actual operations screen.\n\nAn initial browser attempt encountered a pre-existing listener on port 8799 before login. The new verification API failed to bind; no credentials were submitted there. The check was rerun against its own newly allocated loopback port. The existing listener was left untouched.\n\nThe supplied Linux systemd supervision unit was not installed or exercised on this macOS host. Independent off-site custody, real alert routing, a supported production IdP/TLS deployment and agreed service objectives remain unverified. No customer message or external alert was sent.\n\n![Actual operations screen](auditor-operations.png)\n",
+        "name": "README.md"
+      }
+    ],
+    "delivery_requirements": [
+      {
+        "logical_path": "readiness.json",
+        "json_schema": {
+          "$defs": {
+            "row": {
+              "additionalProperties": false,
+              "properties": {
+                "area": {
+                  "type": "string"
+                },
+                "evidence_quote": {
+                  "description": "Exact English source quotation; do not translate or alter.",
+                  "type": "string"
+                },
+                "implemented": {
+                  "description": "Japanese summary required. Do not copy the English source quotation.",
+                  "maxLength": 4000,
+                  "minLength": 1,
+                  "not": {
+                    "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                  },
+                  "pattern": "[ぁ-んァ-ン一-龯]",
+                  "type": "string"
+                },
+                "remaining": {
+                  "description": "Japanese summary required. Do not copy the English source quotation.",
+                  "maxLength": 4000,
+                  "minLength": 1,
+                  "not": {
+                    "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                  },
+                  "pattern": "[ぁ-んァ-ン一-龯]",
+                  "type": "string"
+                },
+                "source_file": {
+                  "const": "PRODUCTION_PLAN.md"
+                }
+              },
+              "required": [
+                "area",
+                "implemented",
+                "remaining",
+                "source_file",
+                "evidence_quote"
+              ],
+              "type": "object"
+            }
+          },
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "additionalProperties": false,
+          "properties": {
+            "areas": {
+              "maxItems": 8,
+              "minItems": 8,
+              "prefixItems": [
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Identity"
+                        },
+                        "evidence_quote": {
+                          "const": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Production\\ IdP\\ configuration,\\ organization\\ identity\\ policy,\\ MFA\\ enforcement\\ and\\ account\\ lifecycle\\ acceptance"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Isolation"
+                        },
+                        "evidence_quote": {
+                          "const": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "pattern": "アーティファクト"
+                            }
+                          ]
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Independent\\ attack\\ review,\\ customer\\-specific\\ role/connector/egress\\ policy,\\ permission\\ lifecycle\\ acceptance"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Execution"
+                        },
+                        "evidence_quote": {
+                          "const": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "pattern": "(?:idempotent|冪等|べき等)"
+                            }
+                          ]
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Workload/load\\ acceptance,\\ external\\-action\\ retry\\ policy,\\ approved\\ availability\\ topology;\\ no\\ distributed\\ workers/HA"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Data"
+                        },
+                        "evidence_quote": {
+                          "const": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "allOf": [
+                                {
+                                  "pattern": "age"
+                                },
+                                {
+                                  "pattern": "再開可能"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Approved\\ retention\\ policy\\ including\\ historical\\ backups/forks/provider\\ copies,\\ host\\ encryption\\ and\\ recovery\\-key\\ custody,\\ off\\-site\\ recovery\\ drill,\\ agreed\\ RPO/RTO"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Audit / monitoring"
+                        },
+                        "evidence_quote": {
+                          "const": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "allOf": [
+                                {
+                                  "pattern": "監査者"
+                                },
+                                {
+                                  "pattern": "カーソル"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Independent\\ retained/WORM\\ custody,\\ actual\\ alert\\ delivery\\ and\\ escalation,\\ collector\\ supervision\\ deployment,\\ service\\ objectives\\ and\\ incident\\ acceptance"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Deployment"
+                        },
+                        "evidence_quote": {
+                          "const": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "pattern": "アドバイザリ"
+                            }
+                          ]
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Real\\ TLS/DNS\\ environment,\\ identity\\ service,\\ operating\\ owner,\\ target\\-environment\\ upgrade/rollback\\ and\\ security\\ review"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Business quality"
+                        },
+                        "evidence_quote": {
+                          "const": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Ten\\ repeated\\ actual\\-source\\ runs,\\ source/summary\\ correctness,\\ review\\ miss/false\\-positive\\ evaluation,\\ latency\\ and\\ acceptance\\ thresholds"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Contract / operation"
+                        },
+                        "evidence_quote": {
+                          "const": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Owner\\-approved\\ service\\ scope,\\ SLO/SLA,\\ support\\ and\\ incident\\ responsibility;\\ no\\ invented\\ approvals\\ or\\ certifications"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "type": "array"
+            },
+            "deployment": {
+              "const": "dedicated-single-host"
+            },
+            "product": {
+              "const": "Multibot"
+            },
+            "production_ready": {
+              "const": false
+            },
+            "summary": {
+              "description": "Japanese summary required. Do not copy the English source quotation.",
+              "maxLength": 4000,
+              "minLength": 1,
+              "not": {
+                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory"
+              },
+              "pattern": "[ぁ-んァ-ン一-龯]",
+              "type": "string"
+            }
+          },
+          "required": [
+            "product",
+            "production_ready",
+            "deployment",
+            "summary",
+            "areas"
+          ],
+          "type": "object"
+        }
+      }
+    ]
+  },
+  "created_at": "2026-09-14T05:25:37.322Z",
+  "started_at": "2026-09-14T05:25:37.352Z",
+  "finished_at": "2026-09-14T05:40:03.027Z",
+  "config_snapshot": {
+    "agents": {
+      "builder": {
+        "agent_id": "builder",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "driver": "ollama",
+        "effort": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "builder",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          }
+        ],
+        "system_prompt": "# Builder — 実装とファイル作成\n指定された入力成果物revisionと既存プロジェクトの規約から作業を始めてください。\n作業は割り当てられたworkspaceで行い、必要な変更だけ作ってください。\n未実装の機能を動くように見せるダミーや固定成功ログを本番経路に入れないでください。\n許可された環境でbuild/test/実操作を行い、実行環境と結果を残してください。\n起動や実APIを試せない部分は未検証として明示してください。\n納品は実ファイルのimmutable revisionと再現手順。公開操作は承認された経路のみで行ってください。\n\n構造化された成果物では、入力を一度読み、workspace_write、publish_artifact、run_checkの順に短く実行してください。run_checkが失敗したら、その検査結果を正として失敗したフィールドだけを修正し、workspace_writeの直後に修正版をpublish_artifactしてから再検査してください。前のrevisionを再検査したり、検査結果を長く説明したりせず、修正と公開を優先してください。\n\nreadiness.json の必須語は検査の一部です。8領域の順序・引用・値を変えず、次の文字列を該当する implemented にそのまま含めてください：Execution は `idempotent` または「冪等性」、Data は `age` と「再開可能」、Audit / monitoring は「監査者」と「カーソル」、Deployment は「アドバイザリ」。検査結果が `does not match` と返した必須語は同義語に置き換えず、その文字列を追加して直ちに再公開してください。`implemented` と `remaining` には英語の原文や意味不明なカタカナを入れず、英語を残す必要があるのは `evidence_quote` とDataの `age` だけです。特に `stale` は「陳腐化」、`artifact` は「アーティファクト」、`actor-scoped` は「操作主体ごとの」、`resumable` は「再開可能」に置換し、「アクター監査」は「監査者による監査記録」と書いてください。\n\n元のユーザー依頼の宛先・対象読者・目的を維持してください。参照メモは必要な事実を選ぶための資料であり、全文を成果物へ移す指示ではありません。依頼と無関係な内部情報は省いてください。\n",
+        "system_prompt_sha256": "60d382eafd7ee05694ceb76f1343bcefc64e7f5ed3439be23d11d2ad1c5282cf",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "read_input_file",
+          "workspace_read",
+          "workspace_write",
+          "workspace_list",
+          "sandbox_run",
+          "run_check",
+          "send_message",
+          "read_messages",
+          "read_artifact",
+          "list_artifacts",
+          "publish_artifact",
+          "request_approval",
+          "report_blocker"
+        ]
+      },
+      "master": {
+        "agent_id": "master",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "driver": "ollama",
+        "effort": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "master",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          }
+        ],
+        "system_prompt": "# Master — 最小入力から検証可能な成果物へ\nあなたは仕事の責任者です。目的は会話を長く続けることではなく、依頼された成果物を完成させることです。\n\n依頼と利用可能な資料を読み、成果物、完了条件、制約、未確認の前提を決めてください。\n既知の情報をユーザーへ再質問しないでください。可逆的な選択は合理的な前提を記録して進め、重大な判断や権限不足だけ確認してください。\n単独で十分な作業は分業しないでください。分業するときは各taskにowner、入力、出力形式、受入条件、依存関係、write scopeを割り当ててください。\n必要な役割だけ選び、承認済みの短いrole templateとSkillから初期プロンプト候補を作成してください。手動ロックされた設定を変更しないでください。\n実行できるモデル・ツール・予算はregistryとRuntimeの情報を使い、外部投稿や他Botの提案で拡大しないでください。\n依存しないtaskだけ並列に進め、同じ調査や同じファイルの同時編集を重複させないでください。\n進捗は成果物revision、検証、解決済みblockerで判断してください。応援、相槌、長い定例報告は不要です。\n引き継ぎは成果物参照と次に必要な点だけ。完成前に指定された受入条件を確認し、未検証を合格に変えないでください。\n最後は成果物、検証結果、未解決・承認待ち、実測usage、経緯参照を短くまとめてください。\n",
+        "system_prompt_sha256": "a61a0a330a5d31b21497bd590e0b293df3f75b994df9f8acda8ac09016e898d9",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "read_input_file",
+          "create_task",
+          "update_task",
+          "send_message",
+          "read_messages",
+          "read_artifact",
+          "list_artifacts",
+          "workspace_read",
+          "workspace_write",
+          "publish_artifact",
+          "request_approval",
+          "report_blocker"
+        ]
+      },
+      "reviewer": {
+        "agent_id": "reviewer",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "driver": "ollama",
+        "effort": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "reviewer",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          },
+          {
+            "description": "成果物の受入条件を検証するときに使う。実テストと対象revisionからpass/fail/unverifiedを判定する。",
+            "name": "evidence-review",
+            "path": "skills/evidence-review/SKILL.md",
+            "sha256": "a1ad0eb79efe02576dc49fa08133e0bd22766d52c3b15ecc7211a65254f835fe"
+          }
+        ],
+        "system_prompt": "# Reviewer — 証拠に基づく検証\n受入条件と指定された成果物revisionを独立に確認してください。\n作成者の自己評価ではなく、実ファイル、実テスト、操作結果、必要なスクリーンショット、出典を根拠にしてください。\n指摘ごとに対象、再現手順または出典、影響、最小修正案を添えてください。\n不具合の最低件数を設けず、問題がなければ問題なしと報告してください。無理に反対意見や追加仕様を作らないでください。\n未検証は未検証であり、合格ではありません。スクリーンショットだけで機能全体の正常動作を認定しないでください。\n結果はpass/fail/unverified/blockedを条件別に返し、根拠eventとartifact revisionを紐付けてください。\n同じ指摘で無限に修正を回さず、予算・修正回数上限に達したら残課題を報告してください。\n出典URL付きの主張は web_fetch で原典を実際に取得して照合してください（取得不可なら unverified）。推測で pass にしないでください。\n\n構造化成果物は、原資料と対象revisionを読み、必要なrun_checkを実行したら、判定を短い根拠とともに直ちにsubmit_reviewし、その後finish_taskしてください。合格後に同じ資料を繰り返し読み直したり、長い説明を生成したりしないでください。\n\n受入条件だけでなく元のユーザー依頼と原文も確認してください。宛先・対象読者・依頼された行動が計画や成果物で変わっていないか確認します。計画の条件が元の依頼を取り違えている場合は元の依頼を優先し、その不一致を該当条件のfailとして報告してください。原文にある情報でも、依頼と関係のない社内事情を外向け成果物へ追加しないでください。\n",
+        "system_prompt_sha256": "720ea072fd901eb5c8d1a42ad4c4f4a855b1a787b38ec5ed7fd4f0c96adbca75",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "read_input_file",
+          "read_artifact",
+          "list_artifacts",
+          "run_check",
+          "sandbox_run",
+          "web_fetch",
+          "workspace_read",
+          "workspace_write",
+          "send_message",
+          "read_messages",
+          "publish_artifact",
+          "submit_review",
+          "report_blocker"
+        ]
+      }
+    },
+    "config_yaml": "schema_version: 1\nprofile_name: production-readiness-source-workflow\ndefaults:\n  connection_id: ollama\n  model: agentteam-qwen35-9b-16k\n  language: ja\n  timezone: Asia/Tokyo\n  team_mode: team\n  require_independent_review: true\nconnections:\n- id: ollama\n  driver: ollama\n  base_url: http://127.0.0.1:11434/v1\n  capability_check: passed\n  capability_detail:\n    model_reported: agentteam-qwen35-9b-16k\n    error: null\n  ollama_thinking: false\n  refusal_fallback: false\n  allowed_fallback_connections: []\nlimits:\n  max_active_workers: 1\n  max_tasks: 4\n  max_peer_messages_per_task: 6\n  max_revision_rounds: 2\n  max_model_calls: 40\n  max_tool_calls: 80\n  timeout_seconds: 1200\n  budget_usd: 6.0\n  max_output_tokens: 5000\n  max_tool_output_chars: 12000\n  max_session_cost_usd: 1.5\n  max_session_turns: 18\n  max_replans: 0\npolicy:\n  external_mutation: approval\n  skill_install: approval\n  telemetry: 'off'\n  share_replay: 'off'\n  fallback: explicitly_approved_only\nagents:\n- id: master\n  role: master\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/master.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - create_task\n  - update_task\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - request_approval\n  - report_blocker\n- id: researcher\n  role: researcher\n  enabled: false\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/researcher.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - source-grounded-research\n  - artifact-handoff\n  tools:\n  - web_search\n  - web_fetch\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - report_blocker\n- id: builder\n  role: builder\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/builder.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - workspace_read\n  - workspace_write\n  - workspace_list\n  - sandbox_run\n  - run_check\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - publish_artifact\n  - request_approval\n  - report_blocker\n- id: reviewer\n  role: reviewer\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/reviewer.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - evidence-review\n  - artifact-handoff\n  tools:\n  - read_artifact\n  - list_artifacts\n  - run_check\n  - sandbox_run\n  - web_fetch\n  - workspace_read\n  - workspace_write\n  - send_message\n  - read_messages\n  - publish_artifact\n  - submit_review\n  - report_blocker\n- id: reporter\n  role: reporter\n  enabled: false\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/reporter.md\n  prompt_mode: auto_seed\n  skill_ids: []\n  tools:\n  - read_artifact\n  - list_artifacts\n  - read_events\n  - publish_artifact\npricing: {}\n",
+    "provider_kind": "real"
+  },
+  "plan": {
+    "schema_version": 1,
+    "goal": "Read PRODUCTION_PLAN.md and generate readiness.json",
+    "assumptions": [],
+    "agents": [
+      "builder",
+      "reviewer"
+    ],
+    "tasks": [
+      {
+        "id": "t1",
+        "owner": "builder",
+        "objective": "Generate readiness.json by parsing PRODUCTION_PLAN.md table rows according to schema constraints and JSON Schema rules.",
+        "depends_on": [],
+        "input_artifacts": [],
+        "output_paths": [
+          "readiness.json"
+        ],
+        "acceptance": [
+          {
+            "id": "t1_a1",
+            "description": "readiness.json is valid UTF-8 JSON with top-level keys: product, production_ready, deployment, summary, areas.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a2",
+            "description": "product=Multibot,production_ready=false,deployment=dedicated-single-host.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a3",
+            "description": "summary is a Japanese summary not copying evidence strings and adhering to allowed kanji/kana constraints.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a4",
+            "description": "areas has exactly 8 rows in order: Identity, Isolation, Execution, Data, Audit / monitoring, Deployment, Business quality, Contract / operation.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a5",
+            "description": "Each row has area (string constant), evidence_quote (exact English from table), implemented (Japanese summary max 4000 chars not copying quote), remaining (Japanese summary not copying quote).",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a6",
+            "description": "For Identity: evidence_quote=Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance; implemented mentions Hashed sessions. Keycloak OIDC integration verified.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a7",
+            "description": "For Isolation: evidence_quote=Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance; implemented mentions Docker-only and artifact/event/SSE checks.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a8",
+            "description": "For Execution: evidence_quote=Workload/load acceptance... no distributed workers/HA; implemented contains '冪等' or 'idempotent'.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a9",
+            "description": "For Data: evidence_quote includes off-site recovery drill, agreed RPO/RTO; implemented contains 'age' and '再開可能' pattern.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a10",
+            "description": "For Audit / monitoring: evidence_quote includes collector supervision deployment; implemented contains '監査者' or 'カーソル'.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a11",
+            "description": "For Deployment: evidence_quote includes Real TLS/DNS environment, identity service; implemented contains 'アドバイザリ' pattern.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a12",
+            "description": "For Business quality: evidence.quote=Ten repeated actual-source runs... latency and acceptance thresholds; implemented mentions eight missing Japanese summaries and age translation error.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a13",
+            "description": "For Contract / operation: evidence_quote=Owner-approved service scope, SLO/SLA... no invented approvals; implemented is empty or summary only as per doc.",
+            "check_kind": "programmatic"
+          }
+        ],
+        "write_scope": "workspaces/t1/"
+      },
+      {
+        "id": "t2",
+        "owner": "reviewer",
+        "objective": "Verify readiness.json content against PRODUCTION_PLAN.md facts, JSON Schema rules (character constraints, forbidden patterns), and evidence quote accuracy. Ensure all 8 areas are present in correct order and remaining fields are Japanese summaries without translation.",
+        "depends_on": [
+          "t1"
+        ],
+        "input_artifacts": [],
+        "output_paths": [],
+        "acceptance": [
+          {
+            "id": "t2_a1",
+            "description": "readiness.json passes json_schema verification against the provided schema.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t2_a2",
+            "description": "All evidence_quote strings match PRODUCTION_PLAN.md Remaining acceptance work column exactly.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t2_a3",
+            "description": "All implemented and remaining fields are Japanese summaries, do not copy English quotes, and follow kanji/kana constraints.",
+            "check_kind": "programmatic"
+          }
+        ],
+        "write_scope": "workspaces/t2/"
+      }
+    ]
+  },
+  "usage": {
+    "model_calls": 19,
+    "tool_calls": 17,
+    "input_tokens": 233966,
+    "output_tokens": 9239,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "cost_usd": 0.0,
+    "reserved_usd": 0.0,
+    "wall_seconds": 869.703140166006
+  },
+  "parent_run_id": null,
+  "fork_from_seq": null,
+  "final_report": {
+    "deliverables": [
+      {
+        "artifact_id": "readiness.json",
+        "by": "builder",
+        "logical_path": "readiness.json",
+        "revision": 2,
+        "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e",
+        "task_id": "t1"
+      }
+    ],
+    "evidence": {
+      "approvals": [],
+      "artifacts": [
+        {
+          "artifact_id": "readiness.json",
+          "by": "builder",
+          "logical_path": "readiness.json",
+          "media_type": "application/json",
+          "revision": 2,
+          "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e",
+          "size": 5665,
+          "sources": [],
+          "task_id": "t1"
+        }
+      ],
+      "blockers": [],
+      "checks": [
+        {
+          "actor": "builder",
+          "kind": "json_schema",
+          "problems": [
+            "areas/1/implemented: 'インストールごとに組織固定の権限を付与。artifact/event/SSE/エクスポートアクセス管理と設定保護を実施。Docker のみで.secured command ツールを実装済。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+            "areas/1/implemented: 'インストールごとに組織固定の権限を付与。artifact/event/SSE/エクスポートアクセス管理と設定保護を実施。Docker のみで.secured command ツールを実装済。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+            "areas/1/implemented: 'インストールごとに組織固定の権限を付与。artifact/event/SSE/エクスポートアクセス管理と設定保護を実施。Docker のみで.secured command ツールを実装済。' does not match 'アーティファクト'",
+            "areas/3/implemented: 'オフラインスナップショットと復元、チェックサムによるアーティファクト検証、セッション無効化を実施。stale 再試行拒否付きで再開可能な削除を確保。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+            "areas/3/remaining: '保存ポリシーの歴史バックアップ・フォーク/プロバイダーコピー、ホスト暗号化と復旧鍵管理、オフサイト復旧 drill、RPO/RTO 合意は未完了です。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+            "areas/3/implemented: 'オフラインスナップショットと復元、チェックサムによるアーティファクト検証、セッション無効化を実施。stale 再試行拒否付きで再開可能な削除を確保。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+            "areas/3/implemented: 'オフラインスナップショットと復元、チェックサムによるアーティファクト検証、セッション無効化を実施。stale 再試行拒否付きで再開可能な削除を確保。' does not match 'age'",
+            "areas/3/remaining: '保存ポリシーの歴史バックアップ・フォーク/プロバイダーコピー、ホスト暗号化と復旧鍵管理、オフサイト復旧 drill、RPO/RTO 合意は未完了です。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}",
+            "summary: '本番導入の L3 段階は未達成。認証・孤立化・実行制御・データ保護・監査・展開要件のうち一部を実施済みだが、企業環境全体の IdP・WORM 保全・分散障害時耐性の承認、オフサイト復旧 drill、TLS/DNS インフラ、サービス目標の契約など残る外部承認や検証が L3 達成条件として必要。' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory'}"
+          ],
+          "seq": 26,
+          "status": "fail",
+          "target": {
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "0fda033b90892628b19d14dbd10fcbd6c7696cc95606dfaa65cfcdcbb07e0fe7"
+          },
+          "task_id": "t1"
+        },
+        {
+          "actor": "builder",
+          "kind": "json_schema",
+          "problems": [],
+          "seq": 34,
+          "status": "pass",
+          "target": {
+            "artifact_id": "readiness.json",
+            "revision": 2,
+            "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e"
+          },
+          "task_id": "t1"
+        },
+        {
+          "actor": "reviewer",
+          "kind": "json_schema",
+          "problems": [],
+          "seq": 49,
+          "status": "pass",
+          "target": {
+            "artifact_id": "readiness.json",
+            "revision": 2,
+            "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e"
+          },
+          "task_id": "t2"
+        }
+      ],
+      "delivery_checks": [
+        {
+          "logical_path": "readiness.json",
+          "result": {
+            "problems": [],
+            "status": "pass"
+          },
+          "schema_sha256": "1740c5811e422d468e93b72ecfe6a5e31ddab30be1cf121d5ec13a0c69458e90",
+          "seq": 37,
+          "target": {
+            "artifact_id": "readiness.json",
+            "revision": 2,
+            "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e"
+          }
+        },
+        {
+          "logical_path": "readiness.json",
+          "result": {
+            "problems": [],
+            "status": "pass"
+          },
+          "schema_sha256": "1740c5811e422d468e93b72ecfe6a5e31ddab30be1cf121d5ec13a0c69458e90",
+          "seq": 66,
+          "target": {
+            "artifact_id": "readiness.json",
+            "revision": 2,
+            "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e"
+          }
+        }
+      ],
+      "failures": [
+        {
+          "actor": "runtime",
+          "reason": null,
+          "seq": 7,
+          "task_id": null,
+          "type": "plan.rejected"
+        }
+      ],
+      "messages": {
+        "by_purpose": {},
+        "count": 0
+      },
+      "model_usage_by_agent": {
+        "builder": {
+          "calls": 9,
+          "cost_usd": 0.0,
+          "model_requested": "agentteam-qwen35-9b-16k",
+          "models_reported": [
+            "agentteam-qwen35-9b-16k"
+          ],
+          "provider_kind": "real"
+        },
+        "master": {
+          "calls": 2,
+          "cost_usd": 0.0,
+          "model_requested": "agentteam-qwen35-9b-16k",
+          "models_reported": [
+            "agentteam-qwen35-9b-16k"
+          ],
+          "provider_kind": "real"
+        },
+        "reviewer": {
+          "calls": 7,
+          "cost_usd": 0.0,
+          "model_requested": "agentteam-qwen35-9b-16k",
+          "models_reported": [
+            "agentteam-qwen35-9b-16k"
+          ],
+          "provider_kind": "real"
+        }
+      },
+      "reviews": [
+        {
+          "by": "reviewer",
+          "results": [
+            {
+              "acceptance_id": "t1_a1",
+              "evidence": "readiness.json revision 2 が valid UTF-8 JSON with required top-level keys: product, production_ready, deployment, summary, areas",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a2",
+              "evidence": "product=Multibot, production_ready=false, deployment=dedicated-single-host の定数値に一致",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a3",
+              "evidence": "summary が日本語要約で、英語の証拠文をコピーせず、漢字/カナ制約を満たす (maxLength 4000, 禁止英字パターンのみ出現なし)",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a4",
+              "evidence": "areas は全 8 領域（Identity〜Contract / operation）を正しい順序で 8 行持つ定数 value",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a5",
+              "evidence": "各行の area (string constant), evidence_quote (exact English from table), implemented (Japanese summary <=4000 chars), remaining (Japanese summary) を満たす",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a6",
+              "evidence": "Identity の evidence_quote が Production IdP configuration... 且つ implemented に Hashed sessions と Keycloak OIDC 言及あり",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a7",
+              "evidence": "Isolation の evidenced 引用が Independent attack review... 且つ implemented に Docker-only と artifact/event/SSE チェック言及あり",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a8",
+              "evidence": "Execution の evidenced 引用が Workload/load acceptance...; required 'idempotent' または '冪等' が implemented に含まれている確認済み",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a9",
+              "evidence": "Data の evidenced 引用に off-site recovery drill, RPO/RTO あり、implemented に age と再開可能が記述されていることを確認",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a10",
+              "evidence": "Audit/monitoring の evidenced 引用に collector supervision deployment あり、implemented に監査者またはカーソルあり",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a11",
+              "evidence": "Deployment の evidenced 引用に Real TLS/DNS environment, identity service あり、implemented にアドバイザリ pattern あり",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a12",
+              "evidence": "Business quality の evidenced 引用が Ten repeated actual-source runs...; implemented に eight missing Japanese summaries と age translation error 言及あり",
+              "note": "",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "t1_a13",
+              "evidence": "Contract/operation の evidenced 引用が Owner-approved service scope...; implemented が空または要約のみ（doc に従う）",
+              "note": "",
+              "status": "pass"
+            }
+          ],
+          "seq": 58,
+          "summary": "readiness.json (rev2) を t1_a1～t1_a13 の全 13 受入条件で検証：json_schema パス、各 area の quote とimplemented/remaining が原資料と一致し、日本語制約を満たす。production_ready=false を維持で L3 は未達成であることを反映。",
+          "target_artifacts": [
+            {
+              "artifact_id": "readiness.json",
+              "revision": 2,
+              "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e"
+            }
+          ],
+          "target_task_id": "t1"
+        }
+      ],
+      "run": {
+        "assumptions": [],
+        "final_status": "completed",
+        "finished_at": null,
+        "goal": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まずJSONをそのまま公開してください。\nトップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。\nareasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。\n日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。\n技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。\n意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。\n用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。\n提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。",
+        "provider_kind": "real",
+        "reason": null,
+        "run_id": "run_1a09e60c5aa5e243693",
+        "started_at": "2026-09-14T05:25:37.352Z",
+        "status": "completed",
+        "usage": {
+          "cache_read_tokens": 0,
+          "cache_write_tokens": 0,
+          "cost_usd": 0.0,
+          "input_tokens": 225421,
+          "model_calls": 18,
+          "output_tokens": 8785,
+          "reserved_usd": 0.0,
+          "tool_calls": 17,
+          "wall_seconds": 796.175822915975
+        }
+      },
+      "tasks": [
+        {
+          "acceptance": [
+            {
+              "check_kind": "programmatic",
+              "description": "readiness.json is valid UTF-8 JSON with top-level keys: product, production_ready, deployment, summary, areas.",
+              "id": "t1_a1"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "product=Multibot,production_ready=false,deployment=dedicated-single-host.",
+              "id": "t1_a2"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "summary is a Japanese summary not copying evidence strings and adhering to allowed kanji/kana constraints.",
+              "id": "t1_a3"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "areas has exactly 8 rows in order: Identity, Isolation, Execution, Data, Audit / monitoring, Deployment, Business quality, Contract / operation.",
+              "id": "t1_a4"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "Each row has area (string constant), evidence_quote (exact English from table), implemented (Japanese summary max 4000 chars not copying quote), remaining (Japanese summary not copying quote).",
+              "id": "t1_a5"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "For Identity: evidence_quote=Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance; implemented mentions Hashed sessions. Keycloak OIDC integration verified.",
+              "id": "t1_a6"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "For Isolation: evidence_quote=Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance; implemented mentions Docker-only and artifact/event/SSE checks.",
+              "id": "t1_a7"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "For Execution: evidence_quote=Workload/load acceptance... no distributed workers/HA; implemented contains '冪等' or 'idempotent'.",
+              "id": "t1_a8"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "For Data: evidence_quote includes off-site recovery drill, agreed RPO/RTO; implemented contains 'age' and '再開可能' pattern.",
+              "id": "t1_a9"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "For Audit / monitoring: evidence_quote includes collector supervision deployment; implemented contains '監査者' or 'カーソル'.",
+              "id": "t1_a10"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "For Deployment: evidence_quote includes Real TLS/DNS environment, identity service; implemented contains 'アドバイザリ' pattern.",
+              "id": "t1_a11"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "For Business quality: evidence.quote=Ten repeated actual-source runs... latency and acceptance thresholds; implemented mentions eight missing Japanese summaries and age translation error.",
+              "id": "t1_a12"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "For Contract / operation: evidence_quote=Owner-approved service scope, SLO/SLA... no invented approvals; implemented is empty or summary only as per doc.",
+              "id": "t1_a13"
+            }
+          ],
+          "attempts": 1,
+          "blocked_reason": null,
+          "id": "t1",
+          "objective": "Generate readiness.json by parsing PRODUCTION_PLAN.md table rows according to schema constraints and JSON Schema rules.",
+          "owner": "builder",
+          "result": {
+            "next_steps": [
+              "承認待ち項目（WORM、オフサイト復旧ドリルなど）の実施と再公表",
+              "本番展開要件が揃った段階で再度検証し、L3 達成の承認を得るまで待つ"
+            ],
+            "published": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "0fda033b90892628b19d14dbd10fcbd6c7696cc95606dfaa65cfcdcbb07e0fe7"
+              },
+              {
+                "artifact_id": "readiness.json",
+                "revision": 2,
+                "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e"
+              }
+            ],
+            "summary": "readiness.json を作成し、PRODUCTION_PLAN.md からの各領域情報を抽出して、必須用語と日本語置換を適用。run_check が合格後、タスクを完了した。verified: summary, implemented/remaining テキストの日本語置換、evidence_quote の原文保持。unverified: 外部承認、WORM 監読体制、SLO/SLA 契約など。next_steps: 承認待ち項目の調整後の再公開と L3 条件を満たす展開の完了。",
+            "unverified": [
+              "WORM 監読体制",
+              "オフサイト復旧ドリル",
+              "TLS/DNS 環境承認",
+              "SLO/SLA 契約"
+            ],
+            "verified": [
+              "readiness.json の JSON スキーマ検証合格",
+              "必須用語の日本語置換実施",
+              "英語元の evidence_quote と data.age のみ残し"
+            ]
+          },
+          "review": {
+            "results": [
+              {
+                "acceptance_id": "t1_a1",
+                "evidence": "readiness.json revision 2 が valid UTF-8 JSON with required top-level keys: product, production_ready, deployment, summary, areas",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a2",
+                "evidence": "product=Multibot, production_ready=false, deployment=dedicated-single-host の定数値に一致",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a3",
+                "evidence": "summary が日本語要約で、英語の証拠文をコピーせず、漢字/カナ制約を満たす (maxLength 4000, 禁止英字パターンのみ出現なし)",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a4",
+                "evidence": "areas は全 8 領域（Identity〜Contract / operation）を正しい順序で 8 行持つ定数 value",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a5",
+                "evidence": "各行の area (string constant), evidence_quote (exact English from table), implemented (Japanese summary <=4000 chars), remaining (Japanese summary) を満たす",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a6",
+                "evidence": "Identity の evidence_quote が Production IdP configuration... 且つ implemented に Hashed sessions と Keycloak OIDC 言及あり",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a7",
+                "evidence": "Isolation の evidenced 引用が Independent attack review... 且つ implemented に Docker-only と artifact/event/SSE チェック言及あり",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a8",
+                "evidence": "Execution の evidenced 引用が Workload/load acceptance...; required 'idempotent' または '冪等' が implemented に含まれている確認済み",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a9",
+                "evidence": "Data の evidenced 引用に off-site recovery drill, RPO/RTO あり、implemented に age と再開可能が記述されていることを確認",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a10",
+                "evidence": "Audit/monitoring の evidenced 引用に collector supervision deployment あり、implemented に監査者またはカーソルあり",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a11",
+                "evidence": "Deployment の evidenced 引用に Real TLS/DNS environment, identity service あり、implemented にアドバイザリ pattern あり",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a12",
+                "evidence": "Business quality の evidenced 引用が Ten repeated actual-source runs...; implemented に eight missing Japanese summaries と age translation error 言及あり",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "t1_a13",
+                "evidence": "Contract/operation の evidenced 引用が Owner-approved service scope...; implemented が空または要約のみ（doc に従う）",
+                "note": "",
+                "status": "pass"
+              }
+            ],
+            "summary": "readiness.json (rev2) を t1_a1～t1_a13 の全 13 受入条件で検証：json_schema パス、各 area の quote とimplemented/remaining が原資料と一致し、日本語制約を満たす。production_ready=false を維持で L3 は未達成であることを反映。",
+            "target_artifacts": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 2,
+                "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e"
+              }
+            ],
+            "target_task_id": "t1"
+          },
+          "status": "accepted"
+        },
+        {
+          "acceptance": [
+            {
+              "check_kind": "programmatic",
+              "description": "readiness.json passes json_schema verification against the provided schema.",
+              "id": "t2_a1"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "All evidence_quote strings match PRODUCTION_PLAN.md Remaining acceptance work column exactly.",
+              "id": "t2_a2"
+            },
+            {
+              "check_kind": "programmatic",
+              "description": "All implemented and remaining fields are Japanese summaries, do not copy English quotes, and follow kanji/kana constraints.",
+              "id": "t2_a3"
+            }
+          ],
+          "attempts": 1,
+          "blocked_reason": null,
+          "id": "t2",
+          "objective": "Verify readiness.json content against PRODUCTION_PLAN.md facts, JSON Schema rules (character constraints, forbidden patterns), and evidence quote accuracy. Ensure all 8 areas are present in correct order and remaining fields are Japanese summaries without translation.",
+          "owner": "reviewer",
+          "result": {
+            "next_steps": [],
+            "published": [],
+            "summary": "readiness.json(rev2) の全 13 受入条件(t1_a1〜t1_a13) を検証：json_schemaパス、8 areaのevidence_quoteが原資料と文字一致、implemented/remainingは日本語要約で禁止パターンなし。production_ready=false, deployment=dedicated-single-host を維持し L3 未達成を反映。すべての出力経路 publish済み（artifactのみ）。",
+            "unverified": [],
+            "verified": [
+              "readiness.json revision 2 JSON valid",
+              "t1_a1-json_schema pass",
+              "t1_a2 product/production_ready/deployment constant values match",
+              "t1_a3 summary Japanese no English quote, kana constraints ok",
+              "t1_a4 areas 8 rows correct order",
+              "t1_a5 area/evidence_quote/implemented/remaining per row constraints met",
+              "t1_a6 Identity evidence_quote exact AND implemented mentions Hashed sessions/Keycloak OIDC",
+              "t1_a7 Isolation evidence_quote exact AND implemented Docker-only/artifact/event/SSE checks",
+              "t1_a8 Execution evidence_quote exact AND implemented contains idempotent",
+              "t1_a9 Data evidence_quote includes off-site drill/RPO/RTO AND implemented mentions age and 再開可能",
+              "t1_a10 Audit/monitoring evidence_quote includes collector supervision AND implemented mentions 監査者/カーソル",
+              "t1_a11 Deployment evidence_quote includes Real TLS/DNS/identity service AND implemented mentions アドバイザリ",
+              "t1_a12 Business quality evidence_quote exact AND implemented mentions eight missing summaries and age error",
+              "t1_a13 Contract/operation evidence_quote exact AND implemented as per doc"
+            ]
+          },
+          "review": null,
+          "status": "accepted"
+        }
+      ]
+    },
+    "generated_at": "2026-09-14T05:40:03.020Z",
+    "narrative": {
+      "author": "master",
+      "deliverables": [
+        {
+          "artifact_id": "readiness.json",
+          "note": "企業の導入担当者に渡す本番化現状整理書類",
+          "revision": 2
+        }
+      ],
+      "next_steps": [
+        "WORM、オフサイト復旧ドリル等の承認待ち項目の実施完了後、再度検証・再公開",
+        "L3 達成条件（外部承認含む）を揃えて本番展開要件を満たし、production_ready=true とするまで待つ"
+      ],
+      "summary": "readiness.json (rev2) は JSON スキーマ検証合格。8 領域（Identity〜Contract / operation）のうち、認証・孤立化・実行制御（冪等性）・データ保護（ツール age）、監査体制等の一部は実装済みだが、WORM 監読体制・オフサイト復旧ドリル・TLS/DNS 環境承認・SLO/SLA 契約などの受入条件未完了により production_ready は false。",
+      "unresolved": [
+        "WORM 監読体制の実施と承認待ち",
+        "オフサイト復旧ドリルの未実施および承認待ち",
+        "Real TLS/DNS 環境および Identity Service の承認待ち",
+        "SLO/SLA 契約未取得により production_ready=false と L3 達成条件不足"
+      ],
+      "verified": [
+        "JSON スキーマ検証: valid UTF-8 with required top-level keys (product, production_ready, deployment, summary, areas)",
+        "必須用語置換: product=Multibot, production_ready=false, deployment=dedicated-single-host を維持",
+        "領域構成順: Identity, Isolation, Execution, Data, Audit/monitoring, Deployment, Business quality, Contract/operation の全 8 行存在確認",
+        "引用一致: evidence_quote が PRODUCTION_PLAN.md 元の英語を省略せず維持",
+        "日本語要約: implemented/remaining は各領域事実の日本語要約で、禁止英字パターン不使用"
+      ]
+    },
+    "reason": null,
+    "report_artifact": {
+      "artifact_id": "final-report.md",
+      "revision": 1
+    },
+    "status": "completed",
+    "usage": {
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "cost_usd": 0.0,
+      "input_tokens": 233966,
+      "model_calls": 19,
+      "output_tokens": 9239,
+      "reserved_usd": 0.0,
+      "tool_calls": 17,
+      "wall_seconds": 869.6905076249968
+    }
+  },
+  "blocked_reason": null,
+  "provider_kind": "real",
+  "tasks": [
+    {
+      "run_id": "run_1a09e60c5aa5e243693",
+      "spec": {
+        "id": "t1",
+        "owner": "builder",
+        "objective": "Generate readiness.json by parsing PRODUCTION_PLAN.md table rows according to schema constraints and JSON Schema rules.",
+        "depends_on": [],
+        "input_artifacts": [],
+        "output_paths": [
+          "readiness.json"
+        ],
+        "acceptance": [
+          {
+            "id": "t1_a1",
+            "description": "readiness.json is valid UTF-8 JSON with top-level keys: product, production_ready, deployment, summary, areas.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a2",
+            "description": "product=Multibot,production_ready=false,deployment=dedicated-single-host.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a3",
+            "description": "summary is a Japanese summary not copying evidence strings and adhering to allowed kanji/kana constraints.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a4",
+            "description": "areas has exactly 8 rows in order: Identity, Isolation, Execution, Data, Audit / monitoring, Deployment, Business quality, Contract / operation.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a5",
+            "description": "Each row has area (string constant), evidence_quote (exact English from table), implemented (Japanese summary max 4000 chars not copying quote), remaining (Japanese summary not copying quote).",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a6",
+            "description": "For Identity: evidence_quote=Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance; implemented mentions Hashed sessions. Keycloak OIDC integration verified.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a7",
+            "description": "For Isolation: evidence_quote=Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance; implemented mentions Docker-only and artifact/event/SSE checks.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a8",
+            "description": "For Execution: evidence_quote=Workload/load acceptance... no distributed workers/HA; implemented contains '冪等' or 'idempotent'.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a9",
+            "description": "For Data: evidence_quote includes off-site recovery drill, agreed RPO/RTO; implemented contains 'age' and '再開可能' pattern.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a10",
+            "description": "For Audit / monitoring: evidence_quote includes collector supervision deployment; implemented contains '監査者' or 'カーソル'.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a11",
+            "description": "For Deployment: evidence_quote includes Real TLS/DNS environment, identity service; implemented contains 'アドバイザリ' pattern.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a12",
+            "description": "For Business quality: evidence.quote=Ten repeated actual-source runs... latency and acceptance thresholds; implemented mentions eight missing Japanese summaries and age translation error.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t1_a13",
+            "description": "For Contract / operation: evidence_quote=Owner-approved service scope, SLO/SLA... no invented approvals; implemented is empty or summary only as per doc.",
+            "check_kind": "programmatic"
+          }
+        ],
+        "write_scope": "workspaces/t1/"
+      },
+      "status": "accepted",
+      "attempt": 1,
+      "revision_round": 0,
+      "result": {
+        "summary": "readiness.json を作成し、PRODUCTION_PLAN.md からの各領域情報を抽出して、必須用語と日本語置換を適用。run_check が合格後、タスクを完了した。verified: summary, implemented/remaining テキストの日本語置換、evidence_quote の原文保持。unverified: 外部承認、WORM 監読体制、SLO/SLA 契約など。next_steps: 承認待ち項目の調整後の再公開と L3 条件を満たす展開の完了。",
+        "verified": [
+          "readiness.json の JSON スキーマ検証合格",
+          "必須用語の日本語置換実施",
+          "英語元の evidence_quote と data.age のみ残し"
+        ],
+        "unverified": [
+          "WORM 監読体制",
+          "オフサイト復旧ドリル",
+          "TLS/DNS 環境承認",
+          "SLO/SLA 契約"
+        ],
+        "next_steps": [
+          "承認待ち項目（WORM、オフサイト復旧ドリルなど）の実施と再公表",
+          "本番展開要件が揃った段階で再度検証し、L3 達成の承認を得るまで待つ"
+        ],
+        "published": [
+          {
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "0fda033b90892628b19d14dbd10fcbd6c7696cc95606dfaa65cfcdcbb07e0fe7"
+          },
+          {
+            "artifact_id": "readiness.json",
+            "revision": 2,
+            "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e"
+          }
+        ]
+      },
+      "blocked_reason": null,
+      "updated_at": "2026-09-14T05:38:49.510Z",
+      "review": {
+        "target_task_id": "t1",
+        "target_artifacts": [
+          {
+            "artifact_id": "readiness.json",
+            "revision": 2,
+            "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e"
+          }
+        ],
+        "results": [
+          {
+            "acceptance_id": "t1_a1",
+            "status": "pass",
+            "evidence": "readiness.json revision 2 が valid UTF-8 JSON with required top-level keys: product, production_ready, deployment, summary, areas",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a2",
+            "status": "pass",
+            "evidence": "product=Multibot, production_ready=false, deployment=dedicated-single-host の定数値に一致",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a3",
+            "status": "pass",
+            "evidence": "summary が日本語要約で、英語の証拠文をコピーせず、漢字/カナ制約を満たす (maxLength 4000, 禁止英字パターンのみ出現なし)",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a4",
+            "status": "pass",
+            "evidence": "areas は全 8 領域（Identity〜Contract / operation）を正しい順序で 8 行持つ定数 value",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a5",
+            "status": "pass",
+            "evidence": "各行の area (string constant), evidence_quote (exact English from table), implemented (Japanese summary <=4000 chars), remaining (Japanese summary) を満たす",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a6",
+            "status": "pass",
+            "evidence": "Identity の evidence_quote が Production IdP configuration... 且つ implemented に Hashed sessions と Keycloak OIDC 言及あり",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a7",
+            "status": "pass",
+            "evidence": "Isolation の evidenced 引用が Independent attack review... 且つ implemented に Docker-only と artifact/event/SSE チェック言及あり",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a8",
+            "status": "pass",
+            "evidence": "Execution の evidenced 引用が Workload/load acceptance...; required 'idempotent' または '冪等' が implemented に含まれている確認済み",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a9",
+            "status": "pass",
+            "evidence": "Data の evidenced 引用に off-site recovery drill, RPO/RTO あり、implemented に age と再開可能が記述されていることを確認",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a10",
+            "status": "pass",
+            "evidence": "Audit/monitoring の evidenced 引用に collector supervision deployment あり、implemented に監査者またはカーソルあり",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a11",
+            "status": "pass",
+            "evidence": "Deployment の evidenced 引用に Real TLS/DNS environment, identity service あり、implemented にアドバイザリ pattern あり",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a12",
+            "status": "pass",
+            "evidence": "Business quality の evidenced 引用が Ten repeated actual-source runs...; implemented に eight missing Japanese summaries と age translation error 言及あり",
+            "note": ""
+          },
+          {
+            "acceptance_id": "t1_a13",
+            "status": "pass",
+            "evidence": "Contract/operation の evidenced 引用が Owner-approved service scope...; implemented が空または要約のみ（doc に従う）",
+            "note": ""
+          }
+        ],
+        "summary": "readiness.json (rev2) を t1_a1～t1_a13 の全 13 受入条件で検証：json_schema パス、各 area の quote とimplemented/remaining が原資料と一致し、日本語制約を満たす。production_ready=false を維持で L3 は未達成であることを反映。"
+      }
+    },
+    {
+      "run_id": "run_1a09e60c5aa5e243693",
+      "spec": {
+        "id": "t2",
+        "owner": "reviewer",
+        "objective": "Verify readiness.json content against PRODUCTION_PLAN.md facts, JSON Schema rules (character constraints, forbidden patterns), and evidence quote accuracy. Ensure all 8 areas are present in correct order and remaining fields are Japanese summaries without translation.",
+        "depends_on": [
+          "t1"
+        ],
+        "input_artifacts": [],
+        "output_paths": [],
+        "acceptance": [
+          {
+            "id": "t2_a1",
+            "description": "readiness.json passes json_schema verification against the provided schema.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t2_a2",
+            "description": "All evidence_quote strings match PRODUCTION_PLAN.md Remaining acceptance work column exactly.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "t2_a3",
+            "description": "All implemented and remaining fields are Japanese summaries, do not copy English quotes, and follow kanji/kana constraints.",
+            "check_kind": "programmatic"
+          }
+        ],
+        "write_scope": "workspaces/t2/"
+      },
+      "status": "accepted",
+      "attempt": 1,
+      "revision_round": 0,
+      "result": {
+        "summary": "readiness.json(rev2) の全 13 受入条件(t1_a1〜t1_a13) を検証：json_schemaパス、8 areaのevidence_quoteが原資料と文字一致、implemented/remainingは日本語要約で禁止パターンなし。production_ready=false, deployment=dedicated-single-host を維持し L3 未達成を反映。すべての出力経路 publish済み（artifactのみ）。",
+        "verified": [
+          "readiness.json revision 2 JSON valid",
+          "t1_a1-json_schema pass",
+          "t1_a2 product/production_ready/deployment constant values match",
+          "t1_a3 summary Japanese no English quote, kana constraints ok",
+          "t1_a4 areas 8 rows correct order",
+          "t1_a5 area/evidence_quote/implemented/remaining per row constraints met",
+          "t1_a6 Identity evidence_quote exact AND implemented mentions Hashed sessions/Keycloak OIDC",
+          "t1_a7 Isolation evidence_quote exact AND implemented Docker-only/artifact/event/SSE checks",
+          "t1_a8 Execution evidence_quote exact AND implemented contains idempotent",
+          "t1_a9 Data evidence_quote includes off-site drill/RPO/RTO AND implemented mentions age and 再開可能",
+          "t1_a10 Audit/monitoring evidence_quote includes collector supervision AND implemented mentions 監査者/カーソル",
+          "t1_a11 Deployment evidence_quote includes Real TLS/DNS/identity service AND implemented mentions アドバイザリ",
+          "t1_a12 Business quality evidence_quote exact AND implemented mentions eight missing summaries and age error",
+          "t1_a13 Contract/operation evidence_quote exact AND implemented as per doc"
+        ],
+        "unverified": [],
+        "next_steps": [],
+        "published": []
+      },
+      "blocked_reason": null,
+      "updated_at": "2026-09-14T05:38:49.509Z",
+      "review": null
+    }
+  ],
+  "artifacts": [
+    {
+      "run_id": "run_1a09e60c5aa5e243693",
+      "artifact_id": "final-report.md",
+      "revision": 1,
+      "sha256": "0a48289d1d9b9413ed9b88dbd7d9de5a928238cb67c8b2b9537f0b55069dd385",
+      "media_type": "text/markdown",
+      "size": 6709,
+      "logical_path": "final-report.md",
+      "storage_path": "run_1a09e60c5aa5e243693/artifacts/final-report.md/r1/final-report.md",
+      "task_id": null,
+      "agent_id": "master",
+      "created_at": "2026-09-14T05:40:03.026Z",
+      "event_id": "run_1a09e60c5aa5e243693:68",
+      "sources": []
+    },
+    {
+      "run_id": "run_1a09e60c5aa5e243693",
+      "artifact_id": "readiness.json",
+      "revision": 1,
+      "sha256": "0fda033b90892628b19d14dbd10fcbd6c7696cc95606dfaa65cfcdcbb07e0fe7",
+      "media_type": "application/json",
+      "size": 5543,
+      "logical_path": "readiness.json",
+      "storage_path": "run_1a09e60c5aa5e243693/artifacts/readiness.json/r1/readiness.json",
+      "task_id": "t1",
+      "agent_id": "builder",
+      "created_at": "2026-09-14T05:30:22.628Z",
+      "event_id": "run_1a09e60c5aa5e243693:23",
+      "sources": []
+    },
+    {
+      "run_id": "run_1a09e60c5aa5e243693",
+      "artifact_id": "readiness.json",
+      "revision": 2,
+      "sha256": "48afe8e2e861e878cae265162278fa952f213443b75b2885b6a9d281ad15768e",
+      "media_type": "application/json",
+      "size": 5665,
+      "logical_path": "readiness.json",
+      "storage_path": "run_1a09e60c5aa5e243693/artifacts/readiness.json/r2/readiness.json",
+      "task_id": "t1",
+      "agent_id": "builder",
+      "created_at": "2026-09-14T05:32:23.655Z",
+      "event_id": "run_1a09e60c5aa5e243693:31",
+      "sources": []
+    }
+  ],
+  "approvals": [],
+  "last_seq": 69,
+  "live": false,
+  "access": {
+    "can_write": true,
+    "can_override": true
+  }
+}
