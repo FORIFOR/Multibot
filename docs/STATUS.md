@@ -2,7 +2,7 @@
 
 ## 2026-09-15 最新の実資料試験
 
-現行main（commit `c60fa71`）と固定したローカル Ollama の `agentteam-qwen35-9b-16k` を使い、実際の `PRODUCTION_PLAN.md` と運用資料だけを入力にした系列を確認しました。v18の第1・2回は旧配信契約では機械検証とReviewer提出を通過しましたが、出力に「パイン」「ロカル」「アデュータ」「actual-source」などの翻訳崩れが残る契約の抜けを確認したため停止しました。[v18証跡](evidence/real-readiness-v18-qwen35-fixed-2026-09-15/README.md)を保存し、現行コードの配信境界に検出語と領域別の根拠語チェックを追加しました。修復例を明示したv20を1回再試験しましたが、`パイン`、`ステール`、`演算主体`などが残り現行契約でfailとなったため、Reviewer前に停止しています。[v20証跡](evidence/real-readiness-v20-qwen35-fixed-2026-09-15/README.md)。現行の決定論的テストは **106 passed / 1 skipped**。10回すべてと意味品質の独立評価が揃うまで、L1の反復条件・L2・L3を達成扱いにしません。
+受入系列を commit `c60fa71` に固定し、ローカル Ollama の `agentteam-qwen35-9b-16k` を使い、実際の `PRODUCTION_PLAN.md` と運用資料だけを入力にした系列を確認しました。v18の第1・2回は旧配信契約では機械検証とReviewer提出を通過しましたが、出力に「パイン」「ロカル」「アデュータ」「actual-source」などの翻訳崩れが残る契約の抜けを確認したため停止しました。[v18証跡](evidence/real-readiness-v18-qwen35-fixed-2026-09-15/README.md)を保存し、現行コードの配信境界に検出語と領域別の根拠語チェックを追加しました。修復例を明示したv20を1回再試験しましたが、`パイン`、`ステール`、`演算主体`などが残り現行契約でfailとなったため、Reviewer前に停止しています。[v20証跡](evidence/real-readiness-v20-qwen35-fixed-2026-09-15/README.md)。現行の決定論的テストは **106 passed / 1 skipped**。10回すべてと意味品質の独立評価が揃うまで、L1の反復条件・L2・L3を達成扱いにしません。
 
 ## 2026-09-14 監査更新
 
