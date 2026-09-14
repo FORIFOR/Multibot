@@ -141,7 +141,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
       <div className="work">
         <TeamPane run={run} agents={agents} selTask={selTask} setSelTask={setSelTask} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
         <ArtifactPane run={run} artifactsById={artifactsById} sel={selArt} setSel={setSelArt} events={events} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
-        <section className="pane">
+        <section className="pane chat-pane">
           <header>
             <div className="tabs">
               {(['chat', 'timeline', 'report', 'approvals'] as Tab[]).map((t) => (
@@ -153,7 +153,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             {tab === 'timeline' && <label className="small muted" style={{ marginLeft: 'auto' }}><input type="checkbox" checked={showTools} onChange={(e) => setShowTools(e.target.checked)} /> {tr("ツール呼出も表示")}</label>}
           </header>
           <div className="body">
-            {tab === 'chat' && <Chat chat={chat} tz={tz} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />}
+            {tab === 'chat' && <Chat chat={chat} agents={agents} tz={tz} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />}
             {tab === 'timeline' && <Timeline items={timeline.filter((i) => showTools || !['tool.called', 'message.read', 'artifact.read', 'checkpoint.saved', 'model.called'].includes(i.type))} tz={tz} hiSeq={hiSeq} selTask={selTask} />}
             {tab === 'report' && <Report run={run} />}
             {tab === 'approvals' && <Approvals approvals={run.approvals} onResolved={reload} readOnly={!canWrite} />}
@@ -276,26 +276,71 @@ function ArtifactPane({ run, artifactsById, sel, setSel, events, onJump }: { run
   )
 }
 
-function Chat({ chat, tz, onJump }: { chat: ChatMessage[]; tz?: string; onJump: (seq: number) => void }) {
-  if (chat.length === 0) return <p className="muted small">{tr("Bot 間のメッセージはまだありません。表示されるのは実際に宛先の受信箱へ配送されたメッセージだけです。")}</p>
-  return (
-    <div>
-      {chat.map((m) => (
-        <div key={m.event_id} className="msg">
-          <div className="meta">
-            <span className="mono">{fmtTime(m.recorded_at, tz)}</span>
-            <b>{m.from}</b> → <b>{m.to}</b>
-            <span className="purpose">{m.purpose}</span>
-            <span className="mono">{m.task_id}</span>
-            {m.reply_to && <span className="mono">re: {m.reply_to.slice(0, 12)}</span>}
-            <button className="btn sm ghost" style={{ marginLeft: 'auto' }} onClick={() => onJump(m.seq)}>#{m.seq}</button>
-          </div>
-          <div className="text">{m.text}</div>
-          {m.artifact_refs.length > 0 && <div className="row" style={{ marginTop: 4 }}>{m.artifact_refs.map((r) => <span key={r.artifact_id + r.revision} className="tag">{r.artifact_id} r{r.revision}</span>)}</div>}
-        </div>
-      ))}
+function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Record<string, any>; tz?: string; onJump: (seq: number) => void }) {
+  if (chat.length === 0) return (
+    <div className="chat-empty">
+      <div className="chat-empty-icon" aria-hidden="true">✦</div>
+      <h2>{tr('メッセージを待っています')}</h2>
+      <p className="muted small">{tr("Bot 間のメッセージはまだありません。表示されるのは実際に宛先の受信箱へ配送されたメッセージだけです。")}</p>
     </div>
   )
+  return (
+    <section className="chat-shell" aria-label={tr('チームチャット')}>
+      <div className="chat-hero">
+        <div className="chat-hero-title">
+          <span className="chat-spark" aria-hidden="true">✦</span>
+          <div>
+            <span className="chat-eyebrow">{tr('実行のコミュニケーション')}</span>
+            <h2>{tr('チームチャット')}</h2>
+          </div>
+        </div>
+        <div className="chat-live"><span className="chat-live-dot" aria-hidden="true" />{tr('実メッセージ')}<b>{chat.length}</b></div>
+      </div>
+      <p className="chat-caption">{tr('実際に受信箱へ届いたメッセージを、担当Botごとに表示しています。')}</p>
+      <div className="chat-stream">
+        {chat.map((m, index) => {
+          const agent = agents[m.from]
+          const tone = avatarTone(m.from)
+          return (
+            <article key={m.event_id} className={'chat-card' + (index === chat.length - 1 ? ' latest' : '')}>
+              <div className={'chat-avatar tone-' + tone} aria-hidden="true">{initials(m.from)}</div>
+              <div className="chat-card-main">
+                <div className="chat-authorline">
+                  <b>{m.from}</b>
+                  {agent?.role && <span className="chat-role">{agent.role}</span>}
+                  <span className="chat-time">{fmtTime(m.recorded_at, tz)}</span>
+                </div>
+                <div className="chat-route">
+                  <span>{m.from}</span><span className="chat-arrow" aria-hidden="true">→</span><span>{m.to}</span>
+                  {m.task_id && <span className="chat-task">{m.task_id}</span>}
+                </div>
+                <div className="chat-bubble">
+                  <div className="chat-text">{m.text}</div>
+                </div>
+                <div className="chat-footer">
+                  <span className="chat-purpose">{m.purpose}</span>
+                  {m.reply_to && <span className="chat-reply">↳ {tr('返信')} {m.reply_to.slice(0, 12)}</span>}
+                  {m.artifact_refs.length > 0 && <div className="chat-artifacts">{m.artifact_refs.map((r) => <span key={r.artifact_id + r.revision} className="chat-artifact">▣ {r.artifact_id} <b>r{r.revision}</b></span>)}</div>}
+                  <button className="chat-jump" onClick={() => onJump(m.seq)} aria-label={`${tr('メッセージを時系列で見る')} #${m.seq}`}>#{m.seq} <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
+            </article>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+function initials(id: string) {
+  const words = id.replace(/[-_]/g, ' ').trim().split(/\s+/).filter(Boolean)
+  return (words.length > 1 ? words.slice(0, 2).map((w) => w[0]) : [id.slice(0, 2)]).join('').toUpperCase()
+}
+
+function avatarTone(id: string) {
+  let hash = 0
+  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0
+  return hash % 6
 }
 
 function Timeline({ items, tz, hiSeq, selTask }: { items: TimelineItem[]; tz?: string; hiSeq: number | null; selTask: string | null }) {
