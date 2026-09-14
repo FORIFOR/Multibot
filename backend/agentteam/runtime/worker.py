@@ -74,6 +74,7 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
                      'The runtime checks final artifact bytes against these JSON Schemas and refuses completion on failure.\n' +
                      json.dumps([r.model_dump() for r in rt.run.inputs.delivery_requirements], ensure_ascii=False))
         lines.append("\nFor the readiness contract: `evidence_quote` is the exact English source quotation and must not be translated; `implemented` and `remaining` are separate Japanese summaries. Never copy an English evidence_quote into remaining.")
+        lines.append("For a published artifact, run_check(kind=json_schema, artifact_id=..., revision=...) may omit args.schema; the gateway uses the exact persisted requester schema for that logical path. Do not hand-write a replacement schema.")
     inputs = []
     for ref in spec.input_artifacts:
         m = await rt.artifacts.get(rt.run_id, ref.artifact_id, ref.revision)
