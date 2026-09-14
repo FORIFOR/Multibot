@@ -212,6 +212,29 @@ class AgentRunner:
                 raise WorkerFailure("refusal", f"provider refused the request: {resp.refusal}")
             return resp
 
+    async def _compact_delivery_repair(self) -> None:
+        """Drop an overlong failed-turn transcript before asking for a repair.
+
+        Local models can spend an entire context window explaining a JSON
+        Schema error instead of calling a tool. The source files and published
+        revisions remain durable, so a short repair instruction is safer and
+        more useful than replaying that explanation.
+        """
+        rt, ctx = self.rt, self.ctx
+        latest = await rt.artifacts.list(rt.run_id, latest_only=True)
+        target = next((m for m in latest if m.logical_path == "readiness.json"), None)
+        revision = f" revision {target.revision}" if target else ""
+        self.messages = [{"role": "user", "content": [{"type": "text", "text": (
+            "前回の応答は長すぎてツール呼出し前に上限へ達しました。説明は禁止し、直ちにツールを使ってください。"
+            f"readiness.json{revision}をread_artifactで読み、必要ならPRODUCTION_PLAN.mdをread_input_fileで読み直してください。"
+            "Schema検査に失敗したフィールドだけをworkspace_writeで修正し、publish_artifact、run_check(kind=json_schema)、"
+            "finish_taskの順で完了してください。要約欄では英語原語や「アクター監査」を使わず、staleは「陳腐化」、"
+            "artifactは「アーティファクト」、actor-scopedは「操作主体ごとの」、drillは「ドリル」、"
+            "advisoryは「アドバイザリ」としてください。Dataのimplementedにはageと「再開可能」、"
+            "Audit / monitoringのimplementedには「監査者」と「カーソル」をそのまま含めてください。"
+        )}]}]
+        self.nudges = 0
+
     async def run(self, user_message: str) -> SessionOutcome:
         rt, ctx = self.rt, self.ctx
         system = build_system_prompt(ctx)
@@ -237,6 +260,9 @@ class AgentRunner:
                     if ctx.mode == "reply" and ctx.replied:
                         return SessionOutcome("finished", "replied")
                     if resp.stop_reason == "max_tokens":
+                        if ctx.mode == "task" and rt.run.inputs.delivery_requirements:
+                            await self._compact_delivery_repair()
+                            continue
                         nudge = "Your previous output hit the token limit. Continue with tool calls; keep text short."
                     else:
                         nudge = ("You ended without a tool call. If your work is done, call finish_task; if you are stuck, "
