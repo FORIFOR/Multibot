@@ -23,23 +23,23 @@
 <div class="wrap">
   <header class="top">
     <a class="brand" href="./">Agent Team <small>Multibot · MIT</small></a>
-    <nav aria-label="メインナビゲーション"><a href="#example">実例</a><a href="#work">任せられる作業</a><a href="#how-to">使い方</a><a href="#consult">相談</a><a href="../">English</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
+    <nav aria-label="メインナビゲーション"><a href="#example">実例</a><a href="#how-to">使い方</a><a class="lang-switch" href="../" lang="en" hreflang="en">English</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
   </header>
 
   <main>
     <section class="hero" aria-labelledby="hero-heading">
       <div class="hero-copy">
-        <p class="kicker">オープンソース（MIT）</p>
         <h1 id="hero-heading">資料やコードの作成を、<br />レビューまで任せる。</h1>
-        <p class="lede">複数のAIが、作成とレビューを分担して進めます。実ファイルを添付でき、実行中の指示も次のタスクへ引き継ぎます。できたファイルと一緒に、修正した箇所や、確認できなかった点を残します。</p>
+        <p class="lede">複数のAIが、作成とレビューを分担して進めます。できたファイルと一緒に、修正した箇所や、確認できなかった点を残します。</p>
         <div class="cta"><a class="btn primary" href="#example" data-track="example_open">実例を見る</a><a class="btn secondary" href="#how-to">自分の環境で使う</a></div>
-        <p class="hero-note">実行には対応するAI接続が必要です。ローカルのOllama、Claude Code、OpenAI互換接続から選べます。Claude Codeは必須ではありません。</p>
+        <p class="hero-note">オープンソース（MIT）。実行には対応するAI接続が必要です。</p>
       </div>
 
       <div class="hero-example" id="example" aria-labelledby="example-heading">
         <div class="section-kicker">実行記録から見る</div>
         <h2 id="example-heading">一つの仕事が、どう進むか。</h2>
         <p class="section-intro">依頼、成果物、指摘、修正、再検証を、同じ実行記録で確認できます。下の記録は、2026-09-13に実モデルで行った実行から引用しています。</p>
+        <p class="record-focus"><strong>最初に見る指摘：</strong>根拠を確認できなかった説明を、比較表から削除しました。</p>
         <div id="record" data-record data-lang="ja" data-layout="a"></div>
         <p class="evidence-note"><strong>制約：</strong>指摘3件を修正しましたが、原文の照合は未完了のため、実行全体は <span class="status partial">partial</span> で終了しています。<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/events.jsonl" data-track="artifact_download">イベント記録</a>と<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/final-report.md.r1" data-track="artifact_open">最終報告</a>を開けます。</p>
         <details class="video-details">

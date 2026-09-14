@@ -89,7 +89,7 @@
     var rec = '<div class="pane rec"><div class="pane-h"><span class="lbl">' + d.record + '</span><span class="hint">' + d.hint + '</span></div><ol class="steps">';
     d.steps.forEach(function (s, i) {
       rec += '<li class="st st-' + s.k + '"><div class="st-h"><span class="n">' + (i + 1) + '</span><b>' + esc(s.title) + '</b><span class="mono t">' + s.t + ' · ' + esc(s.who) + '</span></div><p>' + esc(s.body) + (s.link ? ' <a data-track="artifact_open" href="' + EV + s.link + '">' + d.file + ' ↗</a>' : '') + '</p>';
-      if (s.findings) { rec += '<div class="findings">' + s.findings.map(function (f) { return '<button type="button" class="finding" data-fix="' + f.fix + '" data-id="' + f.id + '"><span class="fid">' + f.id + '</span><span class="fl">' + esc(f.label) + '</span><span class="fb">' + esc(f.body) + '</span><span class="go">' + d.jump + ' →</span></button>'; }).join('') + '</div>'; }
+      if (s.findings) { rec += '<div class="findings">' + s.findings.map(function (f) { return '<button type="button" class="finding" data-fix="' + f.fix + '" data-id="' + f.id + '" aria-pressed="false"><span class="fid">' + f.id + '</span><span class="fl">' + esc(f.label) + '</span><span class="fb">' + esc(f.body) + '</span><span class="go">' + d.jump + ' →</span></button>'; }).join('') + '</div>'; }
       if (s.verdicts) { rec += '<ul class="verdicts">' + s.verdicts.map(function (v) { return '<li class="v-' + v[1] + '"><span>' + esc(v[0]) + '</span><em>' + v[1] + '</em></li>'; }).join('') + '</ul><p class="note">' + esc(s.note) + '</p>'; }
       rec += '</li>';
     });
@@ -102,8 +102,9 @@
         if (!started) { started = true; window.track('demo_start'); }
         var fix = btn.getAttribute('data-fix'), ids = TARGET[fix] || [fix];
         root.querySelectorAll('.blk').forEach(function (b) { b.classList.remove('hit', 'hit2'); });
-        root.querySelectorAll('.finding').forEach(function (b) { b.classList.remove('on'); });
+        root.querySelectorAll('.finding').forEach(function (b) { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('on');
+        btn.setAttribute('aria-pressed', 'true');
         var first = null;
         ids.forEach(function (id, i) { var b = root.querySelector('.blk[data-fix="' + id + '"]'); if (b) { b.classList.add(i ? 'hit2' : 'hit'); if (!first) first = b; } });
         if (first) {
@@ -126,6 +127,7 @@
     var initial = root.querySelector('.finding');
     if (initial) {
       initial.classList.add('on');
+      initial.setAttribute('aria-pressed', 'true');
       var initialFix = initial.getAttribute('data-fix');
       var initialIds = TARGET[initialFix] || [initialFix];
       initialIds.forEach(function (id, i) {
