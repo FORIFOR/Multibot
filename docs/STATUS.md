@@ -16,6 +16,8 @@ tool callingを通過したqwen3.5の[実資料v5系列](evidence/real-readiness
 
 v8は初回計画を受理し、初版を公開したものの、`stale`と「アクター監査」の混在を検出後に修正ループが`max_tokens`へ達しました。Builderをpartial、Reviewerをcancelledとして停止し、成果物とイベントを[保存](evidence/real-readiness-v8-qwen35-2026-09-14/README.md)しました。10回条件には算入していません。
 
+v10は実Ollamaの初版`readiness.json`が依頼者Schemaをpassしましたが、Masterが受入条件IDを出力パスとして宣言したためpartialで停止しました。計画Validatorにこの誤りの拒否を追加し、証跡を[保存](evidence/real-readiness-v10-qwen35-2026-09-14/README.md)しました。Reviewer受入と10回条件は未達です。
+
 50課題×3回の比較は、追加記録を反映した最新ペアでチーム69 completed / 5 partial / 76 failed、単一150 completedです。上限の影響は79ペア。前回47/3/100の記録も残し、重複を除くチーム252試行を台帳に含めています。元の採点ではチームにも完了後不合格が1件あり、誤完了ゼロとは主張しません。
 
 [追加記録・Reviewer試験の限界・再開手順](evidence/readiness-2026-09-14/README.md)。週次上限の停止判定と重複スナップショットの集計を、実記録を用いた6テストで確認しました。以下は過去時点の記録を含みます。

@@ -1,0 +1,12 @@
+{
+  "task_id": "t1",
+  "attempt": 1,
+  "artifact_refs": [
+    {
+      "artifact_id": "readiness.json",
+      "revision": 1
+    }
+  ],
+  "status": "complete",
+  "message": "Multibot の本番化現状を整理した readiness.json を作成・公開しました。JSON Schema チェックで合格し、8 領域の L3 ステータスを記述しています。"
+}

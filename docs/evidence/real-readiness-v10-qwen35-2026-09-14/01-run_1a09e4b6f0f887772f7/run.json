@@ -1,0 +1,61 @@
+{
+  "run_id": "run_1a09e4b6f0f887772f7",
+  "status": "interrupted",
+  "campaign_status": {
+    "state": "stopped",
+    "updated_at": "2026-09-14T05:11:15.592066+00:00",
+    "target_runs": 10,
+    "error_type": "CancelledError",
+    "message": "inspect retained run and private process log; no automatic success claim"
+  },
+  "probe": {
+    "ok": true,
+    "driver": "ollama",
+    "model_requested": "agentteam-qwen35-9b-16k",
+    "model_reported": "agentteam-qwen35-9b-16k",
+    "tool_calling": true,
+    "json_schema": true,
+    "error": null,
+    "usage": {
+      "input_tokens": 317,
+      "output_tokens": 32,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0
+    },
+    "request_id": null
+  },
+  "model": {
+    "commit": "21cd29f7f0972feec7aab8f3b2f33cdbb95a6344",
+    "source_sha256": {
+      "PRODUCTION_PLAN.md": "56c1e29d19bfde1bb6fbae173a1fb3904cf2a550d72ea180fc821dc7434e2503",
+      "README.md": "fda3abfcdea7fc7c1e3d766f0f950d06103cd108ce8abd588ff22756d1dd42e1"
+    },
+    "goal_sha256": "7d3e2968ef40779ad95b9d04907845e6a0fdd95bef489df15ab8113fd1e7e325",
+    "config_sha256": "2cc8d2eff9668a829087d805b8ef795e755be2b273a258abf6ceb4756e711397",
+    "delivery_requirements_sha256": "d43ea251020a9e17171abdc5d545ac7da30a061f1e63fb4290118fed645aac11",
+    "model": "agentteam-qwen35-9b-16k",
+    "model_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+    "ollama_version": "0.33.3",
+    "target_runs": 10
+  },
+  "event_count": 49,
+  "last_event": {
+    "seq": 49,
+    "type": "run.interrupted"
+  },
+  "tasks": [
+    {
+      "task_id": "t1",
+      "status": "failed",
+      "owner": "builder",
+      "state_json": "{\"attempt\": 1, \"blocked_reason\": \"agent ended its turn repeatedly without finish_task\", \"result\": null, \"review\": null, \"revision_round\": 0, \"run_id\": \"run_1a09e4b6f0f887772f7\", \"spec\": {\"acceptance\": [{\"check_kind\": \"programmatic\", \"description\": \"json_schema passes on readiness.json\", \"id\": \"t1a1\"}], \"depends_on\": [], \"id\": \"t1\", \"input_artifacts\": [], \"objective\": \"Create readiness.json with product/Multibot, production_ready/false, deployment/dedicated-single-host, summary derived from PRODUCTION_PLAN.md, and a 8-row areas array reflecting L3 status per schema constraints: Identity(Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance implemented as 法人認定のIdP構成・組織アイデンティティ政策・MFA強制・アカウントライフサイクル受入、残：同文)、Isolation(Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance implemented as 攻撃独自レビュー・顧客固有ロール/コネクタ/エGRESSポリシー・権限ライフサイクル受入、残：同文)、Execution(Workload/load acceptance, external- action retry policy, approved availability topology; no distributed workers/HA implemented as ワークロード・負荷受入・外部アクション再試行ポリシー・承認済み可用性トポロジー・分散ワーカーなし HA、残：同文)\", \"output_paths\": [\"readiness.json\", \"t1a1\"], \"owner\": \"builder\", \"write_scope\": \"workspaces/t1/\"}, \"status\": \"failed\", \"updated_at\": \"2026-09-14T05:10:08.873Z\"}"
+    },
+    {
+      "task_id": "t2",
+      "status": "cancelled",
+      "owner": "reviewer",
+      "state_json": "{\"attempt\": 0, \"blocked_reason\": null, \"result\": null, \"review\": null, \"revision_round\": 0, \"run_id\": \"run_1a09e4b6f0f887772f7\", \"spec\": {\"acceptance\": [{\"check_kind\": \"programmatic\", \"description\": \"schema validation passes\", \"id\": \"t2a1\"}], \"depends_on\": [\"t1\"], \"id\": \"t2\", \"input_artifacts\": [], \"objective\": \"Validate readiness.json against JSON schema, verify evidence_quote exactness and Japanese summary factual boundaries (no invented facts, no translation of tech terms)\", \"output_paths\": [], \"owner\": \"reviewer\", \"write_scope\": \"workspaces/t2/\"}, \"status\": \"cancelled\", \"updated_at\": \"2026-09-14T05:10:49.596Z\"}"
+    }
+  ],
+  "evidence_note": "readiness.json passed the requester schema, but the plan declared acceptance id t1a1 as a second output path. Builder was partial and Reviewer was cancelled; no success claim."
+}

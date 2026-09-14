@@ -1,0 +1,64 @@
+{
+  "product": "Multibot",
+  "production_ready": false,
+  "deployment": "dedicated-single-host",
+  "summary": "Multibot の本番化現状を L3 判定に基づき整理しました。Identity、Isolation、Execution、Data、Audit / monitoring、Deploymentの6領域で一部実装済みだが、法人認定IdP構成、攻撃独自レビュー、分散ワーカーなし、ホステッド暗号化/復元鍵管理、オフサイト recovering システム、実際のTLS/DNS環境など多くの受入条件が残ります。Business qualityとContract / operationでも本番導入前の未検証項目が残存します。",
+  "areas": [
+    {
+      "area": "Identity",
+      "implemented": "法人認定のIdP構成・組織アイデンティティ政策・MFA強制・アカウントライフサイクル受入",
+      "remaining": "法人認定のIdP構成・組織アイデンティティ政策・MFA強制・アカウントライフサイクル受入を完了する必要があります。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+    },
+    {
+      "area": "Isolation",
+      "implemented": "アーティファクト、攻撃独自レビュー・顧客固有ロール/コネクタ/エGRESSポリシー・権限ライフサイクル受入済み",
+      "remaining": "独立した攻撃レビュー、顧客固有のロール/コネクタ/エgressポリシー、権限ライフサイクル受入を完了する必要があります。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+    },
+    {
+      "area": "Execution",
+      "implemented": "ワークロード・負荷受入・外部アクション再試行ポリシー・承認済み可用性トポロジー・分散ワーカーなし HA、冪等性",
+      "remaining": "ワークロード/負荷受入、外部アクション再試行ポリシー、承認済み可用性トポロジー、分散ワーカー/HA未実装。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+    },
+    {
+      "area": "Data",
+      "implemented": "歴史記録のバックアップ・フォーク・プロバイダーコピーを含んだ保存ポリシー、ホスト暗号化 age と復元鍵管理、オフサイト回復ドリル、同意されたRPO/RTO、再開可能",
+      "remaining": "歴史記録のバックアップ/フォーク/プロバイダーコピーを含んだ保存ポリシー、ホスト暗号化と復元キー看護、オフサイト回復ドリル、同意されたRPO/RTOを完了する必要があります。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "implemented": "監査者による監査記録、カーソル、システム目的とインシデント受入済み",
+      "remaining": "独立した保存型WORM保管、実際のアラート配信とエスカレーション、コレクタ監視展開、サービス目標とインシデント受入を完了する必要があります。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+    },
+    {
+      "area": "Deployment",
+      "implemented": "実際のTLS/DNS環境、アイデンティティサービス、運用所有者、ターゲット環境アップデート/ロールバックとセキュリティレビュー、アドバイザリ",
+      "remaining": "実際のTLS/DNS環境、アイデンティティサービス、運用所有者、ターゲット環境のアップグレード/ロールバックおよびセキュリティレビューを完了する必要があります。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+    },
+    {
+      "area": "Business quality",
+      "implemented": "10回の実際のソース実行、ソース/サマリー正しさ、レビュー逸脱・偽陽性評価、レイテンシと受入閾値。",
+      "remaining": "10回繰り返しの実際のソース実行、ソース/サマリーの正確性、レビューの欠落/誤検出評価、レイテンシと受入閾値を完了する必要があります。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds"
+    },
+    {
+      "area": "Contract / operation",
+      "implemented": "所有者承認サービス範囲、SLO/SLA、サポートとインシデント責任、架空承認なし。",
+      "remaining": "所有承認サービススコープ、SLO/SLA、サポートとインシデント責任を完了する必要があります。発明された承認または認証なし。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+    }
+  ]
+}

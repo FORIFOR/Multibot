@@ -18,6 +18,8 @@ The strengthened-contract [v6 qwen3.5 run](evidence/real-readiness-v6-qwen35-202
 
 The [v8 qwen3.5 run](evidence/real-readiness-v8-qwen35-2026-09-14/README.md) passed the same capability gate and accepted the initial plan, but its first artifact mixed the English `stale` and the prohibited 「アクター監査」. The repair loop exhausted its context and the runtime recorded a partial Builder and cancelled Reviewer. It is preserved as a failed real run and does not count toward L1.
 
+The [v10 qwen3.5 run](evidence/real-readiness-v10-qwen35-2026-09-14/README.md) produced a contract-passing first artifact with the real model. It nevertheless stopped partial because the Master plan mistakenly declared an acceptance id as an output path; a deterministic plan validator now rejects that mix-up. Reviewer acceptance and the ten-run condition remain open.
+
 Run only from a clean, fixed checkout and while no other local LLM campaign is running:
 
 ```bash
