@@ -1,0 +1,64 @@
+{
+  "product": "Multibot",
+  "production_ready": false,
+  "deployment": "dedicated-single-host",
+  "summary": "企業導入の準備状況は L3 未達成。実装済みと残る受入条件を 8 領域で整理した。",
+  "areas": [
+    {
+      "area": "Identity",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance",
+      "implemented": "実際のアクセス鍵、ハッシュ化されたセッション、ロールチェック； OIDC SSO と実際の Keycloak/ブラウザ検証によるグループマッピング、トークン取り消し、有効期限の管理、鍵のローテーションと復元境界",
+      "remaining": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Isolation",
+      "evidence_quote": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance",
+      "implemented": "インストール毎の組織バインディング、実行毎の付与、アーティファクト/イベント/SSE/エクスポートアクセスチェック、保護された設定； Docker 専用の安全なコマンドツール；ピン留みの公開 IP アクセスと有界キャプチャ",
+      "remaining": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Execution",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA",
+      "implemented": "実行毎の予算；永続的なシングルホストキュー、actor-scoped イデムポtent 受入、ワーカーリース、中断されたジョブ検証、回復と実際のローカル LLM SIGKILL ドリル；リクエストャー所有のアーティファक्ट要件と有界検証",
+      "remaining": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Data",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO",
+      "implemented": "オフラインスナップショット/リストア、チェックサムとアーティファクト検証、セッション無効化；再実行可能実行削除と古くした再試行拒絶；実際の age 暗号化/検証済み復号",
+      "remaining": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Audit / monitoring",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance",
+      "implemented": "アクター監査記録；制限されたアーディターロール；独立した永続的コレクター/カーソル、リストリーム分離、readiness/metrics、記録された障害/ローテーション/回復、ブラウザ操作ビュー",
+      "remaining": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Deployment",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, upgrade/rollback rehearsal, security review",
+      "implemented": "固定ランタイム依存関係、ピン留みベース、非 root リードオンリーコンテナ、リソース制限、ブラウザ/API チェック",
+      "remaining": "Real TLS/DNS environment, identity service, operating owner, upgrade/rollback rehearsal, security review",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Business quality",
+      "evidence_quote": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds",
+      "implemented": "元の障害が保存；合成比較は保留；実際のソース v1 で 8 つの欠落した日本語要約と age 翻訳エラーを特定したがモデルレビューを通し、マニファクトチェックと入力取得を追加",
+      "remaining": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Contract / operation",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications",
+      "implemented": "技術的制限の文書化",
+      "remaining": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications",
+      "source_file": "PRODUCTION_PLAN.md"
+    }
+  ]
+}

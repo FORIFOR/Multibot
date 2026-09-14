@@ -1,0 +1,75 @@
+[
+  {
+    "rep": 1,
+    "request_key": "workflow_1a09c8481d828d262b1",
+    "run_id": "run_1a09c8485503d406bf4",
+    "result": {
+      "rep": 1,
+      "run_id": "run_1a09c8485503d406bf4",
+      "status": "interrupted",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master",
+        "reviewer"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 23,
+        "tool_calls": 15,
+        "input_tokens": 250774,
+        "output_tokens": 10234,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 900.6790176669601
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-production/20260914-real-readiness-v2/campaign/evidence/01-run_1a09c8485503d406bf4"
+    }
+  },
+  {
+    "rep": 2,
+    "request_key": "workflow_1a09c92476612f9332a",
+    "run_id": "run_1a09c924769e22ff807",
+    "result": {
+      "rep": 2,
+      "run_id": "run_1a09c924769e22ff807",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "Identity: Japanese remaining summary missing",
+        "Isolation: Japanese remaining summary missing",
+        "Execution: Japanese remaining summary missing",
+        "Data: Japanese remaining summary missing",
+        "Audit / monitoring: Japanese remaining summary missing",
+        "Deployment: Japanese remaining summary missing",
+        "Business quality: Japanese remaining summary missing",
+        "Contract / operation: Japanese remaining summary missing"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master",
+        "reviewer"
+      ],
+      "review_submissions": 1,
+      "usage": {
+        "model_calls": 22,
+        "tool_calls": 18,
+        "input_tokens": 164602,
+        "output_tokens": 12339,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 900.6622110829921
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-production/20260914-real-readiness-v2/campaign/evidence/02-run_1a09c924769e22ff807"
+    }
+  }
+]
