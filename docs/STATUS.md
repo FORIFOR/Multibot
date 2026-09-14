@@ -12,6 +12,8 @@ qwen2.5-7Bの次系列は[実能力プローブで停止](evidence/real-readines
 
 tool callingを通過したqwen3.5の[実資料v5系列](evidence/real-readiness-v5-qwen35-2026-09-14/README.md)を開始し、1回目は初版不合格→revision 2修正、Reviewer全条件pass、機械判定passで完了しました。10回条件の残りは継続中で、本番導入可能判定はしていません。
 
+強化契約の[v6](evidence/real-readiness-v6-qwen35-2026-09-14/README.md)は英語原文コピー後にmodel callが停止し、[v7](evidence/real-readiness-v7-qwen35-2026-09-14/README.md)は4revisionを公開したものの監査領域の必須語不足で停止しました。両方ともReviewer未実行で、10回条件には算入していません。必須語をBuilder指示へ明示したv8を同じ実Ollamaモデルで実行中です。
+
 50課題×3回の比較は、追加記録を反映した最新ペアでチーム69 completed / 5 partial / 76 failed、単一150 completedです。上限の影響は79ペア。前回47/3/100の記録も残し、重複を除くチーム252試行を台帳に含めています。元の採点ではチームにも完了後不合格が1件あり、誤完了ゼロとは主張しません。
 
 [追加記録・Reviewer試験の限界・再開手順](evidence/readiness-2026-09-14/README.md)。週次上限の停止判定と重複スナップショットの集計を、実記録を用いた6テストで確認しました。以下は過去時点の記録を含みます。

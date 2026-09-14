@@ -14,6 +14,8 @@ The [v4 qwen2.5-7B probe](evidence/real-readiness-v4-qwen25-2026-09-14/README.md
 
 The [v5 qwen3.5 series](evidence/real-readiness-v5-qwen35-2026-09-14/README.md) passed the real capability gate. Its first run completed after one rejected revision and one accepted revision; the current mechanical contract and independent Reviewer both passed for revision 2. The target remains ten repeated runs, so this evidence is one accepted run and does not grant L1, L2 or L3.
 
+The strengthened-contract [v6 qwen3.5 run](evidence/real-readiness-v6-qwen35-2026-09-14/README.md) and [v7 qwen3.5 run](evidence/real-readiness-v7-qwen35-2026-09-14/README.md) also passed the real capability gate but were stopped before Reviewer acceptance. v6 exposed an English-copy failure and a model-call stop; v7 exposed repeated omission of required Japanese terms after four published revisions. Neither run counts toward the ten-run L1 condition. The Builder prompt now states the required literal terms and the next fixed checkout is v8.
+
 Run only from a clean, fixed checkout and while no other local LLM campaign is running:
 
 ```bash
