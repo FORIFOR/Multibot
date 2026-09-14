@@ -12,6 +12,8 @@ The first two v2 attempts are also preserved in [their evidence directory](evide
 
 The [v4 qwen2.5-7B probe](evidence/real-readiness-v4-qwen25-2026-09-14/README.md) was stopped before admission: the real model returned `json_schema=true` but `tool_calling=false` for the current Ollama/OpenAI-compatible boundary. It produced no workflow run or artifact and does not count toward L1. A model that passes the actual capability gate is required for the next fixed series.
 
+The [v5 qwen3.5 series](evidence/real-readiness-v5-qwen35-2026-09-14/README.md) passed the real capability gate. Its first run completed after one rejected revision and one accepted revision; the current mechanical contract and independent Reviewer both passed for revision 2. The target remains ten repeated runs, so this evidence is one accepted run and does not grant L1, L2 or L3.
+
 Run only from a clean, fixed checkout and while no other local LLM campaign is running:
 
 ```bash
