@@ -71,6 +71,15 @@ def test_observed_v20_translation_drift_is_rejected_by_the_current_contract():
                for term in ('パイン', 'ステール', '演算主体', 'actual-source'))
 
 
+def test_contract_operation_anchor_accepts_faithful_constraint_documentation():
+    script = Path(__file__).resolve().parents[1] / 'scripts' / 'production_workflow.py'
+    module_spec = importlib.util.spec_from_file_location('contract_operation_anchor_workflow', script)
+    workflow = importlib.util.module_from_spec(module_spec); module_spec.loader.exec_module(workflow)
+    value = '技術的制約文書化'
+    matches = [term for term in workflow.SUMMARY_ANCHORS['Contract / operation']['implemented'] if term in value]
+    assert len(matches) >= 2
+
+
 async def test_actual_english_remaining_cannot_finish_or_auto_finish_and_final_status_is_partial(tmp_path):
     access, _ = provision(tmp_path)
     svc = await AppService(tmp_path / 'data', config_yaml=PROFILE.read_text(), access_file=access).start()

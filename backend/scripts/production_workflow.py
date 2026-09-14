@@ -149,7 +149,10 @@ SUMMARY_ANCHORS = {
         'remaining': ('10', 'ソース', '出典', 'レビュー', 'レイテンシ', '受入'),
     },
     'Contract / operation': {
-        'implemented': ('制限', '文書', '説明', '承認', '認証'),
+        # The source says “Technical limitations documented”; the correct
+        # Japanese rendering uses 制約. Keep both terms so a faithful summary
+        # such as “技術的制約文書化” is not rejected by the evaluator.
+        'implemented': ('制約', '文書', '制限', '説明', '承認', '認証'),
         'remaining': ('スコープ', 'SLO', 'SLA', 'サポート', 'インシデント', '責任'),
     },
 }
