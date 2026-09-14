@@ -1,0 +1,61 @@
+{
+  "run_id": "run_1a09e2c8e6e8728c32a",
+  "status": "interrupted",
+  "campaign_status": {
+    "state": "stopped",
+    "updated_at": "2026-09-14T04:41:49.812018+00:00",
+    "target_runs": 10,
+    "error_type": "CancelledError",
+    "message": "inspect retained run and private process log; no automatic success claim"
+  },
+  "probe": {
+    "ok": true,
+    "driver": "ollama",
+    "model_requested": "agentteam-qwen35-9b-16k",
+    "model_reported": "agentteam-qwen35-9b-16k",
+    "tool_calling": true,
+    "json_schema": true,
+    "error": null,
+    "usage": {
+      "input_tokens": 317,
+      "output_tokens": 32,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0
+    },
+    "request_id": null
+  },
+  "model": {
+    "commit": "879886a2836904890ef06a482b588c912cde6382",
+    "source_sha256": {
+      "PRODUCTION_PLAN.md": "56c1e29d19bfde1bb6fbae173a1fb3904cf2a550d72ea180fc821dc7434e2503",
+      "README.md": "fda3abfcdea7fc7c1e3d766f0f950d06103cd108ce8abd588ff22756d1dd42e1"
+    },
+    "goal_sha256": "f58468f39c2b7666148591213037e6d352c9dc5bb8573bb99d6c71de570addf3",
+    "config_sha256": "2cc8d2eff9668a829087d805b8ef795e755be2b273a258abf6ceb4756e711397",
+    "delivery_requirements_sha256": "d43ea251020a9e17171abdc5d545ac7da30a061f1e63fb4290118fed645aac11",
+    "model": "agentteam-qwen35-9b-16k",
+    "model_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+    "ollama_version": "0.33.3",
+    "target_runs": 10
+  },
+  "event_count": 50,
+  "last_event": {
+    "seq": 50,
+    "type": "run.interrupted"
+  },
+  "tasks": [
+    {
+      "task_id": "t1",
+      "status": "interrupted",
+      "owner": "builder",
+      "state_json": "{\"attempt\": 1, \"blocked_reason\": null, \"result\": null, \"review\": null, \"revision_round\": 0, \"run_id\": \"run_1a09e2c8e6e8728c32a\", \"spec\": {\"acceptance\": [{\"check_kind\": \"programmatic\", \"description\": \"JSON schema validation and L3-ready=false status\", \"id\": \"t1a1\"}], \"depends_on\": [], \"id\": \"t1\", \"input_artifacts\": [], \"objective\": \"Create readiness.json with 8 area rows from PRODUCTION_PLAN.md table\", \"output_paths\": [\"readiness.json\"], \"owner\": \"builder\", \"write_scope\": \"workspaces/t1/\"}, \"status\": \"interrupted\", \"updated_at\": \"2026-09-14T04:41:49.765Z\"}"
+    },
+    {
+      "task_id": "t2",
+      "status": "queued",
+      "owner": "reviewer",
+      "state_json": "{\"attempt\": 0, \"blocked_reason\": null, \"result\": null, \"review\": null, \"revision_round\": 0, \"run_id\": \"run_1a09e2c8e6e8728c32a\", \"spec\": {\"acceptance\": [{\"check_kind\": \"programmatic\", \"description\": \"Schema constraints satisfied and content accuracy verified\", \"id\": \"t2a1\"}], \"depends_on\": [\"t1\"], \"id\": \"t2\", \"input_artifacts\": [], \"objective\": \"Validate readiness.json against runtime-enforced JSON Schema\", \"output_paths\": [], \"owner\": \"reviewer\", \"write_scope\": \"workspaces/t2/\"}, \"status\": \"queued\", \"updated_at\": \"2026-09-14T04:30:08.435Z\"}"
+    }
+  ],
+  "evidence_note": "Run was interrupted before independent Reviewer acceptance; no success claim."
+}
