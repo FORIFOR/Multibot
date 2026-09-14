@@ -118,7 +118,13 @@ def delivery_schema(expected):
         'Data': {'implemented': {'pattern': 'age'}},
     }
     def row_constraints(area, remaining):
-        properties = {'area': {'const': area}, 'evidence_quote': {'const': remaining}}
+        properties = {
+            'area': {'const': area},
+            'evidence_quote': {'const': remaining},
+            # Do not allow a Japanese prefix/suffix to hide a copied English
+            # acceptance quote in the `remaining` summary.
+            'remaining': {'allOf': [japanese, {'not': {'pattern': re.escape(remaining)}}]},
+        }
         for name, constraint in technical_constraints.get(area, {}).items():
             properties[name] = {**japanese, **constraint}
         return properties
