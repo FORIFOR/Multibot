@@ -36,6 +36,7 @@ GOAL = '''企業の導入担当者に渡す、Multibotの本番化現状を整�
 areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。
 日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。
 技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。
+意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。'''
 
 
@@ -94,20 +95,39 @@ def grade(raw, expected):
 
 def delivery_schema(expected):
     """Requester rules derived from the actual source, independent of the model plan."""
+    # These are concrete translation failures observed in the preserved v1/v2
+    # and v3 local-model attempts. They are rejected at the delivery boundary
+    # so a Japanese-character regex cannot turn a garbled summary into a pass.
+    forbidden_translation_fragments = (
+        '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|'
+        'パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|'
+        'デリル|アドバザリ|ステール|リカスケル|マニファクト'
+    )
     japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
-                'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]'}
+                'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]',
+                'not': {'pattern': forbidden_translation_fragments}}
     row = {'type': 'object', 'additionalProperties': False,
            'required': ['area', 'implemented', 'remaining', 'source_file', 'evidence_quote'],
            'properties': {'area': {'type': 'string'}, 'implemented': japanese, 'remaining': japanese,
                           'source_file': {'const': 'PRODUCTION_PLAN.md'},
                           'evidence_quote': {'type': 'string', 'description': 'Exact English source quotation; do not translate or alter.'}}}
+    technical_constraints = {
+        # Keep terms whose meaning is unsafe to infer from a loose katakana
+        # transliteration. The Japanese alternatives are explicit and narrow.
+        'Execution': {'implemented': {'pattern': '(?:idempotent|冪等|べき等)'}},
+        'Data': {'implemented': {'pattern': 'age'}},
+    }
+    def row_constraints(area, remaining):
+        properties = {'area': {'const': area}, 'evidence_quote': {'const': remaining}}
+        for name, constraint in technical_constraints.get(area, {}).items():
+            properties[name] = {**japanese, **constraint}
+        return properties
     return {'$schema': 'https://json-schema.org/draft/2020-12/schema', 'type': 'object', 'additionalProperties': False,
             'required': ['product', 'production_ready', 'deployment', 'summary', 'areas'], '$defs': {'row': row},
             'properties': {'product': {'const': 'Multibot'}, 'production_ready': {'const': False},
                            'deployment': {'const': 'dedicated-single-host'}, 'summary': japanese,
-                           'areas': {'type': 'array', 'minItems': len(expected), 'maxItems': len(expected),
-                                     'prefixItems': [{'allOf': [{'$ref': '#/$defs/row'}, {'properties': {
-                                         'area': {'const': area}, 'evidence_quote': {'const': remaining}}}]}
+                                     'areas': {'type': 'array', 'minItems': len(expected), 'maxItems': len(expected),
+                                     'prefixItems': [{'allOf': [{'$ref': '#/$defs/row'}, {'properties': row_constraints(area, remaining)}]}
                                                     for area, _, remaining in expected]}}}
 
 
