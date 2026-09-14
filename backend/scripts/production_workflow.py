@@ -146,7 +146,7 @@ def delivery_schema(expected):
                                                     for area, _, remaining in expected]}}}
 
 
-async def main(root, repeat):
+async def main(root, repeat, profile_path):
     root.mkdir(mode=0o700, parents=True, exist_ok=True)
     lock = (root / 'workflow.lock').open('a')
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -155,7 +155,7 @@ async def main(root, repeat):
     source = {Path(name).name: (ROOT.parent / name).read_text() for name in SOURCES}
     expected = source_rows(source['PRODUCTION_PLAN.md'])
     required = [{'logical_path': 'readiness.json', 'json_schema': delivery_schema(expected)}]
-    cfg = load_config_file(ROOT.parent / 'docs/config/local-qwen35-9b-team.yaml')
+    cfg = load_config_file(ROOT.parent / profile_path)
     cfg.profile_name = 'production-readiness-source-workflow'
     cfg.limits.max_tasks = 4; cfg.limits.max_model_calls = 40; cfg.limits.max_tool_calls = 80
     cfg.limits.max_replans = 0; cfg.limits.max_session_turns = 18; cfg.limits.max_output_tokens = 5000
@@ -283,7 +283,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--repeat', type=int, default=10)
+    parser.add_argument('--profile', default='docs/config/local-qwen35-9b-team.yaml',
+                        help='repository-relative team profile; the model and digest are fingerprinted')
     args = parser.parse_args()
     if not 1 <= args.repeat <= 100:
         parser.error('--repeat must be 1–100')
-    asyncio.run(main(args.root.resolve(), args.repeat))
+    asyncio.run(main(args.root.resolve(), args.repeat, args.profile))

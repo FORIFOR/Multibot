@@ -18,6 +18,8 @@ backend/.venv/bin/python backend/scripts/production_workflow.py --root "$AGENTTE
 
 The script fingerprints the commit, source files, goal, configuration, Ollama version and model digest. Changed inputs require a new series. It persists request keys before admission, keeps every result and exports actual events and artifact bytes/hashes. A STOP file pauses after the current attempt. Interrupted/rejected/partial attempts remain in the record; no artifact is edited to turn a failure into a pass.
 
+別のローカルモデルを検証する場合は、同じコマンドに`--profile docs/config/local-qwen25-7b-team.yaml`のように明示し、新しい固定rootで実行する。モデル名・digestは系列ごとに記録される。
+
 The current mechanical grader re-runs the same requester-owned JSON Schema used by the runtime, including source-quote exclusion, observed translation-drift guards and required technical terms. It still does not prove general Japanese writing quality or source fidelity beyond those explicit rules. Reviewer participation, runtime completion and contract grade are reported separately. L1/L3 is not granted merely because ten calls were made or JSON validation passed.
 
 After the first attempt, inspect the actual source, output, plan, review decisions and failure events. Correct implementation defects when supported by evidence. If code/configuration/prompt changes, keep that failed series and begin a new fixed series. Retain the security/recovery evidence independently of business-quality results.
