@@ -1,0 +1,64 @@
+{
+  "product": "Multibot",
+  "production_ready": false,
+  "deployment": "dedicated-single-host",
+  "summary": "Multibot の L3 本番化は未達成。個別インストール形式で Identity から Contract / operation の 8 領域を整理。Identity で Keycloak/SSO 検証済みだが企業 IdP 承認待ち。Isolation で組織紐付け・アクセス制御は実装済み、客仕様ポリシー承認待ち。Execution で冪等受入・シングルホストキューは対応済、分散ワーカー承約中。Data で age 暗号化・再開可能な削除は完了、RPO/RTO 同意とホスト復旧ドリル不足。Audit/monitoring では監査者・カーソル分離済み、独立ストレージとアラートルーティング未検証。Deployment ではコンテナ硬化・アップグレードロールバックは実装、TLS/DNS 環境・運用主体確認待ち。Business quality では実際のソース実行 8 回中 0 件承認、遅延閾値など検証継続。Contract/operation で技術制限文書化済み、サービス範囲・SLA・インシデント責任承認待ち。",
+  "areas": [
+    {
+      "area": "Identity",
+      "implemented": "実際のアクセスキー、ハッシュセッション、ロールチェック。OIDC SSO で Keycloak ブラウザ検証、グループマッピング、トークン失効と期限、鍵ローテーション実施。",
+      "remaining": "企業 IdP の構成、組織ポリシー、二要素認証強制、アカウントライフサイクル承認を完了する必要がある。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+    },
+    {
+      "area": "Isolation",
+      "implemented": "インストール単位での組織紐付け、ランごとの付与、アーティファクトイベントアクセス、保護設定。Docker 工具とパブリック IP フェッチで範囲制限。",
+      "remaining": "独立アタックレビュー、顧客固有の役割コネクタエGRESS ポリシー、権限ライフサイクル承認を完了する必要がある。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+    },
+    {
+      "area": "Execution",
+      "implemented": "ランごとの予算、長持ちシングルホストキュー、操作主体ごとの冪等な受入、ワーカーリース、中断ジョブのレビュー、回復とローカル LLMシグナルキールドリル。アーティファクト要件の実装。",
+      "remaining": "ワークロード/負荷承認、外部アクション再試行ポリシー、承認された可用性トポロジー；分散ワーカー/ハイアベイザリティなしの承約を完了する必要がある。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+    },
+    {
+      "area": "Data",
+      "implemented": "オフラインスナップショット復元、チェックサムでアーティファクト検証、セッション失効。再開可能な削除で陳腐化試行拒否。age で暗号化と検証復号。",
+      "remaining": "履歴バックアップの複製を含む保存ポリシーとホスト暗号化・回復鍵保管、オフサイトリカバリドリル、合意 RPO/RTO を承認する必要がある。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "implemented": "操作主体ごとの監査記録、制限済み監査者ロール。独立コレクターカーソルの分離、復元ストリーム、レディネス/メトリクス、中断/ローテーション/回復の記録、ブラウザ操作用観測。",
+      "remaining": "独立 WORM 管理体制、実際のアラート配信とエスカレーション、コレクター監督デプロイメント、サービス目標とインシデント承認を完了する必要がある。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+    },
+    {
+      "area": "Deployment",
+      "implemented": "ロックされた依存関係、固定ベース、硬化コンテナ、ブラウザ API チェック。ホイール更新ロールバックと腐敗回復、パッケージのセキュリティアドバイザリスキャン。",
+      "remaining": "実際の TLS/DNS 環境、アイデンティティサービス、運用主体、ターゲット環境アップグレードロールバックとセキュリティレビューの承認を完了する必要がある。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+    },
+    {
+      "area": "Business quality",
+      "implemented": "元の障害を保持、シネティック比較一時停止、実ソース v1 で 8 件の欠落と age 翻訳エラーを確認。出力チェックと入力取得追加。v22 ローカル Qwen シリーズ 3 回中断・Docker ゲート拒否で 0 件承認。",
+      "remaining": "十回繰り返しの実ソース実行、概要の整合性、レビューミスクルオアポジティブ評価、レイテンシと承認閾値の検証を完了する必要がある。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Ten repeated actual-source runs, source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds"
+    },
+    {
+      "area": "Contract / operation",
+      "implemented": "技術的制限の文書化。",
+      "remaining": "オーナー承認サービス範囲、SLO/SLA、サポートとインシデント責任；架空承認や認証なしの承約を完了する必要がある。",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+    }
+  ]
+}

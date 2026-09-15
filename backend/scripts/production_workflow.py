@@ -180,6 +180,13 @@ def delivery_schema(expected):
         # are rejected at the delivery boundary rather than counted as a
         # successful summary.
         'パイン|ロカル|アデュータ|actual-source|サマリー'
+        # v23 showed that a Japanese-character check and the independent
+        # Reviewer can still accept visibly mixed or misspelled technical
+        # words.  These fragments are copied from the retained real outputs;
+        # reject them at the delivery boundary instead of treating them as a
+        # successful factual translation.
+        '|キーcloak|ハードening|デシフryption|エGRESS|シネティック|'
+        'コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン'
     )
     japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
                 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]',
