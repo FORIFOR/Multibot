@@ -1,3 +1,49 @@
 /* Contact form uses the same neutral theme as the public page. */
 .portfolio-contact{max-width:none;margin:0;padding:112px 0 0;scroll-margin-top:80px}.portfolio-contact h2{margin-bottom:10px;font-size:32px;line-height:1.4;letter-spacing:-.025em}.portfolio-contact .contact-intro{max-width:64ch;margin:0 0 16px;font-size:17px;line-height:1.8}.portfolio-contact .readiness{max-width:72ch;margin:0;border-left:3px solid var(--signal);padding:12px 16px;background:var(--paper-2);font-size:15px;line-height:1.8}.portfolio-contact details{max-width:820px;margin-top:30px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.portfolio-contact summary{min-height:56px;padding:14px 0;cursor:pointer;font-size:17px;font-weight:600}.portfolio-contact form{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:820px;padding:14px 0 28px}.portfolio-contact label{display:flex;flex-direction:column;gap:6px;font-size:15px}.portfolio-contact input,.portfolio-contact textarea{width:100%;min-height:48px;padding:10px 12px;border:1px solid #b9b9b4;border-radius:6px;background:#fff;color:var(--ink);font:16px/1.5 var(--sans)}.portfolio-contact textarea{min-height:150px;resize:vertical}.portfolio-contact .wide{grid-column:1/-1}.portfolio-contact .consent{display:flex;flex-direction:row;align-items:flex-start;line-height:1.7}.portfolio-contact .consent input{width:20px;min-height:20px;height:20px;flex:none;margin:4px 8px 0 0}.portfolio-contact .privacy{max-width:74ch;margin:0;color:var(--ink-3);font-size:13px;line-height:1.8}.portfolio-contact .trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}.portfolio-contact button{justify-self:start;min-height:48px;padding:8px 20px;border:1px solid var(--ink);border-radius:6px;background:var(--ink);color:#fff;font:600 16px var(--sans);cursor:pointer}.portfolio-contact button:hover,.portfolio-contact button:focus-visible{border-color:var(--signal)}.portfolio-contact button:disabled{opacity:.6;cursor:wait}.portfolio-contact [role=status]{min-height:28px;margin:0;font-size:15px;line-height:1.7;overflow-wrap:anywhere}[hidden]{display:none!important}
 @media(max-width:600px){.portfolio-contact{padding-top:80px}.portfolio-contact h2{font-size:25px}.portfolio-contact .contact-intro{font-size:16px}.portfolio-contact form{grid-template-columns:1fr}.portfolio-contact .wide{grid-column:auto}.portfolio-contact .privacy.wide,.portfolio-contact .consent.wide{grid-column:1}.portfolio-contact button{width:100%}}
+
+/* English record-led page. The separate JA three-step guide is unchanged. */
+.wrap { max-width: 1280px; }
+.top { min-height: 80px; }
+.top nav a { min-height: 44px; display: inline-flex; align-items: center; }
+.top nav a[data-intent="repo"] { padding: 8px 16px; border: 1px solid var(--line); border-radius: 8px; }
+.hero { grid-template-columns: minmax(0, 1fr); gap: 44px; padding-top: 56px; }
+.hero-copy { padding-top: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px 56px; align-items: start; }
+.hero h1 { grid-column: 1; grid-row: 1; max-width: none; font-size: clamp(40px, 4.1vw, 56px); line-height: 1.2; letter-spacing: -.04em; text-wrap: balance; }
+.hero .lede { grid-column: 2; grid-row: 1; max-width: 42ch; margin: 0; padding-top: 6px; font-size: 18px; line-height: 1.85; }
+.hero .cta { grid-column: 1; grid-row: 2; gap: 10px; }
+.hero .hero-note { grid-column: 2; grid-row: 2; align-self: center; margin: 0; font-size: 14px; }
+.hero .btn { min-height: 50px; padding: 12px 18px; font-size: 15px; line-height: 1.6; text-align: center; }
+.hero-example { border: 1px solid var(--line); border-radius: 14px; padding: 28px; background: #fafaf8; scroll-margin-top: 24px; }
+.hero-example h2 { font-size: 28px; line-height: 1.4; text-wrap: balance; }
+.hero-example .section-intro { max-width: 76ch; }
+.record { grid-template-columns: minmax(0, 1.8fr) minmax(300px, 1fr); gap: 18px; }
+.record .pane { border-radius: 10px; overflow-wrap: anywhere; }
+.record .pane-h { padding: 14px 18px; }
+.record .pane-h .lbl, .record .dl { font-size: 12px; }
+.record .blk h4 { font-size: 16px; line-height: 1.6; }
+.record .diff p { font-size: 15px; line-height: 1.8; }
+.record .finding { font-size: 14px; line-height: 1.7; }
+.record .finding .go { font-size: 12px; }
+.record .st p { font-size: 15px; line-height: 1.8; }
+.hero-example .evidence-note { background: #f3f1ec; font-size: 14px; }
+.conditions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 960px) {
+  .hero-copy { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .hero h1, .hero .lede, .hero .cta, .hero .hero-note { grid-column: auto; grid-row: auto; }
+  .hero h1 { max-width: 22ch; }
+  .hero .lede { max-width: 58ch; padding-top: 0; }
+  .record { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  .hero { padding-top: 36px; gap: 30px; }
+  .hero h1 { font-size: clamp(30px, 8vw, 38px); }
+  .hero .lede { font-size: 17px; }
+  .hero .cta .btn { width: 100%; }
+  .hero-example { padding: 22px 0 0; border-inline: 0; border-bottom: 0; border-radius: 0; background: transparent; }
+  .hero-example h2 { font-size: 25px; }
+  .record .pane-h { padding: 12px 14px; }
+  .record .finding { font-size: 13px; }
+  .conditions { grid-template-columns: minmax(0, 1fr); }
+  .term pre { font-size: 13px; line-height: 1.85; }
+}
