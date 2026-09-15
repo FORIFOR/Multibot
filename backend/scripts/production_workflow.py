@@ -189,7 +189,13 @@ def delivery_schema(expected):
         'コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|'
         # v24 produced additional real mixed-script/half-transliterated terms
         # that passed the Japanese-character and source-anchor checks.
-        'ハードネード|键轮换与|パケijd'
+        'ハードネード|键轮换与|パケijd|'
+        # v25 produced a faithful-looking report whose token-revocation term
+        # was mistranslated as リバイス, plus additional mixed-script and
+        # threshold/advisory variants in failed attempts.
+        'リバイス|ラテンシー|収容閾値|ハードened|'
+        'パッケージアドバイススキャン|インストールワheel|パッケge|'
+        '鍵轮换|与界定済'
     )
     japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
                 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]',
