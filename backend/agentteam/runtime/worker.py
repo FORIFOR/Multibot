@@ -246,6 +246,9 @@ class AgentRunner:
             "Audit / monitoringのimplementedは、例えば「監査者が独立収集のカーソルを用い、メトリクスと復旧を確認しました。」"
             "のように、「監査者」と「カーソル」を同時に含めてください。"
             "検査結果に does not match と出た必須語は削除せず、同じフィールドへ上記の正確な語を追加してください。"
+            "summaryは120文字以内、各implemented/remainingは40〜120文字の短い日本語一文に圧縮してください。"
+            "Identityのtoken revocationは「トークン失効」または「トークン取消」、Latencyは「レイテンシ」または「遅延」、"
+            "acceptance thresholdは「受入閾値」と書き、「リバイス」「ラテンシー」「収容閾値」などの類推語は禁止です。"
         )}]}]
         self.nudges = 0
 

@@ -35,10 +35,12 @@ GOAL = '''企業の導入担当者に渡す、Multibotの本番化現状を整�
 成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まずJSONをそのまま公開してください。
 トップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。
 areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。
+summary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。8領域以外の説明や追加フィールドは出力しないでください。
 日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。
 技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。
 意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。
 用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。
+Identity の token revocation は「トークン失効」または「トークン取消」と書き、「リバイス」などの類推語を作らないでください。Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」としてください。
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。'''
 
 

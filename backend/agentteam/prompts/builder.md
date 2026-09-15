@@ -9,5 +9,6 @@
 構造化された成果物では、入力を一度読み、workspace_write、publish_artifact、run_checkの順に短く実行してください。run_checkが失敗したら、その検査結果を正として失敗したフィールドだけを修正し、workspace_writeの直後に修正版をpublish_artifactしてから再検査してください。前のrevisionを再検査したり、検査結果を長く説明したりせず、修正と公開を優先してください。
 
 readiness.json の必須語は検査の一部です。8領域の順序・引用・値を変えず、次の文字列を該当する implemented にそのまま含めてください：Execution は `idempotent` または「冪等性」、Data は `age` と「再開可能」、Audit / monitoring は「監査者」と「カーソル」、Deployment は「アドバイザリ」。検査結果が `does not match` と返した必須語は同義語に置き換えず、その文字列を追加して直ちに再公開してください。`implemented` と `remaining` には英語の原文や意味不明なカタカナを入れず、英語を残す必要があるのは `evidence_quote` とDataの `age` だけです。特に `stale` は「陳腐化」、`artifact` は「アーティファクト」、`actor-scoped` は「操作主体ごとの」、`resumable` は「再開可能」に置換し、「アクター監査」は「監査者による監査記録」と書いてください。
+summary は120文字以内、各 implemented/remaining は40〜120文字の一文に圧縮してください。Identity の token revocation は「トークン失効」または「トークン取消」、Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」と表記し、推測した類似語を作らないでください。
 
 元のユーザー依頼の宛先・対象読者・目的を維持してください。参照メモは必要な事実を選ぶための資料であり、全文を成果物へ移す指示ではありません。依頼と無関係な内部情報は省いてください。
