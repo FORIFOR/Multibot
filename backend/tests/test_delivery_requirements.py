@@ -20,6 +20,7 @@ V12 = EVIDENCE.parent / 'real-readiness-v12-qwen35-2026-09-14'
 V18 = EVIDENCE.parent / 'real-readiness-v18-qwen35-fixed-2026-09-15'
 V20 = EVIDENCE.parent / 'real-readiness-v20-qwen35-fixed-2026-09-15'
 V23 = EVIDENCE.parent / 'real-readiness-v23-qwen35-fixed-2026-09-15'
+V24 = EVIDENCE.parent / 'real-readiness-v24-qwen35-fixed-2026-09-15'
 
 
 def test_observed_v5_translation_drift_is_rejected_by_the_current_contract():
@@ -85,6 +86,20 @@ def test_observed_v23_mixed_translation_drift_is_rejected_by_the_current_contrac
     }
     for filename, fragments in observed.items():
         raw = (V23 / filename).read_bytes()
+        assert any(fragment.encode() in raw for fragment in fragments), filename
+        result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
+        assert result['status'] == 'fail', filename
+
+
+def test_observed_v24_mixed_script_translation_drift_is_rejected_by_the_current_contract():
+    """v24 mechanical passes exposed half-transliterated and mixed-script terms."""
+    script = Path(__file__).resolve().parents[1] / 'scripts' / 'production_workflow.py'
+    module_spec = importlib.util.spec_from_file_location('v24_translation_contract_workflow', script)
+    workflow = importlib.util.module_from_spec(module_spec); module_spec.loader.exec_module(workflow)
+    expected = workflow.source_rows((EVIDENCE.parents[1] / 'PRODUCTION_PLAN.md').read_text())
+    observed = {'observed-rep07-readiness.json': ('ハードネード', '键轮换与')}
+    for filename, fragments in observed.items():
+        raw = (V24 / filename).read_bytes()
         assert any(fragment.encode() in raw for fragment in fragments), filename
         result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
         assert result['status'] == 'fail', filename

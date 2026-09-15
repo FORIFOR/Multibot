@@ -186,7 +186,10 @@ def delivery_schema(expected):
         # reject them at the delivery boundary instead of treating them as a
         # successful factual translation.
         '|キーcloak|ハードening|デシフryption|エGRESS|シネティック|'
-        'コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン'
+        'コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|'
+        # v24 produced additional real mixed-script/half-transliterated terms
+        # that passed the Japanese-character and source-anchor checks.
+        'ハードネード|键轮换与|パケijd'
     )
     japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
                 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]',

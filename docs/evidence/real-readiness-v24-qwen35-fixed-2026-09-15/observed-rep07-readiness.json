@@ -1,0 +1,64 @@
+{
+  "product": "Multibot",
+  "production_ready": false,
+  "deployment": "dedicated-single-host",
+  "summary": "Multibot の本番化準備状況を8領域から整理。実装済み：アクセス管理・組織バインディング・単一ホスト実行・データ暗号化/無効化・監査者記録とカーソル、デプロイ固定化・技術制限文書化。未実装の要件：IdP 承認、独立攻撃審査、分散ワーカー、保存ポリシー・RPO/RTO、警報配送・監視ユニット運用体制、TLS/DNS 環境、サービススコープ/SLA/SLO。",
+  "areas": [
+    {
+      "area": "Identity",
+      "implemented": "実際のアクセスキー、ハッシュ化セッション、ロール検証。OIDC SSO で Keycloak ブラウザ認証を本番検証。グループマッピング、トークン取消、有効期限管理、鍵轮换与リストアの境界を明確化",
+      "remaining": "組織固有の IdP 構成、ポリシー設定、MFA 強制、アカウントライフサイクルの承認待ち",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+    },
+    {
+      "area": "Isolation",
+      "implemented": "インストール単位組織バインド、ランごとの権限付与、アーティファクト/イベント/SSEアクセスチェック、保護設定。Docker で厳格なコマンド実行。パブリックIP 固定とキャプチャ範囲制限",
+      "remaining": "顧客固有ロール/コネクタ/エグレスポリシー、権限ライフサイクルの承認待ち。独立した攻撃検証要件も残る",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+    },
+    {
+      "area": "Execution",
+      "implemented": "ランごとの予算許容。耐久性単一ホストキューで、操作主体ごとの冪等な受入。ワーカーリース、中断タスク検証、復旧、ローカル LLM SIGKILL ドリル実施。依頼者所有アーティファクト要件と制限検証済み",
+      "remaining": "負荷受入、外部アクション再試行ポリシー、承認された可用性トポロジーの検討。分散ワーカー/高可用性は未対応",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+    },
+    {
+      "area": "Data",
+      "implemented": "オフラインスナップショット復旧、チェックサム/アーティファクト検証、セッション無効化。再開可能実行の削除で陳腐化再試行拒否。age 暗号化・検証済み復号完了",
+      "remaining": "履歴バックアップ/フォーク/プロバイダコピーを含む保存ポリシー、ホスト暗号化と復元鍵保管、オフサイト復旧ドリル、合意 RPO/RTO の承認待ち",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "implemented": "監査者による監査記録、制限された監査者ロール。監視ユニットとカーソルでリストアストリーム分離。メトリクス、障害/循環/復旧の記録、ブラウザ操作可視化",
+      "remaining": "独立した WORM 保管、実際の警報配送とエスカレーション、監視ユニット監督部署デプロイ、サービス目標とインシデント承認の未実装",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+    },
+    {
+      "area": "Deployment",
+      "implemented": "ランタイム依存の固定、ベース固定化、ハードネードコンテナ。ブラウザ/API 検証。実行ホイール更新/ロールバック・破損復旧。パッケージアドバイザリスキャン実施",
+      "remaining": "環境固有の TLS/DNS、識別サービス、運用オーナー、ターゲット環境アップグレード/ロールバックとセキュリティ監査の未対応。アドバイザリスキャンのみ実施",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+    },
+    {
+      "area": "Business quality",
+      "implemented": "元失敗保持。合成比較保留。実際のソース v1 で日本語要約欠落 8 箇所と age 翻訳エラーを検出。強制出力チェックと入力取得を追加。v22 ローカル Qwen シリーズは中断と HTTP 503 あり、v23 は 10 試行中 3 完遂だが訳揺らぎで全拒否",
+      "remaining": "ソース/要約正しさ、レビュー欠落・偽陽性評価、レイテンシと受入閾値、強化契約下で有効な完了出力の反復シリーズの承認待ち",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract"
+    },
+    {
+      "area": "Contract / operation",
+      "implemented": "技術的制限を文書化",
+      "remaining": "オーナー承認サービススコープ、SLO/SLA、サポートとインシデント責任者の未対応。架空の承認や認証は不可",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+    }
+  ]
+}
