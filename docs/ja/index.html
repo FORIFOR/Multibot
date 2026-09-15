@@ -3,96 +3,128 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Agent Team — 資料やコードの作成を、レビューまで任せる。</title>
-<meta name="description" content="複数のAIが作成とレビューを分担し、成果物と修正の経緯を残すオープンソース（MIT）の作業環境。GitHub: FORIFOR/Multibot" />
-<meta property="og:title" content="Agent Team — 資料やコードの作成を、レビューまで任せる。" />
-<meta property="og:description" content="複数のAIが作成とレビューを分担し、成果物と修正の経緯を残します。オープンソース（MIT）。" />
+<title>Agent Team — 作ってほしいものを、いつもの言葉で。</title>
+<meta name="description" content="依頼を書く、チームに任せる、ファイルを受け取る。コードや資料の作成・レビューを進めるAgent Teamの使い方を、3ステップの操作ガイドで確認できます。" />
+<meta property="og:title" content="Agent Team — 作ってほしいものを、いつもの言葉で。" />
+<meta property="og:description" content="資料を添えて依頼。進み具合を確認。できたファイルを受け取る。コードや資料をつくるAI作業アプリ。" />
 <meta property="og:image" content="https://forifor.github.io/Multibot/media/og.png" />
 <meta property="og:url" content="https://forifor.github.io/Multibot/ja/" />
-<link rel="canonical" href="https://forifor.github.io/Multibot/ja/" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="analytics-endpoint" content="" />
-<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="canonical" href="https://forifor.github.io/Multibot/ja/" />
 <link rel="alternate" hreflang="en" href="https://forifor.github.io/Multibot/" />
-<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../site.css" />
-<link rel="stylesheet" href="../portfolio.css" />
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<style>
+:root{color-scheme:light;--ink:#242623;--muted:#636760;--line:#dedfd9;--soft:#f5f6f2;--paper:#fff;--accent:#99502d;--accent-soft:#f6eee7;--radius:10px;--font:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans CJK JP","Yu Gothic UI",Meiryo,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.8 var(--font);-webkit-font-smoothing:antialiased}button,input,textarea,select{font:inherit}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:inherit;text-underline-offset:4px}button:disabled{cursor:default}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,[tabindex="-1"]:focus-visible{outline:3px solid var(--accent);outline-offset:4px}h1,h2,h3,p,figure{margin:0}h1,h2,h3{font-weight:650;line-height:1.5;letter-spacing:-.025em}h1{font-size:clamp(32px,3.25vw,46px);line-height:1.5}h2{font-size:30px}h3{font-size:20px}p{overflow-wrap:anywhere}small,.small{font-size:13px;color:var(--muted)}[hidden]{display:none!important}.wrap{max-width:1240px;margin:auto;padding:0 32px}.skip{position:absolute;top:-80px;left:20px;background:white;padding:8px 16px;z-index:5}.skip:focus{top:10px}.top{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line)}.brand{text-decoration:none;font-size:23px;font-weight:700;letter-spacing:-.055em;white-space:nowrap}.brand small{font-size:11px;font-weight:500;letter-spacing:0;margin-left:10px}.nav{display:flex;align-items:center;gap:26px;font-size:14px}.nav a{text-decoration:none;display:inline-flex;min-height:44px;align-items:center}.nav a:hover{text-decoration:underline}.nav .nav-github{padding:0 14px;border:1px solid var(--line);border-radius:6px}.hero{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);align-items:center;gap:52px;padding:64px 0 58px}.eyebrow{font-size:14px;color:var(--muted);margin-bottom:22px}.hero h1 span{display:block}.lede{font-size:17px;line-height:1.9;color:var(--muted);max-width:28em;margin-top:24px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:10px 18px;border:1px solid var(--ink);border-radius:6px;background:var(--ink);color:#fff;text-decoration:none;font-size:14px;font-weight:600;line-height:1.5}.btn:hover{background:#40443e}.btn.secondary{background:white;color:var(--ink);border-color:var(--line)}.btn.secondary:hover{background:var(--soft)}.hero-foot{margin-top:18px;font-size:12px;line-height:1.8;color:var(--muted)}.guide{border:1px solid #d4d7ce;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 6px 24px #24262308;min-width:0;scroll-margin-top:28px}.guide-top{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);font-size:12px;background:#fafbf8}.guide-top strong{font-size:14px}.guide-top span{color:var(--muted)}.steps{display:flex;border-bottom:1px solid var(--line);background:#fff}.steps button{flex:1;min-width:0;border:0;border-bottom:2px solid transparent;background:transparent;padding:14px 4px;font-size:13px;color:var(--muted)}.steps button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent);background:#fcfaf7;font-weight:650}.step-num{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;border:1px solid var(--line);margin-right:6px;font-size:11px}.steps button[aria-selected=true] .step-num{background:var(--accent);border-color:var(--accent);color:white}.panels{padding:22px;min-height:359px}.panel-title{font-size:20px;margin-bottom:7px}.panel-desc{font-size:13px;line-height:1.8;color:var(--muted);margin-bottom:18px}.sample-choices{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}.sample-choices button{font-size:12px;min-height:36px;padding:4px 10px;border:1px solid var(--line);border-radius:5px;background:white;color:var(--muted)}.sample-choices button[aria-pressed=true]{color:var(--accent);border-color:#c3a28b;background:var(--accent-soft)}.request{display:block;width:100%;min-height:105px;resize:vertical;border:1px solid #c9cec2;border-radius:7px;background:white;padding:15px;color:var(--ink);font-size:15px;line-height:1.8}.input-meta{margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.file-label{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:4px;padding:3px 9px;background:var(--soft)}.paper-icon{width:13px;height:16px;border:1px solid #868d7d;border-radius:2px;display:inline-block;flex:none}.example-caption{font-size:11px;color:var(--muted);margin-top:7px}.copy-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:17px}.text-button{background:none;border:0;padding:8px 0;color:var(--accent);font-size:12px;text-decoration:underline;text-underline-offset:4px;min-height:40px}.next{border:0;background:var(--ink);color:#fff;border-radius:5px;padding:9px 13px;min-height:42px;font-size:12px}.next:hover{background:#40443e}.notice{font-size:12px;min-height:20px;color:var(--muted)}.guide-note{padding:10px 18px;background:var(--soft);color:var(--muted);font-size:11px;line-height:1.6;border-top:1px solid var(--line)}.role-list{border:1px solid var(--line);border-radius:7px;overflow:hidden;margin-top:15px}.role-row{display:flex;align-items:center;gap:12px;padding:13px 14px}.role-row+.role-row{border-top:1px solid var(--line)}.role-number{font-size:12px;color:var(--muted);width:18px;flex:none}.role-row b{font-size:13px;font-weight:600;display:block}.role-row p{font-size:12px;color:var(--muted)}.inline-callout{margin-top:15px;border-left:2px solid #b5beaa;padding:0 0 0 12px;font-size:12px;line-height:1.9;color:var(--muted)}.files{border:1px solid var(--line);border-radius:7px;overflow:hidden;margin:16px 0}.file-row{display:flex;align-items:center;gap:12px;padding:12px 14px}.file-row+.file-row{border-top:1px solid var(--line)}.file-row strong{font-size:13px;font-weight:500}.file-row span:last-child{margin-left:auto;font-size:11px;color:var(--muted)}.truth{padding:13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;font-size:13px;color:var(--muted)}.truth span{display:flex;align-items:center;gap:8px}.truth b{color:var(--ink);font-weight:500}.section{padding:72px 0;border-bottom:1px solid var(--line);scroll-margin-top:24px}.section-head{display:flex;justify-content:space-between;gap:32px;align-items:flex-end;margin-bottom:34px}.section-head p{max-width:32em;color:var(--muted);font-size:14px}.section-label{color:var(--accent);font-size:12px;margin-bottom:10px}.benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}.benefit{min-width:0}.benefit+.benefit{border-left:1px solid var(--line);padding-left:28px}.benefit-number{font-size:12px;color:var(--muted);margin-bottom:13px}.benefit h3{font-size:18px;margin-bottom:12px}.benefit p{font-size:14px;color:var(--muted);line-height:1.9}.benefit .limits{font-size:12px;margin-top:13px}.mini-ui{margin-top:20px;background:var(--soft);padding:14px;border-radius:6px;font-size:12px;line-height:1.9;min-height:66px;color:#484e42}.section.video-section{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;align-items:start}.video-section p{color:var(--muted);font-size:14px;margin-top:15px}.video-link{margin-top:18px!important}.video-box{border:1px solid var(--line);border-radius:8px;overflow:hidden}.video-box summary{padding:21px 24px;cursor:pointer;font-weight:600;font-size:15px;background:var(--soft)}.video-inner{padding:16px}.video-inner video{width:100%;height:auto;display:block;border:1px solid var(--line);background:var(--soft)}.video-inner p{font-size:12px}.setup{display:grid;grid-template-columns:.82fr 1.18fr;gap:64px}.setup-intro p{font-size:14px;color:var(--muted);margin-top:16px}.install{background:var(--soft);padding:28px;border-radius:8px;min-width:0}.install h3{font-size:17px}.install p{font-size:13px;color:var(--muted);margin-top:9px}.prereq{font-size:12px;margin:18px 0 10px;color:#50574b}.code{margin:12px 0;background:#fff;border:1px solid var(--line);border-radius:6px;padding:16px;max-width:100%;overflow-x:auto;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace}.install .actions{margin-top:14px;align-items:center}.install .actions a{font-size:12px}.other-connect{margin-top:20px!important}.faq{max-width:860px;margin:28px 0 0}.faq details{border-top:1px solid var(--line)}.faq details:last-child{border-bottom:1px solid var(--line)}.faq summary{cursor:pointer;padding:17px 0;font-size:15px;min-height:54px}.faq details p{font-size:14px;color:var(--muted);padding:0 0 22px;max-width:56em}.contact{display:grid;grid-template-columns:1fr 1fr;gap:64px}.contact p{font-size:14px;color:var(--muted);margin-top:12px}.contact>details{border:1px solid var(--line);border-radius:8px;align-self:start}.contact summary{padding:18px;cursor:pointer;font-size:15px;font-weight:600}.contact form{padding:0 20px 22px;display:grid;gap:15px}.contact label{display:block;font-size:13px}.contact input:not([type=checkbox]),.contact textarea{display:block;width:100%;border:1px solid #b8bfb0;border-radius:4px;min-height:44px;padding:10px;margin-top:5px;background:white;font-size:16px}.contact textarea{min-height:120px;resize:vertical}.contact .privacy{font-size:12px;line-height:1.8}.contact .consent{display:flex;align-items:flex-start;gap:9px;font-size:12px}.consent input{margin-top:5px;width:18px;height:18px;flex:none}.contact .trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}.contact button{justify-self:start}.contact [role=status]{font-size:13px;min-height:24px}.footer{padding:28px 0 40px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.footer-links{display:flex;gap:18px;flex-wrap:wrap}.noscript{padding:12px;background:var(--soft);font-size:13px}
+@media(min-width:1300px){.hero{gap:68px}}
+@media(max-width:1000px){.wrap{padding:0 24px}.hero{gap:28px}.nav{gap:18px}h1{font-size:34px}.lede{font-size:15px}.btn{font-size:13px;padding:10px 14px}.panels{padding:18px}.guide-top{padding:12px 16px}.setup,.contact,.section.video-section{gap:30px}.benefits{gap:20px}.benefit+.benefit{padding-left:20px}}
+@media(max-width:900px){.wrap{padding:0 20px}.top{min-height:70px;gap:12px}.brand{font-size:22px}.brand small{display:none}.nav{gap:14px;font-size:12px}.nav .desktop-nav{display:none}.nav .nav-github{border:0;padding:0}.hero{grid-template-columns:1fr;gap:30px;padding:35px 0 30px}.eyebrow{margin-bottom:15px;font-size:12px}h1{font-size:34px;line-height:1.5}.lede{font-size:15px;max-width:34em;margin-top:16px}.actions{margin-top:20px;gap:10px}.hero-foot{font-size:11px;margin-top:12px}.guide-top span{font-size:11px}.steps button{font-size:12px;padding:12px 1px}.step-num{margin-right:4px;width:20px;height:20px}.panels{min-height:350px;padding:18px}.panel-title{font-size:18px}.request{font-size:15px;min-height:115px}.copy-row{gap:8px}.next{font-size:12px;padding:10px}.guide-note{font-size:11px}.truth{display:grid;grid-template-columns:1fr;font-size:12px;gap:7px;padding:17px 0}.section{padding:46px 0}h2{font-size:25px}.section-head{display:block;margin-bottom:28px}.section-head p{margin-top:14px}.benefits{grid-template-columns:1fr;gap:26px}.benefit+.benefit{padding:24px 0 0;border-left:0;border-top:1px solid var(--line)}.benefit-number{margin-bottom:8px}.benefit h3{font-size:19px}.mini-ui{min-height:0;margin-top:14px}.section.video-section,.setup,.contact{display:grid;grid-template-columns:1fr;gap:24px}.install{padding:20px}.install .actions{align-items:flex-start}.faq summary{font-size:14px}.footer{font-size:11px}.footer-links{gap:12px}.contact form{padding:0 16px 18px}}
+@media(max-width:380px){h1{font-size:30px}.wrap{padding:0 16px}.nav{gap:10px}.btn{font-size:12px;padding:11px 12px}.guide-top{padding:12px}.guide-top span{font-size:10px}.steps button{font-size:11px}.panels{padding:15px}.copy-row{align-items:flex-start}.text-button{font-size:11px}.next{font-size:11px}.sample-choices button{padding:5px 8px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
+<a class="skip" href="#main">本文へ</a>
 <div class="wrap">
-  <header class="top">
-    <a class="brand" href="./">Agent Team <small>Multibot · MIT</small></a>
-    <nav aria-label="メインナビゲーション"><a href="#example">実例</a><a href="#how-to">使い方</a><a class="lang-switch" href="../" lang="en" hreflang="en">English</a><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></nav>
-  </header>
-
-  <main>
-    <section class="hero" aria-labelledby="hero-heading">
-      <div class="hero-copy">
-        <h1 id="hero-heading">資料やコードの作成を、<br />レビューまで任せる。</h1>
-        <p class="lede">複数のAIが、作成とレビューを分担して進めます。できたファイルと一緒に、修正した箇所や、確認できなかった点を残します。</p>
-        <div class="cta"><a class="btn primary" href="#example" data-track="example_open">実例を見る</a><a class="btn secondary" href="#how-to">自分の環境で使う</a></div>
-        <p class="hero-note">オープンソース（MIT）。実行には対応するAI接続が必要です。</p>
-      </div>
-
-      <div class="hero-example" id="example" aria-labelledby="example-heading">
-        <div class="section-kicker">実行記録から見る</div>
-        <h2 id="example-heading">一つの仕事が、どう進むか。</h2>
-        <p class="section-intro">依頼、成果物、指摘、修正、再検証を、同じ実行記録で確認できます。下の記録は、2026-09-13に実モデルで行った実行から引用しています。</p>
-        <p class="record-focus"><strong>最初に見る指摘：</strong>根拠を確認できなかった説明を、比較表から削除しました。</p>
-        <div id="record" data-record data-lang="ja" data-layout="a"></div>
-        <p class="evidence-note"><strong>制約：</strong>指摘3件を修正しましたが、原文の照合は未完了のため、実行全体は <span class="status partial">partial</span> で終了しています。<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/events.jsonl" data-track="artifact_download">イベント記録</a>と<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/scenarios/research2/final-report.md.r1" data-track="artifact_open">最終報告</a>を開けます。</p>
-        <details class="video-details">
-          <summary>実行画面の動画を見る</summary>
-          <p>動画は操作の流れを確認するための補助資料です。ページを開いただけでは再生しません。</p>
-          <video id="replay-video" controls playsinline preload="none" poster="../media/replay-research-poster.jpg" aria-label="実行画面の操作動画"><source src="../media/real-walkthrough-ja-silent.mp4" type="video/mp4"><track kind="captions" src="../media/real-walkthrough-ja-silent.vtt" srclang="ja" label="日本語" default></video>
-          <p class="caption">32秒に編集した既存の実行記録です。実際の実行時間や、未完了の状態は上の記録とリンク先で確認してください。</p>
-        </details>
-      </div>
-    </section>
-
-    <section id="work" aria-labelledby="work-heading">
-      <p class="section-kicker">任せられる作業</p>
-      <h2 id="work-heading">返ってくるものを、先に確認できます。</h2>
-      <p class="section-intro">作業の名前だけでなく、成果物と確認内容を一緒に残します。掲載しているリンクは、リポジトリに保存された実行記録です。</p>
-      <div class="deliverable-list">
-        <a class="deliverable" href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/code" data-track="artifact_open"><span class="deliverable-title">小さなツールを作る</span><span>コード、テスト、README</span><span class="deliverable-link">実例を開く ↗</span></a>
-        <a class="deliverable" href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/long" data-track="artifact_open"><span class="deliverable-title">ドキュメントサイトを作る</span><span>作成したページと、確認した項目</span><span class="deliverable-link">実例を開く ↗</span></a>
-        <a class="deliverable" href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/research2" data-track="artifact_open"><span class="deliverable-title">公開資料を比較する</span><span>比較メモ、参照元、修正内容、未確認事項</span><span class="deliverable-link">実例を開く ↗</span></a>
-      </div>
-      <p class="small-note">個別の実行例は用途全体の成功率を示しません。成功した記録だけでなく、失敗・部分完了・未確認も表示します。<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md">評価と制約の詳細</a></p>
-    </section>
-
-    <section id="how-to" aria-labelledby="how-heading">
-      <p class="section-kicker">使い方</p>
-      <h2 id="how-heading">必要なものを確認してから始める。</h2>
-      <div class="conditions">
-        <div><h3>どこで動くか</h3><p>自分の環境で実行します。Ollamaなどのローカル接続か、Claude Code・OpenAI互換の接続を選びます。</p></div>
-        <div><h3>費用は何にかかるか</h3><p>ソフトウェアはMITライセンスです。接続するAIサービスの契約料・利用料は別途かかります。</p></div>
-        <div><h3>データはどこへ送られるか</h3><p>ローカル接続では自分の環境に留まります。クラウドモデルを選ぶ場合は、選択したプロバイダへ入力が送信されます。</p></div>
-        <div><h3>途中で方向を変える</h3><p>txt・md・csvの資料を依頼に添付できます。実行中に送った指示はイベントとして記録され、次に開始するタスクへ引き継がれます。成果物は版ごとの差分を見て採用でき、仕事単位でまとめて取得できます。</p></div>
-      </div>
-      <div class="install-block" id="github">
-        <h3>導入コマンド</h3>
-        <p>READMEの手順に沿って、Ollamaなどのローカル接続、Claude CodeまたはOpenAI互換接続を準備してください。コマンドをコピーしただけでは導入完了になりません。</p>
-        <div class="term"><pre id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</pre></div>
-        <div class="install-actions"><button class="btn secondary copy-install" type="button">導入コマンドをコピー</button><span class="copy-status" role="status" aria-live="polite"></span><a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">READMEと接続設定を見る ↗</a></div>
-      </div>
-    </section>
-
-    <section id="consult" class="portfolio-contact" aria-labelledby="business-heading">
-      <p class="section-kicker">業務利用の相談</p>
-      <h2 id="business-heading">自社の仕事で使えるか、相談する。</h2>
-      <p class="contact-intro">任せたい作業と、確認が必要な条件を教えてください。対象の仕事を絞って、適用できる範囲を確認します。</p>
-      <p class="readiness">企業向けデモ・導入設計の相談を受け付けています。顧客データでの有償PoC、本番SLA、SSO、組織分離は提供済みとしていません。提供可否・範囲・納期・料金は個別に確認します。</p>
-      <details><summary>非公開で相談する</summary><form id="portfolio-form"><label>お名前<input name="name" required maxlength="80" autocomplete="name"></label><label>返信先メール<input name="email" type="email" required maxlength="254" autocomplete="email"></label><label class="wide">会社・団体名（任意）<input name="organization" maxlength="120" autocomplete="organization"></label><label class="wide">相談したい内容<textarea name="message" required minlength="10" maxlength="2000"></textarea></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><p class="privacy wide">入力内容は運営者への非公開の問い合わせとしてGoogle Cloudに保存し、返信のために利用します。AIの入力やアクセス解析には利用しません。90日後から順次削除します。公開Issueには投稿されません。</p><label class="consent wide"><input type="checkbox" name="consent" required>上記の取り扱いに同意して送信します。</label><button type="submit">相談を送信</button><p class="wide" id="portfolio-status" role="status" aria-live="polite"></p></form></details>
-    </section>
-  </main>
-
-  <footer><span>Agent Team · Multibot · MIT · <a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">GitHub</a></span><span><a href="https://multibot.reachmade.com/">製品サイト</a> · <a href="https://reachmade.com/products/#agent-team">Reachmade Lab</a> · <a href="https://zenn.dev/forifori/articles/agent-team-launch">Zenn</a> · <a href="https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a">dev.to</a> · <a href="https://github.com/FORIFOR/Multibot/tree/main/docs/site">サイトの設計文書</a></span><span>成果物と実行記録、評価方法と制約を公開しています。</span></footer>
+<header class="top">
+  <a class="brand" href="./">Agent Team<small>Multibot</small></a>
+  <nav class="nav" aria-label="メインナビゲーション"><a href="#guide" class="desktop-nav">使い方</a><a href="#features" class="desktop-nav">できること</a><a href="#how-to">始め方</a><a href="https://github.com/FORIFOR/Multibot" class="nav-github" data-track="github_outbound">GitHub ↗</a><a href="../" lang="en" hreflang="en" aria-label="English">EN</a></nav>
+</header>
+<main id="main">
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-copy">
+    <p class="eyebrow">コードや資料をつくる、AI作業アプリ</p>
+    <h1 id="hero-heading"><span>作ってほしいものを、</span><span>いつもの言葉で。</span></h1>
+    <p class="lede">「このCSVを集計するツールを作って。」<br />そんな依頼から、作成とレビューまで。<br />進み具合とファイルは、一つの画面で。</p>
+    <div class="actions"><a class="btn" href="#guide" data-open-guide>使い方を見る <span aria-hidden="true">→</span></a><a class="btn secondary" href="#how-to">自分のPCで始める</a></div>
+    <p class="hero-foot">オープンソース · MIT<br />初回の接続設定が必要です。AIの利用料は別途。</p>
+  </div>
+  <div class="guide" id="guide" aria-labelledby="guide-heading">
+    <div class="guide-top"><strong id="guide-heading">アプリの使い方</strong><span>ボタンで順番に確認できます</span></div>
+    <div class="steps" aria-label="使い方のステップ">
+      <button type="button" id="tab-1" data-step="1" aria-controls="panel-1" aria-selected="true"><span class="step-num">1</span>依頼を書く</button>
+      <button type="button" id="tab-2" data-step="2" aria-controls="panel-2" aria-selected="false"><span class="step-num">2</span>任せる</button>
+      <button type="button" id="tab-3" data-step="3" aria-controls="panel-3" aria-selected="false"><span class="step-num">3</span>受け取る</button>
+    </div>
+    <div class="panels" id="example">
+      <section id="panel-1" data-panel="1" aria-labelledby="tab-1">
+        <h2 class="panel-title">やってほしいことを、入力。</h2>
+        <p class="panel-desc">担当の振り分けはアプリに任せて、まずは依頼から。</p>
+        <div class="sample-choices" role="group" aria-label="入力例を選ぶ"><button type="button" data-sample="tool" aria-pressed="true">集計ツール</button><button type="button" data-sample="page" aria-pressed="false">紹介ページ</button><button type="button" data-sample="research" aria-pressed="false">資料の比較</button></div>
+        <label class="small" for="sample-request">入力例</label>
+        <textarea class="request" id="sample-request" readonly rows="3">このCSVを年月別に集計するPythonツールを作って。使い方とテストも付けて。元のCSVは変更しないで。</textarea>
+        <div class="input-meta"><span class="file-label"><span class="paper-icon" aria-hidden="true"></span><span id="sample-input">売上.csv</span></span><span>資料や参照URLも添えられます</span></div>
+        <div class="copy-row"><button type="button" class="text-button" id="copy-prompt">この入力例をコピー</button><button type="button" class="next" data-next="2">次へ：任せた後を見る →</button></div>
+        <p class="notice" id="prompt-status" role="status" aria-live="polite"></p>
+      </section>
+      <section id="panel-2" data-panel="2" aria-labelledby="tab-2">
+        <h2 class="panel-title">分担して、作成と確認。</h2>
+        <p class="panel-desc">進み具合と担当者のやりとりを、同じ画面で追えます。</p>
+        <div class="role-list" aria-label="アプリが進める作業の説明"><div class="role-row"><span class="role-number">01</span><div><b>依頼を作業に分ける</b><p>作るものと、確認することを整理します。</p></div></div><div class="role-row"><span class="role-number">02</span><div><b>担当を分けて作る・レビューする</b><p>必要な担当が参加し、指摘があれば修正へ進みます。</p></div></div></div>
+        <p class="inline-callout">補足は、作業中のチャットから追加できます。<br />追加指示は次に開始するタスクへ引き継がれます。</p>
+        <div class="copy-row"><button type="button" class="text-button" data-next="1">← 入力例に戻る</button><button type="button" class="next" data-next="3">次へ：受け取り方を見る →</button></div>
+      </section>
+      <section id="panel-3" data-panel="3" aria-labelledby="tab-3">
+        <h2 class="panel-title">できたファイルを、受け取る。</h2>
+        <p class="panel-desc">成果物を開き、変更前後を比較。使う版を選んで、まとめて取得できます。</p>
+        <div class="files" id="sample-files" aria-label="依頼する成果物の例"><div class="file-row"><span class="paper-icon" aria-hidden="true"></span><strong>集計ツール</strong><span>Python</span></div><div class="file-row"><span class="paper-icon" aria-hidden="true"></span><strong>使い方</strong><span>README</span></div><div class="file-row"><span class="paper-icon" aria-hidden="true"></span><strong>動作テスト</strong><span>テストコード</span></div></div>
+        <p class="example-caption">依頼する成果物の例です。実際のファイル構成や結果は実行によって変わります。</p>
+        <div class="copy-row"><button type="button" class="text-button" data-next="1">別の入力例を見る</button><a class="next" style="text-decoration:none" href="#how-to">自分のPCで始める →</a></div>
+      </section>
+    </div>
+    <p class="guide-note">操作を説明するガイドです。表示は簡略化しており、ここではAIの実行やファイルの生成・送信は行いません。</p>
+    <noscript><p class="noscript">JavaScriptが無効のため、3ステップを続けて表示しています。入力例は選択してコピーできます。</p></noscript>
+  </div>
+</section>
+<div class="truth" aria-label="対応している操作"><span><b>資料を添える</b> txt・md・csv・URL</span><span><b>途中で伝える</b> チャットから追加指示</span><span><b>ファイルで受け取る</b> 版を選んでまとめて取得</span></div>
+<section class="section" id="features" aria-labelledby="features-heading">
+  <div class="section-head"><div><p class="section-label">使う人がすることは、シンプルに。</p><h2 id="features-heading">あちこち移らず、仕事を進める。</h2></div><p>依頼、やりとり、成果物を一つの場所に。<br />細かなBot設定は、必要になってから変えられます。</p></div>
+  <div class="benefits">
+    <article class="benefit"><p class="benefit-number">01 / はじめる</p><h3>依頼に、手元の資料を添える。</h3><p>文章で説明するほか、テキストやCSV、参照URLを追加。添付した資料は開始前に確認・削除できます。</p><div class="mini-ui">依頼文 ＋ 売上.csv ＋ 補足メモ</div><p class="limits">txt・md・csvに対応。1ファイル512KBまで。</p></article>
+    <article class="benefit"><p class="benefit-number">02 / 進める</p><h3>追加で伝えたいことも、その場で。</h3><p>作業中の画面から追加指示を送れます。誰が作業しているか、何ができたかも、同じ画面で確認できます。</p><div class="mini-ui">追加指示の例：<br />「使い方は日本語で書いてください」</div><p class="limits">指示は次のタスクへ反映。進行中の処理をその場で書き換える機能ではありません。</p></article>
+    <article class="benefit"><p class="benefit-number">03 / 受け取る</p><h3>チャットの返事で、終わらない。</h3><p>できたファイルを開いて確認。版ごとの違いを見て採用し、仕事単位でまとめて取得できます。</p><div class="mini-ui">成果物を開く → 差分を見る → 採用する</div><p class="limits">確認できた点と、未確認の点も最終報告に残ります。</p></article>
+  </div>
+</section>
+<section class="section video-section" id="app-screen" aria-labelledby="screen-heading">
+  <div><p class="section-label">アプリの画面</p><h2 id="screen-heading">実際の操作も、<br />確認できます。</h2><p>上のガイドで使い方をつかんだら、実モデルで作業したアプリの画面へ。動画は開いたときだけ読み込みます。</p></div>
+  <details class="video-box" id="replay"><summary>アプリ画面の動画を開く <span class="small">32秒</span></summary><div class="video-inner"><video id="replay-video" controls playsinline preload="none" aria-label="実モデル実行のアプリ画面、編集済み32秒"><source data-src="../media/real-walkthrough-ja-silent.mp4" type="video/mp4" /><track kind="captions" data-src="../media/real-walkthrough-ja-silent.vtt" srclang="ja" label="日本語" default /></video><p>2026年9月13日の保存済み実行を編集した動画です。実際の所要時間は約24分。出典の原文照合が未完了のため、部分完了で終了しています。最新機能の全てを収録した動画ではありません。</p><p><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/research2" data-track="artifact_open">この動画の成果物・検証記録</a></p></div></details>
+</section>
+<section class="section setup" id="how-to" aria-labelledby="start-heading">
+  <div class="setup-intro"><p class="section-label">始め方</p><h2 id="start-heading">自分のPCで、<br />最初の依頼を。</h2><p>初回にアプリとAIの接続を準備します。設定後は、ブラウザの画面から依頼できます。</p><p>接続に迷ったら、まず使っているAIの設定方法をREADMEで確認してください。</p></div>
+  <div class="install" id="quickstart"><h3>Claude Codeを使って起動する</h3><p>このコマンドは、Claude Codeにログイン済みの環境向けです。</p><div class="prereq">先に準備するもの：Claude Codeへのログイン・uv</div><pre class="code" tabindex="0" aria-label="導入コマンド"><code id="install-command">uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart</code></pre><div class="actions"><button class="btn" type="button" id="copy-install">起動コマンドをコピー</button><a href="https://github.com/FORIFOR/Multibot#quickstart" data-track="quickstart_open">準備と起動の手順 ↗</a></div><p class="notice" id="install-status" role="status" aria-live="polite"></p><p class="other-connect">Ollama・OpenAI互換の接続も選べます。<a href="https://github.com/FORIFOR/Multibot#readme" data-track="quickstart_open">別の接続方法を見る</a></p></div>
+</section>
+<section class="section" id="questions" aria-labelledby="questions-heading">
+  <h2 id="questions-heading">始める前に確認したいこと。</h2>
+  <div class="faq"><details><summary>このページでアプリを実行できますか？</summary><p>上のガイドは、使い方を確認するためのものです。AIは実行しません。実際に依頼するには、お使いのPCでアプリを起動し、対応するAIへ接続してください。</p></details><details><summary>利用料金はかかりますか？</summary><p>ソフトウェアはMITライセンスのオープンソースです。AIサービスの契約料・利用料は別途、接続先の条件に従います。初回の接続確認でも小さな実呼び出しが行われます。</p></details><details><summary>資料はどこへ送られますか？</summary><p>実行記録や成果物は実行環境に保存されます。クラウドモデルを使う場合、処理に必要な入力は選んだ接続先へ送信されます。ローカルモデルでも、参照URLの取得などには外部通信を伴います。<a href="https://github.com/FORIFOR/Multibot/blob/main/SECURITY.md">データと安全性について</a></p></details><details id="record"><summary>実行結果や、検証の詳しい記録を見たい</summary><p>成果物、修正履歴、成功・部分完了・失敗を含む評価を公開しています。<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/STATUS.md" data-track="artifact_open">実行例と制約</a>、<a href="https://github.com/FORIFOR/Multibot/blob/main/docs/evidence/readiness-2026-09-14/README.md" data-track="artifact_open">比較試験の記録</a>をご確認ください。チーム構成による一般的な品質優位は、まだ示せていません。</p></details></div>
+</section>
+<section class="section contact" id="consult" aria-labelledby="business-heading"><div><p class="section-label">業務での利用</p><h2 id="business-heading">自分の仕事に使えるか、<br />相談する。</h2><p>任せたい作業を教えてください。対象を絞って、適用できる範囲を確認します。</p><p class="small">現在はデモ・導入設計の相談を受け付けています。顧客データのPoCや本番運用の提供可否・範囲・料金は個別に確認します。</p></div><details id="business"><summary>非公開の相談フォームを開く</summary><form id="portfolio-form"><label>お名前<input name="name" required maxlength="80" autocomplete="name" /></label><label>返信先メール<input name="email" type="email" required maxlength="254" autocomplete="email" /></label><label>会社・団体名（任意）<input name="organization" maxlength="120" autocomplete="organization" /></label><label>相談したい内容<textarea name="message" required minlength="10" maxlength="2000"></textarea></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label><p class="privacy">入力内容は運営者への非公開の問い合わせとしてGoogle Cloudに保存し、返信のために利用します。AIの入力やアクセス解析には利用しません。90日後から順次削除します。公開Issueには投稿されません。送信による契約や課金はありません。</p><label class="consent"><input type="checkbox" name="consent" required />上記の取り扱いに同意して送信します。</label><button class="btn" type="submit">相談を送信</button><p id="portfolio-status" role="status" aria-live="polite"></p></form></details></section>
+</main>
+<footer class="footer"><span>Agent Team / Multibotot · MIT</span><div class="footer-links"><a href="https://github.com/FORIFOR/Multibot">GitHub</a><a href="https://github.com/FORIFOR/Multibot/issues">不具合・提案</a><a href="#record">評価と制約</a><a href="https://reachmade.com/products/#agent-team">Reachmade</a><a href="../" lang="en" hreflang="en">English</a></div></footer>
 </div>
-<script src="../record.js"></script>
-<script src="../launch.js"></script>
 <script src="../portfolio.js" data-product="agent-team"></script>
+<script>
+(function(){
+'use strict';
+var samples={tool:{text:'このCSVを年月別に集計するPythonツールを作って。使い方とテストも付けて。元のCSVは変更しないで。',input:'売上.csv',files:[['集計ツール','Python'],['使い方','README'],['動作テスト','テストコード']]},page:{text:'この製品説明をもとに、日本語の紹介ページとSNS投稿案を3本作って。公開はせず、ファイルで渡して。',input:'製品説明.md',files:[['紹介ページ','HTML'],['投稿案3本','Markdown'],['確認結果','最終報告']]},research:{text:'この3つの公開ページを比較して、対象読者と特徴を表にまとめて。参照URLを付けて、分からないことは分からないと書いて。',input:'参照URL × 3',files:[['比較メモ','Markdown'],['参照元','メモ内のURL'],['確認結果','最終報告']]}};
+var tabs=Array.from(document.querySelectorAll('[data-step]')),panels=Array.from(document.querySelectorAll('[data-panel]')),steps=document.querySelector('.steps');
+steps.setAttribute('role','tablist');
+tabs.forEach(function(tab){tab.setAttribute('role','tab')});
+panels.forEach(function(panel){panel.setAttribute('role','tabpanel');panel.tabIndex=0});
+function showStep(n,focus){tabs.forEach(function(tab){var selected=Number(tab.dataset.step)===n;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;if(selected&&focus)tab.focus({preventScroll:true})});panels.forEach(function(panel){panel.hidden=Number(panel.dataset.panel)!==n})}
+tabs.forEach(function(tab,index){tab.addEventListener('click',function(){showStep(Number(tab.dataset.step),false)});tab.addEventListener('keydown',function(event){var next;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();showStep(next+1,true)})});
+document.querySelectorAll('[data-next]').forEach(function(button){button.addEventListener('click',function(){showStep(Number(button.dataset.next),true)})});
+document.querySelectorAll('[data-open-guide]').forEach(function(link){link.addEventListener('click',function(){showStep(1,true);event('example_open')})});
+function selectSample(key){var sample=samples[key];if(!sample)return;document.querySelectorAll('[data-sample]').forEach(function(button){button.setAttribute('aria-pressed',String(button.dataset.sample===key))});document.getElementById('sample-request').value=sample.text;document.getElementById('sample-input').textContent=sample.input;document.getElementById('prompt-status').textContent='';var list=document.getElementById('sample-files');list.replaceChildren();sample.files.forEach(function(file){var row=document.createElement('div'),icon=document.createElement('span'),name=document.createElement('strong'),type=document.createElement('span');row.className='file-row';icon.className='paper-icon';icon.setAttribute('aria-hidden','true');name.textContent=file[0];type.textContent=file[1];row.append(icon,name,type);list.append(row)})}
+document.querySelectorAll('[data-sample]').forEach(function(button){button.addEventListener('click',function(){selectSample(button.dataset.sample)})});
+async function copyText(text,status,source,success){try{if(!navigator.clipboard||!navigator.clipboard.writeText)throw Error('clipboard unavailable');await navigator.clipboard.writeText(text);status.textContent=success;return true}catch(error){if(source.tagName==='TEXTAREA'){source.focus();source.select()}else{var range=document.createRange();range.selectNodeContents(source);var selection=window.getSelection();selection.removeAllRanges();selection.addRange(range)}status.textContent='コピーできませんでした。選択された文字を手動でコピーしてください。';return false}}
+document.getElementById('copy-prompt').addEventListener('click',function(){var source=document.getElementById('sample-request');copyText(source.value,document.getElementById('prompt-status'),source,'コピーしました。起動したアプリの依頼欄に貼り付けて使えます。')});
+document.getElementById('copy-install').addEventListener('click',function(){var source=document.getElementById('install-command');copyText(source.textContent.trim(),document.getElementById('install-status'),source,'コピーしました。準備済みの環境のターミナルで実行してください。').then(function(ok){if(ok)event('quickstart_copy')})});
+function event(name){if(typeof window.productEvent==='function')window.productEvent(name)}
+var video=document.getElementById('replay-video'),loaded=false;
+document.getElementById('replay').addEventListener('toggle',function(){if(this.open&&!loaded){video.querySelectorAll('[data-src]').forEach(function(el){el.src=el.dataset.src});loaded=true;video.load()}if(!this.open)video.pause()});
+function openHashDetails(){var key=window.location.hash.slice(1);var target=document.getElementById(key);if(target&&target.tagName==='DETAILS')target.open=true}
+window.addEventListener('hashchange',openHashDetails);openHashDetails();showStep(1,false);
+})();
+</script>
 </body>
 </html>
