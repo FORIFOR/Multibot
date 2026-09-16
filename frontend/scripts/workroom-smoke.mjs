@@ -18,7 +18,9 @@ try {
     await page.waitForTimeout(2000)
     const grid=await page.locator('.work-chat-first').evaluate(el=>getComputedStyle(el).gridTemplateColumns)
     const checkedTabs=[]
-    for(const name of lang==='ja'?['チームチャット','時系列','最終報告','承認']:['Team chat','Timeline','Final report','Approvals']){
+    // Existing i18n.ts maps the Japanese key 承認 to the label "Approve".
+    // Check the actual public label, without skipping a missing tab or clicking approval actions.
+    for(const name of lang==='ja'?['チームチャット','時系列','最終報告','承認']:['Team chat','Timeline','Final report','Approve']){
       const button=page.locator('.chat-main .tabs button').filter({hasText:name})
       if(await button.count()!==1)throw new Error(`Expected exactly one required tab: ${name}`)
       await button.click()
