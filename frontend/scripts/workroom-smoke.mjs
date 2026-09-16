@@ -17,10 +17,14 @@ try {
     await page.locator('.work-chat-first').waitFor()
     await page.waitForTimeout(2000)
     const grid=await page.locator('.work-chat-first').evaluate(el=>getComputedStyle(el).gridTemplateColumns)
+    const checkedTabs=[]
     for(const name of lang==='ja'?['チームチャット','時系列','最終報告','承認']:['Team chat','Timeline','Final report','Approvals']){
       const button=page.locator('.chat-main .tabs button').filter({hasText:name})
-      if(await button.count())await button.first().click()
+      if(await button.count()!==1)throw new Error(`Expected exactly one required tab: ${name}`)
+      await button.click()
+      if(!(await button.getAttribute('class'))?.split(/\s+/).includes('active'))throw new Error(name+' did not activate')
       if(await page.evaluate('document.documentElement.scrollWidth>innerWidth+1'))throw new Error(name+' overflows')
+      checkedTabs.push(name)
     }
     const artifact=await page.locator('.chat-side>.pane').last().boundingBox()
     if(width===1440 && (!artifact||artifact.width<650))throw new Error('Artifact reading surface is too narrow')
@@ -28,7 +32,7 @@ try {
     await page.goto(base+'/settings',{waitUntil:'networkidle'})
     if(await page.evaluate('document.documentElement.scrollWidth>innerWidth+1'))throw new Error('Settings overflows')
     if(errors.length)throw new Error(errors.join('\n'))
-    report.push({width,lang,grid,artifactWidth:artifact?.width,runTabs:true,settings:true,provider:'scripted test backend'})
+    report.push({width,lang,grid,artifactWidth:artifact?.width,checkedTabs,settings:true,provider:'scripted test backend'})
     await context.close()
   }
 }finally{await browser.close();writeFileSync(shots+'/report.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report))}
