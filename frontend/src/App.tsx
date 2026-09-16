@@ -1,7 +1,7 @@
 import { t, getLang, setLang } from './lib/i18n'
 import { useEffect, useState } from 'react'
 import { api, type Approval } from './lib/api'
-import { Link, usePath } from './lib/router'
+import { Link, usePath, getRunId } from './lib/router'
 import Home from './pages/Home'
 import RunView from './pages/RunView'
 import Settings from './pages/Settings'
@@ -25,7 +25,7 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
     const id = setInterval(tick, 5000)
     return () => { alive = false; clearInterval(id) }
   }, [path, identity.role])
-  const runMatch = path.match(/^\/runs\/([^/]+)/)
+  const runId = getRunId(path)
   return (
     <div className="shell">
       <header className="top">
@@ -40,8 +40,8 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
           <button className="langbtn" title="Language" onClick={() => { setLang(getLang() === 'en' ? 'ja' : 'en'); window.location.reload() }}>{getLang() === 'en' ? '日本語' : 'EN'}</button>
         </nav>
       </header>
-      <main className={'main' + (runMatch ? ' wide' : '')}>
-        {identity.role === 'auditor' || (path.startsWith('/operations') && identity.role === 'admin') ? <Operations /> : runMatch ? <RunView runId={runMatch[1]} nav={nav} /> : path.startsWith('/settings') && identity.role === 'admin' ? <Settings /> : <Home nav={nav} readOnly={identity.role === 'viewer'} canConfigure={identity.role === 'admin'} />}
+      <main className={'main' + (runId ? ' wide' : '')}>
+        {identity.role === 'auditor' || (path.startsWith('/operations') && identity.role === 'admin') ? <Operations /> : runId ? <RunView key={path} runId={runId} nav={nav} /> : path.startsWith('/settings') && identity.role === 'admin' ? <Settings /> : <Home nav={nav} readOnly={identity.role === 'viewer'} canConfigure={identity.role === 'admin'} />}
       </main>
     </div>
   )
