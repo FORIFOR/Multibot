@@ -1,0 +1,42 @@
+name: Workroom UI
+on:
+  pull_request:
+    paths: ['frontend/src/main.tsx','frontend/src/workroom.css','frontend/scripts/workroom-smoke.mjs','.github/workflows/workroom-ui.yml']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv venv backend/.venv --python 3.12 && uv pip install --python backend/.venv/bin/python -e 'backend[dev]'
+      - uses: pnpm/action-setup@v4
+        with: {version: 10}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: pnpm install --frozen-lockfile && pnpm build && pnpm test:router
+        working-directory: frontend
+      - name: Serve the newly compiled UI, not the committed old bundle
+        run: |
+          cp -R frontend/dist/. backend/agentteam/ui/
+          cd backend
+          AGENTTEAM_ALLOW_FAKE_PROVIDER=1 AGENTTEAM_NO_SEATBELT=1 .venv/bin/python scripts/demo_fake_server.py --port 8791 > /tmp/workroom-server.log 2>&1 &
+          PID=$!
+          trap 'kill "$PID" || true' EXIT
+          for i in $(seq 1 40); do curl -sf http://127.0.0.1:8791/api/health && break; sleep 0.5; done
+          cd ../frontend
+          node scripts/workroom-smoke.mjs
+      - name: Preserve actual check results
+        if: always()
+        run: |
+          if [ -f /tmp/workroom-shots/report.json ]; then
+            printf '## Actual rebuilt UI with scripted test backend\n```json\n' >> "$GITHUB_STEP_SUMMARY"
+            cat /tmp/workroom-shots/report.json >> "$GITHUB_STEP_SUMMARY"
+            printf '\n```\n' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        continue-on-error: true
+        with: {name: workroom-ui-review, path: /tmp/workroom-shots, retention-days: 1}
