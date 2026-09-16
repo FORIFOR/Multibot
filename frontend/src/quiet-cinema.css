@@ -1,0 +1,28 @@
+/* Quiet Cinema: calm workroom, one vivid deliverable surface, evidence beside it. */
+:root{--qc-paper:#f6f5f0;--qc-ink:#20251f;--qc-muted:#62675f;--qc-stage:#171a17;--qc-stage-line:#303530;--qc-accent:#5b627d}
+body{background:var(--qc-paper);color:var(--qc-ink)}
+.top{background:color-mix(in srgb,var(--qc-paper) 94%,white 6%);backdrop-filter:none;border-bottom-color:#d8dad2}
+.main,.main.wide{padding-top:38px}
+.hero{align-items:start}
+.hero h1{max-width:13ch;font-weight:560;letter-spacing:-.04em}
+.hero .lede{max-width:40em}
+.card,.pane{box-shadow:none;border-color:#d8dad2;border-radius:12px}
+.work-chat-first{gap:28px}
+.chat-main{background:#fffefa}
+.chat-side>.pane:last-child{background:#fffefa}
+.art-list{border-bottom:1px solid #d8dad2;padding-bottom:12px}
+.art{border-radius:8px}
+.art.active{background:#eceee9}
+.preview{background:var(--qc-stage)!important;border:1px solid var(--qc-stage-line)!important;border-radius:16px!important;overflow:hidden;min-height:460px}
+.preview iframe{background:#fff;min-height:460px;border:0}
+.preview pre{background:var(--qc-stage)!important;color:#eef1ec!important;min-height:460px;margin:0;padding:24px!important;font-size:14px;line-height:1.9}
+.artifact-diff{border-radius:10px;background:#f0efe9;color:#303a34}
+.chat-shell{background:#fffefa;border-radius:10px}
+.chat-hero{background:transparent;border-bottom-color:#d8dad2}
+.chat-overview{background:#f0efe9;border-radius:10px}
+.msg{border-radius:10px;box-shadow:none}
+.btn,.btn.sm,.input,textarea.input,select.input{border-radius:8px}
+.runhead{padding-top:6px}
+.runhead h1{max-width:26ch}
+@media(max-width:760px){.main,.main.wide{padding-top:26px}.preview,.preview iframe,.preview pre{min-height:340px;border-radius:12px!important}.work-chat-first{gap:18px}}
+@media(prefers-reduced-motion:reduce){.orb,.chat-live-dot{animation:none!important}}
