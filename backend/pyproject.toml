@@ -23,6 +23,7 @@ dev = ["pytest>=8", "pytest-asyncio>=0.23"]
 
 [project.scripts]
 agentteam = "agentteam.cli:main"
+agentteam-demo = "agentteam.demo_command:main"
 
 [build-system]
 requires = ["hatchling"]
