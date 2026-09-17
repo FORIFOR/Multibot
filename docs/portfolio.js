@@ -16,6 +16,30 @@
  document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;if(a.dataset.track){if(!a.closest('[data-record]'))event(a.dataset.track,{href:a.href,intent:a.getAttribute('data-intent')||undefined});return;}const href=a.getAttribute('href')||'';if(a.download||/\.zip(?:$|\?)/.test(href))event('artifact_download');else if(/github\.com/.test(href))event(/TESTING|README|quickstart/.test(href)?'quickstart_open':'github_outbound');else if(/#start|#quickstart/.test(href))event('quickstart_open');else if(a.dataset.artifact||/orbit\.html|kit-site/.test(href))event('artifact_open');});
  document.querySelectorAll('video,audio').forEach(v=>{let started=false;v.addEventListener('play',()=>{if(!started){event('demo_start',{kind:'replay'});started=true;}document.querySelectorAll('video,audio').forEach(o=>{if(o!==v)o.pause()});});v.addEventListener('ended',()=>event('demo_complete',{kind:'replay'}));});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)document.querySelectorAll('video,audio').forEach(v=>v.pause())});
+
+ // Homepage signature: lead with the outcome of one saved run rather than with
+ // "multi-agent" architecture. The record is explicitly labelled partial and
+ // links back to the existing public evidence; it is not a new success claim.
+ if(product==='agent-team'){
+  const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('outcome-proof.css',script.src).href;document.head.append(css);
+  const hero=document.querySelector('.hero');
+  const copy=hero&&hero.querySelector('.hero-copy');
+  if(hero&&copy&&!hero.querySelector('.outcome-proof')){
+   const proof=document.createElement('section');proof.className='outcome-proof';proof.setAttribute('aria-label',words('保存済み実行の流れ','Saved run flow'));
+   const data=language==='ja'?{
+    kicker:'REAL RUN / PARTIAL',title:'依頼から、レビューされたファイルまで。',truth:'2026-09-12〜13の保存済み実行。途中の確認が未完了のため、実行全体は部分完了です。',
+    steps:[['01 / REQUEST','依頼','公開ページを比較'],['02 / DRAFT','初稿','research.md r1'],['03 / REVIEW','レビュー','3件の指摘'],['04 / REVISION','修正','指摘を反映'],['05 / FILE','成果物','research-final-r2.md']],
+    primary:'実行記録を見る',secondary:'成果物と制約を開く',note:'成功率や一般的な品質優位を示す例ではありません。'
+   }:{
+    kicker:'REAL RUN / PARTIAL',title:'From one request to a reviewed file.',truth:'A saved 2026-09-12–13 execution. The overall run ended partial because one verification remained unfinished.',
+    steps:[['01 / REQUEST','Request','Compare public pages'],['02 / DRAFT','Draft','research.md r1'],['03 / REVIEW','Review','3 findings'],['04 / REVISION','Revision','Apply findings'],['05 / FILE','Deliverable','research-final-r2.md']],
+    primary:'Open the work record',secondary:'Open artifacts and limits',note:'This example is not a measured success rate or a claim of general quality superiority.'
+   };
+   proof.innerHTML='<div class="outcome-proof__head"><div><p class="outcome-proof__kicker">'+data.kicker+'</p><h2>'+data.title+'</h2></div><p class="outcome-proof__truth">'+data.truth+'</p></div><div class="outcome-proof__flow">'+data.steps.map((s,i)=>'<div class="outcome-proof__step'+(i===data.steps.length-1?' outcome-proof__step--file':'')+'"><span>'+s[0]+'</span><strong>'+s[1]+'</strong><p>'+s[2]+'</p></div>').join('')+'</div><div class="outcome-proof__links"><a href="#record" data-track="example_open">'+data.primary+' →</a><a href="https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/scenarios/research2" data-track="artifact_open">'+data.secondary+' ↗</a><small>'+data.note+'</small></div>';
+   copy.after(proof);
+  }
+ }
+
  const form=document.getElementById('portfolio-form');if(!form)return;
  const status=document.getElementById('portfolio-status');let pending=false,id=crypto.randomUUID(),last='';
  form.addEventListener('submit',async e=>{
