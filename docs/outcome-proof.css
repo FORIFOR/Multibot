@@ -1,0 +1,21 @@
+/* Outcome-first homepage proof. Shared by the EN/JA marketing pages; no synthetic success claims. */
+.outcome-proof{grid-column:1/-1;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:26px 0 24px;margin-top:6px}
+.outcome-proof__head{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:20px}
+.outcome-proof__kicker{margin:0;color:var(--accent);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:650}
+.outcome-proof__head h2{margin:5px 0 0;font-size:clamp(25px,2.4vw,34px);line-height:1.35;letter-spacing:-.035em}
+.outcome-proof__truth{max-width:36em;margin:0;color:var(--muted);font-size:12px;line-height:1.7;text-align:right}
+.outcome-proof__flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.outcome-proof__step{position:relative;min-width:0;padding:18px 16px 20px}
+.outcome-proof__step+.outcome-proof__step{border-left:1px solid var(--line)}
+.outcome-proof__step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:20px;z-index:2;width:16px;text-align:center;background:var(--paper);color:var(--muted);font-size:12px}
+.outcome-proof__step span{display:block;color:var(--muted);font:10px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+.outcome-proof__step strong{display:block;margin-top:8px;font-size:14px;line-height:1.55;font-weight:650}
+.outcome-proof__step p{margin:5px 0 0;color:var(--muted);font-size:11px;line-height:1.65}
+.outcome-proof__step--file{background:#20251f;color:#f6f5f0}
+.outcome-proof__step--file span,.outcome-proof__step--file p{color:#c9cec7}
+.outcome-proof__step--file::after{display:none}
+.outcome-proof__links{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:16px;font-size:12px}
+.outcome-proof__links a{font-weight:600}
+.outcome-proof__links small{color:var(--muted);font-size:11px}
+@media(max-width:900px){.outcome-proof{order:2;margin-top:0}.outcome-proof__head{display:block}.outcome-proof__truth{text-align:left;margin-top:9px}.outcome-proof__flow{grid-template-columns:1fr}.outcome-proof__step+.outcome-proof__step{border-left:0;border-top:1px solid var(--line)}.outcome-proof__step:not(:last-child)::after{content:'↓';right:14px;top:auto;bottom:-9px;background:var(--paper)}.outcome-proof__step--file::after{display:none}}
+@media(max-width:600px){.outcome-proof{padding:22px 0}.outcome-proof__step{padding:15px 12px}.outcome-proof__head h2{font-size:25px}}
