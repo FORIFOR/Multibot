@@ -20,8 +20,8 @@ export interface Run {
 export interface RunDetail extends Run { access?: { can_write: boolean; can_override: boolean }; tasks: TaskState[]; artifacts: Artifact[]; approvals: Approval[]; artifact_selection?: Record<string, ArtifactSelection>; last_seq: number; live: boolean }
 export interface ArtifactSelection { revision: number; seq: number; event_id: string; actor_id: string; note: string }
 export interface ArtifactDiff { supported: boolean; from_revision: number; revision: number; artifact_id?: string; logical_path?: string; diff?: string; reason?: string }
-export interface EffectiveAgent { agent_id: string; role: string; enabled: boolean; connection_id: string; driver: string; base_url: string; model: string; prompt_mode: string; system_prompt: string; system_prompt_sha256: string; skills: { name: string; description: string; sha256: string }[]; tools: string[]; effort: string | null; api_key_ref: string | null }
-export interface AgentSpec { id: string; role: string; enabled: boolean; connection_id: string; model: string; system_prompt_file: string; prompt_mode: 'auto_seed' | 'user_locked'; skill_ids: string[]; tools: string[]; system_prompt_override: string | null; effort: string | null }
+export interface EffectiveAgent { agent_id: string; role: string; enabled: boolean; connection_id: string; driver: string; base_url: string; model: string; prompt_mode: string; system_prompt: string; system_prompt_sha256: string; skills: { name: string; description: string; sha256: string }[]; tools: string[]; effort: string | null; api_key_ref: string | null; display_name: string | null; emoji: string | null; custom: boolean }
+export interface AgentSpec { id: string; role: string; enabled: boolean; connection_id: string; model: string; system_prompt_file: string; prompt_mode: 'auto_seed' | 'user_locked'; skill_ids: string[]; tools: string[]; system_prompt_override: string | null; effort: string | null; display_name: string | null; emoji: string | null; custom: boolean }
 export interface Connection { id: string; driver: string; base_url: string; api_key_ref: string | null; capability_check: 'not_run' | 'passed' | 'failed'; capability_detail: any; refusal_fallback: boolean; ollama_thinking?: boolean | null }
 export interface Problem { code: string; message: string; agent_id?: string; connection_id?: string; fix?: string }
 export interface Config {
@@ -90,6 +90,7 @@ export const api = {
     req<{ artifact_id: string; revision: number; seq: number; event: Event }>('POST', `/api/artifacts/${runId}/${artifactId}/adopt`, body),
   artifactRawUrl: (runId: string, artifactId: string, rev: number) => `/api/artifacts/${runId}/${artifactId}/versions/${rev}/raw`,
   patchAgent: (id: string, body: Record<string, unknown>) => req<{ revision: number }>('PATCH', `/api/agents/${id}`, body),
+  createAgent: (body: Record<string, unknown>) => req<{ revision: number; agent: AgentSpec }>('POST', '/api/agents', body),
   putConnection: (id: string, body: Record<string, unknown>) => req<{ revision: number }>('PUT', `/api/connections/${id}`, body),
   probe: (id: string, model?: string) => req<{ revision: number; result: any; capability_check: string }>('POST', `/api/connections/${id}/probe${model ? `?model=${encodeURIComponent(model)}` : ''}`),
   putLimits: (body: Record<string, unknown>) => req<{ revision: number }>('PUT', '/api/limits', body),
