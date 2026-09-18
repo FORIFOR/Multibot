@@ -199,8 +199,11 @@ function TeamPane({ run, agents, selTask, setSelTask, onJump }: { run: RunDetail
           const a = agents[id]
           const tasks = byOwner.get(id) || []
           const used = run.plan?.agents.includes(id)
+          const botState = botActivity(tasks, run.status)
           return (
-            <div className="agent" key={id} style={{ opacity: run.plan && !used ? 0.5 : 1 }}>
+            <div className={'agent bot-agent state-' + botState} key={id} style={{ opacity: run.plan && !used ? 0.5 : 1 }}>
+              <BotCharacter id={id} role={a.role} state={botState} size="card" />
+              <div className="agent-content">
               <div className="name">{id} <span className="tag">{a.role}</span>{a.prompt_mode === 'user_locked' && <span className="tag" title={tr("手動固定プロンプト")}>locked</span>}</div>
               <div className="model">{a.model} · {a.connection_id}/{a.driver} · prompt {a.system_prompt_sha256.slice(0, 8)}</div>
               {tasks.map((t) => (
@@ -229,6 +232,7 @@ function TeamPane({ run, agents, selTask, setSelTask, onJump }: { run: RunDetail
                   )}
                 </div>
               ))}
+              </div>
             </div>
           )
         })}
@@ -362,7 +366,7 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
             {flow.map((id, index) => (
               <span className="chat-flow-segment" key={id + index}>
                 {index > 0 && <span className="chat-flow-arrow" aria-hidden="true">→</span>}
-                <span className={'chat-flow-node tone-' + avatarTone(id)}><span className="chat-avatar micro" aria-hidden="true">{initials(id)}</span><b>{id}</b></span>
+                <span className={'chat-flow-node tone-' + avatarTone(id)}><BotCharacter id={id} role={agents[id]?.role} state="idle" size="micro" /><b>{id}</b></span>
               </span>
             ))}
           </div>
@@ -390,7 +394,7 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
           const tone = avatarTone(m.from)
           return (
             <article key={m.event_id} className={'chat-card' + (index === chat.length - 1 ? ' latest' : '')} aria-label={`${m.from} → ${m.to}`}>
-              <div className={'chat-avatar tone-' + tone} aria-hidden="true">{initials(m.from)}</div>
+              <BotCharacter id={m.from} role={agent?.role} state="talking" size="chat" />
               <div className="chat-card-main">
                 <div className="chat-authorline">
                   <b>{m.from}</b>
@@ -481,6 +485,51 @@ function InstructionComposer({
         {history.map((e) => <div className="instruction-history-item" key={e.event_id}><span className="mono">#{e.seq} {e.payload.kind || 'change'}</span>{String(e.payload.text || '')}</div>)}
       </div>}
     </section>
+  )
+}
+
+type BotVisualState = 'idle' | 'thinking' | 'researching' | 'building' | 'reviewing' | 'talking' | 'done' | 'blocked'
+
+function botKind(id: string, role?: string) {
+  const value = `${id} ${role || ''}`.toLowerCase()
+  if (value.includes('master') || value.includes('planner')) return 'master'
+  if (value.includes('research')) return 'researcher'
+  if (value.includes('review') || value.includes('critic')) return 'reviewer'
+  if (value.includes('build') || value.includes('writer') || value.includes('maker')) return 'builder'
+  if (value.includes('report')) return 'reporter'
+  return 'helper'
+}
+
+function botActivity(tasks: TaskState[], runStatus: string): BotVisualState {
+  const active = tasks.find((task) => ['running', 'ready', 'waiting', 'review_pending'].includes(task.status))
+  if (active) {
+    const owner = active.spec.owner.toLowerCase()
+    const objective = active.spec.objective.toLowerCase()
+    if (owner.includes('review') || objective.includes('review') || objective.includes('verify') || objective.includes('check')) return 'reviewing'
+    if (owner.includes('research') || objective.includes('research') || objective.includes('source')) return 'researching'
+    return 'building'
+  }
+  if (tasks.some((task) => task.status === 'blocked' || task.status === 'failed')) return 'blocked'
+  if (tasks.length && tasks.every((task) => task.status === 'accepted')) return 'done'
+  if (runStatus === 'planning') return 'thinking'
+  return 'idle'
+}
+
+function BotCharacter({ id, role, state, size = 'chat' }: { id: string; role?: string; state: BotVisualState; size?: 'micro' | 'chat' | 'card' }) {
+  const kind = botKind(id, role)
+  const face = state === 'done' ? 'happy' : state === 'blocked' ? 'worried' : state === 'thinking' || state === 'reviewing' ? 'focus' : 'normal'
+  const accessory = kind === 'master' ? 'crown' : kind === 'researcher' ? 'lens' : kind === 'builder' ? 'pencil' : kind === 'reviewer' ? 'check' : kind === 'reporter' ? 'page' : 'spark'
+  const label = `${id} · ${role || kind} · ${state}`
+  return (
+    <span className={`bot-character bot-${kind} bot-${state} bot-size-${size}`} role="img" aria-label={label} title={label}>
+      <span className="bot-antenna"><i /></span>
+      <span className="bot-head">
+        <span className={`bot-face face-${face}`}><i className="eye left" /><i className="eye right" /><i className="mouth" /></span>
+        <span className={`bot-accessory accessory-${accessory}`} aria-hidden="true" />
+      </span>
+      <span className="bot-body"><i className="bot-heart" /></span>
+      <span className="bot-state-mark" aria-hidden="true" />
+    </span>
   )
 }
 
