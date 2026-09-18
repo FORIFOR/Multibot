@@ -202,9 +202,9 @@ function TeamPane({ run, agents, selTask, setSelTask, onJump }: { run: RunDetail
           const botState = botActivity(tasks, run.status)
           return (
             <div className={'agent bot-agent state-' + botState} key={id} style={{ opacity: run.plan && !used ? 0.5 : 1 }}>
-              <BotCharacter id={id} role={a.role} state={botState} size="card" />
+              <BotCharacter id={id} role={a.role} emoji={a.emoji} state={botState} size="card" />
               <div className="agent-content">
-              <div className="name">{id} <span className="tag">{a.role}</span>{a.prompt_mode === 'user_locked' && <span className="tag" title={tr("手動固定プロンプト")}>locked</span>}</div>
+              <div className="name">{a.display_name || id} <span className="tag">{a.role}</span>{a.prompt_mode === 'user_locked' && <span className="tag" title={tr("手動固定プロンプト")}>locked</span>}</div>
               <div className="model">{a.model} · {a.connection_id}/{a.driver} · prompt {a.system_prompt_sha256.slice(0, 8)}</div>
               {tasks.map((t) => (
                 <div key={t.spec.id} className={'task' + (selTask === t.spec.id ? ' active' : '')} onClick={() => setSelTask(selTask === t.spec.id ? null : t.spec.id)}>
@@ -366,7 +366,7 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
             {flow.map((id, index) => (
               <span className="chat-flow-segment" key={id + index}>
                 {index > 0 && <span className="chat-flow-arrow" aria-hidden="true">→</span>}
-                <span className={'chat-flow-node tone-' + avatarTone(id)}><BotCharacter id={id} role={agents[id]?.role} state="idle" size="micro" /><b>{id}</b></span>
+                <span className={'chat-flow-node tone-' + avatarTone(id)}><BotCharacter id={id} role={agents[id]?.role} emoji={agents[id]?.emoji} state="idle" size="micro" /><b>{agents[id]?.display_name || id}</b></span>
               </span>
             ))}
           </div>
@@ -394,10 +394,10 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
           const tone = avatarTone(m.from)
           return (
             <article key={m.event_id} className={'chat-card' + (index === chat.length - 1 ? ' latest' : '')} aria-label={`${m.from} → ${m.to}`}>
-              <BotCharacter id={m.from} role={agent?.role} state="talking" size="chat" />
+              <BotCharacter id={m.from} role={agent?.role} emoji={agent?.emoji} state="talking" size="chat" />
               <div className="chat-card-main">
                 <div className="chat-authorline">
-                  <b>{m.from}</b>
+                  <b>{agent?.display_name || m.from}</b>
                   {agent?.role && <span className="chat-role">{agent.role}</span>}
                   <span className="chat-time">{fmtTime(m.recorded_at, tz)}</span>
                 </div>
@@ -515,7 +515,7 @@ function botActivity(tasks: TaskState[], runStatus: string): BotVisualState {
   return 'idle'
 }
 
-function BotCharacter({ id, role, state, size = 'chat' }: { id: string; role?: string; state: BotVisualState; size?: 'micro' | 'chat' | 'card' }) {
+function BotCharacter({ id, role, emoji, state, size = 'chat' }: { id: string; role?: string; emoji?: string | null; state: BotVisualState; size?: 'micro' | 'chat' | 'card' }) {
   const kind = botKind(id, role)
   const face = state === 'done' ? 'happy' : state === 'blocked' ? 'worried' : state === 'thinking' || state === 'reviewing' ? 'focus' : 'normal'
   const accessory = kind === 'master' ? 'crown' : kind === 'researcher' ? 'lens' : kind === 'builder' ? 'pencil' : kind === 'reviewer' ? 'check' : kind === 'reporter' ? 'page' : 'spark'
@@ -528,6 +528,7 @@ function BotCharacter({ id, role, state, size = 'chat' }: { id: string; role?: s
         <span className={`bot-accessory accessory-${accessory}`} aria-hidden="true" />
       </span>
       <span className="bot-body"><i className="bot-heart" /></span>
+      {emoji && <span className="bot-user-emoji" aria-hidden="true">{emoji}</span>}
       <span className="bot-state-mark" aria-hidden="true" />
     </span>
   )
