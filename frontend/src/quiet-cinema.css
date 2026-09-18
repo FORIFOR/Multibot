@@ -1,28 +1,128 @@
-/* Quiet Cinema: calm workroom, one vivid deliverable surface, evidence beside it. */
-:root{--qc-paper:#f6f5f0;--qc-ink:#20251f;--qc-muted:#62675f;--qc-stage:#171a17;--qc-stage-line:#303530;--qc-accent:#5b627d}
-body{background:var(--qc-paper);color:var(--qc-ink)}
-.top{background:color-mix(in srgb,var(--qc-paper) 94%,white 6%);backdrop-filter:none;border-bottom-color:#d8dad2}
-.main,.main.wide{padding-top:38px}
-.hero{align-items:start}
-.hero h1{max-width:13ch;font-weight:560;letter-spacing:-.04em}
-.hero .lede{max-width:40em}
-.card,.pane{box-shadow:none;border-color:#d8dad2;border-radius:12px}
-.work-chat-first{gap:28px}
-.chat-main{background:#fffefa}
-.chat-side>.pane:last-child{background:#fffefa}
-.art-list{border-bottom:1px solid #d8dad2;padding-bottom:12px}
-.art{border-radius:8px}
-.art.active{background:#eceee9}
-.preview{background:var(--qc-stage)!important;border:1px solid var(--qc-stage-line)!important;border-radius:16px!important;overflow:hidden;min-height:460px}
-.preview iframe{background:#fff;min-height:460px;border:0}
-.preview pre{background:var(--qc-stage)!important;color:#eef1ec!important;min-height:460px;margin:0;padding:24px!important;font-size:14px;line-height:1.9}
-.artifact-diff{border-radius:10px;background:#f0efe9;color:#303a34}
-.chat-shell{background:#fffefa;border-radius:10px}
-.chat-hero{background:transparent;border-bottom-color:#d8dad2}
-.chat-overview{background:#f0efe9;border-radius:10px}
-.msg{border-radius:10px;box-shadow:none}
-.btn,.btn.sm,.input,textarea.input,select.input{border-radius:8px}
-.runhead{padding-top:6px}
-.runhead h1{max-width:26ch}
-@media(max-width:760px){.main,.main.wide{padding-top:26px}.preview,.preview iframe,.preview pre{min-height:340px;border-radius:12px!important}.work-chat-first{gap:18px}}
-@media(prefers-reduced-motion:reduce){.orb,.chat-live-dot{animation:none!important}}
+/* Pop Bot Workroom — friendly, expressive, legible.
+   Inspired by Material 3 Expressive principles without copying Google product chrome. */
+:root{
+  --paper:#f7f8ff;--paper-2:#eef2ff;--paper-3:#e4e8f8;--ink:#202124;--ink-2:#4f5665;--ink-3:#737b8c;
+  --line:#e2e6f0;--signal:#4f63d9;--signal-2:#dfe4ff;--ok:#16856b;--warn:#a66300;--bad:#b83b48;--r:20px;
+  --pop-blue:#5b72e8;--pop-pink:#ef6f9e;--pop-green:#39b88a;--pop-yellow:#f3b83f;--pop-purple:#9a70df;
+}
+html,body{background:#f7f8ff}
+body{background-image:
+ radial-gradient(650px 420px at 8% 2%,rgba(255,220,112,.18),transparent 66%),
+ radial-gradient(620px 440px at 94% 4%,rgba(119,149,255,.18),transparent 64%),
+ linear-gradient(180deg,#fbfcff 0,#f7f8ff 45%,#fafbff 100%)}
+h1,h2,h3,.brand{font-family:var(--sans)}
+h1{font-weight:760;letter-spacing:-.045em}
+h2{font-weight:720;letter-spacing:-.025em}
+h3{text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink-2)}
+.top{margin:10px 14px 0;padding:10px 14px;border:1px solid rgba(218,223,237,.88);border-radius:22px;background:rgba(255,255,255,.88);box-shadow:0 8px 28px rgba(54,65,110,.08);backdrop-filter:blur(18px)}
+.brand{font-weight:800;letter-spacing:-.025em}.brand small{font-weight:600}
+.nav{gap:6px}.nav a,.langbtn{border:0;border-radius:999px;padding:7px 12px;min-height:38px}
+.nav a:hover,.langbtn:hover{background:#f0f2fa}.nav a.active{border:0;background:#e7ebff;color:#3f55c4}
+.main,.main.wide{padding-top:30px}
+.btn,.btn.sm{border:0;border-radius:999px;box-shadow:none;font-weight:700;transition:transform .16s ease,box-shadow .16s ease,background .16s ease}
+.btn{background:#30333a;color:#fff}.btn:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(48,51,58,.16)}
+.btn.ghost{background:#f0f2f8;color:#343842}.btn.ghost:hover{background:#e8ebf4}
+.btn.signal{background:var(--pop-blue);color:#fff}.btn.signal:hover{box-shadow:0 8px 20px rgba(91,114,232,.28)}
+.input,textarea.input,select.input{border:1px solid #dfe3ee;border-radius:16px;background:#fff;transition:border-color .15s,box-shadow .15s}
+.input:focus{border-color:#8798ec;box-shadow:0 0 0 4px rgba(91,114,232,.12)}
+.card,.pane{border:1px solid #e3e7f0;border-radius:24px;background:rgba(255,255,255,.94);box-shadow:0 12px 34px rgba(56,68,116,.07)}
+.tag{border:0;border-radius:999px;background:#eff1f7;color:#596171;font-family:var(--sans);font-weight:700;padding:3px 9px}
+.tag.status-completed,.tag.status-accepted,.tag.pass{background:#dff6ed;color:#126d58}
+.tag.status-running,.tag.status-planning,.tag.status-queued,.tag.status-review_pending,.tag.status-ready,.tag.status-waiting{background:#e6eaff;color:#4056c8}
+.tag.status-partial,.tag.status-approval_required,.tag.status-blocked,.tag.status-interrupted,.tag.unverified{background:#fff0cc;color:#8a5700}
+.tag.status-failed,.tag.status-cancelled,.tag.fail{background:#ffe3e7;color:#a02f3c}
+.banner{border:0;border-radius:18px;background:#fff0e5}.banner.ok{background:#e2f6ee}.banner.warn{background:#fff1d1}
+
+/* Home: simple, welcoming, one obvious action. */
+.hero{gap:56px;align-items:center;margin-top:38px}
+.hero h1{font-size:clamp(38px,4.4vw,64px);line-height:1.08;max-width:11ch}
+.hero h1 em{font-style:normal;color:#5068dc;position:relative}
+.hero .lede{font-size:17px;line-height:1.8;max-width:40ch}
+.ask{padding:18px;border:1px solid #e3e7f0;border-radius:28px;background:rgba(255,255,255,.95);box-shadow:0 18px 54px rgba(60,72,120,.11)}
+.ask textarea{border:0;min-height:170px;box-shadow:none;background:#f7f8fc;border-radius:20px}
+.ask textarea:focus{box-shadow:0 0 0 4px rgba(91,114,232,.12)}
+.attachment-picker{border:0;border-radius:18px;background:#f6f7fb}
+.run-row{margin:8px 0;padding:14px 16px;border:1px solid transparent;border-radius:18px;background:rgba(255,255,255,.62);transition:.16s ease}
+.run-row:hover{background:#fff;border-color:#e4e7f0;box-shadow:0 8px 24px rgba(56,68,116,.06);transform:translateY(-1px)}
+.run-row .goal{font-family:var(--sans);font-weight:650}
+
+/* Run: remove dashboard harshness; make the team feel like a friendly studio. */
+.runhead{padding:12px 4px 22px;border-bottom:0}.runhead h1{font-size:clamp(25px,2.5vw,34px);font-weight:760}
+.chips{opacity:.86}
+.work-chat-first{gap:20px;grid-template-columns:minmax(0,1.12fr) minmax(330px,.58fr)}
+.chat-main{border-radius:26px;min-height:72vh}
+.chat-side{gap:16px}
+.chat-side>.pane{border-radius:24px}
+.pane>header{border-bottom:1px solid #edf0f5;padding:14px 18px}
+.pane>.body{padding:16px 18px}
+.chat-pane>header,.chat-pane>.body,.chat-main>header{background:transparent}
+.chat-pane .tabs{padding:3px;border-radius:999px;background:#f2f4f9}
+.chat-pane .tabs button{border-radius:999px;min-height:38px;padding:7px 12px;font-weight:700}
+.chat-pane .tabs button.active{background:#fff;color:#4056c8;box-shadow:0 2px 9px rgba(50,62,105,.10)}
+.chat-pane .tabs button:hover{transform:none;background:#fff;color:#4056c8}
+.chat-shell{--chat-ink:#252936;--chat-muted:#747c8d;--chat-line:#edf0f5;background:transparent}
+.chat-hero{border:0;border-radius:22px;background:linear-gradient(135deg,#eef1ff 0%,#fff2f7 55%,#fff8e8 100%);box-shadow:none;padding:16px}
+.chat-spark{border-radius:50%;background:linear-gradient(135deg,#5b72e8,#9b74e5);box-shadow:0 6px 16px rgba(91,114,232,.23)}
+.chat-overview{border:0;border-radius:20px;background:#f7f8fc}
+.chat-flow-node{border:0;background:#fff;box-shadow:0 2px 8px rgba(56,68,116,.07);font-weight:700}
+.chat-flow-arrow{color:#a0a8ba}
+.chat-controls{margin-top:14px}
+.chat-search input,.chat-task-filters button{border:0;background:#f4f6fa}
+.chat-search input:focus{box-shadow:0 0 0 4px rgba(91,114,232,.12)}
+.chat-task-filters button.active{background:#536be0}
+.chat-stream{gap:16px}
+.chat-card{grid-template-columns:48px minmax(0,1fr);gap:12px;border:0;padding-bottom:4px}
+.chat-avatar{width:46px;height:46px;border:4px solid #fff;border-radius:50%;font-family:var(--sans);font-weight:800;box-shadow:0 5px 14px rgba(44,54,92,.13);position:relative}
+.chat-avatar::after{content:'';position:absolute;right:-2px;bottom:-2px;width:11px;height:11px;border:3px solid #fff;border-radius:50%;background:#48bd91}
+.chat-avatar.micro{width:26px;height:26px;border-radius:50%;border-width:2px}.chat-avatar.micro::after{display:none}
+.chat-avatar.tone-0{background:linear-gradient(145deg,#536de4,#8091f0)}
+.chat-avatar.tone-1{background:linear-gradient(145deg,#ec6b99,#f598b9)}
+.chat-avatar.tone-2{background:linear-gradient(145deg,#2cae80,#68cba8)}
+.chat-avatar.tone-3{background:linear-gradient(145deg,#eda72f,#f7cf6c);color:#5c4100}
+.chat-avatar.tone-4{background:linear-gradient(145deg,#458ddc,#7bb7ef)}
+.chat-avatar.tone-5{background:linear-gradient(145deg,#8c65d5,#b590eb)}
+.chat-authorline b{font-size:14px;font-weight:800}.chat-role{border-radius:999px;background:#eef1ff;color:#5363b7;font-family:var(--sans);font-weight:700}
+.chat-bubble{border:0;border-radius:6px 20px 20px 20px;background:#f6f7fb;box-shadow:none;padding:13px 15px}
+.chat-card.latest .chat-bubble{border:0;background:#eef1ff}
+.chat-purpose{font-family:var(--sans);font-weight:700}.chat-jump{font-family:var(--sans);font-weight:700}
+.chat-empty{border:0;border-radius:22px;background:linear-gradient(135deg,#f0f2ff,#fff4f8)}
+.chat-empty-icon{border-radius:50%;background:linear-gradient(135deg,#5b72e8,#ef6f9e)}
+.instruction-composer{border:0;border-radius:22px;background:#f5f7fc;box-shadow:none}
+.instruction-composer h3{font-weight:800;color:#4d5eb2}
+.instruction-history-item{border:0;border-radius:12px;background:#ecefff}
+
+/* Each bot reads as a tiny character card, not infrastructure. */
+.agent{position:relative;margin:7px 0;padding:12px 12px 12px 54px;border:0;border-radius:18px;background:#f7f8fc;min-height:56px}
+.agent::before{content:'✦';position:absolute;left:12px;top:12px;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#e8ecff;color:#536be0;font-size:14px;font-weight:900}
+.agent:nth-child(6n+2)::before{content:'●';background:#ffe7f0;color:#d65c89}
+.agent:nth-child(6n+3)::before{content:'◆';background:#dff6ed;color:#248d6c}
+.agent:nth-child(6n+4)::before{content:'▲';background:#fff0cf;color:#b27612}
+.agent:nth-child(6n+5)::before{content:'■';background:#e3f1ff;color:#3f82c9}
+.agent:nth-child(6n)::before{content:'✿';background:#f0e6ff;color:#8b63cc}
+.agent .name{font-weight:800}.agent .model{opacity:.7}
+.task{border:0;border-radius:14px;background:#fff;padding:10px 11px;box-shadow:0 2px 8px rgba(56,68,116,.05)}
+.task.active{box-shadow:0 0 0 2px #8191e7}
+
+/* Deliverables should feel calm and premium beside the playful team. */
+.art{border-radius:14px;padding:10px}.art:hover,.art.active{background:#eef1f8}
+.preview{border:0!important;border-radius:20px!important;background:#24262c!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+.preview iframe{border:0}.preview pre{border:0!important;background:#24262c!important;color:#f4f5f8!important}
+.revs button{border:0;background:#eef0f5}.revs button.active{background:#39404d;color:#fff}
+.artifact-diff{border:0;border-radius:16px;background:#eff8f4}
+.approval{border:0;border-radius:18px;background:#fff2d6}
+
+/* Motion has a job: show arrival, activity and handoff. */
+@keyframes bot-pop{0%{opacity:0;transform:translateY(7px) scale(.98)}100%{opacity:1;transform:none}}
+.chat-card,.agent{animation:bot-pop .28s cubic-bezier(.2,.8,.2,1) both}
+.chat-live-dot{background:#38b987;box-shadow:0 0 0 5px rgba(56,185,135,.13)}
+:where(button,a,input,textarea,select,summary):focus-visible{outline:3px solid #6278e7;outline-offset:3px}
+
+@media(max-width:1150px){.work-chat-first{grid-template-columns:1fr}.chat-side{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}}
+@media(max-width:760px){
+ .top{margin:8px 8px 0;border-radius:18px}.main,.main.wide{padding:22px 14px}
+ .hero{margin-top:14px;gap:26px}.hero h1{font-size:38px;max-width:12ch}.ask{padding:12px;border-radius:22px}
+ .runhead{padding-inline:2px}.work-chat-first{gap:14px}.chat-side{grid-template-columns:1fr}
+ .chat-main,.chat-side>.pane{border-radius:20px}.chat-card{grid-template-columns:42px minmax(0,1fr)}
+ .chat-avatar{width:40px;height:40px}.chat-overview{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.chat-card,.agent{animation:none!important}.btn{transition:none}}
