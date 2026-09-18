@@ -1,5 +1,8 @@
 /* UI acceptance pass: scoped corrections over the existing pop workroom. */
 :root { --ink-3:#596477; --chat-muted:#596477; }
+/* Give the actual deliverable at least half of a desktop workroom. */
+.work-chat-first { grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); }
+@media(max-width:1150px) { .work-chat-first { grid-template-columns:minmax(0,1fr); } }
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
 .stack,.settings,.settings>.stack,.bot-settings-section,.bot-settings-grid,.bot-field { min-width:0; }
 .bot-settings-section { display:grid; gap:22px; max-width:1140px; width:100%; margin:0 auto; }

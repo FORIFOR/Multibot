@@ -1,4 +1,5 @@
 """Custom identity persistence through the actual API, without real model calls."""
+import yaml
 from tests.test_api import client  # reuse the deterministic AppService fixture
 
 
@@ -22,8 +23,13 @@ async def test_custom_bot_roundtrip_and_frozen_snapshot(client):
     run_id = created.json()['run_id']
     assert (await client.patch('/api/agents/qa-panda', json={'expected_revision': current['revision'], 'display_name': '新しい名前', 'emoji': '👩🏽‍💻'})).status_code == 200
     run = (await client.get(f'/api/runs/{run_id}')).json()
-    assert run['config_snapshot']['agents']['qa-panda']['emoji'] == '🐼'
-    assert run['config_snapshot']['agents']['qa-panda']['display_name'] == '確認パンダ'
+    # Before execution the frozen configuration is YAML; effective agents are resolved on start.
+    frozen = yaml.safe_load(run['config_snapshot']['config_yaml'])
+    original = next(a for a in frozen['agents'] if a['id'] == 'qa-panda')
+    assert original['emoji'] == '🐼'
+    assert original['display_name'] == '確認パンダ'
+    latest = (await client.get('/api/agents/qa-panda/effective-config')).json()
+    assert latest['emoji'] == '👩🏽‍💻' and latest['display_name'] == '新しい名前'
 
 
 async def test_custom_bot_duplicate_and_stale_revision_do_not_overwrite(client):
