@@ -88,6 +88,9 @@ class AgentSpec(BaseModel):
     # runtime extensions
     system_prompt_override: str | None = None  # user-edited prompt text (stored in config revision)
     effort: Literal["low", "medium", "high", "xhigh", "max"] | None = None
+    display_name: str | None = Field(default=None, max_length=40)
+    emoji: str | None = Field(default=None, max_length=16)
+    custom: bool = False
 
 
 class ModelPrice(BaseModel):
@@ -124,7 +127,7 @@ class AgentTeamConfig(BaseModel):
             for k in ("capability_detail", "refusal_fallback", "allowed_fallback_connections", "ollama_thinking"):
                 c.pop(k, None)
         for a in d["agents"]:
-            for k in ("system_prompt_override", "effort"):
+            for k in ("system_prompt_override", "effort", "display_name", "emoji", "custom"):
                 a.pop(k, None)
         for k in ("max_output_tokens", "max_tool_output_chars", "max_session_cost_usd", "max_session_turns", "max_replans"):
             d["limits"].pop(k, None)
@@ -147,6 +150,9 @@ class EffectiveAgentConfig(BaseModel):
     tools: list[str]
     effort: str | None = None
     api_key_ref: str | None = None
+    display_name: str | None = None
+    emoji: str | None = None
+    custom: bool = False
 
 
 def sha256_text(text: str) -> str:
