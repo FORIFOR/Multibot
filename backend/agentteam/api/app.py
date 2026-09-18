@@ -56,6 +56,17 @@ class PatchAgentBody(BaseModel):
     effort: str | None = None
     skill_ids: list[str] | None = None
     tools: list[str] | None = None
+    display_name: str | None = Field(default=None, max_length=40)
+    emoji: str | None = Field(default=None, max_length=16)
+
+
+class CreateAgentBody(BaseModel):
+    expected_revision: int
+    id: str = Field(pattern=r"^[a-z][a-z0-9_-]{1,31}$")
+    display_name: str = Field(min_length=1, max_length=40)
+    emoji: str = Field(min_length=1, max_length=16)
+    role: str = Field(default="specialist", min_length=1, max_length=40)
+    system_prompt: str = Field(min_length=1, max_length=20000)
 
 
 class PutConnectionBody(BaseModel):
@@ -347,11 +358,41 @@ def create_app(service: AppService | None = None) -> FastAPI:
             a.skill_ids = body.skill_ids
         if body.tools is not None:
             a.tools = body.tools
+        if body.display_name is not None:
+            a.display_name = body.display_name.strip() or None
+        if body.emoji is not None:
+            a.emoji = body.emoji.strip() or None
         try:
             rev = await svc.save_config(cfg, f"patch agent {agent_id}")
         except (ConfigError, ValueError) as e:
             raise HTTPException(400, str(e))
         return {"revision": rev, "agent": a.model_dump(), "note": "applies to runs started after this revision"}
+
+    @app.post("/api/agents", status_code=201)
+    async def create_agent(body: CreateAgentBody):
+        if body.expected_revision != svc.config_revision:
+            raise HTTPException(409, {"code": "revision_conflict", "current": svc.config_revision})
+        cfg = svc.config.model_copy(deep=True)
+        if cfg.agent(body.id) is not None:
+            raise HTTPException(409, "agent id already exists")
+        # Custom specialists start with a deliberately small, non-mutating tool set.
+        # Users can expand tools/skills later through the existing agent settings.
+        from ..config.models import AgentSpec
+        agent = AgentSpec(
+            id=body.id, role=body.role, enabled=True, connection_id="inherit", model="inherit",
+            system_prompt_file="prompts/builder.md", prompt_mode="user_locked",
+            skill_ids=["artifact-handoff"],
+            tools=["workspace_read", "workspace_write", "read_artifact", "list_artifacts",
+                   "send_message", "read_messages", "publish_artifact", "report_blocker"],
+            system_prompt_override=body.system_prompt, display_name=body.display_name.strip(),
+            emoji=body.emoji.strip(), custom=True,
+        )
+        cfg.agents.append(agent)
+        try:
+            rev = await svc.save_config(cfg, f"create custom agent {body.id}")
+        except (ConfigError, ValueError) as e:
+            raise HTTPException(400, str(e))
+        return {"revision": rev, "agent": agent.model_dump(), "note": "applies to runs started after this revision"}
 
     @app.get("/api/connections")
     async def connections():
