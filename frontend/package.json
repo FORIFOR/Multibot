@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test:router": "node --test tests/router.test.mjs"
+    "test:router": "node --test tests/router.test.mjs",
+    "test:bots": "node --experimental-strip-types --test tests/bot-presentation.test.mjs",
+    "test:ui": "npm run build && node scripts/ui-polish-smoke.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",

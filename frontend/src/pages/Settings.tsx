@@ -1,16 +1,20 @@
-import { t } from '../lib/i18n'
-import { useEffect, useState } from 'react'
-import { api, ApiError, type AgentSpec, type Config, type Connection } from '../lib/api'
+import { t, getLang } from '../lib/i18n'
+import { useCallback, useEffect, useState } from 'react'
+import { api, ApiError, type Config, type Connection } from '../lib/api'
+
+import CustomBotCreator from '../components/CustomBotCreator'
+import BotSettingsCard from '../components/BotSettingsCard'
 
 const DRIVERS = ['anthropic_messages', 'openai_compatible_chat', 'ollama']
-const EFFORTS = ['', 'low', 'medium', 'high', 'xhigh', 'max']
+
 
 export default function Settings() {
   const [cfg, setCfg] = useState<Config | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [note, setNote] = useState<string | null>(null)
-  const load = () => api.config().then(setCfg).catch((e) => setErr(String(e)))
-  useEffect(() => { load() }, [])
+  const refresh = useCallback(async () => { const value = await api.config(); setCfg(value); return value }, [])
+  const load = () => refresh().catch(e => setErr(String(e)))
+  useEffect(() => { void refresh().catch(e => setErr(String(e))) }, [refresh])
   const guard = async (fn: () => Promise<unknown>, ok: string) => {
     setErr(null); setNote(null)
     try { await fn(); setNote(ok); await load() } catch (e) {
@@ -29,6 +33,12 @@ export default function Settings() {
       {cfg.problems.length === 0 && <div className="banner ok">{t("開始条件を満たしています。")}</div>}
       {err && <p className="err">{err}</p>}
       {note && <p className="small" style={{ color: 'var(--ok)' }}>{note}</p>}
+      <section className="bot-settings-section">
+        <CustomBotCreator cfg={cfg} refresh={refresh} />
+        <h2>{getLang() === 'en' ? 'Your team' : 'あなたのチーム'}</h2>
+        <div className="bot-settings-grid">{cfg.agents.map(a => <BotSettingsCard key={a.id} a={a} cfg={cfg} refresh={refresh} />)}</div>
+      </section>
+      <details className="connection-settings"><summary>{getLang() === 'en' ? 'Team connection & budget (advanced)' : 'チームの接続・予算（詳細設定）'}</summary>
       <div className="settings">
         <div className="stack">
           <h3>{t("接続（API キーは参照のみ保存: env:NAME / keychain:service/account / file:/path）")}</h3>
@@ -37,12 +47,9 @@ export default function Settings() {
           <h3>{t("既定と上限")}</h3>
           <LimitsCard cfg={cfg} guard={guard} />
         </div>
-        <div className="stack">
-          <h3>{t("Bot（共通設定を継承し、必要なものだけ上書き）")}</h3>
-          {cfg.agents.map((a) => <AgentCard key={a.id} a={a} cfg={cfg} guard={guard} />)}
-          <NewCustomBot cfg={cfg} guard={guard} />
-        </div>
+
       </div>
+      </details>
     </div>
   )
 }
@@ -130,92 +137,3 @@ function LimitsCard({ cfg, guard }: { cfg: Config; guard: (fn: () => Promise<unk
 }
 
 
-function NewCustomBot({ cfg, guard }: { cfg: Config; guard: (fn: () => Promise<unknown>, ok: string) => Promise<void> }) {
-  const [open, setOpen] = useState(false)
-  const [id, setId] = useState('')
-  const [name, setName] = useState('')
-  const [emoji, setEmoji] = useState('🦊')
-  const [role, setRole] = useState('specialist')
-  const [prompt, setPrompt] = useState('')
-  const examples = ['🦊', '🐼', '🐰', '🐱', '🐶', '🦉', '🐙', '🌱', '🚀', '🎨', '🔬', '💡']
-  const validId = /^[a-z][a-z0-9_-]{1,31}$/.test(id)
-  return (
-    <div className="custom-bot-maker">
-      <button className="custom-bot-add" type="button" onClick={() => setOpen(!open)}>
-        <span className="custom-bot-add-face">{emoji || '✨'}</span>
-        <span><b>{t('自分だけのBotをつくる')}</b><small>{t('好きな絵文字・名前・役割・指示で専用Botを追加')}</small></span>
-        <span className="custom-bot-plus">{open ? '−' : '+'}</span>
-      </button>
-      {open && <div className="custom-bot-form stack">
-        <div className="custom-bot-preview">
-          <span className="custom-bot-preview-face">{emoji || '🤖'}</span>
-          <div><b>{name || t('マイBot')}</b><span>{role || 'specialist'}</span></div>
-        </div>
-        <div className="emoji-picker" aria-label={t('絵文字を選ぶ')}>
-          {examples.map((item) => <button type="button" key={item} className={emoji === item ? 'active' : ''} onClick={() => setEmoji(item)}>{item}</button>)}
-          <input className="input bot-emoji-input" value={emoji} maxLength={16} onChange={(e) => setEmoji(e.target.value)} aria-label={t('好きな絵文字')} />
-        </div>
-        <div className="grid">
-          <div><label>{t('Bot ID')}</label><input className="input" value={id} onChange={(e) => setId(e.target.value.toLowerCase().replace(/\s+/g, '-'))} placeholder="design-buddy" /></div>
-          <div><label>{t('表示名')}</label><input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder={t('デザイン相棒')} /></div>
-          <div><label>{t('役割')}</label><input className="input" value={role} onChange={(e) => setRole(e.target.value)} placeholder="designer" /></div>
-        </div>
-        {!validId && id && <span className="small err">{t('Bot IDは英小文字から始め、英小文字・数字・-・_で入力してください。')}</span>}
-        <div><label className="small muted">{t('このBotにしてほしいこと')}</label><textarea className="input" value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder={t('例: UI/UXの専門家として、分かりやすさと楽しさを両立した改善案を作って。成果物は必ず他のBotへ共有して。')} /></div>
-        <div className="row">
-          <button className="btn signal" disabled={!validId || !name.trim() || !emoji.trim() || !prompt.trim()} onClick={() => guard(() => api.createAgent({ expected_revision: cfg.revision, id, display_name: name, emoji, role: role || 'specialist', system_prompt: prompt }), t('専用Botを追加しました'))}>{emoji} {t('このBotをつくる')}</button>
-          <span className="muted small">{t('最初は安全な作業ツールだけで作成されます。モデルや接続はあとから変更できます。')}</span>
-        </div>
-      </div>}
-    </div>
-  )
-}
-
-function AgentCard({ a, cfg, guard }: { a: AgentSpec; cfg: Config; guard: (fn: () => Promise<unknown>, ok: string) => Promise<void> }) {
-  const eff = cfg.effective_agents[a.id]
-  const [prompt, setPrompt] = useState(eff?.system_prompt || '')
-  const [open, setOpen] = useState(false)
-  useEffect(() => { setPrompt(eff?.system_prompt || '') }, [eff?.system_prompt])
-  const patch = (body: Record<string, unknown>, ok: string) => guard(() => api.patchAgent(a.id, { expected_revision: cfg.revision, ...body }), ok)
-  const promptDirty = prompt !== (eff?.system_prompt || '')
-  return (
-    <div className="agentcard">
-      <header>
-        <span className="bot-emoji-preview" aria-hidden="true">{a.emoji || '🤖'}</span><span className="role">{a.display_name || a.id}</span><span className="tag">{a.role}</span>
-        <label className="lock" style={{ marginLeft: 'auto' }} onClick={() => patch({ enabled: !a.enabled }, `${a.id} を${a.enabled ? '無効' : t('有効')}化しました`)}><span className={'switch' + (a.enabled ? ' on' : '')} /> {a.enabled ? 'enabled' : 'disabled'}</label>
-      </header>
-      <div className="grid">
-        <div><label>{t("名前")}</label><input className="input" defaultValue={a.display_name || ''} placeholder={a.id} onBlur={(e) => { if ((e.target.value || null) !== a.display_name) patch({ display_name: e.target.value }, t('Bot名を変更しました')) }} /></div>
-        <div><label>{t("絵文字")}</label><input className="input bot-emoji-input" defaultValue={a.emoji || ''} placeholder="🤖" maxLength={16} onBlur={(e) => { if ((e.target.value || null) !== a.emoji) patch({ emoji: e.target.value }, t('Botの絵文字を変更しました')) }} /></div>
-        <div><label>connection</label>
-          <select className="input" value={a.connection_id} onChange={(e) => patch({ connection_id: e.target.value }, t('接続を変更しました'))}>
-            <option value="inherit">inherit ({cfg.defaults.connection_id})</option>{cfg.connections.map((c) => <option key={c.id} value={c.id}>{c.id}</option>)}</select></div>
-        <div><label>model</label><input className="input" defaultValue={a.model} onBlur={(e) => { if (e.target.value !== a.model) patch({ model: e.target.value || 'inherit' }, t('モデルを変更しました')) }} placeholder={`inherit (${cfg.defaults.model})`} /></div>
-        <div><label>effort</label>
-          <select className="input" value={a.effort || ''} onChange={(e) => patch({ effort: e.target.value }, t('effort を変更しました'))}>{EFFORTS.map((x) => <option key={x} value={x}>{x || 'default'}</option>)}</select></div>
-        <div><label>{t("実効")}</label><div className="mono small">{eff ? `${eff.model} @ ${eff.connection_id}/${eff.driver}` : '—'}</div></div>
-      </div>
-      <div className="row" style={{ marginTop: 8 }}>
-        <span className="muted small">skills: {a.skill_ids.join(', ') || '—'}</span>
-        <span className="muted small">tools: {a.tools.length}</span>
-        <button className="btn sm ghost" style={{ marginLeft: 'auto' }} onClick={() => setOpen(!open)}>{open ? 'プロンプトを閉じる' : t('システムプロンプト')}</button>
-      </div>
-      {open && (
-        <div className="stack" style={{ marginTop: 8 }}>
-          <div className="row">
-            <label className="lock" onClick={() => patch({ prompt_mode: a.prompt_mode === 'user_locked' ? 'auto_seed' : 'user_locked' }, t('ロック状態を変更しました'))}>
-              <span className={'switch' + (a.prompt_mode === 'user_locked' ? ' on' : '')} /> 手動固定（Master は上書きしない）
-            </label>
-            <span className="mono muted small">sha256 {eff?.system_prompt_sha256.slice(0, 12)} · {a.system_prompt_override != null ? 'ユーザー編集版' : `ファイル ${a.system_prompt_file}`}</span>
-          </div>
-          <textarea className="input" value={prompt} onChange={(e) => setPrompt(e.target.value)} />
-          <div className="row">
-            <button className="btn sm" disabled={!promptDirty} onClick={() => patch({ system_prompt_override: prompt }, t('プロンプトを保存しました（新 revision）'))}>{t("保存")}</button>
-            <button className="btn sm ghost" disabled={a.system_prompt_override == null} onClick={() => patch({ reset_prompt: true }, t('同梱プロンプトに戻しました'))}>{t("元に戻す")}</button>
-            {promptDirty && <span className="muted small">差分 {prompt.length - (eff?.system_prompt.length || 0)} 文字</span>}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}

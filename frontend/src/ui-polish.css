@@ -1,0 +1,109 @@
+/* UI acceptance pass: scoped corrections over the existing pop workroom. */
+:root { --ink-3:#596477; --chat-muted:#596477; }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+.stack,.settings,.settings>.stack,.bot-settings-section,.bot-settings-grid,.bot-field { min-width:0; }
+.bot-settings-section { display:grid; gap:22px; max-width:1140px; width:100%; margin:0 auto; }
+.bot-settings-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:start; }
+.bot-settings-card { padding:22px; border-radius:24px; background:#fff; border:1px solid var(--line); box-shadow:0 5px 22px #37416a06; }
+.bot-settings-card>header { gap:12px; min-width:0; margin-bottom:18px; flex-wrap:wrap; }
+.bot-settings-title { flex:1; min-width:110px; }
+.bot-settings-title h3 { font-size:18px; font-weight:750; color:var(--ink); overflow-wrap:anywhere; }
+.bot-toggle { display:flex; gap:8px; align-items:center; min-height:44px; padding:8px 10px; margin-left:auto; border:0; border-radius:99px; background:#f0f3fb; font:inherit; cursor:pointer; }
+.bot-toggle[aria-checked=true] { color:#135d4e; background:#e2f6ee; }
+.bot-toggle:disabled { opacity:.55; cursor:wait; }
+.bot-toggle .switch { display:inline-block; flex:none; }
+.bot-card-fields,.bot-form-fields,.emoji-field { border:0; margin:0; padding:0; min-width:0; }
+.bot-card-fields,.bot-form-fields { display:grid; gap:16px; }
+.bot-identity-grid { display:grid; grid-template-columns:minmax(0,1fr) 100px; gap:14px; }
+.bot-field { display:grid!important; gap:7px; color:var(--ink)!important; font-size:14px!important; font-weight:650; text-transform:none!important; letter-spacing:0!important; }
+.bot-field .input { min-width:0; max-width:100%; font-weight:400; }
+.bot-settings-card textarea.input { font:14px/1.8 var(--sans); min-height:160px; }
+.bot-advanced { border-top:1px solid #e9edf4; padding-top:4px; }
+.bot-advanced>summary,.connection-settings>summary { min-height:44px; padding:12px 0; cursor:pointer; color:#435bc2; font-weight:650; }
+.bot-advanced>div { margin-top:10px; }
+.bot-settings-card label.bot-check { display:flex; gap:10px; align-items:center; min-height:44px; font-size:14px; text-transform:none; letter-spacing:0; }
+.bot-check input { width:20px; height:20px; accent-color:#536be0; }
+.bot-card-actions,.bot-form-actions { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+.bot-card-actions .btn { min-width:114px; }
+.bot-save-note { color:#12634f; font-size:14px; }
+.bot-form-error { padding:12px 16px; border-radius:14px; background:#fff0f2; color:#992e3b; overflow-wrap:anywhere; }
+.bot-form-error .btn { display:block; margin-top:10px; }
+.custom-bot-maker { max-width:760px; width:100%; margin:0 auto; border:1px solid #dce3f3; background:#f4f7ff; }
+.custom-bot-form { padding:4px 24px 24px; }
+.custom-bot-add { min-height:86px; padding:18px 24px; }
+.custom-bot-add b { font-size:18px; }
+.custom-bot-add small { color:#58657c; font-size:13px; }
+.custom-bot-preview { background:white; padding:16px 20px; min-width:0; box-shadow:none; }
+.custom-bot-preview>div { min-width:0; }
+.custom-bot-preview b { overflow-wrap:anywhere; }
+/* Do not target all spans: that previously shrank the emoji to 12px. */
+.custom-bot-preview .custom-bot-preview-face { font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif; font-size:38px; line-height:1; width:68px; height:68px; flex:none; }
+.custom-bot-preview .custom-bot-preview-caption { font-size:13px; color:#58657c; line-height:1.5; }
+.emoji-field>legend { padding:0; margin-bottom:10px; font-weight:650; font-size:14px; }
+.emoji-picker { gap:8px; }
+.emoji-picker button { width:46px; height:46px; min-width:46px; min-height:46px; font-size:25px; }
+.emoji-free-input { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:12px 0 6px; font-size:13px; color:#58657c; }
+.emoji-free-input .input { width:84px; min-width:0; }
+.bot-form-fields textarea { min-height:110px; }
+.bot-form-fields .small { margin:0; }
+.bot-created { margin:0 24px 20px; display:flex; align-items:flex-start; gap:14px; background:#e3f6eb; color:#144c3c; border-radius:18px; padding:18px; }
+.bot-created>span { font-size:36px; line-height:1.4; }
+.bot-created b { font-size:16px; overflow-wrap:anywhere; }
+.bot-created p { margin:5px 0 12px; font-size:13px; }
+.bot-created .btn { background:#fff; }
+.connection-settings { max-width:1140px; width:100%; margin:22px auto; border-top:1px solid var(--line); }
+.connection-settings .settings { grid-template-columns:minmax(0,1fr); }
+.connection-settings .row>* { max-width:100%; }
+.connection-settings .input { min-width:0; }
+/* Custom emoji IS the face, rather than a tiny sticker covering a robot. */
+.bot-character.bot-custom { filter:none; display:inline-flex; align-items:center; justify-content:center; }
+.bot-custom-emoji { display:grid; place-items:center; width:48px; height:48px; border-radius:18px; background:var(--bot-soft); border:2px solid white; font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif; font-size:32px; line-height:1; }
+.bot-size-card .bot-custom-emoji { width:42px; height:42px; font-size:28px; border-radius:15px; }
+.bot-size-micro .bot-custom-emoji { width:27px; height:27px; font-size:20px; border-radius:9px; border:0; }
+.bot-size-micro .bot-face { opacity:1; }
+.bot-activity-label { font-size:13px; font-weight:650; color:#47546c; margin:4px 0; }
+.bot-blocked,.bot-stopped,.bot-waiting,.bot-approval,.bot-idle,.bot-disabled { animation:none!important; }
+.bot-waiting .bot-state-mark,.bot-stopped .bot-state-mark { background:#788393; }
+.bot-approval .bot-state-mark { background:#b07100; }
+.bot-disabled { opacity:.6; }
+.bot-model-details summary { font-size:12px; min-height:44px; padding:10px 0; cursor:pointer; color:#556073; }
+.motion-paused *, .motion-paused *::before, .motion-paused *::after { animation:none!important; transition:none!important; }
+.task-select { display:block; width:100%; text-align:left; border:0; background:transparent; padding:6px; font:inherit; cursor:pointer; min-height:44px; border-radius:10px; }
+.task-select .obj { display:block; }
+button.art { width:100%; border:0; text-align:left; background:transparent; color:inherit; }
+button.art:hover,button.art.active { background:#eef1f8; }
+.chat-flow { max-height:150px; overflow:auto; }
+.chat-flow-node,.chat-authorline,.chat-route { flex-wrap:wrap; overflow-wrap:anywhere; }
+.chat-flow-node b { max-width:180px; overflow-wrap:anywhere; }
+.chat-text { font-size:14px; }
+.chat-role,.chat-time,.chat-route,.chat-caption,.chat-result-count,.chat-jump { color:#566178; }
+.chat-jump { min-height:44px; min-width:44px; }
+.nav a,.nav button,.langbtn,.chat-pane .tabs button,.revs button { min-height:44px; }
+:where(button,a,input,textarea,select,summary,[tabindex]):focus-visible { outline:3px solid #4055b9; outline-offset:3px; }
+button { touch-action:manipulation; }
+@media(max-width:900px) { .bot-settings-grid { grid-template-columns:minmax(0,1fr); } }
+@media(max-width:600px) {
+  .main,.main.wide { padding:20px 12px; }
+  .bot-settings-card { padding:16px; border-radius:20px; }
+  .custom-bot-add { padding:16px; grid-template-columns:44px minmax(0,1fr) 30px; gap:10px; }
+  .custom-bot-add b { font-size:16px; }
+  .custom-bot-add small { font-size:12px; }
+  .custom-bot-form { padding:0 16px 18px; }
+  .custom-bot-preview { padding:12px; gap:12px; }
+  .custom-bot-preview .custom-bot-preview-face { width:58px; height:58px; font-size:36px; }
+  .custom-bot-preview b { font-size:16px; }
+  .bot-created { margin:0 16px 16px; padding:14px; }
+  .bot-identity-grid { grid-template-columns:minmax(0,1fr) 88px; gap:10px; }
+  .emoji-picker { gap:7px; }
+  .emoji-picker button { width:44px; min-width:44px; height:44px; min-height:44px; }
+  .bot-form-actions .btn { flex:1; }
+  .bot-toggle { margin-left:0; }
+  .runhead .tag { overflow-wrap:anywhere; }
+  .chat-card-main { min-width:0; }
+  .preview,.preview pre { min-width:0; }
+  .nav { gap:6px; }
+  .brand small { font-size:11px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+}

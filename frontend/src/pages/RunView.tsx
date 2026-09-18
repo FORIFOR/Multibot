@@ -1,5 +1,7 @@
-import { t as tr } from '../lib/i18n'
+import { t as tr, getLang } from '../lib/i18n'
 import Orb from '../components/Orb'
+import BotCharacter from '../components/BotAvatar'
+import { botActivity, botStateLabel } from '../lib/bot-presentation'
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ArtifactSelection, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
 import { Link } from '../lib/router'
@@ -22,6 +24,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
   const [instructionNotice, setInstructionNotice] = useState<string | null>(null)
   const [hiSeq, setHiSeq] = useState<number | null>(null)
   const lastSeq = useRef(0)
+  const [motionPaused, setMotionPaused] = useState(false)
 
   const reload = useCallback(async () => {
     try {
@@ -119,7 +122,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
   const canWrite = run.access?.can_write !== false
   const pendingApprovals = run.approvals.filter((a) => a.status === 'pending')
   return (
-    <div>
+    <div className={motionPaused ? 'run-view motion-paused' : 'run-view'}>
       <div className="runhead">
         <div>
           <div className="row">
@@ -147,6 +150,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             {canWrite && ['interrupted', 'approval_required', 'failed', 'partial', 'cancelled'].includes(run.status) && <button className="btn" onClick={() => act(() => api.resume(runId))}>{tr("再開")}</button>}
             {canWrite && run.plan && <button className="btn ghost" onClick={doFork}>{tr("分岐して再実行")}</button>}
             <a className="btn ghost" href={`/api/runs/${runId}/export?fmt=jsonl`}>JSONL</a>
+            <button type="button" className="btn ghost" aria-pressed={motionPaused} onClick={() => setMotionPaused(!motionPaused)}>{getLang() === 'en' ? 'Pause animation' : '動きを止める'}</button>
           </div>
           {pendingApprovals.length > 0 && <button className="btn signal" onClick={() => setTab('approvals')}>承認待ち {pendingApprovals.length} 件</button>}
           {err && <span className="err small">{err}</span>}
@@ -158,7 +162,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
           <header>
             <div className="tabs">
               {(['chat', 'timeline', 'report', 'approvals'] as Tab[]).map((t) => (
-                <button key={t} className={tab === t ? 'active' : ''} onClick={() => setTab(t)}>
+                <button key={t} aria-pressed={tab === t} className={tab === t ? 'active' : ''} onClick={() => setTab(t)}>
                   {{ chat: tr('チームチャット'), timeline: tr('時系列'), report: tr('最終報告'), approvals: tr('承認') }[t]}{t === 'approvals' && pendingApprovals.length ? ` (${pendingApprovals.length})` : ''}
                 </button>
               ))}
@@ -199,21 +203,24 @@ function TeamPane({ run, agents, selTask, setSelTask, onJump }: { run: RunDetail
           const a = agents[id]
           const tasks = byOwner.get(id) || []
           const used = run.plan?.agents.includes(id)
-          const botState = botActivity(tasks, run.status)
+          const botState = botActivity(tasks, run.status, id, a.role, a.enabled)
           return (
             <div className={'agent bot-agent state-' + botState} key={id} style={{ opacity: run.plan && !used ? 0.5 : 1 }}>
-              <BotCharacter id={id} role={a.role} emoji={a.emoji} state={botState} size="card" />
+              <BotCharacter id={id} role={a.role} emoji={a.emoji} name={a.display_name} state={botState} size="card" />
               <div className="agent-content">
               <div className="name">{a.display_name || id} <span className="tag">{a.role}</span>{a.prompt_mode === 'user_locked' && <span className="tag" title={tr("手動固定プロンプト")}>locked</span>}</div>
-              <div className="model">{a.model} · {a.connection_id}/{a.driver} · prompt {a.system_prompt_sha256.slice(0, 8)}</div>
+              <div className="bot-activity-label" role="status">{botStateLabel(botState, getLang())}</div>
+              <details className="bot-model-details"><summary>{getLang() === 'en' ? 'Model details' : 'モデルの詳細'}</summary><div className="model">{a.model} · {a.connection_id}/{a.driver} · prompt {a.system_prompt_sha256.slice(0, 8)}</div></details>
               {tasks.map((t) => (
-                <div key={t.spec.id} className={'task' + (selTask === t.spec.id ? ' active' : '')} onClick={() => setSelTask(selTask === t.spec.id ? null : t.spec.id)}>
-                  <div className="row" style={{ gap: 6 }}>
+                <div key={t.spec.id} className={'task' + (selTask === t.spec.id ? ' active' : '')}>
+                  <button type="button" className="task-select" aria-expanded={selTask === t.spec.id} onClick={() => setSelTask(selTask === t.spec.id ? null : t.spec.id)}>
+                  <span className="row" style={{ gap: 6 }}>
                     <b className="mono">{t.spec.id}</b>
                     <span className={'tag status-' + t.status}>{t.status}</span>
                     {t.attempt > 0 && <span className="tag">attempt {t.attempt}</span>}
-                  </div>
-                  <div className="obj">{t.spec.objective}</div>
+                  </span>
+                  <span className="obj">{t.spec.objective}</span>
+                  </button>
                   {selTask === t.spec.id && (
                     <div className="small" style={{ marginTop: 6 }}>
                       {t.spec.depends_on.length > 0 && <div className="muted">depends: {t.spec.depends_on.join(', ')}</div>}
@@ -269,11 +276,11 @@ function ArtifactPane({ run, artifactsById, selections, sel, setSel, events, can
           {[...artifactsById.entries()].map(([id, list]) => {
             const last = list[list.length - 1]
             return (
-              <div key={id} className={'art' + (sel?.id === id ? ' active' : '')} onClick={() => setSel({ id, rev: last.revision })}>
+              <button type="button" key={id} aria-pressed={sel?.id === id} className={'art' + (sel?.id === id ? ' active' : '')} onClick={() => setSel({ id, rev: last.revision })}>
                 <span className="path">{last.logical_path}</span>
                 <span className="tag">r{last.revision}</span>
                 <span className="muted small">{last.agent_id}{last.task_id ? `/${last.task_id}` : ''}</span>
-              </div>
+              </button>
             )
           })}
           {artifactsById.size === 0 && <p className="muted small">{tr("まだ成果物は公開されていません。")}</p>}
@@ -391,10 +398,9 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
         {visibleChat.length === 0 && <div className="chat-filter-empty">{tr('該当するメッセージはありません')}</div>}
         {visibleChat.map((m, index) => {
           const agent = agents[m.from]
-          const tone = avatarTone(m.from)
           return (
-            <article key={m.event_id} className={'chat-card' + (index === chat.length - 1 ? ' latest' : '')} aria-label={`${m.from} → ${m.to}`}>
-              <BotCharacter id={m.from} role={agent?.role} emoji={agent?.emoji} state="talking" size="chat" />
+            <article key={m.event_id} className={'chat-card' + (index === visibleChat.length - 1 ? ' latest' : '')} aria-label={`${m.from} → ${m.to}`}>
+              <BotCharacter id={m.from} role={agent?.role} emoji={agent?.emoji} name={agent?.display_name} state="idle" size="chat" />
               <div className="chat-card-main">
                 <div className="chat-authorline">
                   <b>{agent?.display_name || m.from}</b>
@@ -402,7 +408,7 @@ function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Recor
                   <span className="chat-time">{fmtTime(m.recorded_at, tz)}</span>
                 </div>
                 <div className="chat-route">
-                  <span>{m.from}</span><span className="chat-arrow" aria-hidden="true">→</span><span>{m.to}</span>
+                  <span title={m.from}>{agent?.display_name || m.from}</span><span className="chat-arrow" aria-hidden="true">→</span><span title={m.to}>{agents[m.to]?.display_name || m.to}</span>
                   {m.task_id && <span className="chat-task">{m.task_id}</span>}
                 </div>
                 <div className="chat-bubble">
@@ -486,57 +492,6 @@ function InstructionComposer({
       </div>}
     </section>
   )
-}
-
-type BotVisualState = 'idle' | 'thinking' | 'researching' | 'building' | 'reviewing' | 'talking' | 'done' | 'blocked'
-
-function botKind(id: string, role?: string) {
-  const value = `${id} ${role || ''}`.toLowerCase()
-  if (value.includes('master') || value.includes('planner')) return 'master'
-  if (value.includes('research')) return 'researcher'
-  if (value.includes('review') || value.includes('critic')) return 'reviewer'
-  if (value.includes('build') || value.includes('writer') || value.includes('maker')) return 'builder'
-  if (value.includes('report')) return 'reporter'
-  return 'helper'
-}
-
-function botActivity(tasks: TaskState[], runStatus: string): BotVisualState {
-  const active = tasks.find((task) => ['running', 'ready', 'waiting', 'review_pending'].includes(task.status))
-  if (active) {
-    const owner = active.spec.owner.toLowerCase()
-    const objective = active.spec.objective.toLowerCase()
-    if (owner.includes('review') || objective.includes('review') || objective.includes('verify') || objective.includes('check')) return 'reviewing'
-    if (owner.includes('research') || objective.includes('research') || objective.includes('source')) return 'researching'
-    return 'building'
-  }
-  if (tasks.some((task) => task.status === 'blocked' || task.status === 'failed')) return 'blocked'
-  if (tasks.length && tasks.every((task) => task.status === 'accepted')) return 'done'
-  if (runStatus === 'planning') return 'thinking'
-  return 'idle'
-}
-
-function BotCharacter({ id, role, emoji, state, size = 'chat' }: { id: string; role?: string; emoji?: string | null; state: BotVisualState; size?: 'micro' | 'chat' | 'card' }) {
-  const kind = botKind(id, role)
-  const face = state === 'done' ? 'happy' : state === 'blocked' ? 'worried' : state === 'thinking' || state === 'reviewing' ? 'focus' : 'normal'
-  const accessory = kind === 'master' ? 'crown' : kind === 'researcher' ? 'lens' : kind === 'builder' ? 'pencil' : kind === 'reviewer' ? 'check' : kind === 'reporter' ? 'page' : 'spark'
-  const label = `${id} · ${role || kind} · ${state}`
-  return (
-    <span className={`bot-character bot-${kind} bot-${state} bot-size-${size}`} role="img" aria-label={label} title={label}>
-      <span className="bot-antenna"><i /></span>
-      <span className="bot-head">
-        <span className={`bot-face face-${face}`}><i className="eye left" /><i className="eye right" /><i className="mouth" /></span>
-        <span className={`bot-accessory accessory-${accessory}`} aria-hidden="true" />
-      </span>
-      <span className="bot-body"><i className="bot-heart" /></span>
-      {emoji && <span className="bot-user-emoji" aria-hidden="true">{emoji}</span>}
-      <span className="bot-state-mark" aria-hidden="true" />
-    </span>
-  )
-}
-
-function initials(id: string) {
-  const words = id.replace(/[-_]/g, ' ').trim().split(/\s+/).filter(Boolean)
-  return (words.length > 1 ? words.slice(0, 2).map((w) => w[0]) : [id.slice(0, 2)]).join('').toUpperCase()
 }
 
 function avatarTone(id: string) {
