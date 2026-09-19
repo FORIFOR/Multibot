@@ -5,6 +5,7 @@ import { Link, usePath, getRunId } from './lib/router'
 import Home from './pages/Home'
 import RunView from './pages/Workroom'
 import Settings from './pages/Settings'
+import Welcome from './pages/Welcome'
 import Operations from './pages/Operations'
 import AuthGate, { type Identity } from './components/AuthGate'
 
@@ -47,7 +48,7 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
         </nav>
       </header>
       <main className={'main' + (runId ? ' wide' : '')}>
-        {identity.role === 'auditor' || (path.startsWith('/operations') && identity.role === 'admin') ? <Operations /> : runId ? <RunView key={path} runId={runId} nav={nav} /> : path.startsWith('/settings') && identity.role === 'admin' ? <Settings /> : <Home nav={nav} readOnly={identity.role === 'viewer'} canConfigure={identity.role === 'admin'} />}
+        {identity.role === 'auditor' || (path.startsWith('/operations') && identity.role === 'admin') ? <Operations /> : runId ? <RunView key={path} runId={runId} nav={nav} /> : path.startsWith('/settings') && identity.role === 'admin' ? <Settings /> : path.startsWith('/welcome') ? <Welcome nav={nav} canConfigure={identity.role === 'admin'} /> : <Home nav={nav} readOnly={identity.role === 'viewer'} canConfigure={identity.role === 'admin'} />}
       </main>
     </div>
   )

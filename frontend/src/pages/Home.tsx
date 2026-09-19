@@ -2,7 +2,9 @@ import { t, getLang } from '../lib/i18n'
 import Journey from '../components/Journey'
 import BotAvatar from '../components/BotAvatar'
 import { roleLabel, statusLabel } from '../lib/journey'
+import { takeDraftGoal, welcomed } from '../lib/welcome'
 import '../journey.css'
+import '../welcome.css'
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
 import { api, ApiError, fmtDate, money, type Config, type Run } from '../lib/api'
 import { Link } from '../lib/router'
@@ -27,11 +29,14 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
   const [budget, setBudget] = useState('')
   const [cfg, setCfg] = useState<Config | null>(null)
   const [runs, setRuns] = useState<Run[]>([])
+  const [loaded, setLoaded] = useState(false)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
   const [problems, setProblems] = useState<{ code: string; message: string }[]>([])
 
-  useEffect(() => { api.config().then(setCfg).catch(() => setErr(en ? 'Could not load the team. Reload to try again.' : 'チームを読み込めませんでした。再読み込みしてください。')); api.runs().then(setRuns).catch(() => null) }, [])
+  useEffect(() => { api.config().then(setCfg).catch(() => setErr(en ? 'Could not load the team. Reload to try again.' : 'チームを読み込めませんでした。再読み込みしてください。')); api.runs().then(r => { setRuns(r); setLoaded(true) }).catch(() => null)
+    // A request chosen on the welcome page arrives as a draft; it is never started automatically.
+    const draft = takeDraftGoal(); if (draft) setGoal(draft) }, [])
 
   const start = async (event: FormEvent) => {
     event.preventDefault()
@@ -81,12 +86,23 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
   }
   const ready = cfg ? cfg.problems.length === 0 : false
   const teammates = cfg ? cfg.agents.filter(a => a.enabled).slice(0, 5) : []
+  const companion = teammates.find(a => a.role === 'master') || teammates[0]
+  // Offer the introduction until it has been seen or the first request exists. Never block the input with it.
+  const firstVisit = loaded && runs.length === 0 && !welcomed()
   return (
     <div className="simple-home">
       <Journey current="request" />
       <section className="hero">
         <div className="home-welcome">
-          <div className="home-team" aria-label={en ? 'Your team' : 'あなたのチーム'}>{teammates.map(a => <BotAvatar key={a.id} id={a.id} role={a.role} emoji={a.emoji} name={a.display_name || roleLabel(a.role, getLang())} state="idle" />)}</div>
+          {/* The coordinator is the one you talk to; the rest of the team stands behind it. */}
+          <div className="home-companion">
+            {companion && <BotAvatar id={companion.id} role={companion.role} emoji={companion.emoji} name={companion.display_name || roleLabel(companion.role, getLang())} state="idle" size="stage" />}
+            <div className="companion-says">
+              <p>{en ? `I'm your ${roleLabel(companion?.role || 'master', 'en').toLowerCase()}. I split your request across the team, and hand back what we checked.` : `${roleLabel(companion?.role || 'master', 'ja')}です。お願いをチームに分けて、確かめたものをお渡しします。`}</p>
+              {firstVisit && <Link to="/welcome" nav={nav} className="companion-link">{en ? 'New here? Meet the team →' : 'はじめての方へ：チームを紹介します →'}</Link>}
+            </div>
+          </div>
+          <div className="home-team" aria-label={en ? 'Your team' : 'あなたのチーム'}>{teammates.filter(a => a.id !== companion?.id).map(a => <BotAvatar key={a.id} id={a.id} role={a.role} emoji={a.emoji} name={a.display_name || roleLabel(a.role, getLang())} state="idle" />)}</div>
           <h1>{en ? 'What shall we make' : '今日は、何を'}<br />{en ? 'together?' : '一緒につくろう？'}</h1>
           <p className="lede">{en ? 'Tell your team what you need. They will create, check and revise the work.' : 'やりたいことを教えてください。チームが分担して、つくって、確かめます。'}</p>
           <div className="request-examples" aria-label={en ? 'Request ideas' : 'お願いの例'}>{(en ? ['Summarize my notes', 'Make a comparison table', 'Review my writing'] : ['資料を分かりやすくまとめて', '比較表をつくって', '文章をチェックして']).map((example, i) => <button type="button" key={example} disabled={busy || readOnly} onClick={() => { setGoal(example); goalRef.current?.focus() }}><span aria-hidden="true">{['📝','🔎','✏️'][i]}</span>{example}</button>)}</div>

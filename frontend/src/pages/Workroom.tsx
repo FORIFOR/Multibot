@@ -7,6 +7,7 @@ import { friendlyReason, teamOrder, defaultPanel, requestedPanel, resultFiles, s
 import Journey from '../components/Journey'
 import BotAvatar from '../components/BotAvatar'
 import '../journey.css'
+import '../welcome.css'
 
 // Full audit tools are preserved, but loaded only when the user asks for them.
 const Inspector = lazy(() => import('./RunView'))
@@ -93,7 +94,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     </header>
     {run.provider_kind === 'fake' && <p className="demo-notice">{say('テスト表示です。実際のAIによる作業ではありません。','Test display. This is not work performed by a real AI.')}</p>}
     <section className={`work-status tone-${pending.length ? 'attention' : stateTone(run.status)}`} aria-label={say('進み具合','Progress')}>
-      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status === 'completed' ? say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.') : say('途中でできたものも、3番の「できたものを見る」から確認できます。','You can view work in progress in step 3, See results.')}</p></div>
+<div className="status-voice">{(() => { const m = Object.entries(run.config_snapshot?.agents || {}).find(([, a]) => a.enabled && a.role === 'master'); return m ? <BotAvatar id={m[0]} role={m[1].role} emoji={m[1].emoji} name={m[1].display_name || roleLabel(m[1].role, getLang())} state={botActivity(run.tasks.filter(t => t.spec.owner === m[0]), run.status, m[0], m[1].role, true)} /> : null })()}      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status === 'completed' ? say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.') : say('途中でできたものも、3番の「できたものを見る」から確認できます。','You can view work in progress in step 3, See results.')}</p></div></div>
       <div className="work-actions"><span className="cost-summary">{say('使用額','Used')} {money(run.usage.cost_usd)}{run.usage.reserved_usd > 0 ? ` · ${say('処理中の確保額','Reserved')} ${money(run.usage.reserved_usd)}` : ''}</span>
         {canWrite && runnable && <button className="btn ghost" disabled={busy} onClick={() => act(() => api.cancel(runId))}>{say('作業を止める','Stop work')}</button>}
         {canWrite && ['interrupted','partial','failed','cancelled'].includes(run.status) && <button className="btn signal" disabled={busy} onClick={() => act(() => api.resume(runId))}>{say('続きを進める','Continue work')}</button>}
