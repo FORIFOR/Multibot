@@ -12,6 +12,9 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 - Artifact revisions expose text diffs, an explicit human adoption event, and a run-level ZIP containing the latest artifacts, report, and event log.
 
 ### Changed
+- Results read like documents: Markdown deliverables are shown formatted (headings, lists, tables, code, http(s) links) with a "show source" toggle. The reader builds elements from parsed data only, so raw HTML in a deliverable stays text and non-http links are not linked. The per-version check record lists each automatic check and reviewer check with a plain outcome instead of raw JSON; an unknown outcome is shown as unverified, never as passed.
+- "My team" replaces the settings heading and its runtime wording; teammates without a custom name show their role name instead of an internal id. Setup problems on Home, the welcome page and My team read plainly in both languages, keyed by the backend's problem codes (the original message stays on hover).
+- After a run has settled, a coordinator that produced the plan shows "assigned work done" instead of "on standby"; while work is live it stays on standby, because it may still replan.
 - The coordinator is the one you talk to: it stands in front on the home screen with a short explanation of what it does, and it voices the progress banner in the workroom with its real state. The rest of the team stays visible behind it.
 - The four teammates keep their shapes, colours and accessories and gain depth: shaded heads with a highlight, glowing eyes that blink, a gentle idle float and a pulsing core while working. All of it stops under reduced motion and "pause animation".
 - The public homepage uses the same polished characters (its character CSS is now copied from the app sources by `docs/site/build_site.py`), a sky-gradient hero and closing section, a serif display face and glass surfaces. Lighthouse stays 100 in all four categories locally.

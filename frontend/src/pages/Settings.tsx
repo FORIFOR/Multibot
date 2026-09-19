@@ -1,4 +1,5 @@
 import { t, getLang } from '../lib/i18n'
+import { friendlyProblem } from '../lib/journey'
 import { useCallback, useEffect, useState } from 'react'
 import { api, ApiError, type Config, type Connection } from '../lib/api'
 
@@ -25,12 +26,11 @@ export default function Settings() {
   return (
     <div className="stack">
       <div className="row">
-        <h1>{t("設定")}</h1>
-        <span className="tag">revision {cfg.revision}</span>
-        <span className="muted small">{t("変更は次の run から反映されます。進行中の run は開始時のスナップショットで動きます。")}</span>
+        <h1>{getLang() === 'en' ? 'My team' : 'マイチーム'}</h1>
+        <span className="muted small" title={`revision ${cfg.revision}`}>{getLang() === 'en' ? 'Changes apply from your next request. Work already under way keeps the settings it started with.' : '変更は、次のお願いから反映されます。進行中の作業は、始めたときの設定のまま進みます。'}</span>
       </div>
-      {cfg.problems.length > 0 && <div className="banner warn">{cfg.problems.map((p) => <div key={p.code + (p.agent_id || p.connection_id || '')}>{p.message}</div>)}</div>}
-      {cfg.problems.length === 0 && <div className="banner ok">{t("開始条件を満たしています。")}</div>}
+      {cfg.problems.length > 0 && <div className="banner warn">{cfg.problems.map((p) => <div key={p.code + (p.agent_id || p.connection_id || '')}>{friendlyProblem(p, getLang())}</div>)}</div>}
+      {cfg.problems.length === 0 && <div className="banner ok">{getLang() === 'en' ? 'Your team is ready to take a request.' : 'チームは、お願いを受けられる状態です。'}</div>}
       {err && <p className="err">{err}</p>}
       {note && <p className="small" style={{ color: 'var(--ok)' }}>{note}</p>}
       <section className="bot-settings-section">

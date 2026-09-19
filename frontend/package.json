@@ -12,7 +12,8 @@
     "test:bots": "node --experimental-strip-types --test tests/bot-presentation.test.mjs",
     "test:ui": "npm run build && node scripts/ui-polish-smoke.mjs",
     "test:journey": "node --experimental-strip-types --test tests/journey.test.mjs",
-    "test:welcome": "node --experimental-strip-types --test tests/welcome.test.mjs"
+    "test:welcome": "node --experimental-strip-types --test tests/welcome.test.mjs",
+    "test:markdown": "node --experimental-strip-types --test tests/markdown.test.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",

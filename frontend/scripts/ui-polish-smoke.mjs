@@ -87,10 +87,12 @@ try {
     await page.locator('.custom-bot-add').focus(); await page.keyboard.press('Enter')
     const form = page.locator('#custom-bot-form')
     await form.waitFor()
+    // Opening the form moves focus to the name field on the next frame. Wait for that promised behaviour before typing:
+    // typing earlier lands in whichever field holds focus, which made this test fail about one run in five.
+    await page.waitForFunction(() => document.activeElement?.closest('#custom-bot-form') && document.activeElement.tagName === 'INPUT')
     assert.equal(await form.locator('details').getAttribute('open'), null)
     assert.equal(await form.locator('input:visible, textarea:visible').count(),3)
     const emojiInput = form.locator('.bot-emoji-input')
-    // aria-invalid follows a React state update; wait for it instead of reading the attribute in the same tick.
     await emojiInput.fill('not an emoji')
     await form.locator('.bot-emoji-input[aria-invalid="true"]').waitFor()
     await emojiInput.fill('👩🏽‍💻')

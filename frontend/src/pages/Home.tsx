@@ -1,7 +1,7 @@
 import { t, getLang } from '../lib/i18n'
 import Journey from '../components/Journey'
 import BotAvatar from '../components/BotAvatar'
-import { roleLabel, statusLabel } from '../lib/journey'
+import { friendlyProblem, roleLabel, statusLabel } from '../lib/journey'
 import { takeDraftGoal, welcomed } from '../lib/welcome'
 import '../journey.css'
 import '../welcome.css'
@@ -137,7 +137,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
           {cfg && <p className="request-budget">{en ? 'Budget limit' : '予算上限'}: {money(budget && Number.isFinite(Number(budget)) && Number(budget)>0 ? Number(budget) : cfg.limits.budget_usd)} {en ? 'per request. Work pauses at its configured limits.' : '／1回。設定した上限に達すると停止します。'}</p>}
           {!ready && <div className="setup-help">{cfg ? (en ? 'One-time setup is needed before your first request.' : '最初のお仕事の前に、接続の準備が必要です。') : (en ? 'Checking the team…' : 'チームを確認しています…')}{canConfigure && cfg && <Link to="/settings" nav={nav}>{en ? 'Prepare my team' : 'チームを準備する'} →</Link>}{cfg?.problems.length ? <details><summary>{en ? 'Setup details' : '設定の詳細'}</summary>{cfg.problems.map((p,i)=><p key={i}>{p.message}</p>)}</details>:null}</div>}
           {err && <p className="err" role="alert">{err}</p>}
-          {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code}>{p.message}</div>)} {canConfigure && <Link to="/settings" nav={nav}>{t("設定へ")}</Link>}</div>}
+          {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code} title={p.message}>{friendlyProblem(p, getLang())}</div>)} {canConfigure && <Link to="/settings" nav={nav}>{t("設定へ")}</Link>}</div>}
         </form>
       </section>
       <section className="runs-list">

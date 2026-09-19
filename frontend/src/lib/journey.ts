@@ -49,3 +49,28 @@ const REASONS: [RegExp, string, string][] = [
 export function friendlyReason(text: string, lang: UiLanguage): string {
   return REASONS.reduce((out, [pattern, ja, en]) => out.replace(pattern, lang === 'en' ? en : ja), text)
 }
+/** Check outcomes in everyday words. Unknown values are shown as "not checked", never as a pass. */
+export function outcomeLabel(status: unknown, lang: UiLanguage): string {
+  const copy: Record<string, [string, string]> = { pass: ['通過', 'Passed'], fail: ['要修正', 'Needs fixing'], unverified: ['未確認', 'Unverified'], blocked: ['確認できず', 'Could not check'] }
+  return (copy[String(status)] || ['未確認', 'Unverified'])[lang === 'en' ? 1 : 0]
+}
+/** Setup problems in everyday words, keyed by the backend's stable codes. Unknown codes keep the original message. */
+const PROBLEMS: Record<string, [string, string]> = {
+  capability_check: ['AIへの接続が、まだ確かめられていません。マイチームの「接続」で「疎通確認」を押してください。', 'The model connection has not been checked yet. Open My team → Connection and run the connection check.'],
+  no_master: ['まとめ役がお休みになっています。マイチームで、まとめ役を参加中にしてください。', 'The coordinator is switched off. Turn it on in My team.'],
+  unknown_connection: ['仲間の接続先が見つかりません。マイチームで接続を選び直してください。', 'A teammate points to a connection that does not exist. Choose one in My team.'],
+  placeholder_model: ['使うAIのモデル名が、まだ決まっていません。マイチームで入力してください。', 'A model name has not been set yet. Enter one in My team.'],
+  driver_unsupported: ['この種類の接続には、まだ対応していません。別の接続を選んでください。', 'This kind of connection is not supported yet. Choose another.'],
+  budget: ['1回のお願いに使う予算の上限が0になっています。マイチームの詳細設定で直してください。', 'The budget limit per request is zero. Fix it in My team → advanced settings.'],
+  single_agent_shape: ['一人で進める設定では、つくる係を1人だけ参加中にしてください。', 'Single-agent mode needs exactly one maker switched on.'],
+  fake_not_injected: ['テスト用の接続が選ばれています。実際のAIの接続を選んでください。', 'A test-only connection is selected. Choose a real model connection.'],
+}
+export function friendlyProblem(problem: { code: string; message: string }, lang: UiLanguage): string {
+  const copy = PROBLEMS[problem.code]
+  return copy ? copy[lang === 'en' ? 1 : 0] : problem.message
+}
+/** The coordinator's work is the plan, which is not a task. After the run has settled, a coordinator with a plan has
+ *  done its part. While work is under way it may still replan, so it stays "on standby" rather than claiming completion. */
+export function coordinatorPlanned(role: string | undefined, taskCount: number, hasPlan: boolean, state: string, runStatus: string): boolean {
+  return role === 'master' && taskCount === 0 && hasPlan && state === 'idle' && isSettled(runStatus)
+}
