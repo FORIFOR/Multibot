@@ -66,6 +66,52 @@ async def test_run_lifecycle_events_cursor_and_artifacts(client):
         assert any(name.endswith("artifacts/index.html") for name in archive.namelist())
 
 
+async def test_completion_waits_for_report_and_terminal_event(client, monkeypatch):
+    manager = client.svc.manager
+    making_report, release_report = asyncio.Event(), asyncio.Event()
+    writing_terminal, release_terminal = asyncio.Event(), asyncio.Event()
+    make_report = manager._make_report
+    append = client.svc.events.append
+
+    async def delayed_report(*args, **kwargs):
+        making_report.set()
+        await release_report.wait()
+        return await make_report(*args, **kwargs)
+
+    async def delayed_append(run_id, event_type, *args, **kwargs):
+        if event_type == "run.completed":
+            writing_terminal.set()
+            await release_terminal.wait()
+        return await append(run_id, event_type, *args, **kwargs)
+
+    monkeypatch.setattr(manager, "_make_report", delayed_report)
+    monkeypatch.setattr(client.svc.events, "append", delayed_append)
+    run_id = (await client.post("/api/runs", json={"goal": "LP"})).json()["run_id"]
+    try:
+        await asyncio.wait_for(making_report.wait(), timeout=5)
+        detail = (await client.get(f"/api/runs/{run_id}")).json()
+        assert detail["status"] == "running"
+        assert detail["final_report"] is None
+        release_report.set()
+        await asyncio.wait_for(writing_terminal.wait(), timeout=5)
+        detail = (await client.get(f"/api/runs/{run_id}")).json()
+        assert detail["status"] == "running"
+        release_terminal.set()
+        detail = await _wait_done(client, run_id)
+        assert detail["status"] == "completed"
+        assert detail["final_report"]["report_artifact"]
+        events = (await client.get(f"/api/runs/{run_id}/events")).json()
+        assert events[-1]["type"] == "run.completed"
+        assert detail["usage"]["model_calls"] == events[-1]["payload"]["usage"]["model_calls"]
+        await manager.wait(run_id)
+        exported = await client.get(f"/api/runs/{run_id}/export?fmt=jsonl")
+        assert len(exported.text.strip().splitlines()) == len(events)
+    finally:
+        release_report.set()
+        release_terminal.set()
+        await manager.wait(run_id)
+
+
 async def test_stream_replays_from_cursor_and_dedupes(client):
     r = await client.post("/api/runs", json={"goal": "LP"})
     run_id = r.json()["run_id"]
