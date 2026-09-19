@@ -1,8 +1,9 @@
 import { t as tr, getLang } from '../lib/i18n'
 import Orb from '../components/Orb'
+import Markdown from '../components/Markdown'
 import BotCharacter from '../components/BotAvatar'
 import { botActivity, botStateLabel } from '../lib/bot-presentation'
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ArtifactSelection, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
 import { Link } from '../lib/router'
 
@@ -530,33 +531,6 @@ function Timeline({ items, tz, hiSeq, selTask }: { items: TimelineItem[]; tz?: s
   )
 }
 
-// Models sometimes write the summary as Markdown. Render headings, lists, **bold** and `code`
-// as React elements (no HTML injection); anything else stays plain text.
-function inlineMd(text: string) {
-  return text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g).map((part, i) =>
-    part.startsWith('**') && part.length > 4 ? <strong key={i}>{part.slice(2, -2)}</strong>
-      : part.startsWith('`') && part.length > 2 ? <code key={i}>{part.slice(1, -1)}</code> : part)
-}
-
-function Prose({ text }: { text: string }) {
-  // A summary flattened onto one line still carries " ## " heading markers; restore those breaks.
-  const lines = text.replace(/\s+(#{1,6}\s)/g, '\n$1').split('\n')
-  const blocks: ReactNode[] = []
-  let list: string[] = []
-  const flush = () => { if (list.length) { const items = list; list = []; blocks.push(<ul key={blocks.length}>{items.map((x, i) => <li key={i}>{inlineMd(x)}</li>)}</ul>) } }
-  for (const raw of lines) {
-    const line = raw.trim()
-    const item = /^[-*]\s+(.*)$/.exec(line)
-    if (item) { list.push(item[1]); continue }
-    flush()
-    if (!line) continue
-    const head = /^#{1,6}\s+(.*)$/.exec(line)
-    blocks.push(head ? <h3 key={blocks.length}>{inlineMd(head[1])}</h3> : <p key={blocks.length}>{inlineMd(line)}</p>)
-  }
-  flush()
-  return <div className="prose">{blocks}</div>
-}
-
 function Report({ run }: { run: RunDetail }) {
   const r = run.final_report
   if (!r) return <p className="muted small">{TERMINAL.includes(run.status) ? '報告はありません。' : tr('実行完了後に、成果物・検証・未解決・費用・経緯参照をまとめた報告が生成されます。')}</p>
@@ -565,7 +539,7 @@ function Report({ run }: { run: RunDetail }) {
   return (
     <div className="report small">
       <div className="row"><span className={'tag status-' + r.status}>{r.status}</span>{r.reason && <span className="err">{r.reason}</span>}<span className="muted">{n ? `要約: ${n.author}` : tr('要約: 生成なし（証拠のみ）')}</span></div>
-      {n?.summary && <><h2>{tr("要約")}</h2><Prose text={n.summary} /></>}
+      {n?.summary && <><h2>{tr("要約")}</h2><Markdown text={n.summary} className="prose" /></>}
       <h2>{tr("成果物")}</h2>
       <ul>{r.deliverables.map((d: any) => <li key={d.artifact_id + d.revision}><code>{d.logical_path}</code> r{d.revision} <span className="muted">sha {d.sha256.slice(0, 12)} · {d.by}/{d.task_id}</span></li>)}</ul>
       <h2>{tr("検証済み")}</h2>

@@ -1,3 +1,4 @@
+import { roleLabel } from '../lib/journey'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { api, ApiError, type AgentSpec, type Config } from '../lib/api'
 import { getLang } from '../lib/i18n'
@@ -46,7 +47,7 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
     <article className="agentcard bot-settings-card" id={`agent-card-${a.id}`} tabIndex={-1} aria-label={a.display_name || a.id} aria-busy={busy}>
       <header>
         <BotAvatar id={a.id} role={a.role} name={a.display_name} emoji={a.emoji} state={a.enabled ? 'idle' : 'disabled'} />
-        <div className="bot-settings-title"><h3>{a.display_name || a.id}</h3><span className="muted small">{a.role}</span></div>
+        <div className="bot-settings-title"><h3>{a.display_name || roleLabel(a.role, getLang())}</h3><span className="muted small">{a.display_name ? roleLabel(a.role, getLang()) : a.id}</span></div>
         <button className="bot-toggle" type="button" role="switch" aria-checked={a.enabled} aria-label={l(`${a.display_name || a.id}をチームで使う`, `Enable ${a.display_name || a.id}`)} disabled={busy} onClick={() => void patch({ enabled: !a.enabled }, l('参加設定を保存しました。', 'Participation updated.'))}>
           <span className={'switch' + (a.enabled ? ' on' : '')} aria-hidden="true" /><span>{a.enabled ? l('参加中', 'Enabled') : l('お休み', 'Disabled')}</span>
         </button>
@@ -55,7 +56,7 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
         <fieldset className="bot-card-fields" disabled={busy}>
           <legend className="sr-only">{l('Botの設定', 'Bot settings')}</legend>
           <div className="bot-identity-grid">
-            <label className="bot-field">{l('名前', 'Name')}<input className="input" value={name} onChange={e => setName(e.target.value)} maxLength={40} placeholder={a.id} /></label>
+            <label className="bot-field">{l('名前', 'Name')}<input className="input" value={name} onChange={e => setName(e.target.value)} maxLength={40} placeholder={roleLabel(a.role, getLang())} /></label>
             <label className="bot-field">{l('絵文字', 'Emoji')}<input className="input bot-emoji-input" value={emoji} maxLength={64} onChange={e => setEmoji(e.target.value)} placeholder="🤖" aria-invalid={!validEmoji} aria-describedby={`emoji-note-${a.id}`} /></label>
           </div>
           <small className={!validEmoji ? 'err' : 'muted'} id={`emoji-note-${a.id}`}>{l('絵文字を1つ。空欄にすると元のキャラクターに戻ります。', 'Use one emoji, or leave blank to restore the original character.')}</small>

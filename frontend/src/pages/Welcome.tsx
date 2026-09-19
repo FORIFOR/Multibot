@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import BotAvatar from '../components/BotAvatar'
 import { api, type Config } from '../lib/api'
 import { getLang } from '../lib/i18n'
-import { roleLabel, teamOrder } from '../lib/journey'
+import { friendlyProblem, roleLabel, teamOrder } from '../lib/journey'
 import { clampStep, markWelcomed, setDraftGoal, WELCOME_STEPS } from '../lib/welcome'
 import '../journey.css'
 import '../welcome.css'
@@ -59,7 +59,7 @@ export default function Welcome({ nav, canConfigure = true }: { nav: (p: string)
           <div className={`welcome-status ${ready ? 'ok' : 'todo'}`} role="status">
             <strong>{ready ? say('接続は確認済みです', 'The connection is verified') : say('接続の確認が必要です', 'The connection needs checking')}</strong>
             {conn && <p><span className="mono">{conn.driver}</span> · <span className="mono">{cfg?.defaults.model}</span></p>}
-            {!ready && cfg && <ul>{cfg.problems.slice(0, 4).map((p, i) => <li key={i}>{p.message}</li>)}</ul>}
+            {!ready && cfg && <ul>{cfg.problems.slice(0, 4).map((p, i) => <li key={i} title={p.message}>{friendlyProblem(p, getLang())}</li>)}</ul>}
           </div>
           <ul className="welcome-facts">
             <li>{say('実行記録とファイルは、このPCに保存します。', 'The work record and files stay on this computer.')}</li>
