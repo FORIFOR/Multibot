@@ -91,6 +91,9 @@ try {
     assert.equal(await form.locator('input:visible, textarea:visible').count(),3)
     const emojiInput = form.locator('.bot-emoji-input')
     await emojiInput.fill('not an emoji')
+    // Fast input selection after opening must not lose focus to deferred autofocus.
+    assert.equal(await emojiInput.inputValue(), 'not an emoji')
+    assert.equal(await form.getByLabel(lang==='ja'?'名前':'Name',{exact:true}).inputValue(), '')
     assert.equal(await emojiInput.getAttribute('aria-invalid'), 'true')
     await emojiInput.fill('👩🏽‍💻')
     assert.equal(await emojiInput.getAttribute('aria-invalid'), 'false')

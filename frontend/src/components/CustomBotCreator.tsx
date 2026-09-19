@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useLayoutEffect, useRef, useState, type FormEvent } from 'react'
 import { api, ApiError, type Config } from '../lib/api'
 import { getLang } from '../lib/i18n'
 import { EMOJI_CHOICES, isBotEmoji, newBotId } from '../lib/bot-identity'
@@ -17,6 +17,9 @@ export default function CustomBotCreator({ cfg, refresh }: { cfg: Config; refres
   const [created, setCreated] = useState<{ id: string; name: string; emoji: string } | null>(null)
   const inFlight = useRef(false)
   const nameRef = useRef<HTMLInputElement>(null)
+  // Set the initial focus during the opening commit. A deferred animation-frame
+  // focus can steal typing from an emoji input the user has already selected.
+  useLayoutEffect(() => { if (open) nameRef.current?.focus() }, [open])
   const validEmoji = isBotEmoji(emoji)
   const validId = /^[a-z][a-z0-9_-]{1,31}$/.test(id)
   const valid = validEmoji && validId && name.trim().length > 0 && prompt.trim().length > 0
@@ -50,7 +53,6 @@ export default function CustomBotCreator({ cfg, refresh }: { cfg: Config; refres
     <section className="custom-bot-maker" aria-label={l('自分だけのBot', 'Your own bot')}>
       <button className="custom-bot-add" type="button" aria-expanded={open} aria-controls="custom-bot-form" disabled={busy} onClick={() => {
         setOpen(!open); setError('')
-        if (!open) requestAnimationFrame(() => nameRef.current?.focus())
       }}>
         <span className="custom-bot-add-face" aria-hidden="true">✨</span>
         <span><b>{l('自分だけのBotをつくる', 'Create your own bot')}</b><small>{l('好きな絵文字と名前で、あなたのチームに。', 'A familiar face. A name you love. Your teammate.')}</small></span>
