@@ -43,6 +43,7 @@ summary は120文字以内、各 `implemented` と `remaining` は40〜120文字
 Identity の token revocation は「トークン失効」または「トークン取消」と書き、「リバイス」などの類推語を作らないでください。Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」としてください。
 要約欄は原則として日本語で書き、技術固有名として資料に現れる英字だけを残してください。英語の接続詞・動詞・役割名・状態名（with、export、auditor、collector、outage、pinnedなど）や誤綴りを混ぜないでください。TLSDNSのような連結語はTLS/DNSに分けてください。
 Deploymentのimplementedには必ず「アドバイザリ」を含め、単なる「パッケージスキャン」では置き換えないでください。これは資料のpackage advisory scansを表す必須アンカーです。
+日本語要約の中で領域名や原文の英語ラベルをそのまま書かないでください。`Production IdP` は「組織IdP」、`Identity` は「認証領域」、`Contract / operation` は「契約・運用領域」と書いてください。技術固有名（IdP、OIDC、Keycloak、SSE、Docker、TLS、DNS、LLM、SLO、SLA、RPO、RTO、ageなど）は必要な場合に限り残せます。
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。'''
 
 
@@ -200,7 +201,8 @@ def delivery_schema(expected):
         'リバイス|ラテンシー|収容閾値|ハードened|'
         'パッケージアドバイススキャン|インストールワheel|パッケge|'
         '鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|'
-        'outage|pinned|TLSDNS|操作主体ごとな'
+        'outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|'
+        'Identity'
     )
     japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
                 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]',

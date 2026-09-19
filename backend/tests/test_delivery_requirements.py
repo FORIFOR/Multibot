@@ -24,6 +24,7 @@ V24 = EVIDENCE.parent / 'real-readiness-v24-qwen35-fixed-2026-09-15'
 V25 = EVIDENCE.parent / 'real-readiness-v25-qwen35-fixed-2026-09-15'
 V26 = EVIDENCE.parent / 'real-readiness-v26-qwen35-fixed-2026-09-15'
 V27 = EVIDENCE.parent / 'real-readiness-v27-qwen35-fixed-2026-09-19'
+V28 = EVIDENCE.parent / 'real-readiness-v28-qwen35-fixed-2026-09-19'
 
 
 def test_observed_v5_translation_drift_is_rejected_by_the_current_contract():
@@ -142,6 +143,18 @@ def test_observed_v27_missing_deployment_advisory_is_rejected_by_the_current_con
     result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
     assert result['status'] == 'fail'
     assert any('アドバイザリ' in problem for problem in result['problems'])
+
+
+def test_observed_v28_area_label_and_glossary_drift_is_rejected_by_the_current_contract():
+    """v28 mechanical passes retained English labels and 成果物 glossary drift."""
+    script = Path(__file__).resolve().parents[1] / 'scripts' / 'production_workflow.py'
+    module_spec = importlib.util.spec_from_file_location('v28_area_label_contract_workflow', script)
+    workflow = importlib.util.module_from_spec(module_spec); module_spec.loader.exec_module(workflow)
+    expected = workflow.source_rows((EVIDENCE.parents[1] / 'PRODUCTION_PLAN.md').read_text())
+    raw = (V28 / 'observed-rep07-readiness.json').read_bytes()
+    assert b'Production IdP' in raw and b'Contract / operation' in raw and '成果物'.encode() in raw
+    result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
+    assert result['status'] == 'fail'
 
 
 def test_contract_operation_anchor_accepts_faithful_constraint_documentation():
