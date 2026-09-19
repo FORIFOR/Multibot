@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test:router": "node --test tests/router.test.mjs",
     "test:bots": "node --experimental-strip-types --test tests/bot-presentation.test.mjs",
-    "test:ui": "npm run build && node scripts/ui-polish-smoke.mjs"
+    "test:ui": "npm run build && node scripts/ui-polish-smoke.mjs",
+    "test:journey": "node --experimental-strip-types --test tests/journey.test.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",

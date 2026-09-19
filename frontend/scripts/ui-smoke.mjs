@@ -21,8 +21,8 @@ const lang = process.env.LANG_UI === 'en' ? 'en' : 'ja'
 const shots = process.env.SHOTS || '/tmp/agentteam-shots'
 mkdirSync(shots, { recursive: true })
 const L = lang === 'en'
-  ? { start: 'Start', timeline: 'Timeline', report: 'Final report', prompt: 'Instructions, model & advanced settings', brand: 'Agent Team', settingsNav: 'Settings' }
-  : { start: '開始', timeline: '時系列', report: '最終報告', prompt: '任せる仕事・モデル・詳細設定', brand: 'Agent Team', settingsNav: '設定' }
+  ? { start: 'Ask the team', timeline: 'Timeline', report: 'Final report', prompt: 'Instructions, model & advanced settings', brand: 'Agent Team', settingsNav: 'My team' }
+  : { start: 'チームにお願いする', timeline: '時系列', report: '最終報告', prompt: '任せる仕事・モデル・詳細設定', brand: 'Agent Team', settingsNav: 'マイチーム' }
 
 const browser = await chromium.launch({ channel: 'chrome', headless: true })
 const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, locale: lang === 'en' ? 'en-US' : 'ja-JP' })
@@ -36,12 +36,13 @@ try {
   await page.goto(base + '/', { waitUntil: 'networkidle' })
   await page.waitForSelector(`text=${L.settingsNav}`, { timeout: 10000 })
   await page.screenshot({ path: `${shots}/home-${lang}.png` })
-  await page.fill('textarea', lang === 'en' ? 'Make a launch page and three post drafts from this product description' : 'この製品説明から紹介LPとSNS投稿案を作って')
+  await page.fill('#request-goal', lang === 'en' ? 'Make a launch page and three post drafts from this product description' : 'この製品説明から紹介LPとSNS投稿案を作って')
   await page.click(`button:has-text("${L.start}")`, { timeout: 10000 })
   await page.waitForURL(/\/runs\//, { timeout: 10000 })
   const runId = page.url().match(/\/runs\/([^/?#]+)/)[1]
   await page.waitForTimeout(2500)
   await page.screenshot({ path: `${shots}/run-${lang}.png`, fullPage: true })
+  await page.locator('#run-inspector > summary').click()
   await page.click(`button:has-text("${L.timeline}")`)
   await page.waitForTimeout(500)
   await page.screenshot({ path: `${shots}/run-timeline-${lang}.png` })
