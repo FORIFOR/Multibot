@@ -22,7 +22,7 @@ p{margin:0}.lede{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:3
 .nav .btn{min-height:48px;padding:0 20px;font-size:14px;color:#fff;box-shadow:none}.nav .btn:hover{background:var(--signal-ink);color:#fff}
 /* hero */
 .hero{position:relative;padding:clamp(40px,5.5vw,76px) 0 clamp(40px,6vw,80px);text-align:center;isolation:isolate}
-.hero::before{content:'';position:absolute;inset:-140px 0 0;z-index:-1;background:radial-gradient(700px 420px at 22% 8%,rgba(255,214,102,.22),transparent 66%),radial-gradient(760px 480px at 82% 4%,rgba(104,134,255,.24),transparent 64%),radial-gradient(900px 520px at 50% 100%,rgba(239,111,158,.10),transparent 70%)}
+
 .hero .lede{margin:22px auto 0}.hero .cta{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px;margin-top:28px}
 .hero .facts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin-top:20px;font-size:13.5px;color:var(--ink-3)}.facts span::before{content:'✓';margin-right:6px;color:var(--ok);font-weight:800}
 /* stage */
@@ -96,7 +96,7 @@ p{margin:0}.lede{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:3
 .faq summary::after{content:'+';flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg);font-weight:600;transition:transform .2s}.faq details[open] summary::after{transform:rotate(45deg)}
 .faq p{padding:0 22px 22px;color:var(--ink-2);font-size:16px}
 /* final + contact */
-.final{position:relative;text-align:center;isolation:isolate;overflow:hidden}.final::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(800px 420px at 50% 110%,rgba(104,134,255,.26),transparent 70%),radial-gradient(520px 320px at 12% 0,rgba(255,214,102,.2),transparent 70%)}
+.final{position:relative;text-align:center;isolation:isolate;overflow:hidden}
 .final .crew{display:flex;justify-content:center;gap:clamp(14px,4vw,44px);margin-bottom:34px;min-height:120px;align-items:end}
 .contact{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,72px);align-items:start}
 #portfolio-form{display:grid;gap:14px;padding:28px;border:1px solid var(--line);border-radius:var(--r);background:#fff}
@@ -116,7 +116,23 @@ p{margin:0}.lede{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:3
 @media(max-width:640px){body{font-size:16px}.wrap{width:min(1160px,100% - 32px)}.top{padding-left:16px}.brand small{display:none}.mates{grid-template-columns:repeat(2,minmax(0,1fr))}.mate+.mate::before{display:none}.floor{height:118px}.bot-size-stage{zoom:1.45}.stage{padding:20px 12px 14px;border-radius:26px}.ask-line{font-size:14.5px;padding:12px 14px}.g2{grid-template-columns:minmax(0,1fr)}.card{padding:22px}.btn{width:100%}.hero .cta{flex-direction:column}.nav .btn{width:auto}.term code{padding-right:0;padding-top:44px;font-size:13.5px}.bar{grid-template-columns:78px 1fr 40px}.faq summary{font-size:16px}.shot-tabs button{flex-direction:column;gap:4px;font-size:12.5px;min-height:64px}.frame{border-radius:14px}.frame::before{height:22px;background-size:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.js [data-reveal]{opacity:1;transform:none}}
 .paused *,.paused *::before,.paused *::after{animation-play-state:paused!important}
-
+/* Atmosphere: a deep-to-clear sky behind the hero and the closing call, a serif display face, glass surfaces.
+   White text sits on #22398f–#4c69d2 only (contrast ≥ 4.9:1). */
+:root{--serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP","Noto Serif CJK JP","Times New Roman",serif;--sky:linear-gradient(180deg,#22398f 0%,#3552bd 52%,#4c69d2 100%)}
+h1,h2{font-family:var(--serif);font-weight:600;letter-spacing:-.02em}
+.sky{position:relative;color:#fff;background:var(--sky);isolation:isolate;overflow:hidden}
+.sky::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(620px 300px at 16% 18%,rgba(255,255,255,.16),transparent 70%),radial-gradient(760px 360px at 88% 8%,rgba(160,190,255,.22),transparent 70%),radial-gradient(900px 380px at 50% 112%,rgba(255,255,255,.2),transparent 70%)}
+.sky .lede{color:rgba(255,255,255,.92)}.sky .facts{color:rgba(255,255,255,.9)}.sky .facts span::before{color:#9ff0cf}
+.sky .btn{background:#fff;color:#1d2a63;box-shadow:0 12px 30px rgba(10,20,70,.28)}.sky .btn:hover{box-shadow:0 16px 36px rgba(10,20,70,.34)}
+.sky .btn.ghost{background:rgba(255,255,255,.1);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6)}.sky .btn.ghost:hover{background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 1.5px #fff}
+.sky :focus-visible{outline-color:#fff}
+.hero.sky{margin-top:-84px;padding-top:calc(84px + clamp(40px,5.5vw,76px))}
+.sky .stage{border-color:rgba(255,255,255,.34);background:rgba(255,255,255,.13);box-shadow:0 30px 80px rgba(8,16,60,.32);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2)}
+.sky .ask-line{background:rgba(255,255,255,.16);color:#fff}.sky .ask-line b{background:#fff;color:var(--signal-ink)}
+.sky .mate{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.96);color:var(--ink)}
+.sky .stage-foot{color:rgba(255,255,255,.9)}.sky .stage-foot button{background:rgba(255,255,255,.18);color:#fff}
+.final.sky::before{background:radial-gradient(800px 380px at 50% 112%,rgba(255,255,255,.24),transparent 70%),radial-gradient(520px 300px at 12% 0,rgba(160,190,255,.22),transparent 70%)}
+/* BOTS:BEGIN — generated by docs/site/build_site.py from frontend/src/quiet-cinema.css and bot-polish.css. Do not edit here. */
 /* Role-aware bot characters: tiny coworkers with readable job/state silhouettes. */
 .bot-character{--bot:#6677e8;--bot-soft:#e8ebff;position:relative;display:inline-grid;grid-template-rows:auto auto;place-items:center;flex:none;width:48px;height:58px;filter:drop-shadow(0 5px 8px rgba(53,61,99,.13));transform-origin:50% 85%}
 .bot-size-micro{width:27px;height:30px;filter:none}.bot-size-chat{width:48px;height:58px}.bot-size-card{position:absolute;left:8px;top:8px;width:40px;height:48px}
@@ -144,7 +160,29 @@ p{margin:0}.lede{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:3
 .bot-thinking .bot-antenna i,.bot-reviewing .bot-antenna i{animation:bot-beacon 1.2s ease-in-out infinite}.bot-researching .accessory-lens{animation:bot-lens 1.4s ease-in-out infinite}.bot-building .accessory-pencil{animation:bot-pencil .65s ease-in-out infinite}
 @keyframes bot-think{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-3px) rotate(1deg)}}@keyframes bot-scan{0%,100%{transform:translateX(0)}45%{transform:translateX(3px)}70%{transform:translateX(-2px)}}@keyframes bot-build{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}@keyframes bot-talk{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}@keyframes bot-celebrate{0%{transform:scale(.94)}55%{transform:translateY(-5px) scale(1.07)}100%{transform:none}}@keyframes bot-worry{0%,100%{transform:rotate(0)}30%{transform:rotate(-2deg)}70%{transform:rotate(2deg)}}@keyframes bot-beacon{0%,100%{opacity:.45;transform:translateX(-50%) scale(.75)}50%{opacity:1;transform:translateX(-50%) scale(1.15)}}@keyframes bot-lens{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}@keyframes bot-pencil{0%,100%{transform:rotate(24deg)}50%{transform:rotate(34deg) translateY(1px)}}
 @media(prefers-reduced-motion:reduce){.bot-character,.bot-antenna i,.bot-accessory{animation:none!important}}
+/* Character polish: same four teammates, same shapes and accessories (quiet-cinema.css), with depth and small signs of life.
+   Shared with the public site: docs/site/build_site.py copies this file into docs/home.css. */
+.bot-head{background:radial-gradient(120% 95% at 28% 16%,color-mix(in srgb,var(--bot) 58%,#fff) 0,var(--bot) 48%,color-mix(in srgb,var(--bot) 80%,#141a44) 100%);box-shadow:inset 0 -6px 8px rgba(20,24,68,.18),inset 0 3px 5px rgba(255,255,255,.38)}
+.bot-head::before{content:'';position:absolute;z-index:1;left:5px;top:3px;width:13px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);filter:blur(.5px);transform:rotate(-16deg);pointer-events:none}
+.bot-body{background:linear-gradient(180deg,#fff 0,var(--bot-soft) 70%);box-shadow:inset 0 -4px 6px rgba(20,24,68,.08)}
+.bot-heart{background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--bot) 45%,#fff),var(--bot));box-shadow:0 0 0 1.5px rgba(255,255,255,.85),0 0 7px color-mix(in srgb,var(--bot) 70%,transparent)}
+.bot-antenna i{background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--bot) 40%,#fff),var(--bot))}
+.bot-face .eye{box-shadow:0 0 5px rgba(255,255,255,.95)}
+.face-normal .eye{transform-origin:50% 60%;animation:bot-blink 5.2s ease-in-out infinite}
+.bot-researcher .face-normal .eye{animation-delay:1.3s}.bot-builder .face-normal .eye{animation-delay:2.4s}.bot-reviewer .face-normal .eye{animation-delay:3.6s}.bot-helper .face-normal .eye,.bot-reporter .face-normal .eye{animation-delay:.7s}
+.bot-idle,.bot-waiting{animation:bot-float 4.4s ease-in-out infinite}
+.bot-researcher.bot-idle,.bot-researcher.bot-waiting{animation-delay:.6s}.bot-builder.bot-idle,.bot-builder.bot-waiting{animation-delay:1.2s}.bot-reviewer.bot-idle,.bot-reviewer.bot-waiting{animation-delay:1.8s}
+.bot-thinking .bot-antenna i,.bot-researching .bot-antenna i,.bot-building .bot-antenna i,.bot-reviewing .bot-antenna i{box-shadow:0 0 0 3px color-mix(in srgb,var(--bot) 22%,transparent),0 0 10px var(--bot)}
+.bot-thinking .bot-heart,.bot-researching .bot-heart,.bot-building .bot-heart,.bot-reviewing .bot-heart{animation:bot-pulse 1.4s ease-in-out infinite}
+.bot-size-micro .bot-head::before{left:3px;top:2px;width:9px;height:4px}.bot-size-micro.bot-idle,.bot-size-micro.bot-waiting{animation:none}.bot-size-micro .eye{animation:none}
+.bot-disabled .bot-head,.bot-stopped .bot-head{filter:saturate(.72)}
+@keyframes bot-blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
+@keyframes bot-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes bot-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+@media(prefers-reduced-motion:reduce){.bot-character,.bot-character *{animation:none!important}}
+/* Site-only character rules: badge size for the enlarged stage characters. */
 .bot-character .bot-state-mark{display:grid;place-items:center;width:13px;height:13px;right:-5px;bottom:1px;border-width:2px;color:#fff;font:800 8px/1 var(--sans);font-style:normal}
 .bot-state-mark.is-working{grid-auto-flow:column;gap:1px}.bot-state-mark.is-working i{width:2px;height:2px;border-radius:50%;background:#fff;animation:bot-dots 1s ease-in-out infinite}.bot-state-mark.is-working i:nth-child(2){animation-delay:.15s}.bot-state-mark.is-working i:nth-child(3){animation-delay:.3s}
 @keyframes bot-dots{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(-1.5px)}}
 .bot-idle .bot-state-mark{display:none}
+/* BOTS:END */

@@ -1,0 +1,20 @@
+/* Character polish: same four teammates, same shapes and accessories (quiet-cinema.css), with depth and small signs of life.
+   Shared with the public site: docs/site/build_site.py copies this file into docs/home.css. */
+.bot-head{background:radial-gradient(120% 95% at 28% 16%,color-mix(in srgb,var(--bot) 58%,#fff) 0,var(--bot) 48%,color-mix(in srgb,var(--bot) 80%,#141a44) 100%);box-shadow:inset 0 -6px 8px rgba(20,24,68,.18),inset 0 3px 5px rgba(255,255,255,.38)}
+.bot-head::before{content:'';position:absolute;z-index:1;left:5px;top:3px;width:13px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);filter:blur(.5px);transform:rotate(-16deg);pointer-events:none}
+.bot-body{background:linear-gradient(180deg,#fff 0,var(--bot-soft) 70%);box-shadow:inset 0 -4px 6px rgba(20,24,68,.08)}
+.bot-heart{background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--bot) 45%,#fff),var(--bot));box-shadow:0 0 0 1.5px rgba(255,255,255,.85),0 0 7px color-mix(in srgb,var(--bot) 70%,transparent)}
+.bot-antenna i{background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--bot) 40%,#fff),var(--bot))}
+.bot-face .eye{box-shadow:0 0 5px rgba(255,255,255,.95)}
+.face-normal .eye{transform-origin:50% 60%;animation:bot-blink 5.2s ease-in-out infinite}
+.bot-researcher .face-normal .eye{animation-delay:1.3s}.bot-builder .face-normal .eye{animation-delay:2.4s}.bot-reviewer .face-normal .eye{animation-delay:3.6s}.bot-helper .face-normal .eye,.bot-reporter .face-normal .eye{animation-delay:.7s}
+.bot-idle,.bot-waiting{animation:bot-float 4.4s ease-in-out infinite}
+.bot-researcher.bot-idle,.bot-researcher.bot-waiting{animation-delay:.6s}.bot-builder.bot-idle,.bot-builder.bot-waiting{animation-delay:1.2s}.bot-reviewer.bot-idle,.bot-reviewer.bot-waiting{animation-delay:1.8s}
+.bot-thinking .bot-antenna i,.bot-researching .bot-antenna i,.bot-building .bot-antenna i,.bot-reviewing .bot-antenna i{box-shadow:0 0 0 3px color-mix(in srgb,var(--bot) 22%,transparent),0 0 10px var(--bot)}
+.bot-thinking .bot-heart,.bot-researching .bot-heart,.bot-building .bot-heart,.bot-reviewing .bot-heart{animation:bot-pulse 1.4s ease-in-out infinite}
+.bot-size-micro .bot-head::before{left:3px;top:2px;width:9px;height:4px}.bot-size-micro.bot-idle,.bot-size-micro.bot-waiting{animation:none}.bot-size-micro .eye{animation:none}
+.bot-disabled .bot-head,.bot-stopped .bot-head{filter:saturate(.72)}
+@keyframes bot-blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
+@keyframes bot-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes bot-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+@media(prefers-reduced-motion:reduce){.bot-character,.bot-character *{animation:none!important}}

@@ -1,0 +1,32 @@
+/* First-visit introduction: a calm split screen. The companion stands on the left; one decision per step on the right. */
+.welcome{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);min-height:calc(100vh - 170px);border-radius:32px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:0 30px 80px rgba(47,58,110,.12)}
+.welcome-side{position:relative;display:flex;flex-direction:column;padding:clamp(28px,4vw,56px);color:#fff;background:linear-gradient(180deg,#22398f 0%,#3552bd 55%,#4c69d2 100%);isolation:isolate;overflow:hidden}
+.welcome-side::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(420px 240px at 20% 12%,rgba(255,255,255,.16),transparent 70%),radial-gradient(520px 300px at 60% 108%,rgba(255,255,255,.24),transparent 70%)}
+.welcome-step{margin:0 0 clamp(20px,4vw,48px);font:600 12px/1.6 var(--mono);letter-spacing:.16em;color:rgba(255,255,255,.88)}
+.welcome-side h1{font-size:clamp(30px,3.4vw,46px);line-height:1.3;color:#fff}
+.welcome-lead{margin-top:16px;font-size:16px;line-height:1.9;color:rgba(255,255,255,.92);max-width:26em}
+.welcome-companion{margin-top:auto;padding-top:28px;min-height:150px;display:grid;place-items:end start}
+.welcome-main{display:flex;flex-direction:column;gap:22px;padding:clamp(24px,4vw,52px);min-width:0}
+.welcome-dots{list-style:none;display:flex;gap:8px;margin:0;padding:0}.welcome-dots button{display:block;width:26px;height:26px;padding:0;border:0;background:none;cursor:pointer;position:relative}
+.welcome-dots button::before{content:'';position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:999px;background:#c9d0e6;transform:translate(-50%,-50%);transition:width .25s ease,background .25s ease}
+.welcome-dots [aria-current=step] button::before{width:26px;background:var(--signal)}
+.welcome-mates{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.welcome-mates li{display:flex;gap:14px;align-items:center;padding:16px 18px;border:1px solid var(--line);border-radius:22px;background:#fbfcff;min-width:0}
+.welcome-mates h2{font-size:16px;line-height:1.5}.welcome-mates p{margin:2px 0 0;font-size:13.5px;line-height:1.7;color:var(--ink-2)}
+.welcome-connect{display:grid;gap:16px;justify-items:start}.welcome-status{width:100%;padding:18px 20px;border-radius:20px;border:1px solid}.welcome-status.ok{background:#e6f6ee;border-color:#a9dcc3}.welcome-status.todo{background:#fff1dc;border-color:#ecc88c}
+.welcome-status p,.welcome-status ul{margin:6px 0 0;font-size:14px}.welcome-status ul{padding-left:1.3em}
+.welcome-facts{margin:0;padding-left:1.3em;display:grid;gap:6px;font-size:14.5px;color:var(--ink-2)}
+.welcome-examples{display:grid;gap:10px}.welcome-examples button{display:flex;justify-content:space-between;gap:16px;align-items:center;min-height:60px;padding:14px 20px;border:1.5px solid var(--line);border-radius:20px;background:#fff;text-align:left;font:inherit;font-size:15.5px;line-height:1.7;color:var(--ink);cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.welcome-examples button:hover,.welcome-examples button:focus-visible{border-color:var(--signal);box-shadow:0 10px 24px rgba(79,99,217,.14)}
+.welcome-examples .welcome-blank{justify-content:center;border-style:dashed;color:var(--ink-2)}
+.welcome-foot{display:flex;justify-content:space-between;gap:12px;margin-top:auto;padding-top:20px;border-top:1px solid var(--line)}
+/* Home: the coordinator is the one you talk to. */
+.home-companion{display:flex;align-items:flex-end;gap:18px;margin-bottom:14px;min-height:120px}
+.companion-says{position:relative;flex:1;min-width:0;max-width:380px;padding:14px 18px;border:1px solid var(--line);border-radius:20px 20px 20px 6px;background:#fff;box-shadow:0 12px 28px rgba(47,58,110,.08);font-size:14.5px;line-height:1.8}
+.companion-says p{margin:0}.companion-link{display:inline-flex;align-items:center;min-height:32px;margin-top:4px;font-weight:700;color:var(--signal);text-underline-offset:4px}
+.simple-home .home-team{opacity:.92}
+/* Workroom: progress is reported by the coordinator. */
+.work-status .status-voice{display:flex;align-items:center;gap:16px;min-width:0}.work-status .status-voice>div{min-width:0}
+@media(max-width:900px){.welcome{grid-template-columns:minmax(0,1fr);min-height:0}.welcome-side{padding-bottom:20px}.welcome-companion{min-height:0;padding-top:16px;place-items:end end;position:absolute;right:20px;bottom:10px}.welcome-lead{padding-right:96px}.welcome-mates{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.home-companion{gap:12px;min-height:96px}.companion-says{font-size:13.5px;padding:12px 14px}.welcome{border-radius:24px}.welcome-foot .btn{flex:1}}
+@media(prefers-reduced-motion:reduce){.welcome-dots button::before,.welcome-examples button{transition:none}}

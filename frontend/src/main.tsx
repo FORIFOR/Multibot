@@ -4,6 +4,7 @@ import './styles.css'
 import './workroom.css'
 import './quiet-cinema.css'
 import './ui-polish.css'
+import './bot-polish.css'
 import App from './App'
 
 createRoot(document.getElementById('root')!).render(

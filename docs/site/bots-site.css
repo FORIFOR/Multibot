@@ -1,0 +1,5 @@
+/* Site-only character rules: badge size for the enlarged stage characters. */
+.bot-character .bot-state-mark{display:grid;place-items:center;width:13px;height:13px;right:-5px;bottom:1px;border-width:2px;color:#fff;font:800 8px/1 var(--sans);font-style:normal}
+.bot-state-mark.is-working{grid-auto-flow:column;gap:1px}.bot-state-mark.is-working i{width:2px;height:2px;border-radius:50%;background:#fff;animation:bot-dots 1s ease-in-out infinite}.bot-state-mark.is-working i:nth-child(2){animation-delay:.15s}.bot-state-mark.is-working i:nth-child(3){animation-delay:.3s}
+@keyframes bot-dots{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(-1.5px)}}
+.bot-idle .bot-state-mark{display:none}
