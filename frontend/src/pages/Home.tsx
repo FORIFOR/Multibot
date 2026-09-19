@@ -146,7 +146,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
         {runs.map((r) => (
           <Link key={r.run_id} to={`/runs/${r.run_id}`} nav={nav} className="run-row">
             <span className={'tag status-' + r.status}>{statusLabel(r.status,getLang())}</span>
-            <span className="goal">{r.goal}{r.provider_kind === 'fake' && <> <span className="tag fake">FAKE</span></>}</span>
+            <span className="goal">{r.goal}{r.provider_kind === 'fake' && <> <span className="tag fake">{en ? 'Test' : 'テスト'}</span></>}</span>
             <span className="mono muted">{money(r.usage.cost_usd)}</span>
             <span className="muted small">{fmtDate(r.created_at)}</span>
           </Link>

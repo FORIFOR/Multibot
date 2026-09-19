@@ -1,8 +1,9 @@
 // Acceptance checks for the static site (docs/): first screen, character stage, real findings, mobile overflow, no-JS and reduced motion.
 // Nothing here calls a model; the page itself never does either.
-import { chromium } from 'playwright-core'
+import { chromium, webkit } from 'playwright-core'
 const base = process.argv[2] || 'http://127.0.0.1:8799'
-const browser = await chromium.launch({ channel: 'chrome', headless: true })
+// BROWSER=webkit checks the Safari engine (install once: node node_modules/playwright-core/cli.js install webkit).
+const browser = process.env.BROWSER === 'webkit' ? await webkit.launch({ headless: true }) : await chromium.launch({ channel: 'chrome', headless: true })
 const out = {}; const failures = []
 const expect = (key, name, ok, detail) => { if (!ok) failures.push(`${key}: ${name}${detail === undefined ? '' : ' → ' + JSON.stringify(detail)}`) }
 for (const [name, path] of [['en', '/'], ['ja', '/ja/']]) {

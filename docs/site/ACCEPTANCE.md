@@ -45,7 +45,7 @@ Field LCP/INP/CLS at the 75th percentile, star gains, qualified leads, human fir
 - `node frontend/scripts/site-check.mjs http://127.0.0.1:8799`（ローカルの `python3 -m http.server`、headless Chrome）: 日英 × 1440 / 768 / 390 / 360px の8通りと、reduced-motion、JavaScript無効の各2通りで **失敗0**。H1は 64.8 / 43 / 36 / 36px、ボタンの最小高さ48px。
 - 実行記録の変更前・変更後は `record.js` の記録原文を生成時に取り込んでいる。初稿では要約文を載せていたが、F-2 の要約が実際の修正内容と違っていたため、原文に差し替えた。
 - 未確認: WebKit / Firefox での表示（キャラクターの拡大に CSS `zoom` を使用）、公開後の GitHub Pages 上での再実行、フォームの実送信、実利用者による理解度、CWV のフィールド値。動画（`media/*.mp4`）は新ページからは参照していない。
-- 旧ページ用の `site.css`、`portfolio.css`、`workflow.css`、`launch.js` は新ページから参照していない（`record.js` は記録原文の出典として残す）。削除はしていない。
+- 旧ページ用の `portfolio.css`、`workflow.css`、`launch.js` はどこからも参照されていなかったため、2026-09-19 に削除した。`site.css` は過去の比較案 `site/variants/hero.html` が、`record.js` は記録原文の出典として `build_site.py` が使うため残す。
 
 ## 2026-09-19 — VoiceOS（voiceos.com）との比較
 同じ端末・同じ設定（Lighthouse 12、モバイル既定、headless Chrome、各1回）で測った値。1回の測定で、回線や時刻で変わる。

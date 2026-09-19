@@ -124,3 +124,7 @@ button { touch-action:manipulation; }
 .bot-size-stage .bot-state-mark { width:13px; height:13px; right:-5px; bottom:1px; font-size:8px; }
 .bot-size-stage .bot-state-mark.is-working i { width:2px; height:2px; gap:1px; }
 .bot-idle .bot-state-mark { display:none; }
+/* Main buttons: white on #5b72e8 measured below 4.5:1 (axe, 2026-09-19). #4558d0 gives about 5.6:1. */
+.btn.signal { background:#4558d0; border-color:#4558d0; }
+.btn.signal:hover { background:#3c4dbd; }
+.team-stage .is-active .simple-bot-state { background:#4558d0; }
