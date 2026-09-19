@@ -1,16 +1,20 @@
-import { t } from '../lib/i18n'
-import { useEffect, useState } from 'react'
-import { api, ApiError, type AgentSpec, type Config, type Connection } from '../lib/api'
+import { t, getLang } from '../lib/i18n'
+import { useCallback, useEffect, useState } from 'react'
+import { api, ApiError, type Config, type Connection } from '../lib/api'
+
+import CustomBotCreator from '../components/CustomBotCreator'
+import BotSettingsCard from '../components/BotSettingsCard'
 
 const DRIVERS = ['anthropic_messages', 'openai_compatible_chat', 'ollama']
-const EFFORTS = ['', 'low', 'medium', 'high', 'xhigh', 'max']
+
 
 export default function Settings() {
   const [cfg, setCfg] = useState<Config | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [note, setNote] = useState<string | null>(null)
-  const load = () => api.config().then(setCfg).catch((e) => setErr(String(e)))
-  useEffect(() => { load() }, [])
+  const refresh = useCallback(async () => { const value = await api.config(); setCfg(value); return value }, [])
+  const load = () => refresh().catch(e => setErr(String(e)))
+  useEffect(() => { void refresh().catch(e => setErr(String(e))) }, [refresh])
   const guard = async (fn: () => Promise<unknown>, ok: string) => {
     setErr(null); setNote(null)
     try { await fn(); setNote(ok); await load() } catch (e) {
@@ -29,6 +33,12 @@ export default function Settings() {
       {cfg.problems.length === 0 && <div className="banner ok">{t("開始条件を満たしています。")}</div>}
       {err && <p className="err">{err}</p>}
       {note && <p className="small" style={{ color: 'var(--ok)' }}>{note}</p>}
+      <section className="bot-settings-section">
+        <CustomBotCreator cfg={cfg} refresh={refresh} />
+        <h2>{getLang() === 'en' ? 'Your team' : 'あなたのチーム'}</h2>
+        <div className="bot-settings-grid">{cfg.agents.map(a => <BotSettingsCard key={a.id} a={a} cfg={cfg} refresh={refresh} />)}</div>
+      </section>
+      <details className="connection-settings"><summary>{getLang() === 'en' ? 'Team connection & budget (advanced)' : 'チームの接続・予算（詳細設定）'}</summary>
       <div className="settings">
         <div className="stack">
           <h3>{t("接続（API キーは参照のみ保存: env:NAME / keychain:service/account / file:/path）")}</h3>
@@ -37,11 +47,9 @@ export default function Settings() {
           <h3>{t("既定と上限")}</h3>
           <LimitsCard cfg={cfg} guard={guard} />
         </div>
-        <div className="stack">
-          <h3>{t("Bot（共通設定を継承し、必要なものだけ上書き）")}</h3>
-          {cfg.agents.map((a) => <AgentCard key={a.id} a={a} cfg={cfg} guard={guard} />)}
-        </div>
+
       </div>
+      </details>
     </div>
   )
 }
@@ -128,49 +136,4 @@ function LimitsCard({ cfg, guard }: { cfg: Config; guard: (fn: () => Promise<unk
   )
 }
 
-function AgentCard({ a, cfg, guard }: { a: AgentSpec; cfg: Config; guard: (fn: () => Promise<unknown>, ok: string) => Promise<void> }) {
-  const eff = cfg.effective_agents[a.id]
-  const [prompt, setPrompt] = useState(eff?.system_prompt || '')
-  const [open, setOpen] = useState(false)
-  useEffect(() => { setPrompt(eff?.system_prompt || '') }, [eff?.system_prompt])
-  const patch = (body: Record<string, unknown>, ok: string) => guard(() => api.patchAgent(a.id, { expected_revision: cfg.revision, ...body }), ok)
-  const promptDirty = prompt !== (eff?.system_prompt || '')
-  return (
-    <div className="agentcard">
-      <header>
-        <span className="role">{a.id}</span><span className="tag">{a.role}</span>
-        <label className="lock" style={{ marginLeft: 'auto' }} onClick={() => patch({ enabled: !a.enabled }, `${a.id} を${a.enabled ? '無効' : t('有効')}化しました`)}><span className={'switch' + (a.enabled ? ' on' : '')} /> {a.enabled ? 'enabled' : 'disabled'}</label>
-      </header>
-      <div className="grid">
-        <div><label>connection</label>
-          <select className="input" value={a.connection_id} onChange={(e) => patch({ connection_id: e.target.value }, t('接続を変更しました'))}>
-            <option value="inherit">inherit ({cfg.defaults.connection_id})</option>{cfg.connections.map((c) => <option key={c.id} value={c.id}>{c.id}</option>)}</select></div>
-        <div><label>model</label><input className="input" defaultValue={a.model} onBlur={(e) => { if (e.target.value !== a.model) patch({ model: e.target.value || 'inherit' }, t('モデルを変更しました')) }} placeholder={`inherit (${cfg.defaults.model})`} /></div>
-        <div><label>effort</label>
-          <select className="input" value={a.effort || ''} onChange={(e) => patch({ effort: e.target.value }, t('effort を変更しました'))}>{EFFORTS.map((x) => <option key={x} value={x}>{x || 'default'}</option>)}</select></div>
-        <div><label>{t("実効")}</label><div className="mono small">{eff ? `${eff.model} @ ${eff.connection_id}/${eff.driver}` : '—'}</div></div>
-      </div>
-      <div className="row" style={{ marginTop: 8 }}>
-        <span className="muted small">skills: {a.skill_ids.join(', ') || '—'}</span>
-        <span className="muted small">tools: {a.tools.length}</span>
-        <button className="btn sm ghost" style={{ marginLeft: 'auto' }} onClick={() => setOpen(!open)}>{open ? 'プロンプトを閉じる' : t('システムプロンプト')}</button>
-      </div>
-      {open && (
-        <div className="stack" style={{ marginTop: 8 }}>
-          <div className="row">
-            <label className="lock" onClick={() => patch({ prompt_mode: a.prompt_mode === 'user_locked' ? 'auto_seed' : 'user_locked' }, t('ロック状態を変更しました'))}>
-              <span className={'switch' + (a.prompt_mode === 'user_locked' ? ' on' : '')} /> 手動固定（Master は上書きしない）
-            </label>
-            <span className="mono muted small">sha256 {eff?.system_prompt_sha256.slice(0, 12)} · {a.system_prompt_override != null ? 'ユーザー編集版' : `ファイル ${a.system_prompt_file}`}</span>
-          </div>
-          <textarea className="input" value={prompt} onChange={(e) => setPrompt(e.target.value)} />
-          <div className="row">
-            <button className="btn sm" disabled={!promptDirty} onClick={() => patch({ system_prompt_override: prompt }, t('プロンプトを保存しました（新 revision）'))}>{t("保存")}</button>
-            <button className="btn sm ghost" disabled={a.system_prompt_override == null} onClick={() => patch({ reset_prompt: true }, t('同梱プロンプトに戻しました'))}>{t("元に戻す")}</button>
-            {promptDirty && <span className="muted small">差分 {prompt.length - (eff?.system_prompt.length || 0)} 文字</span>}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
+
