@@ -38,3 +38,38 @@
 .check-record .is-quiet{color:#6a7385;border-style:dashed}.check-detail{color:#4f5665}
 .check-mark{padding:1px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#eef1f8;color:#3d4658}.check-mark.is-pass{background:#dff6ed;color:#0f6b52}.check-mark.is-fail{background:#fde4e6;color:#9b1c2a}.check-mark.is-unverified,.check-mark.is-blocked{background:#fdebd3;color:#7a4a00}
 @media(max-width:600px){.md{font-size:15px}.result-md{padding:18px 14px 22px}.md h2{font-size:20px}.md h3{font-size:17px}}
+/* One page. A compact status card on top; below it the team, notes and conversation on the left and the results on
+   the right, so what was made is on the first screen. The step bar scrolls to an area instead of swapping screens. */
+#room-team,#room-request,#room-results{scroll-margin-top:100px}
+.simple-workroom .journey{margin-bottom:14px}.simple-workroom .journey button{min-height:44px}
+.work-status.room-head{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"voice actions" "goal goal";gap:12px 20px;align-items:center;padding:18px 22px;margin-bottom:16px}
+.room-head .status-voice{grid-area:voice}.room-head .work-actions{grid-area:actions;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
+.room-head .status-voice strong{font-size:18px}.room-head .status-voice p{margin:2px 0 0;font-size:13.5px}
+.room-head .room-goal{grid-area:goal;display:block;margin:0;padding-top:12px;border-top:1px solid rgba(32,40,80,.1)}
+.room-head .room-goal .simple-eyebrow{margin:0 0 2px;font-size:12px}
+.room-head .room-goal h1{font:700 clamp(17px,1.5vw,21px)/1.6 var(--sans,system-ui);letter-spacing:-.01em;margin:0;max-width:none}
+.room-head .room-goal h1.goal-clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
+.room-head .goal-toggle{background:none;border:0;padding:2px 0;min-height:30px;font:inherit;font-size:12.5px;color:#3346b8;text-decoration:underline;cursor:pointer}
+.room-grid{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:18px;align-items:start}
+.room-side{display:grid;gap:14px;min-width:0}.room-main{min-width:0}
+.room-notes{padding:12px 16px;border:1px solid #ecc88c;border-radius:20px;background:#fff6e6;font-size:13.5px;line-height:1.75}
+.room-notes summary{cursor:pointer;font-weight:700;min-height:28px;display:flex;align-items:center;color:#7a4a00}.room-notes ul{margin:4px 0 2px;padding-left:1.3em}.room-notes b{margin-right:6px}
+/* Team as a compact roster: face on the left, name and state beside it, what it is doing underneath. */
+.room-team .team-stage{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin:0}
+.room-team .simple-bot{display:grid;grid-template-columns:64px minmax(0,1fr);grid-template-areas:"face name" "face state" "says says";justify-items:start;align-items:center;text-align:left;gap:0 14px;padding:12px 16px;border-radius:20px;transform:none}
+.room-team .simple-bot.is-active{transform:none;box-shadow:0 10px 24px rgba(79,99,217,.16)}
+.room-team .bot-floor{grid-area:face;width:64px;height:64px;margin:0;padding:0 0 4px;border-radius:18px;place-items:end center}
+.room-team .bot-size-stage{zoom:1.02}.room-team .bot-size-stage.bot-custom{zoom:.9}
+.room-team .simple-bot h2{grid-area:name;font-size:15px;align-self:end}.room-team .simple-bot-state{grid-area:state;align-self:start;min-height:22px;font-size:12px}
+.room-team .bot-says{grid-area:says;width:100%;margin-top:8px;padding:8px 12px;font-size:12.5px;line-height:1.65;-webkit-line-clamp:2;line-clamp:2}
+.room-team .bot-says::before{left:32px}.room-team .bot-says.is-quiet{text-align:left;padding:4px 2px 0;margin-top:4px}
+.room-team .simple-bot+.simple-bot::before{display:none}
+.room-side .simple-request{padding:16px 18px}.room-side .simple-request h2{font-size:15px;margin-bottom:6px}.room-side .simple-request h3{font-size:13.5px;margin:12px 0 4px;text-transform:none;letter-spacing:0;color:inherit}
+.room-side .simple-request p,.room-side .simple-request li{font-size:13.5px;line-height:1.75;overflow-wrap:anywhere}.room-side .simple-request ul{margin:0;padding-left:1.3em}
+.request-text summary{cursor:pointer;min-height:32px;display:inline-flex;align-items:center;font-size:13.5px;font-weight:700;color:#3346b8}.request-text pre{max-height:220px;overflow:auto;margin:6px 0 0;padding:12px;border-radius:12px;background:#f5f6fb;font-size:12.5px;white-space:pre-wrap}
+.room-main .simple-results>.work-warning{margin-top:0}
+.room-main .result-reader{max-height:min(70vh,860px);overflow:auto}
+@media(max-width:1000px){.room-grid{grid-template-columns:minmax(0,1fr)}.room-side{display:contents}.room-notes{order:1}#room-team{order:2}.room-main{order:3}#room-request{order:4}.room-side .team-conversation{order:5}
+ .room-team .team-stage{grid-template-columns:repeat(2,minmax(0,1fr))}.room-main .result-reader{max-height:none}}
+@media(max-width:700px){.work-status.room-head{grid-template-columns:minmax(0,1fr);grid-template-areas:"voice" "goal" "actions";padding:16px}.room-head .work-actions{justify-content:flex-start}}
+@media(max-width:480px){.room-team .team-stage{grid-template-columns:minmax(0,1fr)}}
