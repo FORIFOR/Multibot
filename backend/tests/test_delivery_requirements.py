@@ -22,6 +22,7 @@ V20 = EVIDENCE.parent / 'real-readiness-v20-qwen35-fixed-2026-09-15'
 V23 = EVIDENCE.parent / 'real-readiness-v23-qwen35-fixed-2026-09-15'
 V24 = EVIDENCE.parent / 'real-readiness-v24-qwen35-fixed-2026-09-15'
 V25 = EVIDENCE.parent / 'real-readiness-v25-qwen35-fixed-2026-09-15'
+V26 = EVIDENCE.parent / 'real-readiness-v26-qwen35-fixed-2026-09-15'
 
 
 def test_observed_v5_translation_drift_is_rejected_by_the_current_contract():
@@ -114,6 +115,18 @@ def test_observed_v25_revocation_translation_drift_is_rejected_by_the_current_co
     expected = workflow.source_rows((EVIDENCE.parents[1] / 'PRODUCTION_PLAN.md').read_text())
     raw = (V25 / 'observed-rep04-readiness.json').read_bytes()
     assert 'リバイス'.encode() in raw
+    result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
+    assert result['status'] == 'fail'
+
+
+def test_observed_v26_english_and_misspelled_summary_drift_is_rejected_by_the_current_contract():
+    """v26's machine pass still mixed English labels and malformed Japanese."""
+    script = Path(__file__).resolve().parents[1] / 'scripts' / 'production_workflow.py'
+    module_spec = importlib.util.spec_from_file_location('v26_translation_contract_workflow', script)
+    workflow = importlib.util.module_from_spec(module_spec); module_spec.loader.exec_module(workflow)
+    expected = workflow.source_rows((EVIDENCE.parents[1] / 'PRODUCTION_PLAN.md').read_text())
+    raw = (V26 / 'observed-rep02-readiness.json').read_bytes()
+    assert any(fragment.encode() in raw for fragment in ('with Keycloak', 'mappiung', 'auditor', '操作主体ごとな'))
     result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
     assert result['status'] == 'fail'
 

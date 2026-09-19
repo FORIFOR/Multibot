@@ -272,6 +272,8 @@ class AgentRunner:
             "summaryは120文字以内、各implemented/remainingは40〜120文字の短い日本語一文に圧縮してください。"
             "Identityのtoken revocationは「トークン失効」または「トークン取消」、Latencyは「レイテンシ」または「遅延」、"
             "acceptance thresholdは「受入閾値」と書き、「リバイス」「ラテンシー」「収容閾値」などの類推語は禁止です。"
+            "要約欄は日本語の短文にし、技術固有名以外の英語を残さないでください。with、export、auditor、collector、"
+            "outage、pinned、mappiung、TLSDNS、操作主体ごとななどの英語混在・誤綴りは禁止です。TLS/DNSは分けて書いてください。"
         )}]}]
         self.nudges = 0
 

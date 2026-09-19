@@ -41,6 +41,7 @@ summary は120文字以内、各 `implemented` と `remaining` は40〜120文字
 意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。
 用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。
 Identity の token revocation は「トークン失効」または「トークン取消」と書き、「リバイス」などの類推語を作らないでください。Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」としてください。
+要約欄は原則として日本語で書き、技術固有名として資料に現れる英字だけを残してください。英語の接続詞・動詞・役割名・状態名（with、export、auditor、collector、outage、pinnedなど）や誤綴りを混ぜないでください。TLSDNSのような連結語はTLS/DNSに分けてください。
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。'''
 
 
@@ -197,7 +198,8 @@ def delivery_schema(expected):
         # threshold/advisory variants in failed attempts.
         'リバイス|ラテンシー|収容閾値|ハードened|'
         'パッケージアドバイススキャン|インストールワheel|パッケge|'
-        '鍵轮换|与界定済'
+        '鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|'
+        'outage|pinned|TLSDNS|操作主体ごとな'
     )
     japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
                 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]',
