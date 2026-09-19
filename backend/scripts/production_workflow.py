@@ -203,7 +203,7 @@ def delivery_schema(expected):
         'パッケージアドバイススキャン|インストールワheel|パッケge|'
         '鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|'
         'outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|'
-        'Identity|Real access keys|アクター監査|\bfalse\b|実証アクセスキー'
+        'Identity|Real access keys|アクター監査|false|実証アクセスキー'
     )
     japanese = {'type': 'string', 'description': 'Japanese summary required. Do not copy the English source quotation.',
                 'minLength': 1, 'maxLength': 4000, 'pattern': '[ぁ-んァ-ン一-龯]',

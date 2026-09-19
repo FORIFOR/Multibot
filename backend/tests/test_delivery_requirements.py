@@ -26,6 +26,7 @@ V26 = EVIDENCE.parent / 'real-readiness-v26-qwen35-fixed-2026-09-15'
 V27 = EVIDENCE.parent / 'real-readiness-v27-qwen35-fixed-2026-09-19'
 V28 = EVIDENCE.parent / 'real-readiness-v28-qwen35-fixed-2026-09-19'
 V29 = EVIDENCE.parent / 'real-readiness-v29-qwen35-fixed-2026-09-19'
+V30 = EVIDENCE.parent / 'real-readiness-v30-qwen35-fixed-2026-09-20'
 
 
 def test_observed_v5_translation_drift_is_rejected_by_the_current_contract():
@@ -170,6 +171,23 @@ def test_observed_v29_english_and_malformed_audit_terms_are_rejected_by_the_curr
         (V29 / 'observed-rep03-readiness.json').read_bytes(),
     ]
     assert any(fragment in b''.join(observed) for fragment in (b'Real access keys', 'アクター監査'.encode(), b'false'))
+    for raw in observed:
+        result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
+        assert result['status'] == 'fail'
+
+
+def test_observed_v30_wall_clock_artifacts_are_rejected_by_the_current_contract():
+    """v30 retained contract failures before the admission 503 stopped the series."""
+    script = Path(__file__).resolve().parents[1] / 'scripts' / 'production_workflow.py'
+    module_spec = importlib.util.spec_from_file_location('v30_contract_workflow', script)
+    workflow = importlib.util.module_from_spec(module_spec); module_spec.loader.exec_module(workflow)
+    expected = workflow.source_rows((EVIDENCE.parents[1] / 'PRODUCTION_PLAN.md').read_text())
+    observed = [
+        (V30 / 'observed-rep04-readiness.json').read_bytes(),
+        (V30 / 'observed-rep05-readiness.json').read_bytes(),
+        (V30 / 'observed-rep06-readiness.json').read_bytes(),
+    ]
+    assert any(fragment in b''.join(observed) for fragment in (b'Identity', '実証アクセスキー'.encode(), b'false'))
     for raw in observed:
         result = workflow.json_schema_check(raw, workflow.delivery_schema(expected))
         assert result['status'] == 'fail'
