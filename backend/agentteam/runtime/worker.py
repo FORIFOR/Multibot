@@ -47,6 +47,29 @@ def consecutive_no_tool_turns(previous: int, tool_calls: list) -> int:
     return 0 if tool_calls else previous + 1
 
 
+# The first tool a role needs when it has only narrated its intent. Names are offered only if the agent has them.
+_FIRST_TOOLS = {
+    "reviewer": ("read_artifact", "run_check", "submit_review", "finish_task"),
+    "builder": ("workspace_write", "publish_artifact", "finish_task"),
+    "researcher": ("web_fetch", "workspace_write", "publish_artifact", "finish_task"),
+}
+
+
+def no_tool_nudge(role: str, available: list[str], streak: int) -> str:
+    """Smaller models announce a plan ("I will read the file…") and end the turn. Name the exact next call."""
+    steps = [t for t in _FIRST_TOOLS.get(role, ()) if t in available]
+    base = ("You ended without a tool call. If your work is done, call finish_task; if you are stuck, "
+            "call report_blocker; otherwise continue with tools.")
+    if not steps:
+        return base
+    text = f"{base} Text alone changes nothing: describing a step does not perform it. Your next message must be a tool call, starting with {steps[0]}."
+    if len(steps) > 1:
+        text += " Order: " + " → ".join(steps) + "."
+    if streak >= 2:
+        text += " This is the last reminder; another turn without a tool call ends this task unverified."
+    return text
+
+
 def build_system_prompt(ctx: SessionContext) -> str:
     agent = ctx.agent
     parts = [platform_policy_text().strip(), "\n---\n", agent.system_prompt.strip(), "\n---\n", RUNTIME_RULES.strip()]
@@ -282,8 +305,7 @@ class AgentRunner:
                             continue
                         nudge = "Your previous output hit the token limit. Continue with tool calls; keep text short."
                     else:
-                        nudge = ("You ended without a tool call. If your work is done, call finish_task; if you are stuck, "
-                                 "call report_blocker; otherwise continue with tools.")
+                        nudge = no_tool_nudge(ctx.agent.role, [t.name for t in tools], self.nudges)
                     if self.nudges > 2:
                         auto = await auto_finish_if_outputs_published(ctx, "ended three consecutive turns without finish_task")
                         return auto or SessionOutcome("ended", "agent ended its turn repeatedly without finish_task")

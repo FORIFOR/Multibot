@@ -10,10 +10,11 @@ try {
     const context=await browser.newContext({viewport:{width,height:900},locale:lang==='ja'?'ja-JP':'en-US',reducedMotion:'reduce'})
     const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message))
     await page.goto(base,{waitUntil:'networkidle'})
-    const start=lang==='ja'?'開始':'Start'
+    const start=lang==='ja'?'チームにお願いする':'Ask the team'
     await page.locator('textarea').first().fill(lang==='ja'?'紹介文を作って':'Create a product introduction')
     await page.getByRole('button',{name:start,exact:true}).click()
     await page.waitForURL(/\/runs\//)
+    await page.locator('#run-inspector > summary').click()
     await page.locator('.work-chat-first').waitFor()
     await page.waitForTimeout(2000)
     const grid=await page.locator('.work-chat-first').evaluate(el=>getComputedStyle(el).gridTemplateColumns)
@@ -28,7 +29,10 @@ try {
       if(await page.evaluate('document.documentElement.scrollWidth>innerWidth+1'))throw new Error(name+' overflows')
       checkedTabs.push(name)
     }
-    const artifact=await page.locator('.chat-side>.pane').last().boundingBox()
+    await page.locator('#run-inspector > summary').click()
+    await page.locator('[data-journey=results]').click()
+    await page.locator('.result-reader').waitFor()
+    const artifact=await page.locator('.result-reader').boundingBox()
     if(width===1440 && (!artifact||artifact.width<650))throw new Error('Artifact reading surface is too narrow')
     await page.screenshot({path:`${shots}/run-${lang}-${width}.png`,fullPage:true})
     await page.goto(base+'/settings',{waitUntil:'networkidle'})

@@ -1,9 +1,9 @@
-import { t, getLang, setLang } from './lib/i18n'
+import { getLang, setLang } from './lib/i18n'
 import { useEffect, useState } from 'react'
 import { api, type Approval } from './lib/api'
 import { Link, usePath, getRunId } from './lib/router'
 import Home from './pages/Home'
-import RunView from './pages/RunView'
+import RunView from './pages/Workroom'
 import Settings from './pages/Settings'
 import Operations from './pages/Operations'
 import AuthGate, { type Identity } from './components/AuthGate'
@@ -29,15 +29,21 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
   return (
     <div className="shell">
       <header className="top">
-        <Link to="/" nav={nav} className="brand">Agent Team <small>{version ? `v${version}` : ""} · local-first</small></Link>
+        <Link to="/" nav={nav} className="brand">Agent Team</Link>
         <nav className="nav">
           {secured && <><span className="muted small account-identity">{identity.organization} · {identity.display_name || identity.subject}</span><button className="langbtn" onClick={async () => { const response = await fetch('/api/auth/logout', { method: 'POST' }); const result = response.ok ? await response.json() : {}; window.location.assign(result.redirect || '/') }}>{getLang() === 'en' ? 'Sign out' : 'ログアウト'}</button></>}
-          {identity.role !== 'auditor' && <Link to="/" nav={nav} className={path === '/' ? 'active' : ''}>{t("依頼")}</Link>}
+          {identity.role !== 'auditor' && <Link to="/" nav={nav} className={path === '/' ? 'active' : ''}>{getLang() === "en" ? "Ask" : "お願いする"}</Link>}
+          {identity.role === 'admin' && <Link to="/settings" nav={nav} className={path.startsWith('/settings') ? 'active' : ''}>{getLang() === "en" ? "My team" : "マイチーム"}</Link>}
+          {pending.length > 0 && <Link to={`/runs/${pending[0].run_id}?tab=approvals`} nav={nav} className="active" >{getLang() === "en" ? "Needs approval" : "確認が必要"} {pending.length}</Link>}
+          <details className="app-more">
+            <summary>{getLang() === 'en' ? 'More' : 'その他'}</summary>
+            <div className="app-more-content">
           {(identity.role === 'admin' || identity.role === 'auditor') && <Link to="/operations" nav={nav} className={path.startsWith('/operations') ? 'active' : ''}>{getLang() === 'en' ? 'Operations' : '運用状況'}</Link>}
-          {identity.role === 'admin' && <Link to="/settings" nav={nav} className={path.startsWith('/settings') ? 'active' : ''}>{t("設定")}</Link>}
-          {pending.length > 0 && <Link to={`/runs/${pending[0].run_id}?tab=approvals`} nav={nav} className="active" >承認待ち {pending.length}</Link>}
-          <a href="https://github.com/FORIFOR/Multibot" target="_blank" rel="noreferrer" title="GitHub">★ GitHub</a>
-          <button className="langbtn" title="Language" onClick={() => { setLang(getLang() === 'en' ? 'ja' : 'en'); window.location.reload() }}>{getLang() === 'en' ? '日本語' : 'EN'}</button>
+              <a href="https://github.com/FORIFOR/Multibot" target="_blank" rel="noreferrer">GitHub</a>
+              <button className="langbtn" title="Language" onClick={() => { setLang(getLang() === 'en' ? 'ja' : 'en'); window.location.reload() }}>{getLang() === 'en' ? '日本語' : 'English'}</button>
+              <small>{version ? `v${version}` : ''} · local-first</small>
+            </div>
+          </details>
         </nav>
       </header>
       <main className={'main' + (runId ? ' wide' : '')}>

@@ -290,3 +290,16 @@ async def test_real_timeout_preserves_reason_and_emits_one_interruption(tmp_path
         if rt:
             await rt.providers.aclose()
         await svc.stop()
+
+
+def test_no_tool_nudge_names_the_next_call_for_a_narrating_reviewer():
+    """2026-09-18 local recompare, code-wc-plus: the reviewer wrote "まず wc_plus.py を読みます" three times with
+    zero tool calls, so a correct deliverable ended partial. The reminder now names the call to make."""
+    from agentteam.runtime.worker import no_tool_nudge
+    tools = ['read_artifact', 'run_check', 'submit_review', 'finish_task', 'report_blocker']
+    first = no_tool_nudge('reviewer', tools, 1)
+    assert 'starting with read_artifact' in first and 'read_artifact → run_check → submit_review → finish_task' in first
+    assert 'last reminder' not in first and 'last reminder' in no_tool_nudge('reviewer', tools, 2)
+    # Never name a tool the agent does not have; unknown roles keep the original wording.
+    assert 'run_check' not in no_tool_nudge('reviewer', ['read_artifact', 'submit_review', 'finish_task'], 1)
+    assert no_tool_nudge('master', tools, 1).endswith('otherwise continue with tools.')

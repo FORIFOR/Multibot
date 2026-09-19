@@ -1,0 +1,12 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { defaultPanel, friendlyReason, isSettled, requestedPanel, resultFiles, statusLabel, stateTone, teamOrder } from '../src/lib/journey.ts'
+for (const status of ['created','queued','planning','running','approval_required']) test(`${status} never implies completion`,()=>{assert.equal(defaultPanel(status,5),'team');assert.notEqual(stateTone(status),'good')})
+for(const status of ['partial','failed','cancelled','interrupted','blocked']) test(`${status} shows partial results without a success tone`,()=>{assert.equal(defaultPanel(status,1),'results');assert.equal(defaultPanel(status,0),'team');assert.equal(stateTone(status),'attention');assert.ok(isSettled(status));assert.doesNotMatch(statusLabel(status,'ja'),/できたものを見てみよう/)})
+test('completed results are discoverable',()=>{assert.equal(defaultPanel('completed',1),'results');assert.equal(stateTone('completed'),'good')})
+test('final report alone is not a deliverable',()=>assert.deepEqual(resultFiles([{artifact_id:'final-report.md'},{artifact_id:'report.md'}]),[{artifact_id:'report.md'}]))
+test('unknown and malicious view values do not select a panel',()=>{for(const value of ['','?view=garbage','?view=<script>'])assert.equal(requestedPanel(value),null);assert.equal(requestedPanel('?view=results'),'results')})
+test('status copy is localized and unknown status is not a success',()=>{assert.match(statusLabel('alien','en'),/Checking/);assert.notEqual(stateTone('alien'),'good');assert.equal(statusLabel('running','ja'),'チームが進めています')})
+test('teammates follow hand-off order and unknown roles keep config order at the end',()=>assert.deepEqual(teamOrder([['b',{role:'builder'}],['x',{role:'specialist'}],['m',{role:'master'}],['v',{role:'reviewer'}],['y',{}],['r',{role:'researcher'}]]).map(e=>e[0]),['m','r','b','v','x','y']))
+test('recurring runtime reasons are readable in both languages',()=>{const raw='t1: required independent review was not submitted; t2 partial: agent ended its turn repeatedly without finish_task';const ja=friendlyReason(raw,'ja');assert.match(ja,/確かめる係の確認がまだ出ていません/);assert.match(ja,/合図を出さないまま/);assert.doesNotMatch(ja,/finish_task|independent review/);assert.match(friendlyReason(raw,'en'),/reviewer has not submitted/)})
+test('unknown reasons pass through unchanged',()=>assert.equal(friendlyReason('DNS lookup failed for example.org','ja'),'DNS lookup failed for example.org'))

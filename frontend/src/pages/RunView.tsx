@@ -2,7 +2,7 @@ import { t as tr, getLang } from '../lib/i18n'
 import Orb from '../components/Orb'
 import BotCharacter from '../components/BotAvatar'
 import { botActivity, botStateLabel } from '../lib/bot-presentation'
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ArtifactSelection, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
 import { Link } from '../lib/router'
 
@@ -23,13 +23,20 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
   const [instructionBusy, setInstructionBusy] = useState(false)
   const [instructionNotice, setInstructionNotice] = useState<string | null>(null)
   const [hiSeq, setHiSeq] = useState<number | null>(null)
+  const [goalOpen, setGoalOpen] = useState(false)
   const lastSeq = useRef(0)
   const [motionPaused, setMotionPaused] = useState(false)
+  // An explicit ?tab= wins; otherwise a finished run opens on its report once, on first load.
+  const tabDecided = useRef(new URLSearchParams(window.location.search).has('tab'))
 
   const reload = useCallback(async () => {
     try {
       const d = await api.run(runId)
       setRun(d)
+      if (!tabDecided.current) {
+        tabDecided.current = true
+        if (TERMINAL.includes(d.status) && d.final_report) setTab('report')
+      }
       if (!selArt && d.artifacts.length) {
         const latest = [...d.artifacts].filter((a) => a.artifact_id !== 'final-report.md').sort((a, b) => b.revision - a.revision)
         const pick = latest.find((a) => a.media_type.includes('html')) || latest[0] || d.artifacts[0]
@@ -131,7 +138,8 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             {run.provider_kind === 'fake' && <span className="tag fake">{tr("FAKE PROVIDER — 実 LLM ではありません")}</span>}
             {run.parent_run_id && <span className="tag">fork of <Link to={`/runs/${run.parent_run_id}`} nav={nav}>{run.parent_run_id.slice(0, 16)}</Link> @seq {run.fork_from_seq}</span>}
           </div>
-          <h1 style={{ marginTop: 6 }}>{run.goal}</h1>
+          <h1 style={{ marginTop: 6 }} className={goalOpen ? undefined : 'goal-clamp'} title={goalOpen ? undefined : run.goal}>{run.goal}</h1>
+          {run.goal.length > 60 && <button type="button" className="goal-toggle" aria-expanded={goalOpen} onClick={() => setGoalOpen(!goalOpen)}>{goalOpen ? tr('依頼文をたたむ') : tr('依頼文の全文を表示')}</button>}
           <div className="chips">
             <span className="tag">{run.usage.model_calls} model calls</span>
             <span className="tag">{run.usage.tool_calls} tool calls</span>
@@ -139,8 +147,13 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             <span className="tag">{run.usage.input_tokens + run.usage.output_tokens} tokens</span>
             <span className="tag">{Math.round(run.usage.wall_seconds)}s</span>
             <span className="tag">seq {run.last_seq}</span>
-            {run.plan?.assumptions?.map((a, i) => <span key={i} className="tag" title={tr("Master が記録した前提")}>前提: {a}</span>)}
           </div>
+          {run.plan?.assumptions?.length ? (
+            <details className="assumptions" title={tr("Master が記録した前提")}>
+              <summary>{tr('前提')} ({run.plan.assumptions.length})</summary>
+              <ul>{run.plan.assumptions.map((a, i) => <li key={i}>{a}</li>)}</ul>
+            </details>
+          ) : null}
           {run.blocked_reason && <p className="err small" style={{ marginTop: 6 }}>{run.blocked_reason}</p>}
           {run.status === 'queued' && <p className="muted small">{tr('実行枠が空き次第、開始します。')}</p>}
         </div>
@@ -171,7 +184,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
           </header>
           <div className="body">
             {tab === 'chat' && <>
-              <Chat chat={chat} agents={agents} tz={tz} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
+              <Chat chat={chat} agents={agents} tz={tz} ended={TERMINAL.includes(run.status)} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
               <InstructionComposer runId={runId} run={run} events={events} canWrite={canWrite} instructionText={instructionText}
                 setInstructionText={setInstructionText} instructionKind={instructionKind} setInstructionKind={setInstructionKind}
                 busy={instructionBusy} setBusy={setInstructionBusy} notice={instructionNotice} setNotice={setInstructionNotice} onSent={syncAfterInstruction} />
@@ -332,14 +345,14 @@ function ArtifactPane({ run, artifactsById, selections, sel, setSel, events, can
   )
 }
 
-function Chat({ chat, agents, tz, onJump }: { chat: ChatMessage[]; agents: Record<string, any>; tz?: string; onJump: (seq: number) => void }) {
+function Chat({ chat, agents, tz, onJump, ended = false }: { chat: ChatMessage[]; agents: Record<string, any>; tz?: string; onJump: (seq: number) => void; ended?: boolean }) {
   const [query, setQuery] = useState('')
   const [taskFilter, setTaskFilter] = useState<string | null>(null)
   if (chat.length === 0) return (
     <div className="chat-empty">
       <div className="chat-empty-icon" aria-hidden="true">✦</div>
-      <h2>{tr('メッセージを待っています')}</h2>
-      <p className="muted small">{tr("Bot 間のメッセージはまだありません。表示されるのは実際に宛先の受信箱へ配送されたメッセージだけです。")}</p>
+      <h2>{ended ? tr('Bot 間のメッセージはありませんでした') : tr('メッセージを待っています')}</h2>
+      <p className="muted small">{ended ? tr("この実行では、受信箱へ配送されたメッセージはありません。作業の経緯は時系列で確認できます。") : tr("Bot 間のメッセージはまだありません。表示されるのは実際に宛先の受信箱へ配送されたメッセージだけです。")}</p>
     </div>
   )
   const taskIds = [...new Set(chat.map((m) => m.task_id).filter(Boolean))]
@@ -517,6 +530,33 @@ function Timeline({ items, tz, hiSeq, selTask }: { items: TimelineItem[]; tz?: s
   )
 }
 
+// Models sometimes write the summary as Markdown. Render headings, lists, **bold** and `code`
+// as React elements (no HTML injection); anything else stays plain text.
+function inlineMd(text: string) {
+  return text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g).map((part, i) =>
+    part.startsWith('**') && part.length > 4 ? <strong key={i}>{part.slice(2, -2)}</strong>
+      : part.startsWith('`') && part.length > 2 ? <code key={i}>{part.slice(1, -1)}</code> : part)
+}
+
+function Prose({ text }: { text: string }) {
+  // A summary flattened onto one line still carries " ## " heading markers; restore those breaks.
+  const lines = text.replace(/\s+(#{1,6}\s)/g, '\n$1').split('\n')
+  const blocks: ReactNode[] = []
+  let list: string[] = []
+  const flush = () => { if (list.length) { const items = list; list = []; blocks.push(<ul key={blocks.length}>{items.map((x, i) => <li key={i}>{inlineMd(x)}</li>)}</ul>) } }
+  for (const raw of lines) {
+    const line = raw.trim()
+    const item = /^[-*]\s+(.*)$/.exec(line)
+    if (item) { list.push(item[1]); continue }
+    flush()
+    if (!line) continue
+    const head = /^#{1,6}\s+(.*)$/.exec(line)
+    blocks.push(head ? <h3 key={blocks.length}>{inlineMd(head[1])}</h3> : <p key={blocks.length}>{inlineMd(line)}</p>)
+  }
+  flush()
+  return <div className="prose">{blocks}</div>
+}
+
 function Report({ run }: { run: RunDetail }) {
   const r = run.final_report
   if (!r) return <p className="muted small">{TERMINAL.includes(run.status) ? '報告はありません。' : tr('実行完了後に、成果物・検証・未解決・費用・経緯参照をまとめた報告が生成されます。')}</p>
@@ -525,7 +565,7 @@ function Report({ run }: { run: RunDetail }) {
   return (
     <div className="report small">
       <div className="row"><span className={'tag status-' + r.status}>{r.status}</span>{r.reason && <span className="err">{r.reason}</span>}<span className="muted">{n ? `要約: ${n.author}` : tr('要約: 生成なし（証拠のみ）')}</span></div>
-      {n?.summary && <><h2>{tr("要約")}</h2><p>{n.summary}</p></>}
+      {n?.summary && <><h2>{tr("要約")}</h2><Prose text={n.summary} /></>}
       <h2>{tr("成果物")}</h2>
       <ul>{r.deliverables.map((d: any) => <li key={d.artifact_id + d.revision}><code>{d.logical_path}</code> r{d.revision} <span className="muted">sha {d.sha256.slice(0, 12)} · {d.by}/{d.task_id}</span></li>)}</ul>
       <h2>{tr("検証済み")}</h2>

@@ -74,6 +74,10 @@ async def test_auditor_reads_controls_but_never_workspace_or_mutations(tmp_path)
 
 
 async def test_external_collector_outage_restart_rotation_and_snapshot_cursor(tmp_path):
+    # With access control on, readiness requires the Docker sandbox (api/app.py); CI provides the daemon.
+    import shutil, subprocess
+    if not shutil.which('docker') or subprocess.run(['docker', 'info'], capture_output=True).returncode != 0:
+        pytest.skip('actual Docker daemon required; CI provides it')
     sock = listening_socket(); port = sock.getsockname()[1]; origin = f'http://127.0.0.1:{port}'
     access = credentials(tmp_path, origin)
     actual = json.loads((EVIDENCE.parent / 'durable-execution-2026-09-14/cancelled-real-run.json').read_text())

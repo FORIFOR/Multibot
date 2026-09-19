@@ -38,3 +38,11 @@ Private form validation rejects empty required input. Browser failure preserves 
 Counts are aggregate event/product/language only. No form fields, audio, arbitrary URLs or visitor identifiers enter these counters. lead_submit means durable intake, not a click. DNT/GPC respected. No messages were sent to personal social accounts.
 
 Field LCP/INP/CLS at the 75th percentile, star gains, qualified leads, human first-impression studies and a full assistive-technology audit are not measured by this round. No conversion or full accessibility certification is claimed. Full 200% browser text zoom was not measured; responsive layouts were checked at the widths above. Existing narrower historical checks remain labeled as their earlier revision.
+
+## 2026-09-19 — キャラクター中心の新ホームページ
+日英のホームページを [DESIGN.md](DESIGN.md) の新方針で書き直した。上の表と実行ログは旧ページ（実行記録ビューア、動画、F-1〜F-3 のジャンプ）に対するもので、当時の記録として残す。
+
+- `node frontend/scripts/site-check.mjs http://127.0.0.1:8799`（ローカルの `python3 -m http.server`、headless Chrome）: 日英 × 1440 / 768 / 390 / 360px の8通りと、reduced-motion、JavaScript無効の各2通りで **失敗0**。H1は 64.8 / 43 / 36 / 36px、ボタンの最小高さ48px。
+- 実行記録の変更前・変更後は `record.js` の記録原文を生成時に取り込んでいる。初稿では要約文を載せていたが、F-2 の要約が実際の修正内容と違っていたため、原文に差し替えた。
+- 未確認: WebKit / Firefox での表示（キャラクターの拡大に CSS `zoom` を使用）、公開後の GitHub Pages 上での再実行、フォームの実送信、実利用者による理解度、CWV のフィールド値。動画（`media/*.mp4`）は新ページからは参照していない。
+- 旧ページ用の `site.css`、`portfolio.css`、`workflow.css`、`launch.js` は新ページから参照していない（`record.js` は記録原文の出典として残す）。削除はしていない。

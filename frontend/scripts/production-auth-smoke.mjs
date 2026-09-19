@@ -26,7 +26,7 @@ try {
   await page.screenshot({ path: `${shots}/login.png` })
   await page.getByLabel(/アクセスキー|Access key/).fill(readFileSync(adminKey, 'utf8').trim())
   await page.getByRole('button', { name: /^(ログイン|Sign in)$/ }).click()
-  await page.getByRole('link', { name: /^(設定|Settings)$/ }).waitFor()
+  await page.getByRole('link', { name: /^(設定|Settings|マイチーム|My team)$/ }).waitFor()
   checks.push('admin login and settings navigation')
   if (process.env.RUN_ID) {
     await page.goto(`${base}/runs/${process.env.RUN_ID}`)
@@ -40,7 +40,7 @@ try {
   await page.getByLabel(/アクセスキー|Access key/).fill(readFileSync(operatorKey, 'utf8').trim())
   await page.getByRole('button', { name: /^(ログイン|Sign in)$/ }).click()
   await page.getByRole('button', { name: /^(ログアウト|Sign out)$/ }).waitFor()
-  if (await page.getByRole('link', { name: /^(設定|Settings)$/ }).count()) throw new Error('operator can see administrator settings navigation')
+  if (await page.getByRole('link', { name: /^(設定|Settings|マイチーム|My team)$/ }).count()) throw new Error('operator can see administrator settings navigation')
   await page.getByRole('heading', { level: 1 }).waitFor()
   await page.waitForFunction(() => [...document.querySelectorAll('.reveal')].every(el => getComputedStyle(el).opacity === '1'))
   await page.screenshot({ path: `${shots}/operator-home.png` })
@@ -53,7 +53,7 @@ try {
     // This actual staging configuration has never passed a capability probe.
     await page.getByText(/^(実行条件の確認が必要|Execution prerequisites need attention)$/).waitFor()
     await page.getByRole('heading', { name: /^(直近の監査記録|Recent audit records)$/ }).waitFor()
-    if (await page.getByRole('link', { name: /^(設定|Settings|依頼|Requests)$/ }).count()) throw new Error('auditor received workspace navigation')
+    if (await page.getByRole('link', { name: /^(設定|Settings|マイチーム|My team|依頼|Requests|お願いする|Ask)$/ }).count()) throw new Error('auditor received workspace navigation')
     await page.screenshot({ path: `${shots}/auditor-operations.png` })
     await page.setViewportSize({ width: 390, height: 844 })
     if (await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)) throw new Error('mobile operations page overflows the viewport')
