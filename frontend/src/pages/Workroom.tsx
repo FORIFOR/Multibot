@@ -3,7 +3,7 @@ import type { FormEvent } from 'react'
 import { api, money, fmtTime, type RunDetail, type ChatMessage, type Artifact, type Event, type Approval } from '../lib/api'
 import { getLang } from '../lib/i18n'
 import { botActivity, botStateLabel } from '../lib/bot-presentation'
-import { defaultPanel, requestedPanel, resultFiles, statusLabel, stateTone, roleLabel, isSettled, type JourneyPanel } from '../lib/journey'
+import { friendlyReason, teamOrder, defaultPanel, requestedPanel, resultFiles, statusLabel, stateTone, roleLabel, isSettled, type JourneyPanel } from '../lib/journey'
 import Journey from '../components/Journey'
 import BotAvatar from '../components/BotAvatar'
 import '../journey.css'
@@ -80,6 +80,11 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   }
   const reviewNotes: string[] = [...new Set([...run.tasks.flatMap(t => [t.blocked_reason, ...(t.result?.unverified || [])]), ...(run.final_report?.narrative?.unresolved || [])].filter((v): v is string => !!v))]
   const runnable = ['created','queued','planning','running'].includes(run.status)
+  // Runtime wording stays available on hover and in the detailed record; the everyday view says it plainly.
+  const notices = <>
+    {run.blocked_reason && <section className="work-warning"><strong>{say('進められない理由','Why work stopped')}</strong><p title={run.blocked_reason}>{friendlyReason(run.blocked_reason, getLang())}</p></section>}
+    {reviewNotes.length > 0 && <section className="work-warning"><strong>{say('まだ確認が必要なこと','Still needs checking')}</strong><ul>{reviewNotes.map((note, i) => <li key={i} title={note}>{friendlyReason(note, getLang())}</li>)}</ul></section>}
+  </>
   return <div className={`simple-workroom${paused ? ' motion-paused' : ''}`}>
     <Journey current={selectedPanel} onSelect={select} />
     <header className="simple-run-heading">
@@ -96,8 +101,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     </section>
     {loadError && <p className="work-warning" role="alert">{loadError} <button className="btn ghost" onClick={refresh}>{say('再読み込み','Refresh')}</button></p>}
     {actionError && <p className="work-warning" role="alert">{actionError}</p>}
-    {run.blocked_reason && <section className="work-warning"><strong>{say('進められない理由','Why work stopped')}</strong><p>{run.blocked_reason}</p></section>}
-    {reviewNotes.length > 0 && <section className="work-warning"><strong>{say('まだ確認が必要なこと','Still needs checking')}</strong><ul>{reviewNotes.map((note, i) => <li key={i}>{note}</li>)}</ul></section>}
+    {selectedPanel !== 'team' && notices}
     {pending.length > 0 && <section className="approval-callout" aria-label={say('あなたの確認が必要です','Your approval is needed')}>
       <div><strong>{say('あなたの確認が必要です','Your approval is needed')} · {pending.length}{say('件',' item(s)')}</strong><p>{say('内容を確認してから選んでください。自動では承認しません。','Read the proposed action before deciding. Nothing is automatically approved.')}</p></div>
       <button className="btn signal" aria-expanded={approvalsOpen} aria-controls="simple-approvals" onClick={() => setApprovalsOpen(!approvalsOpen)}>{approvalsOpen ? say('閉じる','Close') : say('内容を確認','Review action')}</button>
@@ -110,14 +114,18 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
       <button className="btn signal" onClick={() => select('team')}>{say('チームの様子を見る','See the team')}</button>
     </section>}
     {selectedPanel === 'team' && <section className="simple-team-room" aria-label={say('チームの様子','Your team')}>
-      <div className="simple-team-grid">{Object.entries(run.config_snapshot?.agents || {}).filter(([,a]) => a.enabled).map(([id,a]) => {
+      <ol className="team-stage">{teamOrder(Object.entries(run.config_snapshot?.agents || {}).filter(([,a]) => a.enabled)).map(([id,a]) => {
         const tasks = run.tasks.filter(t => t.spec.owner === id), state = botActivity(tasks, run.status, id, a.role, a.enabled)
-        const task = tasks.find(t => t.status === 'running') || tasks.find(t => !['accepted','cancelled'].includes(t.status))
-        return <article className={`simple-bot state-${state}`} key={id}><BotAvatar id={id} role={a.role} name={a.display_name || roleLabel(a.role,getLang())} emoji={a.emoji} state={state} />
-          <div><h2>{a.display_name || roleLabel(a.role,getLang())}</h2><span className="simple-bot-state">{botStateLabel(state,getLang())}</span></div>
-          {task && <p>{task.spec.objective}</p>}
-        </article>
-      })}</div>
+        const task = tasks.find(t => t.status === 'running') || tasks.find(t => !['accepted','cancelled'].includes(t.status)) || tasks[tasks.length - 1]
+        const active = ['thinking','researching','building','reviewing'].includes(state)
+        return <li className={`simple-bot state-${state}${active ? ' is-active' : ''}`} key={id}>
+          <div className="bot-floor"><BotAvatar id={id} role={a.role} name={a.display_name || roleLabel(a.role,getLang())} emoji={a.emoji} state={state} size="stage" /></div>
+          <h2>{a.display_name || roleLabel(a.role,getLang())}</h2>
+          <span className="simple-bot-state" role="status">{botStateLabel(state,getLang())}</span>
+          {task ? <p className="bot-says">{task.spec.objective}</p> : <p className="bot-says is-quiet">{a.role === 'master' && run.plan ? say('進め方を決めて、みんなに頼みました','Planned the work and handed it out') : isSettled(run.status) ? say('今回は出番がありませんでした','No assignment in this request') : say('出番を待っています','Waiting for a turn')}</p>}
+        </li>
+      })}</ol>
+      {notices}
       {Object.keys(run.config_snapshot?.agents || {}).length === 0 && <p className="simple-empty">{say('チームの準備ができると、ここに仲間が表示されます。','Your teammates appear here once the team is ready.')}</p>}
       <section className="team-conversation pane"><header><h2>{say('チームのやりとり','Team conversation')}</h2><button className="btn ghost" aria-pressed={paused} onClick={() => setPaused(!paused)}>{say('動きを止める','Pause animation')}</button></header>
         <div className="conversation-content">{chat.length ? chat.slice(-5).map(m => <article className="simple-message" key={m.event_id}>

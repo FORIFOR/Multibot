@@ -32,3 +32,20 @@ export function stateTone(status: string): 'good' | 'attention' | 'working' {
   if (status === 'completed') return 'good'
   return isSettled(status) || status === 'approval_required' ? 'attention' : 'working'
 }
+/** Teammates appear in hand-off order (plan → research → make → check → report), not config order. */
+const ROLE_ORDER = ['master', 'researcher', 'builder', 'reviewer', 'reporter']
+export function teamOrder<T extends { role?: string }>(agents: [string, T][]): [string, T][] {
+  const rank = (role?: string) => { const i = ROLE_ORDER.indexOf(role || ''); return i < 0 ? ROLE_ORDER.length : i }
+  return agents.map((entry, i) => ({ entry, i })).sort((a, b) => rank(a.entry[1].role) - rank(b.entry[1].role) || a.i - b.i).map(x => x.entry)
+}
+/** Runtime reasons are written for the work record. Translate the recurring ones; unknown text passes through unchanged. */
+const REASONS: [RegExp, string, string][] = [
+  [/required independent review was not submitted/g, '確かめる係の確認がまだ出ていません', 'the reviewer has not submitted a check yet'],
+  [/agent ended its turn repeatedly without (?:finish_task|using a tool)/g, '担当が「終わりました」の合図を出さないまま止まりました', 'the teammate stopped without reporting that the work was finished'],
+  [/review left criteria unverified/g, '確認できていない条件が残っています', 'some acceptance criteria are still unverified'],
+  [/wall-clock limit reached/g, '時間の上限に達しました', 'the time limit was reached'],
+  [/\bpartial\b/g, '途中まで', 'partly done'], [/\bcancelled\b/g, '取りやめ', 'cancelled'], [/\bqueued\b/g, '順番待ち', 'waiting its turn'],
+]
+export function friendlyReason(text: string, lang: UiLanguage): string {
+  return REASONS.reduce((out, [pattern, ja, en]) => out.replace(pattern, lang === 'en' ? en : ja), text)
+}
