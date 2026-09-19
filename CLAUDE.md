@@ -25,7 +25,7 @@ Local-first AI teams that draft, review and revise deliverables. Python/FastAPI 
 - Backend tests: `cd backend && .venv/bin/python -m pytest -q` (dev extras: `uv pip install --python .venv/bin/python -e ".[dev]"`).
 - Frontend (pnpm): in `frontend/` — `pnpm build` (includes `tsc -b`), `pnpm lint`, `pnpm test:router`, `test:bots`, `test:journey`, `test:welcome`, `test:markdown`.
 - Browser regressions against the fresh build, no server needed: `node scripts/ui-polish-smoke.mjs`, `node scripts/three-step-smoke.mjs` (in `frontend/`).
-- Browser smokes that need the scripted test server: `cd backend && AGENTTEAM_ALLOW_FAKE_PROVIDER=1 AGENTTEAM_NO_SEATBELT=1 .venv/bin/python scripts/demo_fake_server.py --port 8791`, then `node scripts/ui-smoke.mjs` and `node scripts/workroom-smoke.mjs`.
+- Browser smokes that need the scripted test server: `cd backend && AGENTTEAM_ALLOW_FAKE_PROVIDER=1 AGENTTEAM_NO_SEATBELT=1 .venv/bin/python scripts/demo_fake_server.py --port 8791`, then `node scripts/ui-smoke.mjs`, `node scripts/workroom-smoke.mjs` and `node scripts/a11y-smoke.mjs` (axe; zero findings is not conformance).
 - Screens for review: with that server running, `node frontend/scripts/ui-capture.mjs` writes `artifacts/ui/*.png`.
 - Site: `python3 docs/site/build_site.py`; serve `docs/` and run `node frontend/scripts/site-check.mjs <base>`.
 - Evidence gate: `node scripts/ui-quality.mjs begin|inspect|check|assert <session>`; its own tests: `node --test scripts/tests/ui-gate.test.mjs`.

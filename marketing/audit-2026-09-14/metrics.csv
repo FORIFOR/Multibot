@@ -1,0 +1,28 @@
+project_id,対象種別：アカウント／投稿／サイト／リポジトリ／製品,対象IDまたはURL,指標名,値,単位,対象期間の開始,対象期間の終了,数値の取得日時,データ取得元,確認状態,補足
+multibot,リポジトリ,https://github.com/FORIFOR/Multibot,GitHub Star,1,star,,,2026-09-14 23:57 JST,GitHub public/API,確認済み,過去増加は未取得
+multibot,リポジトリ,https://github.com/FORIFOR/Multibot,Fork,0,fork,,,2026-09-14 23:57 JST,GitHub public/API,確認済み,公開値0。過去増加未取得
+multibot,リポジトリ,https://github.com/FORIFOR/Multibot,公開Issue,0,issue,,,2026-09-14 23:57 JST,GitHub public page,確認済み,Issues 0。PRは別集計
+multibot,リポジトリ,https://github.com/FORIFOR/Multibot,Open PR,1,PR,,,2026-09-14 23:57 JST,GitHub public/API,確認済み,PR #2。所有者PR
+multibot,リポジトリ,https://github.com/FORIFOR/Multibot/releases,公開Release数,3,release,2026-09-12,2026-09-13,2026-09-14 23:57 JST,GitHub Releases API,確認済み,v0.1.0-v0.2.1
+multibot,リポジトリ,https://github.com/FORIFOR/Multibot/releases/tag/v0.2.1,Release asset download,2,download,,,2026-09-14 23:57 JST,GitHub Releases API,確認済み,wheelのみ。利用者数ではない
+multibot,リポジトリ,https://github.com/FORIFOR/Multibot/releases/tag/v0.1.0,Release asset download,2,download,,,2026-09-14 23:57 JST,GitHub Releases API,確認済み,demo.gif 1 + demo.mp4 1
+multibot,アカウント,https://github.com/FORIFOR,GitHub followers,1,follower,,,2026-09-14 23:57 JST,GitHub Users API,確認済み,アカウント全体、帰属不可
+multibot,アカウント,https://x.com/forifori_dev,X followers,1,follower,,,2026-09-14 23:57 JST,X public profile,確認済み,アカウント全体、帰属不可
+multibot,アカウント,https://x.com/forifori_dev,X following,24,account,,,2026-09-14 23:57 JST,X public profile,確認済み,アカウント全体
+multibot,アカウント,https://x.com/forifori_dev,X投稿数,41,post,,,2026-09-14 23:57 JST,X public profile,確認済み,アカウント全体
+multibot,アカウント,https://www.facebook.com/p/foriforapps-61593966556275/,Facebookページいいね,1,like,,,2026-09-14 23:57 JST,Facebook public OG,確認済み,ページ全体
+multibot,アカウント,https://www.facebook.com/p/foriforapps-61593966556275/,Facebook話題にしている人表示,4,people,,,2026-09-14 23:57 JST,Facebook public OG,確認済み,定義・帰属未確認
+multibot,投稿,https://zenn.dev/forifori/articles/agent-team-launch,Zennいいね,1,like,2026-09-13,,2026-09-14 23:57 JST,Zenn public HTML,確認済み,記事単位
+multibot,投稿,https://zenn.dev/forifori/articles/agent-team-launch,Zennコメント,0,comment,2026-09-13,,2026-09-14 23:57 JST,Zenn public HTML,確認済み,記事単位。公開値0
+multibot,投稿,https://zenn.dev/forifori/articles/agent-team-launch,Zennブックマーク,0,bookmark,2026-09-13,,2026-09-14 23:57 JST,Zenn public HTML,確認済み,記事単位。公開値0
+multibot,投稿,https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a,dev.to reactions,0,reaction,2026-09-13,,2026-09-14 23:57 JST,dev.to API,確認済み,記事単位。公開値0
+multibot,投稿,https://dev.to/forifor/i-built-an-ai-team-that-ships-real-work-and-shows-you-the-conversation-251a,dev.to comments,1,comment,2026-09-13,,2026-09-14 23:57 JST,dev.to API,確認済み,記事単位
+multibot,投稿,https://x.com/forifori_dev/status/2098800226199130220,X reactions/views,,count,2026-09-13,,2026-09-14 23:57 JST,X public HTML,取得不可,ログイン・年齢制限で数値取得不可。空欄は0ではない
+multibot,投稿,https://www.facebook.com/reel/1117648910591001/,Facebook views/reactions/comments/shares,,count,2026-09-14,,2026-09-14 23:57 JST,Facebook public OG,未取得,Insights未取得。空欄は0ではない
+multibot,サイト,https://forifor.github.io/Multibot/ja/,訪問者・セッション,,visitor/session,,,2026-09-14 23:57 JST,GitHub Pages HTML / local JS,未取得,7日/30日/累計すべて未取得
+multibot,サイト,https://forifor.github.io/Multibot/ja/,CTAクリック,,click,,,2026-09-14 23:57 JST,portfolio.js / Cloud Run,未確認,コードあり、受信データなし
+multibot,サイト,https://forifor.github.io/Multibot/ja/,問い合わせ受信,,lead,,,2026-09-14 23:57 JST,portfolio.js / Cloud Run,未取得,フォーム未送信、管理画面未取得
+multibot,製品,https://github.com/FORIFOR/Multibot,試用人数・登録者・アクティブユーザー,,user,,,2026-09-14 23:57 JST,repo/site/release,未取得,サインアップ基盤なし
+multibot,製品,https://github.com/FORIFOR/Multibot,外部Issue/PR/フィードバック,,item,,,2026-09-14 23:57 JST,GitHub public page,未取得,Open PR1は所有者PR、外部成果と断定不可
+multibot,製品,https://github.com/FORIFOR/Multibot,公開実行の定価換算コスト,6.07,USD/run,2026-09-13,2026-09-13,2026-09-14 23:57 JST,docs/site/PRODUCT.md / README,確認済み,内部公開実例。売上・制作費ではない
+multibot,製品,https://github.com/FORIFOR/Multibot,売上・有料利用者・契約,,JPY/user/contract,,,2026-09-14 23:57 JST,public repo/site,未取得,料金・決済・顧客台帳未確認

@@ -145,6 +145,9 @@ jobs:
         working-directory: frontend
       - run: LANG_UI=en SHOTS=/tmp/agentteam-shots node scripts/ui-smoke.mjs
         working-directory: frontend
+      - name: Automated accessibility scan (axe, WCAG 2.x A/AA) of the everyday screens
+        run: node scripts/a11y-smoke.mjs
+        working-directory: frontend
       - if: always()
         run: cat /tmp/demo.log | tail -20
       - if: always()

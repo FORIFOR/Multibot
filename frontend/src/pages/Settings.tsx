@@ -86,7 +86,13 @@ function ConnectionCard({ c, cfg, guard }: { c: Connection; cfg: Config; guard: 
         <button className="btn sm ghost" disabled={probing || dirty} onClick={async () => { setProbing(true); await guard(() => api.probe(c.id, probeModel), t('疎通確認を実行しました')); setProbing(false) }}>{probing ? '確認中…' : t('疎通確認（実 API 呼出・少額）')}</button>
         <span className="muted small">{t("tool calling と JSON schema 出力を実際に試します。")}</span>
       </div>
-      {d && <div className="probe">{`requested ${d.model_requested} → reported ${d.model_reported ?? 'unknown'}\ntool_calling ${d.tool_calling}  json_schema ${d.json_schema}\n${d.error ? 'error: ' + d.error : 'ok'}${d.usage ? `\nusage in=${d.usage.input_tokens} out=${d.usage.output_tokens}` : ''}`}</div>}
+      {d && <div className="probe">{[
+        d.model_requested || d.model_reported ? `${getLang() === 'en' ? 'model' : 'モデル'}: ${d.model_requested ? `${d.model_requested} → ` : ''}${d.model_reported ?? (getLang() === 'en' ? 'not reported' : '報告なし')}` : '',
+        typeof d.tool_calling === 'boolean' ? `tool calling: ${d.tool_calling ? 'ok' : 'NG'}` : '',
+        typeof d.json_schema === 'boolean' ? `JSON schema: ${d.json_schema ? 'ok' : 'NG'}` : '',
+        d.error ? `error: ${d.error}` : (getLang() === 'en' ? 'connection check passed' : '疎通確認は成功'),
+        d.usage ? `usage in=${d.usage.input_tokens} out=${d.usage.output_tokens}` : '',
+      ].filter(Boolean).join('\n')}</div>}
     </div>
   )
 }

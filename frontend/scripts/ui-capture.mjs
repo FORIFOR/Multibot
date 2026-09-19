@@ -54,11 +54,24 @@ try {
       await page.screenshot({ path: `${out}/mobile-results-viewport.png` })
       await note('mobile-results-viewport.png', page, errors, width, height, 'work screen scrolled to the results reader, viewport only')
     }
+    // Panel-only shots: the sticky top bar would otherwise be painted over the panel. It stays visible in the page shots above.
+    await page.addStyleTag({ content: '.top{visibility:hidden!important}' })
     // The same screen with a file that has no check record selected: the state a reviewer must be able to tell apart.
     const unchecked = page.locator('.result-file-list button').filter({ has: page.locator('.tab-mark') }).first()
     await unchecked.click(); await page.waitForTimeout(500)
     await page.locator('.simple-deliverables').screenshot({ path: `${out}/${name}-unchecked-file.png` })
     await note(`${name}-unchecked-file.png`, page, errors, width, height, `results panel only, file selected: ${(await unchecked.innerText()).trim()}`)
+    if (name === 'desktop') {
+      // What the panel looks like right after adopting: once for the unverified file, once for a passed one, with the record open.
+      await page.locator('[data-adopt]').click(); await page.waitForTimeout(800)
+      await page.locator('.simple-deliverables').screenshot({ path: `${out}/desktop-after-adopt-unverified.png` })
+      await note('desktop-after-adopt-unverified.png', page, errors, width, height, 'results panel right after adopting the file that has no check record')
+      await page.locator('.result-file-list button').filter({ hasNot: page.locator('.tab-mark') }).first().click(); await page.waitForTimeout(500)
+      await page.locator('[data-adopt]').click(); await page.waitForTimeout(800)
+      await page.locator('.result-record summary').click(); await page.waitForTimeout(400)
+      await page.locator('.simple-deliverables').screenshot({ path: `${out}/desktop-after-adopt-passed-record-open.png` })
+      await note('desktop-after-adopt-passed-record-open.png', page, errors, width, height, 'results panel after adopting a passed file, check record opened')
+    }
     await context.close()
   }
 } finally { await browser.close() }

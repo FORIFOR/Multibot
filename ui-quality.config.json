@@ -9,6 +9,7 @@
     "frontend/scripts/ui-capture.mjs",
     "frontend/scripts/ui-polish-smoke.mjs",
     "frontend/scripts/three-step-smoke.mjs",
+    "frontend/scripts/a11y-smoke.mjs",
     "frontend/tests",
     "docs/design",
     "scripts/ui-quality.mjs",
