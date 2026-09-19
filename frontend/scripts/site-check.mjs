@@ -31,6 +31,10 @@ for (const [name, path] of [['en', '/'], ['ja', '/ja/']]) {
       await page.click(`[data-finding="${i}"]`)
       r.findings.push(await page.evaluate((i) => ({ pressed: document.querySelector(`[data-finding="${i}"]`).getAttribute('aria-pressed'), visible: [...document.querySelectorAll('[data-diff]')].filter((d) => !d.hidden).map((d) => d.dataset.diff) }), i))
     }
+    // Real app screens: one visible at a time, arrow keys move between them, images have intrinsic size (no layout shift).
+    await page.click('[data-shot="1"]'); await page.keyboard.press('ArrowRight')
+    r.shots = await page.evaluate(() => ({ visible: [...document.querySelectorAll('[data-shot-panel]')].filter((p) => !p.hidden).map((p) => p.dataset.shotPanel), selected: [...document.querySelectorAll('[data-shot][aria-selected="true"]')].map((t) => t.dataset.shot), sized: [...document.querySelectorAll('.shot img')].every((i) => i.getAttribute('width') && i.getAttribute('height') && i.alt) }))
+    r.shotLoaded = await page.evaluate(async () => { const i = document.querySelector('[data-shot-panel]:not([hidden]) img'); if (!i.complete) await new Promise((r) => { i.onload = r; i.onerror = r }); return i.naturalWidth > 0 })
     r.noAutoplayMedia = await page.evaluate(() => [...document.querySelectorAll('video,audio')].every((m) => !m.autoplay))
     r.brand = await page.evaluate(() => /Agent Team/.test(document.querySelector('.brand').textContent) && /Multibot/.test(document.querySelector('.brand').textContent) && /MIT/.test(document.querySelector('footer').textContent) && !!document.querySelector('a[href="https://github.com/FORIFOR/Multibot"]'))
     r.leadForm = await page.evaluate(() => !!document.querySelector('#portfolio-form button[type="submit"]') && !!document.querySelector('#portfolio-form input[name="consent"][required]'))
@@ -42,6 +46,7 @@ for (const [name, path] of [['en', '/'], ['ja', '/ja/']]) {
     if (vp === 'pc') expect(key, 'team visible on the first screen', r.teamAboveFold)
     expect(key, 'stage moves', r.stageMoves); expect(key, 'stage pauses', r.stagePauses)
     r.findings.forEach((f, i) => expect(key, `finding ${i} shows only its diff`, f.pressed === 'true' && f.visible.length === 1 && f.visible[0] === String(i), f))
+    expect(key, 'app screens: tab 3 after click + ArrowRight', r.shots.visible.join() === '2' && r.shots.selected.join() === '2' && r.shots.sized && r.shotLoaded, r.shots)
     expect(key, 'brand, MIT, repo link', r.brand); expect(key, 'inquiry form with consent', r.leadForm); expect(key, 'quickstart command', r.quickstart); expect(key, 'evidence links', r.evidenceLinks >= 2, r.evidenceLinks)
     await ctx.close()
   }
@@ -53,7 +58,7 @@ for (const [name, path] of [['en', '/'], ['ja', '/ja/']]) {
   out[`${name}-reduced-motion`] = { still, revealed }; expect(`${name}-reduced-motion`, 'stage is static and content is visible', still && revealed); await calm.close()
   const plain = await browser.newContext({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false }); const pp = await plain.newPage()
   await pp.goto(base + path, { waitUntil: 'load' })
-  const readable = await pp.evaluate(() => [...document.querySelectorAll('[data-reveal]')].every((el) => getComputedStyle(el).opacity === '1') && !![...document.querySelectorAll('[data-diff]')].find((d) => !d.hidden) && document.querySelector('#stage-toggle').hidden)
+  const readable = await pp.evaluate(() => [...document.querySelectorAll('[data-reveal]')].every((el) => getComputedStyle(el).opacity === '1') && !![...document.querySelectorAll('[data-diff]')].find((d) => !d.hidden) && document.querySelector('#stage-toggle').hidden && [...document.querySelectorAll('[data-shot-panel]')].every((p) => p.getBoundingClientRect().height > 100))
   out[`${name}-no-js`] = { readable }; expect(`${name}-no-js`, 'readable without JavaScript', readable); await plain.close()
 }
 await browser.close()

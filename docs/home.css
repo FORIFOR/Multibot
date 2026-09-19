@@ -1,5 +1,5 @@
 /* Agent Team public site. Light, roomy, one idea per section. Characters are the product's own (frontend/src/quiet-cinema.css). */
-:root{color-scheme:light;--bg:#f7f8ff;--paper:#fff;--ink:#1d2030;--ink-2:#4a5166;--ink-3:#6b7389;--line:#e2e6f2;--signal:#4f63d9;--signal-ink:#3346b8;--signal-soft:#e6eaff;--ok:#0f6b52;--ok-soft:#dff6ed;--warn:#7a4a00;--warn-soft:#fdebd3;--r:26px;--sans:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans CJK JP","Yu Gothic UI","Segoe UI",Meiryo,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+:root{color-scheme:light;--bg:#f7f8ff;--paper:#fff;--ink:#1d2030;--ink-2:#4a5166;--ink-3:#586079;--line:#e2e6f2;--signal:#4f63d9;--signal-ink:#3346b8;--signal-soft:#e6eaff;--ok:#0f6b52;--ok-soft:#dff6ed;--warn:#7a4a00;--warn-soft:#fdebd3;--r:26px;--sans:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans CJK JP","Yu Gothic UI","Segoe UI",Meiryo,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.85 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video{max-width:100%}a{color:inherit}button,input,textarea{font:inherit}button{cursor:pointer}
@@ -50,6 +50,16 @@ p{margin:0}.lede{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:3
 .card h3{margin-bottom:8px}.card p{color:var(--ink-2);font-size:15.5px;line-height:1.8}
 .role{text-align:center}.role .floor{width:auto;margin:-8px -8px 12px;border-radius:20px;height:140px;background:radial-gradient(60% 18px at 50% calc(100% - 12px),rgba(40,50,90,.12),transparent 70%),linear-gradient(180deg,var(--tone,#f3f5fd),transparent)}
 .role small{display:block;margin-bottom:6px;font-size:12.5px;font-weight:700;color:var(--ink-3)}
+/* real app screens: stacked without JS, tabbed with it */
+.shots{max-width:1040px;margin:0 auto}.shot-tabs{display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}.js .shot-tabs{display:grid}
+.shot-tabs button{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 12px;border:0;border-radius:18px;background:#eef1f8;color:var(--ink-2);font-weight:750;font-size:15px}
+.shot-tabs b{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;background:#fff;font-size:13px}
+.shot-tabs button[aria-selected=true]{background:var(--signal-soft);color:var(--signal-ink)}.shot-tabs button[aria-selected=true] b{background:var(--signal);color:#fff}
+.shot{margin:0 0 28px}.shot figure{margin:0}.js .shot{margin:0}.js .shot[hidden]{display:none}
+.frame{border:1px solid var(--line);border-radius:22px;background:#fff;overflow:hidden;box-shadow:0 30px 80px rgba(47,58,110,.13)}
+.frame::before{content:'';display:block;height:34px;border-bottom:1px solid var(--line);background:radial-gradient(circle at 20px 50%,#ff6b62 5px,transparent 5.5px),radial-gradient(circle at 38px 50%,#ffc130 5px,transparent 5.5px),radial-gradient(circle at 56px 50%,#2acb4a 5px,transparent 5.5px),#f4f6fc}
+.frame img{display:block;width:100%;height:auto}
+.shot figcaption{margin:16px auto 0;max-width:720px;text-align:center;color:var(--ink-2);font-size:16px}.shot figcaption b{display:block;color:var(--ink);font-size:18px}
 /* proof */
 .proof{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;align-items:stretch}
 .findings{display:grid;gap:10px;align-content:start}.finding{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;width:100%;padding:16px 18px;border:1.5px solid var(--line);border-radius:20px;background:#fff;text-align:left;color:inherit;transition:border-color .2s,box-shadow .2s}
@@ -103,7 +113,7 @@ p{margin:0}.lede{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:3
 .hero .stage{grid-column:2;grid-row:1/span 4;align-self:center;margin:0;padding:22px 18px 16px}.hero .mates{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .mate+.mate::before{display:none}.hero .floor{height:132px}.hero .ask-line{margin-bottom:16px;font-size:15px}
 .hero .mate::after{content:attr(data-n);position:absolute;left:12px;top:10px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line);font:700 12px/1 var(--mono);color:var(--ink-3)}}
 @media(max-width:900px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3,.proof,.split,.contact{grid-template-columns:minmax(0,1fr)}.split .head,.contact .head{text-align:center;margin-inline:auto}.split .head .lede{margin-inline:auto}.nav a:not(.btn):not(.lang){display:none}.steps3{grid-template-columns:1fr}}
-@media(max-width:640px){body{font-size:16px}.wrap{width:min(1160px,100% - 32px)}.top{padding-left:16px}.brand small{display:none}.mates{grid-template-columns:repeat(2,minmax(0,1fr))}.mate+.mate::before{display:none}.floor{height:118px}.bot-size-stage{zoom:1.45}.stage{padding:20px 12px 14px;border-radius:26px}.ask-line{font-size:14.5px;padding:12px 14px}.g2{grid-template-columns:minmax(0,1fr)}.card{padding:22px}.btn{width:100%}.hero .cta{flex-direction:column}.nav .btn{width:auto}.term code{padding-right:0;padding-top:44px;font-size:13.5px}.bar{grid-template-columns:78px 1fr 40px}.faq summary{font-size:16px}}
+@media(max-width:640px){body{font-size:16px}.wrap{width:min(1160px,100% - 32px)}.top{padding-left:16px}.brand small{display:none}.mates{grid-template-columns:repeat(2,minmax(0,1fr))}.mate+.mate::before{display:none}.floor{height:118px}.bot-size-stage{zoom:1.45}.stage{padding:20px 12px 14px;border-radius:26px}.ask-line{font-size:14.5px;padding:12px 14px}.g2{grid-template-columns:minmax(0,1fr)}.card{padding:22px}.btn{width:100%}.hero .cta{flex-direction:column}.nav .btn{width:auto}.term code{padding-right:0;padding-top:44px;font-size:13.5px}.bar{grid-template-columns:78px 1fr 40px}.faq summary{font-size:16px}.shot-tabs button{flex-direction:column;gap:4px;font-size:12.5px;min-height:64px}.frame{border-radius:14px}.frame::before{height:22px;background-size:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.js [data-reveal]{opacity:1;transform:none}}
 .paused *,.paused *::before,.paused *::after{animation-play-state:paused!important}
 

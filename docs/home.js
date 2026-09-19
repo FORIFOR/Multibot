@@ -60,6 +60,21 @@
     }
   }
 
+  // Real app screens: three tabs with arrow-key support. Without this script the three figures simply stack.
+  var tabs = [].slice.call(doc.querySelectorAll('[data-shot]')), panels = [].slice.call(doc.querySelectorAll('[data-shot-panel]'));
+  var showShot = function (n, focus) {
+    tabs.forEach(function (t, i) { t.setAttribute('aria-selected', String(i === n)); t.tabIndex = i === n ? 0 : -1; if (i === n && focus) t.focus(); });
+    panels.forEach(function (p, i) { p.hidden = i !== n; });
+  };
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { showShot(i, false); });
+    tab.addEventListener('keydown', function (ev) {
+      var next = ev.key === 'ArrowRight' ? (i + 1) % tabs.length : ev.key === 'ArrowLeft' ? (i + tabs.length - 1) % tabs.length : -1;
+      if (next >= 0) { ev.preventDefault(); showShot(next, true); }
+    });
+  });
+  if (tabs.length) showShot(0, false);
+
   // Findings: one real finding at a time, with its before/after.
   var findings = [].slice.call(doc.querySelectorAll('[data-finding]'));
   findings.forEach(function (btn) {
