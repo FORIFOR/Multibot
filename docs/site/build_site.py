@@ -152,7 +152,7 @@ def page(t):
   <nav class="nav" aria-label="{'サイト内' if t['lang']=='ja' else 'Site'}">{nav}<a class="lang" href="{t['other']}" lang="{t['other_lang']}" hreflang="{t['other_lang']}">{e(t['other_label'])}</a><a class="btn" href="#start" data-track="quickstart_open">{e(t['nav_cta'])}</a></nav>
 </header>
 <main id="main">
-<section class="hero"><div class="wrap">
+<section class="hero sky"><div class="wrap">
   <h1>{t['h1']}</h1>
   <p class="lede">{e(t['lede'])}</p>
   <div class="cta"><a class="btn" href="#start" data-track="quickstart_open">{e(t['cta1'])}</a><a class="btn ghost" href="#proof">{e(t['cta2'])}</a></div>
@@ -213,7 +213,7 @@ def page(t):
   <div class="faq" data-reveal>{faq}</div>
 </div></section>
 
-<section class="section final"><div class="wrap">
+<section class="section final sky"><div class="wrap">
   <div class="crew" aria-hidden="true">{crew}</div>
   <h2 data-reveal>{t['final_h']}</h2><p class="lede" style="margin:18px auto 32px" data-reveal>{e(t['final_p'])}</p>
   <a class="btn" href="#start" data-track="quickstart_open">{e(t['cta1'])}</a>
@@ -230,6 +230,19 @@ def page(t):
 </body>
 </html>
 '''
+def build_bots_css():
+    """The site uses the product's own characters. Copy their CSS instead of keeping a second, drifting version."""
+    src = (ROOT.parent/'frontend/src/quiet-cinema.css').read_text(encoding='utf-8').splitlines()
+    i = next(n for n,l in enumerate(src) if l.startswith('/* Role-aware bot characters'))
+    j = next(n for n,l in enumerate(src) if n>i and l.startswith('@media(prefers-reduced-motion:reduce){.bot-character'))
+    base = '\n'.join(l for l in src[i:j+1] if not l.startswith('.bot-agent'))
+    polish = (ROOT.parent/'frontend/src/bot-polish.css').read_text(encoding='utf-8')
+    site = (ROOT/'site/bots-site.css').read_text(encoding='utf-8')
+    css = (ROOT/'home.css').read_text(encoding='utf-8')
+    a, b = css.index('/* BOTS:BEGIN'), css.index('/* BOTS:END */')
+    head = css[a:css.index('\n', a)+1]
+    (ROOT/'home.css').write_text(css[:a] + head + base + '\n' + polish + site + css[b:], encoding='utf-8')
+build_bots_css()
 (ROOT/'index.html').write_text(page(T['en']), encoding='utf-8')
 (ROOT/'ja'/'index.html').write_text(page(T['ja']), encoding='utf-8')
 print('ok', len(page(T['en'])), len(page(T['ja'])))
