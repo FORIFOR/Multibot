@@ -22,6 +22,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const [actionError, setActionError] = useState('')
   const [busy, setBusy] = useState(false)
   const actionLock = useRef(false)
+  const [goalOpen, setGoalOpen] = useState(false)
   const [panel, setPanel] = useState<JourneyPanel | null>(() => requestedPanel(location.search))
   const queryTab = new URLSearchParams(location.search).get('tab')
   const [inspect, setInspect] = useState(() => ['timeline','report','chat'].includes(queryTab || ''))
@@ -77,45 +78,50 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const canWrite = run.access?.can_write !== false
   const select = (next: JourneyPanel) => {
     setPanel(next)
+    // One page: every area is always on screen. Choosing a step brings its area into view.
+    const calm = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    document.getElementById(`room-${next}`)?.scrollIntoView({ block: 'start', behavior: calm ? 'auto' : 'smooth' })
     const url = new URL(location.href); url.searchParams.set('view', next); url.searchParams.delete('tab')
     history.replaceState(history.state, '', url.pathname + url.search + url.hash)
   }
   const reviewNotes: string[] = [...new Set([...run.tasks.flatMap(t => [t.blocked_reason, ...(t.result?.unverified || [])]), ...(run.final_report?.narrative?.unresolved || [])].filter((v): v is string => !!v))]
   const runnable = ['created','queued','planning','running'].includes(run.status)
   // Runtime wording stays available on hover and in the detailed record; the everyday view says it plainly.
-  const notices = <>
-    {run.blocked_reason && <section className="work-warning"><strong>{say('進められない理由','Why work stopped')}</strong><p title={run.blocked_reason}>{friendlyReason(run.blocked_reason, getLang())}</p></section>}
-    {reviewNotes.length > 0 && <section className="work-warning"><strong>{say('まだ確認が必要なこと','Still needs checking')}</strong><ul>{reviewNotes.map((note, i) => <li key={i} title={note}>{friendlyReason(note, getLang())}</li>)}</ul></section>}
-  </>
+  const noteCount = (run.blocked_reason ? 1 : 0) + reviewNotes.length
+  const notices = noteCount > 0 ? <details className="room-notes" open={noteCount <= 2}>
+    <summary>{say('まだ確認が必要なこと','Still needs checking')}（{noteCount}）</summary>
+    <ul>
+      {run.blocked_reason && <li title={run.blocked_reason}><b>{say('止まった理由','Why work stopped')}</b> {friendlyReason(run.blocked_reason, getLang())}</li>}
+      {reviewNotes.map((note, i) => <li key={i} title={note}>{friendlyReason(note, getLang())}</li>)}
+    </ul>
+  </details> : null
   return <div className={`simple-workroom${paused ? ' motion-paused' : ''}`}>
     <Journey current={selectedPanel} onSelect={select} />
-    <header className="simple-run-heading">
-      <div><p className="simple-eyebrow">{say('お願いしたこと','Your request')}</p><h1>{run.goal}</h1></div>
-      <button className="btn ghost" onClick={() => nav('/')}>{say('新しくお願いする','New request')}</button>
-    </header>
     {run.provider_kind === 'fake' && <p className="demo-notice">{say('テスト表示です。実際のAIによる作業ではありません。','Test display. This is not work performed by a real AI.')}</p>}
-    <section className={`work-status tone-${pending.length ? 'attention' : stateTone(run.status)}`} aria-label={say('進み具合','Progress')}>
-<div className="status-voice">{(() => { const m = Object.entries(run.config_snapshot?.agents || {}).find(([, a]) => a.enabled && a.role === 'master'); return m ? <BotAvatar id={m[0]} role={m[1].role} emoji={m[1].emoji} name={m[1].display_name || roleLabel(m[1].role, getLang())} state={(() => { const mine = run.tasks.filter(t => t.spec.owner === m[0]); const raw = botActivity(mine, run.status, m[0], m[1].role, true); return coordinatorPlanned(m[1].role, mine.length, !!run.plan, raw, run.status) ? 'done' : raw })()} /> : null })()}      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status === 'completed' ? say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.') : say('途中でできたものも、3番の「できたものを見る」から確認できます。','You can view work in progress in step 3, See results.')}</p></div></div>
+    <section className={`work-status room-head tone-${pending.length ? 'attention' : stateTone(run.status)}`} aria-label={say('進み具合','Progress')}>
+<div className="status-voice">{(() => { const m = Object.entries(run.config_snapshot?.agents || {}).find(([, a]) => a.enabled && a.role === 'master'); return m ? <BotAvatar id={m[0]} role={m[1].role} emoji={m[1].emoji} name={m[1].display_name || roleLabel(m[1].role, getLang())} state={(() => { const mine = run.tasks.filter(t => t.spec.owner === m[0]); const raw = botActivity(mine, run.status, m[0], m[1].role, true); return coordinatorPlanned(m[1].role, mine.length, !!run.plan, raw, run.status) ? 'done' : raw })()} /> : null })()}      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status === 'completed' ? say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.') : say('途中でできたものも、この画面の「できたもの」で確認できます。','Work in progress appears under “Your results” on this page.')}</p></div></div>
       <div className="work-actions"><span className="cost-summary">{say('使用額','Used')} {money(run.usage.cost_usd)}{run.usage.reserved_usd > 0 ? ` · ${say('処理中の確保額','Reserved')} ${money(run.usage.reserved_usd)}` : ''}</span>
         {canWrite && runnable && <button className="btn ghost" disabled={busy} onClick={() => act(() => api.cancel(runId))}>{say('作業を止める','Stop work')}</button>}
         {canWrite && ['interrupted','partial','failed','cancelled'].includes(run.status) && <button className="btn signal" disabled={busy} onClick={() => act(() => api.resume(runId))}>{say('続きを進める','Continue work')}</button>}
+        <button className="btn ghost" onClick={() => nav('/')}>{say('新しくお願いする','New request')}</button>
       </div>
+      <header className="simple-run-heading room-goal">
+        <p className="simple-eyebrow">{say('お願いしたこと','Your request')}</p>
+        <h1 className={goalOpen ? undefined : 'goal-clamp'} title={goalOpen ? undefined : run.goal}>{run.goal}</h1>
+        {run.goal.length > 70 && <button type="button" className="goal-toggle" aria-expanded={goalOpen} onClick={() => setGoalOpen(!goalOpen)}>{goalOpen ? say('たたむ','Collapse') : say('全文を表示','Show all')}</button>}
+      </header>
     </section>
     {loadError && <p className="work-warning" role="alert">{loadError} <button className="btn ghost" onClick={refresh}>{say('再読み込み','Refresh')}</button></p>}
     {actionError && <p className="work-warning" role="alert">{actionError}</p>}
-    {selectedPanel !== 'team' && notices}
     {pending.length > 0 && <section className="approval-callout" aria-label={say('あなたの確認が必要です','Your approval is needed')}>
       <div><strong>{say('あなたの確認が必要です','Your approval is needed')} · {pending.length}{say('件',' item(s)')}</strong><p>{say('内容を確認してから選んでください。自動では承認しません。','Read the proposed action before deciding. Nothing is automatically approved.')}</p></div>
       <button className="btn signal" aria-expanded={approvalsOpen} aria-controls="simple-approvals" onClick={() => setApprovalsOpen(!approvalsOpen)}>{approvalsOpen ? say('閉じる','Close') : say('内容を確認','Review action')}</button>
       {approvalsOpen && <div id="simple-approvals"><ApprovalCards approvals={pending} readOnly={!canWrite} refresh={refresh} /></div>}
     </section>}
-    {selectedPanel === 'request' && <section className="simple-request pane"><h2>{say('このお願いで進めています','What you asked for')}</h2><p>{run.goal}</p>
-      {run.inputs.text && <pre>{run.inputs.text}</pre>}{run.inputs.files.length > 0 && <p>{say('渡した資料','Attached files')}: {run.inputs.files.map(f => f.name).join(' / ')}</p>}
-      {run.inputs.urls.length > 0 && <p className="request-urls">{say('参照先','References')}: {run.inputs.urls.join(' / ')}</p>}
-      {!!run.plan?.assumptions.length && <div><h3>{say('進めるうえでの前提','Working assumptions')}</h3><ul>{run.plan.assumptions.map((a, i) => <li key={i}>{a}</li>)}</ul></div>}
-      <button className="btn signal" onClick={() => select('team')}>{say('チームの様子を見る','See the team')}</button>
-    </section>}
-    {selectedPanel === 'team' && <section className="simple-team-room" aria-label={say('チームの様子','Your team')}>
+    <div className="room-grid">
+      <div className="room-side">
+        {notices}
+        <section id="room-team" className="simple-team-room room-team" aria-label={say('チームの様子','Your team')}>
       <ol className="team-stage">{teamOrder(Object.entries(run.config_snapshot?.agents || {}).filter(([,a]) => a.enabled)).map(([id,a]) => {
         const tasks = run.tasks.filter(t => t.spec.owner === id), raw = botActivity(tasks, run.status, id, a.role, a.enabled)
         const state = coordinatorPlanned(a.role, tasks.length, !!run.plan, raw, run.status) ? 'done' : raw
@@ -128,8 +134,14 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
           {task ? <p className="bot-says">{task.spec.objective}</p> : <p className="bot-says is-quiet">{a.role === 'master' && run.plan ? say('進め方を決めて、みんなに頼みました','Planned the work and handed it out') : isSettled(run.status) ? say('今回は出番がありませんでした','No assignment in this request') : say('出番を待っています','Waiting for a turn')}</p>}
         </li>
       })}</ol>
-      {notices}
       {Object.keys(run.config_snapshot?.agents || {}).length === 0 && <p className="simple-empty">{say('チームの準備ができると、ここに仲間が表示されます。','Your teammates appear here once the team is ready.')}</p>}
+        </section>
+        <div id="room-request"><section className="simple-request pane" aria-label={say("お願いの内容","Your request")}><h2>{say('お願いに添えたもの','What came with your request')}</h2>
+      {!run.inputs.text && run.inputs.files.length === 0 && run.inputs.urls.length === 0 && !run.plan?.assumptions.length && <p className="simple-empty">{say('資料や参照先は添えられていません。','No files or references were attached.')}</p>}
+      {run.inputs.text && <details className="request-text"><summary>{say('添えた文章を見る','Show the attached text')}</summary><pre>{run.inputs.text}</pre></details>}{run.inputs.files.length > 0 && <p>{say('渡した資料','Attached files')}: {run.inputs.files.map(f => f.name).join(' / ')}</p>}
+      {run.inputs.urls.length > 0 && <p className="request-urls">{say('参照先','References')}: {run.inputs.urls.join(' / ')}</p>}
+      {!!run.plan?.assumptions.length && <div><h3>{say('進めるうえでの前提','Working assumptions')}</h3><ul>{run.plan.assumptions.map((a, i) => <li key={i}>{a}</li>)}</ul></div>}
+    </section></div>
       <section className="team-conversation pane"><header><h2>{say('チームのやりとり','Team conversation')}</h2><button className="btn ghost" aria-pressed={paused} onClick={() => setPaused(!paused)}>{say('動きを止める','Pause animation')}</button></header>
         <div className="conversation-content">{chat.length ? chat.slice(-5).map(m => <article className="simple-message" key={m.event_id}>
           <BotAvatar id={m.from} role={run.config_snapshot?.agents?.[m.from]?.role} emoji={run.config_snapshot?.agents?.[m.from]?.emoji} name={run.config_snapshot?.agents?.[m.from]?.display_name} state="idle" size="micro" />
@@ -138,12 +150,12 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
         {chat.length > 5 && <button className="btn ghost" onClick={() => { setInspect(true); setTimeout(() => document.getElementById('run-inspector')?.scrollIntoView({block:'start'}), 0) }}>{say('すべてのやりとりを見る','See the full conversation')}</button>}</div>
         <Direction run={run} refresh={refresh} text={directionDraft} setText={setDirectionDraft} />
       </section>
-      {files.length > 0 && <button className="result-next btn signal" onClick={() => select('results')}>{say('できたものを見る','See results')} →</button>}
-    </section>}
-    {selectedPanel === 'results' && <section className="simple-results" aria-label={say('できたもの','Your results')}>
+      </div>
+      <div id="room-results" className="room-main"><section className="simple-results" aria-label={say('できたもの','Your results')}>
       {run.status !== 'completed' && <p className="work-warning">{isSettled(run.status) ? say('依頼全体は完了していません。使える途中成果を確認できます。','The request is not complete. These are the available partial results.') : say('作業途中の内容です。確認・修正で変わることがあります。','These are drafts. They may change as the team checks and revises them.')}</p>}
       <Deliverables key={runId} run={run} refresh={refresh} />
-    </section>}
+    </section></div>
+    </div>
     <details id="run-inspector" className="work-inspector" open={inspect} onToggle={e => setInspect(e.currentTarget.open)}>
       <summary>{say('詳しい作業記録・設定','Detailed work record & controls')}</summary>
       {inspect && <Suspense fallback={<p>{say('詳細を読み込んでいます…','Loading details…')}</p>}><Inspector runId={runId} nav={nav} /></Suspense>}
