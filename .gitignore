@@ -16,3 +16,7 @@ frontend/dist/
 # secrets never belong here; config holds references only
 *.key
 .env
+# ui evidence (local): gate sessions, captured screens and reviews, personal Claude settings
+.ui-quality/
+artifacts/ui/
+.claude/settings.local.json

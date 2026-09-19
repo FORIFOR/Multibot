@@ -13,7 +13,9 @@
     "test:ui": "npm run build && node scripts/ui-polish-smoke.mjs",
     "test:journey": "node --experimental-strip-types --test tests/journey.test.mjs",
     "test:welcome": "node --experimental-strip-types --test tests/welcome.test.mjs",
-    "test:markdown": "node --experimental-strip-types --test tests/markdown.test.mjs"
+    "test:markdown": "node --experimental-strip-types --test tests/markdown.test.mjs",
+    "test:polish": "node scripts/ui-polish-smoke.mjs",
+    "test:flow": "node scripts/three-step-smoke.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",

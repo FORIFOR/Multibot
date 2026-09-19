@@ -1,0 +1,32 @@
+{
+  "configured": true,
+  "inputs": [
+    "frontend/src",
+    "frontend/index.html",
+    "frontend/package.json",
+    "frontend/pnpm-lock.yaml",
+    "frontend/vite.config.ts",
+    "frontend/scripts/ui-capture.mjs",
+    "frontend/scripts/ui-polish-smoke.mjs",
+    "frontend/scripts/three-step-smoke.mjs",
+    "frontend/tests",
+    "docs/design",
+    "scripts/ui-quality.mjs",
+    "scripts/ui-stop-gate.mjs"
+  ],
+  "checks": [
+    { "name": "build-and-typecheck", "command": ["pnpm", "-C", "frontend", "build"] },
+    { "name": "lint", "command": ["pnpm", "-C", "frontend", "lint"] },
+    { "name": "unit-router", "command": ["pnpm", "-C", "frontend", "test:router"] },
+    { "name": "unit-bots", "command": ["pnpm", "-C", "frontend", "test:bots"] },
+    { "name": "unit-journey", "command": ["pnpm", "-C", "frontend", "test:journey"] },
+    { "name": "unit-welcome", "command": ["pnpm", "-C", "frontend", "test:welcome"] },
+    { "name": "unit-markdown", "command": ["pnpm", "-C", "frontend", "test:markdown"] },
+    { "name": "ui-regressions", "command": ["pnpm", "-C", "frontend", "test:polish"] },
+    { "name": "primary-flow", "command": ["pnpm", "-C", "frontend", "test:flow"] }
+  ],
+  "requiredImages": ["artifacts/ui/desktop.png", "artifacts/ui/mobile.png"],
+  "reviewFile": "artifacts/ui/review.json",
+  "timeoutSeconds": 600,
+  "maxReceiptAgeHours": 24
+}

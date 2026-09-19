@@ -73,3 +73,22 @@
  .room-team .team-stage{grid-template-columns:repeat(2,minmax(0,1fr))}.room-main .result-reader{max-height:none}}
 @media(max-width:700px){.work-status.room-head{grid-template-columns:minmax(0,1fr);grid-template-areas:"voice" "goal" "actions";padding:16px}.room-head .work-actions{justify-content:flex-start}}
 @media(max-width:480px){.room-team .team-stage{grid-template-columns:minmax(0,1fr)}}
+/* The check state of a version is as readable as the button that adopts it. */
+.result-reader{min-height:200px}
+.result-review-summary{align-items:center;gap:8px 14px;padding-top:12px;padding-bottom:12px;font-size:14.5px}
+.review-state{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;font-weight:700;background:#eef1f8;color:#2f3748}
+.review-state b{display:grid;place-items:center;flex:none;width:22px;height:22px;border-radius:50%;background:#737b8c;color:#fff;font-size:13px}
+.result-review-summary.is-pass .review-state{background:#dff6ed;color:#0b5a44}.result-review-summary.is-pass .review-state b{background:#16856b}
+.result-review-summary.is-concern .review-state,.result-review-summary.is-none .review-state{background:#fdebd3;color:#6b4100}.result-review-summary.is-concern .review-state b,.result-review-summary.is-none .review-state b{background:#a66300}
+.review-link{background:none;border:0;padding:0 2px;min-height:44px;font:inherit;font-size:14px;font-weight:700;color:#3346b8;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.review-choice{margin-left:auto;color:#536175;font-size:13px}
+.btn.signal:disabled,.simple-home .ask .btn.signal:disabled,.simple-workroom .btn.signal:disabled{opacity:1;background:#d9def5;background-image:none;border-color:#d9def5;color:#39415a;box-shadow:none}
+/* Nothing attached is one quiet line, not an empty block. */
+.room-side .simple-request .simple-empty{padding:0;margin:2px 0 0;font-size:13.5px}
+/* A file whose latest version has no check record says so on its tab. */
+.result-file-list .tab-mark{display:inline-grid;place-items:center;width:18px;height:18px;margin-left:6px;border-radius:50%;background:#a66300;color:#fff;font-size:11px;font-weight:800}
+/* A page deliverable keeps the adopt button on the first screen. */
+.result-reader iframe{height:min(46vh,420px)}
+@media(max-width:600px){.review-choice{margin-left:0;flex-basis:100%}
+ /* Narrow screens: a settled teammate is one compact row; whoever is working or needs attention keeps its line. */
+ .room-team .simple-bot:not(.is-active):not(.state-blocked):not(.state-approval) .bot-says{display:none}.room-team .simple-bot{padding:8px 12px}.room-team .bot-floor{width:52px;height:52px}.room-team .simple-bot{grid-template-columns:52px minmax(0,1fr)}.room-team .bot-size-stage{zoom:.85}}

@@ -85,6 +85,10 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     history.replaceState(history.state, '', url.pathname + url.search + url.hash)
   }
   const reviewNotes: string[] = [...new Set([...run.tasks.flatMap(t => [t.blocked_reason, ...(t.result?.unverified || [])]), ...(run.final_report?.narrative?.unresolved || [])].filter((v): v is string => !!v))]
+  // A file counts as checked only if this exact latest version has a recorded check, or its task has a recorded review.
+  const evidence = run.final_report?.evidence
+  const latestFiles = [...new Map(files.map(f => [f.artifact_id, f] as const).sort((a, b) => a[1].revision - b[1].revision)).values()]
+  const uncheckedFiles = evidence ? latestFiles.filter(f => !(evidence.checks || []).some((c: any) => c.target?.artifact_id === f.artifact_id && c.target?.revision === f.revision) && !(evidence.reviews || []).some((r: any) => r.target_task_id === f.task_id)).length : 0
   const runnable = ['created','queued','planning','running'].includes(run.status)
   // Runtime wording stays available on hover and in the detailed record; the everyday view says it plainly.
   const noteCount = (run.blocked_reason ? 1 : 0) + reviewNotes.length
@@ -99,7 +103,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     <Journey current={selectedPanel} onSelect={select} />
     {run.provider_kind === 'fake' && <p className="demo-notice">{say('テスト表示です。実際のAIによる作業ではありません。','Test display. This is not work performed by a real AI.')}</p>}
     <section className={`work-status room-head tone-${pending.length ? 'attention' : stateTone(run.status)}`} aria-label={say('進み具合','Progress')}>
-<div className="status-voice">{(() => { const m = Object.entries(run.config_snapshot?.agents || {}).find(([, a]) => a.enabled && a.role === 'master'); return m ? <BotAvatar id={m[0]} role={m[1].role} emoji={m[1].emoji} name={m[1].display_name || roleLabel(m[1].role, getLang())} state={(() => { const mine = run.tasks.filter(t => t.spec.owner === m[0]); const raw = botActivity(mine, run.status, m[0], m[1].role, true); return coordinatorPlanned(m[1].role, mine.length, !!run.plan, raw, run.status) ? 'done' : raw })()} /> : null })()}      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status === 'completed' ? say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.') : say('途中でできたものも、この画面の「できたもの」で確認できます。','Work in progress appears under “Your results” on this page.')}</p></div></div>
+<div className="status-voice">{(() => { const m = Object.entries(run.config_snapshot?.agents || {}).find(([, a]) => a.enabled && a.role === 'master'); return m ? <BotAvatar id={m[0]} role={m[1].role} emoji={m[1].emoji} name={m[1].display_name || roleLabel(m[1].role, getLang())} state={(() => { const mine = run.tasks.filter(t => t.spec.owner === m[0]); const raw = botActivity(mine, run.status, m[0], m[1].role, true); return coordinatorPlanned(m[1].role, mine.length, !!run.plan, raw, run.status) ? 'done' : raw })()} /> : null })()}      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status === 'completed' ? (uncheckedFiles > 0 ? say(`確認の記録がないファイルが${uncheckedFiles}件あります。中身と記録を見てから、使う版を選んでください。`,`${uncheckedFiles} file(s) have no check record. Read them and the record before choosing a version.`) : say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.')) : say('途中でできたものも、この画面の「できたもの」で確認できます。','Work in progress appears under “Your results” on this page.')}</p></div></div>
       <div className="work-actions"><span className="cost-summary">{say('使用額','Used')} {money(run.usage.cost_usd)}{run.usage.reserved_usd > 0 ? ` · ${say('処理中の確保額','Reserved')} ${money(run.usage.reserved_usd)}` : ''}</span>
         {canWrite && runnable && <button className="btn ghost" disabled={busy} onClick={() => act(() => api.cancel(runId))}>{say('作業を止める','Stop work')}</button>}
         {canWrite && ['interrupted','partial','failed','cancelled'].includes(run.status) && <button className="btn signal" disabled={busy} onClick={() => act(() => api.resume(runId))}>{say('続きを進める','Continue work')}</button>}
@@ -137,7 +141,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
       {Object.keys(run.config_snapshot?.agents || {}).length === 0 && <p className="simple-empty">{say('チームの準備ができると、ここに仲間が表示されます。','Your teammates appear here once the team is ready.')}</p>}
         </section>
         <div id="room-request"><section className="simple-request pane" aria-label={say("お願いの内容","Your request")}><h2>{say('お願いに添えたもの','What came with your request')}</h2>
-      {!run.inputs.text && run.inputs.files.length === 0 && run.inputs.urls.length === 0 && !run.plan?.assumptions.length && <p className="simple-empty">{say('資料や参照先は添えられていません。','No files or references were attached.')}</p>}
+      {!run.inputs.text && run.inputs.files.length === 0 && run.inputs.urls.length === 0 && <p className="simple-empty">{say('資料や参照先は添えられていません。','No files or references were attached.')}</p>}
       {run.inputs.text && <details className="request-text"><summary>{say('添えた文章を見る','Show the attached text')}</summary><pre>{run.inputs.text}</pre></details>}{run.inputs.files.length > 0 && <p>{say('渡した資料','Attached files')}: {run.inputs.files.map(f => f.name).join(' / ')}</p>}
       {run.inputs.urls.length > 0 && <p className="request-urls">{say('参照先','References')}: {run.inputs.urls.join(' / ')}</p>}
       {!!run.plan?.assumptions.length && <div><h3>{say('進めるうえでの前提','Working assumptions')}</h3><ul>{run.plan.assumptions.map((a, i) => <li key={i}>{a}</li>)}</ul></div>}
@@ -201,11 +205,16 @@ function ApprovalCards({ approvals,readOnly,refresh }: { approvals: Approval[]; 
 type ArtifactDetail = Artifact & { text?: string; checks: Event[]; reviews: Event[] }
 function Deliverables({run,refresh}:{run:RunDetail;refresh:()=>Promise<void>}) {
   const [showSource,setShowSource]=useState(false)
+  const [recordOpen,setRecordOpen]=useState(false)
+  // Same rule as the status line: checked means this exact latest version has a recorded check, or its task a recorded review.
+  const evidence=run.final_report?.evidence
+  const unchecked=new Set<string>(evidence?resultFiles(run.artifacts).filter((f,_,all)=>f.revision===Math.max(...all.filter(x=>x.artifact_id===f.artifact_id).map(x=>x.revision))).filter(f=>!(evidence.checks||[]).some((c:any)=>c.target?.artifact_id===f.artifact_id&&c.target?.revision===f.revision)&&!(evidence.reviews||[]).some((r:any)=>r.target_task_id===f.task_id)).map(f=>f.artifact_id):[])
   const versions = new Map<string,Artifact[]>()
   for(const file of resultFiles(run.artifacts)){const list=versions.get(file.artifact_id)||[];list.push(file);versions.set(file.artifact_id,list)}
   for(const list of versions.values())list.sort((a,b)=>a.revision-b.revision)
   const [selection,setSelection]=useState<{id:string;revision:number}|null>(null)
-  const first=versions.keys().next().value as string|undefined
+  const keys=[...versions.keys()]
+  const first=(keys.find(k=>versions.get(k)!.some(f=>f.media_type.includes('html')))||keys[keys.length-1]) as string|undefined
   const id=selection&&versions.has(selection.id)?selection.id:first
   const list=id?versions.get(id)||[]:[]
   const adopted=id?run.artifact_selection?.[id]:undefined
@@ -223,12 +232,16 @@ function Deliverables({run,refresh}:{run:RunDetail;refresh:()=>Promise<void>}) {
   const isMarkdown=/markdown/.test(file.media_type)||/\.(md|markdown)$/i.test(file.logical_path)
   const useVersion=async()=>{if(lock.current)return;lock.current=true;setBusy(true);setNote('');try{await api.adoptArtifact(run.run_id,file.artifact_id,{revision:file.revision,expected_selected_revision:adopted?.revision});setNote(say('この版を使うことにしました。','This version is now selected.'));await refresh()}catch{setError(say('選択を保存できませんでした。再読み込みしてお試しください。','Could not save your choice. Refresh and try again.'))}finally{lock.current=false;setBusy(false)}}
   return <section className="pane simple-deliverables"><header><h2>{say('できたもの','Your results')}</h2><a className="btn ghost" href={`/api/runs/${run.run_id}/export?fmt=zip`}>{say('最新のファイルをまとめて取得','Get all latest files')}</a></header>
-    <div className="result-file-list" aria-label={say('ファイルを選ぶ','Choose a file')}>{[...versions.entries()].map(([key,items])=><button className={key===id?'active':''} type="button" aria-pressed={key===id} key={key} onClick={()=>setSelection({id:key,revision:run.artifact_selection?.[key]?.revision||items[items.length-1].revision})}><span aria-hidden="true">📄</span>{items[items.length-1].logical_path}</button>)}</div>
-    <div className="result-review-summary"><span>{pass?say('この版の記録された確認は通過','Recorded checks passed for this version'):concern?say('この版には未確認・要修正の項目があります','This version has unchecked or flagged items'):say('この版の確認記録はまだありません','No check record for this version yet')}</span><span>{adopted?.revision===file.revision?say('あなたが選んだ版','Your selected version'):say('まだ採用していない候補','Not yet selected by you')}</span></div>
+    <div className="result-file-list" aria-label={say('ファイルを選ぶ','Choose a file')}>{[...versions.entries()].map(([key,items])=><button className={key===id?'active':''} type="button" aria-pressed={key===id} key={key} onClick={()=>setSelection({id:key,revision:run.artifact_selection?.[key]?.revision||items[items.length-1].revision})}><span aria-hidden="true">📄</span>{items[items.length-1].logical_path}{unchecked.has(key)&&<span className="tab-mark" role="img" aria-label={say('確認の記録なし','No check record')} title={say('確認の記録なし','No check record')}>?</span>}</button>)}</div>
+    <div className={`result-review-summary is-${pass?'pass':concern?'concern':'none'}`}>
+      <span className="review-state"><b aria-hidden="true">{pass?'✓':concern?'!':'?'}</b>{pass?say('この版の記録された確認は通過','Recorded checks passed for this version'):concern?say('この版には未確認・要修正の項目があります','This version has unchecked or flagged items'):say('未確認：この版の確認記録はまだありません','Unverified: No check record for this version yet')}</span>
+      <button type="button" className="review-link" onClick={()=>{setRecordOpen(true);setTimeout(()=>document.getElementById('result-record')?.scrollIntoView({block:'center'}),0)}}>{say('確認の記録を見る','See the check record')}</button>
+      <span className="review-choice">{adopted?.revision===file.revision?say('あなたが選んだ版','Your selected version'):say('まだ採用していない候補','Not yet selected by you')}</span>
+    </div>
     {error&&<p className="work-warning" role="alert">{error} <button className="btn ghost" onClick={refresh}>{say('再読み込み','Refresh')}</button></p>}
     <div className="result-reader">{file.media_type.includes('html')?<iframe title={file.logical_path} sandbox="" src={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)}/>:isMarkdown&&detail?.text!=null&&!showSource?<Markdown text={detail.text} className="md result-md"/>:<pre>{detail?.text ?? (detail?say('この形式は別のウィンドウで開いてください。','Open this file in a new window to view it.'):say('読み込み中…','Loading…'))}</pre>}</div>
     <div className="result-use">{isMarkdown&&<button type="button" className="btn ghost" aria-pressed={showSource} onClick={()=>setShowSource(!showSource)}>{showSource?say('読みやすく表示','Show formatted'):say('原文を表示','Show source')}</button>}<a className="btn ghost" href={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)} target="_blank" rel="noreferrer">{say('このファイルを開く','Open this file')}</a>{run.access?.can_write!==false&&adopted?.revision!==file.revision&&<button className="btn signal" disabled={busy||!detail} onClick={useVersion}>{say('この版を使う','Use this version')}</button>}<span role="status">{note}</span></div>
-    <details className="result-record"><summary>{say('版と確認の記録','Versions & check record')}</summary>
+    <details id="result-record" className="result-record" open={recordOpen} onToggle={e=>setRecordOpen(e.currentTarget.open)}><summary>{say('版と確認の記録','Versions & check record')}</summary>
       <div className="row">{list.map(f=><button key={f.revision} className="btn ghost" aria-pressed={file.revision===f.revision} onClick={()=>setSelection({id:f.artifact_id,revision:f.revision})}>{say('版','Version')} {f.revision}</button>)}</div>
       <p>{say('確認はこの版に対する記録です。内容の完全な正しさを保証するものではありません。','Checks apply to this exact version; they do not guarantee that every statement is correct.')}</p>
       <p>{file.logical_path} · {say('版','Version')} {file.revision} · sha256 {file.sha256}</p>
