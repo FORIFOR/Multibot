@@ -2,8 +2,9 @@
 
 Two documents, 10 planted errors each, against an attached source the Reviewer can read. The plan is fixed (no Master
 planning call): t1 (builder) publishes the attached memo verbatim, t2 (reviewer) checks it against the source.
-An error counts as caught when the Reviewer's output (review results, messages, published review notes) mentions the
-planted wrong value. Everything the Reviewer wrote is saved so the grading can be re-checked by hand.
+Keyword matches identify passages for later grading; they do not prove an error was caught. A Reviewer can repeat
+the wrong memo and match every keyword. Detection counts remain ungraded until each finding is checked against
+the source. Everything the Reviewer wrote is saved for that assessment.
 
     .venv/bin/python scripts/reviewer_catch_rate.py --data-dir ~/.cache/agentteam-bench/reviewer --repeat 3 --parallel 2
 """
@@ -106,6 +107,13 @@ def reviewer_text(events, arts: dict[str, str]) -> str:
     return "\n".join(parts)
 
 
+def candidate_mentions(text: str, errors: list[tuple[str, str]]) -> dict:
+    hits = {name: bool(re.search(pat, text)) for name, pat in errors}
+    return {"planted": len(errors), "keyword_hits": hits, "keyword_hit_count": sum(hits.values()),
+            "caught": None, "catch_rate": None, "grading_status": "pending_source_review",
+            "grading_note": "Keyword presence is not error detection. Check the identified claim, explicit correction, and source evidence."}
+
+
 async def run_doc(svc: AppService, doc: str, rep: int, budget: float) -> dict:
     d = DOCS[doc]
     t0 = time.time()
@@ -120,7 +128,7 @@ async def run_doc(svc: AppService, doc: str, rep: int, budget: float) -> dict:
     metas = await svc.artifacts.list(run.run_id, latest_only=True)
     arts = {m.logical_path: (svc.artifacts.root / m.storage_path).read_text(encoding="utf-8", errors="replace") for m in metas}
     text = reviewer_text(events, arts)
-    caught = {name: bool(re.search(pat, text)) for name, pat in d["errors"]}
+    candidates = candidate_mentions(text, d["errors"])
     verdicts = [r["status"] for e in events if e.type == "review.submitted" for r in e.payload.get("results", [])]
     out_dir = svc.data_dir / "evidence" / f"{doc}-{run.run_id}"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -131,7 +139,7 @@ async def run_doc(svc: AppService, doc: str, rep: int, budget: float) -> dict:
     for p, c in arts.items():
         (out_dir / p.replace("/", "__")).write_text(c, encoding="utf-8")
     return {"doc": doc, "rep": rep, "run_id": run.run_id, "status": str(run.status), "reason": run.blocked_reason,
-            "planted": len(d["errors"]), "caught": sum(caught.values()), "caught_detail": caught, "verdicts": verdicts,
+            **candidates, "verdicts": verdicts,
             "memo_verbatim": arts.get("memo.md", "").strip() == d["memo"].strip(),
             "usage": run.usage.model_dump(), "wall_s": round(time.time() - t0)}
 
@@ -163,7 +171,8 @@ async def main(args) -> int:
                     res = {"doc": doc, "rep": r, "status": "error", "error": f"{type(e).__name__}: {e}"[:300]}
                 with open(svc.data_dir / "results.jsonl", "a") as f:
                     f.write(json.dumps(res, ensure_ascii=False) + "\n")
-                print(f"=== done  {doc} #{r}: {res['status']} caught={res.get('caught')}/{res.get('planted')} verbatim={res.get('memo_verbatim')} "
+                print(f"=== done  {doc} #{r}: {res['status']} keyword_hits={res.get('keyword_hit_count')}/{res.get('planted')} "
+                      f"catch_rate=ungraded verbatim={res.get('memo_verbatim')} "
                       f"${res.get('usage', {}).get('cost_usd', 0):.2f} {res.get('wall_s', 0)}s", flush=True)
 
         await asyncio.gather(*(one(doc, r) for doc, r in jobs))

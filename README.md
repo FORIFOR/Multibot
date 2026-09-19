@@ -39,6 +39,8 @@ You type **one request**. Attach the source files the team should use, then a Ma
 
 ## Quickstart
 
+[Workplace benchmark: measured local pilot, failures, and remaining enterprise gates](docs/WORKPLACE_BENCHMARK.md).
+
 One command if you have [Claude Code](https://claude.com/claude-code) installed and logged in (no API key), plus [uv](https://docs.astral.sh/uv/):
 
 ```bash

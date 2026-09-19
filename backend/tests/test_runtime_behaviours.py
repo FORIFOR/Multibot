@@ -121,6 +121,32 @@ async def test_cancel_then_resume_keeps_accepted_work(tmp_path):
         assert len(brief) == 1
 
 
+async def test_worker_observes_run_cancel_before_scheduler_can_resume(tmp_path, monkeypatch):
+    from agentteam.runtime.worker import AgentRunner, SessionOutcome
+
+    original = AgentRunner.run
+
+    async def cancel_in_worker(self, *args, **kwargs):
+        if self.ctx.agent.agent_id == "builder" and self.ctx.attempt == 1:
+            self.rt.policy.cancel()
+            return SessionOutcome("cancelled", "run cancelled at worker boundary")
+        return await original(self, *args, **kwargs)
+
+    monkeypatch.setattr(AgentRunner, "run", cancel_in_worker)
+    async with Harness(tmp_path, script=combine(builder_with(GOOD_BUILD), reviewer_pass)) as h:
+        run = await h.run_goal()
+        assert run.status == "cancelled"
+        tasks = {t.spec.id: t for t in await h.runs.list_tasks(run.run_id)}
+        assert tasks["t2"].status == "interrupted"
+        assert tasks["t3"].status == "queued"
+        await h.manager.resume(run.run_id)
+        run = await h.manager.wait(run.run_id)
+        assert run.status == "completed"
+        tasks = {t.spec.id: t for t in await h.runs.list_tasks(run.run_id)}
+        assert tasks["t1"].attempt == 1
+        assert tasks["t2"].attempt == 2
+
+
 async def test_config_snapshot_survives_later_edits(tmp_path):
     async with Harness(tmp_path, script=combine(builder_with(GOOD_BUILD), reviewer_pass)) as h:
         run, _ = await h.manager.create_run("x")
