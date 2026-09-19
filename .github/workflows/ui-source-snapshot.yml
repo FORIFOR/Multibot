@@ -1,0 +1,26 @@
+name: UI source snapshot
+on:
+  push:
+    branches: [design/three-step-workroom]
+    paths: [.github/workflows/ui-source-snapshot.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Archive tracked sources only, without credentials or runtime data
+        run: |
+          git rev-parse HEAD > /tmp/source-commit.txt
+          git archive --format=tar HEAD | gzip > /tmp/multibot-source.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: multibot-three-step-source
+          path: |
+            /tmp/source-commit.txt
+            /tmp/multibot-source.tar.gz
+          retention-days: 1
