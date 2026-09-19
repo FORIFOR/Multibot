@@ -14,6 +14,7 @@ export default function App() {
 
 function Workspace({ identity, secured }: { identity: Identity; secured: boolean }) {
   const [path, nav] = usePath()
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }) }, [path])
   const [pending, setPending] = useState<Approval[]>([])
   const [version, setVersion] = useState<string>("")
   useEffect(() => { if (identity.role !== 'auditor') api.health().then(h => setVersion(h.version)).catch(() => { /* offline */ }) }, [identity.role])
@@ -28,7 +29,7 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
   const runId = getRunId(path)
   return (
     <div className="shell">
-      <header className="top">
+      <header className="top" style={{ position: 'static' }}>
         <Link to="/" nav={nav} className="brand">Agent Team</Link>
         <nav className="nav">
           {secured && <><span className="muted small account-identity">{identity.organization} · {identity.display_name || identity.subject}</span><button className="langbtn" onClick={async () => { const response = await fetch('/api/auth/logout', { method: 'POST' }); const result = response.ok ? await response.json() : {}; window.location.assign(result.redirect || '/') }}>{getLang() === 'en' ? 'Sign out' : 'ログアウト'}</button></>}

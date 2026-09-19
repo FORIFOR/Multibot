@@ -25,11 +25,10 @@ export default function Settings() {
   return (
     <div className="stack">
       <div className="row">
-        <h1>{t("設定")}</h1>
-        <span className="tag">revision {cfg.revision}</span>
-        <span className="muted small">{t("変更は次の run から反映されます。進行中の run は開始時のスナップショットで動きます。")}</span>
+        <h1>{getLang() === "en" ? "My team" : "マイチーム"}</h1>
+        <span className="muted small">{getLang() === "en" ? "Changes apply to your next request. Work in progress keeps its original team." : "変更は次のお願いから反映します。進行中のお仕事のチームは変わりません。"}</span>
       </div>
-      {cfg.problems.length > 0 && <div className="banner warn">{cfg.problems.map((p) => <div key={p.code + (p.agent_id || p.connection_id || '')}>{p.message}</div>)}</div>}
+      {cfg.problems.length > 0 && <div className="banner warn"><strong>{getLang() === "en" ? "Your team needs a little setup" : "チームの準備が必要です"}</strong><p>{getLang() === "en" ? "Open the connection settings below to prepare your first request." : "下の「チームの接続・予算」から準備できます。"}</p><details><summary>{getLang() === "en" ? "Setup details" : "設定の詳細"}</summary>{cfg.problems.map((p) => <p key={p.code + (p.agent_id || p.connection_id || '')}>{p.message}</p>)}</details></div>}
       {cfg.problems.length === 0 && <div className="banner ok">{t("開始条件を満たしています。")}</div>}
       {err && <p className="err">{err}</p>}
       {note && <p className="small" style={{ color: 'var(--ok)' }}>{note}</p>}
@@ -39,6 +38,7 @@ export default function Settings() {
         <div className="bot-settings-grid">{cfg.agents.map(a => <BotSettingsCard key={a.id} a={a} cfg={cfg} refresh={refresh} />)}</div>
       </section>
       <details className="connection-settings"><summary>{getLang() === 'en' ? 'Team connection & budget (advanced)' : 'チームの接続・予算（詳細設定）'}</summary>
+      <p className="muted small">{getLang() === "en" ? "Configuration revision" : "設定の更新番号"}: {cfg.revision}</p>
       <div className="settings">
         <div className="stack">
           <h3>{t("接続（API キーは参照のみ保存: env:NAME / keychain:service/account / file:/path）")}</h3>
@@ -135,5 +135,4 @@ function LimitsCard({ cfg, guard }: { cfg: Config; guard: (fn: () => Promise<unk
     </div>
   )
 }
-
 

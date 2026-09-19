@@ -109,7 +109,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
       {!!run.plan?.assumptions.length && <div><h3>{say('進めるうえでの前提','Working assumptions')}</h3><ul>{run.plan.assumptions.map((a, i) => <li key={i}>{a}</li>)}</ul></div>}
       <button className="btn signal" onClick={() => select('team')}>{say('チームの様子を見る','See the team')}</button>
     </section>}
-    {selectedPanel === 'team' && <section className="simple-team-room" aria-label={say('チームの様子','Your team')}>
+    <section hidden={selectedPanel !== 'team'} className="simple-team-room" aria-label={say('チームの様子','Your team')}>
       <div className="simple-team-grid">{Object.entries(run.config_snapshot?.agents || {}).filter(([,a]) => a.enabled).map(([id,a]) => {
         const tasks = run.tasks.filter(t => t.spec.owner === id), state = botActivity(tasks, run.status, id, a.role, a.enabled)
         const task = tasks.find(t => t.status === 'running') || tasks.find(t => !['accepted','cancelled'].includes(t.status))
@@ -128,11 +128,11 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
         <Direction run={run} refresh={refresh} text={directionDraft} setText={setDirectionDraft} />
       </section>
       {files.length > 0 && <button className="result-next btn signal" onClick={() => select('results')}>{say('できたものを見る','See results')} →</button>}
-    </section>}
-    {selectedPanel === 'results' && <section className="simple-results" aria-label={say('できたもの','Your results')}>
+    </section>
+    <section hidden={selectedPanel !== 'results'} className="simple-results" aria-label={say('できたもの','Your results')}>
       {run.status !== 'completed' && <p className="work-warning">{isSettled(run.status) ? say('依頼全体は完了していません。使える途中成果を確認できます。','The request is not complete. These are the available partial results.') : say('作業途中の内容です。確認・修正で変わることがあります。','These are drafts. They may change as the team checks and revises them.')}</p>}
       <Deliverables key={runId} run={run} refresh={refresh} />
-    </section>}
+    </section>
     <details id="run-inspector" className="work-inspector" open={inspect} onToggle={e => setInspect(e.currentTarget.open)}>
       <summary>{say('詳しい作業記録・設定','Detailed work record & controls')}</summary>
       {inspect && <Suspense fallback={<p>{say('詳細を読み込んでいます…','Loading details…')}</p>}><Inspector runId={runId} nav={nav} /></Suspense>}
@@ -189,7 +189,16 @@ function Deliverables({run,refresh}:{run:RunDetail;refresh:()=>Promise<void>}) {
   const file=list.find(a=>a.revision===revision)||list[list.length-1]
   const [detail,setDetail]=useState<ArtifactDetail|null>(null),[error,setError]=useState(''),[note,setNote]=useState(''),[busy,setBusy]=useState(false)
   const lock=useRef(false)
-  useEffect(()=>{let alive=true;setDetail(null);setError('');setNote('');if(file)api.artifact(run.run_id,file.artifact_id,file.revision).then(d=>{if(alive)setDetail(d)}).catch(()=>{if(alive)setError(say('ファイルを読み込めませんでした。','Could not load the file.'))});return()=>{alive=false}},[run.run_id,file?.artifact_id,file?.revision,run.last_seq])
+  const [readAttempt,setReadAttempt]=useState(0)
+  const lastIdentity=useRef('')
+  useEffect(()=>{
+    let alive=true
+    const identity=JSON.stringify([run.run_id,file?.artifact_id,file?.revision])
+    if(lastIdentity.current!==identity){setDetail(null);setNote('');lastIdentity.current=identity}
+    setError('')
+    if(file)api.artifact(run.run_id,file.artifact_id,file.revision).then(d=>{if(alive)setDetail(d)}).catch(()=>{if(alive){setDetail(null);setError(say('ファイルを読み込めませんでした。','Could not load the file.'))}})
+    return()=>{alive=false}
+  },[run.run_id,file?.artifact_id,file?.revision,run.last_seq,readAttempt])
   if(!file)return <div className="result-empty pane"><span aria-hidden="true">📦</span><h2>{say('できたものは、ここに届きます','Your results will arrive here')}</h2><p>{isSettled(run.status)?say('この作業では、成果物がまだ保存されていません。','No deliverables were saved for this work.'):say('チームの様子は2番から確認できます。','You can check on your team in step 2.')}</p></div>
   const exact=(target:any)=>target?.artifact_id===file.artifact_id&&target?.revision===file.revision&&target?.sha256===file.sha256
   const checks=(detail?.checks||[]).filter(e=>exact(e.payload.target))
@@ -200,7 +209,7 @@ function Deliverables({run,refresh}:{run:RunDetail;refresh:()=>Promise<void>}) {
   return <section className="pane simple-deliverables"><header><h2>{say('できたもの','Your results')}</h2><a className="btn ghost" href={`/api/runs/${run.run_id}/export?fmt=zip`}>{say('最新のファイルをまとめて取得','Get all latest files')}</a></header>
     <div className="result-file-list" aria-label={say('ファイルを選ぶ','Choose a file')}>{[...versions.entries()].map(([key,items])=><button className={key===id?'active':''} type="button" aria-pressed={key===id} key={key} onClick={()=>setSelection({id:key,revision:run.artifact_selection?.[key]?.revision||items[items.length-1].revision})}><span aria-hidden="true">📄</span>{items[items.length-1].logical_path}</button>)}</div>
     <div className="result-review-summary"><span>{pass?say('この版の記録された確認は通過','Recorded checks passed for this version'):concern?say('この版には未確認・要修正の項目があります','This version has unchecked or flagged items'):say('この版の確認記録はまだありません','No check record for this version yet')}</span><span>{adopted?.revision===file.revision?say('あなたが選んだ版','Your selected version'):say('まだ採用していない候補','Not yet selected by you')}</span></div>
-    {error&&<p className="work-warning" role="alert">{error} <button className="btn ghost" onClick={refresh}>{say('再読み込み','Refresh')}</button></p>}
+    {error&&<p className="work-warning" role="alert">{error} <button className="btn ghost" onClick={()=>setReadAttempt(value=>value+1)}>{say('再読み込み','Refresh')}</button></p>}
     <div className="result-reader">{file.media_type.includes('html')?<iframe title={file.logical_path} sandbox="" src={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)}/>:<pre>{detail?.text ?? (detail?say('この形式は別のウィンドウで開いてください。','Open this file in a new window to view it.'):say('読み込み中…','Loading…'))}</pre>}</div>
     <div className="result-use"><a className="btn ghost" href={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)} target="_blank" rel="noreferrer">{say('このファイルを開く','Open this file')}</a>{run.access?.can_write!==false&&adopted?.revision!==file.revision&&<button className="btn signal" disabled={busy||!detail} onClick={useVersion}>{say('この版を使う','Use this version')}</button>}<span role="status">{note}</span></div>
     <details className="result-record"><summary>{say('版と確認の記録','Versions & check record')}</summary>
