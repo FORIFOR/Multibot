@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -44,6 +45,7 @@ Identity の token revocation は「トークン失効」または「トーク�
 要約欄は原則として日本語で書き、技術固有名として資料に現れる英字だけを残してください。英語の接続詞・動詞・役割名・状態名（with、export、auditor、collector、outage、pinnedなど）や誤綴りを混ぜないでください。TLSDNSのような連結語はTLS/DNSに分けてください。
 Deploymentのimplementedには必ず「アドバイザリ」を含め、単なる「パッケージスキャン」では置き換えないでください。これは資料のpackage advisory scansを表す必須アンカーです。
 日本語要約の中で領域名や原文の英語ラベルをそのまま書かないでください。`Production IdP` は「組織IdP」、`Identity` は「認証領域」、`Contract / operation` は「契約・運用領域」と書いてください。技術固有名（IdP、OIDC、Keycloak、SSE、Docker、TLS、DNS、LLM、SLO、SLA、RPO、RTO、ageなど）は必要な場合に限り残せます。
+summary は領域名（Identity、Isolation、Execution、Data、Audit / monitoring、Deployment、Business quality、Contract / operation）や Operation を含めず、日本語だけで現状とL3未達を要約してください。
 `Real access keys` は「実アクセスキー」、`false` は「未達」または「偽」と書いてください。「アクター監査」のような直訳を使わず、監査記録は「操作主体の監査記録」としてください。
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。'''
 
@@ -338,6 +340,18 @@ async def main(root, repeat, profile_path):
                     if not attempt.get('run_id'):
                         response = await client.post('/api/runs', json=body, headers={'Idempotency-Key': attempt['request_key']})
                         if response.status_code != 202:
+                            diagnostic = {'rep': rep, 'status_code': response.status_code, 'response_body': response.text[:2000]}
+                            try:
+                                health = await client.get('/api/health')
+                                diagnostic['health_status'] = health.status_code
+                                diagnostic['health_body'] = health.text[:2000]
+                            except Exception as health_error:
+                                diagnostic['health_error'] = type(health_error).__name__
+                            try:
+                                diagnostic['disk_free_bytes'] = shutil.disk_usage(root).free
+                            except OSError:
+                                diagnostic['disk_free_bytes'] = None
+                            write_json(root / f'admission-failure-rep{rep:02d}.json', diagnostic)
                             raise ValueError('production API refused workflow admission: ' + str(response.status_code))
                         attempt['run_id'] = response.json()['run_id']; write_json(attempts_path, attempts)
                     run_id = attempt['run_id']; status('running', rep=rep, run_id=run_id)
