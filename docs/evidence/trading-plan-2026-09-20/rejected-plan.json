@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "event_id": "run_1a0bb7aa7af52628b54:5",
+  "run_id": "run_1a0bb7aa7af52628b54",
+  "seq": 5,
+  "recorded_at": "2026-09-19T21:09:29.356Z",
+  "actor_id": "master",
+  "actor_kind": "agent",
+  "task_id": null,
+  "causation_id": null,
+  "type": "plan.proposed",
+  "payload": {
+    "attempt": 1,
+    "errors": [
+      "task t1: final deliverables need a reviewer task depending on t1"
+    ],
+    "plan": {
+      "agents": [
+        "master",
+        "researcher",
+        "builder",
+        "reviewer"
+      ],
+      "assumptions": [
+        "対象市場・証券会社は未決定事項（外部接続はシミュレーションのみ）",
+        "本番接続の実装詳細は認証・セキュリティポリシーを遵守しない"
+      ],
+      "goal": "設計文書（architecture.md, decisions.md）の作成とレビュー完了",
+      "tasks": [
+        {
+          "acceptance": [
+            {
+              "check_kind": "source_check",
+              "description": "source_check で公式仕様と整合性あり",
+              "id": "t1a1"
+            }
+          ],
+          "depends_on": [],
+          "id": "t1",
+          "objective": "trading-sources.md を基に要件・制限事項を抽出",
+          "output_paths": [
+            "/tmp/research.md"
+          ],
+          "owner": "researcher"
+        }
+      ]
+    }
+  }
+}

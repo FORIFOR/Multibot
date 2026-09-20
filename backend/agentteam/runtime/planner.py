@@ -8,11 +8,13 @@ from typing import Any
 from jsonschema import Draft202012Validator, FormatChecker
 
 from ..config.loader import PKG_ROOT, SCHEMA_DIR, platform_policy_text
+from ..config.voice import conversation_voice, voice_instructions
 from ..contracts import TaskSpec, TaskStatus, TeamPlan
 from ..providers.base import LLMRequest
+from ..projections.views import artifact_review_ledger
 from .checks import CHECK_KINDS
 from .context import SessionContext
-from .policy import PolicyViolation
+from .policy import PolicyEngine, PolicyViolation
 from .worker import AgentRunner, WorkerFailure
 
 TEAM_COMPILER = (PKG_ROOT / "prompts" / "team-compiler.md").read_text(encoding="utf-8")
@@ -70,7 +72,7 @@ def _strict_schema() -> dict[str, Any]:
 
 
 def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dict[str, str], max_tasks: int,
-                  *, require_review: bool = False) -> list[str]:
+                  *, require_review: bool = False, required_paths: list[str] | None = None) -> list[str]:
     errors: list[str] = []
     v = Draft202012Validator(_strict_schema(), format_checker=FormatChecker())
     for e in v.iter_errors(plan.model_dump(mode="json")):
@@ -101,6 +103,10 @@ def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dic
             errors.append(f"task {t.id}: write_scope {t.write_scope} duplicates task {scopes[t.write_scope]}")
         scopes[t.write_scope] = t.id
         for p in t.output_paths:
+            try:
+                PolicyEngine.check_write_path(p)
+            except PolicyViolation as e:
+                errors.append(f"task {t.id}: invalid output path {p!r}: {e}; use a relative path inside the task workspace")
             if p in outputs:
                 errors.append(f"task {t.id}: output path {p} also produced by task {outputs[p]}")
             outputs[p] = t.id
@@ -113,6 +119,9 @@ def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dic
             errors.append(f"task {t.id}: reviewer task must depend on the task it reviews")
         if agent_roles.get(t.owner) != "reviewer" and not t.output_paths:
             errors.append(f"task {t.id}: non-reviewer task must declare at least one output path")
+    for path in required_paths or []:
+        if path not in outputs:
+            errors.append(f"requester delivery path {path!r} is missing from task output_paths; preserve the requested file, not separate heading files")
     if require_review:
         for t in plan.tasks:
             if agent_roles.get(t.owner) == "reviewer":
@@ -178,7 +187,7 @@ def plan_from_output(data: dict[str, Any], known_agents: list[str] | None = None
 def _registry_text(rt) -> str:
     lines = []
     for a in rt.enabled_agents():
-        lines.append(f"- {a.agent_id} (role {a.role}, model {a.model}): tools {', '.join(a.tools)}; skills {', '.join(s['name'] for s in a.skills) or '-'}")
+        lines.append(f"- {a.agent_id} (permission class {a.role}, name {a.display_name}, specialty {a.specialty}, model {a.model}): tools {', '.join(a.tools)}; skills {', '.join(s['name'] for s in a.skills) or '-'}")
     return "\n".join(lines)
 
 
@@ -203,6 +212,8 @@ def planning_message(rt) -> str:
     lines.append("\n## Available agents (enabled; you may only assign these)\n" + _registry_text(rt))
     lines.append(f"\n## Limits\nmax tasks {rt.config.limits.max_tasks}; max active workers {rt.config.limits.max_active_workers}; "
                  f"model calls {rt.config.limits.max_model_calls}; budget {rt.config.limits.budget_usd} USD; "
+                 f"peer messages per task across its entire lifetime {rt.config.limits.max_peer_messages_per_task}; "
+                 f"reserved revision rounds {rt.config.limits.max_revision_rounds}; "
                  f"wall clock {rt.config.limits.timeout_seconds}s. Each task costs several model calls; keep the plan small.")
     lines.append("\n## Registered programmatic checks\n" + "\n".join(f"- {k}: {v}" for k, v in CHECK_KINDS.items()))
     lines.append("\n## Example of a valid plan shape (adapt ids, owners, objectives, paths and criteria to the request)\n"
@@ -230,10 +241,47 @@ def planning_message(rt) -> str:
                  "- Acceptance criteria must be checkable; prefer programmatic where a registered check fits.\n"
                  "- Record reversible choices in assumptions instead of asking the user.\n"
                  "- Nothing is published externally; drafts only. Do not plan posting, sending or paying.")
+    if inp.team_selection == 'adaptive':
+        lines = [line for line in lines if not line.startswith("\n## Example of a valid plan shape")
+                 and not line.startswith("\n## Default plan shape")]
+        lines.append("\n## Task-specific team\nThe roster above was recommended for this request. "
+                     "Assign meaningful work matching each selected specialist's expertise. Do not recreate a fixed "
+                     "researcher/builder/reviewer sequence or invent those agent IDs. Preserve unique ownership of files; "
+                     "specialists can contribute findings before the final producer integrates them. "
+                     "Use independent review where required, and let evidence-backed findings trigger corrections.")
     return "\n".join(lines)
 
 
 ANY_OUTPUT = "*"  # output_paths sentinel: "at least one artifact published by this task" (single-agent runs)
+
+
+async def document_plan(rt) -> TeamPlan:
+    """Explicit document workflow: compile user-owned inputs; never invent model output."""
+    builder = next((a for a in rt.enabled_agents() if a.role == "builder"), None)
+    reviewer = next((a for a in rt.enabled_agents() if a.role == "reviewer"), None)
+    if builder is None or reviewer is None or builder.agent_id == reviewer.agent_id:
+        raise PlanError("document workflow requires separate enabled builder and reviewer agents")
+    path = rt.run.inputs.delivery_requirements[0].logical_path
+    build = TaskSpec(id="t1", owner=builder.agent_id, objective=rt.run.goal,
+                     depends_on=[], output_paths=[path], write_scope="workspaces/t1/",
+                     acceptance=[
+                         {"id":"document_contract", "description":"The exact published revision passes the requester-owned delivery contract.", "check_kind":"programmatic"},
+                         {"id":"document_language", "description":f"Original prose uses the user-requested language, defaulting to {rt.config.defaults.language}. No unintended language switching. Verbatim quotations, names, identifiers and code preserve the source. Inspect the exact saved revision; format success is not language verification.", "check_kind":"model_review"},
+                         {"id":"document_request", "description":"Every content requirement in the original request is fulfilled, including requested sections and source citations. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.", "check_kind":"model_review"},
+                         {"id":"document_accuracy", "description":"The requested content preserves the supplied sources, including conditions, exceptions and operation order. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.", "check_kind":"model_review"}])
+    review = TaskSpec(id="t2", owner=reviewer.agent_id,
+                     objective="Independently compare the exact published revision with the original request and supplied sources. Check the requester contract and factual conditions. Submit an evidence-linked verdict for each producer criterion; do not infer correctness from file existence.",
+                     depends_on=[build.id], output_paths=[], write_scope="workspaces/t2/",
+                     acceptance=[{"id":"document_review", "description":"Every producer criterion has an independent verdict on the exact revision, with unresolved findings retained.", "check_kind":"programmatic"}])
+    plan = TeamPlan(goal=rt.run.goal, assumptions=["Requester selected document workflow: one producer followed by an independent reviewer."],
+                    agents=[builder.agent_id, reviewer.agent_id], tasks=[build, review])
+    errors = validate_plan(plan, plan.agents, {builder.agent_id:"builder", reviewer.agent_id:"reviewer"},
+                           rt.config.limits.max_tasks, require_review=True, required_paths=[path])
+    if errors:
+        raise PlanError("; ".join(errors))
+    await rt.events.append(rt.run_id, "plan.accepted", {"tasks":[build.id,review.id], "agents":plan.agents,
+                                                        "assumptions":plan.assumptions, "mode":"document"})
+    return plan
 
 
 async def single_agent_plan(rt) -> TeamPlan:
@@ -261,10 +309,13 @@ async def single_agent_plan(rt) -> TeamPlan:
 
 
 async def plan_team(rt) -> TeamPlan:
+    if rt.run.inputs.team_selection == 'adaptive' and not rt.run.config_snapshot.get('team_recommendation'):
+        from .team_selection import recommend_team
+        await recommend_team(rt)
     master = rt.agents.get("master") or next((a for a in rt.enabled_agents() if a.role == "master"), None)
     if master is None or not master.enabled:
         raise PlanError("no enabled master agent")
-    system = platform_policy_text() + "\n---\n" + master.system_prompt + "\n---\n" + TEAM_COMPILER
+    system = platform_policy_text() + "\n---\n" + master.system_prompt + voice_instructions(conversation_voice(master.role, master.speech_style)) + "\n---\n" + TEAM_COMPILER
     ctx = SessionContext(rt=rt, agent=master, mode="plan", tools=[])
     runner = AgentRunner(ctx)
     user = planning_message(rt)
@@ -285,16 +336,33 @@ async def plan_team(rt) -> TeamPlan:
             resp = await runner._call_model(req, None)
         except (WorkerFailure, PolicyViolation) as e:
             raise PlanError(f"planning call failed: {e}")
+        data = None
         try:
             data = _extract_json(resp.text)
             plan = plan_from_output(data, enabled)
-            last_errors = validate_plan(plan, enabled, roles, rt.config.limits.max_tasks, require_review=require_review)
+            last_errors = validate_plan(plan, enabled, roles, rt.config.limits.max_tasks, require_review=require_review,
+                                        required_paths=[r.logical_path for r in rt.run.inputs.delivery_requirements])
+            if not last_errors and rt.run.inputs.team_selection == 'adaptive':
+                from .communication import communication_budget_errors
+                last_errors.extend(communication_budget_errors(plan, roles, set(enabled),
+                    rt.config.limits.max_peer_messages_per_task, rt.config.limits.max_revision_rounds))
         except (ValueError, KeyError, TypeError) as e:
             last_errors = [f"unparseable plan: {e}"]
             plan = None
         await rt.events.append(rt.run_id, "plan.proposed", {"attempt": attempt + 1, "plan": data if isinstance(data, dict) else None,
                                                             "errors": last_errors}, actor_id=master.agent_id, actor_kind="agent")
         if plan is not None and not last_errors:
+            if rt.run.inputs.team_selection == 'adaptive':
+                assigned = {t.owner for t in plan.tasks}
+                unused = [a.agent_id for a in rt.enabled_agents() if a.role not in ('master', 'reporter') and a.agent_id not in assigned]
+                if unused:
+                    last_errors = [f'Recommended specialists need meaningful assignments: {unused}. Adapt the plan to their specialties.']
+        if plan is not None and not last_errors:
+            if rt.run.inputs.team_selection == 'adaptive':
+                # Only plans admitted with lifecycle capacity adopt the new
+                # reservation contract; old saved runs retain their semantics.
+                rt.run.config_snapshot = {**rt.run.config_snapshot, 'communication_budget_version': 1}
+                await rt.runs.update_run(rt.run_id, config_snapshot=rt.run.config_snapshot)
             await rt.events.append(rt.run_id, "plan.accepted", {"tasks": [t.id for t in plan.tasks], "agents": plan.agents,
                                                                 "assumptions": plan.assumptions})
             return plan
@@ -347,10 +415,16 @@ async def final_report(rt, evidence: dict[str, Any]) -> dict[str, Any] | None:
         return None
     system = platform_policy_text() + "\n---\n" + (agent.system_prompt if agent.role == "reporter" else
                                                  (PKG_ROOT / "prompts" / "reporter.md").read_text(encoding="utf-8"))
+    system += voice_instructions(conversation_voice(agent.role, agent.speech_style))
     ctx = SessionContext(rt=rt, agent=agent, mode="report", tools=[])
     runner = AgentRunner(ctx)
     user = ("Write the final report strictly from this evidence. Do not upgrade 'started' or 'unverified' to 'done'. "
-            "Reference only artifact ids/revisions that appear in the evidence.\n\n" + json.dumps(evidence, ensure_ascii=False, indent=1)[:40000])
+            "Reference only artifact ids/revisions that appear in the evidence. "
+            "Reviews apply only to the exact id/revision/sha256 in target_artifacts. A task's historical review "
+            "does not reject or approve its newer artifacts. unreviewed means neither passed nor failed. "
+            "The following runtime ledger is authoritative for current revision review coverage:\n"
+            + json.dumps(artifact_review_ledger(evidence), ensure_ascii=False)
+            + "\n\nEvidence (may be truncated):\n" + json.dumps(evidence, ensure_ascii=False, indent=1)[:40000])
     req = LLMRequest(model=agent.model, system=system, messages=[{"role": "user", "content": [{"type": "text", "text": user}]}],
                      tools=[], max_tokens=4000, json_schema=REPORT_SCHEMA, effort="low" if agent.effort is None else agent.effort,
                      metadata={"agent_id": agent.agent_id, "mode": "report"})

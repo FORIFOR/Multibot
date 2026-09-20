@@ -128,3 +128,36 @@ button { touch-action:manipulation; }
 .btn.signal { background:#4558d0; border-color:#4558d0; }
 .btn.signal:hover { background:#3c4dbd; }
 .team-stage .is-active .simple-bot-state { background:#4558d0; }
+
+/* User-selected emoji identities. */
+.bot-emoji-choices { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0; }
+.bot-emoji-choices button { width:42px; min-height:42px; border:1px solid #dce2ee; background:#fff; border-radius:10px; font-size:24px; cursor:pointer; }
+.bot-emoji-choices button[aria-pressed=true] { border-color:#4558d0; background:#eef1ff; box-shadow:inset 0 0 0 1px #4558d0; }
+.bot-emoji-choices .emoji-reset { width:auto; padding:0 12px; font-size:12px; }
+.bot-emoji-choices button:focus-visible { outline:3px solid #4558d0; outline-offset:2px; }
+
+.bot-character-picker { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin:4px 0 8px; }
+.bot-character-picker button { display:flex; flex-direction:column; align-items:center; gap:5px; min-height:108px; padding:12px 4px; border:1px solid var(--line,#dce2ee); border-radius:16px; background:var(--paper,#fff); color:var(--ink,#17252b); font:inherit; cursor:pointer; }
+.bot-character-picker .character-face { font-size:32px; line-height:1.2; }
+.bot-character-picker strong { font-size:14px; }
+.bot-character-picker small { font-size:11px; color:var(--muted,#59636b); }
+.bot-character-picker button:hover { background:#f4f7f2; }
+.bot-character-picker button[aria-pressed=true] { border-color:#315e4c; background:#edf5ee; box-shadow:inset 0 0 0 1px #315e4c; }
+.bot-character-picker button:focus-visible { outline:3px solid #315e4c; outline-offset:3px; }
+@media(max-width:420px) { .bot-character-picker { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+.bot-character-editor { margin-top:14px; }
+.bot-character-editor summary { cursor:pointer; font-size:14px; font-weight:650; padding:10px 0; }
+.bot-character-editor summary:focus-visible { outline:3px solid #315e4c; outline-offset:2px; border-radius:4px; }
+.bot-character-editor > .stack { margin-top:12px; }
+
+.request-team-picker { border: 1px solid var(--line, #dce4df); border-radius: 18px; padding: 18px; margin: 16px 0; min-width: 0; }
+.request-team-picker legend { font-weight: 650; padding: 0 6px; }
+.team-selection-mode { display: flex; gap: 24px; margin-bottom: 16px; flex-wrap: wrap; }
+.team-selection-mode label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.request-character-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(105px,1fr)); gap: 8px; }
+.request-character { display: flex; flex-direction: column; align-items: center; gap: 6px; border: 1px solid #dce4df; border-radius: 14px; background: #fff; padding: 14px 8px; color: #394b43; cursor: pointer; }
+.request-character[aria-pressed=true] { background: #edf5ee; border-color: #648972; }
+.request-character:focus-visible { outline: 3px solid #315e4c; outline-offset: 3px; }
+.request-character .character-emoji { font-size: 30px; }
+.request-character strong { overflow-wrap: anywhere; }
+.request-character small, .character-selection { font-size: 11px; }

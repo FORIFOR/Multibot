@@ -54,7 +54,7 @@ class JobStore:
             if run['status'] in ('running', 'planning', 'completed', 'blocked'):
                 raise JobConflict('run cannot be queued from its current status')
             await conn.execute("INSERT INTO execution_jobs(job_id,run_id,resume,state,created_at) VALUES(?,?,?,'queued',?)", (job_id, run_id, int(resume), now))
-            await conn.execute("UPDATE runs SET status='queued',cancel_requested=0,finished_at=NULL WHERE run_id=?", (run_id,))
+            await conn.execute("UPDATE runs SET status='queued',cancel_requested=0,finished_at=NULL,blocked_reason=NULL WHERE run_id=?", (run_id,))
             if receipt:
                 await self._save_receipt(conn, run_id, receipt)
         return await self.get(job_id)

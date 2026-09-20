@@ -4,6 +4,76 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 
 ## Unreleased
 
+- Ask for a concise, complete team rationale separately from member descriptions to avoid generation ending mid-sentence at schema limits.
+
+- Allow SHA-guarded exact replacements through the existing workspace write permission, so long drafts can be corrected without regenerating the whole document; retain publication and review gates.
+
+- Clarify that queued peer requests do not start reply sessions or delegate ownership; distinguish immediate questions in the tool description and delivery receipt.
+
+- Add optional character ranges to agent artifact reads, preserving complete reads and marking partial-read evidence explicitly; guide token-limit recovery toward focused reads.
+
+- Distinguish a bot's current task from its other assignments, and keep cross-task publication errors from suggesting renamed copies of another task's deliverable.
+
+- Keep coordinator completion scoped to verified request deliveries; preserve raw model claims in logs without promoting them to completed production or review results.
+
+- Reserve reviewers' remaining peer-message capacity for formal review handoffs, preventing optional messages from consuming the final required delivery slots without increasing limits.
+
+- Request concrete sentence endings and teammate responses separately from temperament when recommending a team; preserve existing saved profiles and user-locked identities.
+- Include exact required artifact revisions in incomplete-review errors, without accepting partial review coverage.
+
+- Reject explicit and inferred task completion when a saved output differs from its latest published revision; require publication and a new handoff.
+- During document context recovery, identify saved unpublished edits and direct the bot to inspect them before rewriting older published outputs.
+- Show the same latest publications and unpublished edits when a task resumes, so earlier review references are not mistaken for current output revisions.
+- Recover submitted review records and pending post-review handoffs after a no-tool reviewer turn, without finishing the task or accepting its artifacts.
+
+- Suggest the declared review targets and acceptance IDs in session-specific tool schemas, retaining strict runtime coverage and revision checks.
+- Guide concise role-specific handoffs without replacing user voice settings; explain that failing reviews need formal submission before correction can start.
+- Include each bot's configured voice beside the model's message-text field, without rewriting sent messages or expanding tool permissions.
+- Reflect exact-revision checks and reviews in live result tabs before the final report is available, without treating a failed review as a pass.
+- Restore saved failing-review findings to a producer after interrupted correction work, retaining the original reviewed revisions and hashes.
+- Require real coordinator handoffs to task owners in normal team runs, retaining tool permissions, budgets and persisted deliveries on resume.
+- End the normal LLM coordinator dispatch phase from verified persisted deliveries, avoiding an extra acknowledgement call; production and review completion stay separate. CLI sessions are unchanged.
+- When an agent confuses a generated artifact with an original attachment, suggest its exact artifact ID/revision if reading artifacts is allowed. Keep the lookup unsuccessful until the correct tool is used, without creating a false source-read record.
+
+
+- Add per-bot conversation voice settings with role defaults, revision-checked persistence, and frozen run configuration.
+
+
+- Advertise requester text length bounds on the document-writing tool while retaining persisted-byte validation as the authority.
+
+
+- Add explicit Ollama temperature/top-p connection settings. The OpenAI-compatible endpoint does not inherit these Modelfile defaults; omitted values retain endpoint defaults. Deterministic temperature is limited to capability probes.
+
+
+### Product outcome and integration (local patch)
+- Separate document request fulfillment from source accuracy, prevent writing instructions from becoming deliverable content, and restrict document reviewers to reading/checking/review handoffs at the tool boundary. Text checks return measured Unicode length and byte size.
+- Add optional, draft-persisted literal phrase exclusions to output conditions. Compile them to standard JSON Schema and enforce them on saved file content through the existing execution layer; model claims cannot override these checks. Semantic and paraphrase review remains separate.
+- Add explicit document language review and prevent reviewers from waiting on producers blocked by their pending verdict. Clarify semantic review versus exact-string checks and distinguish design intent from measured usability; refresh the app design brief, and explain low-storage admission failures without dropping request drafts.
+- Keep elapsed time anchored to the recorded stop event when a user saves a new direction on an interrupted run; verify offline recovery, real browser storage exhaustion and instruction persistence using actual recorded work.
+- Redesign the workroom as a quiet creation desk: compact expandable emoji teammates, an immediately visible instruction composer, and a pre-resume disclosure that keeps execution separate from inspection.
+- Add an artifact-first creation workspace, browser-local editable copies/downloads, selected-excerpt change instructions, and previous-version comparisons. Keep mobile drafts mounted and distinguish local edits from published, checked versions.
+- Add tab-persisted request search, optional conversation text/participant filters and exact-revision links for referenced artifacts. Pause live following during filtering and clear filters when jumping to the latest messages. Record official VoiceOS/OpenClaw reference observations without claiming unmeasured superiority.
+- Refine the conversation-first workroom: one request header, Conversation / Results navigation, a compact emoji roster and quieter surfaces. Collapse attention details while keeping resumption risks visible; tighten mobile navigation and preserve keyboard focus feedback.
+- Require dependent task workers to deliver actual handoffs/review findings before task completion, including auto-finish. Read all run-scoped messages addressed to the worker so cross-task handoffs cannot be silently filtered out. Reply sessions must send an answer before finishing.
+- Show elapsed start-to-end time beside the conversation, updating every second while live and freezing at the recorded end. Elapsed time includes approval waits and pauses.
+- Replace default drawn bot characters with role emoji. Add emoji choices and immediate preview to each bot’s settings; preserve custom emoji in team chat as well as the roster. Existing run snapshots remain unchanged.
+- Simplify the workroom: shorten active labels, remove repeated explanatory text, and collapse progress, task details, activity records and source context. Preserve original messages, outcome warnings, permissions and cost controls.
+- Show an animated execution indicator inside the conversation while work is active, with the current stage, recorded task and last record time. Stop the motion for approval, connection uncertainty, settled runs, reduced motion and the existing pause control; keep this feedback separate from delivered messages.
+- Add a status-filtered work index at `/runs` with counts, refresh recovery and direct navigation to each team conversation. Keep the selected filter when returning, disclose the existing 50-request API window, and retain interrupted/failed states without classifying them as completed.
+- Show recorded work phases, current task and state history without invented completion percentages. Move original bot messages into the wide main column, with live connection status, follow/pause controls and separate activity records; keep conversation before the roster on mobile. See `docs/quality/workroom-live.md` for actual-record verification and limits.
+- Add an opt-in supplied-document workflow: Core compiles one creation task and an independent review, preserving delivery checks while avoiding a model planning call. Reject plans that omit requester-owned output paths.
+- Bind capability probes to each enabled agent’s effective model; changed or unrecorded model evidence blocks before execution. Keep CLI and real-model benchmark probe records consistent.
+- Enforce requester JSON Schema string constraints on UTF-8 text artifacts; expose optional output character bounds in the request form while preserving legacy JSON receipt hashes.
+- Rebuild token-limit recovery from actual task/source/review context and retain retry bounds; remove task-specific readiness instructions from shared execution prompts. Extend recovery to tasks restricted to durable document tools even without a delivery schema; show existing outputs and sent messages without replaying them.
+- Allow corrections to be saved on paused runs with a plan before explicit resume; expose server-derived instruction capability and the last saved direction without claiming it was applied.
+- Clear stale stop reasons when runs/tasks actually resume; retain recorded failure history.
+- Install the five user-supplied OSS quality Skills locally under `.agents/skills` (2.0.0-draft); record scoped independent verification and remaining product failures.
+- Disclose effective model destinations and tool permissions before a request; preserve tab-scoped request drafts and source attachments through setup/reload.
+- Stop automatic mutation retries; honor persisted create/fork/resume idempotency receipts in local mode as well as authenticated mode.
+- Fix the empty-to-first-artifact React Hook order; bind check badges to exact artifact revision and hash.
+- Add explicit selected-revision ZIP exports and hash manifests while preserving the latest-file ZIP default; serialize adoption compare-and-set (0 means no prior selection).
+- Document the pre-1.0 HTTP contract and limits, add a stdlib client example and real API/SQLite regression checks. See `docs/quality/report.md` for evidence and unverified conditions.
+
 ### Added
 - An automated accessibility scan of the everyday screens (`frontend/scripts/a11y-smoke.mjs`: axe, WCAG 2.x A/AA; home, home with a request written, welcome, My team and the work screen, in Japanese and English at two widths), run in CI. The sandboxed deliverable preview is excluded and stays a manual check; zero findings is not a conformance claim.
 - `site-check.mjs` can run in WebKit (`BROWSER=webkit`).
@@ -83,3 +153,25 @@ Driven by real runs through the local Claude Code CLI (`claude-opus-5`) and two 
 ## 0.1.0 — 2026-09-12
 
 First public release: Master / Researcher / Builder / Reviewer runtime with an append-only event store, real bot-to-bot delivery, revisioned artifacts with checks and reviews bound to revisions, approvals, cancel/resume/fork, replay, JSONL export, and the local-first UI. Providers: `claude_cli`, `anthropic_messages`, `openai_compatible_chat`, `ollama`.
+
+- Add same-run full artifact-ID recovery hints to failed reads and message references, without automatic selection or delivery.
+- Reset per-attempt planner parse data so malformed responses reach the existing rejection/retry path without an unbound variable or stale proposed-plan payload.
+- Reject unwritable task output paths during planning with the existing workspace path policy.
+- Clarify coordinator input handoffs and enforce positive published artifact revisions in message/reference tool schemas; original attachments are not revision-zero artifacts.
+- Clarify the scope of literal/structural tool checks without altering their verdicts, targets or recorded evidence. Preserve required content during source-based semantic review.
+- Label generated plan assumptions as provisional in task handoffs, preserve unresolved choices and the original request scope, and clarify source-access limits for researchers.
+- Explain why publication invalidates earlier handoffs and how to deliver current revisions before finishing; preserve the existing completion guards.
+- Guide missing workspace reads to existing same-run published artifact references when the caller has artifact-read permission; preserve local-file precedence and path policy.
+
+- Add experimental task-specific AI team recommendations with variable specialist count, personal names and distinct voices. Inherit approved capabilities and persist the chosen roster for resume; retain fixed-team API compatibility.
+
+- Adaptive plans now reject insufficient compulsory handoff/revision communication capacity before starting workers, using the same dependency recipients as runtime delivery. Configured limits are not increased. Optional-message reservation across future revisions remains outstanding.
+- Versioned adaptive communication reservations now protect future corrections and unanswered questions. Reply sessions count toward the same stored task budget on both execution and resume. Older saved runs do not retroactively adopt future-round reservations.
+- Coordinator message schemas now require an explicit existing task ID and describe its owner, matching the runtime's delivery requirement. Dispatch guidance distinguishes the sender's request from the recipient's own voice.
+- Re-review prompts explicitly label previous verdict summaries as historical and require reassessing current passages, including fixed and still-failing findings, rather than copying earlier verdict text.
+- Task prompts clarify that applicable corrections received during a run refine the work while preserving original requirements, mandatory delivery contracts and permissions; receipt alone is not evidence of completion.
+- Clarify that literal text checks include raw Markdown markers, whitespace, case and punctuation; repeated identical checks cannot resolve a rendering mismatch. Verdicts and artifact content remain unchanged.
+- Bind message-writing guidance to the actual sender name and recipient display-name map, so tool IDs are not presented as conversational names. Stored messages remain unchanged.
+- Add editable animal character presets to My team, with draft previews and explicit save. Keep character identity separate from capabilities and variable team size; guide future adaptive recommendations toward simple nicknames and animal emojis.
+
+- 依頼ごとに「自分で選ぶ」からキャラクターを選択。選択の下書き保存、権限と人格の保持、必須確認担当の開始前検証、選択済みチームのfork継承に対応。

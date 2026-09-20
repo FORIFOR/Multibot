@@ -1,0 +1,190 @@
+# ボットの話し方と株式アプリ検討 — 合格条件
+
+第5回seq148でarchitectureの修正草稿を保存（8169bytes/4137文字、SHA256 `cad88713b0939cbb39f44af57f8660f2ea837a17762b9f685d41373d11c2196b`）。Core永続化項目、直fill/rejected、認証キーの分離、7確認項目、2時刻、照合順序、Live章は追加された。独立確認で、取消待ちの約定をfill/canceledへ変える誤り、市場価格と約定更新の混同、受信時刻のみの鮮度判定、送信前commit/結果不明中の再送抑止/口座認可/ID責務/Adapter契約の不足、Live開始とgate検証順序の矛盾が残りFAIL。seq149で追加のAI補助指摘を保存（次task session向け、本文の代筆なし）。公開r1と新草稿は区別して保存し、再審査済みとは扱わない。
+
+検証記録の訂正: 第5回preparation.jsonは基点commit `c4c7e3189fcdc620a2faa3728d009011bc0526e6` を記録していた。後続の案内修正記録2件に、会話引継ぎ由来の古い`69d484a`を誤って記載したため、旧記載と訂正理由を残して基点を修正した。実行/修正時の各ファイルhashは変更していない。現在HEADもc4c7e318で、未コミット変更と外部で追加された既存commitを保持している。第5回environment.jsonに実data_dir/base/モデル/OS/基点と、保存済み3成果物のAPI hash・実ディスクbytes一致を記録。これは受領試験の環境準備であり、内容合格やZIP受領の証拠ではない。
+
+第5回seq126のmodel.failed（retryable server500）後もrunはrunning/live=trueを維持。同時刻の共有Ollamaログではrunnerのsignal9終了・自動再起動があり、別ローカルbenchmarkも動いていたため、原因は断定しない。実行の停止・再投入・他プロセス終了はしていない。seq127で同じ審査処理のモデル応答が復帰し、seq128/129でreviewerがfinish、seq130/131で正式failからrevise/re-reviewへ移行、seq134でbuilder attempt2が開始した。`provider-500-observation.json` / `provider-recovery-current.json`に証拠を保存。審査担当のtask acceptedは成果物の合格ではなく、両r1のfailが修正へ渡ったことを示す。修正版はまだ未生成。
+
+第5回seq121でreviewerがresearcherの実回答を受信し、seq124でresearch_notes.md r1を実際にread_artifactした。誤認から質問→回答→正しい資料読取への復帰が成立した。新着UI試験で確認したのも回答seq113（61.886秒観測、reloadなし）である。稼働中の旧ロードコードでの復帰として記録し、新workspace参照案内の効果とはしない。seq82の追加AI通信案内はreviewer開始後であり、今回の質問発生への反映も主張しない。
+
+第5回seq103→113で実質問・実回答が成立。reviewerがresearch_notes不存在を誤認して質問し、researcherはseq107でr1を読み、正しいreply_toで公開済みと回答した。独立確認は質問/返信の対応・実読取・返信完了をPASSとし、返答単体の柔らかい文体は限定PASS。workspace不存在の範囲が曖昧で、t1作業継続の言及は実再開の証拠ではないため、回答全文の正確性/4者文体全体は合格へ変更しない。seq118で正式審査後のbuilder向けhandoffも成立。修正版はまだ未作成。
+
+`round5-live-message` exit0。実Chromeでページを開いたまま、新たに届いた実メッセージが再読込なしにDOMへ追加されることを、event_id一意性とAPI本文完全一致で確認。`live-message-observation.json`が具体的な新着eventと観測時間を記録する。先の切断復帰試験とは別に、新着ライブ配信の実操作証拠が得られた。
+
+通常UI8796はlive_runs=[]を確認してidleプロセスのみ終了し、既存dataで最新コードをロード。前後のhealth/config全体が一致（config_revision6）、`main-ui-review-fixes-smoke` exit0で実Chrome設定/ホームを確認した。`main-before-reload.json`/`main-after-reload.json`に前後状態とコードhashを保存。検証用8805のrun_1a0bbbe514dcf34c2a8は停止しておらず、新規追加の仮定案内・公開後引継ぎ理由・workspace参照案内は8805には未ロード。
+
+第5回seq94でreviewerの実findingが送信され、4役全ての実送信が成立。`round5-four-role-chat-ui` exit0で8件のAPI/DOM本文一致とreload保持を検証。短いbuilder引継ぎへ改善したが、4役の文体差・審査内容の正確性は別判定。seq98で最初のsubmit_reviewがt2/t2a1/両r1参照として正式保存され、主要な設計不足をfailとした。noteにresearch_notes不存在という誤りが残るため、審査記録の成立を全内容正確とは扱わない。seq96にAI補助訂正を保存（次task session向け）。修正版/採用は未到達。
+
+参照誤りの原因記録: seq90で原添付readへの誤指定にartifact参照案内を返したが、seq92で自workspace読取へ誤進行した。次ロード用にworkspace_read失敗時、read_artifact権限があり同runの公開版が存在する場合のみexact ID/revisionを案内する修正を追加。パス制限・実ファイル優先・読取権限を維持し、自動読取/読取event発行/コピーは行わない。workspace-published-artifact-hintは実保存資料の回帰23件PASS/4.86秒/exit0。独立静的確認PASS。8805未ロードにつきモデル効果未実証。
+
+第5回seq68/70で指定2文書のr1が公開された。architecture.mdは3332bytes/SHA256 `d886faaedbcca69ca299ced6c6f165271819c61246b1a058fecacfafd9ee10d3`、decisions.mdは3106bytes/`c5a3ed87c70f103245e29fc69e7b826a913696614a38bf128ab7fd59a10f0806`。raw APIで取得してhash一致を照合、`canonical-first-publication.json`に保存。注文状態/取消競合、結果不明/送信前永続化、認証認可、ID責務、鮮度時刻、Adapter契約、発注前確認、Livegate/検証条件の具体性が不足し内容FAIL。seq64に具体的なAI補助指摘を保存（HTTP202、次task session向け）。正式なbotレビュー・修正版・採用/ZIPは未到達。
+
+第5回seq61時点の追加実操作: `round5-live-reconnect` exit0。実Chrome 153.0.8010.53・390×844で経過時間1001→1003秒を確認。専用ブラウザーcontextのネットワークを実際にofflineへ切替えると接続確認/waiting表示となり、online復帰でlive/activeへ戻った。実会話6件は各1行ずつ同じ本文を保持し、同一run_id/started_at、横溢れなし、pageerrorなし。`live-reconnect.json` と接続断/復帰画像を保存、復帰画像を目視。観測中seq61のままで新メッセージはなかったため、新着SSE配信の成功証拠とは区別する。サーバーの作業は停止/再投入していない。
+
+第5回seq48/51/52でresearcherがhandoffを再送し、finish_task成功、t1 acceptedへ進んだ。seq55/56でbuilderが開始し3件の受信を確認。第5回の旧ロードコード上での復帰であり、今回追加した案内文の効果とは称さない。調査資料の内容FAILも維持する。`builder-start-run.json` / `builder-start-events.json` に記録。
+
+最新追記（第5回seq46時点）: researcherが公開前にhandoffを送り、公開時の既存無効化後、finish_taskを2回拒否された。途中のread_messagesでは解消しない。次ロード用に公開返答と不足recipient拒否へ、全成果物公開後の版付きhandoffが必要な理由・次操作を追記。完了ガードは非変更。実seq32→39→42をSQLite/gatewayで再生し、公開前送信は完了不可、公開後の実版参照送信で完了可能、メッセージ数・bytes/hash保持を検証した。publication-handoff-guidance-real-bytes:23件PASS/4.93秒/exit0。初回は切詰められたevent args本文を全文として再生しhash不一致で1件FAIL。raw APIで取得した実公開4289bytesを使う試験入力へ訂正、元イベント・期待hashは非変更。初回失敗ログも保持。この変更も8805には未ロード。独立静的確認PASSと実モデル効果は区別する。
+
+最新追記（2026-09-20 07:27 JST）: 第5回は継続中。research_notes.md r1はseq39で公開され、独立保存した草稿と同じSHA256 `9078e0dabe1476a2ba6de24ea6a6c4503344ad853e83f1d4ca6d402149c280bd`。公式仕様と提案の混同、認証責務、コード実装への範囲変更、Live通過条件の不足が残り内容FAIL。seq26/37にAI補助訂正を保存したがresearcher開始後であり、次task sessionへ渡す契約。補助の受付を訂正済みとは扱わない。
+
+round5-initial-chat-uiは実Chrome 153.0.8010.53で5メッセージのAPI/DOM本文一致とreload保持、設定保存、1440/390幅を確認（exit0）。conversation.pngも目視した。新たな実ユーザー評価や4人全員の文体合格ではない。最初の起動コマンドはfrontendから相対wrapperパスを誤りexit2、正しい `../artifacts/product-quality/run-command.py` で再実行した。
+
+計画仮定の誤伝播に対し、workerの表示を暫定・未検証・権限追加なしと明記し、researcherに原依頼の範囲と取得不可時の限界を保つ案内を追加。元の仮定・目標・入力や判定/権限ガードは変更しない。provisional-plan-context（test_product_contract.py、test_peer_communication.py、test_local_runtime_regressions.py）は29件PASS/6.13秒/exit0。この追加は稼働中8805には未ロード。実モデルへの効果は未検証。原因記録は `docs/evidence/trading-plan-2026-09-20/assumption-propagation.json`。
+
+目標は、各ボットが実メッセージを残し、役割に沿って話し方を変えながら、株式トレードアプリの実装方法を検討して成果物を出すこと。導入ガイド試験の成功とは置き換えない。
+
+- 設定: 各botの話し方をUIで編集・保存・再読込できる。空欄で役割既定へ戻る。既存設定、権限、役割プロンプトを壊さず、新規runにsnapshotされる。
+- 会話: 実モデルが判断・根拠・疑問・引継ぎをsend_messageで送り、実送信記録がUI/DBに残る。全担当の発言と受信後の応答を照合する。名前や絵文字だけの違いで合格にしない。挨拶生成や架空会話の注入は禁止。
+- 成果物: 本番の株式売買アプリを対象に、Core/証券Adapter/UI、画面、注文状態、認証・認可、結果不明/再接続/部分約定、データ、実装段階、検証条件、未決定を設計文書にまとめる。Paper限定に縮小しない。実装済みとは称さない。
+- 正確性: docs/research/trading-sources.mdの公式仕様と提案を区別し、実接続・発注していないことを明示する。受付を約定、取消要求を取消完了にしない。成果物の版/hashと独立審査を対応させる。
+- 受領: 実UIで本文確認→採用→reload→ZIP保存し、公開版のbytes/hashと一致する。
+
+判定PASS/FAIL/BLOCKED/NOT_APPLICABLE。最初の実行環境はmacOS/Chrome/既存ローカルOllamaのみ。隔離data、1worker、60モデル呼出、1200秒、1応答4000token、revision2回。既存8分の導入ガイド試験と混ぜず、この新しい検討タスクの条件を実行前に記録する。別モデル評価との資源競合も記録する。モデルなしAPI試験と実モデルの会話評価は分ける。実口座や外部送信・課金は許可されていないため実行しない。
+
+## 初回チェックポイント
+
+2026-09-20。speech_style設定、5役割の既定文体、worker/planner/reportへの適用を追加。会話と成果物の文体、権限、検証条件を分離した。conversation-voice-contract:4件PASS/exit0。conversation-voice-label-build:型検査/build PASS/exit0。実UIの保存/再読込/1440・390幅/実runへの4人分snapshotはtrading-team-observeでPASS。初回ブラウザー試験でtextareaラベルの誤認識を発見・修正。開始直後createdを許容せず即判定した試験側raceも修正し、同じ実runをGETで開始確認した（再投入なし）。失敗コマンドも台帳に保持。
+
+実行は8802、run_1a0bb14eded265c29b5。最後のGETでplanning/live=true、最初のモデル応答待ち。生成された会話の文体差、内容、成果物、審査、採用ZIPはまだ未検証。成果物完成やgoal達成とは扱わない。証拠artifacts/product-quality/trading-team/。
+
+追記: 実計画は生成されrunning/live=trueに移行。researcherが実行中、builderの2作業とreviewerが待機中。master自身の作業は計画に含まれなかったため、まとめ役の実会話は未達として追跡する（計画生成を送信済みメッセージと同一視しない）。このrunの出力をまず検査し、全botの会話条件を未達のまま合格にしない。
+
+## まとめ役の送信経路（次の実行から）
+
+根本原因：通常teamの計画schema/検証はmasterを制作担当から除外している。役割を崩して制作taskを増やす代わりに、計画とtask永続化の後、masterが実モデルのsend_messageで各担当へ引継ぐcoordination sessionを追加した。本文の固定生成や架空会話は使わない。工具は既存の許可との積集合、実在taskの担当者だけが宛先、全宛先への実送信前はfinish拒否。記録済みの引継ぎは再開で再送せず、送信も既存の会話・モデル・時間予算に含める。document/singleフローには追加しない。
+
+trading-coordination-contract-retry：実記録/実SQLiteの5件PASS、exit0（初回は履歴に既存23 model callsがあることをテストが考慮せず失敗。無呼出の期待は維持し、0固定でなく増分0を検査）。権限欠如・宛先/task不一致・未送信finish拒否・重複抑制・再起動後receipt照合を確認。実モデルのcoordination経路はまだ未実行。既存のrunは生存確認済みのため再起動/再投入せず、その結果を追っている。
+
+最初の公開requirements_summary.md r1（hash2a139f0cd92402d330beb03d22fcf261a3224be552fd2390ee90e70fe2d26b78）にはローカルでpending_cancelを完了させる等の問題があり、内容はFAILとして独立確認中。中間資料を最終設計の成功としない。
+
+最終追加契約試験trading-final-contract-testsは11件PASS/exit0。研究/作成/確認指示に、外部の状態確定者を尊重し、調査要約を原資料と再照合する規則を追加。添付のみの依頼で利用不可web_fetchを要求しないよう、原典直接確認と添付整合性検査を区別した。これらは進行中8802には未反映、次の新規実行から。通常UI8796はactive runがないことを確認して最新コードで再起動した。
+
+同じ実runのseq24にresearcher→builderの実引継ぎを確認（requirements_summary.md r1/hash結合あり）。作成役・確認役はまだ未開始、話し方の相違はまだ判定できない。メッセージ本文やファイルを手書きで差し替えていない。実runはrunning/live=trueとして継続監視する。
+
+## 検証補助による指摘の投入
+
+元のgoalは生成精度の改善であり、今回の株式アプリ検討を無支援の初回試験とは主張しない。親担当が独立指摘をローカルinstructions APIで保存した（seq28、instruction_1a0bb1fc95ceec20f68、202/state=received）。APIのactor_kind=humanは操作経路の表現で、実ユーザー研究ではなくAIによる検証補助。本文にもその旨を明記した。手書き成果物への差替えや会話注入はしていない。次タスクに渡す指示であり、受付を修正済みと扱わない。証拠assisted-review-instruction.json。
+
+その後のGETでseq36、researcher accepted、builder実行中、次のbuilder ready、reviewer queuedを確認。初稿の誤りはまだ解消の証拠なし。現在の同じrunを継続し、修正後の公開bytesと審査を照合する。
+
+## 初回の終了と第2回の条件
+
+初回runは1200.206秒でinterrupted（wall-clock limit reached）、公開成果物はrequirements_summary.mdだけ。architecture.mdは草稿で、decisions.mdと審査は未到達。初回の主要価値はFAIL。final.json / final-events.json / final-chat.jsonと独立草稿hashを保持する。独立確認では取消待ちのローカル完了禁止と口座/注文/約定の再照合は改善したが、ID発行責務、取消対約定競合、安全な再送の過大保証、Live移行条件等の未達が残る。
+
+次の検証は別条件としてtrading-team-round2へ記録する。新版のcoordination/role promptに加え、team-compilerに「未確認事項を正しく明示する」ことと「未確認の記述をなくす」ことを混同しない規則、検証方法に応じたcheck_kindの使い分けを追加。まとめ役は制作taskではなく実依頼の送信を担当するよう試験依頼を補正する。Ollama thinking=true、時間上限2400秒、応答6000token（初回はfalse/1200/4000）であり、初回条件で成功したとは扱わない。
+
+開始準備でYAML編集がDBの保存revisionに上書きされることをGETで発見。公開APIのexpected_revision付き更新で修正し、変更後の接続probeを実施。初回のブラウザー開始は空き容量約475MiBで作成されず、待機timeoutを記録した。開始scriptはPOST応答とrun_idを先に保存するよう改め、応答不明での再投入を避ける。既存データを削除せず空き容量1.5GiBへの回復を観測。これらはモデル成果物の成功ではない。
+
+trading-contract-regression:11件PASS/exit0、7.87秒。新版export検証scriptは2成果物の審査revision/hash、画面採用、reload、ZIPと実保存bytesを照合する。syntax検査のみPASSであり、完成版がまだそろわないためexport E2Eは未実施（BLOCKED）。証拠commands.jsonlおよびtrading-team-round2/。
+
+第2回は接続probe PASS後、実ブラウザーからrun_1a0bb2bc3e72cfe3192を開始。trading-round2-start-retry exit0、HTTP受付/設定保存/再読込/snapshot確認済み。最後の観測はplanning/live=true/seq3。設計書の完成・会話文体・新版coordinationの実送信はまだ未判定。画面は8802の同runへ切り替えた。原実行を再送・再開したのではなく、条件変更を記録した新しい検証実行である。
+
+第2回の進捗: plan生成後、実モデルのmasterからresearcher/builder/reviewerへ3件のhandoffが保存された（seq14/16/19）。別task t3向けのbuilder送信はowner単位の既存送信として抑止された（seq18）。これは各宛先1件という現在の仕様であり、本文一致による重複検出や外部操作のexactly-onceを証明しない。trading-round2-delivered-chat exit0:実APIの3本文と画面本文が一致し、reload後も保持。作成/調査/審査の発言、文体の相違はまだ未確認。
+
+計画が指定ファイル名をarch/initial.md等に変えたため、親がseq12に元のarchitecture.md/decisions.mdも実際に生成・審査する修正指示を送った。受付は反映成功ではない。第2回も補助ありの検証として扱う。次回のteam-compilerに名前を保つ規則を追加（現runへは未ロード）。
+
+全3宛先へ送信済みでもfinish_task前に空応答が入り、次の担当開始が約200秒遅れた。次回向けに、coordinationだけは実DBの全宛先送信を確認したら工程終了する最適化を追加。制作taskの完了・審査・結果の正確性は変更しない。coordinator-delivery-completion:5件PASS/exit0（未送信を終了しない、実送信後にモデル追加呼出不要、制作taskに漏れない）。現runはその後モデル自身のfinishでrunning/seq27へ進み、researcherが実行中。最適化の実モデル適用試験としては扱わない。
+
+第2回の公開調査資料: research-requirements.md r1/hash c05fc35dfd52657c968e525e09e4e1a253574782c7233d7d4978e657b22406f4、research-market_data_requirements.txt r1/hash bc17abf2c50cabcfba4ae7065e09fd01f6004cb126d49b29ee8fb7d2eeb857c8。前者は草稿とbytes一致で、Paper/Liveのキー・接続先を変更しないという原資料不一致が残るため内容FAIL。親はseq35に追加指摘を保存した（次session向け、生成物差替えなし）。境界/詳細検証の範囲を勝手に狭める点も指摘。受理は修正済みを意味しない。
+
+seq42でresearcher→masterの実answer、seq44でresearcher→builderのhash付きhandoffを確認。seq53でt1 accepted、t2 running、t3 ready、t4 queued/live true。runtimeのt1 acceptedは本報告の内容PASSと同義ではない。作成者が元資料へ戻り、指定名の設計書と正しい内容を生成した証拠はまだない。補助指示と公開bytesはtrading-team-round2/assisted-source-finding.json、research-published-observation.json等へ保存。
+
+引継ぎ工程短縮の独立静的レビューはdocs/quality/trading-coordination-independent.md。必須の安全性問題なし。通常LLM向けでCLI未対応、内容正確性や理解の保証ではないことをintegration/CHANGELOGにも反映。現runの新修正適用・速度短縮を実測PASSとはしない。
+
+第2回seq57:作成担当がresearch-requirements.mdをread_input_fileで参照してNOT FOUND。原添付trading-sources.mdはseq58で実読取、その後list_artifacts、read_artifactで生成資料へ復帰した（seq66）。次回向けのエラー復帰案内を追加: read_artifact権限があり、同runの公開artifactが一致するときだけ正しいID/revisionを案内。生成資料を原添付として返したり、実読取前にinput.read/artifact.readを記録したりしない。artifact-source-recovery:5件PASS/exit0、2.62秒、実記録/実SQLiteを使用。進行中8802には未ロード、実モデルで追加修正の効果確認は未実施。
+
+第2回architecture草稿/公開版はarch-initial.md r1（logical arch/initial.md）、hash93272841524af01d9baba27a8355c312233a4b1fac3c6f4ca716418d5eedbc58。独立報告docs/quality/trading-round2-content-independent.mdでFAIL。timeout時新規client_order_id生成、口座/約定再照合欠落、証券newを未発注とする状態誤定義、本番通過条件不足が残る。認証図のキー種別不明は漏えい実証ではなく契約曖昧さ。Paper/Liveキー区別、取消中約定の記載等の改善とは分離する。
+
+親がseq72に具体的な差戻し指摘をinstructionsへ保存（assisted-architecture-findings.json）。seq78ではbuilder→reviewerの実handoffを確認したが、本文に『pending_cancelは取消待ちでない』という公開文書とも矛盾する誤記と担当名の誤記がある。メッセージの存在・hash結合は実証できても内容正確性PASSではない。修正版への反映と実審査はまだ未達。最後のGETはseq79/running/live true。
+
+第2回seq80では公開・handoff後に再び空end_turnが発生し、終了確認で待機。その後モデル自身のfinishでt2 review_pending、t3 running/seq93へ進んだ。次回向けに空の正常終了応答に限って既存auto_finish_if_outputs_publishedを即時試す修正を追加。宣言出力/引継ぎ/delivery検査を保持し、reviewer/出力不足/未送信では終了しない。max_tokensや実テキスト応答は従来どおり。10件PASS/exit0（empty-completion-delivery-guards、5.95秒）。独立静的レビューで新しい迂回は未発見。review_pendingになるのは審査taskがある場合に限り、審査taskなしの既存unverified付きacceptedを意味的品質PASSと扱わない。現8802には未ロード、効果の実測は未実施。
+
+第2回の最初の起動区間は2400.086秒でinterrupted/live=false/seq122。t2/t3はreview_pending、t4が原資料と両公開版を読んだ段階で時間切れ。40分以内の完成はFAILであり、後の再開で置き換えない。interrupted*.jsonへ保存。decisions r1（hashba5c751bfbcb471edfc5e55e4e34b072b7265a3e5956b1fa35b5a9baea469946）も独立FAIL、親がseq112に追加指摘を保存。t4の初回session開始後だったため再開後の新sessionで受け取る。
+
+live_runs空と所有PIDを確認して8802を停止、新修正をロードして起動。実UIの「続きを進める」→「確認して再開」で同runを再開（trading-round2-ui-resume exit0）。既存4成果物の版/hash、会話本文/event_id、4人のspeech_styleを維持し、master送信件数が増えないことを検査。画面resumed.pngを実見。seq126/running/live=true/t4 running。これは復帰性のPASSであり、内容のPASSではない。再開後は別起動区間として時間を記録し、初回40分条件の成功とは称さない。コード識別はrevision-resume.json。voice-reconstruction.jsonは保存YAMLの再構築だけの先行確認で、実再開証拠はresume-observation.json。
+
+再開後の実画面確認trading-round2-resumed-chatはexit0。保存済み会話8件をAPIと画面本文で照合し、reload保持、4人の設定保存、1440/390幅を確認。文体の実際の相違・内容は未判定のまま。
+
+独立確認で差戻し指摘の復帰欠陥を発見：TaskState.reviewは保存されるが、通常task promptは消費済み/再起動で消えるschedulerメモリだけを参照していた。次回ロード用に、保存済みfail審査からnon-pass指摘・summary・対象版/hashを復元する処理を追加。review-feedback-resume-retryは実過去記録とSQLite再起動・_prepare_resumeを用いて5件PASS/exit0、2.15秒。初回testは累積model_calls22を0と誤期待して失敗し、追加呼出0の条件を維持したbefore/after検査へ訂正。元失敗ログも保持。修正は進行中8802には未ロード、現runで同欠陥が発現したという主張ではない。
+
+seq138で確認担当がarch-initial.md r1のt2a1/t2a2をfailとして実submit_review。timeoutで新規ID生成する危険、3対象照合不足等を指摘し、hash93272841524a…へ結合された。これは初稿欠陥検出の観測であり、修正版合格ではない。残るt3審査・実finding送信・scheduler差戻しはこの時点で未到達。
+
+seq141でt3もfail、seq144で確認担当→作成担当への具体的handoff、seq158で作成担当の受信を確認。seq150/152で両制作taskがrevision round1に差戻され、t2 attempt2が実行開始。4bot全員に実送信は存在するが、話し方の明確な相違は独立評価前。
+
+進行中のファイルタブが審査済みでも「確認の記録なし」と表示する実UI不具合を再現（trading-review-display-before exit1）。final_reportだけでなく現在eventsの同一id/revision/hashのcheck/review記録も参照するよう修正。live-review-ui-buildはtypecheck/build exit0、trading-review-display-afterは実失敗審査を使いexit0。採用操作はしていない。記録存在と合格の判定は別で、不合格の採用ラベルは保持。bundled UIは更新済み、実行サーバー再起動なし。差戻しfeedback復帰のbackend修正は依然未ロード。
+
+表示修正は独立確認VD01–05でPASS。before/after画像を実見し、未審査researchの?と指摘あり警告の維持を確認。build/typecheckに加えlive-review-ui-lint exit0（既存を含むhook等の警告あり、warning-freeとはしない）。コード識別revision-live-review-display.json。口調の独立AI評価VS01–07は、9件の実送信照合PASS、4人の明確な文体差FAIL。役割による内容差を性格差の証拠に代用しない。人間評価はBLOCKED。
+
+口調改善の次回生成用hintとしてsend_message.textのschema descriptionに担当別speech_styleを追加。共有schemaはdeepcopy、権限/必須fieldは非変更、送信本文の後加工なし。conversation-voice-tool-contract-retryは6件PASS/exit0（2.64秒）、voice-tool-delivery-regressionは6件PASS/exit0（5.40秒）。初回は送信権限のないroleにもtool存在を期待して失敗し、既存権限に応じた存在確認へ訂正した。独立VH01–06で必須問題なし。実文体への効果は未検証、VSのFAIL維持。通常8796はlive_runs空/所有PIDを確認して新版をロードし、config_revision6保持・health正常を確認。session84864/PID56508。進行中8802は停止せず、tool文体hint/feedback復帰の新修正は未ロード。
+
+arch-initial.md r2が公開、hash bf424d937d69c18da9d788cc564795fc4bb3c5ee0ff81212fc95a7ad9f97510b。実raw/workspaceの15,883bytes一致。独立R2V01–10で新ID抑止/取消後quantity等の局所改善を認めるが、全体FAIL。具体再接続対象に約定履歴/切断中終端注文が欠落、証券newとローカルdraft混同、APIエラー=確定拒否から新ID再発注へ流れる可能性、追加partial_fillの数量凍結、環境識別・同期保証・形式検査による動作証明の誤りが残る。親はseq180にAI補助指摘を保存。t3修正session開始後のため、次reviewer sessionへ渡る。作成役の「全て対応」という自己申告をPASSにしない。
+
+第2回はseq232でpartial/live=false、累積model_calls=60上限に達して終了。t2/t3 review_pending、t4 failed。再開区間2300.900秒、初回2400.086秒。最終証拠はartifacts/product-quality/trading-team-round2/final*.json。r2の独立内容審査はFAIL、指定名の2成果物と採用ZIPも未達。成果物IDから.mdを省略した読取・引継ぎ失敗に、同run候補IDを示す復帰案内を追加した。候補の自動読取・自動送信なし。初回テストは既存delivery検査worker timeoutで1失敗5成功、その後実LLM停止後の同一テストは6成功/2.28秒/exit0（artifact-id-recovery-after-live）。初回失敗ログは保存。
+
+第3回は新しい検証条件：既存ローカル重みから作成したprecisionモデル（temperature .6、presence_penalty 0）、120 model calls、3600秒。合格条件・入力資料・要求範囲は維持するが、第2回の40分条件をPASSに置き換えない。データと環境記録はartifacts/product-quality/trading-team-round3。実モデル効果は未検証。
+
+第3回run_1a0bb7aa7af52628b54を実UIから開始。新規dataで最新backendをロード（8803/session94035）、実接続probeはtool_calling/json_schemaとも成功。準備時のcapability_checkの誤値unknownはnot_runへ訂正し、失敗ログも保存。latest-delivery-contractは実記録を使う13件PASS/5.76秒/exit0。開始は成果物完了ではない。
+
+計画失敗復帰の静的欠陥を発見：JSON解析前にdataを初期化していなかったため、初回解析失敗では例外、後続失敗では前回payloadがイベントに残り得た。attemptごとのdata=Noneで修正。planner-recovery-compilation exit0。実モデルの当該失敗再現は未実施、進行中8803は未ロードのまま維持。現在の計画待ちがこの欠陥によるという主張ではない。
+
+第3回は初回計画を審査工程不足で拒否。2回目の受理計画にも/tmp/research.md絶対パス、未検証を含まない条件、認証ポリシーを遵守しないという不整合が残ったため、実UIから取消要求(seq21)。この時点はlive=trueで停止完了ではない。失敗計画の実イベントをdocs/evidence/trading-plan-2026-09-20へ保存。次ロード用にvalidate_planで既存PolicyEngineの保存先検査を再利用し、実行前の拒否へ変更。real-plan-path-regression-retryは13件PASS/1.36秒/exit0。初回の旧unverified-review試験は対象artifactの復元不足で失敗し、元の実ファイルとref/hash一致を復元して再実行した。未検証をpartialとする既存期待は保持。第4回は同モデル・同依頼でthinking=falseの比較条件を準備、まだ起動前。
+
+その後のauthoritative GETで第3回cancelled/live=false/seq26を確認。final*.jsonを保存。取消完了を確認してから次のprobeへ進んだ。第3回成果物の主要価値はFAIL、正確な成果物や4人の実送信は未成立。
+
+第4回run_1a0bb85dc7e671d12d4を実UIで開始（8804/session58743、thinking=false、元と同じ依頼・資料・4人の設定、120calls/3600秒）。最新のpath/parse復帰検査をロード。direct-model-probe exit0。開始時点の成果物・会話・審査は未達、準備や開始を完成としない。対象hashはtrading-team-round4/revision.json。
+
+第4回の計画は初回61.496秒で成立。指定architecture.md/decisions.mdを保持、t1 researcher→t2 builder→t3 reviewer。seq25/running/live=trueまでにmasterから3担当へ実送信を確認。計画assumptionsの認証方式・再接続記述を公式保証と混同しないためAI補助指摘をseq25で保存（assisted-plan-findings.json）。受理やmasterの送信を、4人の文体差・最終内容の合格にしない。
+
+第4回research-requirements.md r1公開：SHA5d4dd5dab42a2e996f2ee0f52314a10e5ca3d56c3d3d5dbaf5a173a29ff66757、6040bytes、API raw一致。主要な注文/Paper仕様は改善したが、価格表示設計を公式仕様へ誤分類、認証方式・backoff・stream差の混同が残る。seq45に具体AI補助を保存、t2開始後なので次reviewer session向け。t1 acceptedは内容合格を意味しない。
+
+前回のcoordinatorによる原添付rev0参照失敗を受け、ツールschemaでrevision>=1を明記、原添付/予定出力は本文で渡してartifact_refsを省略する説明と配布promptを追加。coordinator-reference-contract：実r3拒否/r4成功イベントを含む20件PASS/3.32秒/exit0。新修正は進行中8804には未ロードで、モデル効果は未実証。
+
+検証条件の訂正：第3/4回のprecisionタグにはtemperature .6/top_p .95を設定したが、Ollama0.33.3互換APIが未指定request値を1.0へ上書きしていた。実samplerログと公式同versionのコードで確認。よってこれらを.6/.95が効いた精度検証とは扱わない。presence_penalty0はログで確認。sampling-observation.jsonへ保存。明示的な接続設定ollama_temperature/ollama_top_pを追加し、APIの省略保持/null解除とregistry伝達を15件PASS/1.77秒/exit0、フロント型検査exit0。進行中8804には未ロード。実送信とsamplerを照合する16token技術試験を同ローカルモデルへ追加、生成文は成果物に使用しない。この試験による資源共用を性能測定条件に含める。
+
+第4回seq52でローカルllama-serverのabortによるHTTP500が発生したが、同runの通常再試行でseq53/54へ進み、architecture.md草稿を実保存した。停止原因の外部要因までは未確定。500を成功扱いせず、草稿保存と復帰を分けて記録する。
+
+明示samplingの実送信検証explicit-sampling-live exit0。既存runの実依頼文を16token限定で通常adapter completeへ送り、request hookとOllama実samplerのtemperature .6/top_p .95一致を確認（explicit-sampling-live.json）。文章品質の検証ではない。現在8804は依然未ロード/既定1.0のまま。architecture草稿の独立不足指摘（状態機械・競合・サーバー認可・ID責務・Adapter契約・Livegate）をseq57で保存。
+
+指定名2文書の公開を確認：architecture.md r1/11d775a576d5dd385f82da61639c44b374f3ff640e14ab0dacbb2c891a34a9ee、decisions.md r1/2b6602da7e38c79a2c32231836300d9959b442f8e557d0511f408edfed89caf5。API raw一致、architecture草稿とも一致。独立R4D報告で内容FAIL継続。追加のdecisions矛盾・取消bool意味不足・誤引用をseq79で保存。形式検査成功は内容の正確性と分離する。通常8796はlive_runs空を確認して最新backendへ更新（session24489）、health正常/config_revision6維持。8804は継続し、追加REF/sampling変更は未ロード。
+
+第4回seq81/82: builderが自選text_not_containsで「本番接続」を禁止し、文字列検出failを受け必要な将来設計まで言換えようとした。原実行のfailを保持し、文脈/実施済み判定との違いをrun_checkの解釈案内と作成/審査promptへ追加。実artifact+実検査の再生で結果・target/hash・check.completed・bytesが不変なことを検査し、literal-check-meaning-regressionは21件PASS/6.14秒/exit0。依頼者制約は非変更、進行中8804には未ロード。
+
+
+第4回seq85/86/87で入力14813/14896/14947tokensに対し出力1571/1488/1437tokens、3回連続max_tokensかつtool呼出なし。seq88/89で既存ガードにより初稿2点のreview_pendingへ移り、t3が実際の両版と元添付を読んだ（seq97–101）。修正版完成ではない。現在文書FAILは維持。
+
+次ロード用に出力上限時の既存再構成をdelivery schema未指定の文書tool集合へ限定拡張。独立指摘を受け、任意の実行/外部作用/タスク管理toolを持つ一般taskへは拡張しないallowlistにした。自分の公開済み版と送信済みメッセージを復元案内し、2回までの上限、既存権限・予算・完了審査を維持。実第4回記録とSQLiteによるbounded-document-recovery-retry：27件PASS/8.03秒/exit0。先行試験では再構成テストが保存configでなく既定configを読みbuilder工具が異なるため1件失敗、実snapshotのconfig_yamlで正しい測定条件を復元して再試験。失敗ログも保存。進行中8804はこの変更をロードしておらず実モデル効果は未検証。
+
+round4-live-ui-current：実Chromeで設定保存、1440/390幅、会話5件とAPI本文の一致・reload保持を確認しexit0。conversation.pngを目視確認。4人の文体差や最終採用/ZIP照合は未到達。文字列検査の意味についての追加AI補助はseq94/HTTP202で受け付けられたが、t3開始後のため現在のt3への反映は主張しない。
+
+独立レビューの追加指摘：run_checkはkind=commandでshellを実行可能なので、tool名allowlistだけでは不足。新経路は当該taskの過去tool.calledも検査し、command呼出や非文書tool記録があれば除外する。実gatewayでpwdを実行し、その前の許可と実行後の拒否を検証。command-aware-document-recovery-retry：27件PASS/9.48秒/exit0。先行試験のSessionContext.tools未設定は実schedulerと同じagent.toolsを渡すことで訂正し、失敗証拠も保存。既存schema経路は変更していないため、その経路の任意副作用復元を新たに保証するものではない。
+
+seq103でreviewer→builderの実findingを確認し、4役すべてに実送信が成立。ただし文体差・内容合格ではない。指摘には「取消優先なら即時取消」の誤提案とclient_order_id設計責務の曖昧さがあり、seq105にAI補助訂正を保存（assisted-review-findings.json、HTTP202、次task session向け）。レビュー指摘の存在を正確性に置き換えない。command-aware-document-recoveryの最終独立静的確認PASS、実モデル効果は未実証。
+
+通常UI8796を実行中jobなし・所有PID確認後に再起動（session7872）、文書context復帰までのbackend修正をロード。main-ui-document-recovery-smoke exit0：health/config revision6、設定値/空欄で標準文体を使う表示、home描画を実Chromeで確認。先行一時試験はnullとinput空文字を同一視した期待値で失敗し、既存UIのnull→空欄契約を読んで訂正。8804は稼働を維持。
+
+実会話6件の独立評価：保存本文一致PASS、master/reviewer設定適合PASS、researcher/builder特徴不足FAIL、全員の明確な文体差FAIL。次ロード用にsend_message引数の案内へ、設定文体優先・通常2〜4文・具体的発見/変更/判断・本文は成果物参照・審査詳細はsubmit_reviewへ、を役ごとに追加。性格のユーザー値や既定値は変えない。concise-voice-contract：6件PASS/2.64秒/exit0、実モデル効果は未検証。
+
+seq107でreviewerが不合格をchatに送るだけでfinishしようとして、実行層はMissing t2で拒否した。拒否案内へ『現版のfail/unverifiedもsubmit_review必須、修正版を待たない、chatfindingは代用不可』を追加。判定条件は非変更。review-handoff-guidance：21件PASS/4.32秒/exit0。これら最新案内は8796/8804へ未ロード。seq109では未知のacceptance_idを13個送信して拒否、正しいt2a1/t2a2/t2a3が復帰案内に提示された。失敗を審査済みと扱わない。
+
+round4-four-bot-chat-ui exit0：4役6件の保存済み送信を実画面とAPI本文で再照合し、reload保持・設定保存・1440/390幅を確認。文体の実測FAILは維持。最新取得seq109/running/live=true、t2 review_pending/t3 running。voice/handoff案内の独立静的確認PASS、実モデル改善は未実証。
+
+seq109の審査ID取り違えを受け、submit_reviewのsession別schemaへ既存target/acceptance IDのenum、単一対象時のみ条件数min/maxを付加。受入条件・実行層検査・共有schemaは非変更。実拒否event109を拒否し、実受理event112を許可するschema回帰はreview-id-schema-real-retry：23件PASS/4.94秒/exit0。独立静的契約確認PASS。現在8804未ロードのため、この変更によりseq112が成功したとの主張はしない。
+
+seq111でt2の3条件fail審査が両r1正確hashに結合して保存された。113/114では確認担当がfinishを宣言するのみでtoolを呼ばず、入力16252/16353tokens。審査結果の保存は確認できたが、schedulerの差戻しはこの時点で未到達。
+
+審査後の自動終了案は独立確認で条件付き妥当とされたが、今回コードは未実装。seq103のfindingはseq111より前で、submit_reviewはctx.communicated_toを解除するため、現在は新たな引継ぎが必要。旧送信だけで完了する近道は追加しない。直近のauthoritative GETはseq114/running/live=true、Ollamaの同実行processでprompt処理継続を確認。観測待ちを停止扱いにせず同runを維持。
+
+seq115で入力16301tokens/出力83tokens/max_tokensの後、116でt3 failed（finish未実行）。実行全体は継続し、118でmasterがretryを指示、t3 queuedへ戻った。masterの120本文は「成功」と述べるがauthoritative状態はqueuedであり成功証拠にしない。
+
+自動終了は追加せず、提出済みreviewerのno-tool end_turnで既存の限定context再構成を適用。実ctx.reviewsと未送信先を再提示し、審査前送信は引継ぎ未達として保持する。実seq103→112をSQLite/gatewayで再生し、復帰後の審査・events・nudges保持、finish拒否を検証。review-context-handoff-recovery：29件PASS/9.75秒/exit0。進行中8804へ未ロード、実モデル改善未検証。
+
+第5回の準備だけを実施（prepare-trading-explicit-sampling exit0）。同じfull goal/source/4voice/3600秒/120callsとprecisionモデルを保持し、接続へollama_temperature=.6/ollama_top_p=.95を明示。capabilityをnot_runへ戻し、誤って前回probe成功を流用しない。data=/var/folders/qy/086ttpq57jsd36jnc1jffst00000gn/T/multibot-trading-explicit-ixww1rlj、8805/session87738。health正常/config revision1/live_runs空、APIの明示値・4voiceをpreflight.jsonへ保存。モデルprobe/新runは未実施。第4回がlive=trueの間は新生成を開始しない。
+
+第4回2回目reviewerはseq127/130で両r1を再読。seq131/running/live=trueを45秒の観測待ち後にも確認。同runを維持、再生成・修正版・合格を推定しない。
+
+第4回は3600.348秒でinterrupted/live=false/seq146（wall-clock limit reached）。48model calls/38tool calls、t1 accepted/t2 review_pending/t3 interrupted。修正版なし、内容と全員の文体差はFAIL。final.json/final-events.json/final-chat.json保存。round4-terminal-ui exit0：実Chromeで処理表示が消え「作業が中断しています」に変わり、完成表示にならないことを確認。terminal-ui.png目視確認。
+
+seq142ではreviewerが自分のt3を対象に審査して拒否された実例を追加。準備済みtarget enumもこれを拒否する回帰actual-review-target-recovery：17件PASS/2.83秒/exit0。第5回probeは第4回のinterrupted/live=falseをfresh GETで確認後に開始した。
+
+第5回の実接続probe explicit-round5-probe exit0（tool_calling/json_schema true、報告モデル一致）。終了済み第4回を再GETし、新run重複がないことを確認して実UIから作成。trading-round5-ui-start exit0、run_1a0bbbe514dcf34c2a8（8805/session87738）、planning/live=true/seq3。snapshotに明示.6/.95を保存、通常adapterの明示値送信は以前の実試験で確認済み。ただし共用Ollama起動samplerログとのrequest-ID対応はないため、第5回各生成の実効値一致は未確定としてstartup-sampler-observation.jsonへ記録。UIを開く操作はqueuedであり表示完了を主張しない。

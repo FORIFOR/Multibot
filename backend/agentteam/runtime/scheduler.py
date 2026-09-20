@@ -10,6 +10,7 @@ from ..ids import now_iso
 from .context import RunRuntime, SessionContext
 from .planner import handle_exception, milestone_replan
 from .worker import AgentRunner, SessionOutcome, build_task_message
+from .review_targets import latest_task_refs, same_refs
 
 REPLY_TOOLS = ["read_messages", "send_message", "read_artifact", "list_artifacts", "web_fetch", "web_search", "read_skill", "finish_task"]
 
@@ -176,6 +177,13 @@ class Scheduler:
         rt = self.rt
         agent = rt.agents[t.spec.owner]
         ctx = SessionContext(rt=rt, agent=agent, mode="task", task=t, attempt=t.attempt, tools=agent.tools)
+        from .communication import communication_targets
+        targets = communication_targets(ctx)
+        remaining_messages = rt.config.limits.max_peer_messages_per_task - rt.policy.peer_messages.get(t.spec.id, 0)
+        if targets and ("send_message" not in ctx.tools or remaining_messages < len(targets)):
+            reason = ("communication_configuration: task requires send_message permission and at least "
+                      + str(len(targets)) + " remaining peer messages; review the agent tools and message limit")
+            return t.spec.id, ctx, SessionOutcome("blocked", reason)
         user = await build_task_message(ctx, t, review_feedback=self._feedback.pop(t.spec.id, None))
         outcome = await AgentRunner(ctx).run(user)
         return t.spec.id, ctx, outcome
@@ -222,12 +230,12 @@ class Scheduler:
         t.blocked_reason = outcome.detail
         status = TaskStatus.blocked if kind == "blocked" else TaskStatus.failed
         await self._set(t, status, "task.blocked" if kind == "blocked" else "task.failed", {"reason": outcome.detail, "attempt": t.attempt})
-        fatal = outcome.detail.startswith(("budget", "max_model_calls", "max_tool_calls", "timeout", "provider_auth"))
+        fatal = outcome.detail.startswith(("budget", "max_model_calls", "max_tool_calls", "timeout", "provider_auth", "communication_configuration"))
         if fatal:
             self._fatal = outcome.detail
             return
         n = self._exception_handled.get(task_id, 0)
-        if n >= 1 or rt.policy.cancelled:
+        if n >= 1 or rt.policy.cancelled or rt.run.inputs.workflow == "document":
             return
         self._exception_handled[task_id] = n + 1
         await handle_exception(rt, t, kind, outcome.detail)
@@ -236,6 +244,12 @@ class Scheduler:
         rt = self.rt
         target = rt.tasks.get(review.target_task_id)
         if target is None:
+            return
+        if not same_refs(review.target_artifacts, await latest_task_refs(rt, target.spec.id)):
+            target.review = None
+            target.blocked_reason = "review targets changed before acceptance; current artifacts require a new review"
+            await self._set(target, TaskStatus.partial, "task.partial", {"reason": target.blocked_reason})
+            await self._set(review_task, TaskStatus.partial, "task.partial", {"reason": target.blocked_reason})
             return
         target.review = review
         fails = [r for r in review.results if r.status == "fail"]
@@ -299,7 +313,7 @@ class Scheduler:
 
     def unreviewed_final_tasks(self) -> list[str]:
         rt = self.rt
-        if rt.config.defaults.team_mode != "team" or not rt.config.defaults.require_independent_review:
+        if rt.run.inputs.workflow != "document" and (rt.config.defaults.team_mode != "team" or not rt.config.defaults.require_independent_review):
             return []
         return [t.spec.id for t in rt.tasks.values()
                 if t.spec.output_paths and self.role_of(t.spec.owner) != "reviewer" and t.review is None
@@ -349,7 +363,7 @@ class Scheduler:
                     for t in queued:  # unsatisfiable dependencies
                         await self._set(t, TaskStatus.blocked, "task.blocked", {"reason": "dependencies can never be satisfied"})
                 # milestone: let the Master extend the plan if the goal is not yet met (bounded by max_replans)
-                can_replan = (self._replans < rt.config.limits.max_replans and not rt.policy.cancelled
+                can_replan = (rt.run.inputs.workflow != "document" and self._replans < rt.config.limits.max_replans and not rt.policy.cancelled
                               and any(t.status in (TaskStatus.accepted, TaskStatus.partial) for t in rt.tasks.values())
                               and rt.remaining_seconds() > 60)
                 # a replan that cannot afford a single agent session would only add tasks that fail on budget

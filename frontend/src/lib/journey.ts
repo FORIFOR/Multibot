@@ -74,3 +74,17 @@ export function friendlyProblem(problem: { code: string; message: string }, lang
 export function coordinatorPlanned(role: string | undefined, taskCount: number, hasPlan: boolean, state: string, runStatus: string): boolean {
   return role === 'master' && taskCount === 0 && hasPlan && state === 'idle' && isSettled(runStatus)
 }
+/** Models refer to work by internal marks ("t2", "brief.md r1"). On everyday screens show whose work it is and which
+ *  version, in words. Only known task ids are rewritten; anything else is left exactly as written. */
+export function friendlyWorkText(text: string, owners: Record<string, string>, lang: UiLanguage): string {
+  const en = lang === 'en'
+  return text
+    .replace(/(^|[^\w.`/-])(t\d+)(?![\w.-])/g, (whole, lead: string, id: string) => owners[id] ? `${lead}${en ? `${owners[id]}'s task` : `${owners[id]}の作業`}` : whole)
+    .replace(/([\w\u3040-\u30ff\u4e00-\u9fff.-]+\.[a-z0-9]{1,8})\s+r(\d+)(?![\w.-])/gi, (_whole, name: string, n: string) => en ? `${name} (version ${n})` : `${name}（第${n}版）`)
+}
+
+/** Personal names are separate from capability labels and remain user editable. */
+export function botName(role: string, lang: UiLanguage = 'ja'): string {
+  const names: Record<string, [string,string]> = {master:['レン','Ren'],researcher:['ミオ','Mio'],builder:['カイ','Kai'],reviewer:['スイ','Sui'],reporter:['ナギ','Nagi']}
+  return names[role]?.[lang==='en'?1:0] || role
+}

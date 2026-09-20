@@ -110,6 +110,8 @@ def effective_agent(cfg: AgentTeamConfig, agent: AgentSpec) -> EffectiveAgentCon
     if conn is None:
         raise ConfigError(f"agent {agent.id}: connection {cid} not found")
     model = cfg.defaults.model if agent.model == "inherit" else agent.model
+    from .voice import conversation_voice, PERSONAL_NAMES
+    style = conversation_voice(agent.role, agent.speech_style)
     prompt = role_prompt_text(agent)
     skills = [s for s in list_skills() if s["name"] in agent.skill_ids]
     tools = list(dict.fromkeys(CORE_TOOLS + agent.tools))
@@ -118,7 +120,7 @@ def effective_agent(cfg: AgentTeamConfig, agent: AgentSpec) -> EffectiveAgentCon
         connection_id=cid, driver=conn.driver, base_url=conn.base_url, model=model,
         prompt_mode=agent.prompt_mode, system_prompt=prompt, system_prompt_sha256=sha256_text(prompt),
         skills=skills, tools=tools, effort=agent.effort, api_key_ref=conn.api_key_ref,
-        display_name=agent.display_name, emoji=agent.emoji, custom=agent.custom,
+        display_name=agent.display_name or PERSONAL_NAMES.get(agent.role, agent.id), emoji=agent.emoji, speech_style=style, specialty=agent.specialty, custom=agent.custom,
     )
 
 

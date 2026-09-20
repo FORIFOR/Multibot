@@ -107,7 +107,7 @@ def text_not_contains(data: bytes, needles: list[str]) -> dict[str, Any]:
     return {"status": "pass" if not found else "fail", "found": found}
 
 
-def json_schema_check(data: bytes, schema: dict[str, Any] | None) -> dict[str, Any]:
+def json_schema_check(data: bytes, schema: dict[str, Any] | None, input_format: str = "json") -> dict[str, Any]:
     from jsonschema import Draft202012Validator
     if not schema:
         return {"status": "blocked", "problems": ["args.schema is required"]}
@@ -123,9 +123,12 @@ def json_schema_check(data: bytes, schema: dict[str, Any] | None) -> dict[str, A
     if external_reference(schema):
         return {'status': 'blocked', 'problems': ['schema identifiers and non-local/dynamic references are not allowed']}
     try:
-        doc = json.loads(data.decode("utf-8"))
+        if input_format not in ("json", "text"):
+            return {"status": "blocked", "problems": ["unsupported input_format"]}
+        text = data.decode("utf-8")
+        doc = text if input_format == "text" else json.loads(text)
     except Exception as e:
-        return {"status": "fail", "problems": [f"invalid JSON: {e}"]}
+        return {"status": "fail", "problems": [f"invalid {'UTF-8 text' if input_format == 'text' else 'JSON'}: {e}"]}
     try:
         Draft202012Validator.check_schema(schema)
         validator = Draft202012Validator(schema)
@@ -133,8 +136,20 @@ def json_schema_check(data: bytes, schema: dict[str, Any] | None) -> dict[str, A
         # A model-supplied schema is untrusted input. Keep malformed schema
         # errors bounded and explicit instead of leaking a worker traceback.
         return {"status": "blocked", "problems": [f"invalid schema: {type(exc).__name__}"]}
-    errs = [f"{'/'.join(str(x) for x in e.path) or '$'}: {e.message}" for e in validator.iter_errors(doc)]
-    return {"status": "pass" if not errs else "fail", "problems": errs[:20]}
+    errs = []
+    for e in validator.iter_errors(doc):
+        message = e.message
+        if isinstance(e.instance, str) and e.validator in ('minLength', 'maxLength'):
+            message = f"text length {len(e.instance)} is too {'long' if e.validator == 'maxLength' else 'short'} ({e.validator}={e.validator_value})"
+            if e.validator == 'maxLength':
+                message += f"; remove at least {len(e.instance) - e.validator_value} characters. Condense repeated or nonessential details without changing source conditions."
+        errs.append(f"{'/'.join(str(x) for x in e.path) or '$'}: {message}")
+        if len(errs) >= 20:
+            break
+    result = {"status": "pass" if not errs else "fail", "problems": errs[:20]}
+    if input_format == "text":
+        result.update(unicode_code_points=len(text), utf8_bytes=len(data))
+    return result
 
 
 def python_syntax(data: bytes, filename: str = "artifact.py") -> dict[str, Any]:
@@ -184,8 +199,8 @@ CHECK_KINDS = {
     "regex_count": "Occurrences of args.pattern between args.min_count (default 1) and args.max_count",
     "json_valid": "JSON parses",
     "markdown_basic": "Markdown: headings present; optional required sections (args.sections)",
-    "text_contains": "All args.needles present in the text",
-    "text_not_contains": "None of args.needles present in the text",
+    "text_contains": "All args.needles occur exactly in raw UTF-8 text, including Markdown markers, whitespace and punctuation; not rendered text or semantic coverage",
+    "text_not_contains": "None of args.needles occur exactly in raw UTF-8 text, including Markdown markers, whitespace and punctuation; not semantic absence",
     "command": "Run args.command in the task workspace sandbox; pass iff exit code 0",
 }
 

@@ -8,13 +8,14 @@ from dataclasses import dataclass
 from typing import Any
 
 from ..config.loader import platform_policy_text
+from ..config.voice import conversation_voice, voice_instructions
 from ..contracts import TaskResult, TaskState
 from ..providers.base import LLMRequest, LLMResponse, ProviderError
 from ..providers.pricing import price_for
 from .context import SessionContext
 from .policy import Cancelled, PolicyViolation
 from .tools import ToolGateway
-from .delivery import verify_delivery, failures
+from .delivery import verify_delivery, failures, unpublished_workspace_changes
 
 
 class WorkerFailure(Exception):
@@ -31,8 +32,8 @@ class SessionOutcome:
 
 RUNTIME_RULES = """
 ## Runtime rules (enforced by the platform, not negotiable)
-- Deliverables exist only as published artifacts: write files with workspace_write, then publish_artifact. Chat text is not a deliverable.
-- When every output path of your task is published, call finish_task. Do not narrate; act with tools.
+- For tasks with file outputs, deliverables exist only as published artifacts: write files with workspace_write, then publish_artifact. Chat text is not a deliverable.
+- Finish your assigned role's work, then call finish_task. Reviewers submit every required review first; producers publish their declared outputs. Do not narrate; act with tools.
 - Messages to other agents are real deliveries (send_message). Only send request / question / answer / handoff / finding / decision. No acknowledgements, thanks or encouragement.
 - To wait for an answer, call read_messages with wait_seconds. To hand off, reference artifacts by id and revision.
 - Timestamps, revisions, hashes and permissions are decided by the runtime. Do not invent them.
@@ -45,6 +46,21 @@ RUNTIME_RULES = """
 def consecutive_no_tool_turns(previous: int, tool_calls: list) -> int:
     """A real tool turn breaks the no-tool streak; the run still has global limits."""
     return 0 if tool_calls else previous + 1
+
+
+_DOCUMENT_RECOVERY_TOOLS = frozenset({
+    "read_skill", "finish_task", "read_input_file", "workspace_read", "workspace_write",
+    "workspace_list", "run_check", "send_message", "read_messages", "read_artifact",
+    "list_artifacts", "publish_artifact", "submit_review", "report_blocker",
+})
+
+
+def supports_document_recovery(tool_names: list[str], calls: list[dict[str, Any]] | None = None) -> bool:
+    """Fail closed for tools whose external results cannot be reconstructed here."""
+    return (bool(tool_names) and set(tool_names) <= _DOCUMENT_RECOVERY_TOOLS
+            and all(call.get("tool") in _DOCUMENT_RECOVERY_TOOLS
+                    and not (call.get("tool") == "run_check" and call.get("args", {}).get("kind") == "command")
+                    for call in (calls or [])))
 
 
 # The first tool a role needs when it has only narrated its intent. Names are offered only if the agent has them.
@@ -73,10 +89,22 @@ def no_tool_nudge(role: str, available: list[str], streak: int) -> str:
 def build_system_prompt(ctx: SessionContext) -> str:
     agent = ctx.agent
     parts = [platform_policy_text().strip(), "\n---\n", agent.system_prompt.strip(), "\n---\n", RUNTIME_RULES.strip()]
+    parts.append(voice_instructions(conversation_voice(agent.role, agent.speech_style)))
     if agent.skills:
         parts.append("\n\n## Enabled skills (call read_skill to load the body only when relevant)\n" + "\n".join(
             f"- {s['name']}: {s['description']}" for s in agent.skills))
     parts.append(f"\n\n## Identity\nYou are agent `{agent.agent_id}` (role: {agent.role}). Team language: {ctx.rt.config.defaults.language}.")
+    if agent.display_name or agent.specialty:
+        parts.append(f"\nYour personal name: {agent.display_name or agent.agent_id}. Your task-specific expertise: {agent.specialty or agent.role}. "
+                     "Speak in your own configured voice. This expertise is an assigned AI perspective, not proof of professional credentials.")
+    parts.append("\n\n## Actual team for this run\n" + "\n".join(
+        f"- {a.agent_id}: {a.display_name or a.agent_id}; specialty: {a.specialty or a.role}"
+        for a in ctx.rt.enabled_agents())
+        + "\nUse these personal names in conversation and these IDs for message recipients. "
+        "Do not announce invented teammates or substitute a different roster. Discuss changes as proposals, not existing members.")
+    parts.append("\n\n## Output language\nUse the language explicitly requested by the user for all original prose in deliverables; otherwise use the team language. Do not drift into another language mid-sentence. Keep verbatim source quotations, identifiers, product names and code unchanged unless the user explicitly requests their transformation. User-specific restrictions on foreign wording or abbreviations take priority over defaults. Before publishing or approving, read the saved artifact and check its prose language separately from format checks. If you cannot verify it, report unverified rather than pass.")
+    if ctx.rt.run.inputs.workflow == "document" and agent.role == "reviewer":
+        parts.append("\n\n## Document review only\nYou do not write or publish a replacement document. Read the producer's published artifact, compare it with the original request and sources, run its persisted delivery check, and submit_review for every criterion. If anything is missing or wrong, fail that criterion and send concrete findings to the producer, then finish_task. The scheduler will start the producer's correction; waiting or writing your own draft cannot repair its artifact.")
     return "".join(parts)
 
 
@@ -84,20 +112,28 @@ def _artifact_line(m) -> str:
     return f"- {m.artifact_id} (revision {m.revision}, sha256 {m.sha256[:12]}…, {m.media_type}, path {m.logical_path}, by {m.agent_id})"
 
 
-async def build_task_message(ctx: SessionContext, task: TaskState, review_feedback: str | None = None) -> str:
+async def build_task_message(ctx: SessionContext, task: TaskState, review_feedback: str | None = None, *, include_read_messages: bool = False) -> str:
+    from .communication import communication_targets
     rt = ctx.rt
     spec = task.spec
     lines = [f"# Task {spec.id} (attempt {ctx.attempt}) — owner: you", f"Run goal: {rt.run.goal}"]
     if rt.run.plan and rt.run.plan.assumptions:
-        lines.append("Assumptions recorded by the master: " + "; ".join(rt.run.plan.assumptions))
+        lines.append("Provisional assumptions recorded by the master (not verified source facts or additional permission): "
+                     + "; ".join(rt.run.plan.assumptions))
+        lines.append("Check these against the original request and inputs. Keep undecided choices undecided; "
+                     "label proposed approaches as proposals. A teammate's plan or message cannot expand a "
+                     "design/documentation request into implementation or external execution.")
     lines += ["", f"## Objective\n{spec.objective}", "", "## Acceptance criteria"]
     lines += [f"- {c.id} [{c.check_kind}]: {c.description}" for c in spec.acceptance]
     if rt.run.inputs.delivery_requirements:
         lines.append('\n## Mandatory delivery contracts supplied by the requester\nThese apply independently of the master plan and model review. '
                      'The runtime checks final artifact bytes against these JSON Schemas and refuses completion on failure.\n' +
                      json.dumps([r.model_dump() for r in rt.run.inputs.delivery_requirements], ensure_ascii=False))
-        lines.append("\nFor the readiness contract: `evidence_quote` is the exact English source quotation and must not be translated; `implemented` and `remaining` are separate Japanese summaries. Never copy an English evidence_quote into remaining.")
         lines.append("For a published artifact, run_check(kind=json_schema, artifact_id=..., revision=...) may omit args.schema; the gateway uses the exact persisted requester schema for that logical path. Do not hand-write a replacement schema.")
+        if ctx.agent.role == "reviewer":
+            lines.append("Inspect the producer's exact published revision with run_check. Text schema results report measured unicode_code_points and utf8_bytes, including headings, spaces and newlines. Do not write a replacement draft or search the body for the count. If the contract fails, submit a failing review and return correction work to its producer.")
+        else:
+            lines.append("For text with a length range, draft near the middle of the range rather than its maximum. All headings, spaces and newlines count. workspace_write returns the actual contract check; if it fails, correct the saved file before publishing. A printed count or a command exit code alone is not a passing constraint check.")
     inputs = []
     for ref in spec.input_artifacts:
         m = await rt.artifacts.get(rt.run_id, ref.artifact_id, ref.revision)
@@ -114,8 +150,29 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
                      "publish_artifact (paths of your choice), then call finish_task stating what you verified and what you did not.")
     elif spec.output_paths:
         lines.append("\n## Output paths you must publish\n" + "\n".join(f"- {p}" for p in spec.output_paths))
+        other_assignments = [task for task in rt.tasks.values()
+                             if task.spec.owner == ctx.agent.agent_id and task.spec.id != spec.id]
+        if other_assignments:
+            lines.append("\n## Your other scheduled tasks (not this session)\n"
+                         + "\n".join(f"- {task.spec.id}: {', '.join(task.spec.output_paths) or '(no file outputs)'}"
+                                     for task in other_assignments)
+                         + "\nA coordinator may describe all your assignments together. Work only on this task's outputs now. "
+                         "The scheduler runs your other tasks separately; do not publish their files here or rename them to bypass ownership.")
     else:
         lines.append("\n## Output\nNo file outputs declared; deliver via submit_review / send_message as your role requires.")
+    own_artifacts = [m for m in await rt.artifacts.list(rt.run_id, latest_only=True)
+                     if m.task_id == spec.id]
+    if own_artifacts:
+        lines.append("\n## Your existing published outputs\n" + "\n".join(_artifact_line(m) for m in own_artifacts))
+        lines.append("These files already exist. Inspect them before changing or publishing again; "
+                     "compare the revisions cited in earlier reviews with these current revisions. "
+                     "Do not replay completed work solely because this session restarted.")
+    changed = await unpublished_workspace_changes(ctx)
+    if changed:
+        lines.append("\n## Saved edits not yet published\n" + "\n".join(changed)
+                     + "\nRead these files with workspace_read before editing. The published revisions above "
+                     "do not contain these saved changes. Preserve and inspect the saved draft; publish it when ready, "
+                     "then deliver its current references. A handoff alone does not publish a file.")
     if ctx.agent.role == "reviewer":
         for dep in spec.depends_on:
             t = rt.tasks.get(dep)
@@ -126,12 +183,45 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
                              "path refers only to your own workspace, not the producer’s workspace. "
                              "Then submit_review, send a finding/handoff message to the owner if anything fails, and finish_task.")
     if ctx.attempt > 1 and task.result:
-        lines.append(f"\n## Your previous attempt\n{task.result.summary}")
+        if ctx.agent.role == 'reviewer':
+            lines.append("\n## Historical review summary — not evidence about the current revision\n"
+                         + task.result.summary
+                         + "\nThis describes an earlier attempt. Do not carry its verdict or wording into the new review. "
+                         "For each earlier finding, locate the relevant passage in the current published revision and "
+                         "determine whether it was fixed, remains wrong, or changed into a different problem. "
+                         "Do not claim a statement is absent when the current text includes it. Cite the actual "
+                         "current section and short exact wording; judge its meaning against the original sources. "
+                         "Also check remaining request requirements, not only the previous findings.")
+        else:
+            lines.append(f"\n## Your previous attempt\n{task.result.summary}")
+    # The scheduler's feedback queue is process-local and consumed on start.
+    # Resume must also recover findings after a correction session was interrupted.
+    if not review_feedback and task.review and any(r.status == "fail" for r in task.review.results):
+        review_feedback = "\n".join(
+            f"- {r.acceptance_id} [{r.status}]: {r.note or r.evidence}"
+            for r in task.review.results if r.status != "pass"
+        )
+        if task.review.summary:
+            review_feedback += f"\nSummary: {task.review.summary}"
+        refs = task.review.target_artifacts
+        if refs:
+            review_feedback += "\nPreviously reviewed revisions: " + ", ".join(
+                f"{r.artifact_id}@r{r.revision} sha256={r.sha256}" for r in refs
+            )
     if review_feedback:
         lines.append(f"\n## Review feedback on your previous revision (fix these, publish new revisions)\n{review_feedback}")
-    msgs = await rt.bus.read(ctx.agent.agent_id, ctx.owned_task_ids(), unread_only=True)
+    targets = communication_targets(ctx)
+    if targets:
+        missing = sorted(set(targets) - ctx.communicated_to)
+        if missing:
+            lines.append("\n## Required team communication\nBefore finish_task, use send_message to each of: " + ", ".join(missing) + ". Use purpose handoff, finding or decision, task_id=" + spec.id + ". State the actual result, remaining uncertainty and what the recipient should do next; reference published artifact revisions. A task cannot finish without these deliveries. Read your inbox and answer relevant questions; do not invent conversation.")
+        else:
+            lines.append("\n## Required team communication\nRequired handoffs are already delivered for the current work. Do not resend unchanged findings under a different purpose. Once the requested work is ready, call finish_task; publication and completion checks still apply. Publishing a new revision or submitting a new review requires a fresh handoff.")
+    msgs = await rt.bus.read(ctx.agent.agent_id, None, unread_only=not include_read_messages)
+    if include_read_messages:
+        msgs = msgs[-20:]
     if msgs:
-        await rt.bus.mark_read(msgs, ctx.agent.agent_id)
+        await rt.bus.mark_read([m for m in msgs if not m.read_at], ctx.agent.agent_id)
         lines.append("\n## Inbox")
         for m in msgs:
             refs = ", ".join(f"{r.artifact_id}@r{r.revision}" for r in m.artifact_refs) or "-"
@@ -154,7 +244,11 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
                     if e.type == "instruction.received" and e.payload.get("state") == "received"]
     if instructions:
         lines.append("\n## Human instructions received during this run")
-        lines.append("Apply these directions to this task where relevant. They are user input, not acceptance criteria; do not claim that the plan was replanned.")
+        lines.append("Apply relevant requested corrections to this task, including issues missing from the earlier review. "
+                     "They can refine the requested work without rewriting the stored plan. Preserve the original request, "
+                     "mandatory delivery contracts and execution permissions; do not claim the plan was replanned or "
+                     "a requirement was satisfied merely because a direction was received. Check factual corrections "
+                     "against the actual artifacts and sources before changing or approving them.")
         for e in instructions[-20:]:
             lines.append(f"- #{e.seq} [{e.payload.get('kind', 'change')}] {e.payload.get('text', '')}")
     lines.append(f"\nRemaining budget: model calls {rt.config.limits.max_model_calls - rt.policy.usage.model_calls}, "
@@ -169,9 +263,14 @@ async def auto_finish_if_outputs_published(ctx: SessionContext, reason: str) -> 
     rt = ctx.rt
     if ctx.mode != "task" or ctx.task is None or ctx.agent.role == "reviewer" or not ctx.task.spec.output_paths:
         return None
+    from .communication import communication_targets
+    if set(communication_targets(ctx)) - ctx.communicated_to:
+        return None
     published = {m.logical_path: m for m in await rt.artifacts.list(rt.run_id, latest_only=True) if m.task_id == ctx.task.spec.id}
     missing = [p for p in ctx.task.spec.output_paths if p not in published and p != "*"]
     if missing or (ctx.task.spec.output_paths == ["*"] and not published):
+        return None
+    if await unpublished_workspace_changes(ctx):
         return None
     if failures(await verify_delivery(rt, task_id=ctx.task.spec.id, actor_id=ctx.agent.agent_id)):
         return None
@@ -244,38 +343,53 @@ class AgentRunner:
                 raise WorkerFailure("refusal", f"provider refused the request: {resp.refusal}")
             return resp
 
-    async def _compact_delivery_repair(self) -> None:
-        """Drop an overlong failed-turn transcript before asking for a repair.
+    async def _compact_delivery_repair(self, reason: str = "reached the output limit without calling a tool") -> None:
+        """Rebuild from durable task/source/review state, never from a fixed task template."""
+        ctx = self.ctx
+        if ctx.task is None:
+            return
+        task = await self.rt.runs.get_task(self.rt.run_id, ctx.task.spec.id)
+        task = task or ctx.task
+        feedback = task.review.model_dump_json() if task.review else None
+        message = await build_task_message(ctx, task, feedback, include_read_messages=True)
+        sent = [m for m in await self.rt.runs.list_messages(self.rt.run_id)
+                if m.from_agent_id == ctx.agent.agent_id and m.task_id == task.spec.id]
+        if sent:
+            message += "\n## Messages already delivered (do not resend unchanged)\n" + "\n".join(
+                f"- {m.message_id} to={m.to_agent_id} purpose={m.purpose}: {m.text}" for m in sent[-20:])
+        if ctx.reviews:
+            from .communication import communication_targets
+            missing = sorted(set(communication_targets(ctx)) - ctx.communicated_to)
+            message += ("\n## Reviews already submitted in this session\n"
+                        + json.dumps([r.model_dump() for r in ctx.reviews], ensure_ascii=False)
+                        + "\nDo not submit these again just to finish. A finding sent before the latest review "
+                        "does not satisfy its handoff. ")
+            if missing:
+                message += ("Next call send_message with the recorded verdict and artifact references to: "
+                            + ", ".join(missing) + "; then finish_task. Do not wait for corrected files.")
+            else:
+                message += "Required review handoffs are delivered. Call finish_task; its existing guards still apply."
+        checks = await verify_delivery(self.rt, task_id=task.spec.id, record=False)
+        message += ("\nYour previous response " + reason + ". "
+                    "Use tools now; keep explanations short. Read existing published revisions before editing. "
+                    "Do not reload every full document at once: read the current output first and use "
+                    "read_artifact start_char/max_chars for needed portions of supporting artifacts, pinning their revision. "
+                    "Leave context space for writing corrections. Partial reading alone cannot justify a full review. "
+                    "For a long existing draft, workspace_write edit can replace one exact passage using the current "
+                    "whole-draft SHA instead of generating the entire file again. Publish after saving corrections. "
+                    "Follow your assigned role: reviewers check and submit_review; producers revise only their own outputs. "
+                    "Use workspace_list/workspace_read to recover saved drafts; an interrupted response was not a saved edit. "
+                    "Do not repeat external actions merely because earlier tool responses are no longer in this conversation. "
+                    "Do not change requester requirements or claim checks that were not run.\n"
+                    + json.dumps(checks, ensure_ascii=False))
+        self.messages = [{"role": "user", "content": [{"type": "text", "text": message}]}]
 
-        Local models can spend an entire context window explaining a JSON
-        Schema error instead of calling a tool. The source files and published
-        revisions remain durable, so a short repair instruction is safer and
-        more useful than replaying that explanation.
-        """
-        rt, ctx = self.rt, self.ctx
-        latest = await rt.artifacts.list(rt.run_id, latest_only=True)
-        target = next((m for m in latest if m.logical_path == "readiness.json"), None)
-        revision = f" revision {target.revision}" if target else ""
-        self.messages = [{"role": "user", "content": [{"type": "text", "text": (
-            "前回の応答は長すぎてツール呼出し前に上限へ達しました。説明は禁止し、直ちにツールを使ってください。"
-            f"readiness.json{revision}をread_artifactで読み、必要ならPRODUCTION_PLAN.mdをread_input_fileで読み直してください。"
-            "Schema検査に失敗したフィールドだけをworkspace_writeで修正し、publish_artifact、run_check(kind=json_schema)、"
-            "finish_taskの順で完了してください。production_readyは資料どおり必ずfalseのままにし、remainingを空にしたり、"
-            "資料にないverified/next_stepsフィールドを追加したりしないでください。"
-            "要約欄では英語原語や「アクター監査」を使わず、staleは「陳腐化」、artifactは「アーティファクト」、"
-            "actor-scopedは「操作主体ごとの」、drillは「ドリル」、advisoryは「アドバイザリ」としてください。"
-            "Dataのimplementedは、例えば「ageによる暗号化、スナップショット復元、再開可能なランの検証を確認しました。」"
-            "のように、日本語の文中へageと「再開可能」を同時に含めてください。"
-            "Audit / monitoringのimplementedは、例えば「監査者が独立収集のカーソルを用い、メトリクスと復旧を確認しました。」"
-            "のように、「監査者」と「カーソル」を同時に含めてください。"
-            "検査結果に does not match と出た必須語は削除せず、同じフィールドへ上記の正確な語を追加してください。"
-            "summaryは120文字以内、各implemented/remainingは40〜120文字の短い日本語一文に圧縮してください。"
-            "Identityのtoken revocationは「トークン失効」または「トークン取消」、Latencyは「レイテンシ」または「遅延」、"
-            "acceptance thresholdは「受入閾値」と書き、「リバイス」「ラテンシー」「収容閾値」などの類推語は禁止です。"
-            "要約欄は日本語の短文にし、技術固有名以外の英語を残さないでください。with、export、auditor、collector、"
-            "outage、pinned、mappiung、TLSDNS、操作主体ごとななどの英語混在・誤綴りは禁止です。TLS/DNSは分けて書いてください。"
-        )}]}]
-        self.nudges = 0
+    async def _can_compact_task(self, tools) -> bool:
+        if self.rt.run.inputs.delivery_requirements:
+            return True  # Preserve the existing schema-based recovery path.
+        calls = [e.payload for e in await self.rt.events.list(self.rt.run_id)
+                 if e.type == "tool.called" and e.task_id == self.ctx.task_id]
+        return supports_document_recovery([t.name for t in tools], calls)
 
     async def run(self, user_message: str) -> SessionOutcome:
         rt, ctx = self.rt, self.ctx
@@ -289,6 +403,9 @@ class AgentRunner:
                 return await self._run_cli_session(provider, system, user_message)
             while True:
                 rt.policy.check_cancel()
+                from .communication import complete_delivered_coordination
+                if await complete_delivered_coordination(ctx):
+                    return SessionOutcome("finished", ctx.finished.summary)
                 if rt.remaining_seconds() <= 0:
                     raise WorkerFailure("timeout", "run wall-clock limit reached")
                 req = LLMRequest(model=ctx.agent.model, system=system, messages=self.messages, tools=tools,
@@ -301,12 +418,25 @@ class AgentRunner:
                 if not resp.tool_calls:
                     if ctx.mode == "reply" and ctx.replied:
                         return SessionOutcome("finished", "replied")
+                    # An empty completed response is not more work. Reuse the
+                    # existing delivery/handoff guards before spending another
+                    # model call merely to request a finish acknowledgement.
+                    # Truncated output and substantive text still get nudged.
+                    if resp.stop_reason == "end_turn" and not (resp.text or "").strip():
+                        auto = await auto_finish_if_outputs_published(ctx, "empty completed response after published outputs and required handoffs")
+                        if auto:
+                            return auto
                     if resp.stop_reason == "max_tokens":
-                        if ctx.mode == "task" and rt.run.inputs.delivery_requirements:
+                        if (ctx.mode == "task" and self.nudges <= 2
+                                and await self._can_compact_task(tools)):
                             await self._compact_delivery_repair()
                             continue
                         nudge = "Your previous output hit the token limit. Continue with tool calls; keep text short."
                     else:
+                        if (resp.stop_reason == "end_turn" and ctx.mode == "task" and ctx.agent.role == "reviewer"
+                                and ctx.reviews and self.nudges <= 2 and await self._can_compact_task(tools)):
+                            await self._compact_delivery_repair("ended without a tool after submitting review findings")
+                            continue
                         nudge = no_tool_nudge(ctx.agent.role, [t.name for t in tools], self.nudges)
                     if self.nudges > 2:
                         auto = await auto_finish_if_outputs_published(ctx, "ended three consecutive turns without finish_task")

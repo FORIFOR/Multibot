@@ -46,7 +46,8 @@ class ProviderRegistry:
         if conn.driver == "anthropic_messages":
             return AnthropicDriver(conn.id, key, conn.base_url, refusal_fallback=conn.refusal_fallback)
         if conn.driver in ("openai_compatible_chat", "ollama"):
-            return OpenAICompatDriver(conn.id, key, conn.base_url, driver=conn.driver, thinking=conn.ollama_thinking)
+            return OpenAICompatDriver(conn.id, key, conn.base_url, driver=conn.driver, thinking=conn.ollama_thinking,
+                                      temperature=conn.ollama_temperature, top_p=conn.ollama_top_p)
         raise ProviderError("unsupported", f"driver {conn.driver} is not implemented")
 
     def kind(self, connection_id: str) -> str:

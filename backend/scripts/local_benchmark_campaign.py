@@ -43,7 +43,7 @@ def recorded(root, mode, task, rep):
 async def probe_config(cfg):
     """Resolve capability metadata before freezing the config fingerprint."""
     conn = cfg.connection(cfg.defaults.connection_id)
-    if conn.capability_check == 'passed':
+    if conn.capability_check == 'passed' and (conn.capability_detail or {}).get('model_requested') == cfg.defaults.model:
         return
     registry = ProviderRegistry(cfg)
     try:
@@ -53,7 +53,7 @@ async def probe_config(cfg):
     if not result.ok:
         raise ValueError(f'Local provider probe failed: {result.error}')
     conn.capability_check = 'passed'
-    conn.capability_detail = {'model_reported': result.model_reported, 'error': result.error}
+    conn.capability_detail = {'model_requested': result.model_requested, 'model_reported': result.model_reported, 'error': result.error}
 
 
 def main(root):

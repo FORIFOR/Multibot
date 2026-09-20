@@ -47,7 +47,6 @@ Deploymentのimplementedには必ず「アドバイザリ」を含め、単な�
 日本語要約の中で領域名や原文の英語ラベルをそのまま書かないでください。`Production IdP` は「組織IdP」、`Identity` は「認証領域」、`Contract / operation` は「契約・運用領域」と書いてください。技術固有名（IdP、OIDC、Keycloak、SSE、Docker、TLS、DNS、LLM、SLO、SLA、RPO、RTO、ageなど）は必要な場合に限り残せます。
 summary は領域名（Identity、Isolation、Execution、Data、Audit / monitoring、Deployment、Business quality、Contract / operation）や Operation を含めず、日本語だけで現状とL3未達を要約してください。
 `export` は「エクスポート」または「出力」と書き、英語のまま要約欄に残さないでください。
-過去に観測した誤訳を繰り返さず、`鍵轮换` は「鍵のローテーション」、`エGRESS` は「外向き通信制御」、`stale` は「陳腐化」と書いてください。これらの文字列を日本語要約に残さないでください。
 `Real access keys` は「実アクセスキー」、`false` は「未達」または「偽」と書いてください。「アクター監査」のような直訳を使わず、監査記録は「操作主体の監査記録」としてください。
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。'''
 
@@ -298,7 +297,7 @@ async def main(root, repeat, profile_path):
         write_json(root / 'status.json', {'state': state, 'updated_at': datetime.now(timezone.utc).isoformat(), 'target_runs': repeat, **extra})
     try:
         async with app.router.lifespan_context(app):
-            if svc.config.connections[0].capability_check != 'passed':
+            if svc.config.connections[0].capability_check != 'passed' or (svc.config.connections[0].capability_detail or {}).get('model_requested') != cfg.defaults.model:
                 registry = ProviderRegistry(svc.config)
                 try:
                     result = await registry.adapter('ollama').probe(cfg.defaults.model)
@@ -309,7 +308,7 @@ async def main(root, repeat, profile_path):
                     raise ValueError('actual local capability probe failed')
                 passed = svc.config.model_copy(deep=True)
                 passed.connections[0].capability_check = 'passed'
-                passed.connections[0].capability_detail = {'model_reported': result.model_reported, 'error': result.error}
+                passed.connections[0].capability_detail = {'model_requested': result.model_requested, 'model_reported': result.model_reported, 'error': result.error}
                 await svc.save_config(passed, 'actual local probe before production workflow')
             def normalized(configuration):
                 value = configuration.model_dump(mode='json')

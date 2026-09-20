@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "event_id": "run_1a0bc47a842e53d7bed:25",
+  "run_id": "run_1a0bc47a842e53d7bed",
+  "seq": 25,
+  "recorded_at": "2026-09-20T00:52:47.784Z",
+  "actor_id": "master",
+  "actor_kind": "agent",
+  "task_id": null,
+  "causation_id": null,
+  "type": "tool.called",
+  "payload": {
+    "args": {
+      "next_steps": [],
+      "summary": "株式トレードアプリ設計をteam_1、team_3、team_2に分担。t1（アーキテクチャ）、t2（注文ロジック）、t3（UI・鮮度）、t4（統合検証）を完了。",
+      "unverified": [],
+      "verified": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
+    },
+    "attempt": 1,
+    "mode": "coordination",
+    "ok": true,
+    "result_chars": 2,
+    "result_preview": "OK",
+    "tool": "finish_task"
+  }
+}

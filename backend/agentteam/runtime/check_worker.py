@@ -18,7 +18,7 @@ try:
     data = base64.b64decode(message['data'], validate=True)
     args = message['args']
     if message['kind'] == 'json_schema':
-        result = json_schema_check(data, args.get('schema'))
+        result = json_schema_check(data, args.get('schema'), args.get('input_format', 'json'))
     elif message['kind'] == 'regex_count':
         result = regex_count(data, str(args.get('pattern') or ''), int(args.get('min_count') or 1),
                              int(args['max_count']) if args.get('max_count') is not None else None)

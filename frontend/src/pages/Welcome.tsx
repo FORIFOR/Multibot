@@ -1,8 +1,9 @@
+import { botName } from '../lib/journey'
 import { useEffect, useState } from 'react'
 import BotAvatar from '../components/BotAvatar'
 import { api, type Config } from '../lib/api'
 import { getLang } from '../lib/i18n'
-import { friendlyProblem, roleLabel, teamOrder } from '../lib/journey'
+import { friendlyProblem, teamOrder } from '../lib/journey'
 import { clampStep, markWelcomed, setDraftGoal, WELCOME_STEPS } from '../lib/welcome'
 import '../journey.css'
 import '../welcome.css'
@@ -29,7 +30,7 @@ export default function Welcome({ nav, canConfigure = true }: { nav: (p: string)
   }
   const titles: [string, string][] = [['チームを紹介します', 'Meet your team'], ['AIにつなぐ', 'Connect a model'], ['最初のお願い', 'Your first request']]
   const leads: [string, string][] = [
-    ['聞く、分ける、任せる、確かめて渡す。まとめ役があなたとチームの間に立ちます。', 'Listen, split, delegate, check and hand back. The coordinator stands between you and the team.'],
+    ['依頼に合う専門性と人数でチームを組みます。名前も話し方も違う仲間が、完成まで協力します。', 'Each request gets the expertise and team size it needs. Teammates have their own names and voices.'],
     ['チームは、あなたが選んだAIで動きます。ローカルのAIなら、入力は外へ出ません。', 'The team runs on the model you choose. With a local model, your input never leaves.'],
     ['例を選ぶと、入力欄に入ります。自動では始まりません。', 'Pick an example to fill the request box. Nothing starts automatically.'],
   ]
@@ -47,14 +48,14 @@ export default function Welcome({ nav, canConfigure = true }: { nav: (p: string)
         <p className="welcome-step">{say('はじめに', 'SETUP')} · {String(step + 1).padStart(2, '0')} / {String(WELCOME_STEPS).padStart(2, '0')}</p>
         <h1>{say(titles[step][0], titles[step][1])}</h1>
         <p className="welcome-lead">{say(leads[step][0], leads[step][1])}</p>
-        <div className="welcome-companion">{companion && <BotAvatar id={companion.id} role={companion.role} emoji={companion.emoji} name={companion.display_name || roleLabel(companion.role, getLang())} state={step === 1 && !ready ? 'waiting' : 'idle'} size="stage" />}</div>
+        <div className="welcome-companion">{companion && <BotAvatar id={companion.id} role={companion.role} emoji={companion.emoji} name={companion.display_name || botName(companion.role, getLang())} state={step === 1 && !ready ? 'waiting' : 'idle'} size="stage" />}</div>
       </aside>
       <section className="welcome-main" aria-live="polite">
         <ol className="welcome-dots" aria-label={say('進み具合', 'Progress')}>{titles.map((t, i) => <li key={i} aria-current={i === step ? 'step' : undefined}><button type="button" onClick={() => go(i)} aria-label={`${i + 1}. ${say(t[0], t[1])}`} /></li>)}</ol>
         {failed && <p className="work-warning" role="alert">{say('チームの設定を読み込めませんでした。再読み込みしてください。', 'Could not load the team settings. Reload to try again.')}</p>}
-        {step === 0 && <ul className="welcome-mates">{mates.map(([id, a]) => (
-          <li key={id}><BotAvatar id={id} role={a.role} emoji={a.emoji} name={a.display_name || roleLabel(a.role, getLang())} state="idle" />
-            <div><h2>{a.display_name || roleLabel(a.role, getLang())}</h2><p>{say(...(lines[a.role] || ['あなたが作った、専門の仲間です。', 'A specialist teammate you created.']))}</p></div></li>))}</ul>}
+        {step === 0 && <ul className="welcome-mates">{mates.filter(([,a])=>a.role==='master').map(([id, a]) => (
+          <li key={id}><BotAvatar id={id} role={a.role} emoji={a.emoji} name={a.display_name || botName(a.role, getLang())} state="idle" />
+            <div><h2>{a.display_name || botName(a.role, getLang())}</h2><p>{say(...(lines[a.role] || ['あなたが作った、専門の仲間です。', 'A specialist teammate you created.']))}</p></div></li>))}</ul>}
         {step === 1 && <div className="welcome-connect">
           <div className={`welcome-status ${ready ? 'ok' : 'todo'}`} role="status">
             <strong>{ready ? say('接続は確認済みです', 'The connection is verified') : say('接続の確認が必要です', 'The connection needs checking')}</strong>

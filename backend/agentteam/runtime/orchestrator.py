@@ -14,7 +14,7 @@ from ..config.models import AgentTeamConfig, IMPLEMENTED_DRIVERS
 from ..config.secrets import SecretResolutionError, resolve_secret
 from ..contracts import Run, RunInputs, RunStatus, TaskState, TaskStatus, Usage
 from ..ids import new_id, now_iso
-from ..projections.views import evidence_view
+from ..projections.views import artifact_review_ledger, evidence_view
 from ..providers.base import ProviderAdapter
 from ..providers.pricing import price_for
 from ..providers.registry import ProviderRegistry
@@ -24,7 +24,7 @@ from ..store.run_store import RunStore
 from ..store.job_store import JobStore
 from .context import RunRuntime
 from .mailbox import MessageBus
-from .planner import PlanError, final_report, plan_team, single_agent_plan
+from .planner import PlanError, document_plan, final_report, plan_team, single_agent_plan
 from .delivery import verify_delivery, failures as delivery_failures
 from .policy import PolicyEngine
 from .redaction import Redactor
@@ -56,6 +56,9 @@ class RunManager:
         if self.stopping:
             raise RuntimeError('server is shutting down')
         if not self.durable:
+            # Persist the acknowledgment before any provider call. After a crash,
+            # a keyed retry reads this receipt; it must not start the work again.
+            await self.jobs.save_receipt(run_id, receipt)
             self.start(run_id, resume=resume)
             return
         job = await self.jobs.enqueue(run_id, resume=resume, max_pending=self.max_pending, receipt=receipt)
@@ -175,6 +178,9 @@ class RunManager:
             if price_for(model, cfg.pricing, driver=conn.driver) is None:
                 problems.append({"code": "unknown_pricing", "agent_id": a.id, "message": f"no price for model {model}; add it under pricing: in the config",
                                  "fix": "settings"})
+            if conn.capability_check == "passed" and conn.driver != "fake" and (conn.capability_detail or {}).get("model_requested") != model:
+                problems.append({"code": "capability_model", "agent_id": a.id, "connection_id": cid,
+                                 "message": f"agent {a.id}: model {model!r} has no matching capability probe; probe this model or use a separate connection for each model", "fix": "probe"})
             if cid in seen_conn:
                 continue
             seen_conn.add(cid)
@@ -200,7 +206,14 @@ class RunManager:
         if budget_usd is not None:
             cfg = cfg.model_copy(deep=True)
             cfg.limits.budget_usd = float(budget_usd)
-        problems = self.precheck(cfg)
+        selection_problems = []
+        if inputs is not None and inputs.selected_agent_ids is not None:
+            from .team_selection import choose_roster
+            try:
+                cfg = choose_roster(cfg, inputs.selected_agent_ids)
+            except ValueError as exc:
+                selection_problems.append({'code': 'team_selection', 'message': str(exc)})
+        problems = selection_problems + self.precheck(cfg)
         run = Run(run_id=new_id("run"), status=RunStatus.created, goal=goal.strip(), inputs=inputs or RunInputs(), created_at=now_iso(),
                   config_snapshot={"config_yaml": config_to_yaml(cfg)}, usage=Usage())
         if problems:
@@ -268,6 +281,8 @@ class RunManager:
                         "agents": {aid: a.model_dump() for aid, a in rt.agents.items() if a.enabled},
                         "provider_kind": "fake" if any(getattr(rt.providers.adapter(a.connection_id), "kind", "real") == "fake"
                                                        for a in rt.enabled_agents()) else "real"}
+            if run.config_snapshot.get('team_recommendation'):
+                snapshot['team_recommendation'] = run.config_snapshot['team_recommendation']
             run.config_snapshot = snapshot
             run.provider_kind = snapshot["provider_kind"]
             await self.runs.update_run(run_id, config_snapshot=snapshot)
@@ -289,13 +304,21 @@ class RunManager:
             if not resume:
                 if run.plan is None:
                     try:
-                        plan = await (single_agent_plan(rt) if cfg.defaults.team_mode == "single" else plan_team(rt))
+                        plan = await (document_plan(rt) if run.inputs.workflow == "document" else
+                                      single_agent_plan(rt) if cfg.defaults.team_mode == "single" else plan_team(rt))
                     except PlanError as e:
                         await self._finish(rt, RunStatus.failed, reason=str(e))
                         return
                     run.plan = plan
                     await self.runs.update_run(run_id, plan=plan)
                 await scheduler.init_from_plan()
+            if rt.run.inputs.workflow != "document" and cfg.defaults.team_mode == "team":
+                from .communication import coordinate_team
+                coordination = await coordinate_team(rt)
+                if coordination.kind != "finished":
+                    status = RunStatus.cancelled if coordination.kind == "cancelled" else RunStatus.blocked
+                    await self._finish(rt, status, reason=coordination.detail or "coordinator handoff incomplete")
+                    return
             await self.runs.update_run(run_id, status=RunStatus.running)
             run.status = RunStatus.running
             status = await scheduler.run()
@@ -429,10 +452,12 @@ class RunManager:
         for t in tasks:
             if t.status in (TaskStatus.running, TaskStatus.waiting, TaskStatus.interrupted, TaskStatus.ready, TaskStatus.cancelled):
                 t.status = TaskStatus.queued
+                t.blocked_reason = None
             elif t.status == TaskStatus.approval_required:
                 if any(a.task_id == t.spec.id for a in pending):
                     raise PlanError(f"approval for task {t.spec.id} is still pending")
                 t.status = TaskStatus.queued
+                t.blocked_reason = None
             await rt.save_task(t)
         for t in tasks:
             rt.policy.peer_messages[t.spec.id] = await self.runs.count_messages_for_task(rt.run_id, t.spec.id)
@@ -451,7 +476,7 @@ class RunManager:
         if run.plan is None:
             raise ValueError("run has no plan to resume")
         if not self.durable:
-            await self.runs.update_run(run_id, status=RunStatus.running, cancel_requested=False, finished_at=None)
+            await self.runs.update_run(run_id, status=RunStatus.running, cancel_requested=False, finished_at=None, blocked_reason=None)
         await self.submit(run_id, resume=True, receipt=receipt)
         return (await self.runs.get_run(run_id))  # type: ignore[return-value]
 
@@ -460,7 +485,11 @@ class RunManager:
         src = await self.runs.get_run(run_id)
         if src is None:
             raise KeyError(run_id)
-        cfg = self.config_getter().model_copy(deep=True)
+        cfg = (load_config_text(src.config_snapshot["config_yaml"], allow_fake=bool(self.fake_adapters))
+               if src.inputs.selected_agent_ids is not None else self.config_getter().model_copy(deep=True))
+        if src.inputs.selected_agent_ids is not None:
+            from .team_selection import choose_roster
+            cfg = choose_roster(cfg, src.inputs.selected_agent_ids)
         for aid, o in (overrides or {}).get("agents", {}).items():
             a = cfg.agent(aid)
             if a is None:
@@ -567,8 +596,17 @@ def render_report_markdown(report: dict[str, Any], run: Run) -> str:
              f"- Provider kind: {ev['run'].get('provider_kind')}",
              f"- Usage: {ev['run']['usage']['model_calls']} model calls, {ev['run']['usage']['tool_calls']} tool calls, "
              f"${ev['run']['usage']['cost_usd']:.4f}, {ev['run']['usage']['wall_seconds']:.0f}s", ""]
+    lines += ["## Current revision review coverage (runtime records)"]
+    for item in artifact_review_ledger(ev):
+        ref = f"{item['artifact_id']} r{item['revision']} (sha256 {item['sha256'][:12]}…)"
+        if item["review_state"] == "unreviewed":
+            lines.append(f"- `{ref}`: unreviewed — no review recorded for these bytes; neither passed nor failed.")
+        else:
+            results = ", ".join(f"{r['acceptance_id']}={r['status']}" for r in item["results"])
+            lines.append(f"- `{ref}`: review seq {item['review_seq']}: {results}")
+    lines.append("")
     if n.get("summary"):
-        lines += ["## Summary", n["summary"], ""]
+        lines += ["## Model summary (not a verification verdict)", n["summary"], ""]
     lines.append("## Deliverables")
     for d in report["deliverables"]:
         lines.append(f"- `{d['logical_path']}` — {d['artifact_id']} r{d['revision']} (sha256 {d['sha256'][:12]}…) by {d['by']} / task {d['task_id']}")
@@ -586,8 +624,10 @@ def render_report_markdown(report: dict[str, Any], run: Run) -> str:
     for c in ev["checks"]:
         lines.append(f"- check {c['kind']} on {c.get('target')} → {c['status']} (seq {c['seq']})")
     for r in ev["reviews"]:
-        lines.append(f"- review of {r['target_task_id']} by {r['by']}: " + ", ".join(f"{x['acceptance_id']}={x['status']}" for x in (r.get("results") or [])) + f" (seq {r['seq']})")
+        targets = ", ".join(f"{a['artifact_id']} r{a['revision']} sha256 {a['sha256'][:12]}…" for a in r.get("target_artifacts") or []) or "revision not recorded"
+        lines.append(f"- review of {r['target_task_id']} by {r['by']} [{targets}]: " + ", ".join(f"{x['acceptance_id']}={x['status']}" for x in (r.get("results") or [])) + f" (seq {r['seq']})")
     if n.get("verified"):
+        lines += ["", "### Model interpretation (not additional verification)"]
         lines += [f"- {v}" for v in n["verified"]]
     lines += ["", "## Unresolved / pending"]
     for f in ev["failures"]:

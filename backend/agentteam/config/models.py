@@ -35,6 +35,8 @@ class Connection(BaseModel):
     # runtime extensions (not in the blueprint schema; stripped when validating against it)
     capability_detail: dict[str, Any] | None = None
     ollama_thinking: bool | None = None  # None preserves the server default; False disables reasoning output
+    ollama_temperature: float | None = Field(default=None, ge=0, le=2, allow_inf_nan=False)
+    ollama_top_p: float | None = Field(default=None, gt=0, le=1, allow_inf_nan=False)
     refusal_fallback: bool = False  # Anthropic server-side fallback; OFF unless the user opts in
     allowed_fallback_connections: list[str] = Field(default_factory=list)
 
@@ -90,6 +92,8 @@ class AgentSpec(BaseModel):
     effort: Literal["low", "medium", "high", "xhigh", "max"] | None = None
     display_name: str | None = Field(default=None, max_length=40)
     emoji: str | None = Field(default=None, max_length=16)
+    speech_style: str | None = Field(default=None, max_length=600)
+    specialty: str | None = Field(default=None, max_length=200)
     custom: bool = False
 
 
@@ -124,10 +128,11 @@ class AgentTeamConfig(BaseModel):
         d["defaults"].pop("team_mode", None)
         d["defaults"].pop("require_independent_review", None)
         for c in d["connections"]:
-            for k in ("capability_detail", "refusal_fallback", "allowed_fallback_connections", "ollama_thinking"):
+            for k in ("capability_detail", "refusal_fallback", "allowed_fallback_connections", "ollama_thinking",
+                      "ollama_temperature", "ollama_top_p"):
                 c.pop(k, None)
         for a in d["agents"]:
-            for k in ("system_prompt_override", "effort", "display_name", "emoji", "custom"):
+            for k in ("system_prompt_override", "effort", "display_name", "emoji", "speech_style", "specialty", "custom"):
                 a.pop(k, None)
         for k in ("max_output_tokens", "max_tool_output_chars", "max_session_cost_usd", "max_session_turns", "max_replans"):
             d["limits"].pop(k, None)
@@ -152,6 +157,8 @@ class EffectiveAgentConfig(BaseModel):
     api_key_ref: str | None = None
     display_name: str | None = None
     emoji: str | None = None
+    speech_style: str | None = Field(default=None, max_length=600)
+    specialty: str | None = Field(default=None, max_length=200)
     custom: bool = False
 
 

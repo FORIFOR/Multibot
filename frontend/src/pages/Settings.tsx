@@ -36,6 +36,7 @@ export default function Settings() {
       <section className="bot-settings-section">
         <CustomBotCreator cfg={cfg} refresh={refresh} />
         <h2>{getLang() === 'en' ? 'Your team' : 'あなたのチーム'}</h2>
+        <p className="muted small">{getLang() === 'en' ? 'Choose these characters from “Choose myself” when starting a request.' : '依頼画面の「自分で選ぶ」で、このキャラクターをチームに選べます。'}</p>
         <div className="bot-settings-grid">{cfg.agents.map(a => <BotSettingsCard key={a.id} a={a} cfg={cfg} refresh={refresh} />)}</div>
       </section>
       <details className="connection-settings"><summary>{getLang() === 'en' ? 'Team connection & budget (advanced)' : 'チームの接続・予算（詳細設定）'}</summary>
@@ -141,5 +142,4 @@ function LimitsCard({ cfg, guard }: { cfg: Config; guard: (fn: () => Promise<unk
     </div>
   )
 }
-
 

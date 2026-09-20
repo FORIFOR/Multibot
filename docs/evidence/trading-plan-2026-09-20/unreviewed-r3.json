@@ -1,0 +1,77 @@
+{
+  "source_run_id": "run_1a0bbbe514dcf34c2a8",
+  "source_last_seq": 212,
+  "status": "partial",
+  "artifacts": [
+    {
+      "artifact_id": "architecture.md",
+      "by": "builder",
+      "logical_path": "architecture.md",
+      "media_type": "text/markdown",
+      "revision": 3,
+      "sha256": "f0d64ec433c9bdbb58fcb019f5e94a529045db2d78249307e8fae7af9c1451dd",
+      "size": 14807,
+      "sources": [
+        "trading-sources.md"
+      ],
+      "task_id": "t2"
+    },
+    {
+      "artifact_id": "decisions.md",
+      "by": "builder",
+      "logical_path": "decisions.md",
+      "media_type": "text/markdown",
+      "revision": 3,
+      "sha256": "01d41b9b1e376cd1e67733150801a58341fa1740c56e37be683ea52f3cd90544",
+      "size": 7778,
+      "sources": [
+        "trading-sources.md"
+      ],
+      "task_id": "t2"
+    },
+    {
+      "artifact_id": "research_notes.md",
+      "by": "researcher",
+      "logical_path": "research_notes.md",
+      "media_type": "text/markdown",
+      "revision": 1,
+      "sha256": "9078e0dabe1476a2ba6de24ea6a6c4503344ad853e83f1d4ca6d402149c280bd",
+      "size": 4289,
+      "sources": [
+        "trading-sources.md",
+        "https://docs.alpaca.markets/us/docs/orders-at-alpaca",
+        "https://docs.alpaca.markets/us/docs/websocket-streaming",
+        "https://docs.alpaca.markets/us/docs/paper-trading"
+      ],
+      "task_id": "t1"
+    }
+  ],
+  "reviews": [
+    {
+      "by": "reviewer",
+      "results": [
+        {
+          "acceptance_id": "t2a1",
+          "evidence": "architecture.md と decisions.md を read_artifact で読み、trading-sources.md との整合性を検証。以下の問題が確認された: 1) client_order_id 管理のサーバー側永続化と照会ロジックが不足。2) 利用者認証と証券 API キーの分離が抽象的。3) 状態機械の遷移条件が不十分（部分約定せず全約定/拒否、取消待ち中の約定、部分約定後の残数量取消の説明不足）。4) エラーハンドリングの照合ロジックが不十分。5) 価格時刻の区別が不十分。6) 発注前の確認項目が不足。7) Live 通過条件の定義が不足。decisions.md も同様に不十分。",
+          "note": "architecture.md と decisions.md は、trading-sources.md の要求を満たしていません。builder に修正を依頼しました。research_notes.md は存在しないが、inbox で参照されている。これは未検証事項として扱うか、master に確認を依頼する必要があります。",
+          "status": "fail"
+        }
+      ],
+      "seq": 98,
+      "summary": "architecture.md と decisions.md を検証。t2a1 の要件（未検証事項明示、実装順序と検証条件の記載）を満たしていない。client_order_id 管理、認証認可、状態機械、エラーハンドリング、価格時刻、発注前確認、Live 通過条件の具体化が不足。builder に修正を依頼。",
+      "target_artifacts": [
+        {
+          "artifact_id": "architecture.md",
+          "revision": 1,
+          "sha256": "d886faaedbcca69ca299ced6c6f165271819c61246b1a058fecacfafd9ee10d3"
+        },
+        {
+          "artifact_id": "decisions.md",
+          "revision": 1,
+          "sha256": "c5a3ed87c70f103245e29fc69e7b826a913696614a38bf128ab7fd59a10f0806"
+        }
+      ],
+      "target_task_id": "t2"
+    }
+  ]
+}

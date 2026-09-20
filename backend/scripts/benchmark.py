@@ -58,7 +58,7 @@ def protocol_evidence(events: list[dict]) -> dict:
 
 async def ensure_probed(svc: AppService, cfg):
     conn = cfg.connection(cfg.defaults.connection_id)
-    if conn.capability_check != "passed":
+    if conn.capability_check != "passed" or (conn.capability_detail or {}).get("model_requested") != cfg.defaults.model:
         from agentteam.providers.registry import ProviderRegistry
         reg = ProviderRegistry(cfg)
         try:
@@ -66,7 +66,7 @@ async def ensure_probed(svc: AppService, cfg):
         finally:
             await reg.aclose()
         conn.capability_check = "passed" if pr.ok else "failed"
-        conn.capability_detail = {"model_reported": pr.model_reported, "error": pr.error}
+        conn.capability_detail = {"model_requested": pr.model_requested, "model_reported": pr.model_reported, "error": pr.error}
         print("probe:", pr.ok, pr.model_reported, pr.error or "", flush=True)
         if not pr.ok:
             raise SystemExit("probe failed")

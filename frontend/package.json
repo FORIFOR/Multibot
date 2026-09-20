@@ -16,7 +16,8 @@
     "test:markdown": "node --experimental-strip-types --test tests/markdown.test.mjs",
     "test:polish": "node scripts/ui-polish-smoke.mjs",
     "test:flow": "node scripts/three-step-smoke.mjs",
-    "test:a11y": "node scripts/a11y-smoke.mjs"
+    "test:a11y": "node scripts/a11y-smoke.mjs",
+    "test:delivery": "node --experimental-strip-types --test tests/text-delivery.test.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",

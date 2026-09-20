@@ -25,8 +25,8 @@ V25 = EVIDENCE.parent / 'real-readiness-v25-qwen35-fixed-2026-09-15'
 V26 = EVIDENCE.parent / 'real-readiness-v26-qwen35-fixed-2026-09-15'
 V27 = EVIDENCE.parent / 'real-readiness-v27-qwen35-fixed-2026-09-19'
 V28 = EVIDENCE.parent / 'real-readiness-v28-qwen35-fixed-2026-09-19'
-V29 = EVIDENCE.parent / 'real-readiness-v29-qwen35-fixed-2026-09-19'
-V30 = EVIDENCE.parent / 'real-readiness-v30-qwen35-fixed-2026-09-20'
+V29 = EVIDENCE.parent / 'real-readiness-v29-qwen35-fixed-20260919'
+V30 = EVIDENCE.parent / 'real-readiness-v30-qwen35-fixed-20260920'
 
 
 def test_observed_v5_translation_drift_is_rejected_by_the_current_contract():
@@ -224,7 +224,7 @@ async def test_actual_english_remaining_cannot_finish_or_auto_finish_and_final_s
         task = rt.tasks['t1']
         ctx = SessionContext(rt=rt, agent=rt.agents['builder'], mode='task', task=task, tools=rt.agents['builder'].tools)
         reply = await ToolGateway(ctx).call('finish_task', {'summary': task.result.summary})
-        assert reply.startswith('REJECTED: requester delivery requirements failed') and 'evidence_quote' in reply and ctx.finished is None
+        assert reply.startswith('REJECTED: requester delivery requirements failed') and 'remaining' in reply and ctx.finished is None
         # A reviewer can invoke the registered requester schema directly. The
         # preserved v1 artifact is expected to fail the contract, but must not
         # be blocked by a model-generated/malformed schema.
@@ -234,7 +234,10 @@ async def test_actual_english_remaining_cannot_finish_or_auto_finish_and_final_s
         })
         assert '"status": "fail"' in review_check
         assert 'invalid schema' not in review_check
-        assert 'repair_hint' in review_check and '失敗したフィールドだけ' in review_check
+        repair_hint = json.loads(review_check)['repair_hint']
+        assert 'preserve source facts' in repair_hint
+        assert 'publish a new revision and check that exact revision' in repair_hint
+        assert 'Do not replace or weaken the schema' in repair_hint
         assert await auto_finish_if_outputs_published(ctx, 'rechecking actual prior completion') is None
         assert len(failures(await verify_delivery(rt))) == 1
         # The real saved run already consumed these calls. Exhaust that actual

@@ -10,7 +10,7 @@ import json
 from pathlib import PurePosixPath
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_serializer, model_validator
 
 MessagePurpose = Literal["request", "question", "answer", "handoff", "finding", "decision"]
 CheckKind = Literal["programmatic", "source_check", "human_review", "model_review"]
@@ -262,6 +262,14 @@ class TaskState(BaseModel):
 class DeliveryRequirement(BaseModel):
     logical_path: str = Field(min_length=1, max_length=256)
     json_schema: dict[str, Any]
+    input_format: Literal["json", "text"] = "json"
+
+    @model_serializer(mode="wrap")
+    def compatible_dump(self, handler):
+        data = handler(self)
+        if self.input_format == "json":
+            data.pop("input_format", None)  # preserve existing receipt/evidence hashes
+        return data
 
     @field_validator('logical_path')
     @classmethod
@@ -284,6 +292,33 @@ class RunInputs(BaseModel):
     urls: list[str] = Field(default_factory=list)
     files: list[dict[str, str]] = Field(default_factory=list)  # {name, content} small text attachments
     delivery_requirements: list[DeliveryRequirement] = Field(default_factory=list, max_length=10)
+    workflow: Literal["team", "document"] = "team"
+    team_selection: Literal["fixed", "adaptive"] = "fixed"
+
+    selected_agent_ids: list[str] | None = Field(default=None, min_length=1, max_length=32)
+
+    @model_serializer(mode="wrap")
+    def compatible_dump(self, handler):
+        data = handler(self)
+        if self.selected_agent_ids is None:
+            data.pop("selected_agent_ids", None)
+        if self.workflow == "team":
+            data.pop("workflow", None)
+        if self.team_selection == "fixed":
+            data.pop("team_selection", None)
+        return data
+
+    @model_validator(mode="after")
+    def document_inputs(self):
+        if self.selected_agent_ids is not None:
+            if self.team_selection != "fixed" or len(set(self.selected_agent_ids)) != len(self.selected_agent_ids):
+                raise ValueError("selected_agent_ids requires fixed selection and unique IDs")
+        if self.workflow == "document" and (
+            self.urls or not (self.text.strip() or any(f.get("content", "").strip() for f in self.files))
+            or len(self.delivery_requirements) != 1 or self.delivery_requirements[0].input_format != "text"
+        ):
+            raise ValueError('document workflow requires supplied text/files, no URL inputs, and exactly one text delivery contract')
+        return self
 
     @field_validator('delivery_requirements')
     @classmethod
@@ -309,3 +344,12 @@ class Run(BaseModel):
     final_report: dict[str, Any] | None = None
     blocked_reason: str | None = None
     provider_kind: str = "real"  # "real" | "fake" (tests only)
+
+
+    def can_receive_instruction(self) -> bool:
+        """Saving a direction never starts work or reopens accepted tasks."""
+        return self.status in (RunStatus.created, RunStatus.queued, RunStatus.planning, RunStatus.running) or (
+            self.plan is not None and self.status in (
+                RunStatus.interrupted, RunStatus.partial, RunStatus.failed, RunStatus.cancelled, RunStatus.approval_required
+            )
+        )

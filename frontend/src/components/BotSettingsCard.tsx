@@ -1,9 +1,11 @@
+import { botName } from '../lib/journey'
 import { roleLabel } from '../lib/journey'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { api, ApiError, type AgentSpec, type Config } from '../lib/api'
 import { getLang } from '../lib/i18n'
-import { isBotEmoji } from '../lib/bot-identity'
+import { isBotEmoji, EMOJI_CHOICES } from '../lib/bot-identity'
 import BotAvatar from './BotAvatar'
+import { BOT_CHARACTERS } from '../lib/bot-characters'
 
 export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg: Config; refresh: () => Promise<Config> }) {
   const en = getLang() === 'en'
@@ -11,6 +13,7 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
   const effective = cfg.effective_agents[a.id]
   const [name, setName] = useState(a.display_name || '')
   const [emoji, setEmoji] = useState(a.emoji || '')
+  const [speechStyle, setSpeechStyle] = useState(a.speech_style || '')
   const [prompt, setPrompt] = useState(effective?.system_prompt || '')
   const [connection, setConnection] = useState(a.connection_id)
   const [model, setModel] = useState(a.model)
@@ -23,7 +26,8 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
   useEffect(() => { setName(a.display_name || ''); setEmoji(a.emoji || '') }, [a.display_name, a.emoji])
   useEffect(() => { setPrompt(effective?.system_prompt || '') }, [effective?.system_prompt])
   useEffect(() => { setConnection(a.connection_id); setModel(a.model); setEffort(a.effort || ''); setLocked(a.prompt_mode === 'user_locked') }, [a.connection_id, a.model, a.effort, a.prompt_mode])
-  const dirty = name !== (a.display_name || '') || emoji !== (a.emoji || '') || prompt !== (effective?.system_prompt || '') || connection !== a.connection_id || model !== a.model || effort !== (a.effort || '') || locked !== (a.prompt_mode === 'user_locked')
+  useEffect(() => { setSpeechStyle(a.speech_style || '') }, [a.speech_style])
+  const dirty = speechStyle !== (a.speech_style || '') || name !== (a.display_name || '') || emoji !== (a.emoji || '') || prompt !== (effective?.system_prompt || '') || connection !== a.connection_id || model !== a.model || effort !== (a.effort || '') || locked !== (a.prompt_mode === 'user_locked')
   const validEmoji = !emoji.trim() || isBotEmoji(emoji)
   const patch = async (body: Record<string, unknown>, message: string) => {
     if (pending.current) return
@@ -39,15 +43,15 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
   const save = (event: FormEvent) => {
     event.preventDefault()
     if (!validEmoji || !dirty) return
-    const body: Record<string, unknown> = { display_name: name.trim(), emoji: emoji.trim(), connection_id: connection, model: model.trim() || 'inherit', effort, prompt_mode: locked ? 'user_locked' : 'auto_seed' }
+    const body: Record<string, unknown> = { display_name: name.trim(), emoji: emoji.trim(), speech_style: speechStyle.trim(), connection_id: connection, model: model.trim() || 'inherit', effort, prompt_mode: locked ? 'user_locked' : 'auto_seed' }
     if (prompt !== effective?.system_prompt) body.system_prompt_override = prompt
-    void patch(body, l('保存しました。次の依頼から反映されます。', 'Saved. Changes apply to your next request.'))
+    void patch(body, l('保存しました。固定チームの次の依頼から反映されます。', 'Saved. Applies to your next fixed-team request.'))
   }
   return (
     <article className="agentcard bot-settings-card" id={`agent-card-${a.id}`} tabIndex={-1} aria-label={a.display_name || a.id} aria-busy={busy}>
       <header>
-        <BotAvatar id={a.id} role={a.role} name={a.display_name} emoji={a.emoji} state={a.enabled ? 'idle' : 'disabled'} />
-        <div className="bot-settings-title"><h3>{a.display_name || roleLabel(a.role, getLang())}</h3><span className="muted small">{a.display_name ? roleLabel(a.role, getLang()) : a.id}</span></div>
+        <BotAvatar id={a.id} role={a.role} name={name || botName(a.role,getLang())} emoji={validEmoji ? emoji : a.emoji} state={a.enabled ? 'idle' : 'disabled'} />
+        <div className="bot-settings-title"><h3>{name || botName(a.role, getLang())}</h3><span className="muted small">{roleLabel(a.role, getLang())}</span></div>
         <button className="bot-toggle" type="button" role="switch" aria-checked={a.enabled} aria-label={l(`${a.display_name || a.id}をチームで使う`, `Enable ${a.display_name || a.id}`)} disabled={busy} onClick={() => void patch({ enabled: !a.enabled }, l('参加設定を保存しました。', 'Participation updated.'))}>
           <span className={'switch' + (a.enabled ? ' on' : '')} aria-hidden="true" /><span>{a.enabled ? l('参加中', 'Enabled') : l('お休み', 'Disabled')}</span>
         </button>
@@ -55,11 +59,31 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
       <form onSubmit={save}>
         <fieldset className="bot-card-fields" disabled={busy}>
           <legend className="sr-only">{l('Botの設定', 'Bot settings')}</legend>
+          <div className="bot-character-picker" role="group" aria-label={l('キャラクターを選ぶ', 'Choose a character')}>
+            {BOT_CHARACTERS.map(character => {
+              const characterName = en ? character.en : character.ja
+              const voice = character.voice[en ? 1 : 0]
+              return <button key={character.en} type="button" aria-pressed={name === characterName && emoji === character.emoji && speechStyle === voice}
+                onClick={() => { setName(characterName); setEmoji(character.emoji); setSpeechStyle(voice) }}>
+                <span className="character-face" aria-hidden="true">{character.emoji}</span>
+                <strong>{characterName}</strong><small>{character.trait[en ? 1 : 0]}</small>
+              </button>
+            })}
+          </div>
+          <small className="muted">{l('選んでから、名前や話し方を自由に編集できます。', 'Choose a character, then make the name and voice your own.')}</small>
+          <details className="bot-character-editor"><summary>{l('名前・絵文字・話し方を編集', 'Edit name, emoji & voice')}</summary><div className="stack">
           <div className="bot-identity-grid">
-            <label className="bot-field">{l('名前', 'Name')}<input className="input" value={name} onChange={e => setName(e.target.value)} maxLength={40} placeholder={roleLabel(a.role, getLang())} /></label>
+            <label className="bot-field">{l('名前', 'Name')}<input className="input" value={name} onChange={e => setName(e.target.value)} maxLength={40} placeholder={botName(a.role, getLang())} /></label>
             <label className="bot-field">{l('絵文字', 'Emoji')}<input className="input bot-emoji-input" value={emoji} maxLength={64} onChange={e => setEmoji(e.target.value)} placeholder="🤖" aria-invalid={!validEmoji} aria-describedby={`emoji-note-${a.id}`} /></label>
           </div>
-          <small className={!validEmoji ? 'err' : 'muted'} id={`emoji-note-${a.id}`}>{l('絵文字を1つ。空欄にすると元のキャラクターに戻ります。', 'Use one emoji, or leave blank to restore the original character.')}</small>
+          <small className={!validEmoji ? 'err' : 'muted'} id={`emoji-note-${a.id}`}>{l('絵文字を選ぶか、1つ入力。空欄で既定に戻ります。', 'Choose or type one emoji. Leave blank for the default.')}</small>
+          <div className="bot-emoji-choices" role="group" aria-label={l('アイコンを選ぶ', 'Choose an icon')}>
+            {EMOJI_CHOICES.map(([icon, ja, english]) => <button key={icon} type="button" aria-label={en ? english : ja} aria-pressed={emoji === icon} onClick={() => setEmoji(icon)}>{icon}</button>)}
+            <button type="button" className="emoji-reset" onClick={() => setEmoji('')}>{l('既定', 'Default')}</button>
+          </div>
+          <div className="bot-field"><label htmlFor={`voice-${a.id}`}>{l('性格・話し方', 'Personality & voice')}</label><textarea id={`voice-${a.id}`} className="input" rows={2} maxLength={600} value={speechStyle} placeholder={effective?.speech_style || ''} onChange={e => setSpeechStyle(e.target.value)} aria-describedby={`voice-note-${a.id}`} /></div>
+          <small className="muted" id={`voice-note-${a.id}`}>{l('空欄なら役割に合った話し方になります。', 'Leave blank for the role default.')}</small>
+          </div></details>
           <details className="bot-advanced"><summary>{l('任せる仕事・モデル・詳細設定', 'Instructions, model & advanced settings')}</summary>
             <div className="stack">
               <label className="bot-field">{l('任せたいこと（システムプロンプト）', 'Instructions (system prompt)')}<textarea className="input" value={prompt} onChange={e => setPrompt(e.target.value)} maxLength={20000} /></label>

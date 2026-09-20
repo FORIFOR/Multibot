@@ -34,6 +34,7 @@ class PolicyEngine:
     usage: Usage = field(default_factory=Usage)
     cancel_event: asyncio.Event = field(default_factory=asyncio.Event)
     peer_messages: dict[str, int] = field(default_factory=dict)
+    peer_message_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
     revision_rounds: dict[str, int] = field(default_factory=dict)
     denials: int = 0
 

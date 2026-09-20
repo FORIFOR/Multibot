@@ -17,10 +17,13 @@ class OpenAICompatDriver:
     kind = "real"
 
     def __init__(self, connection_id: str, api_key: str | None, base_url: str, driver: str = "openai_compatible_chat",
-                 timeout: float = 600.0, thinking: bool | None = None):
+                 timeout: float = 600.0, thinking: bool | None = None,
+                 temperature: float | None = None, top_p: float | None = None):
         self.connection_id = connection_id
         self.driver = driver
         self.thinking = thinking
+        self.temperature = temperature
+        self.top_p = top_p
         self.base_url = base_url.rstrip("/")
         headers = {"content-type": "application/json"}
         if api_key:
@@ -72,9 +75,15 @@ class OpenAICompatDriver:
         thinking = req.metadata.get("ollama_thinking", self.thinking)
         if self.driver == "ollama" and thinking is not None:
             body["reasoning_effort"] = "high" if thinking else "none"
-        # Role execution and capability checks depend on reproducible tool/JSON
-        # output. Ollama's server default is suited to creative text, not this.
+        # Ollama's OpenAI endpoint uses its own defaults when these fields are
+        # omitted; Modelfile temperature/top_p are not inherited by that route.
         if self.driver == 'ollama':
+            if self.temperature is not None:
+                body['temperature'] = self.temperature
+            if self.top_p is not None:
+                body['top_p'] = self.top_p
+        # Connectivity probes remain deliberately deterministic.
+        if self.driver == 'ollama' and req.metadata.get('capability_probe'):
             body['temperature'] = 0
         if req.tools:
             body["tools"] = [{"type": "function", "function": {"name": t.name, "description": t.description,
@@ -130,14 +139,14 @@ class OpenAICompatDriver:
                 model=model, system="You are a connectivity probe. Call the tool `ping` exactly once with ok=true.",
                 messages=[{"role": "user", "content": [{"type": "text", "text": "Call ping now."}]}],
                 tools=[ToolSpec("ping", "Connectivity probe.", {"type": "object", "properties": {"ok": {"type": "boolean"}},
-                                                               "required": ["ok"]})], max_tokens=256, metadata={"ollama_thinking": False}))
+                                                               "required": ["ok"]})], max_tokens=256, metadata={"ollama_thinking": False, "capability_probe": True}))
             usage.input_tokens += r1.usage.input_tokens; usage.output_tokens += r1.usage.output_tokens
             tool_ok = (len(r1.tool_calls) == 1 and r1.tool_calls[0].name == 'ping'
                        and r1.tool_calls[0].arguments.get('ok') is True)
             r2 = await self.complete(LLMRequest(
                 model=model, system="Return the requested JSON only.",
                 messages=[{"role": "user", "content": [{"type": "text", "text": "Return {\"ok\": true}."}]}],
-                json_schema={"type": "object", "properties": {"ok": {"type": "boolean"}}, "required": ["ok"]}, max_tokens=128, metadata={"ollama_thinking": False}))
+                json_schema={"type": "object", "properties": {"ok": {"type": "boolean"}}, "required": ["ok"]}, max_tokens=128, metadata={"ollama_thinking": False, "capability_probe": True}))
             usage.input_tokens += r2.usage.input_tokens; usage.output_tokens += r2.usage.output_tokens
             try:
                 json_ok = json.loads(r2.text).get("ok") is True

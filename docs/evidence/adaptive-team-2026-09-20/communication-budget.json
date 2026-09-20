@@ -1,0 +1,122 @@
+{
+  "source_run_id": "run_1a0bc7d7227e90e344c",
+  "source_seq": 170,
+  "plan": {
+    "schema_version": 1,
+    "goal": "株式トレードアプリの設計文書（architecture.md, decisions.md）を完成させる",
+    "assumptions": [
+      "対象市場は米国市場（Alpaca 事例をベース）とし、日本株・国内証券への拡張は未検証とする",
+      "本番接続までの段階定義を含めるが、実際の実口座接続・発注は行わない",
+      "取消・約定の累積数量管理は API 保証に従い、ゼロ初期化を禁止する設計とする",
+      "外部送信・公開・課金は行わない（Draft 段階）",
+      "検証条件として、文書内容が trading-sources.md と trading-cancel-review-addendum.md と整合していることを確認する"
+    ],
+    "agents": [
+      "master",
+      "team_1",
+      "team_2",
+      "team_3",
+      "team_4"
+    ],
+    "tasks": [
+      {
+        "id": "t1",
+        "owner": "team_1",
+        "objective": "Core・証券Adapter・UI の境界定義、画面構成、認証認可フローの設計",
+        "depends_on": [],
+        "input_artifacts": [],
+        "output_paths": [
+          "architecture.md"
+        ],
+        "acceptance": [
+          {
+            "id": "arch-001",
+            "description": "Core/Adapter/UI の境界が明確",
+            "check_kind": "model_review"
+          },
+          {
+            "id": "arch-002",
+            "description": "認証フロー（API キー管理、クライアント側秘鍵非公開）が定義",
+            "check_kind": "model_review"
+          }
+        ],
+        "write_scope": "workspaces/t1/"
+      },
+      {
+        "id": "t2",
+        "owner": "team_2",
+        "objective": "注文状態管理、部分約定、取消競合、応答喪失・再接続、重複防止のロジック設計",
+        "depends_on": [
+          "t1"
+        ],
+        "input_artifacts": [],
+        "output_paths": [
+          "decisions.md"
+        ],
+        "acceptance": [
+          {
+            "id": "dec-001",
+            "description": "取消拒否後の再発注許可・累積約定保存ロジックが公式仕様と整合",
+            "check_kind": "source_check"
+          },
+          {
+            "id": "dec-002",
+            "description": "価格鮮度・Live/Paper 切替の設計が明記",
+            "check_kind": "source_check"
+          }
+        ],
+        "write_scope": "workspaces/t2/"
+      },
+      {
+        "id": "t3",
+        "owner": "team_3",
+        "objective": "本番移行段階、税務・法令適合性の前提記述、検証条件の定義",
+        "depends_on": [
+          "t1",
+          "t2"
+        ],
+        "input_artifacts": [],
+        "output_paths": [
+          "compliance_draft.md"
+        ],
+        "acceptance": [
+          {
+            "id": "compliance-001",
+            "description": "未検証事項（市場・地域など）が明示",
+            "check_kind": "model_review"
+          }
+        ],
+        "write_scope": "workspaces/t3/"
+      },
+      {
+        "id": "t4",
+        "owner": "team_4",
+        "objective": "architecture.md, decisions.md, compliance_draft.md の統合レビュー、誤り修正指示",
+        "depends_on": [
+          "t1",
+          "t2",
+          "t3"
+        ],
+        "input_artifacts": [],
+        "output_paths": [],
+        "acceptance": [
+          {
+            "id": "review-001",
+            "description": "添付資料との整合性、未検証の扱いが適切か確認",
+            "check_kind": "human_review"
+          }
+        ],
+        "write_scope": "workspaces/t4/"
+      }
+    ]
+  },
+  "roles": {
+    "master": "master",
+    "team_1": "builder",
+    "team_2": "builder",
+    "team_3": "builder",
+    "team_4": "reviewer"
+  },
+  "max_peer_messages_per_task": 6,
+  "max_revision_rounds": 2
+}

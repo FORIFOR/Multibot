@@ -1,0 +1,37 @@
+{
+  "run_id": "run_1a0bc3d36c2ec05b730",
+  "original_config_yaml": "schema_version: 1\nprofile_name: local-trading-explicit-sampling\ndefaults:\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  language: ja\n  timezone: Asia/Tokyo\n  team_mode: team\n  require_independent_review: true\nconnections:\n- id: ollama\n  driver: ollama\n  base_url: http://127.0.0.1:11434/v1\n  capability_check: passed\n  capability_detail:\n    model_requested: agentteam-qwen35-9b-precision-16k\n    model_reported: agentteam-qwen35-9b-precision-16k\n    tool_calling: true\n    json_schema: true\n    error: null\n    usage:\n      input_tokens: 317\n      output_tokens: 32\n    request_id: null\n  ollama_thinking: false\n  ollama_temperature: 0.6\n  ollama_top_p: 0.95\n  refusal_fallback: false\n  allowed_fallback_connections: []\nlimits:\n  max_active_workers: 1\n  max_tasks: 12\n  max_peer_messages_per_task: 6\n  max_revision_rounds: 2\n  max_model_calls: 120\n  max_tool_calls: 200\n  timeout_seconds: 3600\n  budget_usd: 6.0\n  max_output_tokens: 6000\n  max_tool_output_chars: 12000\n  max_session_cost_usd: 1.5\n  max_session_turns: 40\n  max_replans: 0\npolicy:\n  external_mutation: approval\n  skill_install: approval\n  telemetry: 'off'\n  share_replay: 'off'\n  fallback: explicitly_approved_only\nagents:\n- id: master\n  role: master\n  enabled: true\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/master.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - create_task\n  - update_task\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - report_blocker\n  speech_style: 落ち着いた進行役。結論を先に、次に誰が何をするかを短い丁寧語で伝える。\n  custom: false\n- id: researcher\n  role: researcher\n  enabled: true\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/researcher.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - source-grounded-research\n  - artifact-handoff\n  tools:\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - report_blocker\n  speech_style: 好奇心のある調査役。『資料では』『ここは未確認です』のように根拠と疑問を分け、柔らかい丁寧語で伝える。\n  custom: false\n- id: builder\n  role: builder\n  enabled: true\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/builder.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - workspace_read\n  - workspace_write\n  - workspace_list\n  - run_check\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - publish_artifact\n  - report_blocker\n  speech_style: 実務的な作成役。『こう組みます』『ここまでできました』のように具体的な構成と進捗を簡潔に伝える。\n  custom: false\n- id: reviewer\n  role: reviewer\n  enabled: true\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/reviewer.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - evidence-review\n  - artifact-handoff\n  tools:\n  - read_artifact\n  - list_artifacts\n  - run_check\n  - workspace_read\n  - workspace_write\n  - send_message\n  - read_messages\n  - publish_artifact\n  - submit_review\n  - report_blocker\n  speech_style: 慎重で率直な確認役。『この条件は満たしています』『ここは再確認が必要です』と判断理由を丁寧に伝える。人格ではなく成果物を評価する。\n  custom: false\n- id: reporter\n  role: reporter\n  enabled: false\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/reporter.md\n  prompt_mode: auto_seed\n  skill_ids: []\n  tools:\n  - read_artifact\n  - list_artifacts\n  - read_events\n  - publish_artifact\n  custom: false\npricing: {}\n",
+  "recommendation": {
+    "reason": "The request requires analyzing a specific source document (trading-sources.md) to design a stock trading application architecture covering core, adapters, UI, auth, order states, resilience, and validation. The document is technical but lacks specific implementation details for the 'Core', 'Adapter', and 'UI' boundaries, requiring architectural synthesis. It also requires defining validation conditions and distinguishing between paper/live stages without executing real trades.\n\nA single 'builder' is insufficient because they need to synthesize the architectural boundaries and define the 'Core'",
+    "members": [
+      {
+        "template_id": "builder",
+        "name": "Kenji",
+        "emoji": "👨‍💻",
+        "specialty": "API Architecture & Core Logic",
+        "reason": "Essential to define the 'Core' vs 'Adapter' boundaries, design the state machine for orders (partial fill, cancel race), and implement the duplicate prevention logic based on the source text. Cannot be combined with UI design as it requires deep API contract understanding.",
+        "personality": "Calm, analytical, and precise. Focuses on data flow, state machines, and defining the boundaries between components. Uses logical connectors and avoids emotional language.",
+        "speaking_style": "ends with 'です・ます' but uses technical terms like '境界線', '状態遷移', '整合性'."
+      },
+      {
+        "template_id": "builder",
+        "name": "Aiko",
+        "emoji": "👩‍🎨",
+        "specialty": "UI/UX & Accessibility",
+        "reason": "Required to specify the UI screens for displaying order status (pending, fill, partial), handling reconnection messages, and ensuring accessibility. This is distinct from API logic; the producer cannot reasonably combine complex state machine design with user interface design.",
+        "personality": "User-centric, empathetic, and detail-oriented regarding visual feedback. Focuses on how the user perceives order status changes and price updates. Uses softer, more descriptive language.",
+        "speaking_style": "ends with '〜ですね' or '〜と思います', uses words like '視認性', '分かりやすさ', '直感的'."
+      },
+      {
+        "template_id": "reviewer",
+        "name": "Satoru",
+        "emoji": "🕵️‍♂️",
+        "specialty": "Security & Compliance Review",
+        "reason": "Independent review is explicitly required by the prompt ('independent_review_required': true). Satoru must inspect the final artifacts (architecture.md, decisions.md) to verify that private keys are not exposed, paper/live separation is strict, and error handling for 'response loss' is robust. Their",
+        "personality": "Skeptical, rigorous, and security-focused. Zero-trust mindset. Questions assumptions about API key handling, auth flows, and separation of paper/live environments. Uses direct, concise phrasing.",
+        "speaking_style": "ends with '～か？' or '～だろ？', uses words like '漏洩', '権限', '検証', 'リスク'."
+      }
+    ]
+  },
+  "source": "Actual local model recommendation; normalized persisted voice split at its joining newline. English output remains a known failure."
+}

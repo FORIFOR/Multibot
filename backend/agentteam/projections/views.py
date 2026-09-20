@@ -72,6 +72,22 @@ def timeline_view(events: list[Event], *, include_tool_calls: bool = True) -> li
     return out
 
 
+def artifact_review_ledger(evidence: dict[str, Any]) -> list[dict[str, Any]]:
+    """Scope recorded reviews to exact artifact bytes, never just the owning task."""
+    ledger = []
+    for artifact in evidence.get("artifacts", []):
+        ref = {k: artifact[k] for k in ("artifact_id", "revision", "sha256")}
+        matches = [review for review in evidence.get("reviews", [])
+                   if review.get("target_task_id") == artifact.get("task_id")
+                   and any(all(target.get(k) == v for k, v in ref.items())
+                           for target in review.get("target_artifacts") or [])]
+        latest = max(matches, key=lambda r: r["seq"], default=None)
+        ledger.append({**ref, "review_state": "review_recorded" if latest else "unreviewed",
+                       "review_seq": latest["seq"] if latest else None,
+                       "results": latest.get("results", []) if latest else []})
+    return ledger
+
+
 def evidence_view(run, tasks, artifacts, events: list[Event]) -> dict[str, Any]:
     checks = [{"seq": e.seq, "actor": e.actor_id, "task_id": e.task_id, "kind": e.payload.get("kind"),
                "target": e.payload.get("target"), "status": (e.payload.get("result") or {}).get("status"),

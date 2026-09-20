@@ -11,6 +11,7 @@ const out = resolve(dirname(fileURLToPath(import.meta.url)), '../../artifacts/ui
 mkdirSync(out, { recursive: true })
 const browser = await chromium.launch({ channel: 'chrome', headless: true })
 const record = []
+let runUrl = ''
 try {
   const sizes = [['desktop', 1440, 900], ['mobile', 390, 844]]
   const open = async (width, height) => {
@@ -29,7 +30,6 @@ try {
     await note(`${name}-home.png`, page, errors, width, height, 'request screen, request box empty'); await context.close()
   }
   // 2. The main task once, then the work screen at both sizes.
-  let runUrl = ''
   for (const [name, width, height] of sizes) {
     const { context, page, errors } = await open(width, height)
     if (!runUrl) {
@@ -73,6 +73,15 @@ try {
       await note('desktop-after-adopt-passed-record-open.png', page, errors, width, height, 'results panel after adopting a passed file, check record opened')
     }
     await context.close()
+  }
+  // Widths between phone and desktop, and the English UI: first screen only, same run.
+  for (const [name, width, height, lang] of [['tablet-768', 768, 1024, 'ja'], ['laptop-1100', 1100, 800, 'ja'], ['desktop-en', 1440, 900, 'en'], ['mobile-en', 390, 844, 'en']]) {
+    const context = await browser.newContext({ viewport: { width, height }, locale: lang === 'en' ? 'en-US' : 'ja-JP', deviceScaleFactor: 1, reducedMotion: 'reduce' })
+    const page = await context.newPage(); const errors = []; page.on('pageerror', e => errors.push(e.message))
+    await page.addInitScript(l => { try { localStorage.setItem('agentteam.lang', l) } catch { /* ignore */ } }, lang)
+    await page.goto(runUrl, { waitUntil: 'networkidle' }); await page.locator('.result-reader').waitFor(); await page.waitForTimeout(700)
+    await page.screenshot({ path: `${out}/${name}.png` })
+    await note(`${name}.png`, page, errors, width, height, `work screen, first screen only, ${lang}`); await context.close()
   }
 } finally { await browser.close() }
 writeFileSync(`${out}/capture.json`, JSON.stringify({ capturedAt: new Date().toISOString(), base, browser: 'Chrome (headless, channel=chrome)', locale: 'ja-JP', reducedMotion: true,

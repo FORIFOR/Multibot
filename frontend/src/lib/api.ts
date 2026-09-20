@@ -12,20 +12,21 @@ export interface Approval { approval_id: string; run_id: string; task_id: string
 export interface Event { event_id: string; run_id: string; seq: number; recorded_at: string; actor_id: string; actor_kind: string; task_id: string | null; causation_id: string | null; type: string; payload: Record<string, any> }
 export interface TeamPlan { goal: string; assumptions: string[]; agents: string[]; tasks: TaskSpec[] }
 export interface Run {
-  run_id: string; status: RunStatus; goal: string; inputs: { text: string; urls: string[]; files: { name: string; content: string }[] }
+  run_id: string; status: RunStatus; goal: string; inputs: { text: string; urls: string[]; files: { name: string; content: string }[]; workflow?: 'team' | 'document'; team_selection?: 'fixed' | 'adaptive'; selected_agent_ids?: string[]; delivery_requirements?: { logical_path: string; input_format: string; json_schema: Record<string, unknown> }[] }
   created_at: string; started_at: string | null; finished_at: string | null; usage: Usage; plan: TeamPlan | null
-  config_snapshot: { agents?: Record<string, EffectiveAgent>; provider_kind?: string } | null
+  config_snapshot: { agents?: Record<string, EffectiveAgent>; provider_kind?: string; team_recommendation?: {reason:string;members:{name:string;specialty:string;reason:string;personality:string}[]} } | null
   parent_run_id: string | null; fork_from_seq: number | null; final_report: any; blocked_reason: string | null; provider_kind: string
 }
-export interface RunDetail extends Run { access?: { can_write: boolean; can_override: boolean }; tasks: TaskState[]; artifacts: Artifact[]; approvals: Approval[]; artifact_selection?: Record<string, ArtifactSelection>; last_seq: number; live: boolean }
+export interface RunDetail extends Run { latest_instruction?: Event | null; access?: { can_write: boolean; can_override: boolean; can_instruct?: boolean }; tasks: TaskState[]; artifacts: Artifact[]; approvals: Approval[]; artifact_selection?: Record<string, ArtifactSelection>; last_seq: number; live: boolean }
 export interface ArtifactSelection { revision: number; seq: number; event_id: string; actor_id: string; note: string }
 export interface ArtifactDiff { supported: boolean; from_revision: number; revision: number; artifact_id?: string; logical_path?: string; diff?: string; reason?: string }
-export interface EffectiveAgent { agent_id: string; role: string; enabled: boolean; connection_id: string; driver: string; base_url: string; model: string; prompt_mode: string; system_prompt: string; system_prompt_sha256: string; skills: { name: string; description: string; sha256: string }[]; tools: string[]; effort: string | null; api_key_ref: string | null; display_name: string | null; emoji: string | null; custom: boolean }
-export interface AgentSpec { id: string; role: string; enabled: boolean; connection_id: string; model: string; system_prompt_file: string; prompt_mode: 'auto_seed' | 'user_locked'; skill_ids: string[]; tools: string[]; system_prompt_override: string | null; effort: string | null; display_name: string | null; emoji: string | null; custom: boolean }
-export interface Connection { id: string; driver: string; base_url: string; api_key_ref: string | null; capability_check: 'not_run' | 'passed' | 'failed'; capability_detail: any; refusal_fallback: boolean; ollama_thinking?: boolean | null }
+export interface EffectiveAgent { agent_id: string; role: string; enabled: boolean; connection_id: string; driver: string; base_url: string; model: string; prompt_mode: string; system_prompt: string; system_prompt_sha256: string; skills: { name: string; description: string; sha256: string }[]; tools: string[]; effort: string | null; api_key_ref: string | null; display_name: string | null; emoji: string | null; speech_style?: string | null; specialty?: string | null; custom: boolean }
+export interface AgentSpec { id: string; role: string; enabled: boolean; connection_id: string; model: string; system_prompt_file: string; prompt_mode: 'auto_seed' | 'user_locked'; skill_ids: string[]; tools: string[]; system_prompt_override: string | null; effort: string | null; display_name: string | null; emoji: string | null; speech_style?: string | null; specialty?: string | null; custom: boolean }
+export interface Connection { id: string; driver: string; base_url: string; api_key_ref: string | null; capability_check: 'not_run' | 'passed' | 'failed'; capability_detail: any; refusal_fallback: boolean; ollama_thinking?: boolean | null; ollama_temperature?: number | null; ollama_top_p?: number | null }
 export interface Problem { code: string; message: string; agent_id?: string; connection_id?: string; fix?: string }
 export interface Config {
-  revision: number; profile_name: string; defaults: { connection_id: string; model: string; language: string; timezone: string }
+  execution_summary?: { driver: string; model: string; destination: string; tools: string[] }[]
+  revision: number; profile_name: string; defaults: { team_mode?: 'team' | 'single'; connection_id: string; model: string; language: string; timezone: string }
   connections: Connection[]; limits: Record<string, number>; policy: Record<string, string>; agents: AgentSpec[]
   pricing: Record<string, { input_per_mtok: number; output_per_mtok: number }>; problems: Problem[]
   skills: { name: string; description: string; sha256: string }[]; effective_agents: Record<string, EffectiveAgent>
@@ -55,9 +56,9 @@ async function req<T>(method: string, url: string, body?: unknown, idempotent = 
   const headers: Record<string, string> = body ? { 'content-type': 'application/json' } : {}
   if (idempotent) headers['Idempotency-Key'] = pendingCommands.get(command)!.key
   const send = () => fetch(url, { method, headers, body: input || undefined, ...(idempotent ? { signal: AbortSignal.timeout(30000) } : {}) })
-  let r: Response
-  try { r = await send() }
-  catch (error) { if (!idempotent) throw error; r = await send() }
+  // A lost response is not proof of failure. Keep the key for an explicit retry;
+  // never repeat a mutation just because its response did not arrive.
+  const r = await send()
   const text = await r.text()
   let data: any = text
   try { data = text ? JSON.parse(text) : null } catch { /* keep text */ }
@@ -76,7 +77,7 @@ export const api = {
   timeline: (id: string, tools = true) => req<TimelineItem[]>('GET', `/api/runs/${id}/timeline?tools=${tools}`),
   instruction: (id: string, body: { text: string; kind: 'change' | 'question' | 'edit' | 'control'; expected_seq?: number }) =>
     req<InstructionReceipt>('POST', `/api/runs/${id}/instructions`, body),
-  createRun: (body: { goal: string; inputs: { text: string; urls: string[]; files: { name: string; content: string }[] }; budget_usd?: number | null }) => req<Run>('POST', '/api/runs', body, true),
+  createRun: (body: { goal: string; inputs: { text: string; urls: string[]; files: { name: string; content: string }[]; workflow?: 'team' | 'document'; team_selection?: 'fixed' | 'adaptive'; selected_agent_ids?: string[]; delivery_requirements?: { logical_path: string; input_format: string; json_schema: Record<string, unknown> }[] }; budget_usd?: number | null }) => req<Run>('POST', '/api/runs', body, true),
   cancel: (id: string) => req<{ cancel_requested: boolean }>('POST', `/api/runs/${id}/cancel`),
   resume: (id: string) => req<Run>('POST', `/api/runs/${id}/resume`, undefined, true),
   fork: (id: string, overrides: Record<string, unknown>) => req<Run>('POST', `/api/runs/${id}/fork`, { overrides, start: true }, true),
@@ -88,7 +89,7 @@ export const api = {
     req<ArtifactDiff>('GET', `/api/artifacts/${runId}/${artifactId}/versions/${to}/diff?from_revision=${from}`),
   adoptArtifact: (runId: string, artifactId: string, body: { revision: number; expected_selected_revision?: number; note?: string }) =>
     req<{ artifact_id: string; revision: number; seq: number; event: Event }>('POST', `/api/artifacts/${runId}/${artifactId}/adopt`, body),
-  artifactRawUrl: (runId: string, artifactId: string, rev: number) => `/api/artifacts/${runId}/${artifactId}/versions/${rev}/raw`,
+  artifactRawUrl: (runId: string, artifactId: string, rev: number) => `/api/artifacts/${encodeURIComponent(runId)}/${encodeURIComponent(artifactId)}/versions/${rev}/raw`,
   patchAgent: (id: string, body: Record<string, unknown>) => req<{ revision: number }>('PATCH', `/api/agents/${id}`, body),
   createAgent: (body: Record<string, unknown>) => req<{ revision: number; agent: AgentSpec }>('POST', '/api/agents', body),
   putConnection: (id: string, body: Record<string, unknown>) => req<{ revision: number }>('PUT', `/api/connections/${id}`, body),

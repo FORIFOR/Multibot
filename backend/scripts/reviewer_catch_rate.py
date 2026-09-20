@@ -149,7 +149,7 @@ async def main(args) -> int:
     try:
         cfg = svc.config.model_copy(deep=True)
         conn = cfg.connection(cfg.defaults.connection_id)
-        if conn.capability_check != "passed":
+        if conn.capability_check != "passed" or (conn.capability_detail or {}).get("model_requested") != cfg.defaults.model:
             from agentteam.providers.registry import ProviderRegistry
             reg = ProviderRegistry(cfg)
             try:
@@ -157,6 +157,7 @@ async def main(args) -> int:
             finally:
                 await reg.aclose()
             conn.capability_check = "passed" if pr.ok else "failed"
+            conn.capability_detail = {"model_requested": pr.model_requested, "model_reported": pr.model_reported, "error": pr.error}
             print("probe:", pr.ok, pr.model_reported, pr.error or "", flush=True)
             await svc.save_config(cfg, "reviewer catch rate")
         sem = asyncio.Semaphore(args.parallel)

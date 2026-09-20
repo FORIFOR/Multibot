@@ -1,0 +1,3 @@
+import{chromium}from'playwright-core';import{writeFileSync}from'node:fs';const out='../artifacts/product-quality/completion',b=await chromium.launch({channel:'chrome'}),p=await b.newPage({locale:'ja-JP',viewport:{width:1440,height:1000}});try{
+await p.goto('http://127.0.0.1:8799/settings');await p.getByText('チームの接続・予算（詳細設定）',{exact:true}).click();const probe=p.getByRole('button',{name:'疎通確認（実 API 呼出・少額）',exact:true});await probe.waitFor();await probe.click();await p.getByText('疎通確認を実行しました',{exact:true}).waitFor({timeout:180000});await p.screenshot({path:`${out}/probe.png`,fullPage:true});console.log('PROBE PASSED');
+}catch(e){writeFileSync(`${out}/probe-error.txt`,String(e));throw e}finally{await b.close()}

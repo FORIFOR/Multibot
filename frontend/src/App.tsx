@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { api, type Approval } from './lib/api'
 import { Link, usePath, getRunId } from './lib/router'
 import Home from './pages/Home'
+import WorkList from './pages/WorkList'
 import RunView from './pages/Workroom'
 import Settings from './pages/Settings'
 import Welcome from './pages/Welcome'
@@ -30,8 +31,9 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
   return (
     <div className="shell">
       <header className="top">
-        <Link to="/" nav={nav} className="brand">Agent Team</Link>
+        <Link to="/runs" nav={nav} className="brand">Agent Team</Link>
         <nav className="nav">
+          {identity.role !== 'auditor' && <Link to="/runs" nav={nav} className={path.startsWith('/runs') ? 'active' : ''}>{getLang() === 'en' ? 'Work' : '作業一覧'}</Link>}
           {secured && <><span className="muted small account-identity">{identity.organization} · {identity.display_name || identity.subject}</span><button className="langbtn" onClick={async () => { const response = await fetch('/api/auth/logout', { method: 'POST' }); const result = response.ok ? await response.json() : {}; window.location.assign(result.redirect || '/') }}>{getLang() === 'en' ? 'Sign out' : 'ログアウト'}</button></>}
           {identity.role !== 'auditor' && <Link to="/" nav={nav} className={path === '/' ? 'active' : ''}>{getLang() === "en" ? "Ask" : "お願いする"}</Link>}
           {identity.role === 'admin' && <Link to="/settings" nav={nav} className={path.startsWith('/settings') ? 'active' : ''}>{getLang() === "en" ? "My team" : "マイチーム"}</Link>}
@@ -48,7 +50,7 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
         </nav>
       </header>
       <main className={'main' + (runId ? ' wide' : '')}>
-        {identity.role === 'auditor' || (path.startsWith('/operations') && identity.role === 'admin') ? <Operations /> : runId ? <RunView key={path} runId={runId} nav={nav} /> : path.startsWith('/settings') && identity.role === 'admin' ? <Settings /> : path.startsWith('/welcome') ? <Welcome nav={nav} canConfigure={identity.role === 'admin'} /> : <Home nav={nav} readOnly={identity.role === 'viewer'} canConfigure={identity.role === 'admin'} />}
+        {identity.role === 'auditor' || (path.startsWith('/operations') && identity.role === 'admin') ? <Operations /> : runId ? <RunView key={path} runId={runId} nav={nav} /> : path.startsWith('/settings') && identity.role === 'admin' ? <Settings /> : path.startsWith('/welcome') ? <Welcome nav={nav} canConfigure={identity.role === 'admin'} /> : path.split('?')[0] === '/runs' ? <WorkList nav={nav} readOnly={identity.role === 'viewer'} /> : <Home nav={nav} readOnly={identity.role === 'viewer'} canConfigure={identity.role === 'admin'} />}
       </main>
     </div>
   )

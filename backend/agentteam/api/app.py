@@ -18,7 +18,7 @@ from typing import Any, Literal
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field, ValidationError, field_validator
 from sse_starlette.sse import EventSourceResponse
 
 from .. import __version__
@@ -44,6 +44,13 @@ class CreateRunBody(BaseModel):
     budget_usd: float | None = Field(default=None, gt=0, allow_inf_nan=False)
     start: bool = True
 
+    @field_validator("goal")
+    @classmethod
+    def nonblank_goal(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("goal must not be blank")
+        return value
+
 
 class PatchAgentBody(BaseModel):
     expected_revision: int
@@ -58,6 +65,7 @@ class PatchAgentBody(BaseModel):
     tools: list[str] | None = None
     display_name: str | None = Field(default=None, max_length=40)
     emoji: str | None = Field(default=None, max_length=16)
+    speech_style: str | None = Field(default=None, max_length=600)
 
 
 class CreateAgentBody(BaseModel):
@@ -67,6 +75,7 @@ class CreateAgentBody(BaseModel):
     emoji: str = Field(min_length=1, max_length=16)
     role: str = Field(default="specialist", min_length=1, max_length=40)
     system_prompt: str = Field(min_length=1, max_length=20000)
+    speech_style: str | None = Field(default=None, max_length=600)
 
 
 class PutConnectionBody(BaseModel):
@@ -76,6 +85,8 @@ class PutConnectionBody(BaseModel):
     api_key_ref: str | None = None
     refusal_fallback: bool = False
     ollama_thinking: bool | None = None
+    ollama_temperature: float | None = Field(default=None, ge=0, le=2, allow_inf_nan=False)
+    ollama_top_p: float | None = Field(default=None, gt=0, le=1, allow_inf_nan=False)
 
 
 class PutLimitsBody(BaseModel):
@@ -101,7 +112,7 @@ class ForkBody(BaseModel):
 
 class AdoptArtifactBody(BaseModel):
     revision: int = Field(ge=1)
-    expected_selected_revision: int | None = Field(default=None, ge=1)
+    expected_selected_revision: int | None = Field(default=None, ge=0)
     note: str = Field(default="", max_length=1000)
 
 
@@ -291,6 +302,19 @@ def create_app(service: AppService | None = None) -> FastAPI:
     @app.get("/api/config")
     async def get_config(request: Request):
         cfg = svc.public_config()
+        # Safe preflight disclosure for operators as well as administrators.
+        # Omit credentials, URL userinfo/query/path and internal system prompts.
+        cfg['execution_summary'] = []
+        for agent in cfg['effective_agents'].values():
+            if not agent['enabled']:
+                continue
+            endpoint = urlsplit(agent['base_url'])
+            destination = 'Claude Code / Anthropic' if agent['driver'] == 'claude_cli' else (
+                f"{endpoint.scheme}://{endpoint.hostname or 'unknown'}" + (f":{endpoint.port}" if endpoint.port else ''))
+            item = {'driver': agent['driver'], 'model': agent['model'], 'destination': destination,
+                    'tools': agent['tools']}
+            if item not in cfg['execution_summary']:
+                cfg['execution_summary'].append(item)
         if not svc.access.admin(request):
             cfg['connections'] = []
             cfg['effective_agents'] = {}
@@ -362,6 +386,8 @@ def create_app(service: AppService | None = None) -> FastAPI:
             a.display_name = body.display_name.strip() or None
         if body.emoji is not None:
             a.emoji = body.emoji.strip() or None
+        if body.speech_style is not None:
+            a.speech_style = body.speech_style.strip() or None
         try:
             rev = await svc.save_config(cfg, f"patch agent {agent_id}")
         except (ConfigError, ValueError) as e:
@@ -385,7 +411,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
             tools=["workspace_read", "workspace_write", "read_artifact", "list_artifacts",
                    "send_message", "read_messages", "publish_artifact", "report_blocker"],
             system_prompt_override=body.system_prompt, display_name=body.display_name.strip(),
-            emoji=body.emoji.strip(), custom=True,
+            emoji=body.emoji.strip(), speech_style=body.speech_style, custom=True,
         )
         cfg.agents.append(agent)
         try:
@@ -409,7 +435,11 @@ def create_app(service: AppService | None = None) -> FastAPI:
                              capability_check="not_run", refusal_fallback=body.refusal_fallback,
                              ollama_thinking=(body.ollama_thinking if "ollama_thinking" in body.model_fields_set
                                               else existing.ollama_thinking if existing else None)
-                             if body.driver == "ollama" else None)  # any change re-requires the probe
+                             if body.driver == "ollama" else None,
+                             **{name: (getattr(body, name) if name in body.model_fields_set
+                                       else getattr(existing, name) if existing else None)
+                                if body.driver == "ollama" else None
+                                for name in ("ollama_temperature", "ollama_top_p")})  # any change re-requires the probe
         except ValidationError as exc:
             raise HTTPException(400, str(exc))  # Connection excludes secret input values from this message
         if existing:
@@ -469,11 +499,12 @@ def create_app(service: AppService | None = None) -> FastAPI:
     # ------------------------------------------------------------------ runs
     async def _idempotency(request: Request, payload: dict):
         key = request.headers.get('idempotency-key')
-        if not key or not svc.access.enabled:
+        if not key:
             return None, None
         if not re.fullmatch(r'[A-Za-z0-9._-]{8,128}', key):
             raise HTTPException(400, 'invalid Idempotency-Key')
-        scope = digest(json.dumps([svc.access.principal(request).subject, request.url.path, key]))
+        principal = svc.access.principal(request)
+        scope = digest(json.dumps([principal.subject if principal else 'local', request.url.path, key]))
         request_hash = digest(json.dumps(payload, sort_keys=True, ensure_ascii=False))
         prior = await svc.manager.jobs.receipt(scope)
         if prior:
@@ -557,11 +588,14 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 selected[artifact_id] = {"revision": revision, "seq": e.seq, "event_id": e.event_id,
                                          "actor_id": e.actor_id, "note": e.payload.get("note", "")}
         d["artifact_selection"] = selected
+        instructions = await svc.events.list(run_id, types=["instruction.received"])
+        d["latest_instruction"] = instructions[-1].model_dump() if instructions else None
         d["approvals"] = [a.model_dump() for a in await svc.runs.list_approvals(run_id)]
         d["last_seq"] = await svc.events.last_seq(run_id)
         d["live"] = run_id in svc.manager.live
         d['access'] = {'can_write': await svc.access.can_access(request, run_id, write=True),
-                       'can_override': svc.access.admin(request)}
+                       'can_override': svc.access.admin(request),
+                       'can_instruct': run.can_receive_instruction() and await svc.access.can_access(request, run_id, write=True)}
         return d
 
     @app.get("/api/runs/{run_id}")
@@ -594,8 +628,8 @@ def create_app(service: AppService | None = None) -> FastAPI:
             raise HTTPException(404, "run not found")
         if not await svc.access.can_access(request, run_id, write=True):
             raise HTTPException(404, "run not found")
-        if run.status not in (RunStatus.created, RunStatus.queued, RunStatus.planning, RunStatus.running):
-            raise HTTPException(409, f"instructions cannot be added while run is {run.status}; resume or fork it first")
+        if not run.can_receive_instruction():
+            raise HTTPException(409, f"instructions cannot be added while run is {run.status}; fork or create a new request")
         current_seq = await svc.events.last_seq(run_id)
         if body.expected_seq is not None and body.expected_seq != current_seq:
             raise HTTPException(409, f"run changed since it was displayed (expected seq {body.expected_seq}, current seq {current_seq})")
@@ -682,7 +716,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 if before is None:
                     raise KeyError(run_id)
                 reply = before.model_dump()
-                reply.update(status='queued' if svc.manager.durable else 'running', finished_at=None)
+                reply.update(status='queued' if svc.manager.durable else 'running', finished_at=None, blocked_reason=None)
                 run = await svc.manager.resume(run_id, receipt=_receipt(receipt, reply, 200))
         except KeyError:
             raise HTTPException(404, "run not found")
@@ -720,7 +754,8 @@ def create_app(service: AppService | None = None) -> FastAPI:
         return reply
 
     @app.get("/api/runs/{run_id}/export")
-    async def export_run(run_id: str, request: Request, fmt: str = "jsonl"):
+    async def export_run(run_id: str, request: Request, fmt: Literal["jsonl", "zip", "md"] = "jsonl",
+                         selection: Literal["latest", "adopted"] = "latest"):
         run = await svc.runs.get_run(run_id)
         if run is None:
             raise HTTPException(404, "run not found")
@@ -735,12 +770,29 @@ def create_app(service: AppService | None = None) -> FastAPI:
         md = svc.artifacts.read_text(final) if final else f"# {run.goal}\n\n(no report yet)\n"
         if fmt == "zip":
             artifacts = await svc.artifacts.list(run_id, latest_only=True)
+            if selection == "adopted":
+                choices = {}
+                for event in await svc.events.list(run_id, types=["artifact.adopted"]):
+                    choices[event.payload["artifact_id"]] = event.payload["revision"]
+                if not choices:
+                    raise HTTPException(409, "no selected files; choose a version before exporting")
+                artifacts = []
+                for artifact_id, revision in choices.items():
+                    artifact = await svc.artifacts.get(run_id, artifact_id, revision)
+                    if artifact is None:
+                        raise HTTPException(409, "selected revision is unavailable")
+                    artifacts.append(artifact)
             total = sum(a.size for a in artifacts) + len(md.encode("utf-8"))
             if total > 50 * 1024 * 1024:
                 raise HTTPException(413, "export exceeds the 50MB download limit")
             buf = io.BytesIO()
             with zipfile.ZipFile(buf, "w", compression=zipfile.ZIP_DEFLATED) as archive:
                 archive.writestr("final-report.md", md)
+                archive.writestr("manifest.json", json.dumps({
+                    "schema_version": 1, "run_id": run_id, "selection": selection,
+                    "artifacts": [{"artifact_id": a.artifact_id, "revision": a.revision,
+                                   "sha256": a.sha256, "path": f"artifacts/{a.logical_path}"} for a in artifacts],
+                }, ensure_ascii=False, indent=2))
                 archive.writestr("events.jsonl", "\n".join(json.dumps(e.model_dump(), ensure_ascii=False) for e in evs) + "\n")
                 for artifact in artifacts:
                     # logical_path is validated before publication; using a
@@ -780,8 +832,8 @@ def create_app(service: AppService | None = None) -> FastAPI:
         if m is None:
             raise HTTPException(404, "artifact revision not found")
         d = m.model_dump()
-        evs = await svc.events.list(run_id, types=["check.completed", "review.submitted"])
-        d["checks"] = [e.model_dump() for e in evs if e.type == "check.completed" and (e.payload.get("target") or {}).get("artifact_id") == artifact_id
+        evs = await svc.events.list(run_id, types=["check.completed", "delivery.checked", "review.submitted"])
+        d["checks"] = [e.model_dump() for e in evs if e.type in ("check.completed", "delivery.checked") and (e.payload.get("target") or {}).get("artifact_id") == artifact_id
                        and (e.payload.get("target") or {}).get("revision") == revision]
         d["reviews"] = [e.model_dump() for e in evs if e.type == "review.submitted" and any(
             a.get("artifact_id") == artifact_id and a.get("revision") == revision for a in e.payload.get("target_artifacts", []))]
@@ -820,20 +872,25 @@ def create_app(service: AppService | None = None) -> FastAPI:
         artifact = await svc.artifacts.get(run_id, artifact_id, body.revision)
         if artifact is None:
             raise HTTPException(404, "artifact revision not found")
-        prior_events = await svc.events.list(run_id, types=["artifact.adopted"])
-        selected = next((e.payload.get("revision") for e in reversed(prior_events)
-                         if e.payload.get("artifact_id") == artifact_id), None)
-        if body.expected_selected_revision is not None and selected != body.expected_selected_revision:
-            raise HTTPException(409, f"artifact selection changed (expected revision {body.expected_selected_revision}, current {selected})")
-        principal = svc.access.principal(request)
-        actor_id = principal.subject if principal else "user"
-        event = await svc.events.append(
-            run_id, "artifact.adopted",
-            {"artifact_id": artifact_id, "revision": body.revision, "sha256": artifact.sha256,
-             "logical_path": artifact.logical_path, "note": body.note.strip()},
-            actor_id=actor_id, actor_kind="human",
-        )
-        return {"artifact_id": artifact_id, "revision": body.revision, "seq": event.seq, "event": event.model_dump()}
+        # One process owns the store; serialize compare-and-append across HTTP clients.
+        async with svc.admission_lock:
+            prior_events = await svc.events.list(run_id, types=["artifact.adopted"])
+            selected = next((e.payload.get("revision") for e in reversed(prior_events)
+                             if e.payload.get("artifact_id") == artifact_id), None)
+            if body.expected_selected_revision is not None and (selected or 0) != body.expected_selected_revision:
+                raise HTTPException(409, f"artifact selection changed (expected revision {body.expected_selected_revision}, current {selected})")
+            if selected == body.revision:
+                event = next(e for e in reversed(prior_events) if e.payload.get("artifact_id") == artifact_id)
+                return {"artifact_id": artifact_id, "revision": body.revision, "seq": event.seq, "event": event.model_dump()}
+            principal = svc.access.principal(request)
+            actor_id = principal.subject if principal else "user"
+            event = await svc.events.append(
+                run_id, "artifact.adopted",
+                {"artifact_id": artifact_id, "revision": body.revision, "sha256": artifact.sha256,
+                 "logical_path": artifact.logical_path, "note": body.note.strip()},
+                actor_id=actor_id, actor_kind="human",
+            )
+            return {"artifact_id": artifact_id, "revision": body.revision, "seq": event.seq, "event": event.model_dump()}
 
     @app.get("/api/artifacts/{run_id}/{artifact_id}/versions/{revision}/raw")
     async def artifact_raw(run_id: str, artifact_id: str, revision: int):

@@ -83,6 +83,7 @@ class SessionContext:
     reviews: list[Review] = field(default_factory=list)
     approval_pending: Approval | None = None
     replied: bool = False
+    communicated_to: set[str] = field(default_factory=set)
     published: list[Any] = field(default_factory=list)
 
     @property

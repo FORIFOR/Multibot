@@ -1,0 +1,4 @@
+import {chromium} from 'playwright-core'
+import {writeFileSync} from 'node:fs'
+const b=await chromium.launch({channel:'chrome',headless:true}),results=[]
+try{for(const [name,url] of [['voiceos','https://www.voiceos.com/features/agent'],['openclaw-docs','https://docs.openclaw.ai/web/control-ui']]){const c=await b.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'}),p=await c.newPage();try{await p.goto(url,{waitUntil:'domcontentloaded',timeout:25000});await p.screenshot({path:`../artifacts/product-quality/comparative-ui/${name}.png`});results.push({url,title:await p.title(),status:'public page captured'})}catch(e){results.push({url,error:String(e)})}await c.close()}writeFileSync('../artifacts/product-quality/comparative-ui/references.json',JSON.stringify(results,null,2));console.log(results)}finally{await b.close()}

@@ -1,0 +1,34 @@
+{
+  "run_id": "run_1a0bc03284830f2e710",
+  "original_config_yaml": "schema_version: 1\nprofile_name: local-trading-explicit-sampling\ndefaults:\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  language: ja\n  timezone: Asia/Tokyo\n  team_mode: team\n  require_independent_review: true\nconnections:\n- id: ollama\n  driver: ollama\n  base_url: http://127.0.0.1:11434/v1\n  capability_check: passed\n  capability_detail:\n    model_requested: agentteam-qwen35-9b-precision-16k\n    model_reported: agentteam-qwen35-9b-precision-16k\n    tool_calling: true\n    json_schema: true\n    error: null\n    usage:\n      input_tokens: 317\n      output_tokens: 32\n    request_id: null\n  ollama_thinking: false\n  ollama_temperature: 0.6\n  ollama_top_p: 0.95\n  refusal_fallback: false\n  allowed_fallback_connections: []\nlimits:\n  max_active_workers: 1\n  max_tasks: 12\n  max_peer_messages_per_task: 6\n  max_revision_rounds: 2\n  max_model_calls: 120\n  max_tool_calls: 200\n  timeout_seconds: 3600\n  budget_usd: 6.0\n  max_output_tokens: 6000\n  max_tool_output_chars: 12000\n  max_session_cost_usd: 1.5\n  max_session_turns: 40\n  max_replans: 0\npolicy:\n  external_mutation: approval\n  skill_install: approval\n  telemetry: 'off'\n  share_replay: 'off'\n  fallback: explicitly_approved_only\nagents:\n- id: master\n  role: master\n  enabled: true\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/master.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - create_task\n  - update_task\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - report_blocker\n  speech_style: 落ち着いた進行役。結論を先に、次に誰が何をするかを短い丁寧語で伝える。\n  custom: false\n- id: researcher\n  role: researcher\n  enabled: true\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/researcher.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - source-grounded-research\n  - artifact-handoff\n  tools:\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - report_blocker\n  speech_style: 好奇心のある調査役。『資料では』『ここは未確認です』のように根拠と疑問を分け、柔らかい丁寧語で伝える。\n  custom: false\n- id: builder\n  role: builder\n  enabled: true\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/builder.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - workspace_read\n  - workspace_write\n  - workspace_list\n  - run_check\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - publish_artifact\n  - report_blocker\n  speech_style: 実務的な作成役。『こう組みます』『ここまでできました』のように具体的な構成と進捗を簡潔に伝える。\n  custom: false\n- id: reviewer\n  role: reviewer\n  enabled: true\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/reviewer.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - evidence-review\n  - artifact-handoff\n  tools:\n  - read_artifact\n  - list_artifacts\n  - run_check\n  - workspace_read\n  - workspace_write\n  - send_message\n  - read_messages\n  - publish_artifact\n  - submit_review\n  - report_blocker\n  speech_style: 慎重で率直な確認役。『この条件は満たしています』『ここは再確認が必要です』と判断理由を丁寧に伝える。人格ではなく成果物を評価する。\n  custom: false\n- id: reporter\n  role: reporter\n  enabled: false\n  connection_id: ollama\n  model: agentteam-qwen35-9b-precision-16k\n  system_prompt_file: prompts/reporter.md\n  prompt_mode: auto_seed\n  skill_ids: []\n  tools:\n  - read_artifact\n  - list_artifacts\n  - read_events\n  - publish_artifact\n  custom: false\npricing: {}\n",
+  "recommendation": {
+    "members": [
+      {
+        "emoji": "🧐",
+        "name": "ハル",
+        "personality": "慎重で事実重視、曖昧な表現を嫌う",
+        "reason": "trading-sources.md の公式仕様と設計要求を正確に解釈し、境界定義や未検証事項を特定する。本番接続の条件や Paper/Live の違いを明確にする。",
+        "specialty": "市場データ・注文フローの領域解釈",
+        "template_id": "researcher"
+      },
+      {
+        "emoji": "🛠️",
+        "name": "タカ",
+        "personality": "論理的で簡潔、実装順序を重視する",
+        "reason": "ハルが特定した要件に基づき、Core・Adapter・UI の境界、重複防止、切断再接続ロジックを architecture.md と decisions.md に落とし込む。",
+        "specialty": "API アーキテクチャ・認証・再試行ロジック",
+        "template_id": "builder"
+      },
+      {
+        "emoji": "🔍",
+        "name": "ミズ",
+        "personality": "厳格で論理的、誤りを許さない",
+        "reason": "作成された architecture.md と decisions.md を実際の版で検査し、ハル・タカの議論や設計に誤りがないか確認。誤りがある場合はタカへ返送を指示する。",
+        "specialty": "設計文書の検証と版管理",
+        "template_id": "reviewer"
+      }
+    ],
+    "reason": "株式トレードアプリの設計（architecture.md, decisions.md）に必要な専門性は、市場データ・注文フローの正確な解釈（domain analysis）、システム境界・認証・再試行ロジックの構築（architecture）、レビューによる誤り検出（review）です。本稿の要件では「架空の会話を生成しない」「send_message で議論を残す」「成果物の版管理と検証」が必要です。これらを最小限で満たすため、1 名の領域専門家（文書解釈）、1 名のインフラ構築者（設計実装）、1 名の独立レビューア（検証）の 3 名で構成します。全員に係・役を付かず、個人名と独自の話し方を与えます。"
+  },
+  "source": "Real Ollama 0.33.3 selection; no scripted provider"
+}
