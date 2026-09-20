@@ -1,0 +1,62 @@
+{
+  "product": "Multibot L3 acceptance",
+  "summary": "Identity/Isolation/Execution/Data/Audit/Deployment/Business/Contractの8領域。production_ready=false。verified: age暗号化、監査者カーソル。remaining: IdP/MFA/攻撃レビュー/独立WORM/オフサイト復旧/サービス目標",
+  "areas": [
+    {
+      "area": "Identity",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary",
+      "implemented": "Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, トークン失効, expiry, key rotation and restore boundary",
+      "remaining": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+    },
+    {
+      "area": "Isolation",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture",
+      "implemented": "Per-installation organization binding, per-run grants, アーティファクト/イベント/SSE/エクスポート アクセスチェック、保護された設定; Docker 専用セキュアコマンドツール; ピンされたパブリック IP フェッチと有界キャプチャ",
+      "remaining": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+    },
+    {
+      "area": "Execution",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation",
+      "implemented": "Per-run budgets; 耐久シングルホストキュー、操作主体ごとの冪等性受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストャー所有アーティファクト要件と有界検証",
+      "remaining": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+    },
+    {
+      "area": "Data",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption",
+      "implemented": "Offline snapshot/restore, checksum and artifact validation, session invalidation; 再開可能なラン削除で陳腐化リトライ拒否; 実際の age 暗号化/検証済み復元",
+      "remaining": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view",
+      "implemented": "アクター監査記録; 制限された監査者ロール; 独立した耐久コレクター/カーソル、復元ストリーム分離、レディネス/メトリクス、記録された障害/ローテーション/回復、ブラウザ操作ビュー",
+      "remaining": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+    },
+    {
+      "area": "Deployment",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans",
+      "implemented": "Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans",
+      "remaining": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+    },
+    {
+      "area": "Business quality",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added; fixed v22 local-Qwen series retained three interrupted runs and one Docker-gated admission refusal; v23 completed ten actual-source attempts and post-run contract recheck rejected all three completed artifacts for translation drift; v24 completed ten actual-source attempts, with three machine-contract passes, but one retained pass still contained the observed mixed-script terms \"ハードネード\" and \"键轮换与\"; v25 completed ten actual-source attempts and rejected every attempt for missing JSON, English or mixed-script summaries, missing anchors, or incomplete rows; v26 completed ten attempts, with one machine-contract pass still containing English labels and malformed Japanese; v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; v28 completed ten attempts, with two machine-contract passes still containing English area labels and glossary drift, so zero runs are accepted; v29 completed ten actual-source attempts, with six machine-contract passes and five Reviewer submissions, but semantic review remains pending and observed English/malformed terminology means zero runs are accepted; v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure, so zero runs are accepted; v31 completed ten attempts, with four machine-contract passes interrupted before Reviewer submission and six contract failures caused mainly by an English export term, so zero runs are accepted; v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected, so zero runs are accepted",
+      "implemented": "Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added; fixed v22 local-Qwen series retained three interrupted runs and one Docker-gated admission refusal; v23 completed ten actual-source attempts and post-run contract recheck rejected all three completed artifacts for translation drift; v24 completed ten actual-source attempts, with three machine-contract passes, but one retained pass still contained the observed mixed-script terms \"ハードネード\" and \"键轮换与\"; v25 completed ten actual-source attempts and rejected every attempt for missing JSON, English or mixed-script summaries, missing anchors, or incomplete rows; v26 completed ten attempts, with one machine-contract pass still containing English labels and malformed Japanese; v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; v28 completed ten attempts, with two machine-contract passes still containing English area labels and glossary drift, so zero runs are accepted; v29 completed ten actual-source attempts, with six machine-contract passes and five Reviewer submissions, but semantic review remains pending and observed English/malformed terminology means zero runs are accepted; v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure, so zero runs are accepted; v31 completed ten attempts, with four machine-contract passes interrupted before Reviewer submission and six contract failures caused mainly by an English エクスポート term, so zero runs are accepted; v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected, so zero runs are accepted",
+      "remaining": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract"
+    },
+    {
+      "area": "Contract / operation",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Technical limitations documented",
+      "implemented": "Technical limitations documented",
+      "remaining": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+    }
+  ]
+}
