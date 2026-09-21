@@ -103,7 +103,7 @@
 .btn.adopt-caution{background:#fff;color:#6b4100;border:1.5px solid #a66300;box-shadow:none}.btn.adopt-caution:hover{background:#fff6e6}
 .simple-deliverables .result-use .btn{justify-content:center;text-align:center}
 .simple-deliverables .result-use [data-adopt]{order:-2}.simple-deliverables .result-use .review-choice{order:-1;margin-left:4px;margin-right:auto}
-.simple-home .ask .foot .btn.signal:not(:disabled){background:#4558d0}
+/* enabled colour of the ask button now lives in obsidian.css */
 /* Desktop roster: all four teammates and their states fit the first screen at 1440x900. */
 @media(min-width:1001px){.room-team .team-stage{gap:6px}.room-team .simple-bot{padding:9px 14px}.room-team .bot-says{margin-top:6px;padding:6px 11px;-webkit-line-clamp:1;line-clamp:1}.room-team .bot-says.is-quiet{margin-top:2px}}
 @media(max-width:600px){.simple-deliverables .result-use [data-adopt]{flex:1 1 100%}.simple-deliverables .result-use .review-choice{flex-basis:100%;order:-3;margin:0}}

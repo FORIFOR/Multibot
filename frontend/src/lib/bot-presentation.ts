@@ -2,6 +2,11 @@
 export type BotVisualState = 'idle' | 'waiting' | 'thinking' | 'researching' | 'building' | 'reviewing' | 'done' | 'blocked' | 'approval' | 'stopped' | 'disabled'
 export type BotKind = 'master' | 'researcher' | 'builder' | 'reviewer' | 'reporter' | 'helper'
 type Task = { status: string }
+/** The face shown for a teammate: the emoji the user chose, or the default for its kind. One source for every screen. */
+export function botIcon(id: string, role?: string, emoji?: string | null): string {
+  return emoji?.trim() || { master: '🧭', researcher: '🔎', builder: '🛠️', reviewer: '✅', reporter: '📝', helper: '🤖' }[botKind(id, role)]
+}
+
 export function botKind(id: string, role?: string): BotKind {
   const key = (role || id).toLowerCase()
   if (['master', 'planner'].includes(key)) return 'master'

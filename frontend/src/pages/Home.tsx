@@ -2,6 +2,7 @@ import { botName } from '../lib/journey'
 import { t, getLang } from '../lib/i18n'
 import Journey from '../components/Journey'
 import BotAvatar from '../components/BotAvatar'
+import { botIcon } from '../lib/bot-presentation'
 import { friendlyProblem, roleLabel, statusLabel } from '../lib/journey'
 import { takeDraftGoal, welcomed } from '../lib/welcome'
 import '../journey.css'
@@ -119,91 +120,93 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
     <div className="simple-home">
       <Journey current="request" />
       <section className="hero">
-        <div className="home-welcome">
+        <div className="home-intro">
+          <h1>{en ? 'What shall we make' : '今日は、何を'}<br />{en ? 'together?' : '一緒につくろう？'}</h1>
+          <p className="lede">{en ? 'Tell your team what you need. Attach your material to receive a file with its check record.' : 'やりたいことを教えてください。資料を添えて依頼すると、確認の記録が付いたファイルを受け取れます。'}</p>
+        </div>
+        <form className="ask" onSubmit={start}>
           {/* The coordinator is the one you talk to; the rest of the team stands behind it. */}
           <div className="home-companion">
             {companion && <BotAvatar id={companion.id} role={companion.role} emoji={companion.emoji} name={companion.display_name || botName(companion.role, getLang())} state="idle" size="stage" />}
+            <div className="home-team" role="group" aria-label={en ? 'Your team' : 'あなたのチーム'}>{teammates.filter(a => a.id !== companion?.id).map(a => <BotAvatar key={a.id} id={a.id} role={a.role} emoji={a.emoji} name={a.display_name || botName(a.role, getLang())} state="idle" />)}</div>
             <div className="companion-says">
-              <p>{en ? `I'm your ${roleLabel(companion?.role || 'master', 'en').toLowerCase()}. I split your request across the team, and hand back what we checked.` : `${companion?.display_name || botName(companion?.role || 'master')}です。お願いに合う仲間を集め、完成まで一緒に進めます。`}</p>
+              <strong className="companion-name">{companion?.display_name || botName(companion?.role || 'master', getLang())}<span>{roleLabel(companion?.role || 'master', getLang())}</span></strong>
+              <p>{goal.trim() && ready ? (en ? 'Got it. Send it when you are ready and I will gather the right teammates.' : '受け取る準備ができました。送ってもらえたら、合う仲間を集めます。') : (en ? 'Tell me what you need. I split it across the team and hand back what we checked.' : 'お願いを聞かせてください。合う仲間を集め、完成まで一緒に進めます。')}</p>
               {firstVisit && <Link to="/welcome" nav={nav} className="companion-link">{en ? 'New here? Meet the team →' : 'はじめての方へ：チームを紹介します →'}</Link>}
             </div>
           </div>
-          <div className="home-team" aria-label={en ? 'Your team' : 'あなたのチーム'}>{teammates.filter(a => a.id !== companion?.id).map(a => <BotAvatar key={a.id} id={a.id} role={a.role} emoji={a.emoji} name={a.display_name || botName(a.role, getLang())} state="idle" />)}</div>
-          <h1>{en ? 'What shall we make' : '今日は、何を'}<br />{en ? 'together?' : '一緒につくろう？'}</h1>
-          <p className="lede">{en ? 'Tell your team what you need. Attach your material to receive a file with its check record.' : 'やりたいことを教えてください。資料を添えて依頼すると、確認の記録が付いたファイルを受け取れます。'}</p>
-          <div className="request-examples" aria-label={en ? 'Request ideas' : 'お願いの例'}>{(en ? ['Summarize my notes', 'Make a comparison table', 'Review my writing'] : ['資料を分かりやすくまとめて', '比較表をつくって', '文章をチェックして']).map((example, i) => <button type="button" key={example} disabled={busy || readOnly} onClick={() => { setGoal((en ? ['Use only the attached material to create guide.md: a short onboarding guide with prerequisites, first steps and limitations. Cite the source sections; mark anything unverified.', 'Use only the attached material to create comparison.md with a comparison table. Include source references and mark missing facts as unverified.', 'Review the attached writing and create review.md with suggested edits, reasons and unresolved questions.'] : ['添付した資料だけを使い、前提条件・最初の手順・制約をまとめた短い導入ガイド guide.md を作ってください。根拠の節を示し、確かめられない点は未確認と明記してください。', '添付した資料だけを使い、比較表 comparison.md を作ってください。根拠を添え、資料にない内容は未確認と明記してください。', '添付した文章を確認し、修正案・理由・未解決の疑問を review.md にまとめてください。'])[i]); goalRef.current?.focus() }}><span aria-hidden="true">{['📝','🔎','✏️'][i]}</span>{example}</button>)}</div>
-        </div>
-        <form className="ask" onSubmit={start}>
-          <label className="ask-label" htmlFor="request-goal">{en ? 'What would you like your team to do?' : 'チームにお願いしたいこと'}</label>
-          <textarea id="request-goal" ref={goalRef} className="input" required placeholder={en ? 'For example: turn these notes into a clear comparison report.' : '例：この資料をもとに、分かりやすい比較レポートをつくって。'} value={goal} onChange={e => setGoal(e.target.value)} disabled={busy || readOnly} />
-          <details className="more">
-            <summary>{en ? "Add materials or set a budget" : "資料を添える・予算を決める"}</summary>
-            <div className="stack" style={{ marginTop: 8 }}>
-              <textarea className="input" aria-label={en ? "Source text" : "資料の本文"} placeholder={t("製品説明などのテキスト（任意）")} value={text} onChange={(e) => setText(e.target.value)} />
-              <input className="input" aria-label={en ? "Source URLs" : "参照URL"} placeholder={t("参照URL（空白区切り、任意）")} value={urls} onChange={(e) => setUrls(e.target.value)} />
-              <div className="attachment-picker">
-                <label className="attachment-label" htmlFor="run-attachments">{t('依頼に含める資料')} <span className="muted">{t('txt / md / csv、1ファイル512KBまで')}</span></label>
-                <input id="run-attachments" className="input" type="file" accept=".txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv" multiple onChange={onFiles} />
-                {files.length > 0 && <div className="attachment-list" aria-label={t('添付済み資料')}>
-                  {files.map((file) => <div className="attachment-item" key={file.name}>
-                    <span className="mono">{file.name}</span><span className="muted small">{file.content.length.toLocaleString()} {t('文字')}</span>
-                    <button type="button" className="btn sm ghost" onClick={() => setFiles((prev) => prev.filter((item) => item.name !== file.name))}>{t('削除')}</button>
-                  </div>)}
-                </div>}
-                {fileError && <p className="err small" role="alert">{fileError}</p>}
-              </div>
-              <input className="input" type="number" min="0.01" step="0.01" aria-label={en ? "Budget limit in USD" : "予算上限（米ドル）"} placeholder={en ? "Budget limit in USD" : "予算上限（米ドル）"} value={budget} onChange={(e) => setBudget(e.target.value)} />
+          <div className="ask-tray"><div className="ask-field">
+            <label className="ask-label" htmlFor="request-goal">{en ? 'What would you like your team to do?' : 'チームにお願いしたいこと'}</label>
+            <textarea id="request-goal" ref={goalRef} className="input" required placeholder={en ? 'For example: turn these notes into a clear comparison report.' : '例：この資料をもとに、分かりやすい比較レポートをつくって。'} value={goal} onChange={e => setGoal(e.target.value)} disabled={busy || readOnly} />
+            <div className="ask-foot">
+              <details className="more">
+                <summary>{en ? "Add materials or set a budget" : "資料を添える・予算を決める"}</summary>
+                <div className="stack" style={{ marginTop: 8 }}>
+                  <textarea className="input" aria-label={en ? "Source text" : "資料の本文"} placeholder={t("製品説明などのテキスト（任意）")} value={text} onChange={(e) => setText(e.target.value)} />
+                  <input className="input" aria-label={en ? "Source URLs" : "参照URL"} placeholder={t("参照URL（空白区切り、任意）")} value={urls} onChange={(e) => setUrls(e.target.value)} />
+                  <div className="attachment-picker">
+                    <label className="attachment-label" htmlFor="run-attachments">{t('依頼に含める資料')} <span className="muted">{t('txt / md / csv、1ファイル512KBまで')}</span></label>
+                    <input id="run-attachments" className="input" type="file" accept=".txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv" multiple onChange={onFiles} />
+                    {files.length > 0 && <div className="attachment-list" aria-label={t('添付済み資料')}>
+                      {files.map((file) => <div className="attachment-item" key={file.name}>
+                        <span className="mono">{file.name}</span><span className="muted small">{file.content.length.toLocaleString()} {t('文字')}</span>
+                        <button type="button" className="btn sm ghost" onClick={() => setFiles((prev) => prev.filter((item) => item.name !== file.name))}>{t('削除')}</button>
+                      </div>)}
+                    </div>}
+                    {fileError && <p className="err small" role="alert">{fileError}</p>}
+                  </div>
+                  <input className="input" type="number" min="0.01" step="0.01" aria-label={en ? "Budget limit in USD" : "予算上限（米ドル）"} placeholder={en ? "Budget limit in USD" : "予算上限（米ドル）"} value={budget} onChange={(e) => setBudget(e.target.value)} />
+                </div>
+              </details>
+              <details className="more"><summary>{en ? 'Check the output file (optional)' : '成果物の条件を指定する（任意）'}</summary>
+                <p>{en ? 'The team must pass these checks before completion. Counts include Markdown and spaces; factual accuracy needs a separate review.' : '完了前に実ファイルを検査します。Markdown記号・空白・改行も文字数に含めます。内容の正確性は別途確認が必要です。'}</p>
+                <label>{en ? 'Output filename' : '成果物のファイル名'}<input className="input" value={outputPath} onChange={e=>setOutputPath(e.target.value)} placeholder="guide.md" /></label>
+                <label>{en ? 'Minimum characters' : '最小文字数'}<input className="input" type="number" min="0" step="1" value={minChars} onChange={e=>setMinChars(e.target.value)} /></label>
+                <label>{en ? 'Maximum characters' : '最大文字数'}<input className="input" type="number" min="1" step="1" value={maxChars} onChange={e=>setMaxChars(e.target.value)} /></label>
+                <label htmlFor="excluded-phrases">{en ? 'Phrases to exclude' : '使わない表現'}</label>
+                <textarea id="excluded-phrases" className="input" rows={2} maxLength={2000} value={excludedPhrases} onChange={e=>setExcludedPhrases(e.target.value)} aria-describedby="excluded-phrases-help" />
+                <p id="excluded-phrases-help">{en ? 'Optional, one phrase per line. Rejects these exact phrases anywhere in the file, including quotations. Letter case matters; paraphrases need a separate review.' : '任意・1行に1つ。引用を含む全文から、この表現を含むファイルを除外します。英字の大小は区別します。言い換えや内容の判断は別途確認します。'}</p>
+                <label><input type="checkbox" checked={documentWorkflow} onChange={e=>setDocumentWorkflow(e.target.checked)} />{en ? 'Create one document from supplied material' : '添えた資料から1つの文書を作る'}</label>
+                <p>{en ? 'A writer creates the file, then a separate reviewer checks it. Skips automatic task planning. Requires pasted text or attachments and an output filename; URL research uses the usual team workflow.' : '作成担当がファイルを作り、別の確認担当が照合します。作業計画の自動生成を省く進め方です。資料とファイル名が必要です。URLの調査は通常の進め方を使います。'}</p>
+              </details>
+              {cfg?.defaults.team_mode !== 'single' && <fieldset className={'request-team-picker' + (adaptiveTeam ? '' : ' is-choosing')} disabled={busy || readOnly}>
+                <legend>{en ? 'Who will join?' : '一緒に取り組む仲間'}</legend>
+                <div className="team-selection-mode">
+                  <label><input type="radio" name="team-mode" checked={adaptiveTeam} disabled={documentWorkflow} onChange={() => setAdaptiveTeam(true)} />{en ? 'Recommend for me' : 'おまかせ'}</label>
+                  <label><input type="radio" name="team-mode" checked={!adaptiveTeam} onChange={() => setAdaptiveTeam(false)} />{en ? 'Choose myself' : '自分で選ぶ'}</label>
+                </div>
+                {!adaptiveTeam && <>
+                  <div className="request-character-grid">{cfg?.agents.filter(a => a.enabled && !['master', 'reporter'].includes(a.role)).map(a => {
+                    const ids = selectedAgentIds ?? cfg.agents.filter(a => a.enabled && !['master', 'reporter'].includes(a.role)).map(a => a.id)
+                    const selected = ids.includes(a.id)
+                    return <button key={a.id} type="button" className="request-character" aria-pressed={selected} onClick={() => setSelectedAgentIds(selected ? ids.filter(id => id !== a.id) : [...ids, a.id])}>
+                      <span aria-hidden="true" className="character-emoji">{botIcon(a.id, a.role, a.emoji)}</span>
+                      <strong>{a.display_name || botName(a.role, getLang())}</strong>
+                      <small>{a.role === 'reviewer' ? (en ? 'Can review' : '確認できる') : (en ? 'Can create' : '作成できる')}</small>
+                      <span className="character-selection">{selected ? (en ? '✓ Joining' : '✓ 参加') : (en ? 'Add' : '選ぶ')}</span>
+                    </button>
+                  })}</div>
+                  <p className="muted small">{en ? 'Your coordinator joins too. Names and voices stay as chosen; work is assigned for this request.' : '案内する仲間も一緒に参加します。名前・話し方はそのまま、仕事を依頼に合わせて割り当てます。'}</p>
+                  {canConfigure && <Link to="/settings" nav={nav}>{en ? 'Edit characters →' : 'キャラクターを着せ替える →'}</Link>}
+                </>}
+                {adaptiveTeam && <p className="muted small">{documentWorkflow ? (en ? 'Document workflow uses the configured team.' : '文書作成では設定済みのチームを使います。') : (en ? 'A new team is recommended for this task.' : '依頼に合う人数とキャラクターをおすすめします。')}</p>}
+              </fieldset>}
+              <div className="foot"><button className="btn signal" type="submit" disabled={readOnly || !goal.trim() || busy || !ready}>{busy ? (en ? "Starting…" : "お願いしています…") : (en ? "Ask the team" : "チームにお願いする")}</button></div>
             </div>
-          </details>
-          <details className="more"><summary>{en ? 'Check the output file (optional)' : '成果物の条件を指定する（任意）'}</summary>
-            <p>{en ? 'The team must pass these checks before completion. Counts include Markdown and spaces; factual accuracy needs a separate review.' : '完了前に実ファイルを検査します。Markdown記号・空白・改行も文字数に含めます。内容の正確性は別途確認が必要です。'}</p>
-            <label>{en ? 'Output filename' : '成果物のファイル名'}<input className="input" value={outputPath} onChange={e=>setOutputPath(e.target.value)} placeholder="guide.md" /></label>
-            <label>{en ? 'Minimum characters' : '最小文字数'}<input className="input" type="number" min="0" step="1" value={minChars} onChange={e=>setMinChars(e.target.value)} /></label>
-            <label>{en ? 'Maximum characters' : '最大文字数'}<input className="input" type="number" min="1" step="1" value={maxChars} onChange={e=>setMaxChars(e.target.value)} /></label>
-            <label htmlFor="excluded-phrases">{en ? 'Phrases to exclude' : '使わない表現'}</label>
-            <textarea id="excluded-phrases" className="input" rows={2} maxLength={2000} value={excludedPhrases} onChange={e=>setExcludedPhrases(e.target.value)} aria-describedby="excluded-phrases-help" />
-            <p id="excluded-phrases-help">{en ? 'Optional, one phrase per line. Rejects these exact phrases anywhere in the file, including quotations. Letter case matters; paraphrases need a separate review.' : '任意・1行に1つ。引用を含む全文から、この表現を含むファイルを除外します。英字の大小は区別します。言い換えや内容の判断は別途確認します。'}</p>
-            <label><input type="checkbox" checked={documentWorkflow} onChange={e=>setDocumentWorkflow(e.target.checked)} />{en ? 'Create one document from supplied material' : '添えた資料から1つの文書を作る'}</label>
-            <p>{en ? 'A writer creates the file, then a separate reviewer checks it. Skips automatic task planning. Requires pasted text or attachments and an output filename; URL research uses the usual team workflow.' : '作成担当がファイルを作り、別の確認担当が照合します。作業計画の自動生成を省く進め方です。資料とファイル名が必要です。URLの調査は通常の進め方を使います。'}</p>
-          </details>
+          </div></div>
+          <p className="ask-hint">{readOnly ? '閲覧権限でログインしています。' : (en ? 'Review the result before selecting a version.' : 'できたものを確認してから、使う版を選べます。')}</p>
+          {!ready && <div className="setup-help">{cfg ? (en ? 'One-time setup is needed before your first request.' : '最初のお仕事の前に、接続の準備が必要です。') : (en ? 'Checking the team…' : 'チームを確認しています…')}{canConfigure && cfg && <Link to="/settings" nav={nav}>{en ? 'Prepare my team' : 'チームを準備する'} →</Link>}{cfg?.problems.length ? <details><summary>{en ? 'Setup details' : '設定の詳細'}</summary>{cfg.problems.map((p,i)=><p key={i}>{p.message}</p>)}</details>:null}</div>}
+          {err && <p className="err" role="alert">{err}</p>}
+          {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code} title={p.message}>{p.code === 'team_selection' ? p.message : friendlyProblem(p, getLang())}</div>)} {canConfigure && <Link to="/settings" nav={nav}>{t("設定へ")}</Link>}</div>}
+          <div className="request-examples" aria-label={en ? 'Request ideas' : 'お願いの例'}>{(en ? ['Summarize my notes', 'Make a comparison table', 'Review my writing'] : ['資料を分かりやすくまとめて', '比較表をつくって', '文章をチェックして']).map((example, i) => <button type="button" key={example} disabled={busy || readOnly} onClick={() => { setGoal((en ? ['Use only the attached material to create guide.md: a short onboarding guide with prerequisites, first steps and limitations. Cite the source sections; mark anything unverified.', 'Use only the attached material to create comparison.md with a comparison table. Include source references and mark missing facts as unverified.', 'Review the attached writing and create review.md with suggested edits, reasons and unresolved questions.'] : ['添付した資料だけを使い、前提条件・最初の手順・制約をまとめた短い導入ガイド guide.md を作ってください。根拠の節を示し、確かめられない点は未確認と明記してください。', '添付した資料だけを使い、比較表 comparison.md を作ってください。根拠を添え、資料にない内容は未確認と明記してください。', '添付した文章を確認し、修正案・理由・未解決の疑問を review.md にまとめてください。'])[i]); goalRef.current?.focus() }}><span aria-hidden="true">{['📝','🔎','✏️'][i]}</span><span className="example-label">{example}</span></button>)}</div>
           <div className="request-disclosure" aria-label={en ? 'Before you start' : '実行前の確認'}>
             <strong>{en ? 'Where your material goes' : '依頼・資料の送信先'}</strong>
             {cfg?.execution_summary?.length ? <ul>{[...new Set(cfg.execution_summary.map(item => `${item.destination} · ${item.model}`))].map(item => <li key={item}>{item}</li>)}</ul> : <p>{en ? 'Destination is not available yet. Check the team settings before starting.' : '送信先はまだ取得できていません。実行前にチーム設定を確認してください。'}</p>}
             <p>{en ? 'The configured AI receives your request and material. Configured tools may read sources, write workspace files and run sandboxed checks. External changes require approval. Stopping cannot recall material already sent.' : '設定したAIに依頼と資料を送ります。許可されたツールは資料の参照、作業用ファイルの作成、隔離環境での検査を行います。外部の変更には承認が必要です。停止しても送信済みの資料は取り消せません。'}</p>
             <details><summary>{en ? 'Configured tool permissions' : '許可されているツール'}</summary><p>{[...new Set(cfg?.execution_summary?.flatMap(s => s.tools) || [])].join(' · ') || (en ? 'Not available' : '未取得')}</p></details>
           </div>
-          <p className="muted small">{draftSaved ? (en ? 'Draft and attachments stay in this browser tab until sent or discarded.' : '下書きと添付資料は送信・破棄まで、このブラウザーのタブに保存します。') : (en ? 'Browser storage is unavailable. Navigation keeps the draft, but reloading will lose it.' : 'ブラウザーに保存できません。画面移動中は保持しますが、再読み込みすると失われます。')} <button type="button" className="btn ghost" disabled={busy} onClick={() => { clearRequestDraft(); setGoal(''); setText(''); setUrls(''); setFiles([]); setBudget(''); setOutputPath(''); setDocumentWorkflow(false); setMinChars(''); setMaxChars(''); setExcludedPhrases(''); setAdaptiveTeam(true); setSelectedAgentIds(undefined) }}>{en ? 'Discard draft' : '下書きを破棄'}</button></p>
-          {cfg?.defaults.team_mode !== 'single' && <fieldset className="request-team-picker" disabled={busy || readOnly}>
-            <legend>{en ? 'Who will join?' : '一緒に取り組む仲間'}</legend>
-            <div className="team-selection-mode">
-              <label><input type="radio" name="team-mode" checked={adaptiveTeam} disabled={documentWorkflow} onChange={() => setAdaptiveTeam(true)} />{en ? 'Recommend for me' : 'おまかせ'}</label>
-              <label><input type="radio" name="team-mode" checked={!adaptiveTeam} onChange={() => setAdaptiveTeam(false)} />{en ? 'Choose myself' : '自分で選ぶ'}</label>
-            </div>
-            {!adaptiveTeam && <>
-              <div className="request-character-grid">{cfg?.agents.filter(a => a.enabled && !['master', 'reporter'].includes(a.role)).map(a => {
-                const ids = selectedAgentIds ?? cfg.agents.filter(a => a.enabled && !['master', 'reporter'].includes(a.role)).map(a => a.id)
-                const selected = ids.includes(a.id)
-                return <button key={a.id} type="button" className="request-character" aria-pressed={selected} onClick={() => setSelectedAgentIds(selected ? ids.filter(id => id !== a.id) : [...ids, a.id])}>
-                  <span aria-hidden="true" className="character-emoji">{a.emoji || '🤖'}</span>
-                  <strong>{a.display_name || botName(a.role, getLang())}</strong>
-                  <small>{a.role === 'reviewer' ? (en ? 'Can review' : '確認できる') : (en ? 'Can create' : '作成できる')}</small>
-                  <span className="character-selection">{selected ? (en ? '✓ Joining' : '✓ 参加') : (en ? 'Add' : '選ぶ')}</span>
-                </button>
-              })}</div>
-              <p className="muted small">{en ? 'Your coordinator joins too. Names and voices stay as chosen; work is assigned for this request.' : '案内する仲間も一緒に参加します。名前・話し方はそのまま、仕事を依頼に合わせて割り当てます。'}</p>
-              {canConfigure && <Link to="/settings" nav={nav}>{en ? 'Edit characters →' : 'キャラクターを着せ替える →'}</Link>}
-            </>}
-            {adaptiveTeam && <p className="muted small">{documentWorkflow ? (en ? 'Document workflow uses the configured team.' : '文書作成では設定済みのチームを使います。') : (en ? 'A new team is recommended for this task.' : '依頼に合う人数とキャラクターをおすすめします。')}</p>}
-          </fieldset>}
-          <div className="foot">
-            <span className="muted small">{readOnly ? '閲覧権限でログインしています。' : (en ? 'Review the result before selecting a version.' : 'できたものを確認してから、使う版を選べます。')}</span>
-            <span className="spacer" />
-            <button className="btn signal" type="submit" disabled={readOnly || !goal.trim() || busy || !ready}>{busy ? (en ? "Starting…" : "お願いしています…") : (en ? "Ask the team" : "チームにお願いする")}</button>
-          </div>
+          <p className="muted small ask-draft"><span>{draftSaved ? (en ? 'Draft and attachments stay in this browser tab until sent or discarded.' : '下書きと添付資料は送信・破棄まで、このブラウザーのタブに保存します。') : (en ? 'Browser storage is unavailable. Navigation keeps the draft, but reloading will lose it.' : 'ブラウザーに保存できません。画面移動中は保持しますが、再読み込みすると失われます。')}</span> <button type="button" className="btn ghost" disabled={busy} onClick={() => { clearRequestDraft(); setGoal(''); setText(''); setUrls(''); setFiles([]); setBudget(''); setOutputPath(''); setDocumentWorkflow(false); setMinChars(''); setMaxChars(''); setExcludedPhrases(''); setAdaptiveTeam(true); setSelectedAgentIds(undefined) }}>{en ? 'Discard draft' : '下書きを破棄'}</button></p>
           {cfg && <p className="request-budget">{en ? 'Budget limit' : '予算上限'}: {money(budget && Number.isFinite(Number(budget)) && Number(budget)>0 ? Number(budget) : cfg.limits.budget_usd)} {en ? 'per request, estimated from configured prices; not a provider billing cap.' : '／1回。設定価格に基づく見積り上限です。提供元の請求上限ではありません。'}</p>}
-          {!ready && <div className="setup-help">{cfg ? (en ? 'One-time setup is needed before your first request.' : '最初のお仕事の前に、接続の準備が必要です。') : (en ? 'Checking the team…' : 'チームを確認しています…')}{canConfigure && cfg && <Link to="/settings" nav={nav}>{en ? 'Prepare my team' : 'チームを準備する'} →</Link>}{cfg?.problems.length ? <details><summary>{en ? 'Setup details' : '設定の詳細'}</summary>{cfg.problems.map((p,i)=><p key={i}>{p.message}</p>)}</details>:null}</div>}
-          {err && <p className="err" role="alert">{err}</p>}
-          {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code} title={p.message}>{p.code === 'team_selection' ? p.message : friendlyProblem(p, getLang())}</div>)} {canConfigure && <Link to="/settings" nav={nav}>{t("設定へ")}</Link>}</div>}
         </form>
       </section>
       <section className="runs-list">

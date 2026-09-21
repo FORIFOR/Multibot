@@ -1,12 +1,12 @@
 import { getLang } from '../lib/i18n'
-import { botKind, botStateLabel, type BotVisualState } from '../lib/bot-presentation'
+import { botIcon, botKind, botStateLabel, type BotVisualState } from '../lib/bot-presentation'
 
 export default function BotAvatar({ id, role, emoji, name, state = 'idle', size = 'chat' }: {
   id: string; role?: string; emoji?: string | null; name?: string | null;
   state?: BotVisualState; size?: 'micro' | 'chat' | 'card' | 'stage'
 }) {
   const kind = botKind(id, role)
-  const icon = emoji?.trim() || { master: '🧭', researcher: '🔎', builder: '🛠️', reviewer: '✅', reporter: '📝', helper: '🤖' }[kind]
+  const icon = botIcon(id, role, emoji)
   // The badge says the state with a symbol as well as a colour: three moving dots while working.
   const working = ['thinking', 'researching', 'building', 'reviewing'].includes(state)
   const glyph = ({ done: '✓', blocked: '!', approval: '?', stopped: 'Ⅱ', disabled: 'z', waiting: '…' } as Partial<Record<BotVisualState, string>>)[state]
