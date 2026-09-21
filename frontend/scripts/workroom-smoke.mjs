@@ -30,7 +30,7 @@ try {
       checkedTabs.push(name)
     }
     await page.locator('#run-inspector > summary').click()
-    await page.locator('[data-journey=results]').click()
+    await page.locator('.room-view-nav button').nth(1).click()
     await page.locator('.result-reader').waitFor()
     const artifact=await page.locator('.result-reader').boundingBox()
     if(width===1440 && (!artifact||artifact.width<650))throw new Error('Artifact reading surface is too narrow')

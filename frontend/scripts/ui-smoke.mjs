@@ -69,11 +69,11 @@ try {
   if (!custom || custom.emoji !== '🐼') throw new Error('Custom bot was not persisted by the real API')
   await page.reload({ waitUntil: 'networkidle' })
   await page.locator(`#agent-card-${custom.id}`).waitFor()
-  await page.locator(`#agent-card-${custom.id} summary`).click()
+  await page.locator(`#agent-card-${custom.id} .bot-advanced > summary`).click()
   await page.waitForTimeout(300)
   await page.screenshot({ path: `${shots}/settings-${lang}.png`, fullPage: true })
 } catch (e) {
-  errors.push('step: ' + (e.message || String(e)).split('\n')[0])
+  errors.push('step: ' + (e.message || String(e)).split('\n').slice(0, 4).join(' / '))
 }
 await browser.close()
 const ok = errors.length === 0 && runStatus === 'completed'

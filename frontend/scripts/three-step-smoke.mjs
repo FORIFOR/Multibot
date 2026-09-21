@@ -52,17 +52,18 @@ try{
   if(width===1440){store.failCreate=true;await page.locator('.ask button[type=submit]').click();await page.locator('.ask [role=alert]').waitFor();assert.ok((await page.locator('#request-goal').inputValue()).length)}
   await page.screenshot({path:`${shots}/three-step-home-${width}-${lang}-${engine}.png`,fullPage:true})
   const before=store.creates;await page.locator('.ask').evaluate(f=>{f.requestSubmit();f.requestSubmit()});await page.waitForURL(/\/runs\/journey/);assert.equal(store.creates,before+1)
-  await page.locator('.simple-bot').first().waitFor();assert.equal(await page.locator('.journey [aria-pressed=true]').getAttribute('data-journey'),'team')
+  await page.locator('.desk-teammate').first().waitFor();assert.equal(await page.locator('.desk-workroom').getAttribute('data-studio-panel'),'team')
   assert.doesNotMatch(await page.locator('body').innerText(),machinery)
   await page.locator('#team-direction').fill('もっと短く、分かりやすく。')
-  await page.locator('[data-journey=results]').click();await page.locator('.result-empty').waitFor()
-  await page.locator('[data-journey=request]').click();await page.locator('.simple-request').waitFor()
-  await page.locator('[data-journey=team]').click();assert.equal(await page.locator('#team-direction').inputValue(),'もっと短く、分かりやすく。')
+  await page.locator('.room-view-nav button').nth(1).click();await page.locator('.result-empty').waitFor()
+  // The request's materials now sit beside the conversation as a disclosure, not as a third panel.
+  await page.locator('.room-view-nav button').nth(0).click();await page.locator('.simple-request > summary').click();await page.locator('.simple-request[open]').waitFor()
+  assert.equal(await page.locator('#team-direction').inputValue(),'もっと短く、分かりやすく。')
   await page.locator('.simple-direction button[type=submit]').click();await page.waitForFunction(()=>document.querySelector('#team-direction')?.value==='');assert.equal(store.instructions,1)
   await noOverflow(page);await page.screenshot({path:`${shots}/three-step-team-${width}-${lang}-${engine}.png`,fullPage:true})
   // Direct completed link defaults to results; a completion status is not a verification badge.
   store.run.status='completed';store.run.artifacts=[file()];await page.goto(base+'/runs/journey')
-  await page.locator('.result-reader .md, .result-reader pre').first().waitFor();assert.equal(await page.locator('.journey [aria-pressed=true]').getAttribute('data-journey'),'results')
+  await page.locator('.result-reader .md, .result-reader pre').first().waitFor();assert.equal(await page.locator('.desk-workroom').getAttribute('data-studio-panel'),'results')
   assert.match(await page.locator('.result-review-summary').innerText(),lang==='ja'?/確認記録はまだありません/:/No check record/)
   assert.doesNotMatch(await page.locator('body').innerText(),machinery)
   await noOverflow(page);const box=await page.locator('.result-reader').boundingBox();if(width===1440)assert.ok(box.width>=650)
@@ -75,7 +76,7 @@ try{
   // Approval stays visible in EVERY basic panel, and no decision is sent until clicked.
   store.run.status='approval_required';store.run.blocked_reason=null;store.run.approvals=[{approval_id:'approval',agent_id:'builder',run_id:'journey',action:'send_email',payload:{description:'テスト用の送信案を確認してください',payload:{to:'example@example.test',subject:'Preview only'}},payload_hash:'payload-hash',nonce:'nonce',expires_at:iso,status:'pending'}]
   await page.goto(base+'/runs/journey?tab=approvals');await page.locator('#simple-approvals').waitFor();assert.equal(store.decisions.length,0)
-  await page.locator('[data-journey=results]').click();assert.equal(await page.locator('.approval-callout').isVisible(),true)
+  await page.locator('.room-view-nav button').nth(1).click();assert.equal(await page.locator('.approval-callout').isVisible(),true)
   await page.locator('.simple-approval .btn.ghost').click();await page.waitForFunction(()=>!document.querySelector('.approval-callout'));assert.deepEqual(store.decisions,['reject'])
   await page.goto(base+'/runs/journey?tab=timeline');await page.locator('.chat-main .tabs').waitFor();assert.equal(await page.locator('#run-inspector').getAttribute('open'),'')
   await noOverflow(page)
