@@ -77,7 +77,8 @@ def diamond_script(req):
     if mode == "milestone":
         return tool_response("finish_task", {"summary": "complete"}) if turn == 0 else text_response("done")
     if a == "builder" and mode == "task":
-        path = "verification.md" if "verification.md" in req.messages[0]["content"][0]["text"] else "research.md"
+        # The task prompt now also names the sibling task's files, so tell the two builder tasks apart by their id.
+        path = "verification.md" if req.messages[0]["content"][0]["text"].startswith("# Task t2 ") else "research.md"
         seq = [tool_response("workspace_write", {"path": path, "content": "# doc\n\nbody"}), tool_response("publish_artifact", {"path": path}),
                tool_response("finish_task", {"summary": path})]
         return seq[turn] if turn < len(seq) else text_response("done")

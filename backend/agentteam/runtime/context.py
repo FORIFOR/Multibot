@@ -84,6 +84,7 @@ class SessionContext:
     approval_pending: Approval | None = None
     replied: bool = False
     communicated_to: set[str] = field(default_factory=set)
+    awaiting_answer_from: set[str] = field(default_factory=set)  # peers this session asked a question and has not heard back from
     published: list[Any] = field(default_factory=list)
 
     @property

@@ -42,7 +42,8 @@ async def test_run_lifecycle_events_cursor_and_artifacts(client):
     tail = (await client.get(f"/api/runs/{run_id}/events?after_seq={len(evs) - 3}")).json()
     assert len(tail) == 3 and tail[0]["seq"] == len(evs) - 2
     chat = (await client.get(f"/api/runs/{run_id}/chat")).json()
-    assert [m["purpose"] for m in chat] == ["handoff", "question", "answer", "finding"]
+    assert [m["purpose"] for m in chat if m["from"] == "master"] == ["handoff"] * 3
+    assert [m["purpose"] for m in chat if m["from"] != "master"] == ["handoff", "question", "answer", "handoff", "finding", "handoff", "handoff"]
     tl = (await client.get(f"/api/runs/{run_id}/timeline?tools=false")).json()
     assert tl[-1]["type"] == "run.completed"
     art = (await client.get(f"/api/artifacts/{run_id}/index.html/versions/2")).json()

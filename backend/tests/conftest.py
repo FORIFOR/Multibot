@@ -74,14 +74,85 @@ def last_user_text(req: LLMRequest) -> str:
     return ""
 
 
+def _result_text(message: dict) -> str:
+    content = message["content"]
+    if isinstance(content, str):
+        return content
+    return " ".join(str(b.get("content") or b.get("text") or "") for b in content if isinstance(b, dict))
+
+
+def follow_handoff_refusal(req: LLMRequest) -> LLMResponse | None:
+    """The runtime refuses finish_task until the owner has handed its result to the next teammate. Do what a compliant
+    model does with that refusal: send the handoff it names, then repeat the same finish_task. None when it does not apply."""
+    results = [_result_text(m) for m in req.messages if m["role"] == "user"]
+    if results and "REJECTED: deliver a handoff" in results[-1]:
+        to = results[-1].split("Missing recipients: ", 1)[1].split(".", 1)[0].split(",")[0].strip()
+        return tool_response("send_message", {"to": to, "purpose": "handoff", "text": "この作業の結果を届けます。"})
+    if len(results) > 1 and results[-1].startswith("DELIVERED") and "REJECTED: deliver a handoff" in results[-2]:
+        for m in reversed(req.messages):
+            for block in (m["content"] if m["role"] == "assistant" and isinstance(m["content"], list) else []):
+                if block.get("type") == "tool_use" and block.get("name") == "finish_task":
+                    return tool_response("finish_task", block["input"])
+    return None
+
+
+# A request that lets the coordinator choose the team ("おまかせ") gets copies of the permission templates under new
+# ids. The scripted team below is the same three roles, so the role script can serve both kinds of run.
+ADAPTIVE_IDS = {"team_1": "researcher", "team_2": "builder", "team_3": "reviewer"}
+TEAM = {"reason": "調べる、作る、確かめるを分けるため3人にします。", "members": [
+    {"template_id": role, "name": name, "emoji": emoji, "specialty": specialty, "personality": "落ち着いている。",
+     "speaking_style": style, "reason": reason}
+    for role, name, emoji, specialty, style, reason in [
+        ("researcher", "ミオ", "🔎", "資料の読み取り", "「〜だよ」と短く話す。", "根拠を資料から集めるため。"),
+        ("builder", "カイ", "🛠️", "文書とページの作成", "「〜するね」と話す。", "成果物を作るため。"),
+        ("reviewer", "スイ", "✅", "成果物の確認", "「〜です」と丁寧に話す。", "作った人とは別に確かめるため。")]]}
+
+
 def default_script(req: LLMRequest) -> LLMResponse:
+    """Scripted TEST team. Runs with a coordinator-chosen team use the same script under the team_N ids."""
+    if req.metadata.get("mode") == "team_selection":
+        return text_response(json.dumps(TEAM, ensure_ascii=False))
+    out = _role_script(req)
+    if req.metadata.get("agent_id") not in ADAPTIVE_IDS and "team_1" not in json.dumps(req.messages, ensure_ascii=False) and "team_1" not in (req.system or ""):
+        return out
+
+    def rename(value):
+        text = json.dumps(value, ensure_ascii=False)
+        for team_id, role in ADAPTIVE_IDS.items():
+            text = text.replace(f'"{role}"', f'"{team_id}"')
+        return json.loads(text)
+    if out.tool_calls:
+        call = out.tool_calls[0]
+        return tool_response(call.name, rename(call.arguments), call_id=call.id)
+    try:
+        return text_response(json.dumps(rename(json.loads(out.text)), ensure_ascii=False))
+    except ValueError:
+        return out
+
+
+def _role_script(req: LLMRequest) -> LLMResponse:
     md = req.metadata
-    agent, mode, attempt, turn = md.get("agent_id"), md.get("mode"), md.get("attempt", 1), turn_of(req)
+    agent, mode, attempt, turn = ADAPTIVE_IDS.get(md.get("agent_id"), md.get("agent_id")), md.get("mode"), md.get("attempt", 1), turn_of(req)
     if mode == "plan":
         return text_response(json.dumps(PLAN, ensure_ascii=False))
     if mode == "report":
         return text_response(json.dumps({"summary": "LPと投稿草案を作成し検証した。", "deliverables": [{"artifact_id": "index.html", "revision": 2, "note": "LP"}],
                                          "verified": ["viewport/title"], "unresolved": [], "next_steps": []}, ensure_ascii=False))
+    followed = follow_handoff_refusal(req)
+    if followed is not None:
+        return followed
+    if mode == "coordination":
+        # The coordinator hands each planned owner its task once, then finishes. Recipients and task ids come from
+        # the runtime's own prompt, so this follows whatever plan the test uses.
+        opening = next((m["content"] for m in req.messages if m["role"] == "user"), "")
+        first = opening if isinstance(opening, str) else "".join(b.get("text", "") for b in opening if isinstance(b, dict))
+        plan = json.loads(first.split("確定計画: ", 1)[1]) if "確定計画: " in first else []
+        line = first.split("未送信の宛先: ", 1)[1].split("\n", 1)[0] if "未送信の宛先: " in first else ""
+        handoffs = [(owner.strip(), next((t["task_id"] for t in plan if t["owner"] == owner.strip()), None)) for owner in line.split(",") if owner.strip()]
+        if turn < len(handoffs):
+            owner, task_id = handoffs[turn]
+            return tool_response("send_message", {"to": owner, "task_id": task_id, "purpose": "handoff", "text": f"{owner}さん、{task_id} をお願いします。"})
+        return tool_response("finish_task", {"summary": "依頼を配布"})
     key = (agent, mode, attempt)
     seqs = {
         ("researcher", "task", 1): [
@@ -148,7 +219,8 @@ class Harness:
     def __init__(self, tmp: Path, script=None, config_yaml: str = FAKE_CONFIG, approval_wait: float = 2.0):
         self.tmp = tmp
         self.config = load_config_text(config_yaml, allow_fake=True)
-        self.provider = FakeProvider(script or default_script)
+        # Test scripts are indexed by turn and predate the handoff rule; the harness answers that refusal for them.
+        self.provider = FakeProvider((lambda req: follow_handoff_refusal(req) or script(req)) if script else default_script)
         self.db: Database | None = None
         self.approval_wait = approval_wait
 

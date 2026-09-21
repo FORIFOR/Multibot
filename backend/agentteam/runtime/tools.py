@@ -556,6 +556,8 @@ class ToolGateway:
             ctx.communicated_to.add(to)
         if a["purpose"] == "answer":
             ctx.replied = True
+        if a["purpose"] == "question":
+            ctx.awaiting_answer_from.add(to)
         receipt = f"DELIVERED message_id={m.message_id} to={to} task={task_id}. "
         if a["purpose"] == "request":
             receipt += ("This request is queued for the recipient's scheduled work; it does not start a reply session "
@@ -568,9 +570,12 @@ class ToolGateway:
         rt, ctx = self.rt, self.ctx
         wait = min(int(a.get("wait_seconds") or 0), 240, max(0, int(rt.remaining_seconds()) - 5))
         review_notice = self._pending_review_notice()
-        if review_notice:
+        # The notice exists so nobody waits on teammates who cannot start yet. A question this session asked is
+        # different: its answer is on the way, and skipping the wait leaves that answer unread.
+        if review_notice and not ctx.awaiting_answer_from:
             wait = 0
         msgs = await rt.bus.read(ctx.agent.agent_id, None, wait_seconds=wait)
+        ctx.awaiting_answer_from -= {m.from_agent_id for m in msgs if m.purpose == "answer"}
         if not msgs:
             return "No new messages." + (f" (waited {wait}s)" if wait else "") + (" " + review_notice if review_notice else "")
         await rt.bus.mark_read(msgs, ctx.agent.agent_id)

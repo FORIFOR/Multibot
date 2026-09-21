@@ -370,6 +370,13 @@ class RunManager:
             if unmet:
                 status = RunStatus.partial
                 reason = 'requester delivery requirements failed: ' + ' | '.join(unmet)[:1000]
+        if status == RunStatus.blocked:
+            # The coordinator's handoff did not complete, so production never started: same standing as a run that
+            # could not start (run.blocked). No report is generated for work that did not happen.
+            ev = await self.events.append(run.run_id, "run.blocked", {"reason": reason or str(status)}, notify=False)
+            await self.runs.update_run(run.run_id, status=status, blocked_reason=reason)
+            self.events.notify(ev)
+            return
         if status in (RunStatus.approval_required, RunStatus.interrupted):
             ev = await self.events.append(run.run_id, "run.interrupted" if status == RunStatus.interrupted else "task.blocked",
                                           {"reason": reason or str(status)}, notify=False)

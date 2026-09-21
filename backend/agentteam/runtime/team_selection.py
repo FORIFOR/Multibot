@@ -74,7 +74,8 @@ def compile_roster(cfg, recommendation: Recommendation):
         raise ValueError('independent review is required: select a distinct review-capable member')
     result = cfg.model_copy(deep=True)
     result.agents = selected
-    return load_config_text(config_to_yaml(result))
+    # Re-validate the edited roster. A test-only connection is accepted only because the already loaded config has it.
+    return load_config_text(config_to_yaml(result), allow_fake=any(c.driver == 'fake' for c in cfg.connections))
 
 
 def choose_roster(cfg, selected_ids: list[str]):
@@ -94,7 +95,8 @@ def choose_roster(cfg, selected_ids: list[str]):
     for agent in result.agents:
         if agent.role not in ('master', 'reporter'):
             agent.enabled = agent.id in selected_ids
-    return load_config_text(config_to_yaml(result))
+    # Re-validate the edited roster. A test-only connection is accepted only because the already loaded config has it.
+    return load_config_text(config_to_yaml(result), allow_fake=any(c.driver == 'fake' for c in cfg.connections))
 
 
 async def recommend_team(rt):

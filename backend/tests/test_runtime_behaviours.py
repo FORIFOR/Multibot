@@ -95,7 +95,10 @@ async def test_approval_pauses_run_then_resumes_after_resolution(tmp_path):
 
 
 async def test_cancel_then_resume_keeps_accepted_work(tmp_path):
-    steps1 = [tool_response("read_messages", {"wait_seconds": 30})]  # will block; we cancel meanwhile
+    # Drain the coordinator's handoff, ask a question nobody answers, then wait for it: that read blocks, and we cancel meanwhile.
+    steps1 = [tool_response("read_messages", {"wait_seconds": 0}),
+              tool_response("send_message", {"to": "reviewer", "purpose": "question", "text": "公開前に確認したい点はありますか？"}),
+              tool_response("read_messages", {"wait_seconds": 30})]
     async with Harness(tmp_path, script=combine(builder_with(steps1, GOOD_BUILD), reviewer_pass)) as h:
         run, _ = await h.manager.create_run("build")
         h.manager.start(run.run_id)
@@ -210,6 +213,8 @@ async def test_auto_finish_when_outputs_published_but_no_finish_task(tmp_path):
              tool_response("publish_artifact", {"path": "index.html"}),
              tool_response("workspace_write", {"path": "posts.md", "content": "# P\n1\n2\n3"}),
              tool_response("publish_artifact", {"path": "posts.md"}),
+             # Auto-finish only applies once the required handoff exists; the model then stops without finish_task.
+             tool_response("send_message", {"to": "reviewer", "purpose": "handoff", "text": "index.html と posts.md を公開しました。"}),
              text_response("All done."), text_response("Done."), text_response("Finished.")]
     async with Harness(tmp_path, script=combine(builder_with(steps), reviewer_pass)) as h:
         run = await h.run_goal()

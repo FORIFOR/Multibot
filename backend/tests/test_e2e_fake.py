@@ -27,8 +27,10 @@ async def test_three_agent_collaboration(harness):
         assert reviews[1].payload["target_artifacts"][0]["revision"] == 2
         # real message delivery incl. a question/answer round trip with reply_to
         chat = chat_view(events)
-        purposes = [c["purpose"] for c in chat]
-        assert purposes == ["handoff", "question", "answer", "finding"]
+        # The coordinator hands each owner its task first; owners hand results on before finishing.
+        assert [(c["to"], c["purpose"]) for c in chat if c["from"] == "master"] == [("builder", "handoff"), ("researcher", "handoff"), ("reviewer", "handoff")]
+        purposes = [c["purpose"] for c in chat if c["from"] != "master"]
+        assert purposes == ["handoff", "question", "answer", "handoff", "finding", "handoff", "handoff"]
         q = next(c for c in chat if c["purpose"] == "question")
         a = next(c for c in chat if c["purpose"] == "answer")
         assert a["reply_to"] is not None and a["from"] == "researcher" and a["to"] == "builder"
