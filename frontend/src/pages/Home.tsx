@@ -124,7 +124,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
       <Journey current="request" />
       <section className="hero">
         <div className="home-intro">
-          <h1>{en ? 'What shall we make' : '今日は、何を'}<br />{en ? 'together?' : '一緒につくろう？'}</h1>
+          <h1>{en ? <>What shall we make{' '}<wbr />together?</> : <>今日は、何を<br />一緒につくろう？</>}</h1>
           <p className="lede">{en ? 'Tell your team what you need. Attach your material to receive a file with its check record.' : 'やりたいことを教えてください。資料を添えて依頼すると、確認の記録が付いたファイルを受け取れます。'}</p>
         </div>
         <form className="ask" onSubmit={start}>

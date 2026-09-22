@@ -23,3 +23,6 @@ artifacts/ui/
 
 # Local product acceptance captures, downloaded artifacts and command logs
 artifacts/product-quality/
+
+# Goal working record (not for publication)
+artifacts/goal/

@@ -19,13 +19,24 @@ for (const [name, path] of [['en', '/'], ['ja', '/ja/']]) {
     r.h1px = await page.evaluate(() => parseFloat(getComputedStyle(document.querySelector('h1')).fontSize))
     r.bodyPx = await page.evaluate(() => parseFloat(getComputedStyle(document.body).fontSize))
     r.btnMinH = await page.evaluate(() => Math.min(...[...document.querySelectorAll('.btn')].map((b) => b.getBoundingClientRect().height)))
-    r.teamAboveFold = await page.evaluate(() => document.querySelector('.mate .bot-character').getBoundingClientRect().top < window.innerHeight)
-    // The stage is an explanation that moves through the hand-off, and the visitor can stop it.
-    const pills = () => page.locator('[data-pill]').allTextContents()
-    const first = await pills(); await page.waitForTimeout(2400); const second = await pills()
-    r.stageMoves = JSON.stringify(first) !== JSON.stringify(second)
-    await page.click('#stage-toggle'); const held = await pills(); await page.waitForTimeout(2600)
-    r.stagePauses = JSON.stringify(held) === JSON.stringify(await pills()) && await page.getAttribute('#stage-toggle', 'aria-pressed') === 'true'
+    // The fold now carries the recording of a real run instead of an explanatory animation: it must be visible
+    // there, it must not start on its own, and it must be understandable without sound.
+    const demo = await page.evaluate(() => {
+      const v = document.querySelector('#demo-video')
+      if (!v) return null
+      const r = v.getBoundingClientRect()
+      return { onFold: r.top < window.innerHeight, visiblePx: Math.round(Math.min(innerHeight, r.bottom) - Math.max(0, r.top)),
+               poster: !!v.getAttribute('poster'), autoplay: v.autoplay, controls: v.controls, muted: v.muted,
+               preload: v.getAttribute('preload'), tracks: v.textTracks.length, playedOnItsOwn: v.currentTime > 0 }
+    })
+    r.demoOnFold = !!demo && demo.onFold && demo.visiblePx > 180
+    r.demoHasPoster = !!demo && demo.poster
+    r.demoDoesNotAutoplay = !!demo && !demo.autoplay && !demo.playedOnItsOwn
+    r.demoCaptioned = !!demo && demo.tracks > 0
+    r.demoIsControllable = !!demo && demo.controls && demo.muted
+    r.demoDefersBytes = !!demo && demo.preload === 'none'
+    // One primary action in the fold; the record link stays a quiet link.
+    r.onePrimaryCta = await page.evaluate(() => document.querySelectorAll('.hero .btn').length === 1)
     // Each real finding shows its own recorded before/after, and only that one.
     r.findings = []
     for (const i of [0, 1, 2]) {
@@ -44,8 +55,13 @@ for (const [name, path] of [['en', '/'], ['ja', '/ja/']]) {
     out[key] = r
     expect(key, 'no console/page errors', errors.length === 0, errors); expect(key, 'no horizontal scroll', r.noHorizontalScroll)
     expect(key, 'one h1', r.h1Count === 1, r.h1Count); expect(key, 'body text ≥ 16px', r.bodyPx >= 16, r.bodyPx); expect(key, 'buttons ≥ 48px', r.btnMinH >= 48, r.btnMinH)
-    if (vp === 'pc') expect(key, 'team visible on the first screen', r.teamAboveFold)
-    expect(key, 'stage moves', r.stageMoves); expect(key, 'stage pauses', r.stagePauses)
+    expect(key, 'the recording is on the first screen', r.demoOnFold)
+    expect(key, 'the recording has a poster', r.demoHasPoster)
+    expect(key, 'the recording does not start on its own', r.demoDoesNotAutoplay)
+    expect(key, 'the recording is captioned', r.demoCaptioned)
+    expect(key, 'the recording is muted and controllable', r.demoIsControllable)
+    expect(key, 'the recording defers its bytes', r.demoDefersBytes)
+    expect(key, 'one primary action in the fold', r.onePrimaryCta)
     r.findings.forEach((f, i) => expect(key, `finding ${i} shows only its diff`, f.pressed === 'true' && f.visible.length === 1 && f.visible[0] === String(i), f))
     expect(key, 'app screens: tab 3 after click + ArrowRight', r.shots.visible.join() === '2' && r.shots.selected.join() === '2' && r.shots.sized && r.shotLoaded, r.shots)
     expect(key, 'brand, MIT, repo link', r.brand); expect(key, 'inquiry form with consent', r.leadForm); expect(key, 'quickstart command', r.quickstart); expect(key, 'evidence links', r.evidenceLinks >= 2, r.evidenceLinks)
@@ -53,13 +69,14 @@ for (const [name, path] of [['en', '/'], ['ja', '/ja/']]) {
   }
   // Reduced motion: no loop, everyone shown as finished. No JavaScript: every section still readable.
   const calm = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const cp = await calm.newPage()
-  await cp.goto(base + path, { waitUntil: 'networkidle' }); const a = await cp.locator('[data-pill]').allTextContents(); await cp.waitForTimeout(2500)
-  const still = JSON.stringify(a) === JSON.stringify(await cp.locator('[data-pill]').allTextContents()) && new Set(a).size === 1
+  await cp.goto(base + path, { waitUntil: 'networkidle' }); await cp.waitForTimeout(2500)
+  // Under reduced motion the recording still must not start by itself, and every section stays visible.
+  const still = await cp.evaluate(() => { const v = document.querySelector('#demo-video'); return !!v && v.paused && v.currentTime === 0 })
   const revealed = await cp.evaluate(() => [...document.querySelectorAll('[data-reveal]')].every((el) => getComputedStyle(el).opacity === '1'))
-  out[`${name}-reduced-motion`] = { still, revealed }; expect(`${name}-reduced-motion`, 'stage is static and content is visible', still && revealed); await calm.close()
+  out[`${name}-reduced-motion`] = { still, revealed }; expect(`${name}-reduced-motion`, 'the recording stays still and content is visible', still && revealed); await calm.close()
   const plain = await browser.newContext({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false }); const pp = await plain.newPage()
   await pp.goto(base + path, { waitUntil: 'load' })
-  const readable = await pp.evaluate(() => [...document.querySelectorAll('[data-reveal]')].every((el) => getComputedStyle(el).opacity === '1') && !![...document.querySelectorAll('[data-diff]')].find((d) => !d.hidden) && document.querySelector('#stage-toggle').hidden && [...document.querySelectorAll('[data-shot-panel]')].every((p) => p.getBoundingClientRect().height > 100))
+  const readable = await pp.evaluate(() => [...document.querySelectorAll('[data-reveal]')].every((el) => getComputedStyle(el).opacity === '1') && !![...document.querySelectorAll('[data-diff]')].find((d) => !d.hidden) && !!document.querySelector('#demo-video[poster]') && [...document.querySelectorAll('[data-shot-panel]')].every((p) => p.getBoundingClientRect().height > 100))
   out[`${name}-no-js`] = { readable }; expect(`${name}-no-js`, 'readable without JavaScript', readable); await plain.close()
 }
 await browser.close()

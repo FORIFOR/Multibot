@@ -79,7 +79,6 @@ h2{font-weight:650;letter-spacing:-.03em}
 .simple-home .hero{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;gap:var(--ob-s5);max-width:860px;margin:var(--ob-s4) auto 0}
 .home-intro{display:grid;justify-items:center;gap:var(--ob-s4);text-align:center}
 .simple-home .hero h1{max-width:none;margin:0;font-size:clamp(32px,4.4vw,58px);line-height:1.15;letter-spacing:-.045em}
-.simple-home .hero h1 br{display:none}
 .simple-home .hero h1,.simple-home .lede{text-wrap:balance}
 .simple-home .lede{max-width:40em;margin:0;color:var(--ob-ink-3);font-size:16.5px;line-height:1.8}
 .simple-home .ask{display:grid;gap:var(--ob-s3);width:100%;padding:0;border:0;border-radius:0;background:none;box-shadow:none}
