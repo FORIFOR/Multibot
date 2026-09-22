@@ -216,7 +216,9 @@ def _quickstart(args) -> int:
         svc = await AppService(args.data_dir).start()
         cid = svc.config.defaults.connection_id
         conn = svc.config.connection(cid)
-        ok = conn is not None and conn.capability_check == "passed" and (conn.capability_detail or {}).get("model_requested") == svc.config.defaults.model
+        detail = (conn.capability_detail or {}) if conn is not None else {}
+        probed = detail.get("model_requested", detail.get("model_reported"))  # older probes recorded only the reported name
+        ok = conn is not None and conn.capability_check == "passed" and probed == svc.config.defaults.model
         if not ok and conn is not None:
             if conn.driver == "claude_cli" and shutil.which("claude") is None:
                 print("claude CLI not found. Install Claude Code (https://claude.com/claude-code), run `claude` once to log in, then retry.")

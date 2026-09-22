@@ -222,5 +222,15 @@ async def test_model_changes_require_matching_real_probe_evidence(tmp_path):
             assert any(p['code'] == 'capability_model' for p in svc.manager.precheck(swapped))
             for run in await svc.runs.list_runs():
                 assert run.usage.model_calls == 0
+            # A probe recorded before model_requested existed (docs/evidence/durable-execution-2026-09-14) carries only
+            # the reported name. That is still real evidence for this model, so it must not read as "never probed".
+            older = svc.config.model_copy(deep=True)
+            older.defaults.model = probe['model_requested']
+            for agent in older.agents:
+                agent.model = 'inherit'
+            older.connection(older.defaults.connection_id).capability_detail = {'model_reported': probe['model_requested']}
+            assert not [p for p in svc.manager.precheck(older) if p['code'] == 'capability_model']
+            older.connection(older.defaults.connection_id).capability_detail = {'model_reported': 'some-other-model'}
+            assert [p for p in svc.manager.precheck(older) if p['code'] == 'capability_model']
     finally:
         await svc.stop()

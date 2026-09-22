@@ -178,7 +178,11 @@ class RunManager:
             if price_for(model, cfg.pricing, driver=conn.driver) is None:
                 problems.append({"code": "unknown_pricing", "agent_id": a.id, "message": f"no price for model {model}; add it under pricing: in the config",
                                  "fix": "settings"})
-            if conn.capability_check == "passed" and conn.driver != "fake" and (conn.capability_detail or {}).get("model_requested") != model:
+            # Probes written before model_requested existed only recorded what the provider reported back; for those
+            # that name is the only record of which model passed, so read it rather than calling the probe missing.
+            detail = conn.capability_detail or {}
+            probed = detail.get("model_requested", detail.get("model_reported"))
+            if conn.capability_check == "passed" and conn.driver != "fake" and probed != model:
                 problems.append({"code": "capability_model", "agent_id": a.id, "connection_id": cid,
                                  "message": f"agent {a.id}: model {model!r} has no matching capability probe; probe this model or use a separate connection for each model", "fix": "probe"})
             if cid in seen_conn:
