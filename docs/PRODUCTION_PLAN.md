@@ -25,6 +25,8 @@ The v40 series shortened the automatic delivery-check response and added an expl
 
 The v41 series added an explicit RFC 8259 escaping instruction for source quotes inside JSON strings. It was stopped during the eighth attempt after seven retained results: one published a JSON array instead of the required object, two published only `final-report.md`, three had no valid `readiness.json`, and one published a JSON object with extensive source, Japanese-language and forbidden-term contract failures. Reviewer submissions and accepted runs remained zero. See the [v41 evidence](evidence/real-readiness-v41-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.
 
+The v42 series explicitly prohibited a JSON array and fixed the local Ollama temperature at zero for reproducibility. It was stopped during the fourth attempt after three retained failures; all three lacked a valid `readiness.json`, and Reviewer submissions and accepted runs remained zero. See the [v42 evidence](evidence/real-readiness-v42-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.
+
 Next engineering sequence:
 
 1. Done: authenticated deployment boundary with recorded API/browser/backup evidence and passing CI.
