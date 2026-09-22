@@ -90,6 +90,9 @@ def build_workflow_goal(expected):
         '',
         '## 最終出力チェック（必ず最後に再確認）',
         '説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。',
+        'readiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。',
+        '{"product":"Multibot","production_ready":false,"deployment":"dedicated-single-host","summary":"日本語の現状要約","areas":[{"area":"Identity","implemented":"日本語一文","remaining":"日本語一文","source_file":"PRODUCTION_PLAN.md","evidence_quote":"入力の残条件原文"}]}',
+        '上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_writeしてpublish_artifactする。',
         '新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。',
     ])
     return GOAL + '\n' + '\n'.join(lines)
