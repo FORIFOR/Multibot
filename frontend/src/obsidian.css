@@ -267,11 +267,11 @@ body:has(.desk-workroom) .top{border:0;background:var(--ob-chrome)}
   .desk-workroom .room-side .simple-request>summary::before,.desk-workroom .room-side .team-recommendation>summary::before{content:'+';font-weight:600}
   .desk-workroom .room-side details[open]>summary::before{content:'−'}
   /* One decision row: what the record says, then the action that follows from it. */
-  .desk-workroom .result-decide{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 var(--ob-s4);padding:var(--ob-s1) 24px}
+  .desk-workroom .result-decide{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 var(--ob-s4);padding:var(--ob-s1) 0}
   .desk-workroom .result-decide>.result-review-summary{flex:1 1 auto;min-width:0;padding:0}
   .desk-workroom .result-decide>.result-use{flex:0 0 auto;padding:0}
   .desk-workroom .result-md{padding-top:var(--ob-s3)}
-  .desk-workroom .result-file-list{padding:var(--ob-s1) 24px}
+  .desk-workroom .result-file-list{padding:var(--ob-s1) 0}
   .desk-workroom .simple-deliverables>header{padding-bottom:0}
   .desk-workroom .simple-deliverables>header{padding-bottom:var(--ob-s1)}
 }
