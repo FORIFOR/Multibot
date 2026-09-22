@@ -238,6 +238,14 @@ class ToolGateway:
     async def call(self, name: str, args: dict[str, Any], *, causation_id: str | None = None) -> str:
         rt, ctx = self.rt, self.ctx
         policy = rt.policy
+        # Some local models serialize the optional edit branch as an object of
+        # empty strings while also providing complete content. Treat that
+        # unambiguous empty branch as omitted; a non-empty edit remains invalid
+        # alongside content and is rejected by the schema below.
+        if (name == "workspace_write" and "content" in args and isinstance(args.get("edit"), dict)
+                and not any(args["edit"].values())):
+            args = dict(args)
+            args.pop("edit", None)
         try:
             policy.check_tool_allowed(self.allowed_tools(), name)
             policy.count_tool_call()
