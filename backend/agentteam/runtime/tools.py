@@ -665,7 +665,25 @@ class ToolGateway:
         logical = p.relative_to(self.ctx.workspace.resolve()).as_posix()
         if any(r.logical_path == logical for r in self.rt.run.inputs.delivery_requirements):
             checked = await self.t_run_check({'kind': 'json_schema', 'path': a['path']}, cid)
-            reply += "\nAutomatic requester delivery check (the saved draft is kept):\n" + checked
+            # The full schema error can be several thousand characters and
+            # crowds out the next action for small local models.  The complete
+            # result remains in the immutable check.completed event; provide a
+            # compact, actionable summary in the conversational tool reply.
+            try:
+                checked_doc = json.loads(checked)
+                result = checked_doc.get('result', {}) if isinstance(checked_doc, dict) else {}
+                problems = list(result.get('problems') or []) if isinstance(result, dict) else []
+                compact = {'status': result.get('status') if isinstance(result, dict) else 'unknown'}
+                if problems:
+                    compact['problems'] = problems[:8]
+                    if len(problems) > 8:
+                        compact['omitted_problem_count'] = len(problems) - 8
+                checked = json.dumps(compact, ensure_ascii=False)
+            except (TypeError, ValueError):
+                checked = checked[:1200]
+            reply += ("\nAutomatic requester delivery check (the saved draft is kept): " + checked
+                      + "\nNEXT ACTION: if the draft is ready, call publish_artifact with the same path now; "
+                        "otherwise make one substantive correction, then publish it.")
         return reply
 
     async def t_workspace_read(self, a, cid):
