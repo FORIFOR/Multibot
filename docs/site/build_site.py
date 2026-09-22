@@ -16,8 +16,8 @@ CMD = 'uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend"
 EV = 'https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/'
 T = {
  'ja': dict(lang='ja', base='../', self='https://forifor.github.io/Multibot/ja/', other='../', other_lang='en', other_label='EN',
-  title='Agent Team — 頼むのは一度。チームが作って、確かめる。',
-  desc='調べる・つくる・確かめるを、AIのチームが分担。できたファイルと確認の経緯まで受け取れる、あなたのPCで動くオープンソースのAI作業アプリ。',
+  title='Agent Team — 頼むのは一度。作った版を、別のAIが確かめる。',
+  desc='AIの成果物を、確かめないまま使いたくない人へ。作る担当と確かめる担当を分けたAIチームが、あなたのPCの中だけで動き、できたファイルと「どの版を何で確かめたか」の記録を渡します。オープンソース・MIT。',
   skip='本文へ', nav=[('#team','チーム'),('#proof','実際の記録'),('#privacy','データの扱い'),('#faq','よくある質問')], nav_cta='始める',
   h1='頼むのは一度。<br>作った版を、別のAIが確かめる。',
   lede='AIの成果物を、確かめないまま使いたくない人へ。あなたのPCの中だけで動き、できたファイルと「どの版を何で確かめたか」の記録を渡します。',
@@ -58,8 +58,8 @@ T = {
   form=dict(name='お名前', email='返信先メール', org='会社・団体名（任意）', msg='相談したい内容', privacy='入力内容は運営者への非公開の問い合わせとしてGoogle Cloudに保存し、返信のために利用します。AIの入力やアクセス解析には利用しません。90日後から順次削除します。公開Issueには投稿されません。送信による契約や課金はありません。', consent='上記の取り扱いに同意して送信します。', send='相談を送信'),
   foot=[('https://github.com/FORIFOR/Multibot','GitHub'),('https://github.com/FORIFOR/Multibot/issues','不具合・提案'),(EV+'local-recompare-2026-09-18','評価と制約'),('https://reachmade.com/products/#agent-team','Reachmade')], foot_other='English'),
  'en': dict(lang='en', base='', self='https://forifor.github.io/Multibot/', other='ja/', other_lang='ja', other_label='日本語',
-  title='Agent Team — Ask once. A team builds it, then checks it.',
-  desc='An AI team splits the work: research, make, review. You get real files and a record of what was checked. Open source, runs on your computer.',
+  title='Agent Team — Ask once. Another AI checks the version it made.',
+  desc='For people who will not ship an AI result they cannot verify. Making and checking are separate jobs; it runs on your computer and hands you the files plus the record of which version was checked, and how. Open source, MIT.',
   skip='Skip to content', nav=[('#team','The team'),('#proof','A real record'),('#privacy','Your data'),('#faq','FAQ')], nav_cta='Get started',
   h1='Ask once. Another AI checks<br>the version it made.',
   lede='For people who will not ship an AI result they cannot verify. It runs on your computer and hands you the files plus the record of which version was checked, and how.',
