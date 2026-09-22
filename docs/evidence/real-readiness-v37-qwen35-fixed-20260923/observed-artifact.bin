@@ -1,0 +1,64 @@
+{
+  "product": "Multibot",
+  "production_ready": false,
+  "deployment": "dedicated-single-host",
+  "summary": "PRODUCTION_PLAN_MD と同様な環境構成 (単一ホスト・IdP 未実装・監査未完成) です。多租户化・分散 HA・外部警戒・オフサイト復旧・契約条件は残るため、L3 到達条件を満たしていません。",
+  "areas": [
+    {
+      "area": "Identity",
+      "implemented": "Real access keys, ハッシュセッション、ロール検証、キーcloak SSO ブラウザ実装、トークン破棄、有効期限管理が完了しています。",
+      "remaining": "Production IdP 設定・組織ポリシー (MFA 強制) とアカウントライフサイクルの承認が必要です。",
+      "source_file": "PRODUCTION_PLAN_MD",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+    },
+    {
+      "area": "Isolation",
+      "implemented": "インストール単位での組織バインディング、ラン毎の権限、アーティファクト・イベントへのアクセス制限が完了しています。Docker のみとしたコマンドツールも完了しています。",
+      "remaining": "独立した攻撃評価、カスタマー固有の役割/コネクタ/Egress ポリシー、許可ライフサイクル承認が必要です。",
+      "source_file": "PRODUCTION_PLAN_MD",
+      "evidence_quote": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+    },
+    {
+      "area": "Execution",
+      "implemented": "ラン毎の予算、べき等なシングルホストキュー、アクトースコープトピック・アイデプテンシー、中断ジョブ回復が完了しています。",
+      "remaining": "ワークロード/負荷承認、外部アクション再試行ポリシー、承認済みの可用性トポロジーが必要です。",
+      "source_file": "PRODUCTION_PLAN_MD",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+    },
+    {
+      "area": "Data",
+      "implemented": "オフラインスナップショット復旧、チェックサム検証、セッション無効化とリトライ拒否が完了しています。age 暗号化も確認済みです。",
+      "remaining": "包括的保持ポリシー (履歴バックアップ) ホスト暗号化・リーカバリーキー管理・離岸ドリルが必要です。",
+      "source_file": "PRODUCTION_PLAN_MD",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "implemented": "アクトー audit レコード、制限された監査者ロール、分離集约/カーソル、障害記録が完了しています。",
+      "remaining": "独立した保持/WORM 管理、リアルタイムアラート配信・エスカレーション、集約監視導入が必要です。",
+      "source_file": "PRODUCTION_PLAN_MD",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+    },
+    {
+      "area": "Deployment",
+      "implemented": "ロックされた依存ライブラリ、アーティファクトをベースとした、ハードニングコンテナでスキャンが完了しています。",
+      "remaining": "本番 TLS/DNS 環境、運用主権者によるアップグレード・ロールバック・セキュリティレビューが必要です。",
+      "source_file": "PRODUCTION_PLAN_MD",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+    },
+    {
+      "area": "Business quality",
+      "implemented": "失敗保持、入力リトリバー、出力チェックが追加され、v26 以降も未承認です。ハッシュ済みソース保存、要約生成・英語ラベル・不整合の検知が完了していますが、日本語翻訳と評価待ちです。",
+      "remaining": "原文要約正確性・レビュー評価と閾値検証が必要ですが、混合文字列エラー等により完了していません。",
+      "source_file": "PRODUCTION_PLAN_MD",
+      "evidence_quote": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract"
+    },
+    {
+      "area": "Contract / operation",
+      "implemented": "技術的制限文書化と CI 通過が完了しています。",
+      "remaining": "所有者承認サービス範囲・SLO/SLA・支援責任、実装済みの認証の発明回避が必要です。",
+      "source_file": "PRODUCTION_PLAN_MD",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+    }
+  ]
+}
