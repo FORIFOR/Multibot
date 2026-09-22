@@ -33,7 +33,7 @@ from agentteam.security.accounts import issue_key
 
 SOURCES = ['docs/PRODUCTION_PLAN.md', 'docs/evidence/operations-2026-09-14/README.md']
 GOAL = '''企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。
-成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まずJSONをそのまま公開してください。
+成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まず、RFC 8259に適合するJSONをそのまま公開してください。文字列値に含まれる二重引用符は `\\"` としてエスケープし、JSON文字列を壊さないでください。
 トップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。
 areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。
 summary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。8領域以外の説明や追加フィールドは出力しないでください。
@@ -89,7 +89,7 @@ def build_workflow_goal(expected):
     lines.extend([
         '',
         '## 最終出力チェック（必ず最後に再確認）',
-        '説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。',
+        '説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。原文に二重引用符がある場合も、JSON文字列内では必ず \\\" としてエスケープし、解析可能なJSONにする。',
         'readiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。',
         '{"product":"Multibot","production_ready":false,"deployment":"dedicated-single-host","summary":"日本語の現状要約","areas":[{"area":"Identity","implemented":"日本語一文","remaining":"日本語一文","source_file":"PRODUCTION_PLAN.md","evidence_quote":"入力の残条件原文"}]}',
         '上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_writeしてpublish_artifactする。',
