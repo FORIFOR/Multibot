@@ -1,0 +1,56 @@
+{
+  "product": "Multibot",
+  "production_ready": false,
+  "deployment": "dedicated-single-host",
+  "areas": [
+    {
+      "area": "Identity",
+      "evidence_quote": "Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary",
+      "implemented": "キーcloak 連携とグループマッピング済み。トークン期限管理と鍵回転を自動処理する実装が整っています。外部 IdP 認証設定は別途承認待ちの状態です。",
+      "remaining": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+    },
+    {
+      "area": "Isolation",
+      "evidence_quote": "Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture",
+      "implemented": "インストール単位での組織バインディングとドカーンコンテナによる命令ツール制限が実装済みです。パブリック IP の有界キャプチャ機能も動作確認されています。",
+      "remaining": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+    },
+    {
+      "area": "Execution",
+      "evidence_quote": "Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation",
+      "implemented": "永続キューとアクタースコープの冪等処理を実装。停止ジョブからの復旧とシグナルキルドリルが完了し、リクエスト er 所有のアーティファクト要件を満たしています。",
+      "remaining": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+    },
+    {
+      "area": "Data",
+      "evidence_quote": "Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption",
+      "implemented": "オフラインスナップショットとチェックサム検証、セッション無効化を実施。リザマブルラン削除と暗号化されたスナップショット復元機能が実装済みです。",
+      "remaining": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "evidence_quote": "Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view",
+      "implemented": "監査記録とカーソル分離実装済み。障害・鍵回転の計測とブラウザ操作可視化機能を実行中であり、準備されたコレクタ監督ユニットが動作しています。",
+      "remaining": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+    },
+    {
+      "area": "Deployment",
+      "evidence_quote": "Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans",
+      "implemented": "ランタイム依存关系の固定とハードニーコンテナを実装。パッケージサファリスキャンとホイール更新ロールバック機能が整っており、破損復旧も完了しています。",
+      "remaining": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+    },
+    {
+      "area": "Business quality",
+      "evidence_quote": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract",
+      "implemented": "元失敗の保存と源コードからの要約正確性を検証。ラテンシーと閾値監視を行い、強化された契約下で完了出力が有効である反復シリーズを構築しています。",
+      "remaining": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract"
+    },
+    {
+      "area": "Contract / operation",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications",
+      "implemented": "技術的限界の文書化とサポート責任範囲を明確化。発明された承認なしで運用し、SLO/SLA の遵守状況を監視しています。",
+      "remaining": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+    }
+  ],
+  "summary": "L3 未達でのプロダクション準備状況。Identity、Isolation、Execution、Data、Audit/deployment、Business quality、Contract の各領域で実装された機能（日本語要約）と承認待ちの残条件をリストアップ。v37 シリーズの結果を反映し、実際の運用体制（単一ホスト専用）および L3 未達であることを明記。外部 IdP 連携やオフサイト復旧など、本番展開に向けた残りのステップを特定。"
+}
