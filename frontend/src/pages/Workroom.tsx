@@ -109,7 +109,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const select = (next: JourneyPanel) => {
     setPanel(next)
     // Keep both areas mounted; mobile switches visibility without discarding drafts.
-    const calm = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    const calm = paused || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
     const target = document.getElementById(next === 'team' ? 'work-conversation' : `room-${next}`)
     requestAnimationFrame(()=>{target?.scrollIntoView({ block: 'start', behavior: calm ? 'auto' : 'smooth' });target?.focus({ preventScroll: true })})
     const url = new URL(location.href); url.searchParams.set('view', next); url.searchParams.delete('tab')
