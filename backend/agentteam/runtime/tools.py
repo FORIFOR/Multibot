@@ -208,26 +208,31 @@ class ToolGateway:
                     # enforces target membership, coverage, uniqueness and revisions.
                     specs[index] = ToolSpec(tool.name, tool.description, schema)
         requirements = self.rt.run.inputs.delivery_requirements
-        if self.rt.run.inputs.workflow != "document" or len(requirements) != 1:
+        if not requirements:
             return specs
-        requirement = requirements[0]
-        if requirement.input_format != "text":
-            return specs
-        # Put the requester's length contract beside the generated content, not
-        # only in the task prompt. This is a provider hint; persisted byte checks
-        # remain authoritative, and invalid drafts are still retained for repair.
-        # Do not embed arbitrary schemas here: nested $ref resolution would change.
+        allowed_paths = [r.logical_path for r in requirements]
+        # Put the requester's paths and length contracts beside the generated
+        # content, not only in the task prompt. This is a provider hint;
+        # persisted checks remain authoritative, and invalid drafts are still
+        # retained for repair. The restriction applies to every workflow that
+        # declares a requester-owned delivery contract, not only document mode.
         for index, tool in enumerate(specs):
-            if tool.name != "workspace_write":
+            if tool.name not in ("workspace_write", "publish_artifact"):
                 continue
             schema = copy.deepcopy(tool.input_schema)
-            schema["properties"]["path"]["enum"] = [requirement.logical_path]
-            content = schema["properties"]["content"]
-            for bound in ("minLength", "maxLength"):
-                if bound in requirement.json_schema:
-                    content[bound] = requirement.json_schema[bound]
-            content["description"] = "Complete document. Length counts every Unicode character, including headings, spaces and newlines. Preserve required source conditions when shortening."
-            specs[index] = ToolSpec(tool.name, "Write the requested document in your task workspace. Use the declared output path.", schema)
+            schema["properties"]["path"]["enum"] = allowed_paths
+            if tool.name == "workspace_write":
+                text_requirements = [r for r in requirements if r.input_format == "text"]
+                if len(text_requirements) == 1:
+                    requirement = text_requirements[0]
+                    content = schema["properties"]["content"]
+                    for bound in ("minLength", "maxLength"):
+                        if bound in requirement.json_schema:
+                            content[bound] = requirement.json_schema[bound]
+                    content["description"] = "Complete document. Length counts every Unicode character, including headings, spaces and newlines. Preserve required source conditions when shortening."
+                specs[index] = ToolSpec(tool.name, "Write a requested delivery file in your task workspace. Use one of the declared output paths.", schema)
+            else:
+                specs[index] = ToolSpec(tool.name, "Publish a requested delivery file from your workspace. Use one of the declared output paths.", schema)
         return specs
 
     async def call(self, name: str, args: dict[str, Any], *, causation_id: str | None = None) -> str:
