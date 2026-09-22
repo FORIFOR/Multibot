@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.133
+Get the file, plus the record of another AI checking it
+
+00:00:03.133 --> 00:00:07.067
+Write the request once, in plain words
+
+00:00:07.067 --> 00:00:10.233
+Attach the source; split making from checking
+
+00:00:10.233 --> 00:00:13.133
+Send. From here it runs on your computer
+
+00:00:13.133 --> 00:00:18.133
+One writes it, another checks it and sends it back — sped up: three versions, 14m36s, local model
+
+00:00:18.133 --> 00:00:26.067
+The checks pass on r3. You choose the version — cost $0.00, run on local Ollama
+
+00:00:26.067 --> 00:00:29.067
+uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart

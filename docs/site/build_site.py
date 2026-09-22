@@ -19,9 +19,11 @@ T = {
   title='Agent Team — 頼むのは一度。チームが作って、確かめる。',
   desc='調べる・つくる・確かめるを、AIのチームが分担。できたファイルと確認の経緯まで受け取れる、あなたのPCで動くオープンソースのAI作業アプリ。',
   skip='本文へ', nav=[('#team','チーム'),('#proof','実際の記録'),('#privacy','データの扱い'),('#faq','よくある質問')], nav_cta='始める',
-  h1='頼むのは一度。<br>チームが作って、確かめる。',
-  lede='調べる係、つくる係、確かめる係。AIのチームが分担して、できたファイルと「何を確かめたか」まで渡します。',
-  cta1='自分のPCで始める', cta2='実際の記録を見る', facts=['オープンソース・MIT','あなたのPCで動く','外部へ勝手に送信しない'],
+  h1='頼むのは一度。<br>作った版を、別のAIが確かめる。',
+  lede='AIの成果物を、確かめないまま使いたくない人へ。あなたのPCの中だけで動き、できたファイルと「どの版を何で確かめたか」の記録を渡します。',
+  cta1='自分のPCで始める', cta2='実行の記録を見る', facts=['オープンソース・MIT','あなたのPCで動く','外部へ勝手に送信しない'],
+  cap_label='日本語字幕', demo_fallback='動画をダウンロードする',
+  demo_note='実際のアプリの録画です。この日本語版は 2026年9月22日の実行（ローカルのOllama、agentteam-qwen35-9b-16k、24回のモデル呼び出し、13分13秒、費用 $0.00）で、確認担当が1度差し戻し、2版目で通過しました。英語版は別の実行です。待ち時間は早送りしています。字幕あり・音声なし。',
   ask_label='お願い', ask='このCSVを年月別に集計するツールを作って。使い方とテストも付けて。',
   roles=[('master','まとめ役','進め方と完了条件を決める'),('researcher','調べる係','資料と公開ページを読む'),('builder','つくる係','ファイルを作って直す'),('reviewer','確かめる係','条件を満たすか確かめる')],
   states={'idle':'出番待ち','thinking':'計画中','researching':'調査中','building':'作業中','reviewing':'確認中','done':'担当分は完了'},
@@ -49,6 +51,7 @@ T = {
   start_eyebrow='始める', start_h='コマンドひとつで、<wbr>最初のお願いを。', start_p='Python環境の準備は要りません。uvが入っていれば、そのまま起動します。', copy='コピー', copied='コピーしました',
   steps=[('起動する','上のコマンドを実行すると、ブラウザで画面が開きます。'),('AIにつなぐ','Claude Code、API、Ollamaから選んで、疎通を確認します。'),('お願いする','やってほしいことを、いつもの言葉で書きます。')],
   start_note='利用料はかかりません。クラウドのAIを使う場合は、そのAIの利用料が別にかかります。', gh='GitHubで見る',
+  needs_label='必要なもの', needs='macOS / Linux / Windows と uv。uv が未導入なら <code>curl -LsSf https://astral.sh/uv/install.sh | sh</code>（Windows は <a href="https://docs.astral.sh/uv/getting-started/installation/">公式の手順</a>）。Python の準備は要りません。',
   faq_h='よくある質問', faq=[('ChatGPTやClaudeと、何が違いますか？','一人のAIが答えて終わりではなく、作る係と確かめる係が分かれています。受け取るのは返事ではなくファイルで、何を確かめたか、何が未確認かの記録も残ります。'),('必ず正しいものができますか？','いいえ。確かめる係が見逃すこともあります。だから、未完了や未確認をそのまま表示し、うまくいかなかった実行記録も公開しています。大事な成果物は、ご自身でも確認してください。'),('料金はかかりますか？','アプリは無料のオープンソース（MIT）です。クラウドのAIにつなぐ場合は、そのAIの利用料がかかります。一回ごとの予算上限を設定でき、達すると止まります。'),('データはどこへ送られますか？','実行記録とファイルは、あなたのPCに保存されます。ローカルのAIなら入力は外へ出ません。クラウドのAIを選んだ場合だけ、入力がその接続先へ送られます。'),('どんな仕事に向いていますか？','テストや条件で確かめられる成果物に向いています。小さなツール、データの変換、決まった形式の文書などです。小型のローカルAIでの調べものは、まだ安定していません。')],
   final_h='最初のお願いを、<wbr>してみよう。', final_p='チームは、あなたのPCで待っています。',
   biz_eyebrow='業務での利用', biz_h='自分の仕事に使えるか、相談する。', biz_p='対象の作業と合格条件を絞って、一緒に確かめます。顧客データでの有償PoC、本番SLA、SSO、組織分離は、提供済みとはしていません。',
@@ -58,9 +61,11 @@ T = {
   title='Agent Team — Ask once. A team builds it, then checks it.',
   desc='An AI team splits the work: research, make, review. You get real files and a record of what was checked. Open source, runs on your computer.',
   skip='Skip to content', nav=[('#team','The team'),('#proof','A real record'),('#privacy','Your data'),('#faq','FAQ')], nav_cta='Get started',
-  h1='Ask once. A team builds it,<br>then checks it.',
-  lede='A researcher, a maker and a reviewer. An AI team splits the work and hands you the files, along with what was checked.',
-  cta1='Run it on your computer', cta2='See a real record', facts=['Open source · MIT','Runs on your computer','Never sends anything out on its own'],
+  h1='Ask once. Another AI checks<br>the version it made.',
+  lede='For people who will not ship an AI result they cannot verify. It runs on your computer and hands you the files plus the record of which version was checked, and how.',
+  cta1='Run it on your computer', cta2='See the run record', facts=['Open source · MIT','Runs on your computer','Never sends anything out on its own'],
+  cap_label='English captions', demo_fallback='Download the video',
+  demo_note='A recording of the real app. This English cut is its own run (22 September 2026, local Ollama, agentteam-qwen35-9b-16k, 37 model calls, 14m36s, cost $0.00); the reviewer sent the work back twice and the checks passed on the third version. The Japanese page shows a different run. Waiting is sped up. Captioned, no sound.',
   ask_label='Request', ask='Build a tool that totals this CSV by month. Include usage notes and tests.',
   roles=[('master','Coordinator','Plans the work and the finish line'),('researcher','Researcher','Reads your files and public pages'),('builder','Maker','Writes the files and fixes them'),('reviewer','Reviewer','Checks each condition')],
   states={'idle':'On standby','thinking':'Planning','researching':'Researching','building':'Working','reviewing':'Reviewing','done':'Assigned work done'},
@@ -88,6 +93,7 @@ T = {
   start_eyebrow='Get started', start_h='One command to your first request.', start_p='No Python setup. If you have uv, it just starts.', copy='Copy', copied='Copied',
   steps=[('Start it','Run the command above. The app opens in your browser.'),('Connect a model','Pick Claude Code, an API or Ollama, and run the connection check.'),('Ask','Write what you need in your own words.')],
   start_note='The app is free. If you connect a cloud model, that provider bills you for usage.', gh='View on GitHub',
+  needs_label='What you need', needs='macOS, Linux or Windows, and uv. If you do not have uv: <code>curl -LsSf https://astral.sh/uv/install.sh | sh</code> (Windows: <a href="https://docs.astral.sh/uv/getting-started/installation/">official steps</a>). No Python setup.',
   faq_h='Questions', faq=[('How is this different from ChatGPT or Claude?','It is not one AI answering once. Making and checking are separate jobs. You receive files, not a reply, along with a record of what was checked and what is still unverified.'),('Will the result always be right?','No. The reviewer can miss things. That is why partial and unverified results are shown as they are, and why we publish the runs that went badly. Check important work yourself.'),('What does it cost?','The app is free and open source (MIT). A cloud model bills you for usage. You can set a budget limit per request, and work stops when it is reached.'),('Where does my data go?','The work record and files stay on your computer. With a local model your input never leaves. Only if you choose a cloud model does your input go to that provider.'),('What kind of work suits it?','Work that tests or conditions can check: small tools, data conversion, documents with a fixed format. Research with a small local model is not yet reliable.')],
   final_h='Make your first request.', final_p='The team is waiting on your computer.',
   biz_eyebrow='Using it at work', biz_h='Ask whether it fits your work.', biz_p='We narrow it to one task and its pass conditions, and check together. Paid pilots on customer data, production SLAs, SSO and organisation isolation are not offered as available.',
@@ -108,7 +114,24 @@ def page(t):
     mates = ''.join(f'<li class="mate" data-kind="{k}" data-n="{i+1}"><div class="floor">{bot(k)}</div><span class="who">{e(n)}</span><span class="pill" data-pill>{e(t["states"]["idle"])}</span></li>' for i,(k,n,_) in enumerate(t['roles']))
     team = ''.join(f'<article class="card role" data-reveal style="--tone:{tone}"><div class="floor">{bot(k,"idle")}</div><small>{e(role)}</small><h3>{e(h)}</h3><p>{e(p)}</p></article>' for k,tone,role,h,p in t['team_cards'])
     shot_tabs = ''.join(f'<button type="button" role="tab" id="shot-tab-{i}" aria-controls="shot-{i}" aria-selected="{"true" if i==0 else "false"}" data-shot="{i}"><b>{i+1}</b>{e(h)}</button>' for i,(k,h,p) in enumerate(t['shots']))
-    shot_panels = ''.join(f'<div class="shot" role="tabpanel" id="shot-{i}" aria-labelledby="shot-tab-{i}" data-shot-panel="{i}"><figure><div class="frame"><img src="{b}media/app-{k}-{t["lang"]}.webp" width="1440" height="788" alt="{e(h)}" {"" if i==0 else "loading=\"lazy\" "}decoding="async"></div><figcaption><b>{i+1}. {e(h)}</b>{e(p)}</figcaption></figure></div>' for i,(k,h,p) in enumerate(t['shots']))
+    # The three screenshots are different shapes; declaring one size for all of them made the panel jump on every
+    # tab change. Read each file's real size instead.
+    def shot_size(kind):
+        path = ROOT / f'media/app-{kind}-{t["lang"]}.webp'
+        data = path.read_bytes()
+        i = data.index(b'VP8 ') if b'VP8 ' in data else data.index(b'VP8L')
+        if data[i:i+4] == b'VP8 ':
+            w = int.from_bytes(data[i+14:i+16], 'little') & 0x3fff
+            h = int.from_bytes(data[i+16:i+18], 'little') & 0x3fff
+        else:
+            bits = int.from_bytes(data[i+5:i+9], 'little')
+            w, h = (bits & 0x3fff) + 1, ((bits >> 14) & 0x3fff) + 1
+        return w, h
+    panels = []
+    for i, (k, h, p) in enumerate(t['shots']):
+        w_px, h_px = shot_size(k)
+        panels.append(f'<div class="shot" role="tabpanel" id="shot-{i}" aria-labelledby="shot-tab-{i}" data-shot-panel="{i}"><figure><div class="frame"><img src="{b}media/app-{k}-{t["lang"]}.webp" width="{w_px}" height="{h_px}" alt="{e(h)}" {"" if i==0 else "loading=\"lazy\" "}decoding="async"></div><figcaption><b>{i+1}. {e(h)}</b>{e(p)}</figcaption></figure></div>')
+    shot_panels = ''.join(panels)
     get = ''.join(f'<article class="card" data-reveal><h3>{e(h)}</h3><p>{e(p)}</p></article>' for h,p in t['get_cards'])
     finds = ''.join(f'<button type="button" class="finding" data-finding="{i}" aria-pressed="{"true" if i==0 else "false"}"><span class="id">{fid}</span><b>{e(l)}</b><span class="t">{e(x)}</span></button>' for i,(fid,l,x) in enumerate(t['findings']))
     diffs = ''.join(f'<div data-diff="{i}"{"" if i==0 else " hidden"}><div class="was"><span class="lbl">{e(t["was"])}</span>{e(w).replace(chr(10),'<br>')}</div><div class="now" style="margin-top:14px"><span class="lbl">{e(t["now"])}</span>{e(n).replace(chr(10),'<br>')}</div></div>' for i,(w,n) in enumerate(t['diffs']))
@@ -152,16 +175,20 @@ def page(t):
   <nav class="nav" aria-label="{'サイト内' if t['lang']=='ja' else 'Site'}">{nav}<a class="lang" href="{t['other']}" lang="{t['other_lang']}" hreflang="{t['other_lang']}">{e(t['other_label'])}</a><a class="btn" href="#start" data-track="quickstart_open">{e(t['nav_cta'])}</a></nav>
 </header>
 <main id="main">
-<section class="hero sky"><div class="wrap">
+<section class="hero"><div class="wrap">
   <h1>{t['h1']}</h1>
   <p class="lede">{e(t['lede'])}</p>
-  <div class="cta"><a class="btn" href="#start" data-track="quickstart_open">{e(t['cta1'])}</a><a class="btn ghost" href="#proof">{e(t['cta2'])}</a></div>
+  <div class="cta"><a class="btn" href="#start" data-track="quickstart_open">{e(t['cta1'])}</a><a class="quiet-link" href="#proof">{e(t['cta2'])}</a></div>
   <p class="facts">{''.join(f'<span>{e(x)}</span>' for x in t['facts'])}</p>
-  <div class="stage" id="stage" data-states="{states}">
-    <p class="ask-line"><b>{e(t['ask_label'])}</b>{e(t['ask'])}</p>
-    <ol class="mates">{mates}</ol>
-    <div class="stage-foot"><span>{e(t['stage_note'])}</span><button type="button" id="stage-toggle" data-pause="{e(t['pause'])}" data-play="{e(t['play'])}" aria-pressed="false" hidden>{e(t['pause'])}</button></div>
-  </div>
+  <figure class="demo">
+    <video id="demo-video" width="1280" height="800" poster="{b}media/demo-poster{"" if t["lang"]=="en" else "-ja"}.jpg" preload="none" playsinline muted loop controls
+           aria-describedby="demo-note"{' autoplay' if False else ''}>
+      <source src="{b}media/demo-site{"-ja" if t["lang"]=="ja" else ""}.mp4" type="video/mp4">
+      <track kind="captions" srclang="{t['lang']}" label="{e(t['cap_label'])}" src="{b}media/demo-site-{t['lang']}.vtt">
+      <a href="{b}media/demo-site{"-ja" if t["lang"]=="ja" else ""}.mp4">{e(t['demo_fallback'])}</a>
+    </video>
+    <figcaption id="demo-note" class="demo-note">{e(t['demo_note'])}</figcaption>
+  </figure>
 </div></section>
 
 <section class="section" id="app"><div class="wrap">
@@ -171,7 +198,8 @@ def page(t):
 </div></section>
 
 <section class="section tint" id="team"><div class="wrap">
-  <div class="head" data-reveal><p class="eyebrow">{e(t['team_eyebrow'])}</p><h2>{t['team_h']}</h2><p class="lede">{e(t['team_p'])}</p></div>
+  <div class="head" data-reveal><p class="eyebrow">{e(t['team_eyebrow'])}</p><h2>{t['team_h']}</h2><p class="lede">{e(t['team_p'])}</p>
+    <button type="button" id="motion-toggle" class="motion-toggle" data-pause="{e(t['pause'])}" data-play="{e(t['play'])}" aria-pressed="false" hidden>{e(t['pause'])}</button></div>
   <div class="grid g4">{team}</div>
 </div></section>
 
@@ -182,7 +210,7 @@ def page(t):
 
 <section class="section tint" id="proof"><div class="wrap">
   <div class="head" data-reveal><p class="eyebrow">{e(t['proof_eyebrow'])}</p><h2>{t['proof_h']}</h2><p class="lede">{e(t['proof_p'])}</p></div>
-  <div class="proof" data-reveal><div class="findings">{finds}</div><div class="diff" aria-live="polite"><span class="file">{e(t['diff_file'])}</span>{diffs}</div></div>
+  <div class="proof" data-reveal><div class="findings">{finds}</div><div class="diff"><span class="file">{e(t['diff_file'])}</span>{diffs}</div></div>
   <p class="receipt" data-reveal>{receipt}</p>
   <p class="caveat" data-reveal>{e(t['proof_note'])} <a class="textlink" href="{EV}scenarios/research2" data-track="artifact_open">{e(t['proof_link'])}</a></p>
 </div></section>
@@ -202,6 +230,7 @@ def page(t):
 <section class="section" id="start"><div class="wrap">
   <div class="head" data-reveal><p class="eyebrow">{e(t['start_eyebrow'])}</p><h2>{t['start_h']}</h2><p class="lede">{e(t['start_p'])}</p></div>
   <div class="term" id="github" data-reveal><code id="cmd">{e(CMD)}</code><button type="button" id="copy" data-copied="{e(t['copied'])}">{e(t['copy'])}</button></div>
+  <p class="needs" data-reveal><b>{e(t['needs_label'])}</b> {t['needs']}</p>
   <ol class="steps3" data-reveal>{steps}</ol>
   <p class="caveat" data-reveal>{e(t['start_note'])}</p>
   <p class="conn" style="margin-top:40px" data-reveal aria-label="{e(t['conn_h'])}">{conn}</p>

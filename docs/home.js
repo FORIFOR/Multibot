@@ -14,9 +14,21 @@
       entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); } });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
     items.forEach(function (el) { io.observe(el); });
+    // A full-page capture, a print, or any viewport that never scrolls would otherwise leave the page blank,
+    // because the reveal only fires on intersection. After a moment, show everything regardless.
+    setTimeout(function () { items.forEach(function (el) { el.classList.add('in'); }); }, 2500);
   }
 
   // Stage: coordinator → researcher → maker → reviewer, then everyone done. An explanation, not a live run.
+  var motion = doc.getElementById('motion-toggle');
+  if (motion) {
+    motion.hidden = false;
+    motion.addEventListener('click', function () {
+      var off = doc.body.classList.toggle('motion-paused');
+      motion.setAttribute('aria-pressed', off ? 'true' : 'false');
+      motion.textContent = motion.getAttribute(off ? 'data-play' : 'data-pause');
+    });
+  }
   var stage = doc.getElementById('stage');
   if (stage) {
     var labels = JSON.parse(stage.getAttribute('data-states'));

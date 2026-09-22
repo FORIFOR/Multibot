@@ -9,7 +9,7 @@ img,video{max-width:100%}a{color:inherit}button,input,textarea{font:inherit}butt
 h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.03em;line-height:1.22;text-wrap:balance;word-break:auto-phrase;line-break:strict}
 h1{font-size:clamp(36px,5.6vw,74px);letter-spacing:-.045em;line-height:1.12}
 h2{font-size:clamp(30px,4.4vw,56px)}h3{font-size:20px;letter-spacing:-.01em}
-p{margin:0}.lede{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:34em;text-wrap:pretty}
+p{margin:0}.lede{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:34em;text-wrap:pretty;word-break:auto-phrase}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--signal-ink)}
 .mono{font-family:var(--mono);font-size:.86em}
 /* top bar */
@@ -132,6 +132,84 @@ h1,h2{font-family:var(--serif);font-weight:600;letter-spacing:-.02em}
 .sky .mate{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.96);color:var(--ink)}
 .sky .stage-foot{color:rgba(255,255,255,.9)}.sky .stage-foot button{background:rgba(255,255,255,.18);color:#fff}
 .final.sky::before{background:radial-gradient(800px 380px at 50% 112%,rgba(255,255,255,.24),transparent 70%),radial-gradient(520px 300px at 12% 0,rgba(160,190,255,.22),transparent 70%)}
+
+/* Hero demo: the real recording is the proof, so it gets the room the decorative stage used to take. */
+.demo{margin:clamp(30px,4vw,46px) auto 0;max-width:1000px}
+.demo video{display:block;width:100%;height:auto;aspect-ratio:16/10;border:1px solid var(--line);border-radius:22px;background:#0a0a0a;box-shadow:0 30px 70px rgba(29,32,48,.14)}
+.demo-note{margin:12px 6px 0;font-size:13px;line-height:1.7;color:var(--ink-3);text-align:left}
+.quiet-link{display:inline-flex;align-items:center;min-height:48px;padding:0 10px;color:var(--ink-2);font-weight:650;font-size:15px;text-underline-offset:4px}
+.quiet-link:hover{color:var(--ink)}
+@media(max-width:600px){
+  .demo video{border-radius:16px}.demo-note{text-align:left}
+  .hero{padding-top:20px}
+  .hero h1{font-size:clamp(28px,7.4vw,34px)}
+  .hero .lede{margin-top:14px;font-size:15.5px}
+  .hero .cta{margin-top:18px}.hero .cta .btn{min-height:50px}
+  .hero .facts{margin-top:12px;font-size:12.5px;gap:4px 12px}
+  .demo{margin-top:18px}
+}
+
+
+/* Fold, 2026-09-22: one column, the real recording under one action. The two-column layout and the blue sky
+   belonged to the old decorative stage; a 1280x800 recording needs the full width to stay readable. */
+.hero{background:var(--paper);border-bottom:1px solid var(--line)}
+@media(min-width:1100px){
+  .hero{text-align:center;padding-top:14px;padding-bottom:28px}
+  .hero>.wrap{display:block;min-height:0}
+  .hero h1{font-size:clamp(32px,2.7vw,42px);margin-inline:auto;max-width:26ch}
+  .hero .lede{margin:10px auto 0;max-width:40em;font-size:16px;text-wrap:pretty}
+  .hero .cta{margin-top:14px}.hero .cta .btn{min-height:48px}
+  .hero .cta,.hero .facts{justify-content:center}
+  .hero .facts{margin-top:10px}
+  .demo{margin-top:14px;max-width:min(1040px, calc((100vh - 400px) * 1.6))}
+}
+.hero h1{font-family:var(--sans);font-weight:800;letter-spacing:-.045em}
+.hero .btn,.top .nav .btn{background:var(--ink);color:#fff;box-shadow:0 10px 26px rgba(29,32,48,.2)}
+.hero .btn:hover{box-shadow:0 14px 32px rgba(29,32,48,.26)}
+
+
+/* Stopping the characters' idle motion, and tap targets that a thumb can actually hit. */
+body.motion-paused *,body.motion-paused *::before,body.motion-paused *::after{animation:none!important}
+.motion-toggle{display:inline-flex;align-items:center;min-height:44px;margin-top:14px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink-2);font-size:13.5px;font-weight:650}
+.motion-toggle:hover{background:var(--bg)}
+footer a,.foot a,.caveat a,.proof-link,.honest-link,a.quiet-link,.brand{display:inline-flex;align-items:center;min-height:44px}
+footer a{padding:2px 0}
+#portfolio-form label.consent,.lead-form label.consent{display:flex;align-items:flex-start;gap:10px;min-height:44px;padding:6px 0}
+#portfolio-form label.consent input,.lead-form label.consent input{width:24px;height:24px;margin-top:2px;flex:none}
+#portfolio-form label{display:block}
+/* Japanese lines that ended on one orphaned character, everywhere text runs long. */
+figcaption,.card p,.demo-note,.caveat,.shot-tabs button,.faq p,.step p,.receipt li,.honest p{word-break:auto-phrase;text-wrap:pretty}
+#copy{min-height:44px;padding:0 18px}
+@media(max-width:600px){
+  .caveat,.demo-note,.foot small{font-size:13.5px}
+  .foot a{padding:4px 0}
+}
+
+
+/* A screenshot is a window onto a longer screen: fade its lower edge instead of slicing a line of text in half. */
+[data-shot-panel] img{display:block;-webkit-mask-image:linear-gradient(180deg,#000 0,#000 88%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 88%,transparent 100%)}
+
+.needs{max-width:760px;margin:14px auto 0;font-size:14px;line-height:1.85;color:var(--ink-2);text-align:left}
+.needs b{color:var(--ink);margin-right:6px}
+.needs code{padding:2px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;font-family:var(--mono);font-size:13px;overflow-wrap:anywhere}
+.needs a{text-underline-offset:3px}
+
+
+/* Phone: role cards in one column, and the same line-breaking care the desktop text already gets. */
+@media(max-width:600px){
+  .grid.g4,.grid.g3,.grid.g2{grid-template-columns:minmax(0,1fr)}
+  .card h3,.card p,.shot-tabs button,figcaption,.step p,.faq p{word-break:auto-phrase;text-wrap:pretty}
+  .shot-tabs{grid-template-columns:minmax(0,1fr);gap:6px}
+  .shot-tabs button{min-height:52px;justify-content:flex-start;padding:0 14px}
+  .term code{font-size:12.5px;overflow-wrap:anywhere}
+}
+
+
+/* The three app screens are different heights; hold one frame so switching tabs does not move the page. */
+.js .shot .frame{height:min(60vh,560px);overflow:hidden;border-radius:inherit;display:flex;align-items:flex-start;justify-content:center}
+.js .shot .frame img{width:100%;height:auto;object-fit:cover;object-position:top}
+@media(max-width:600px){.js .shot .frame{height:min(52vh,360px)}}
+
 /* BOTS:BEGIN — generated by docs/site/build_site.py from frontend/src/quiet-cinema.css and bot-polish.css. Do not edit here. */
 /* Role-aware bot characters: tiny coworkers with readable job/state silhouettes. */
 .bot-character{--bot:#6677e8;--bot-soft:#e8ebff;position:relative;display:inline-grid;grid-template-rows:auto auto;place-items:center;flex:none;width:48px;height:58px;filter:drop-shadow(0 5px 8px rgba(53,61,99,.13));transform-origin:50% 85%}
