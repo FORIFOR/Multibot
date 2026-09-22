@@ -82,6 +82,7 @@ def build_workflow_goal(expected):
             f'実装・検証済み原文: {implemented}',
             f'残る受入条件原文: {remaining}',
             f'日本語要約の指針: {guidance[area]}',
+            f'そのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装={SUMMARY_EXAMPLES[area]["implemented"]} 残条件={SUMMARY_EXAMPLES[area]["remaining"]}',
             'implementedの根拠語: ' + '、'.join(anchors.get('implemented', ())),
             'remainingの根拠語: ' + '、'.join(anchors.get('remaining', ())),
         ])
@@ -206,6 +207,45 @@ SUMMARY_ANCHORS = {
         # such as “技術的制約文書化” is not rejected by the evaluator.
         'implemented': ('制約', '文書', '制限', '説明', '承認', '認証'),
         'remaining': ('スコープ', 'SLO', 'SLA', 'サポート', 'インシデント', '責任'),
+    },
+}
+
+# Short, source-derived Japanese sentence patterns reduce transliteration drift
+# in the local model without writing or repairing the requested artifact.  The
+# model may copy these patterns and must still supply the exact source quote in
+# `evidence_quote`; the runtime contract remains the authority.
+SUMMARY_EXAMPLES = {
+    'Identity': {
+        'implemented': '実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。',
+        'remaining': '本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。',
+    },
+    'Isolation': {
+        'implemented': '組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。',
+        'remaining': '独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。',
+    },
+    'Execution': {
+        'implemented': 'ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。',
+        'remaining': '負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。',
+    },
+    'Data': {
+        'implemented': 'オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。',
+        'remaining': '履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。',
+    },
+    'Audit / monitoring': {
+        'implemented': '操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。',
+        'remaining': '独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。',
+    },
+    'Deployment': {
+        'implemented': '固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。',
+        'remaining': '実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。',
+    },
+    'Business quality': {
+        'implemented': '元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。',
+        'remaining': '出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。',
+    },
+    'Contract / operation': {
+        'implemented': '技術的制約を文書化している。',
+        'remaining': '承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。',
     },
 }
 
