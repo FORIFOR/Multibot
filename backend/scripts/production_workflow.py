@@ -51,6 +51,49 @@ summary は領域名（Identity、Isolation、Execution、Data、Audit / monitor
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。'''
 
 
+def build_workflow_goal(expected):
+    """Add a source-derived, low-ambiguity brief to the model request.
+
+    The local model repeatedly saw the source table and then copied its English
+    cells into Japanese fields. This brief is generated from the exact source
+    rows for this run; it is not a fixture or a replacement artifact. Keeping
+    the source quote beside the requested output fields also prevents a model
+    from guessing the row order after spending its context on the operating guide.
+    """
+    guidance = {
+        'Identity': '実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSO、Keycloak、トークン失効を日本語で要約する。',
+        'Isolation': '組織の結び付け、ランごとの権限、アーティファクトとイベントのアクセス確認、Docker、公開IP取得を日本語で要約する。',
+        'Execution': 'ランごとの予算、永続キュー、操作主体ごとの冪等な受入、ワーカーリース、回復、SIGKILLドリルを日本語で要約する。',
+        'Data': 'スナップショットと復元、チェックサム、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を日本語で要約する。',
+        'Audit / monitoring': '操作主体の監査記録、監査者ロール、耐久コレクター、カーソル、メトリクス、復旧、ブラウザ画面を日本語で要約する。',
+        'Deployment': '固定ランタイム、コンテナ、ブラウザ/API確認、更新とロールバック、破損復旧、アドバイザリ確認を日本語で要約する。',
+        'Business quality': '合成比較を停止した事実、実資料による失敗、出力と入力の検査、過去の試験結果を日本語で要約する。',
+        'Contract / operation': '技術的制約の文書化を日本語で要約する。',
+    }
+    lines = [
+        '',
+        '## 実行ごとに抽出した原資料の8行（このブロックを最優先で使う）',
+        '次の8行は今回の実ファイルから機械的に抽出した根拠です。areaの順序を変えず、evidence_quoteには各行の「残条件原文」を文字単位でそのまま入れてください。implementedとremainingだけを、原文の意味を保った40〜120文字程度の日本語一文へ書き換えます。英語の原文をその2欄へコピーしません。',
+    ]
+    for index, (area, implemented, remaining) in enumerate(expected, start=1):
+        anchors = SUMMARY_ANCHORS.get(area, {})
+        lines.extend([
+            f'### {index}. {area}',
+            f'実装・検証済み原文: {implemented}',
+            f'残る受入条件原文: {remaining}',
+            f'日本語要約の指針: {guidance[area]}',
+            'implementedの根拠語: ' + '、'.join(anchors.get('implemented', ())),
+            'remainingの根拠語: ' + '、'.join(anchors.get('remaining', ())),
+        ])
+    lines.extend([
+        '',
+        '## 最終出力チェック（必ず最後に再確認）',
+        '説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。',
+        '新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。',
+    ])
+    return GOAL + '\n' + '\n'.join(lines)
+
+
 def sha(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -254,6 +297,7 @@ async def main(root, repeat, profile_path):
         raise ValueError('use a clean, fixed checkout')
     source = {Path(name).name: (ROOT.parent / name).read_text() for name in SOURCES}
     expected = source_rows(source['PRODUCTION_PLAN.md'])
+    workflow_goal = build_workflow_goal(expected)
     required = [{'logical_path': 'readiness.json', 'json_schema': delivery_schema(expected)}]
     cfg = load_config_file(ROOT.parent / profile_path)
     cfg.profile_name = 'production-readiness-source-workflow'
@@ -271,7 +315,7 @@ async def main(root, repeat, profile_path):
     model = next(m for m in models if m['name'] in (cfg.defaults.model, cfg.defaults.model + ':latest'))
     fingerprint = {'commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT.parent, text=True).strip(),
                    'source_sha256': {name: sha(value.encode()) for name, value in source.items()},
-                   'goal_sha256': sha(GOAL.encode()), 'config_sha256': sha(config_to_yaml(cfg).encode()),
+                   'goal_sha256': sha(workflow_goal.encode()), 'config_sha256': sha(config_to_yaml(cfg).encode()),
                    'delivery_requirements_sha256': sha(json.dumps(required, sort_keys=True, ensure_ascii=False).encode()),
                    'model': cfg.defaults.model, 'model_digest': model['digest'], 'ollama_version': version, 'target_runs': repeat}
     manifest = root / 'fingerprint.json'
@@ -282,7 +326,7 @@ async def main(root, repeat, profile_path):
         (root / 'inputs').mkdir(mode=0o700)
         for name, value in source.items():
             (root / 'inputs' / name).write_text(value)
-        (root / 'goal.txt').write_text(GOAL)
+        (root / 'goal.txt').write_text(workflow_goal)
         write_json(root / 'delivery-requirements.json', required)
     access = root / 'access.json'
     if not access.exists():
@@ -321,7 +365,7 @@ async def main(root, repeat, profile_path):
             token = (root / 'forifor.key').read_text().strip()
             async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='https://localhost',
                                         headers={'Authorization': 'Bearer ' + token}, timeout=30) as client:
-                body = {'goal': GOAL, 'inputs': {'files': [{'name': name, 'content': text} for name, text in source.items()],
+                body = {'goal': workflow_goal, 'inputs': {'files': [{'name': name, 'content': text} for name, text in source.items()],
                                                'delivery_requirements': required}, 'start': True}
                 for rep in range(1, repeat + 1):
                     if (root / 'STOP').exists():
