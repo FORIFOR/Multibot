@@ -19,6 +19,8 @@ The v35 series stopped after one interrupted local-Qwen attempt that published t
 
 The v38 series added source-derived Japanese example sentences, then stopped after seven local-Qwen attempts because the same contract failures repeated: five attempts produced no JSON, one produced a JSON object with missing `source_file` and incorrect English/quote fields, and one was interrupted by shutdown. Reviewer submissions and accepted runs remained zero. See the [v38 evidence](evidence/real-readiness-v38-qwen35-fixed-20260923/README.md). The examples did not make the local model's schema completion or source-grounded Japanese reliable; no artifact was rewritten after generation.
 
+The v39 series added an explicit JSON skeleton and Builder instruction, then stopped during the fourth attempt after three consecutive failures to produce `readiness.json`; the one published artifact was `final-report.md`, and the other two completed attempts had no JSON artifact. Reviewer submissions and accepted runs remained zero. See the [v39 evidence](evidence/real-readiness-v39-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.
+
 Next engineering sequence:
 
 1. Done: authenticated deployment boundary with recorded API/browser/backup evidence and passing CI.
