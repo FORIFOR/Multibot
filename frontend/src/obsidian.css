@@ -260,13 +260,27 @@ body:has(.desk-workroom) .top{border:0;background:var(--ob-chrome)}
   .desk-workroom .room-side>.room-notes{order:-1}
   .desk-workroom .room-side>#room-request{flex:0 1 auto;order:2}
   .desk-workroom .room-side>#room-request:has(details[open]){flex-basis:100%}
-  .desk-workroom .room-side .simple-request{margin:0;padding:0;border:0;background:none}
+  .desk-workroom .room-side .simple-request{margin:0;padding:0;border:0;background:none;gap:0}
   .desk-workroom .room-side .simple-request>summary,.desk-workroom .room-side .team-recommendation>summary{min-height:44px;display:flex;align-items:center;gap:6px;color:var(--ob-ink-3);font-size:13px;cursor:pointer}
   .desk-workroom .room-side .simple-request>summary,.desk-workroom .room-side .team-recommendation>summary{list-style:none;margin:0;padding:0}
   .desk-workroom .room-side .simple-request>summary::-webkit-details-marker,.desk-workroom .room-side .team-recommendation>summary::-webkit-details-marker{display:none}
   .desk-workroom .room-side .simple-request>summary::before,.desk-workroom .room-side .team-recommendation>summary::before{content:'+';font-weight:600}
   .desk-workroom .room-side details[open]>summary::before{content:'−'}
-  .desk-workroom .simple-deliverables>.result-review-summary{padding:var(--ob-s1) 0}
-  .desk-workroom .simple-deliverables>.result-use{padding:var(--ob-s1) 0}
+  /* One decision row: what the record says, then the action that follows from it. */
+  .desk-workroom .result-decide{display:flex;flex-wrap:wrap;align-items:center;gap:0 var(--ob-s4);padding:var(--ob-s1) 24px}
+  .desk-workroom .result-decide>.result-review-summary{flex:1 1 auto;min-width:0;padding:0}
+  .desk-workroom .result-decide>.result-use{flex:0 0 auto;margin-left:auto;padding:0}
+  .desk-workroom .result-md{padding-top:var(--ob-s3)}
+  .desk-workroom .result-file-list{padding:var(--ob-s1) 24px}
+  .desk-workroom .simple-deliverables>header{padding-bottom:0}
   .desk-workroom .simple-deliverables>header{padding-bottom:var(--ob-s1)}
 }
+/* Narrow widths: keep each action on one line and let whole buttons wrap instead of their words. */
+@media(max-width:600px){
+  .result-use .btn,.result-use a.btn,.simple-deliverables>header .btn{white-space:nowrap}
+  .simple-deliverables>header{flex-wrap:wrap;gap:var(--ob-s2)}
+  .simple-deliverables>header h2{flex:1 1 100%}
+}
+/* The work screen heading takes focus on arrival; show that, without a ring on a plain mouse visit. */
+.desk-workroom .room-goal h1:focus{outline:none}
+.desk-workroom .room-goal h1:focus-visible{outline:2px solid var(--ob-ink);outline-offset:4px;border-radius:var(--ob-r-sm)}

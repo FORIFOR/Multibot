@@ -36,6 +36,8 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const [actionError, setActionError] = useState('')
   const [busy, setBusy] = useState(false)
   const actionLock = useRef(false)
+  const headingRef = useRef<HTMLHeadingElement>(null)
+  const announced = useRef(false)
   const [goalOpen, setGoalOpen] = useState(false)
   const [panel, setPanel] = useState<JourneyPanel | null>(() => new URLSearchParams(location.search).get('view') === 'conversation' ? 'team' : requestedPanel(location.search))
   const queryTab = new URLSearchParams(location.search).get('tab')
@@ -96,6 +98,9 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     window.scrollTo({ top: 0 })
     target?.focus({ preventScroll: true })
   }, [run])
+  // Arriving from the request screen replaces the whole page; move focus to what this screen is about, once the
+  // heading exists. Must stay above the early return below: hook order cannot change between renders.
+  useEffect(() => { if (!announced.current && headingRef.current) { announced.current = true; headingRef.current.focus({ preventScroll: true }) } })
   if (!run) return <section className="simple-loading" aria-live="polite"><h1>{loadError || say('チームの様子を読み込んでいます…', 'Opening your work…')}</h1><button className="btn ghost" onClick={refresh}>{say('もう一度読み込む','Try again')}</button></section>
   const files = resultFiles(run.artifacts)
   const selectedPanel = panel || defaultPanel(run.status, files.length)
@@ -120,6 +125,12 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const evidence = run.final_report?.evidence
   const latestFiles = [...new Map(files.map(f => [f.artifact_id, f] as const).sort((a, b) => a[1].revision - b[1].revision)).values()]
   const uncheckedFiles = latestFiles.filter(f => !hasCheckRecord(f, evidence, events)).length
+  // What the coordinator says must follow the adoption that already happened, not keep asking for it.
+  const adoptedList = Object.entries(run.artifact_selection || {})
+  const adoptedUnverified = adoptedList.filter(([artifactId, selection]) => {
+    const file = run.artifacts.find(a => a.artifact_id === artifactId && a.revision === selection.revision)
+    return !file || !hasCheckRecord(file, evidence, events)
+  }).length
   // Who owns which task, so that "t2" in a model's own words can be shown as that teammate's work.
   const owners: Record<string,string> = Object.fromEntries(run.tasks.map(t => { const a = run.config_snapshot?.agents?.[t.spec.owner]; return [t.spec.id, a?.display_name || botName(a?.role || t.spec.owner, getLang())] }))
   const runnable = ['created','queued','planning','running'].includes(run.status)
@@ -136,7 +147,12 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     <Link to={`/runs?filter=${workFilter(new URLSearchParams(location.search).get('from'))}`} nav={nav} className="work-back">{say('← 作業一覧に戻る','← Back to work')}</Link>
     {run.provider_kind === 'fake' && <p className="demo-notice">{say('テスト表示です。実際のAIによる作業ではありません。','Test display. This is not work performed by a real AI.')}</p>}
     <section className={`work-status room-head tone-${pending.length ? 'attention' : stateTone(run.status)}`} aria-label={say('進み具合','Progress')}>
-<div className="status-voice">{(() => { const m = Object.entries(run.config_snapshot?.agents || {}).find(([, a]) => a.enabled && a.role === 'master'); return m ? <BotAvatar id={m[0]} role={m[1].role} emoji={m[1].emoji} name={m[1].display_name || botName(m[1].role, getLang())} state={(() => { const mine = run.tasks.filter(t => t.spec.owner === m[0]); const raw = botActivity(mine, run.status, m[0], m[1].role, true); return coordinatorPlanned(m[1].role, mine.length, !!run.plan, raw, run.status) ? 'done' : raw })()} /> : null })()}      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status === 'completed' ? (uncheckedFiles > 0 ? say(`確認の記録がないファイルが${uncheckedFiles}件あります。中身と記録を見てから、使う版を選んでください。`,`${uncheckedFiles} file(s) have no check record. Read them and the record before choosing a version.`) : say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.')) : null}</p></div></div>
+<div className="status-voice">{(() => { const m = Object.entries(run.config_snapshot?.agents || {}).find(([, a]) => a.enabled && a.role === 'master'); return m ? <BotAvatar id={m[0]} role={m[1].role} emoji={m[1].emoji} name={m[1].display_name || botName(m[1].role, getLang())} state={(() => { const mine = run.tasks.filter(t => t.spec.owner === m[0]); const raw = botActivity(mine, run.status, m[0], m[1].role, true); return coordinatorPlanned(m[1].role, mine.length, !!run.plan, raw, run.status) ? 'done' : raw })()} /> : null })()}      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status !== 'completed' ? null
+        : adoptedList.length > 0 ? (adoptedUnverified > 0
+          ? say(`使う版を${adoptedList.length}件選びました。そのうち${adoptedUnverified}件は確認の記録がないまま採用しています。`, `${adoptedList.length} version(s) chosen; ${adoptedUnverified} of them were adopted with no check record.`)
+          : say(`使う版を${adoptedList.length}件選びました。ほかのファイルも記録を見てから選べます。`, `${adoptedList.length} version(s) chosen. You can review and choose the other files too.`))
+        : uncheckedFiles > 0 ? say(`確認の記録がないファイルが${uncheckedFiles}件あります。中身と記録を見てから、使う版を選んでください。`,`${uncheckedFiles} file(s) have no check record. Read them and the record before choosing a version.`)
+        : say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.')}</p></div></div>
       <div className="work-actions"><span className="cost-summary">{say('使用額','Used')} {money(run.usage.cost_usd)}{run.usage.reserved_usd > 0 ? ` · ${say('処理中の確保額','Reserved')} ${money(run.usage.reserved_usd)}` : ''}</span>
         {canWrite && runnable && <button className="btn ghost" disabled={busy} onClick={() => act(() => api.cancel(runId))}>{say('作業を止める','Stop work')}</button>}
         {canWrite && run.plan && ['interrupted','partial','failed','cancelled'].includes(run.status) && <details className="desk-resume"><summary className="btn signal">{say('続きを進める','Continue work')}</summary><div><p>{say('途中の作業を再実行する場合があります。送信済みの資料・外部処理は取り消されません。','Unfinished tasks may run again. Sent material and completed external effects cannot be undone.')}</p><button className="btn signal" disabled={busy} onClick={() => act(() => api.resume(runId))}>{say('確認して再開','Confirm and continue')}</button></div></details>}
@@ -144,7 +160,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
       </div>
       <header className="simple-run-heading room-goal">
 
-        <h1 className={goalOpen ? undefined : 'goal-clamp'} title={goalOpen ? undefined : run.goal}>{run.goal}</h1>
+        <h1 ref={headingRef} tabIndex={-1} className={goalOpen ? undefined : 'goal-clamp'} title={goalOpen ? undefined : run.goal}>{run.goal}</h1>
         {run.goal.length > 70 && <button type="button" className="goal-toggle" aria-expanded={goalOpen} onClick={() => setGoalOpen(!goalOpen)}>{goalOpen ? say('たたむ','Collapse') : say('全文を表示','Show all')}</button>}
       </header>
     </section>
@@ -276,12 +292,14 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
   const useVersion=async()=>{if(lock.current)return;lock.current=true;setBusy(true);setNote('');try{await api.adoptArtifact(run.run_id,file.artifact_id,{revision:file.revision,expected_selected_revision:adopted?.revision ?? 0});setNote(say('この版を使うことにしました。','This version is now selected.'));focusChoice.current=true;await refresh()}catch{setError(say('選択を保存できませんでした。再読み込みしてお試しください。','Could not save your choice. Refresh and try again.'))}finally{lock.current=false;setBusy(false)}}
   return <section className="pane simple-deliverables"><header><h2>{say('できたもの','Your results')}</h2>{Object.keys(run.artifact_selection || {}).length > 0 && <a className="btn ghost" href={`/api/runs/${run.run_id}/export?fmt=zip&selection=adopted`}>{say('採用したファイルを保存','Save selected files')}</a>}<a className="btn ghost" href={`/api/runs/${run.run_id}/export?fmt=zip`}>{say('最新のファイルをまとめて取得','Get all latest files')}</a></header>
     <div className="result-file-list" aria-label={say('ファイルを選ぶ','Choose a file')}>{[...versions.entries()].map(([key,items])=><button className={key===id?'active':''} type="button" aria-pressed={key===id} key={key} onClick={()=>{clearTarget();setSelection({id:key,revision:run.artifact_selection?.[key]?.revision||items[items.length-1].revision})}}><span aria-hidden="true">📄</span>{items[items.length-1].logical_path}{run.artifact_selection?.[key]&&<span className="tab-chosen" title={say('あなたが選んだ版があります','You selected a version')}>{say('採用','Chosen')}</span>}{unchecked.has(key)&&<span className="tab-mark" role="img" aria-label={say('確認の記録なし','No check record')} title={say('確認の記録なし','No check record')}>?</span>}</button>)}</div>
+    <div className="result-decide">
     <div className={`result-review-summary is-${pass?'pass':concern?'concern':'none'}`}>
       <span className="review-state"><b aria-hidden="true">{pass?'✓':concern?'!':'?'}</b>{pass?say('この版の記録された確認は通過','Recorded checks passed for this version'):concern?say('この版には未確認・要修正の項目があります','This version has unchecked or flagged items'):say('未確認：この版の確認記録はまだありません','Unverified: No check record for this version yet')}</span>
       <button type="button" className="review-link" onClick={()=>{setRecordOpen(true);setTimeout(()=>document.getElementById('result-record')?.scrollIntoView({block:'center'}),0)}}>{say('確認の記録を見る','See the check record')}</button>
     </div>
     {error&&<p className="work-warning" role="alert">{error} <button className="btn ghost" onClick={()=>setReadAttempt(n=>n+1)}>{say('再読み込み','Refresh')}</button></p>}
-    <div className="result-use">{isMarkdown&&<button type="button" className="btn ghost" aria-pressed={showSource} onClick={()=>setShowSource(!showSource)}>{showSource?say('読みやすく表示','Show formatted'):say('原文を表示','Show source')}</button>}<a className="btn ghost" href={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)} target="_blank" rel="noreferrer">{say('このファイルを開く','Open this file')}</a>{run.access?.can_write!==false&&adopted?.revision!==file.revision&&<button data-adopt className={pass?'btn signal':'btn adopt-caution'} disabled={busy||!detail} onClick={useVersion}>{pass?say('この版を使う','Use this version'):concern?say('指摘が残ったまま、この版を使う','Use this version with open findings'):say('未確認のまま、この版を使う','Use this version unverified')}</button>}<span className="review-choice">{adopted?.revision===file.revision?<span className="chosen-pill" ref={choiceRef} tabIndex={-1}><b aria-hidden="true">★</b>{say('あなたが選んだ版','Your selected version')}</span>:say('まだ採用していない候補','Not yet selected by you')}</span><span role="status">{note}</span></div>
+    <div className="result-use">{isMarkdown&&<button type="button" className="btn ghost" aria-pressed={showSource} onClick={()=>setShowSource(!showSource)}>{showSource?say('読みやすく表示','Show formatted'):say('原文を表示','Show source')}</button>}{run.access?.can_write!==false&&adopted?.revision!==file.revision&&<button data-adopt className={pass?'btn signal':'btn adopt-caution'} disabled={busy||!detail} onClick={useVersion}>{pass?say('この版を使う','Use this version'):concern?say('指摘が残ったまま、この版を使う','Use this version with open findings'):say('未確認のまま、この版を使う','Use this version unverified')}</button>}<a className="btn ghost" href={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)} target="_blank" rel="noreferrer">{say('このファイルを開く','Open this file')}</a><span className="review-choice">{adopted?.revision===file.revision?<span className="chosen-pill" ref={choiceRef} tabIndex={-1}><b aria-hidden="true">★</b>{say('あなたが選んだ版','Your selected version')}</span>:say('まだ採用していない候補','Not yet selected by you')}</span><span role="status">{note}</span></div>
+    </div>
     {detail?.text!=null&&<ArtifactWorkbench key={`${file.artifact_id}:${file.revision}:${file.sha256}`} file={file} text={detail.text} previous={list[list.findIndex(f=>f.revision===file.revision)-1]?.revision} onDirection={onDirection}/>}
     <div className="result-reader" role="region" aria-label={say(`成果物：${file.logical_path}`,`Result: ${file.logical_path}`)} tabIndex={0}>{file.media_type.includes('html')?<iframe title={file.logical_path} sandbox="" src={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)}/>:isMarkdown&&detail?.text!=null&&!showSource?<Markdown text={detail.text} className="md result-md"/>:<pre>{detail?.text ?? (detail?say('この形式は別のウィンドウで開いてください。','Open this file in a new window to view it.'):say('読み込み中…','Loading…'))}</pre>}</div>
     <details id="result-record" className="result-record" open={recordOpen} onToggle={e=>setRecordOpen(e.currentTarget.open)}><summary>{say('版と確認の記録','Versions & check record')}</summary>
