@@ -21,6 +21,8 @@ The v38 series added source-derived Japanese example sentences, then stopped aft
 
 The v39 series added an explicit JSON skeleton and Builder instruction, then stopped during the fourth attempt after three consecutive failures to produce `readiness.json`; the one published artifact was `final-report.md`, and the other two completed attempts had no JSON artifact. Reviewer submissions and accepted runs remained zero. See the [v39 evidence](evidence/real-readiness-v39-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.
 
+The v40 series shortened the automatic delivery-check response and added an explicit next-publish action. It stopped during the fourth attempt after three failures: one published only `final-report.md`, one produced no JSON, and one produced a JSON candidate with a syntax error. Reviewer submissions and accepted runs remained zero. See the [v40 evidence](evidence/real-readiness-v40-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.
+
 Next engineering sequence:
 
 1. Done: authenticated deployment boundary with recorded API/browser/backup evidence and passing CI.
