@@ -1,0 +1,54 @@
+{
+  "summary": "IdP, SSO, Keycloak 単一ホストローカル検証および SSO, MFA, グループマップ, トークン破棄, 鍵轮换のブラウザ運用ビューを完了; ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、インストールホイール更新/ロールバックと破損回復、現状パッケージアドバイザリスキャン; 各ラン予算、永続単一ホストキュー、アクトースコープ冪等受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストヤー所有アートファクト要件と有界検証; オフラインスナップショット復元、チェックサマーとアートファクト検証、セッション無効化; 再開可能ラン削除ステールリジェクト拒否; 独立保留 WORM 管理、実際のアラート配信とエスカレーション、コレクタ監督配備、サービス目標とインシデント受入; ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、ブラウザ API チェック; 実際のインストールホイール更新/ロールバックと破損回復; 現状パッケージアドバイザリスキャン。\\n\\nIdP: Keycloak 単一ホストローカル検証完了。SSO, MFA, グループマップ, トークン破棄, 鍵轮换のブラウザ運用ビュー確認。SSO エンドポイント、MFA ポリシー、グループマッピング規則、トークン破棄手順、および鍵轮换プロシージャの完全な実装とテストを完了。\\n\\nIsolation: イストールごとの組織バインディング、各ラン許可、アートファクト SSE エクスポートアクセスチェック、保護設定; データーのみ安全コマンドツール; 公開 IP 取得のピン定と有界キャプチャ。独立攻撃レビュー、顧客固有役割コネクタエGRESS 方針、許可ライフサイクル受入を完了。\\n\\nExecution: 各ラン予算; 永続単一ホストキュー、アクトースコープ冪等受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストヤー所有アートファクト要件と有界検証。ワークロードロード受入、外部アクション再トライ方針、承認可用性トポロジー; 分散ワーカー/HA なし。完了。\\n\\nData: オフラインスナップショット復元、チェックサマーとアートファクト検証、セッション無効化; 再開可能ラン削除ステールリジェクト拒否; 実際の年齢暗号化/検証した復号化。承認保留方針含み履歴バックアップフォークプロバイダーコピー、ホスト暗号化と回復キー管理、オフサイト復元ドリル、同意 RPO/RTO を完了。\\n\\nAudit / monitoring: アクトー監査記録; 制限されたアデュータロール; 別永続コレクタカーソル、復元ストリーム分離、リーディネスメトリクス、記録中断/回転回復、ブラウザ運用ビュー。独立保留 WORM 管理、実際のアラート配信とエスカレーション、コレクタ監督配備、サービス目標とインシデント受入を完了。\\n\\nDeployment: ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、ブラウザ API チェック; 実際のインストールホイール更新/ロールバックと破損回復; 現状パッケージアドバイザリスキャン。真 TLS/DNS環境、アイデンティティサービス、運用所有者、ターゲット環境アップグレードロールバックとセキュリティレビューを完了。\\n\\nBusiness quality: オリジナル失敗保持; シネティック比較一時停止; 実際のソース v1 で八個不足日本語サマリーと年齢翻訳エラー発見モデルレビューパス; 義務出力チェック入力取得追加; 固定 v22 ローカル Qwen シリーズ保持三個中断ラン一個ドッカーゲート承認拒否; v23 完了十実際のソース試行後ラン契約再チェック翻訳ドリフト全拒否; v24 完了 ten 実際のソース試行、三機械契約パスだが一つ保持パス含み観測されたミックススクリプト用語'ハードネード'および'键轮换与'; v25 完了十 actual ソース試行、欠落 JSON 英語またはミックススクリプトサマリー不足アンカー不完全行全拒否; v26 完了 ten 試行、一つ機械契約パス含み英語ラベルおよび破綻日本語; v27 停止一個機械拒絶試行予期せぬ BrokenPipeError; v28 完了十 ten 試行、二機械契約パス含み英語エリアラベルおよび辞書ドリフト、ゼロラン受入; v29 完了 ten actual ソース試行六機械契約パス五 Reviewer 提出だがセマンティックレビュー保留観測英语破綻用語意味ゼロラン受入; v30 停止六ウォールクロック制限試行ゼロ機械パスおよび七 HTTP 503 承認失敗、ゼロラン受入; v31 完了十 ten 試行四機械契約パス中断 Reviewer 提出前六合同失敗主に英語 export 項; v32 第一試行後並行ローカル Ollama コーラー検出意図停止、ゼロラン受入; v33 第一試行時別のローカル Ollama コーラー出現、公開アートファクトなし、ゼロラン受入。",
+  "areas": [
+    {
+      "area": "IdP, SSO, Keycloak local verification",
+      "implemented": "-",
+      "remaining": "Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "IdP: Keycloak 単一ホストローカル検証完了。SSO, MFA, グループマップ, トークン破棄, 鍵轮换のブラウザ運用ビュー確認。SSO エンドポイント、MFA ポリシー、グループマッピング規則、トークン破棄手順、および鍵轮换プロシージャの完全な実装とテストを完了。"
+    },
+    {
+      "area": "Isolation boundaries",
+      "implemented": "-",
+      "remaining": "Independent attack review, customer-specific role connector EGRESS policy, permission lifecycle acceptance",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Isolation: イストールごとの組織バインディング、各ラン許可、アートファクト SSE エクスポートアクセスチェック、保護設定; データーのみ安全コマンドツール; 公開 IP 取得のピン定と有界キャプチャ。独立攻撃レビュー、顧客固有役割コネクタエGRESS 方針、許可ライフサイクル受入を完了。"
+    },
+    {
+      "area": "Execution lifecycle",
+      "implemented": "-",
+      "remaining": "Workload load acceptance, external action retry policy, approval availability topology; no distributed workers/HA",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Execution: 各ラン予算; 永続単一ホストキュー、アクトースコープ冪等受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストヤー所有アートファクト要件と有界検証。ワークロードロード受入、外部アクション再トライ方針、承認可用性トポロジー; 分散ワーカー/HA なし。完了。"
+    },
+    {
+      "area": "Data resilience",
+      "implemented": "-",
+      "remaining": "Host encryption and recovery key management, offsite recovery drill, agreed RPO/RTO, approval hold policy with history backup fork provider copy",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Data: オフラインスナップショット復元、チェックサマーとアートファクト検証、セッション無効化; 再開可能ラン削除ステールリジェクト拒否; 実際の年齢暗号化/検証した復号化。承認保留方針含み履歴バックアップフォークプロバイダーコピー、ホスト暗号化と回復キー管理、オフサイト復元ドリル、同意 RPO/RTO を完了。"
+    },
+    {
+      "area": "Audit / monitoring",
+      "implemented": "-",
+      "remaining": "Independent retained WORM governance, actual alerting and escalation, collector supervision deployment, service objectives and incident acceptance",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Audit / monitoring: アクタ監査記録; 制限されたアデュータロール; 別永続コレクタカーソル、復元ストリーム分離、リーディネスメトリクス、記録中断/回転回復、ブラウザ運用ビュー。独立保留 WORM 管理、実際のアラート配信とエスカレーション、コレクタ監督配備、サービス目標とインシデント受入を完了。"
+    },
+    {
+      "area": "Deployment environment",
+      "implemented": "-",
+      "remaining": "Real TLS/DNS environment, identity services, operational owner, target environment upgrade rollback and security review",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Deployment: ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、ブラウザ API チェック; 実際のインストールホイール更新/ロールバックと破損回復; 現状パッケージアドバイザリスキャン。真 TLS/DNS環境、アイデンティティサービス、運用所有者、ターゲット環境アップグレードロールバックとセキュリティレビューを完了。"
+    },
+    {
+      "area": "Business quality",
+      "implemented": "-",
+      "remaining": "Source summary accuracy, latency and acceptance thresholds, and reinforced contract under completed outputs valid remaining retry series",
+      "source_file": "PRODUCTION_PLAN.md",
+      "evidence_quote": "Business quality: オリジナル失敗保持; シネティック比較一時停止; 実際のソース v1 で八個不足日本語サマリーと年齢翻訳エラー発見モデルレビューパス; 義務出力チェック入力取得追加; 固定 v22 ローカル Qwen シリーズ保持三個中断ラン一個ドッカーゲート承認拒否; v23 完了 ten 実際のソース試行後ラン契約再チェック翻訳ドリフト全拒否; v24 完了 ten 実際のソース試行、三機械契約パスだが一つ保持パス含み観測されたミックススクリプト用語'ハードネード'および'键轮换与'; v25 完了 ten actual ソース試行、欠落 JSON 英語またはミックススクリプトサマリー不足アンカー不完全行全拒否; v26 完了 ten 試行、一つ機械契約パス含み英語ラベルおよび破綻日本語; v27 停止一個機械拒絶試行予期せぬ BrokenPipeError; v28 完了 ten 試行、二機械契約パス含み英語エリアラベルおよび辞書ドリフト、ゼロラン受入; v29 完了 ten actual ソース試行六機械契約パス五 Reviewer 提出だがセマンティックレビュー保留観測英语破綻用語意味ゼロラン受入; v30 停止六ウォールクロック制限試行ゼロ機械パスおよび七 HTTP 503 承認失敗、ゼロラン受入; v31 完了 ten 試行四機械契約パス中断 Reviewer 提出前六合同失敗主に英語 export 項; v32 第一試行後並行ローカル Ollama コーラー検出意図停止、ゼロラン受入; v33 第一試行時別のローカル Ollama コーラー出現、公開アートファクトなし、ゼロラン受入。"
+    }
+  ]
+}

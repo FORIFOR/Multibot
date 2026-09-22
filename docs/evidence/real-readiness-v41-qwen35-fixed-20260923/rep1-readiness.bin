@@ -1,0 +1,58 @@
+[
+  {
+    "product": "Multibot",
+    "production_ready": false,
+    "deployment": "dedicated-single-host",
+    "summary": "本番環境への移行は完了せず、孤立化された単一ホストでの実装段階にあります。認証、隔離、実行、データ、監査、デプロイ、品質管理、運用体制の 8 領域において、一部の機能（例：Keycloak 連携、単一ホストキュー）は実装済みですが、本番 IdP の承認、分散worker の除外、完全な暗号化ポリシーの確認、外部警報ルーティング、サービスレベル契約 (SLO/SLA) の確定など、多くの領域で残留課題があります。L3 レベルの顧客受入には至っていません。",
+    "areas": [
+      {
+        "area": "Identity",
+        "evidence_quote": "Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary",
+        "implemented": "鍵轮换とロール検証は実装済み。_oidc_による Keycloak 単一サインオン（ブラウザ検証）、グループマッピング、トークンの取り消し、有効期限管理、復元境界線は機能しています。",
+        "remaining": "本番向け IdP の構成、組織内のアイデンティティポリシー策定、多因子認証 (MFA) の強制、アカウントライフサイクル受入が完了していません。"
+      },
+      {
+        "area": "Isolation",
+        "evidence_quote": "Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture",
+        "implemented": "インストール単位での組織バインディング、実行時許可、アセットへのアクセス制御は実装済み。Docker 限定のセキュアツールを使用しており、特定の公開 IP のフェッチは行われています。",
+        "remaining": "客先固有のロール/コネクタ/エグレスポリシーの策定、権限ライフサイクル受入が未実施です。独立した攻撃評価も完了していません。"
+      },
+      {
+        "area": "Execution",
+        "evidence_quote": "Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation",
+        "implemented": "単一ホストの継続的なキュー、アクタースコープの冪等性受入、ワーカーリース、中断ジョブのレビュー、回復機能、実際の LLM シグナルキル演習は実装済みです。リクエストャ所有のアセット要件も満たしています。",
+        "remaining": "負荷・ワークロード受入、外部アクション再試行ポリシー、承認された可用性トポロジーが不在であり、分散ワーカー/HA 構成の非実行が必要です。"
+      },
+      {
+        "area": "Data",
+        "evidence_quote": "Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption",
+        "implemented": "オフラインスナップショットの復元、チェックサム検証、セッション無効化、中断後の再開可能実行および不活性リトライ拒否は実装済みです。実際の暗号化も機能しています。",
+        "remaining": "履歴バックアップやホスト暗号化・復元キーの管理方針、オフサイト演習が承認された RPO/RTO と一致するようにはなりません。"
+      },
+      {
+        "area": "Audit / monitoring",
+        "evidence_quote": "Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view",
+        "implemented": "アクター監査レコード、制限されたアデュータ役割は実装済み。分離されたコレクタ監督ユニットが提供され、ダウンタイム・復旧を記録しています。",
+        "remaining": "独立した WORM 管理権限、実際のアラート配信とエスカレーション、システムdサービスデプロイ、サービス目標の受入は残っています。"
+      },
+      {
+        "area": "Deployment",
+        "evidence_quote": "Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans",
+        "implemented": "ロックされたランタイム依存関係、ベース固定化、強化コンテナ、ブラウザチェックは実装済み。パッケージのスキャンと復旧手順も確認済みです。",
+        "remaining": "本番環境での TLS/DNS 運用、アイデンスビサービス、運営主体の認定、ターゲット環境アップグレードレビューが完了していません。"
+      },
+      {
+        "area": "Business quality",
+        "evidence_quote": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract",
+        "implemented": "ソース・サマリー正しさ、レビューミスの評価、レイテンシー閾値は実装済み。強化された契約下で出力が無効化されないシリーズは生成可能です。",
+        "remaining": "ソースの正確性確認、レビュー漏れと誤検出の評価、再試行シリアスでの有効性の維持が完全に保証されるまでではありません。"
+      },
+      {
+        "area": "Contract / operation",
+        "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications",
+        "implemented": "所有者承認のサービススコープとインシデント責任は文書化済み。発明された承認はありません。",
+        "remaining": "SLO/SLA、サポート体制、インシデント責任、および外部義務の本番受入が確認されていません。"
+      }
+    ]
+  }
+]

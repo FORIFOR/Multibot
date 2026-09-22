@@ -1,0 +1,283 @@
+[
+  {
+    "rep": 1,
+    "request_key": "workflow_1a0caec0feeb5c76c4a",
+    "run_id": "run_1a0caec146c98e0bb2d",
+    "result": {
+      "rep": 1,
+      "run_id": "run_1a0caec146c98e0bb2d",
+      "status": "partial",
+      "mechanical_pass": false,
+      "problems": [
+        "top level must be an object"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 19,
+        "tool_calls": 9,
+        "input_tokens": 165169,
+        "output_tokens": 7235,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 806.7317343750037
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v41-qwen35-fixed-20260923/evidence/01-run_1a0caec146c98e0bb2d"
+    }
+  },
+  {
+    "rep": 2,
+    "request_key": "workflow_1a0caf867f382fe9e4e",
+    "run_id": "run_1a0caf867fca25e9e82",
+    "result": {
+      "rep": 2,
+      "run_id": "run_1a0caf867fca25e9e82",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 4,
+        "tool_calls": 0,
+        "input_tokens": 38897,
+        "output_tokens": 795,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 86.14669295796193
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v41-qwen35-fixed-20260923/evidence/02-run_1a0caf867fca25e9e82"
+    }
+  },
+  {
+    "rep": 3,
+    "request_key": "workflow_1a0caf9bc4e4ca5a46d",
+    "run_id": "run_1a0caf9bc5667c59419",
+    "result": {
+      "rep": 3,
+      "run_id": "run_1a0caf9bc5667c59419",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 35,
+        "tool_calls": 17,
+        "input_tokens": 205764,
+        "output_tokens": 14333,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1204.8358403751627
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v41-qwen35-fixed-20260923/evidence/03-run_1a0caf9bc5667c59419"
+    }
+  },
+  {
+    "rep": 4,
+    "request_key": "workflow_1a0cb0c22ff65ec159e",
+    "run_id": "run_1a0cb0c230660ecb8e0",
+    "result": {
+      "rep": 4,
+      "run_id": "run_1a0cb0c230660ecb8e0",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "product/deployment/L3 conclusion disagrees with the source and request",
+        "all eight source areas required exactly once",
+        "delivery contract: $: 'product' is a required property",
+        "delivery contract: $: 'production_ready' is a required property",
+        "delivery contract: $: 'deployment' is a required property",
+        "delivery contract: summary: \"IdP, SSO, Keycloak 単一ホストローカル検証および SSO, MFA, グループマップ, トークン破棄, 鍵轮换のブラウザ運用ビューを完了; ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、インストールホイール更新/ロールバックと破損回復、現状パッケージアドバイザリスキャン; 各ラン予算、永続単一ホストキュー、アクトースコープ冪等受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストヤー所有アートファクト要件と有界検証; オフラインスナップショット復元、チェックサマーとアートファクト検証、セッション無効化; 再開可能ラン削除ステールリジェクト拒否; 独立保留 WORM 管理、実際のアラート配信とエスカレーション、コレクタ監督配備、サービス目標とインシデント受入; ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、ブラウザ API チェック; 実際のインストールホイール更新/ロールバックと破損回復; 現状パッケージアドバイザリスキャン。\\\\n\\\\nIdP: Keycloak 単一ホストローカル検証完了。SSO, MFA, グループマップ, トークン破棄, 鍵轮换のブラウザ運用ビュー確認。SSO エンドポイント、MFA ポリシー、グループマッピング規則、トークン破棄手順、および鍵轮换プロシージャの完全な実装とテストを完了。\\\\n\\\\nIsolation: イストールごとの組織バインディング、各ラン許可、アートファクト SSE エクスポートアクセスチェック、保護設定; データーのみ安全コマンドツール; 公開 IP 取得のピン定と有界キャプチャ。独立攻撃レビュー、顧客固有役割コネクタエGRESS 方針、許可ライフサイクル受入を完了。\\\\n\\\\nExecution: 各ラン予算; 永続単一ホストキュー、アクトースコープ冪等受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストヤー所有アートファクト要件と有界検証。ワークロードロード受入、外部アクション再トライ方針、承認可用性トポロジー; 分散ワーカー/HA なし。完了。\\\\n\\\\nData: オフラインスナップショット復元、チェックサマーとアートファクト検証、セッション無効化; 再開可能ラン削除ステールリジェクト拒否; 実際の年齢暗号化/検証した復号化。承認保留方針含み履歴バックアップフォークプロバイダーコピー、ホスト暗号化と回復キー管理、オフサイト復元ドリル、同意 RPO/RTO を完了。\\\\n\\\\nAudit / monitoring: アクトー監査記録; 制限されたアデュータロール; 別永続コレクタカーソル、復元ストリーム分離、リーディネスメトリクス、記録中断/回転回復、ブラウザ運用ビュー。独立保留 WORM 管理、実際のアラート配信とエスカレーション、コレクタ監督配備、サービス目標とインシデント受入を完了。\\\\n\\\\nDeployment: ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、ブラウザ API チェック; 実際のインストールホイール更新/ロールバックと破損回復; 現状パッケージアドバイザリスキャン。真 TLS/DNS環境、アイデンティティサービス、運用所有者、ターゲット環境アップグレードロールバックとセキュリティレビューを完了。\\\\n\\\\nBusiness quality: オリジナル失敗保持; シネティック比較一時停止; 実際のソース v1 で八個不足日本語サマリーと年齢翻訳エラー発見モデルレビューパス; 義務出力チェック入力取得追加; 固定 v22 ローカル Qwen シリーズ保持三個中断ラン一個ドッカーゲート承認拒否; v23 完了十実際のソース試行後ラン契約再チェック翻訳ドリフト全拒否; v24 完了 ten 実際のソース試行、三機械契約パスだが一つ保持パス含み観測されたミックススクリプト用語'ハードネード'および'键轮换与'; v25 完了十 actual ソース試行、欠落 JSON 英語またはミックススクリプトサマリー不足アンカー不完全行全拒否; v26 完了 ten 試行、一つ機械契約パス含み英語ラベルおよび破綻日本語; v27 停止一個機械拒絶試行予期せぬ BrokenPipeError; v28 完了十 ten 試行、二機械契約パス含み英語エリアラベルおよび辞書ドリフト、ゼロラン受入; v29 完了 ten actual ソース試行六機械契約パス五 Reviewer 提出だがセマンティックレビュー保留観測英语破綻用語意味ゼロラン受入; v30 停止六ウォールクロック制限試行ゼロ機械パスおよび七 HTTP 503 承認失敗、ゼロラン受入; v31 完了十 ten 試行四機械契約パス中断 Reviewer 提出前六合同失敗主に英語 export 項; v32 第一試行後並行ローカル Ollama コーラー検出意図停止、ゼロラン受入; v33 第一試行時別のローカル Ollama コーラー出現、公開アートファクトなし、ゼロラン受入。\" should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー'}",
+        "delivery contract: areas: [{'area': 'IdP, SSO, Keycloak local verification', 'implemented': '-', 'remaining': 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'IdP: Keycloak 単一ホストローカル検証完了。SSO, MFA, グループマップ, トークン破棄, 鍵轮换のブラウザ運用ビュー確認。SSO エンドポイント、MFA ポリシー、グループマッピング規則、トークン破棄手順、および鍵轮换プロシージャの完全な実装とテストを完了。'}, {'area': 'Isolation boundaries', 'implemented': '-', 'remaining': 'Independent attack review, customer-specific role connector EGRESS policy, permission lifecycle acceptance', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Isolation: イストールごとの組織バインディング、各ラン許可、アートファクト SSE エクスポートアクセスチェック、保護設定; データーのみ安全コマンドツール; 公開 IP 取得のピン定と有界キャプチャ。独立攻撃レビュー、顧客固有役割コネクタエGRESS 方針、許可ライフサイクル受入を完了。'}, {'area': 'Execution lifecycle', 'implemented': '-', 'remaining': 'Workload load acceptance, external action retry policy, approval availability topology; no distributed workers/HA', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Execution: 各ラン予算; 永続単一ホストキュー、アクトースコープ冪等受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストヤー所有アートファクト要件と有界検証。ワークロードロード受入、外部アクション再トライ方針、承認可用性トポロジー; 分散ワーカー/HA なし。完了。'}, {'area': 'Data resilience', 'implemented': '-', 'remaining': 'Host encryption and recovery key management, offsite recovery drill, agreed RPO/RTO, approval hold policy with history backup fork provider copy', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Data: オフラインスナップショット復元、チェックサマーとアートファクト検証、セッション無効化; 再開可能ラン削除ステールリジェクト拒否; 実際の年齢暗号化/検証した復号化。承認保留方針含み履歴バックアップフォークプロバイダーコピー、ホスト暗号化と回復キー管理、オフサイト復元ドリル、同意 RPO/RTO を完了。'}, {'area': 'Audit / monitoring', 'implemented': '-', 'remaining': 'Independent retained WORM governance, actual alerting and escalation, collector supervision deployment, service objectives and incident acceptance', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Audit / monitoring: アクタ監査記録; 制限されたアデュータロール; 別永続コレクタカーソル、復元ストリーム分離、リーディネスメトリクス、記録中断/回転回復、ブラウザ運用ビュー。独立保留 WORM 管理、実際のアラート配信とエスカレーション、コレクタ監督配備、サービス目標とインシデント受入を完了。'}, {'area': 'Deployment environment', 'implemented': '-', 'remaining': 'Real TLS/DNS environment, identity services, operational owner, target environment upgrade rollback and security review', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Deployment: ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、ブラウザ API チェック; 実際のインストールホイール更新/ロールバックと破損回復; 現状パッケージアドバイザリスキャン。真 TLS/DNS環境、アイデンティティサービス、運用所有者、ターゲット環境アップグレードロールバックとセキュリティレビューを完了。'}, {'area': 'Business quality', 'implemented': '-', 'remaining': 'Source summary accuracy, latency and acceptance thresholds, and reinforced contract under completed outputs valid remaining retry series', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': \"Business quality: オリジナル失敗保持; シネティック比較一時停止; 実際のソース v1 で八個不足日本語サマリーと年齢翻訳エラー発見モデルレビューパス; 義務出力チェック入力取得追加; 固定 v22 ローカル Qwen シリーズ保持三個中断ラン一個ドッカーゲート承認拒否; v23 完了 ten 実際のソース試行後ラン契約再チェック翻訳ドリフト全拒否; v24 完了 ten 実際のソース試行、三機械契約パスだが一つ保持パス含み観測されたミックススクリプト用語'ハードネード'および'键轮换与'; v25 完了 ten actual ソース試行、欠落 JSON 英語またはミックススクリプトサマリー不足アンカー不完全行全拒否; v26 完了 ten 試行、一つ機械契約パス含み英語ラベルおよび破綻日本語; v27 停止一個機械拒絶試行予期せぬ BrokenPipeError; v28 完了 ten 試行、二機械契約パス含み英語エリアラベルおよび辞書ドリフト、ゼロラン受入; v29 完了 ten actual ソース試行六機械契約パス五 Reviewer 提出だがセマンティックレビュー保留観測英语破綻用語意味ゼロラン受入; v30 停止六ウォールクロック制限試行ゼロ機械パスおよび七 HTTP 503 承認失敗、ゼロラン受入; v31 完了 ten 試行四機械契約パス中断 Reviewer 提出前六合同失敗主に英語 export 項; v32 第一試行後並行ローカル Ollama コーラー検出意図停止、ゼロラン受入; v33 第一試行時別のローカル Ollama コーラー出現、公開アートファクトなし、ゼロラン受入。\"}] is too short",
+        "delivery contract: areas/0/implemented: '-' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/0/remaining: 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/0/remaining: 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー'}",
+        "delivery contract: areas/0/area: 'Identity' was expected",
+        "delivery contract: areas/0/evidence_quote: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' was expected",
+        "delivery contract: areas/0/remaining: 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/0/remaining: 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー'}",
+        "delivery contract: areas/1/implemented: '-' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/1/remaining: 'Independent attack review, customer-specific role connector EGRESS policy, permission lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/1/area: 'Isolation' was expected",
+        "delivery contract: areas/1/evidence_quote: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' was expected",
+        "delivery contract: areas/1/remaining: 'Independent attack review, customer-specific role connector EGRESS policy, permission lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/1/implemented: '-' does not match '[ぁ-んァ-ン一-龯]'",
+        "delivery contract: areas/1/implemented: '-' does not match 'アーティファクト'",
+        "delivery contract: areas/2/implemented: '-' does not match '[ぁ-んァ-ン一-龯]'"
+      ],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "fail",
+        "problems": [
+          "$: 'product' is a required property",
+          "$: 'production_ready' is a required property",
+          "$: 'deployment' is a required property",
+          "summary: \"IdP, SSO, Keycloak 単一ホストローカル検証および SSO, MFA, グループマップ, トークン破棄, 鍵轮换のブラウザ運用ビューを完了; ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、インストールホイール更新/ロールバックと破損回復、現状パッケージアドバイザリスキャン; 各ラン予算、永続単一ホストキュー、アクトースコープ冪等受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストヤー所有アートファクト要件と有界検証; オフラインスナップショット復元、チェックサマーとアートファクト検証、セッション無効化; 再開可能ラン削除ステールリジェクト拒否; 独立保留 WORM 管理、実際のアラート配信とエスカレーション、コレクタ監督配備、サービス目標とインシデント受入; ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、ブラウザ API チェック; 実際のインストールホイール更新/ロールバックと破損回復; 現状パッケージアドバイザリスキャン。\\\\n\\\\nIdP: Keycloak 単一ホストローカル検証完了。SSO, MFA, グループマップ, トークン破棄, 鍵轮换のブラウザ運用ビュー確認。SSO エンドポイント、MFA ポリシー、グループマッピング規則、トークン破棄手順、および鍵轮换プロシージャの完全な実装とテストを完了。\\\\n\\\\nIsolation: イストールごとの組織バインディング、各ラン許可、アートファクト SSE エクスポートアクセスチェック、保護設定; データーのみ安全コマンドツール; 公開 IP 取得のピン定と有界キャプチャ。独立攻撃レビュー、顧客固有役割コネクタエGRESS 方針、許可ライフサイクル受入を完了。\\\\n\\\\nExecution: 各ラン予算; 永続単一ホストキュー、アクトースコープ冪等受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストヤー所有アートファクト要件と有界検証。ワークロードロード受入、外部アクション再トライ方針、承認可用性トポロジー; 分散ワーカー/HA なし。完了。\\\\n\\\\nData: オフラインスナップショット復元、チェックサマーとアートファクト検証、セッション無効化; 再開可能ラン削除ステールリジェクト拒否; 実際の年齢暗号化/検証した復号化。承認保留方針含み履歴バックアップフォークプロバイダーコピー、ホスト暗号化と回復キー管理、オフサイト復元ドリル、同意 RPO/RTO を完了。\\\\n\\\\nAudit / monitoring: アクトー監査記録; 制限されたアデュータロール; 別永続コレクタカーソル、復元ストリーム分離、リーディネスメトリクス、記録中断/回転回復、ブラウザ運用ビュー。独立保留 WORM 管理、実際のアラート配信とエスカレーション、コレクタ監督配備、サービス目標とインシデント受入を完了。\\\\n\\\\nDeployment: ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、ブラウザ API チェック; 実際のインストールホイール更新/ロールバックと破損回復; 現状パッケージアドバイザリスキャン。真 TLS/DNS環境、アイデンティティサービス、運用所有者、ターゲット環境アップグレードロールバックとセキュリティレビューを完了。\\\\n\\\\nBusiness quality: オリジナル失敗保持; シネティック比較一時停止; 実際のソース v1 で八個不足日本語サマリーと年齢翻訳エラー発見モデルレビューパス; 義務出力チェック入力取得追加; 固定 v22 ローカル Qwen シリーズ保持三個中断ラン一個ドッカーゲート承認拒否; v23 完了十実際のソース試行後ラン契約再チェック翻訳ドリフト全拒否; v24 完了 ten 実際のソース試行、三機械契約パスだが一つ保持パス含み観測されたミックススクリプト用語'ハードネード'および'键轮换与'; v25 完了十 actual ソース試行、欠落 JSON 英語またはミックススクリプトサマリー不足アンカー不完全行全拒否; v26 完了 ten 試行、一つ機械契約パス含み英語ラベルおよび破綻日本語; v27 停止一個機械拒絶試行予期せぬ BrokenPipeError; v28 完了十 ten 試行、二機械契約パス含み英語エリアラベルおよび辞書ドリフト、ゼロラン受入; v29 完了 ten actual ソース試行六機械契約パス五 Reviewer 提出だがセマンティックレビュー保留観測英语破綻用語意味ゼロラン受入; v30 停止六ウォールクロック制限試行ゼロ機械パスおよび七 HTTP 503 承認失敗、ゼロラン受入; v31 完了十 ten 試行四機械契約パス中断 Reviewer 提出前六合同失敗主に英語 export 項; v32 第一試行後並行ローカル Ollama コーラー検出意図停止、ゼロラン受入; v33 第一試行時別のローカル Ollama コーラー出現、公開アートファクトなし、ゼロラン受入。\" should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー'}",
+          "areas: [{'area': 'IdP, SSO, Keycloak local verification', 'implemented': '-', 'remaining': 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'IdP: Keycloak 単一ホストローカル検証完了。SSO, MFA, グループマップ, トークン破棄, 鍵轮换のブラウザ運用ビュー確認。SSO エンドポイント、MFA ポリシー、グループマッピング規則、トークン破棄手順、および鍵轮换プロシージャの完全な実装とテストを完了。'}, {'area': 'Isolation boundaries', 'implemented': '-', 'remaining': 'Independent attack review, customer-specific role connector EGRESS policy, permission lifecycle acceptance', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Isolation: イストールごとの組織バインディング、各ラン許可、アートファクト SSE エクスポートアクセスチェック、保護設定; データーのみ安全コマンドツール; 公開 IP 取得のピン定と有界キャプチャ。独立攻撃レビュー、顧客固有役割コネクタエGRESS 方針、許可ライフサイクル受入を完了。'}, {'area': 'Execution lifecycle', 'implemented': '-', 'remaining': 'Workload load acceptance, external action retry policy, approval availability topology; no distributed workers/HA', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Execution: 各ラン予算; 永続単一ホストキュー、アクトースコープ冪等受入、ワーカーリース、中断ジョブレビュー、回復と実際のローカル LLM SIGKILL ドリル; リクエストヤー所有アートファクト要件と有界検証。ワークロードロード受入、外部アクション再トライ方針、承認可用性トポロジー; 分散ワーカー/HA なし。完了。'}, {'area': 'Data resilience', 'implemented': '-', 'remaining': 'Host encryption and recovery key management, offsite recovery drill, agreed RPO/RTO, approval hold policy with history backup fork provider copy', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Data: オフラインスナップショット復元、チェックサマーとアートファクト検証、セッション無効化; 再開可能ラン削除ステールリジェクト拒否; 実際の年齢暗号化/検証した復号化。承認保留方針含み履歴バックアップフォークプロバイダーコピー、ホスト暗号化と回復キー管理、オフサイト復元ドリル、同意 RPO/RTO を完了。'}, {'area': 'Audit / monitoring', 'implemented': '-', 'remaining': 'Independent retained WORM governance, actual alerting and escalation, collector supervision deployment, service objectives and incident acceptance', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Audit / monitoring: アクタ監査記録; 制限されたアデュータロール; 別永続コレクタカーソル、復元ストリーム分離、リーディネスメトリクス、記録中断/回転回復、ブラウザ運用ビュー。独立保留 WORM 管理、実際のアラート配信とエスカレーション、コレクタ監督配備、サービス目標とインシデント受入を完了。'}, {'area': 'Deployment environment', 'implemented': '-', 'remaining': 'Real TLS/DNS environment, identity services, operational owner, target environment upgrade rollback and security review', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': 'Deployment: ロックランタイム依存関係、ピン定ベース、硬化化コンテナ、ブラウザ API チェック; 実際のインストールホイール更新/ロールバックと破損回復; 現状パッケージアドバイザリスキャン。真 TLS/DNS環境、アイデンティティサービス、運用所有者、ターゲット環境アップグレードロールバックとセキュリティレビューを完了。'}, {'area': 'Business quality', 'implemented': '-', 'remaining': 'Source summary accuracy, latency and acceptance thresholds, and reinforced contract under completed outputs valid remaining retry series', 'source_file': 'PRODUCTION_PLAN.md', 'evidence_quote': \"Business quality: オリジナル失敗保持; シネティック比較一時停止; 実際のソース v1 で八個不足日本語サマリーと年齢翻訳エラー発見モデルレビューパス; 義務出力チェック入力取得追加; 固定 v22 ローカル Qwen シリーズ保持三個中断ラン一個ドッカーゲート承認拒否; v23 完了 ten 実際のソース試行後ラン契約再チェック翻訳ドリフト全拒否; v24 完了 ten 実際のソース試行、三機械契約パスだが一つ保持パス含み観測されたミックススクリプト用語'ハードネード'および'键轮换与'; v25 完了 ten actual ソース試行、欠落 JSON 英語またはミックススクリプトサマリー不足アンカー不完全行全拒否; v26 完了 ten 試行、一つ機械契約パス含み英語ラベルおよび破綻日本語; v27 停止一個機械拒絶試行予期せぬ BrokenPipeError; v28 完了 ten 試行、二機械契約パス含み英語エリアラベルおよび辞書ドリフト、ゼロラン受入; v29 完了 ten actual ソース試行六機械契約パス五 Reviewer 提出だがセマンティックレビュー保留観測英语破綻用語意味ゼロラン受入; v30 停止六ウォールクロック制限試行ゼロ機械パスおよび七 HTTP 503 承認失敗、ゼロラン受入; v31 完了 ten 試行四機械契約パス中断 Reviewer 提出前六合同失敗主に英語 export 項; v32 第一試行後並行ローカル Ollama コーラー検出意図停止、ゼロラン受入; v33 第一試行時別のローカル Ollama コーラー出現、公開アートファクトなし、ゼロラン受入。\"}] is too short",
+          "areas/0/implemented: '-' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/0/remaining: 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/0/remaining: 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー'}",
+          "areas/0/area: 'Identity' was expected",
+          "areas/0/evidence_quote: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' was expected",
+          "areas/0/remaining: 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/0/remaining: 'Production IdP settings, organizational identity policies, mandatory MFA execution and account lifecycle acceptance' should not be valid under {'pattern': '年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー'}",
+          "areas/1/implemented: '-' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/1/remaining: 'Independent attack review, customer-specific role connector EGRESS policy, permission lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/1/area: 'Isolation' was expected",
+          "areas/1/evidence_quote: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' was expected",
+          "areas/1/remaining: 'Independent attack review, customer-specific role connector EGRESS policy, permission lifecycle acceptance' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/1/implemented: '-' does not match '[ぁ-んァ-ン一-龯]'",
+          "areas/1/implemented: '-' does not match 'アーティファクト'",
+          "areas/2/implemented: '-' does not match '[ぁ-んァ-ン一-龯]'"
+        ]
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 14,
+        "tool_calls": 9,
+        "input_tokens": 126890,
+        "output_tokens": 13049,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.5066793749575
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v41-qwen35-fixed-20260923/evidence/04-run_1a0cb0c230660ecb8e0"
+    }
+  },
+  {
+    "rep": 5,
+    "request_key": "workflow_1a0cb1e6fd352a64bb8",
+    "run_id": "run_1a0cb1e6fdbe5e525c0",
+    "result": {
+      "rep": 5,
+      "run_id": "run_1a0cb1e6fdbe5e525c0",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 16,
+        "tool_calls": 12,
+        "input_tokens": 140913,
+        "output_tokens": 14689,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.9487095000222
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v41-qwen35-fixed-20260923/evidence/05-run_1a0cb1e6fdbe5e525c0"
+    }
+  },
+  {
+    "rep": 6,
+    "request_key": "workflow_1a0cb30c3f2ab47dc6c",
+    "run_id": "run_1a0cb30c3fcb428b9d2",
+    "result": {
+      "rep": 6,
+      "run_id": "run_1a0cb30c3fcb428b9d2",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 30,
+        "tool_calls": 15,
+        "input_tokens": 206045,
+        "output_tokens": 14244,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1215.9043804169632
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v41-qwen35-fixed-20260923/evidence/06-run_1a0cb30c3fcb428b9d2"
+    }
+  },
+  {
+    "rep": 7,
+    "request_key": "workflow_1a0cb4352ce82407a80",
+    "run_id": "run_1a0cb4352d627be2538",
+    "result": {
+      "rep": 7,
+      "run_id": "run_1a0cb4352d627be2538",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 17,
+        "tool_calls": 8,
+        "input_tokens": 149069,
+        "output_tokens": 13508,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.1123676251154
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v41-qwen35-fixed-20260923/evidence/07-run_1a0cb4352d627be2538"
+    }
+  },
+  {
+    "rep": 8,
+    "request_key": "workflow_1a0cb55a451d7b3ac11",
+    "run_id": "run_1a0cb55a45843d502ac"
+  }
+]
