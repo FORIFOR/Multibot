@@ -60,6 +60,10 @@ try {
   await page.locator('.bot-settings-card summary').first().click()
   await page.locator('.custom-bot-add').click()
   const form = page.locator('#custom-bot-form')
+  // Opening the form moves focus to the name field on the next frame; typing before that lands in the wrong field
+  // (the same race ui-polish-smoke documents).
+  await form.waitFor()
+  await page.waitForFunction(() => document.activeElement?.closest('#custom-bot-form') && document.activeElement.tagName === 'INPUT')
   await form.getByLabel(lang === 'en' ? 'Name' : '名前', { exact: true }).fill(lang === 'en' ? 'QA Panda' : '確認パンダ')
   await form.getByLabel(lang === 'en' ? 'What should this bot do?' : '任せたいこと', { exact: true }).fill('Read supplied sources and summarize without inventing facts.')
   await form.getByRole('button', { name: lang === 'en' ? 'Panda' : 'パンダ', exact: true }).click()
