@@ -46,6 +46,9 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
   const [problems, setProblems] = useState<{ code: string; message: string }[]>([])
+  // A request that got no answer may or may not have been created. Until the list has been checked, do not offer
+  // to send it again from here.
+  const [ambiguous, setAmbiguous] = useState(false)
 
   useEffect(() => { api.config().then(setCfg).catch(() => setErr(en ? 'Could not load the team. Reload to try again.' : 'チームを読み込めませんでした。再読み込みしてください。')); api.runs().then(r => { setRuns(r); setLoaded(true) }).catch(() => null)
     // A request chosen on the welcome page arrives as a draft; it is never started automatically.
@@ -68,7 +71,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
       setErr(en ? 'For the document workflow, attach or paste source text, specify an output filename, and remove URL inputs.' : '文書作成では、資料を添付または貼り付け、ファイル名を指定してください。URL入力には通常の進め方を使ってください。'); return
     }
     busyRef.current = true
-    setBusy(true); setErr(null); setProblems([])
+    setBusy(true); setErr(null); setProblems([]); setAmbiguous(false)
     try {
       const run = await api.createRun({
         goal, inputs: { team_selection: adaptiveTeam && !documentWorkflow && cfg.defaults.team_mode !== 'single' ? 'adaptive' : 'fixed', ...(!adaptiveTeam && cfg.defaults.team_mode !== 'single' ? {selected_agent_ids: selectedAgentIds ?? cfg.agents.filter(a => a.enabled && !['master', 'reporter'].includes(a.role)).map(a => a.id)} : {}), text, urls: urls.split(/\s+/).filter(Boolean), files, delivery_requirements: delivery, ...(documentWorkflow ? {workflow: 'document' as const}: {}) },
@@ -79,7 +82,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
     } catch (e) {
       if (e instanceof ApiError && e.status === 409 && e.body?.problems) setProblems(e.body.problems)
       else if (e instanceof ApiError && e.status === 503 && e.message === 'insufficient storage space') setErr(en ? 'Work has not started because the server has less than 500 MB of free storage. Your request and attachments are kept. Free storage, then try again.' : '保存先の空き容量が500MB未満のため、作業を開始できません。依頼と添付資料は残しています。空き容量を確保してから、もう一度お試しください。')
-      else setErr(e instanceof ApiError ? String(e) : (en ? 'The response did not arrive. Your request may have been received. Check recent requests before explicitly retrying the unchanged request. Do not create a new request while the outcome is unknown.' : '応答を受け取れませんでした。依頼が届いている可能性があります。これまでのお願いを確認し、必要なら同じ内容で再試行してください。結果が分かるまで新しい依頼を作らないでください。'))
+      else { if (!(e instanceof ApiError)) setAmbiguous(true); setErr(e instanceof ApiError ? String(e) : (en ? 'The response did not arrive. Your request may have been received. Check recent requests before explicitly retrying the unchanged request. Do not create a new request while the outcome is unknown.' : '応答を受け取れませんでした。依頼が届いている可能性があります。これまでのお願いを確認し、必要なら同じ内容で再試行してください。結果が分かるまで新しい依頼を作らないでください。')) }
       api.runs().then(setRuns).catch(() => {})
     } finally { busyRef.current = false; setBusy(false) }
   }
@@ -191,12 +194,12 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
                 </>}
                 {adaptiveTeam && <p className="muted small">{documentWorkflow ? (en ? 'Document workflow uses the configured team.' : '文書作成では設定済みのチームを使います。') : (en ? 'A new team is recommended for this task.' : '依頼に合う人数とキャラクターをおすすめします。')}</p>}
               </fieldset>}
-              <div className="foot"><button className="btn signal" type="submit" disabled={readOnly || !goal.trim() || busy || !ready}>{busy ? (en ? "Starting…" : "お願いしています…") : (en ? "Ask the team" : "チームにお願いする")}</button></div>
+              <div className="foot"><button className="btn signal" type="submit" disabled={readOnly || !goal.trim() || busy || !ready || ambiguous}>{busy ? (en ? "Starting…" : "お願いしています…") : (en ? "Ask the team" : "チームにお願いする")}</button></div>
             </div>
           </div></div>
           <p className="ask-hint">{readOnly ? '閲覧権限でログインしています。' : (en ? 'Review the result before selecting a version.' : 'できたものを確認してから、使う版を選べます。')}</p>
           {!ready && <div className="setup-help">{cfg ? (en ? 'One-time setup is needed before your first request.' : '最初のお仕事の前に、接続の準備が必要です。') : (en ? 'Checking the team…' : 'チームを確認しています…')}{canConfigure && cfg && <Link to="/settings" nav={nav}>{en ? 'Prepare my team' : 'チームを準備する'} →</Link>}{cfg?.problems.length ? <details><summary>{en ? 'Setup details' : '設定の詳細'}</summary>{cfg.problems.map((p,i)=><p key={i}>{p.message}</p>)}</details>:null}</div>}
-          {err && <p className="err" role="alert">{err}</p>}
+          {err && <p className="err" role="alert">{err}{ambiguous && <> <Link to="/runs" nav={nav} className="btn ghost">{en ? 'Check your requests' : 'これまでのお願いを確認する'}</Link></>}</p>}
           {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code} title={p.message}>{p.code === 'team_selection' ? p.message : friendlyProblem(p, getLang())}</div>)} {canConfigure && <Link to="/settings" nav={nav}>{t("設定へ")}</Link>}</div>}
           <div className="request-examples" aria-label={en ? 'Request ideas' : 'お願いの例'}>{(en ? ['Summarize my notes', 'Make a comparison table', 'Review my writing'] : ['資料を分かりやすくまとめて', '比較表をつくって', '文章をチェックして']).map((example, i) => <button type="button" key={example} disabled={busy || readOnly} onClick={() => { setGoal((en ? ['Use only the attached material to create guide.md: a short onboarding guide with prerequisites, first steps and limitations. Cite the source sections; mark anything unverified.', 'Use only the attached material to create comparison.md with a comparison table. Include source references and mark missing facts as unverified.', 'Review the attached writing and create review.md with suggested edits, reasons and unresolved questions.'] : ['添付した資料だけを使い、前提条件・最初の手順・制約をまとめた短い導入ガイド guide.md を作ってください。根拠の節を示し、確かめられない点は未確認と明記してください。', '添付した資料だけを使い、比較表 comparison.md を作ってください。根拠を添え、資料にない内容は未確認と明記してください。', '添付した文章を確認し、修正案・理由・未解決の疑問を review.md にまとめてください。'])[i]); goalRef.current?.focus() }}><span aria-hidden="true">{['📝','🔎','✏️'][i]}</span><span className="example-label">{example}</span></button>)}</div>
           <div className="request-disclosure" aria-label={en ? 'Before you start' : '実行前の確認'}>

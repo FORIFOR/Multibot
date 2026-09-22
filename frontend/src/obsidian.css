@@ -267,9 +267,9 @@ body:has(.desk-workroom) .top{border:0;background:var(--ob-chrome)}
   .desk-workroom .room-side .simple-request>summary::before,.desk-workroom .room-side .team-recommendation>summary::before{content:'+';font-weight:600}
   .desk-workroom .room-side details[open]>summary::before{content:'−'}
   /* One decision row: what the record says, then the action that follows from it. */
-  .desk-workroom .result-decide{display:flex;flex-wrap:wrap;align-items:center;gap:0 var(--ob-s4);padding:var(--ob-s1) 24px}
+  .desk-workroom .result-decide{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 var(--ob-s4);padding:var(--ob-s1) 24px}
   .desk-workroom .result-decide>.result-review-summary{flex:1 1 auto;min-width:0;padding:0}
-  .desk-workroom .result-decide>.result-use{flex:0 0 auto;margin-left:auto;padding:0}
+  .desk-workroom .result-decide>.result-use{flex:0 0 auto;padding:0}
   .desk-workroom .result-md{padding-top:var(--ob-s3)}
   .desk-workroom .result-file-list{padding:var(--ob-s1) 24px}
   .desk-workroom .simple-deliverables>header{padding-bottom:0}
@@ -282,5 +282,19 @@ body:has(.desk-workroom) .top{border:0;background:var(--ob-chrome)}
   .simple-deliverables>header h2{flex:1 1 100%}
 }
 /* The work screen heading takes focus on arrival; show that, without a ring on a plain mouse visit. */
-.desk-workroom .room-goal h1:focus{outline:none}
-.desk-workroom .room-goal h1:focus-visible{outline:2px solid var(--ob-ink);outline-offset:4px;border-radius:var(--ob-r-sm)}
+.desk-workroom .room-goal h1:focus,.desk-workroom .room-goal h1:focus-visible{outline:none}
+/* Project goal (acceptance 3): anything you press is 44px tall. Where a taller box would push the document down,
+   the height is added as padding with matching negative margin, so the hit area grows without moving anything. */
+.desk-workroom .work-back{display:inline-flex;align-items:center;min-height:44px;margin-top:-10px;margin-bottom:-10px}
+.desk-workroom .work-actions .btn,.desk-workroom .simple-deliverables .btn{min-height:44px}
+.desk-workroom .room-side summary{min-height:44px}
+.conversation-toolbar .btn,.conversation-filters>summary{min-height:44px}
+.message-refs a{min-height:44px}
+.conversation-activity>summary,.work-progress-disclosure>summary,.stage-history>summary{min-height:44px}
+.bot-character-picker button,.bot-toggle,.bot-settings-card summary{min-height:44px}
+summary.muted.small{display:flex;align-items:center;min-height:44px}
+.bot-emoji-choices button{width:44px;min-height:44px;border-color:var(--ob-line);border-radius:var(--ob-r)}
+.bot-emoji-choices button[aria-pressed=true]{border-color:var(--ob-ink-2);background:#fafafa;box-shadow:none}
+.bot-emoji-choices .emoji-reset{width:auto}
+.bot-emoji-choices button:focus-visible{outline:2px solid var(--ob-ink);outline-offset:2px}
+.welcome-dots button{min-height:44px;width:44px}

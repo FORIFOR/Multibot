@@ -101,7 +101,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   // Arriving from the request screen replaces the whole page; move focus to what this screen is about, once the
   // heading exists. Must stay above the early return below: hook order cannot change between renders.
   useEffect(() => { if (!announced.current && headingRef.current) { announced.current = true; headingRef.current.focus({ preventScroll: true }) } })
-  if (!run) return <section className="simple-loading" aria-live="polite"><h1>{loadError || say('チームの様子を読み込んでいます…', 'Opening your work…')}</h1><button className="btn ghost" onClick={refresh}>{say('もう一度読み込む','Try again')}</button></section>
+  if (!run) return <section className="simple-loading" aria-live="polite"><h1>{loadError ? say('この作業を読み込めませんでした。通信を確かめてから、もう一度お試しください。', 'Could not open this work. Check your connection, then try again.') : say('チームの様子を読み込んでいます…', 'Opening your work…')}</h1><button className="btn ghost" onClick={refresh}>{say('もう一度読み込む','Try again')}</button></section>
   const files = resultFiles(run.artifacts)
   const selectedPanel = panel || defaultPanel(run.status, files.length)
   const pending = run.approvals.filter(a => a.status === 'pending')
