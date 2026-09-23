@@ -1,0 +1,8 @@
+{
+  "rep": 1,
+  "status_code": 503,
+  "response_body": "{\"detail\":\"secured command tools require Docker isolation\"}",
+  "health_status": 200,
+  "health_body": "{\"ok\":true,\"version\":\"0.2.1\",\"config_revision\":2,\"live_runs\":[]}",
+  "disk_free_bytes": 12858707968
+}
