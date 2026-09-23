@@ -160,8 +160,10 @@ def test_schema_repair_template_uses_current_source_constants():
     schema = delivery_schema(expected)
     template = _schema_repair_template(schema)
     assert template['required_top_level'] == ['product', 'production_ready', 'deployment', 'summary', 'areas']
+    assert template['required_area_fields'] == ['area', 'implemented', 'remaining', 'source_file', 'evidence_quote']
     assert [row['area'] for row in template['area_rows']] == [row[0] for row in expected]
     assert template['area_rows'][0]['evidence_quote'] == expected[0][2]
+    assert template['area_rows'][0]['source_file'] == 'PRODUCTION_PLAN.md'
     assert template['area_rows'][0]['implemented'] == '日本語要約'
 
 

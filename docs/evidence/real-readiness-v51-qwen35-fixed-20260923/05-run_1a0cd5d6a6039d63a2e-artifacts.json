@@ -1,0 +1,18 @@
+[
+  {
+    "run_id": "run_1a0cd5d6a6039d63a2e",
+    "artifact_id": "final-report.md",
+    "revision": 1,
+    "sha256": "18070dce1cc7021518f61baf2633c2d663eed8bf9edf1896a9d9a14607c23ed5",
+    "media_type": "text/markdown",
+    "size": 40578,
+    "logical_path": "final-report.md",
+    "storage_path": "run_1a0cd5d6a6039d63a2e/artifacts/final-report.md/r1/final-report.md",
+    "task_id": null,
+    "agent_id": "master",
+    "created_at": "2026-09-23T08:43:56.887Z",
+    "event_id": "run_1a0cd5d6a6039d63a2e:25",
+    "sources": [],
+    "evidence_file": "artifact-000.bin"
+  }
+]

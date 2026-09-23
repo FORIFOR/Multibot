@@ -1,0 +1,56 @@
+{
+  "areas": [
+    {
+      "area": "Identity",
+      "evidence_quote": "Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary",
+      "implemented": "認証キー、ハッシュ化セッション、ロールチェックを実装。実際のKeycloakブラウザ検証、グループマッピング、トークン破棄、有効期限管理、鍵轮换と復旧境界を確認済み。",
+      "remaining": "Production IdP 構成、組織アイデンティティポリシー、MFA 強制、アカウントライフサイクル受入"
+    },
+    {
+      "area": "Isolation",
+      "evidence_quote": "Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture",
+      "implemented": "インストール単位組織バインディング、実行時権限付与、アーティファクト/イベント/SSE/エクスポートアクセスチェック、保護設定を実装。Docker 限定コマンドツール、固定パブリックIP取得と有界キャプチャを確認済み。",
+      "remaining": "独立攻撃レビュー、顧客固有ロール/コネクタ/エGRESSポリシー、権限ライフサイクル受入"
+    },
+    {
+      "area": "Execution",
+      "evidence_quote": "Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation",
+      "implemented": "実行予算、永続シングルホストキュー、アクタースコープ冪等受入、ワーカーリース、中断ジョブレビュー、復旧と実際のローカルLLM SIGKILLドリルを実装。リクエストャー所有アーティファクト要件と有界検証を確認済み。",
+      "remaining": "ワークロード/負荷受入、外部アクション再試行ポリシー、承認済み可用性トポロジー"
+    },
+    {
+      "area": "Data",
+      "evidence_quote": "Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption",
+      "implemented": "オフラインスナップショット復元、チェックサムとアーティファクト検証、セッション無効化を実装。再試行可能な実行削除とステールリトライ拒否を確認済み。実際の年齢暗号化と検証済み復号を確認済み。",
+      "remaining": "承認済み保持ポリシー（履歴バックアップ/フォーク/プロバイダコピー）、ホスト暗号化と復旧鍵保管、オフサイト復旧ドリル、合意RPO/RTO"
+    },
+    {
+      "area": "Audit / monitoring",
+      "evidence_quote": "Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view",
+      "implemented": "アクター監査記録、制限された監査者ロール、独立永続コレクター/カーソル、復元ストリーム分離を実装。レディネス/メトリクス、記録された障害/轮换/復旧、ブラウザ操作ビューを確認済み。",
+      "remaining": "独立WORM保管、実際アラート配送とエスカレーション、コレクター監視デプロイメント、サービス目標とインシデント受入"
+    },
+    {
+      "area": "Deployment",
+      "evidence_quote": "Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans",
+      "implemented": "固定ランタイム依存関係、固定ベース、強化コンテナ、ブラウザ/APIチェックを実装。実際のインストールホイール更新・ロールバックと破損復旧を確認済み。現在のパッケージアドバイザリスキャンを実施済み。",
+      "remaining": "実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビュー"
+    },
+    {
+      "area": "Business quality",
+      "evidence_quote": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract",
+      "implemented": "元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。",
+      "remaining": "出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験"
+    },
+    {
+      "area": "Contract / operation",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任；承認や認証の捏造は認めない"
+    }
+  ],
+  "deployment": "dedicated-single-host",
+  "product": "Multibot",
+  "production_ready": false,
+  "summary": "Multibot の L3 導入準備計画に基づき、独立した単一ホストでの初期展開形状が定義されている。実証環境では、アイデンティティ管理（Keycloak 統合）、実行制御（シングルホストキュー）、データ保護（暗号化スナップショット）、監査機能（独立コレクター）およびデプロイメント要件（固定依存関係）の大部分が実装・検証済みである。しかし、ビジネス品質面では実際のソース資料を用いた反復試験において、JSON 構文エラー、日本語要約の翻訳ドリフト、禁止用語混入などの問題により、すべての試行が契約チェックで失敗している。また、運用監視（WORM 保管、アラート配送）、データ保持ポリシー（オフサイト復旧）、および外部 IdP/SLA の承認は未完了である。v50 シリーズ以降の連続的な失敗により、現在ゼロの受入済み実行があり、顧客導入や L3 レディネスは確立されていない。"
+}

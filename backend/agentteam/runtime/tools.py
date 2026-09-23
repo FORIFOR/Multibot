@@ -91,6 +91,13 @@ def _schema_repair_template(schema: dict[str, Any]) -> dict[str, Any] | None:
     prefix_items = areas_schema.get('prefixItems') if isinstance(areas_schema, dict) else None
     if not isinstance(prefix_items, list):
         return None
+    row_definition = (schema.get('$defs', {}).get('row', {})
+                      if isinstance(schema.get('$defs', {}), dict) else {})
+    row_properties = (row_definition.get('properties', {})
+                      if isinstance(row_definition, dict) else {})
+    source_file_schema = (row_properties.get('source_file', {})
+                          if isinstance(row_properties, dict) else {})
+    source_file = source_file_schema.get('const') if isinstance(source_file_schema, dict) else None
     rows: list[dict[str, Any]] = []
     for item in prefix_items:
         if not isinstance(item, dict):
@@ -104,11 +111,21 @@ def _schema_repair_template(schema: dict[str, Any]) -> dict[str, Any] | None:
                 value = branch_props.get(field, {})
                 if isinstance(value, dict) and 'const' in value:
                     constants[field] = value['const']
+        # `source_file` is a shared row-definition constant rather than a
+        # per-prefix item constant. Include it in every repair row so a local
+        # model can reconstruct the complete required object after its first
+        # draft omitted the field.
+        if source_file is not None:
+            constants['source_file'] = source_file
         if constants:
             rows.append({**constants, 'implemented': '日本語要約', 'remaining': '日本語要約'})
     if not rows:
         return None
-    return {'required_top_level': list(schema.get('required', [])), 'area_rows': rows}
+    return {
+        'required_top_level': list(schema.get('required', [])),
+        'required_area_fields': ['area', 'implemented', 'remaining', 'source_file', 'evidence_quote'],
+        'area_rows': rows,
+    }
 
 
 

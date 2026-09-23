@@ -1,0 +1,7 @@
+{
+  "state": "stopped",
+  "updated_at": "2026-09-23T09:03:55.657855+00:00",
+  "target_runs": 10,
+  "error_type": "CancelledError",
+  "message": "inspect retained run and private process log; no automatic success claim"
+}

@@ -1,0 +1,204 @@
+[
+  {
+    "rep": 1,
+    "request_key": "workflow_1a0cd16572c09a1810f",
+    "run_id": "run_1a0cd165b169e366f4c",
+    "result": {
+      "rep": 1,
+      "run_id": "run_1a0cd165b169e366f4c",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 6,
+        "tool_calls": 2,
+        "input_tokens": 40223,
+        "output_tokens": 14183,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.1584480419988
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v51-qwen35-fixed-20260923/evidence/01-run_1a0cd165b169e366f4c"
+    }
+  },
+  {
+    "rep": 2,
+    "request_key": "workflow_1a0cd28ac85b5bd36a6",
+    "run_id": "run_1a0cd28ac886e95b1a5",
+    "result": {
+      "rep": 2,
+      "run_id": "run_1a0cd28ac886e95b1a5",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 7,
+        "tool_calls": 2,
+        "input_tokens": 56611,
+        "output_tokens": 15855,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1022.3949992499984
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v51-qwen35-fixed-20260923/evidence/02-run_1a0cd28ac886e95b1a5"
+    }
+  },
+  {
+    "rep": 3,
+    "request_key": "workflow_1a0cd384728422e476d",
+    "run_id": "run_1a0cd38472b4d9d1f8d",
+    "result": {
+      "rep": 3,
+      "run_id": "run_1a0cd38472b4d9d1f8d",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 7,
+        "tool_calls": 2,
+        "input_tokens": 56611,
+        "output_tokens": 19392,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1237.2159414579983
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v51-qwen35-fixed-20260923/evidence/03-run_1a0cd38472b4d9d1f8d"
+    }
+  },
+  {
+    "rep": 4,
+    "request_key": "workflow_1a0cd4b2b9772bf16a0",
+    "run_id": "run_1a0cd4b2b9aabede400",
+    "result": {
+      "rep": 4,
+      "run_id": "run_1a0cd4b2b9aabede400",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 7,
+        "tool_calls": 2,
+        "input_tokens": 56611,
+        "output_tokens": 19392,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1194.7712205419994
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v51-qwen35-fixed-20260923/evidence/04-run_1a0cd4b2b9aabede400"
+    }
+  },
+  {
+    "rep": 5,
+    "request_key": "workflow_1a0cd5d6a5dd92c584b",
+    "run_id": "run_1a0cd5d6a6039d63a2e",
+    "result": {
+      "rep": 5,
+      "run_id": "run_1a0cd5d6a6039d63a2e",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 7,
+        "tool_calls": 2,
+        "input_tokens": 56611,
+        "output_tokens": 19392,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1190.3854899159996
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v51-qwen35-fixed-20260923/evidence/05-run_1a0cd5d6a6039d63a2e"
+    }
+  },
+  {
+    "rep": 6,
+    "request_key": "workflow_1a0cd6f952fd28c5a3e",
+    "run_id": "run_1a0cd6f95330e8642cd",
+    "result": {
+      "rep": 6,
+      "run_id": "run_1a0cd6f95330e8642cd",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 7,
+        "tool_calls": 2,
+        "input_tokens": 56611,
+        "output_tokens": 15846,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1024.2470086249996
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v51-qwen35-fixed-20260923/evidence/06-run_1a0cd6f95330e8642cd"
+    }
+  },
+  {
+    "rep": 7,
+    "request_key": "workflow_1a0cd7f38395e8dc2c3",
+    "run_id": "run_1a0cd7f383c09b9767b"
+  }
+]
