@@ -299,9 +299,13 @@ def delivery_schema(expected):
                 'not': {'pattern': forbidden_translation_fragments}}
     row = {'type': 'object', 'additionalProperties': False,
            'required': ['area', 'implemented', 'remaining', 'source_file', 'evidence_quote'],
-           'properties': {'area': {'type': 'string'}, 'implemented': japanese, 'remaining': japanese,
-                          'source_file': {'const': 'PRODUCTION_PLAN.md'},
-                          'evidence_quote': {'type': 'string', 'description': 'Exact English source quotation; do not translate or alter.'}}}
+           'properties': {
+               'area': {'type': 'string', 'description': 'Required source area label; keep the supplied order.'},
+               'implemented': {**japanese, 'description': 'Japanese summary of verified implementation. Copy the supplied Japanese example when useful.'},
+               'remaining': {**japanese, 'description': 'Japanese summary of remaining acceptance work. Do not copy the English quotation.'},
+               'source_file': {'const': 'PRODUCTION_PLAN.md', 'description': 'REQUIRED in every area object: exactly PRODUCTION_PLAN.md.'},
+               'evidence_quote': {'type': 'string', 'description': 'REQUIRED in every area object: exact English source quotation; do not translate, shorten or alter.'},
+           }}
     technical_constraints = {
         # Keep terms whose meaning is unsafe to infer from a loose katakana
         # transliteration. The Japanese alternatives are explicit and narrow.
@@ -329,6 +333,12 @@ def delivery_schema(expected):
                 properties[name]['description'] = (
                     '日本語要約の例（事実を追加せず、この意味を保つ）: ' + examples[name]
                 )
+                # Ollama tool callers do not always honor a long nested
+                # schema description. Expose the source-derived sentence as
+                # an example so the model can copy a known-valid summary
+                # rather than inventing a translation. Validation remains
+                # authoritative; this only improves the request contract.
+                properties[name]['examples'] = [examples[name]]
         return properties
     return {'$schema': 'https://json-schema.org/draft/2020-12/schema', 'type': 'object', 'additionalProperties': False,
             'required': ['product', 'production_ready', 'deployment', 'summary', 'areas'], '$defs': {'row': row},
