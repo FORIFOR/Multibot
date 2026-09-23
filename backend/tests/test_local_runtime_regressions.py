@@ -5,7 +5,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 from agentteam.contracts import TeamPlan
 from agentteam.runtime.planner import plan_from_output, validate_plan
-from agentteam.runtime.tools import TOOL_SPECS, _compact_delivery_problems
+from agentteam.runtime.tools import TOOL_SPECS, _compact_delivery_problems, _schema_repair_template
 from agentteam.runtime.worker import consecutive_no_tool_turns
 
 EVIDENCE = Path(__file__).resolve().parents[2] / 'docs/evidence/local-fixes-2026-09-14'
@@ -151,6 +151,17 @@ def test_delivery_repair_hint_keeps_schema_feedback_field_level():
     assert problems[1].endswith('must exactly equal the corresponding Remaining acceptance work source text; do not translate or shorten it')
     assert problems[2].endswith('must be a Japanese summary; keep technical names only when explicitly required')
     assert 'huge-forbidden-list' not in '\n'.join(problems)
+
+
+def test_schema_repair_template_uses_current_source_constants():
+    from scripts.production_workflow import delivery_schema, source_rows
+    source = (Path(__file__).resolve().parents[2] / 'docs/PRODUCTION_PLAN.md').read_text()
+    expected = source_rows(source)
+    template = _schema_repair_template(delivery_schema(expected))
+    assert template['required_top_level'] == ['product', 'production_ready', 'deployment', 'summary', 'areas']
+    assert [row['area'] for row in template['area_rows']] == [row[0] for row in expected]
+    assert template['area_rows'][0]['evidence_quote'] == expected[0][2]
+    assert template['area_rows'][0]['implemented'] == '日本語要約'
 
 
 def test_actual_master_owned_unreviewed_plan_is_rejected():

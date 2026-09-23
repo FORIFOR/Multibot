@@ -322,6 +322,13 @@ def delivery_schema(expected):
         }
         for name, constraint in technical_constraints.get(area, {}).items():
             properties[name] = {'allOf': [japanese, constraint]}
+        examples = SUMMARY_EXAMPLES.get(area, {})
+        for name in ('implemented', 'remaining'):
+            if name in examples:
+                properties.setdefault(name, {'allOf': [japanese]})
+                properties[name]['description'] = (
+                    '日本語要約の例（事実を追加せず、この意味を保つ）: ' + examples[name]
+                )
         return properties
     return {'$schema': 'https://json-schema.org/draft/2020-12/schema', 'type': 'object', 'additionalProperties': False,
             'required': ['product', 'production_ready', 'deployment', 'summary', 'areas'], '$defs': {'row': row},

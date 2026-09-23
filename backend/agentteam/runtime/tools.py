@@ -78,6 +78,39 @@ def _compact_delivery_problems(problems: list[str]) -> list[str]:
     return compact
 
 
+def _schema_repair_template(schema: dict[str, Any]) -> dict[str, Any] | None:
+    """Expose immutable source constants without exposing the full schema.
+
+    Provider tool calls sometimes omit required nested fields even though the
+    JSON Schema is attached to the function. This bounded template repeats the
+    exact structural constants (area order, source file and quotation) while
+    leaving summary fields for the model to write from the supplied material.
+    """
+    properties = schema.get('properties') if isinstance(schema, dict) else None
+    areas_schema = properties.get('areas') if isinstance(properties, dict) else None
+    prefix_items = areas_schema.get('prefixItems') if isinstance(areas_schema, dict) else None
+    if not isinstance(prefix_items, list):
+        return None
+    rows: list[dict[str, Any]] = []
+    for item in prefix_items:
+        if not isinstance(item, dict):
+            continue
+        constants: dict[str, Any] = {}
+        for branch in item.get('allOf', []):
+            branch_props = branch.get('properties', {}) if isinstance(branch, dict) else {}
+            if not isinstance(branch_props, dict):
+                continue
+            for field in ('area', 'source_file', 'evidence_quote'):
+                value = branch_props.get(field, {})
+                if isinstance(value, dict) and 'const' in value:
+                    constants[field] = value['const']
+        if constants:
+            rows.append({**constants, 'implemented': '日本語要約', 'remaining': '日本語要約'})
+    if not rows:
+        return None
+    return {'required_top_level': list(schema.get('required', [])), 'area_rows': rows}
+
+
 
 TOOL_SPECS: dict[str, ToolSpec] = {
     'read_input_file': ToolSpec('read_input_file', 'Read an original user attachment by exact name. These are input sources, not published artifacts and have no revision. Returns source hash and a bounded character range.',
@@ -710,7 +743,8 @@ class ToolGateway:
         if unchanged:
             reply += "\nUNCHANGED: these bytes are identical to the previous draft. This did not repair any failed condition. Make a substantive correction instead of resending the same text."
         logical = p.relative_to(self.ctx.workspace.resolve()).as_posix()
-        if any(r.logical_path == logical for r in self.rt.run.inputs.delivery_requirements):
+        requirement = next((r for r in self.rt.run.inputs.delivery_requirements if r.logical_path == logical), None)
+        if requirement is not None:
             checked = await self.t_run_check({'kind': 'json_schema', 'path': a['path']}, cid)
             # The full schema error can be several thousand characters and
             # crowds out the next action for small local models.  The complete
@@ -727,6 +761,11 @@ class ToolGateway:
                         'Keep each area and evidence_quote exactly equal to the supplied source row and in the same order.',
                         'Use Japanese only for summary fields implemented and remaining; change only the field named by a problem.',
                     ]
+                    template = _schema_repair_template(
+                        requirement.json_schema
+                    )
+                    if template is not None:
+                        compact['repair_template'] = template
                 checked = json.dumps(compact, ensure_ascii=False)
             except (TypeError, ValueError):
                 checked = checked[:1200]
