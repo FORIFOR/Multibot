@@ -1,0 +1,56 @@
+{
+  "areas": [
+    {
+      "area": "Identity",
+      "evidence_quote": "Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "運用環境での IdP 設定、組織ポリシー、MFA 強制とアカウントライフサイクルの承認。"
+    },
+    {
+      "area": "Isolation",
+      "evidence_quote": "Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "顧客固有の権限/コネクタ/エグレスポリシー、パーミッションライフサイクルの承認。"
+    },
+    {
+      "area": "Execution",
+      "evidence_quote": "Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "ワークロード負荷の承認、外部アクション再試行ポリシー、承認済み可用性トポロジー。分散ワーカー/HA は除外。"
+    },
+    {
+      "area": "Data",
+      "evidence_quote": "Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "保持ポリシー（バックアップ/フォーク/プロバイダコピー）、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、合意 RPO/RTO。"
+    },
+    {
+      "area": "Audit / monitoring",
+      "evidence_quote": "Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "独立した WORM 保管、実際のアラート配送とエスカレーション、コレクター監視の展開、サービス目標とインシデント受入。"
+    },
+    {
+      "area": "Deployment",
+      "evidence_quote": "Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "実 TLS/DNS 環境、認証サービス、運用オーナーによる対象環境での更新・ロールバックとセキュリティレビュー。"
+    },
+    {
+      "area": "Business quality",
+      "evidence_quote": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "出典と要約の正確性、レビュー見逃し・誤検出の評価、レイテンシと受入閾値、強化契約を満たす反復試験。"
+    },
+    {
+      "area": "Contract / operation",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任。捏造された承認や認証は認めない。"
+    }
+  ],
+  "deployment": "dedicated-single-host",
+  "product": "Multibot",
+  "production_ready": false,
+  "summary": "L3 未達成。孤立インストールでの初回展開形状。共有マルチテナント SaaS は別アーキテクチャと隔離監査を要する。v51 シリーズで JSON 出力・日本語要約の整合性問題が継続しており、機械的パスはゼロ。実証アクセスキー、演算主体ごとの承認、アクター監査、Production IdP 設定、承約/オペレーション承認、独立した WORM 保管、実際のアラート配送とエスカレーション、コレクター監視展開、サービス目標とインシデント受入、実 TLS/DNS 環境での更新・ロールバック、出典と要約の正確性、レビュー見逃し評価、レイテンシと閾値、承認済みサービス範囲、SLO/SLA、サポート責任が未完了。"
+}

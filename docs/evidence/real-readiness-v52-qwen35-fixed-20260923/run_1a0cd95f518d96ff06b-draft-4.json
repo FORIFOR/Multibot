@@ -1,0 +1,56 @@
+{
+  "areas": [
+    {
+      "area": "Identity",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance",
+      "implemented": "実証 IdP 構成、組織アイデンティティポリシー、MFA 強制とアカウントライフサイクル受入。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+    },
+    {
+      "area": "Isolation",
+      "evidence_quote": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance",
+      "implemented": "独立した攻撃レビュー、顧客固有のロール/コネクタ/エGRESS ポリシー、権限ライフサイクル受入。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+    },
+    {
+      "area": "Execution",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA",
+      "implemented": "ワークロード/負荷受入、外部アクション再試行ポリシー、承認済み可用性トポロジー。分散ワーカー/HA は使用しない。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+    },
+    {
+      "area": "Data",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO",
+      "implemented": "承認済み保持ポリシー（履歴バックアップ/フォーク/プロバイダコピー）、ホスト暗号化と復旧鍵保管、オフサイト復旧ドリル、合意 RPO/RTO。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+    },
+    {
+      "area": "Audit / monitoring",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance",
+      "implemented": "独立した WORM 保管、実際のアラート配送とエスカレーション、コレクター監視デプロイメント、サービス目標とインシデント受入。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+    },
+    {
+      "area": "Deployment",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review",
+      "implemented": "実 TLS/DNS 環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビュー。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+    },
+    {
+      "area": "Business quality",
+      "evidence_quote": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract",
+      "implemented": "出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+    },
+    {
+      "area": "Contract / operation",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications",
+      "implemented": "技術的制約を文書化している。",
+      "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+    }
+  ],
+  "deployment": "dedicated-single-host",
+  "product": "Multibot",
+  "production_ready": false,
+  "summary": "L3 未達成。孤立インストール形態での実証環境構築中。v51 シリーズで JSON 出力と日本語要約の整合性検証を継続。残りの受入作業は各領域のアイデンティティ、分離、実行、データ、監査、デプロイ、品質、契約に関する承認済み範囲、SLO/SLA、サポート責任、オフサイト復旧ドリル、独立した WORM 保管、アラート配送、コレクター監視、サービス目標の実施を待つ。"
+}

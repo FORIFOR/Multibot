@@ -98,6 +98,9 @@ def _schema_repair_template(schema: dict[str, Any]) -> dict[str, Any] | None:
     source_file_schema = (row_properties.get('source_file', {})
                           if isinstance(row_properties, dict) else {})
     source_file = source_file_schema.get('const') if isinstance(source_file_schema, dict) else None
+    summary_examples = schema.get('x-repair-summary-examples', {})
+    if not isinstance(summary_examples, dict):
+        summary_examples = {}
     rows: list[dict[str, Any]] = []
     for item in prefix_items:
         if not isinstance(item, dict):
@@ -118,7 +121,14 @@ def _schema_repair_template(schema: dict[str, Any]) -> dict[str, Any] | None:
         if source_file is not None:
             constants['source_file'] = source_file
         if constants:
-            rows.append({**constants, 'implemented': '日本語要約', 'remaining': '日本語要約'})
+            example = summary_examples.get(constants.get('area'), {})
+            if not isinstance(example, dict):
+                example = {}
+            rows.append({
+                **constants,
+                'implemented': example.get('implemented', '日本語要約'),
+                'remaining': example.get('remaining', '日本語要約'),
+            })
     if not rows:
         return None
     return {

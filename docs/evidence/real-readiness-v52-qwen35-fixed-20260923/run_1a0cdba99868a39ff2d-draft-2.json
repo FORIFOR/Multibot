@@ -1,0 +1,64 @@
+{
+  "areas": [
+    {
+      "area": "Identity",
+      "evidence_quote": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance",
+      "implemented": "実装済み",
+      "remaining": "未実装",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Isolation",
+      "evidence_quote": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance",
+      "implemented": "実装済み",
+      "remaining": "未実装",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Execution",
+      "evidence_quote": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA",
+      "implemented": "実装済み",
+      "remaining": "未実装",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Data",
+      "evidence_quote": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO",
+      "implemented": "実装済み",
+      "remaining": "未実装",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Audit / monitoring",
+      "evidence_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance",
+      "implemented": "実装済み",
+      "remaining": "未実装",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Deployment",
+      "evidence_quote": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review",
+      "implemented": "実装済み",
+      "remaining": "未実装",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Business quality",
+      "evidence_quote": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract",
+      "implemented": "未実装",
+      "remaining": "未実装",
+      "source_file": "PRODUCTION_PLAN.md"
+    },
+    {
+      "area": "Contract / operation",
+      "evidence_quote": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications",
+      "implemented": "未実装",
+      "remaining": "未実装",
+      "source_file": "PRODUCTION_PLAN.md"
+    }
+  ],
+  "deployment": "dedicated-single-host",
+  "product": "Multibot",
+  "production_ready": false,
+  "summary": "本製品は L3 レベルの企業向けワークフローへの進出を目指していますが、直近の検証シリーズ（v35〜v51）において、JSON スキーマ準拠の要件を満たす有効な readiness.json アーティファクトを生成することができませんでした。特に日本語要約フィールドで禁止用語が含まれる、英語ラベルが混入する、または必須フィールドが欠落するなどのエラーが発生しました。また、Docker 隔離環境の稼働停止により外部依存性の検証も完了していません。残りの受入作業（SLO/SLA の承認、オフサイト復旧ドリルなど）は未完了であり、L3 達成条件を満たしていません。"
+}

@@ -164,7 +164,8 @@ def test_schema_repair_template_uses_current_source_constants():
     assert [row['area'] for row in template['area_rows']] == [row[0] for row in expected]
     assert template['area_rows'][0]['evidence_quote'] == expected[0][2]
     assert template['area_rows'][0]['source_file'] == 'PRODUCTION_PLAN.md'
-    assert template['area_rows'][0]['implemented'] == '日本語要約'
+    assert '実アクセスキー' in template['area_rows'][0]['implemented']
+    assert 'MFA' in template['area_rows'][0]['remaining']
 
 
 def test_actual_master_owned_unreviewed_plan_is_rejected():

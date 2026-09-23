@@ -334,6 +334,11 @@ def delivery_schema(expected):
         return properties
     return {'$schema': 'https://json-schema.org/draft/2020-12/schema', 'type': 'object', 'additionalProperties': False,
             'required': ['product', 'production_ready', 'deployment', 'summary', 'areas'], '$defs': {'row': row},
+            # A namespaced extension is ignored by JSON Schema validation but
+            # lets the runtime give a local model complete source-derived
+            # Japanese repair examples after a failed draft. It never writes
+            # or edits the requested artifact.
+            'x-repair-summary-examples': SUMMARY_EXAMPLES,
             'properties': {'product': {'const': 'Multibot'}, 'production_ready': {'const': False},
                            'deployment': {'const': 'dedicated-single-host'}, 'summary': japanese,
                                      'areas': {'type': 'array', 'minItems': len(expected), 'maxItems': len(expected),
