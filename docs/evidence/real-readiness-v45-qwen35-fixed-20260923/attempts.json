@@ -1,0 +1,71 @@
+[
+  {
+    "rep": 1,
+    "request_key": "workflow_1a0cbc7fa3ff151d019",
+    "run_id": "run_1a0cbc7fec7adc89196",
+    "result": {
+      "rep": 1,
+      "run_id": "run_1a0cbc7fec7adc89196",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 9,
+        "tool_calls": 3,
+        "input_tokens": 78469,
+        "output_tokens": 15248,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.8176505840383
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v45-qwen35-fixed-20260923/evidence/01-run_1a0cbc7fec7adc89196"
+    }
+  },
+  {
+    "rep": 2,
+    "request_key": "workflow_1a0cbda55ab48ef28ae",
+    "run_id": "run_1a0cbda55b289c381e8",
+    "result": {
+      "rep": 2,
+      "run_id": "run_1a0cbda55b289c381e8",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 9,
+        "tool_calls": 3,
+        "input_tokens": 78469,
+        "output_tokens": 15248,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.5496187498793
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v45-qwen35-fixed-20260923/evidence/02-run_1a0cbda55b289c381e8"
+    }
+  },
+  {
+    "rep": 3,
+    "request_key": "workflow_1a0cbecabc65d72b5f7",
+    "run_id": "run_1a0cbecabd28cd300f0"
+  }
+]
