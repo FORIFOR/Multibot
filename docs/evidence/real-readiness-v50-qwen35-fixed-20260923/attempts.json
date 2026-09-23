@@ -1,0 +1,106 @@
+[
+  {
+    "rep": 1,
+    "request_key": "workflow_1a0cce26cfc10e46da5",
+    "run_id": "run_1a0cce270bae4f539c1",
+    "result": {
+      "rep": 1,
+      "run_id": "run_1a0cce270bae4f539c1",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 4,
+        "tool_calls": 0,
+        "input_tokens": 34176,
+        "output_tokens": 15215,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1033.542323791
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v50-qwen35-fixed-20260923/evidence/01-run_1a0cce270bae4f539c1"
+    }
+  },
+  {
+    "rep": 2,
+    "request_key": "workflow_1a0ccf2371c90a11b11",
+    "run_id": "run_1a0ccf2371f1392d0f4",
+    "result": {
+      "rep": 2,
+      "run_id": "run_1a0ccf2371f1392d0f4",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 4,
+        "tool_calls": 0,
+        "input_tokens": 34178,
+        "output_tokens": 15239,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 958.432322875
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v50-qwen35-fixed-20260923/evidence/02-run_1a0ccf2371f1392d0f4"
+    }
+  },
+  {
+    "rep": 3,
+    "request_key": "workflow_1a0cd00d91c15252f0c",
+    "run_id": "run_1a0cd00d91fb8539ef1",
+    "result": {
+      "rep": 3,
+      "run_id": "run_1a0cd00d91fb8539ef1",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 4,
+        "tool_calls": 0,
+        "input_tokens": 34172,
+        "output_tokens": 15295,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1010.180121333
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v50-qwen35-fixed-20260923/evidence/03-run_1a0cd00d91fb8539ef1"
+    }
+  },
+  {
+    "rep": 4,
+    "request_key": "workflow_1a0cd10449ca2edc332",
+    "run_id": "run_1a0cd1044a169be2b89"
+  }
+]

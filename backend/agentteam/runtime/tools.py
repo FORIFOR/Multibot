@@ -310,13 +310,7 @@ class ToolGateway:
                         "description",
                         "Structured requester JSON value. Keep source quotations exact and change only permitted summary fields.",
                     )
-                    schema["properties"]["value"]["description"] += (
-                        " REQUIRED: top level has product, production_ready, deployment, summary and areas. "
-                        "Every one of the 8 area objects must include area, implemented, remaining, "
-                        "source_file exactly PRODUCTION_PLAN.md, and the exact supplied evidence_quote; "
-                        "never omit source_file or evidence_quote."
-                    )
-                specs[index] = ToolSpec(tool.name, "Write a requested JSON delivery value in your task workspace; the runtime serializes it as valid JSON. Use one of the declared output paths, then publish the same path. The value schema shown here is the requester contract; every area row must include source_file and evidence_quote; do not swap source quotation fields with Japanese summary fields.", schema)
+                specs[index] = ToolSpec(tool.name, "Write a requested JSON delivery value in your task workspace; the runtime serializes it as valid JSON. Use one of the declared output paths, then publish the same path. The value schema shown here is the requester contract; do not swap source quotation fields with Japanese summary fields.", schema)
             else:
                 specs[index] = ToolSpec(tool.name, "Publish a requested delivery file from your workspace. Use one of the declared output paths.", schema)
         return specs

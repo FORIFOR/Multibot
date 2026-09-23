@@ -163,11 +163,6 @@ def test_schema_repair_template_uses_current_source_constants():
     assert [row['area'] for row in template['area_rows']] == [row[0] for row in expected]
     assert template['area_rows'][0]['evidence_quote'] == expected[0][2]
     assert template['area_rows'][0]['implemented'] == '日本語要約'
-    row = schema['$defs']['row']['properties']
-    assert row['source_file']['const'] == 'PRODUCTION_PLAN.md'
-    assert 'REQUIRED' in row['source_file']['description']
-    area_properties = schema['properties']['areas']['prefixItems'][0]['allOf'][1]['properties']
-    assert area_properties['implemented']['examples']
 
 
 def test_actual_master_owned_unreviewed_plan_is_rejected():

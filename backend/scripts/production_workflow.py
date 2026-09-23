@@ -33,6 +33,7 @@ from agentteam.security.accounts import issue_key
 
 SOURCES = ['docs/PRODUCTION_PLAN.md', 'docs/evidence/operations-2026-09-14/README.md']
 GOAL = '''企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。
+重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作として workspace_write_json を呼び出してください。readiness.json の全項目を一度に作り、source_file と evidence_quote を8行すべてに必ず含めます。
 成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まず、RFC 8259に適合するJSONをそのまま公開してください。文字列値に含まれる二重引用符は `\\"` としてエスケープし、JSON文字列を壊さないでください。
 トップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。
 areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。
@@ -93,6 +94,7 @@ def build_workflow_goal(expected):
         'readiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。JSON全体を配列で囲まず、最初の文字を {、最後の文字を } にする。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。',
         '{"product":"Multibot","production_ready":false,"deployment":"dedicated-single-host","summary":"日本語の現状要約","areas":[{"area":"Identity","implemented":"日本語一文","remaining":"日本語一文","source_file":"PRODUCTION_PLAN.md","evidence_quote":"入力の残条件原文"}]}',
         '上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_write_jsonのvalueオブジェクトで保存してpublish_artifactする。JSON文字列をcontentへ手作業で埋め込まない。',
+        '説明や計画をテキストで返さない。最初の生成操作はworkspace_write_jsonにし、8行すべてのsource_fileとevidence_quoteを必ず含める。ツール呼出しを省略しない。',
         '新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。',
     ])
     return GOAL + '\n' + '\n'.join(lines)
@@ -299,13 +301,9 @@ def delivery_schema(expected):
                 'not': {'pattern': forbidden_translation_fragments}}
     row = {'type': 'object', 'additionalProperties': False,
            'required': ['area', 'implemented', 'remaining', 'source_file', 'evidence_quote'],
-           'properties': {
-               'area': {'type': 'string', 'description': 'Required source area label; keep the supplied order.'},
-               'implemented': {**japanese, 'description': 'Japanese summary of verified implementation. Copy the supplied Japanese example when useful.'},
-               'remaining': {**japanese, 'description': 'Japanese summary of remaining acceptance work. Do not copy the English quotation.'},
-               'source_file': {'const': 'PRODUCTION_PLAN.md', 'description': 'REQUIRED in every area object: exactly PRODUCTION_PLAN.md.'},
-               'evidence_quote': {'type': 'string', 'description': 'REQUIRED in every area object: exact English source quotation; do not translate, shorten or alter.'},
-           }}
+           'properties': {'area': {'type': 'string'}, 'implemented': japanese, 'remaining': japanese,
+                          'source_file': {'const': 'PRODUCTION_PLAN.md'},
+                          'evidence_quote': {'type': 'string', 'description': 'Exact English source quotation; do not translate or alter.'}}}
     technical_constraints = {
         # Keep terms whose meaning is unsafe to infer from a loose katakana
         # transliteration. The Japanese alternatives are explicit and narrow.
@@ -333,12 +331,6 @@ def delivery_schema(expected):
                 properties[name]['description'] = (
                     '日本語要約の例（事実を追加せず、この意味を保つ）: ' + examples[name]
                 )
-                # Ollama tool callers do not always honor a long nested
-                # schema description. Expose the source-derived sentence as
-                # an example so the model can copy a known-valid summary
-                # rather than inventing a translation. Validation remains
-                # authoritative; this only improves the request contract.
-                properties[name]['examples'] = [examples[name]]
         return properties
     return {'$schema': 'https://json-schema.org/draft/2020-12/schema', 'type': 'object', 'additionalProperties': False,
             'required': ['product', 'production_ready', 'deployment', 'summary', 'areas'], '$defs': {'row': row},
