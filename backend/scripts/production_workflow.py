@@ -417,7 +417,7 @@ async def main(root, repeat, profile_path):
             async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='https://localhost',
                                         headers={'Authorization': 'Bearer ' + token}, timeout=30) as client:
                 body = {'goal': workflow_goal, 'inputs': {'files': [{'name': name, 'content': text} for name, text in source.items()],
-                                               'delivery_requirements': required}, 'start': True}
+                                               'workflow': 'document', 'delivery_requirements': required}, 'start': True}
                 for rep in range(1, repeat + 1):
                     if (root / 'STOP').exists():
                         status('paused', reason='STOP requested; prior attempts preserved'); return
