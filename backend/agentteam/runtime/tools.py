@@ -89,6 +89,10 @@ TOOL_SPECS: dict[str, ToolSpec] = {
                                                       ["expected_sha256", "old_text", "new_text"])}, ["path"]),
                                  "oneOf": [{"required": ["content"], "not": {"required": ["edit"]}},
                                            {"required": ["edit"], "not": {"required": ["content"]}}]}),
+    "workspace_write_json": ToolSpec("workspace_write_json", "Write a structured JSON value inside your task workspace using the runtime's JSON serializer. Use this for a JSON deliverable instead of stringifying JSON into workspace_write.content; the serialized draft still requires publish_artifact and all requester checks.",
+                                      _obj({"path": {"type": "string"},
+                                            "value": {"type": ["object", "array", "string", "number", "boolean", "null"]}},
+                                           ["path", "value"])),
     "workspace_read": ToolSpec("workspace_read", "Read a text file from your task workspace.", _obj({"path": {"type": "string"}}, ["path"])),
     "workspace_list": ToolSpec("workspace_list", "List files in your task workspace.", _obj({})),
     "publish_artifact": ToolSpec("publish_artifact",
@@ -217,7 +221,7 @@ class ToolGateway:
         # retained for repair. The restriction applies to every workflow that
         # declares a requester-owned delivery contract, not only document mode.
         for index, tool in enumerate(specs):
-            if tool.name not in ("workspace_write", "publish_artifact"):
+            if tool.name not in ("workspace_write", "workspace_write_json", "publish_artifact"):
                 continue
             schema = copy.deepcopy(tool.input_schema)
             schema["properties"]["path"]["enum"] = allowed_paths
@@ -231,6 +235,8 @@ class ToolGateway:
                             content[bound] = requirement.json_schema[bound]
                     content["description"] = "Complete document. Length counts every Unicode character, including headings, spaces and newlines. Preserve required source conditions when shortening."
                 specs[index] = ToolSpec(tool.name, "Write a requested delivery file in your task workspace. Use one of the declared output paths.", schema)
+            elif tool.name == "workspace_write_json":
+                specs[index] = ToolSpec(tool.name, "Write a requested JSON delivery value in your task workspace; the runtime serializes it as valid JSON. Use one of the declared output paths, then publish the same path.", schema)
             else:
                 specs[index] = ToolSpec(tool.name, "Publish a requested delivery file from your workspace. Use one of the declared output paths.", schema)
         return specs
@@ -685,6 +691,20 @@ class ToolGateway:
                       + "\nNEXT ACTION: if the draft is ready, call publish_artifact with the same path now; "
                         "otherwise make one substantive correction, then publish it.")
         return reply
+
+    async def t_workspace_write_json(self, a, cid):
+        """Serialize a model-provided JSON value without accepting stringified JSON.
+
+        The value remains subject to the same workspace path, delivery check,
+        publication and review gates as text writes. Serialization only makes
+        the transport representation valid JSON; it never repairs or changes
+        semantic content.
+        """
+        try:
+            content = json.dumps(a["value"], ensure_ascii=False, indent=2, allow_nan=False) + "\n"
+        except (TypeError, ValueError) as exc:
+            return f"REJECTED: value is not JSON-serializable ({exc}); no bytes changed."
+        return await self.t_workspace_write({"path": a["path"], "content": content}, cid)
 
     async def t_workspace_read(self, a, cid):
         p = self._ws_path(a["path"])

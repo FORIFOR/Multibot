@@ -66,7 +66,7 @@ def supports_document_recovery(tool_names: list[str], calls: list[dict[str, Any]
 # The first tool a role needs when it has only narrated its intent. Names are offered only if the agent has them.
 _FIRST_TOOLS = {
     "reviewer": ("read_artifact", "run_check", "submit_review", "finish_task"),
-    "builder": ("workspace_write", "publish_artifact", "finish_task"),
+    "builder": ("workspace_write_json", "workspace_write", "publish_artifact", "finish_task"),
     "researcher": ("web_fetch", "workspace_write", "publish_artifact", "finish_task"),
 }
 

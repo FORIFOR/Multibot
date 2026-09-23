@@ -92,7 +92,7 @@ def build_workflow_goal(expected):
         '説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。原文に二重引用符がある場合も、JSON文字列内では必ず \\\" としてエスケープし、解析可能なJSONにする。',
         'readiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。JSON全体を配列で囲まず、最初の文字を {、最後の文字を } にする。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。',
         '{"product":"Multibot","production_ready":false,"deployment":"dedicated-single-host","summary":"日本語の現状要約","areas":[{"area":"Identity","implemented":"日本語一文","remaining":"日本語一文","source_file":"PRODUCTION_PLAN.md","evidence_quote":"入力の残条件原文"}]}',
-        '上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_writeしてpublish_artifactする。',
+        '上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_write_jsonのvalueオブジェクトで保存してpublish_artifactする。JSON文字列をcontentへ手作業で埋め込まない。',
         '新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。',
     ])
     return GOAL + '\n' + '\n'.join(lines)
@@ -348,6 +348,9 @@ async def main(root, repeat, profile_path):
     local_connection = cfg.connection(cfg.defaults.connection_id)
     if local_connection and local_connection.driver == 'ollama':
         local_connection.ollama_temperature = 0.0
+    builder = next((agent for agent in cfg.agents if agent.role == 'builder'), None)
+    if builder and 'workspace_write_json' not in builder.tools:
+        builder.tools.append('workspace_write_json')
     cfg.profile_name = 'production-readiness-source-workflow'
     cfg.limits.max_tasks = 4; cfg.limits.max_model_calls = 40; cfg.limits.max_tool_calls = 80
     cfg.limits.max_replans = 0; cfg.limits.max_session_turns = 18; cfg.limits.max_output_tokens = 5000

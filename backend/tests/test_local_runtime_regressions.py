@@ -386,6 +386,37 @@ def test_actual_missing_content_has_actionable_schema_error():
     assert "'edit' is a required property" in nested
 
 
+async def test_structured_json_workspace_writer_preserves_nested_quotes(tmp_path):
+    from agentteam.api.service import AppService
+    from agentteam.contracts import Run, TaskState
+    from agentteam.runtime.context import SessionContext
+    from agentteam.runtime.tools import ToolGateway
+
+    record = json.loads((EVIDENCE.parent / 'trading-plan-2026-09-20/stale-publication.json').read_text())
+    svc = await AppService(tmp_path, config_yaml=record['run']['config_snapshot']['config_yaml']).start()
+    rt = None
+    try:
+        run = Run.model_validate(record['run'])
+        await svc.runs.create_run(run)
+        rt = svc.manager._build_runtime(run, svc.config)
+        for saved in record['run']['tasks']:
+            task = TaskState.model_validate(saved)
+            rt.tasks[task.spec.id] = task
+            await svc.runs.upsert_task(task)
+        task = rt.tasks['t2']
+        tools = [*rt.agents[task.spec.owner].tools, 'workspace_write_json']
+        ctx = SessionContext(rt, rt.agents[task.spec.owner], 'task', task, tools=tools)
+        gateway = ToolGateway(ctx)
+        value = {'summary': '内部引用符「"」を保持', 'areas': [{'area': 'Business quality'}]}
+        result = await gateway.call('workspace_write_json', {'path': 'architecture.md', 'value': value})
+        assert result.startswith('OK:')
+        assert json.loads((ctx.workspace / 'architecture.md').read_text()) == value
+    finally:
+        if rt:
+            await rt.providers.aclose()
+        await svc.stop()
+
+
 async def test_recorded_unverified_review_persists_partial_not_accepted(tmp_path):
     from agentteam.api.service import AppService
     from agentteam.contracts import Review, Run, RunInputs, RunStatus
