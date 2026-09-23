@@ -400,7 +400,7 @@ def test_actual_missing_content_has_actionable_schema_error():
 
 async def test_structured_json_workspace_writer_preserves_nested_quotes(tmp_path):
     from agentteam.api.service import AppService
-    from agentteam.contracts import Run, TaskState
+    from agentteam.contracts import DeliveryRequirement, Run, TaskState
     from agentteam.runtime.context import SessionContext
     from agentteam.runtime.tools import ToolGateway
 
@@ -409,6 +409,12 @@ async def test_structured_json_workspace_writer_preserves_nested_quotes(tmp_path
     rt = None
     try:
         run = Run.model_validate(record['run'])
+        run.inputs.delivery_requirements = [DeliveryRequirement(
+            logical_path='architecture.md', input_format='json',
+            json_schema={'type': 'object', 'additionalProperties': False,
+                         'required': ['summary'],
+                         'properties': {'summary': {'type': 'string'}}},
+        )]
         await svc.runs.create_run(run)
         rt = svc.manager._build_runtime(run, svc.config)
         for saved in record['run']['tasks']:
@@ -419,6 +425,9 @@ async def test_structured_json_workspace_writer_preserves_nested_quotes(tmp_path
         tools = [*rt.agents[task.spec.owner].tools, 'workspace_write_json']
         ctx = SessionContext(rt, rt.agents[task.spec.owner], 'task', task, tools=tools)
         gateway = ToolGateway(ctx)
+        json_spec = next(t for t in gateway.specs() if t.name == 'workspace_write_json')
+        assert json_spec.input_schema['properties']['value']['required'] == ['summary']
+        assert json_spec.input_schema['properties']['path']['enum'] == ['architecture.md']
         value = {'summary': '内部引用符「"」を保持', 'areas': [{'area': 'Business quality'}]}
         result = await gateway.call('workspace_write_json', {'path': 'architecture.md', 'value': value})
         assert result.startswith('OK:')

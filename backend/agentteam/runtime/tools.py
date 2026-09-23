@@ -266,7 +266,18 @@ class ToolGateway:
                     content["description"] = "Complete document. Length counts every Unicode character, including headings, spaces and newlines. Preserve required source conditions when shortening."
                 specs[index] = ToolSpec(tool.name, "Write a requested delivery file in your task workspace. Use one of the declared output paths.", schema)
             elif tool.name == "workspace_write_json":
-                specs[index] = ToolSpec(tool.name, "Write a requested JSON delivery value in your task workspace; the runtime serializes it as valid JSON. Use one of the declared output paths, then publish the same path.", schema)
+                json_requirements = [r for r in requirements if r.input_format == "json"]
+                if len(json_requirements) == 1:
+                    # Advertise the immutable requester schema at the tool
+                    # boundary so providers can construct the required object
+                    # shape directly. Runtime delivery checks remain the
+                    # authority; this only narrows the tool-call contract.
+                    schema["properties"]["value"] = copy.deepcopy(json_requirements[0].json_schema)
+                    schema["properties"]["value"].setdefault(
+                        "description",
+                        "Structured requester JSON value. Keep source quotations exact and change only permitted summary fields.",
+                    )
+                specs[index] = ToolSpec(tool.name, "Write a requested JSON delivery value in your task workspace; the runtime serializes it as valid JSON. Use one of the declared output paths, then publish the same path. The value schema shown here is the requester contract; do not swap source quotation fields with Japanese summary fields.", schema)
             else:
                 specs[index] = ToolSpec(tool.name, "Publish a requested delivery file from your workspace. Use one of the declared output paths.", schema)
         return specs
