@@ -315,9 +315,9 @@ class RunInputs(BaseModel):
                 raise ValueError("selected_agent_ids requires fixed selection and unique IDs")
         if self.workflow == "document" and (
             self.urls or not (self.text.strip() or any(f.get("content", "").strip() for f in self.files))
-            or len(self.delivery_requirements) != 1 or self.delivery_requirements[0].input_format != "text"
+            or len(self.delivery_requirements) != 1
         ):
-            raise ValueError('document workflow requires supplied text/files, no URL inputs, and exactly one text delivery contract')
+            raise ValueError('document workflow requires supplied text/files, no URL inputs, and exactly one delivery contract')
         return self
 
     @field_validator('delivery_requirements')

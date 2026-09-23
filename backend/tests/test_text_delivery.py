@@ -115,6 +115,10 @@ async def test_document_workflow_compiles_actual_request_without_provider_calls(
     requirement = {'logical_path':'guide.md','input_format':'text','json_schema':{'type':'string','minLength':400,'maxLength':700}}
     inputs = RunInputs(text=raw,delivery_requirements=[requirement],workflow='document')
     assert inputs.model_dump()['workflow'] == 'document'
+    json_inputs = RunInputs(text=raw, delivery_requirements=[{
+        'logical_path': 'guide.json', 'json_schema': {'type': 'object'}, 'input_format': 'json'
+    }], workflow='document')
+    assert json_inputs.model_dump()['workflow'] == 'document'
     with pytest.raises(ValidationError):
         RunInputs(text=raw,workflow='document')
     with pytest.raises(ValidationError):
