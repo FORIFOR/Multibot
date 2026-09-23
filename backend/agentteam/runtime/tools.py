@@ -48,6 +48,36 @@ def _delivery_repair_hint(schema: dict[str, Any], result: dict[str, Any]) -> str
             "Do not replace or weaken the schema. Reviewers must report findings instead of editing another task's output.")
 
 
+def _compact_delivery_problems(problems: list[str]) -> list[str]:
+    """Turn verbose JSON-Schema failures into field-level repair instructions.
+
+    The full validator result remains in the immutable check event.  The model
+    receives only a bounded hint so a long forbidden-term regex does not crowd
+    out the source-derived field semantics needed to repair its own draft.
+    """
+    compact: list[str] = []
+    for raw in problems[:8]:
+        path = raw.split(':', 1)[0].strip()
+        if 'should not be valid under' in raw:
+            message = 'contains a forbidden translation or English fragment; rewrite this summary from the supplied Japanese example'
+        elif "does not match '[ぁ-んァ-ン一-龯]'" in raw:
+            message = 'must be a Japanese summary; keep technical names only when explicitly required'
+        elif 'was expected' in raw and path.endswith('/evidence_quote'):
+            message = 'must exactly equal the corresponding Remaining acceptance work source text; do not translate or shorten it'
+        elif 'was expected' in raw and path.endswith('/area'):
+            message = 'must keep the source area label and the required order'
+        elif 'does not match' in raw and path.endswith('/implemented'):
+            message = 'must be a Japanese summary containing the required source anchors for this area'
+        elif 'does not match' in raw and path.endswith('/remaining'):
+            message = 'must be a Japanese summary of the remaining conditions and must not copy the English quote'
+        else:
+            message = raw[:320]
+        compact.append(f'{path}: {message}')
+    if len(problems) > len(compact):
+        compact.append(f'... {len(problems) - len(compact)} additional schema problem(s) are recorded in the check event')
+    return compact
+
+
 
 TOOL_SPECS: dict[str, ToolSpec] = {
     'read_input_file': ToolSpec('read_input_file', 'Read an original user attachment by exact name. These are input sources, not published artifacts and have no revision. Returns source hash and a bounded character range.',
@@ -89,7 +119,7 @@ TOOL_SPECS: dict[str, ToolSpec] = {
                                                       ["expected_sha256", "old_text", "new_text"])}, ["path"]),
                                  "oneOf": [{"required": ["content"], "not": {"required": ["edit"]}},
                                            {"required": ["edit"], "not": {"required": ["content"]}}]}),
-    "workspace_write_json": ToolSpec("workspace_write_json", "Write a structured JSON value inside your task workspace using the runtime's JSON serializer. Use this for a JSON deliverable instead of stringifying JSON into workspace_write.content; the serialized draft still requires publish_artifact and all requester checks.",
+    "workspace_write_json": ToolSpec("workspace_write_json", "Write a structured JSON value inside your task workspace using the runtime's JSON serializer. Use this for a JSON deliverable instead of stringifying JSON into workspace_write.content; the serialized draft still requires publish_artifact and all requester checks. When a requester schema names source quotations, keep area and evidence_quote exactly as supplied and revise only the permitted summary fields; never swap implemented and remaining.",
                                       _obj({"path": {"type": "string"},
                                             "value": {"type": ["object", "array", "string", "number", "boolean", "null"]}},
                                            ["path", "value"])),
@@ -681,9 +711,11 @@ class ToolGateway:
                 problems = list(result.get('problems') or []) if isinstance(result, dict) else []
                 compact = {'status': result.get('status') if isinstance(result, dict) else 'unknown'}
                 if problems:
-                    compact['problems'] = problems[:8]
-                    if len(problems) > 8:
-                        compact['omitted_problem_count'] = len(problems) - 8
+                    compact['problems'] = _compact_delivery_problems(problems)
+                    compact['repair_rules'] = [
+                        'Keep each area and evidence_quote exactly equal to the supplied source row and in the same order.',
+                        'Use Japanese only for summary fields implemented and remaining; change only the field named by a problem.',
+                    ]
                 checked = json.dumps(compact, ensure_ascii=False)
             except (TypeError, ValueError):
                 checked = checked[:1200]

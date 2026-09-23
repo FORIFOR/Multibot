@@ -5,7 +5,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 from agentteam.contracts import TeamPlan
 from agentteam.runtime.planner import plan_from_output, validate_plan
-from agentteam.runtime.tools import TOOL_SPECS
+from agentteam.runtime.tools import TOOL_SPECS, _compact_delivery_problems
 from agentteam.runtime.worker import consecutive_no_tool_turns
 
 EVIDENCE = Path(__file__).resolve().parents[2] / 'docs/evidence/local-fixes-2026-09-14'
@@ -139,6 +139,18 @@ async def test_actual_prepublication_handoff_requires_current_revision_delivery(
 
 def records(name):
     return json.loads((EVIDENCE / (name + '.json')).read_text())
+
+
+def test_delivery_repair_hint_keeps_schema_feedback_field_level():
+    problems = _compact_delivery_problems([
+        "areas/0/implemented: 'Production IdP configuration' should not be valid under {'pattern': 'huge-forbidden-list'}",
+        "areas/0/evidence_quote: 'wrong quote' was expected",
+        "areas/0/implemented: 'English text' does not match '[ぁ-んァ-ン一-龯]'",
+    ])
+    assert problems[0].startswith('areas/0/implemented: contains a forbidden translation')
+    assert problems[1].endswith('must exactly equal the corresponding Remaining acceptance work source text; do not translate or shorten it')
+    assert problems[2].endswith('must be a Japanese summary; keep technical names only when explicitly required')
+    assert 'huge-forbidden-list' not in '\n'.join(problems)
 
 
 def test_actual_master_owned_unreviewed_plan_is_rejected():
