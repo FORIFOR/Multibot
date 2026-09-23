@@ -1,0 +1,72 @@
+[
+  {
+    "rep": 1,
+    "request_key": "workflow_1a0cc6fdb6213969fa2",
+    "run_id": "run_1a0cc6fdfbed9b28dcd",
+    "result": {
+      "rep": 1,
+      "run_id": "run_1a0cc6fdfbed9b28dcd",
+      "status": "interrupted",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 12,
+        "tool_calls": 8,
+        "input_tokens": 113272,
+        "output_tokens": 16019,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.1968041250002
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v48-qwen35-fixed-20260923/evidence/01-run_1a0cc6fdfbed9b28dcd"
+    }
+  },
+  {
+    "rep": 2,
+    "request_key": "workflow_1a0cc82341fceb0f3b2",
+    "run_id": "run_1a0cc823422aeb629e0",
+    "result": {
+      "rep": 2,
+      "run_id": "run_1a0cc823422aeb629e0",
+      "status": "failed",
+      "mechanical_pass": false,
+      "problems": [
+        "readiness.json missing or invalid JSON"
+      ],
+      "semantic_review": "pending",
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 9,
+        "tool_calls": 4,
+        "input_tokens": 96622,
+        "output_tokens": 16117,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1139.8698855840003
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v48-qwen35-fixed-20260923/evidence/02-run_1a0cc823422aeb629e0"
+    }
+  },
+  {
+    "rep": 3,
+    "request_key": "workflow_1a0cc939c0579b77d96",
+    "run_id": "run_1a0cc939c080e15d99a"
+  }
+]
