@@ -542,7 +542,7 @@ class ToolGateway:
         handoff = ("Deliver the required findings to " + ", ".join(sorted(missing)) + ", then call finish_task. "
                    if missing else
                    "Required handoffs are already delivered. Do not resend the same findings under a different purpose. "
-                   "If the requested work is ready, call finish_task; it will validate publication and completion requirements. ")
+                   "Your next tool call MUST be finish_task; do not read files or run more checks. finish_task will validate publication and completion requirements. ")
         downstream = [t.spec.id for t in self.rt.tasks.values()
                       if ctx.task_id in t.spec.depends_on and t.status == "queued"]
         if downstream and ctx.agent.role != "reviewer":
