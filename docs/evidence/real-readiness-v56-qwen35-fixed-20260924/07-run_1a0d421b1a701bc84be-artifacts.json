@@ -1,0 +1,34 @@
+[
+  {
+    "run_id": "run_1a0d421b1a701bc84be",
+    "artifact_id": "readiness.json",
+    "revision": 1,
+    "sha256": "68af3c208e6c291b1b194a0d88a8d8472a959c4a3ceb0ddcc9f3876b1971c6a8",
+    "media_type": "application/json",
+    "size": 5138,
+    "logical_path": "readiness.json",
+    "storage_path": "run_1a0d421b1a701bc84be/artifacts/readiness.json/r1/readiness.json",
+    "task_id": "t1",
+    "agent_id": "builder",
+    "created_at": "2026-09-24T16:00:33.992Z",
+    "event_id": "run_1a0d421b1a701bc84be:18",
+    "sources": [],
+    "evidence_file": "artifact-000.bin"
+  },
+  {
+    "run_id": "run_1a0d421b1a701bc84be",
+    "artifact_id": "readiness.json",
+    "revision": 2,
+    "sha256": "0e8404353cb460da60e6202d4a3642536e159d0c23cbbd74b51f61b4213ff338",
+    "media_type": "application/json",
+    "size": 6119,
+    "logical_path": "readiness.json",
+    "storage_path": "run_1a0d421b1a701bc84be/artifacts/readiness.json/r2/readiness.json",
+    "task_id": "t1",
+    "agent_id": "builder",
+    "created_at": "2026-09-24T16:14:38.102Z",
+    "event_id": "run_1a0d421b1a701bc84be:78",
+    "sources": [],
+    "evidence_file": "artifact-001.bin"
+  }
+]
