@@ -1,0 +1,8 @@
+{
+  "state": "completed_mechanical_trials",
+  "updated_at": "2026-09-24T12:45:27.521502+00:00",
+  "target_runs": 10,
+  "completed": 10,
+  "semantic_review": "pending",
+  "production_ready": false
+}
