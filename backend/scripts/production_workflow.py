@@ -37,7 +37,7 @@ GOAL = '''企業の導入担当者に渡す、Multibotの本番化現状を整�
 成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まず、RFC 8259に適合するJSONをそのまま公開してください。文字列値に含まれる二重引用符は `\\"` としてエスケープし、JSON文字列を壊さないでください。
 トップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。
 areasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。
-summary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。8領域以外の説明や追加フィールドは出力しないでください。
+summary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。summaryには簡潔に「L3未達」と、本番IdP/MFA、分散・HA、監視・SLO/SLA・運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値が未確認または残条件であることをまとめてください。残条件があることはこの現状評価の依頼に反するものではなく、未検証を本番導入済みと書かないことが正しい納品です。8領域以外の説明や追加フィールドは出力しないでください。
 日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。
 技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。
 意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。
