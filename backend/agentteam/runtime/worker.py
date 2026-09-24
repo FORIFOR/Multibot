@@ -131,7 +131,7 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
                      json.dumps([r.model_dump() for r in rt.run.inputs.delivery_requirements], ensure_ascii=False))
         lines.append("For a published artifact, run_check(kind=json_schema, artifact_id=..., revision=...) may omit args.schema; the gateway uses the exact persisted requester schema for that logical path. Do not hand-write a replacement schema.")
         if ctx.agent.role == "reviewer":
-            lines.append("Inspect the producer's exact published revision with run_check. Text schema results report measured unicode_code_points and utf8_bytes, including headings, spaces and newlines. Do not write a replacement draft or search the body for the count. If the contract fails, submit a failing review and return correction work to its producer.")
+            lines.append("Inspect the producer's exact published revision with one direct call shaped exactly as {kind: json_schema, artifact_id: <id>, revision: <number>}; omit args entirely for this requester contract. Never send args as a quoted JSON string. Text schema results report measured unicode_code_points and utf8_bytes, including headings, spaces and newlines. Do not write a replacement draft or search the body for the count. If the contract fails, submit a failing review and return correction work to its producer.")
         else:
             lines.append("For text with a length range, draft near the middle of the range rather than its maximum. All headings, spaces and newlines count. workspace_write returns the actual contract check; if it fails, correct the saved file before publishing. A printed count or a command exit code alone is not a passing constraint check.")
     inputs = []

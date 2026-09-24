@@ -195,7 +195,7 @@ TOOL_SPECS: dict[str, ToolSpec] = {
     "run_check": ToolSpec("run_check",
                           "Run a registered check against a published artifact revision (or a workspace path). Kinds: "
                           + "; ".join(f"{k}: {v}" for k, v in CHECK_KINDS.items())
-                          + ". For json_schema, omitting args.schema on a published artifact or workspace path with a requester delivery requirement uses its exact schema and input format. Text schema results include the measured unicode_code_points and utf8_bytes. Use these for length verification; text_contains checks literal content, not character count. Do not reconstruct an artifact in a shell command to count it.",
+                          + ". For the common requester JSON contract, call exactly {kind: json_schema, artifact_id: <published id>, revision: <number>} and omit args entirely; the gateway uses the persisted requester schema and input format. If another check needs options, args must be a JSON object, never a JSON-encoded string. For json_schema, omitting args.schema on a published artifact or workspace path with a requester delivery requirement uses its exact schema and input format. Text schema results include the measured unicode_code_points and utf8_bytes. Use these for length verification; text_contains checks literal content, not character count. Do not reconstruct an artifact in a shell command to count it.",
                           _obj({"kind": {"type": "string", "enum": list(CHECK_KINDS)}, "artifact_id": {"type": "string"},
                                 "revision": {"type": "integer"}, "path": {"type": "string"},
                                 "args": {"type": "object", "additionalProperties": True}}, ["kind"])),
