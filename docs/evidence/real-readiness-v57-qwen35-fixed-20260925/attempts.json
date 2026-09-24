@@ -1,0 +1,358 @@
+[
+  {
+    "rep": 1,
+    "request_key": "workflow_1a0d4abf3d053eb8880",
+    "run_id": "run_1a0d4abf8241c1771ee",
+    "result": {
+      "rep": 1,
+      "run_id": "run_1a0d4abf8241c1771ee",
+      "status": "interrupted",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "reviewer"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 27,
+        "tool_calls": 23,
+        "input_tokens": 287830,
+        "output_tokens": 10791,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.1739670420066
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/01-run_1a0d4abf8241c1771ee"
+    }
+  },
+  {
+    "rep": 2,
+    "request_key": "workflow_1a0d4be4b404c1c041b",
+    "run_id": "run_1a0d4be4b492285c477",
+    "result": {
+      "rep": 2,
+      "run_id": "run_1a0d4be4b492285c477",
+      "status": "interrupted",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "reviewer"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 35,
+        "tool_calls": 28,
+        "input_tokens": 362490,
+        "output_tokens": 14587,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.7630548749876
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/02-run_1a0d4be4b492285c477"
+    }
+  },
+  {
+    "rep": 3,
+    "request_key": "workflow_1a0d4d09efbb03b1c97",
+    "run_id": "run_1a0d4d09efd4b815703",
+    "result": {
+      "rep": 3,
+      "run_id": "run_1a0d4d09efd4b815703",
+      "status": "completed",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master",
+        "reviewer"
+      ],
+      "review_submissions": 1,
+      "usage": {
+        "model_calls": 19,
+        "tool_calls": 16,
+        "input_tokens": 192288,
+        "output_tokens": 9076,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 791.7545933749934
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/03-run_1a0d4d09efd4b815703"
+    }
+  },
+  {
+    "rep": 4,
+    "request_key": "workflow_1a0d4dcb81f25e3711b",
+    "run_id": "run_1a0d4dcb8220d4dfba8",
+    "result": {
+      "rep": 4,
+      "run_id": "run_1a0d4dcb8220d4dfba8",
+      "status": "completed",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master",
+        "reviewer"
+      ],
+      "review_submissions": 1,
+      "usage": {
+        "model_calls": 19,
+        "tool_calls": 16,
+        "input_tokens": 192290,
+        "output_tokens": 9093,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 780.9925516249787
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/04-run_1a0d4dcb8220d4dfba8"
+    }
+  },
+  {
+    "rep": 5,
+    "request_key": "workflow_1a0d4e8a567bf4a2be2",
+    "run_id": "run_1a0d4e8a56a139479be",
+    "result": {
+      "rep": 5,
+      "run_id": "run_1a0d4e8a56a139479be",
+      "status": "completed",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master",
+        "reviewer"
+      ],
+      "review_submissions": 1,
+      "usage": {
+        "model_calls": 19,
+        "tool_calls": 16,
+        "input_tokens": 192280,
+        "output_tokens": 9076,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 759.7111838340061
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/05-run_1a0d4e8a56a139479be"
+    }
+  },
+  {
+    "rep": 6,
+    "request_key": "workflow_1a0d4f43ff30718ce12",
+    "run_id": "run_1a0d4f43ff74ad215fc",
+    "result": {
+      "rep": 6,
+      "run_id": "run_1a0d4f43ff74ad215fc",
+      "status": "completed",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master",
+        "reviewer"
+      ],
+      "review_submissions": 1,
+      "usage": {
+        "model_calls": 19,
+        "tool_calls": 16,
+        "input_tokens": 192266,
+        "output_tokens": 9093,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 765.4634079169773
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/06-run_1a0d4f43ff74ad215fc"
+    }
+  },
+  {
+    "rep": 7,
+    "request_key": "workflow_1a0d4fff0d2f958d567",
+    "run_id": "run_1a0d4fff0d5ee2d9d41",
+    "result": {
+      "rep": 7,
+      "run_id": "run_1a0d4fff0d5ee2d9d41",
+      "status": "completed",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master",
+        "reviewer"
+      ],
+      "review_submissions": 1,
+      "usage": {
+        "model_calls": 19,
+        "tool_calls": 16,
+        "input_tokens": 192278,
+        "output_tokens": 9070,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 763.1686163329869
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/07-run_1a0d4fff0d5ee2d9d41"
+    }
+  },
+  {
+    "rep": 8,
+    "request_key": "workflow_1a0d50b9750a2752c51",
+    "run_id": "run_1a0d50b975ccfe6241d",
+    "result": {
+      "rep": 8,
+      "run_id": "run_1a0d50b975ccfe6241d",
+      "status": "interrupted",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "reviewer"
+      ],
+      "review_submissions": 0,
+      "usage": {
+        "model_calls": 32,
+        "tool_calls": 27,
+        "input_tokens": 328248,
+        "output_tokens": 12954,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.268363207986
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/08-run_1a0d50b975ccfe6241d"
+    }
+  },
+  {
+    "rep": 9,
+    "request_key": "workflow_1a0d51de977d4827eb7",
+    "run_id": "run_1a0d51de97bd9147811",
+    "result": {
+      "rep": 9,
+      "run_id": "run_1a0d51de97bd9147811",
+      "status": "interrupted",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "reviewer"
+      ],
+      "review_submissions": 1,
+      "usage": {
+        "model_calls": 36,
+        "tool_calls": 31,
+        "input_tokens": 377441,
+        "output_tokens": 14779,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 1200.0830738749937
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/09-run_1a0d51de97bd9147811"
+    }
+  },
+  {
+    "rep": 10,
+    "request_key": "workflow_1a0d5303ad3d03bd65c",
+    "run_id": "run_1a0d5303ad9f6684bdd",
+    "result": {
+      "rep": 10,
+      "run_id": "run_1a0d5303ad9f6684bdd",
+      "status": "completed",
+      "mechanical_pass": true,
+      "problems": [],
+      "semantic_review": "pending",
+      "delivery_contract": {
+        "status": "pass",
+        "problems": []
+      },
+      "false_completion_by_mechanical_checks": false,
+      "model_actors": [
+        "builder",
+        "master",
+        "reviewer"
+      ],
+      "review_submissions": 1,
+      "usage": {
+        "model_calls": 19,
+        "tool_calls": 16,
+        "input_tokens": 192274,
+        "output_tokens": 9070,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cost_usd": 0.0,
+        "reserved_usd": 0.0,
+        "wall_seconds": 807.7685898750206
+      },
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v57-qwen35-fixed-20260925/evidence/10-run_1a0d5303ad9f6684bdd"
+    }
+  }
+]

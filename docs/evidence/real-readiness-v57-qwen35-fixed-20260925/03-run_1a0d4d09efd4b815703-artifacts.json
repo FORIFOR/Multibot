@@ -1,0 +1,34 @@
+[
+  {
+    "run_id": "run_1a0d4d09efd4b815703",
+    "artifact_id": "final-report.md",
+    "revision": 1,
+    "sha256": "4807fd2e849cf15e5ade6acb3eb90da51829ac85ca7c012b03b01d8bb2b855d1",
+    "media_type": "text/markdown",
+    "size": 42802,
+    "logical_path": "final-report.md",
+    "storage_path": "run_1a0d4d09efd4b815703/artifacts/final-report.md/r1/final-report.md",
+    "task_id": null,
+    "agent_id": "master",
+    "created_at": "2026-09-24T19:20:28.889Z",
+    "event_id": "run_1a0d4d09efd4b815703:68",
+    "sources": [],
+    "evidence_file": "artifact-000.bin"
+  },
+  {
+    "run_id": "run_1a0d4d09efd4b815703",
+    "artifact_id": "readiness.json",
+    "revision": 1,
+    "sha256": "78a985c2eae6f87565e6f753a702137dfee7a5195062650123f63b997225b8a6",
+    "media_type": "application/json",
+    "size": 5457,
+    "logical_path": "readiness.json",
+    "storage_path": "run_1a0d4d09efd4b815703/artifacts/readiness.json/r1/readiness.json",
+    "task_id": "t1",
+    "agent_id": "builder",
+    "created_at": "2026-09-24T19:11:43.837Z",
+    "event_id": "run_1a0d4d09efd4b815703:18",
+    "sources": [],
+    "evidence_file": "artifact-001.bin"
+  }
+]
