@@ -36,11 +36,10 @@
     var working = { master: 'thinking', researcher: 'researching', builder: 'building', reviewer: 'reviewing' };
     var STATES = ['idle', 'thinking', 'researching', 'building', 'reviewing', 'done'];
     var setState = function (mate, state) {
-      var bot = mate.querySelector('[data-bot]'), mark = bot.querySelector('.bot-state-mark'), face = bot.querySelector('.bot-face');
+      var bot = mate.querySelector('[data-bot]'), mark = bot.querySelector('.bot-state-mark');
       STATES.forEach(function (s) { bot.classList.remove('bot-' + s); });
       bot.classList.add('bot-' + state);
       var active = state !== 'idle' && state !== 'done';
-      face.className = 'bot-face face-' + (state === 'done' ? 'happy' : state === 'thinking' || state === 'reviewing' ? 'focus' : 'normal');
       mark.className = 'bot-state-mark' + (active ? ' is-working' : '');
       mark.innerHTML = active ? '<i></i><i></i><i></i>' : state === 'done' ? '✓' : '';
       mate.classList.toggle('on', active); mate.classList.toggle('ok', state === 'done');

@@ -8,7 +8,9 @@ Short version:
 - API keys are never stored; config holds references (`env:NAME`, `keychain:service/account`, `file:/path`). Events, tool results and errors are redacted before persistence.
 - Agents cannot widen their own permissions: tool scope, write scope, budget and approvals are enforced by the runtime, not by prompt wording.
 - `web_fetch` refuses private, loopback and metadata addresses on every redirect hop.
-- Commands run in a Docker container when a daemon answers (`--network none`, read-only root filesystem, host uid, `--cap-drop ALL`, `no-new-privileges`, CPU/memory/pid limits, only the task workspace mounted), otherwise under macOS `sandbox-exec` (no network, writes only inside the workspace). With neither available the runtime **refuses** to run commands; `AGENTTEAM_SANDBOX=subprocess` opts into an unsandboxed subprocess explicitly. Every result records which backend ran. Colima/Lima share only your home directory with the VM, so keep the data dir under `$HOME`.
+- Commands run in a Docker container when a daemon answers (`--network none`, read-only root filesystem, host uid, `--cap-drop ALL`, `no-new-privileges`, CPU/memory/pid limits, only the task workspace mounted), otherwise under macOS `sandbox-exec` (no network, writes only inside the workspace; reads outside the workspace are **not** restricted except `~/.ssh`, `~/.aws` and `~/.config`, so prefer Docker for untrusted inputs). With neither available the runtime **refuses** to run commands; `AGENTTEAM_SANDBOX=subprocess` opts into an unsandboxed subprocess explicitly. Every result records which backend ran. Colima/Lima share only your home directory with the VM, so keep the data dir under `$HOME`.
 - Generated HTML is served with a `sandbox` CSP and framed with `<iframe sandbox>`.
 
-To report a vulnerability, open a GitHub issue with the label `security` (no public exploit details) or contact the maintainer via the profile email.
+## Reporting a vulnerability
+
+Please report privately: use GitHub's **Security → Report a vulnerability** on this repository if it is available, or contact the maintainer through the email on the GitHub profile. Do not post exploit details in a public issue. A public issue labelled `security` is fine for hardening ideas that expose nothing exploitable.

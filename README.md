@@ -1,10 +1,6 @@
-<p align="center">
-  <img src="docs/media/replay-research-poster.jpg" alt="Real-model research run replay: artifacts, review and a partial result" width="880" />
-</p>
-
 <h1 align="center">Agent Team</h1>
-<p align="center"><strong>One request. The deliverable, and how it was checked.</strong><br />An AI team drafts, reviews and revises the work, and keeps who checked what next to the deliverable.</p>
-<p align="center"><sub>Product name: <strong>Agent Team</strong> · repository: <strong>FORIFOR/Multibot</strong> · MIT</sub></p>
+<p align="center"><strong>Ask once. One AI makes the file, another AI checks that exact version,<br />and you keep the record of what was checked.</strong></p>
+<p align="center">A local-first AI team for people who will not ship an AI result they cannot verify.<br /><sub>Product: <strong>Agent Team</strong> · repository: <strong>FORIFOR/Multibot</strong> · MIT · English / 日本語 UI</sub></p>
 
 <p align="center">
   <a href="https://github.com/FORIFOR/Multibot/actions/workflows/ci.yml"><img src="https://github.com/FORIFOR/Multibot/actions/workflows/ci.yml/badge.svg" alt="ci" /></a>
@@ -14,25 +10,32 @@
   <a href="https://forifor.github.io/Multibot/"><img src="https://img.shields.io/badge/site-forifor.github.io%2FMultibot-1b1a17" alt="site" /></a>
 </p>
 
-<p align="center"><a href="https://forifor.github.io/Multibot/">Website: a real work record you can click through</a> · <a href="https://reachmade.com/products/#agent-team">Reachmade Lab product page</a> · <a href="#quickstart">Quickstart</a> · <a href="#how-it-works">How it works</a> · <a href="docs/STATUS.md">What's verified</a> · <a href="#日本語">日本語</a></p>
+<p align="center"><a href="https://forifor.github.io/Multibot/">Website</a> · <a href="#quickstart">Quickstart</a> · <a href="#how-it-works">How it works</a> · <a href="#status-and-evidence">Status and evidence</a> · <a href="docs/STATUS.md">What's verified</a> · <a href="#日本語">日本語</a></p>
 
-> **A real run, on the site:** [forifor.github.io/Multibot](https://forifor.github.io/Multibot/) shows the record of a real `claude-opus-5` run — request → first draft → three review findings → the changed passages → re-verification — where clicking a finding jumps to the changed part of the deliverable, plus a 29-second replay of the same run. Files: [`docs/evidence/scenarios/research2/`](docs/evidence/scenarios/research2/).
->
-> [▶ 実モデルの作業記録・日本語解説（32秒）](https://forifor.github.io/Multibot/media/real-walkthrough-ja.mp4). Edited replay of a real run, with synthesized Japanese narration. The run ended **partial**, with the unfinished source check disclosed. No scripted provider is used in this video.
->
-> **Benchmark audit (2026-09-14, updated):** latest attempts across 50 tasks × 3 repetitions: team 69 completed / 5 partial / 76 failed; single agent 150 completed. The team has 79 provider-blocked pairs. All 252 team attempts remain accounted for, including earlier failures. These are constructed evaluation inputs, not customer workflows; no team quality advantage is established. [Metrics and Reviewer audit](docs/evidence/readiness-2026-09-14/README.md).
->
-> **Production work:** Authenticated dedicated deployments now include role checks, per-run access, audit records and offline backup/restore. SSO, distributed recovery and production acceptance remain in progress. [Controls and deployment](docs/PRODUCTION.md) · [Acceptance plan](docs/PRODUCTION_PLAN.md).
+<p align="center">
+  <img src="docs/media/app-results-en.webp" alt="The Agent Team work screen: the chosen guide.md version, 'Recorded checks passed for this version', and the team roster" width="760" />
+</p>
+<p align="center"><sub>A real screen, not a mock-up: a local Qwen 3.5 9B run recorded on 14 September 2026. The site has <a href="https://forifor.github.io/Multibot/">a captioned recording</a> of another real run.</sub></p>
 
-> **Creation workspace:** Desktop pairs the artifact with team conversation; mobile switches between them while keeping drafts. Text artifacts support a browser-local editable copy and file download, exact-version comparisons, and change instructions prepared from a selected excerpt. Editing a copy does **not** publish a server revision or inherit its checks. [Scope and verification](docs/quality/creation-studio.md).
+## Why Agent Team
 
-> **Local evaluation:** Ollama trials exposed review, tool-recovery, source-input, artifact-ownership and completion-state bugs. The historical evaluation recorded **107 deterministic tests (1 skipped)**; this is not the current working-tree test result. The legacy 300-run comparison is preserved and stopped because its inputs contain fictional products and synthetic business data; it is not acceptance evidence. The fixed-series test using the actual repository documents and a local Qwen model was stopped after two v18 runs exposed translation drift. A v20 retry with explicit repair examples still failed its first current-contract check, so no local run is counted as accepted. [Fixes](docs/evidence/local-fixes-2026-09-14/README.md) · [v18 evidence](docs/evidence/real-readiness-v18-qwen35-fixed-2026-09-15/README.md) · [v20 evidence](docs/evidence/real-readiness-v20-qwen35-fixed-2026-09-15/README.md).
->
-> **Enterprise readiness:** demonstration material is available, but the required ten repeated runs of one workflow are not yet verified. The latest local-Qwen retry failed the current delivery contract on its first run. L2 customer-data PoC and L3 production readiness are not claimed. [L1 / L2 / L3 acceptance criteria](docs/ENTERPRISE_READINESS.md).
+- **The maker is not the checker.** A coordinator plans the work, a maker writes the files, and a separate reviewer checks each finish condition. Reviews can fail, and the file goes back for a fix.
+- **Checks are bound to bytes.** Every check and review applies to one revision's SHA-256. A new version starts unchecked, and "unverified" is never shown as "passed".
+- **It runs on your machine, with your model.** Claude Code (no API key), the Anthropic API, OpenAI-compatible APIs or local Ollama. With a local model your input stays on your computer; with a cloud model it goes to that provider. The team does not post or send anything else on your behalf; the work stops at drafts.
+- **Nothing is scripted.** The team chat shows messages that were really delivered between bots. The final report is compiled from the event log, and failed or partial runs stay visible.
+
+```bash
+uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart
+```
+
+One command with [uv](https://docs.astral.sh/uv/) and a logged-in [Claude Code](https://claude.com/claude-code). It checks the connection with one small real call, then opens the app at http://127.0.0.1:8787. Details and other providers are in [Quickstart](#quickstart).
 
 You type **one request**. Attach the source files the team should use, then a Master plans the deliverables, a Researcher, a Builder and a Reviewer actually do the work. You get the files **plus** the real bot-to-bot messages, a timeline, and verification bound to each artifact revision. While a run is active, a human direction is recorded as an event and handed to the next task session; the existing plan is not silently rewritten.
 
-- **Choose work by status.** Open **Work** (`/runs`), search request text, and switch between All, In progress, Awaiting review and Completed. Search stays in the browser tab and covers only the fetched requests. A row opens that request’s team conversation; returning preserves the filter. The list covers up to 50 recent accessible requests. Interrupted, failed and cancelled work remains under All with its actual status.
+<details>
+<summary><strong>All features in detail</strong></summary>
+
+- **Choose work by status.** Open **Work** (`/runs`), search request text, and switch between All, In progress, Needs you, Stopped or partial, and Completed. Each row shows the team size, cost and duration. Search stays in the browser tab and covers only the fetched requests. A row opens that request’s team conversation; returning preserves the filter. The list covers up to 50 recent accessible requests.
 - **Follow the work.** The workroom shows reception → planning → creation → review → end from recorded states, with the current task and transition history available under Progress. Routine explanations, activity records and source context are collapsed so the conversation stays central. The workroom has one request header, Conversation / Results navigation and a compact emoji roster. The wide conversation panel keeps sender, recipient and original text together, follows live updates, and lets you pause following while reading. During active work it shows animated waiting dots, the current stage and recorded task owners even before a message arrives; connection loss switches to a static state check. Conversation search can narrow by text or participating bot without rewriting messages. Referenced artifacts link to their exact revision. Activity records remain separate when the bots have not sent a message. Reached stages do not certify deliverable quality. [Verification and limits](docs/quality/workroom-live.md).
 - **Task handoffs.** Task workers with cross-agent dependencies must deliver a handoff, finding or decision to their downstream owner (reviewers report to the producer) before normal or inferred completion. Publishing new output requires a new handoff. Inbox reads include all messages addressed to that agent in the run. This does not require idle bots to speak or make the planning session a chat session.
 - **No scripted chat.** The chat panel is a projection of `message.sent` events — messages that were really delivered to another bot's mailbox. A question wakes the other bot to answer.
@@ -43,9 +46,9 @@ You type **one request**. Attach the source files the team should use, then a Ma
 - **Replay, resume, fork, export.** Replay never calls a model. Fork from a checkpoint with a different model for one bot and compare. Export the whole run as JSONL.
 - **Real inputs and handoff.** Attach `.txt`, `.md` or `.csv` material (up to 512KB per file in the UI). Send a change, question or edit from the team chat and keep the received direction in the run timeline.
 
-## Quickstart
+</details>
 
-[Workplace benchmark: measured local pilot, failures, and remaining enterprise gates](docs/WORKPLACE_BENCHMARK.md).
+## Quickstart
 
 One command if you have [Claude Code](https://claude.com/claude-code) installed and logged in (no API key), plus [uv](https://docs.astral.sh/uv/):
 
@@ -113,6 +116,26 @@ docs/             website, blueprint (spec, security, references), status
 evals/            40-case acceptance plan and coverage map
 ```
 
+## Status and evidence
+
+Agent Team is pre-1.0. These notes are kept at the same size as the good news; each links to the unedited evidence.
+
+> **A real run, on the site:** [forifor.github.io/Multibot](https://forifor.github.io/Multibot/) shows the record of a real `claude-opus-5` run — request → first draft → three review findings → the changed passages → re-verification — where clicking a finding jumps to the changed part of the deliverable, plus a 29-second replay of the same run. Files: [`docs/evidence/scenarios/research2/`](docs/evidence/scenarios/research2/).
+>
+> [▶ 実モデルの作業記録・日本語解説（32秒）](https://forifor.github.io/Multibot/media/real-walkthrough-ja.mp4). Edited replay of a real run, with synthesized Japanese narration. The run ended **partial**, with the unfinished source check disclosed. No scripted provider is used in this video.
+>
+> **Benchmark audit (2026-09-14, updated):** latest attempts across 50 tasks × 3 repetitions: team 69 completed / 5 partial / 76 failed; single agent 150 completed. The team has 79 provider-blocked pairs. All 252 team attempts remain accounted for, including earlier failures. These are constructed evaluation inputs, not customer workflows; no team quality advantage is established. [Metrics and Reviewer audit](docs/evidence/readiness-2026-09-14/README.md).
+>
+> **Production work:** Authenticated dedicated deployments now include role checks, per-run access, audit records and offline backup/restore. SSO, distributed recovery and production acceptance remain in progress. [Controls and deployment](docs/PRODUCTION.md) · [Acceptance plan](docs/PRODUCTION_PLAN.md).
+> **Creation workspace:** Desktop pairs the artifact with team conversation; mobile switches between them while keeping drafts. Text artifacts support a browser-local editable copy and file download, exact-version comparisons, and change instructions prepared from a selected excerpt. Editing a copy does **not** publish a server revision or inherit its checks. [Scope and verification](docs/quality/creation-studio.md).
+> **Local evaluation:** Ollama trials exposed review, tool-recovery, source-input, artifact-ownership and completion-state bugs. The historical evaluation recorded **107 deterministic tests (1 skipped)**; this is not the current working-tree test result. The legacy 300-run comparison is preserved and stopped because its inputs contain fictional products and synthetic business data; it is not acceptance evidence. The fixed-series test using the actual repository documents and a local Qwen model was stopped after two v18 runs exposed translation drift. A v20 retry with explicit repair examples still failed its first current-contract check, so no local run is counted as accepted. [Fixes](docs/evidence/local-fixes-2026-09-14/README.md) · [v18 evidence](docs/evidence/real-readiness-v18-qwen35-fixed-2026-09-15/README.md) · [v20 evidence](docs/evidence/real-readiness-v20-qwen35-fixed-2026-09-15/README.md).
+>
+> **Enterprise readiness:** demonstration material is available, but the required ten repeated runs of one workflow are not yet verified. The latest local-Qwen retry failed the current delivery contract on its first run. L2 customer-data PoC and L3 production readiness are not claimed. [L1 / L2 / L3 acceptance criteria](docs/ENTERPRISE_READINESS.md).
+>
+> **Latest readiness series (v61, 2026-09-25):** ten real local-Qwen runs of the same document workflow; all ten passed the mechanical and delivery contracts, nine reached a reviewer submission and all nine passed the four criteria, one was stopped by the time limit before review. The semantic review of the series is still pending, so **0 of 10 runs are accepted** and `production_ready=false`. [v61 evidence](docs/evidence/real-readiness-v61-qwen35-fixed-20260925/README.md).
+>
+> [Workplace benchmark: measured local pilot, failures, and remaining enterprise gates](docs/WORKPLACE_BENCHMARK.md).
+
 ## What is verified — and what isn't
 
 Real runs through the local Claude Code CLI (`claude-opus-5`, provider-reported). Artifacts, reports and full event logs are committed unedited under [`docs/evidence/`](docs/evidence/).
@@ -156,7 +179,13 @@ Master が成果物と完了条件を決め、必要な Bot（Researcher / Build
 - 停止・再開・分岐（Bot のモデルを変えて別案）・再生（LLM 呼出なし）・JSONL エクスポート
 - 権限・予算・回数上限・承認はプロンプトではなく Runtime が強制
 
-上の画像と32秒の映像は実モデルの実行記録です。映像は記録の再生を編集し、日本語合成音声を付けています。この実行は予算上限で部分完了し、未検証の出典照合を明示しています。企業紹介用のデモ・導入設計相談は可能ですが、有償PoCや本番運用への適合は別途検証が必要です。
+上の画像は、ローカルの Qwen 3.5 9B による実際の実行画面です（2026-09-14）。[32秒の映像](https://forifor.github.io/Multibot/media/real-walkthrough-ja.mp4)は別の実行（`claude-opus-5`）の記録を編集し、日本語合成音声を付けたものです。この実行は予算上限で部分完了し、未検証の出典照合を明示しています。
+
+```bash
+uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart
+```
+
+uv とログイン済みの Claude Code があれば、この1行で始められます。ほかの接続先（Anthropic API、OpenAI互換、Ollama）は [Quickstart](#quickstart) を参照してください。企業紹介用のデモ・導入設計相談は可能ですが、有償PoCや本番運用への適合は別途検証が必要です。
 
 ## Third-party
 
