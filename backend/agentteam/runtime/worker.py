@@ -86,6 +86,35 @@ def no_tool_nudge(role: str, available: list[str], streak: int) -> str:
     return text
 
 
+async def document_reviewer_tool_nudge(ctx: SessionContext, available: list[str], streak: int) -> str:
+    """Give a stalled document reviewer an executable first step.
+
+    Local models sometimes treat an attachment name as an artifact and spend
+    their recovery turns rereading the source instead of submitting the review.
+    The requester-owned contract is already persisted, so point the reviewer
+    at the exact published revision before asking it to do anything else.
+    """
+    refs: list[str] = []
+    if ctx.task:
+        for task_id in ctx.task.spec.depends_on:
+            for artifact in await ctx.rt.artifacts.list(ctx.rt.run_id, latest_only=True):
+                if artifact.task_id == task_id:
+                    refs.append(f"{artifact.artifact_id}@r{artifact.revision}")
+    refs_text = ", ".join(dict.fromkeys(refs)) or "the published target artifact"
+    base = (
+        "This is a document review. Your previous turn ended without a tool call. "
+        "Your next message MUST call run_check first, using the exact persisted requester contract "
+        "{kind: json_schema, artifact_id: <published target>, revision: <number>} with args omitted. "
+        f"Current target revision(s): {refs_text}. Do not call read_artifact on PRODUCTION_PLAN.md or any "
+        "other source attachment; attachments are read only with read_input_file. After a passing check, "
+        "call submit_review with all criteria, send the required finding/handoff, then call finish_task. "
+        "Do not narrate or reread the whole source."
+    )
+    if streak >= 2:
+        base += " This is the last reminder; another turn without a tool call leaves the review unverified."
+    return base
+
+
 def build_system_prompt(ctx: SessionContext) -> str:
     agent = ctx.agent
     parts = [platform_policy_text().strip(), "\n---\n", agent.system_prompt.strip(), "\n---\n", RUNTIME_RULES.strip()]
@@ -104,7 +133,7 @@ def build_system_prompt(ctx: SessionContext) -> str:
         "Do not announce invented teammates or substitute a different roster. Discuss changes as proposals, not existing members.")
     parts.append("\n\n## Output language\nUse the language explicitly requested by the user for all original prose in deliverables; otherwise use the team language. Do not drift into another language mid-sentence. Keep verbatim source quotations, identifiers, product names and code unchanged unless the user explicitly requests their transformation. User-specific restrictions on foreign wording or abbreviations take priority over defaults. Before publishing or approving, read the saved artifact and check its prose language separately from format checks. If you cannot verify it, report unverified rather than pass.")
     if ctx.rt.run.inputs.workflow == "document" and agent.role == "reviewer":
-        parts.append("\n\n## Document review only\nYou do not write or publish a replacement document. Read the producer's published artifact, compare it with the original request and sources, and independently run the requester-owned json_schema check for every current target artifact before submit_review. Use exactly {kind: json_schema, artifact_id: <id>, revision: <number>} and omit args; the runtime rejects a review without a passing check. The evidence_quote field is required to remain the exact English Remaining acceptance work cell; Japanese belongs only in implemented/remaining summaries. Do not call an English quote a Japanese translation merely because the summaries are Japanese. This request produces an evidence-based current-status assessment: production_ready=false, L3未達, and remaining unverified acceptance conditions are expected accurate results. Do not fail document_request, document_contract, or document_accuracy merely because production is not ready or residual conditions remain. Fail only for a source contradiction, missing required condition or citation, summary/area contradiction, or missing requested format/language/subject. Do not replace the status assessment with an implementation plan or infer customer SLA/business-quality evidence. If anything is missing or wrong, fail that criterion and send concrete findings to the producer, then finish_task. The scheduler will start the producer's correction; waiting or writing your own draft cannot repair its artifact.")
+        parts.append("\n\n## Document review only\nYou do not write or publish a replacement document. Start by running the requester-owned json_schema check on the published readiness.json revision listed in the review target; call run_check before reading additional source text. PRODUCTION_PLAN.md and other supplied files are input attachments, not artifacts: never pass their names to read_artifact, and use read_input_file only when source text is needed. Independently run the requester-owned json_schema check for every current target artifact before submit_review. Use exactly {kind: json_schema, artifact_id: <id>, revision: <number>} and omit args; the runtime rejects a review without a passing check. The evidence_quote field is required to remain the exact English Remaining acceptance work cell; Japanese belongs only in implemented/remaining summaries. Do not call an English quote a Japanese translation merely because the summaries are Japanese. This request produces an evidence-based current-status assessment: production_ready=false, L3未達, and remaining unverified acceptance conditions are expected accurate results. Do not fail document_request, document_contract, or document_accuracy merely because production is not ready or residual conditions remain. Fail only for a source contradiction, missing required condition or citation, summary/area contradiction, or missing requested format/language/subject. Do not replace the status assessment with an implementation plan or infer customer SLA/business-quality evidence. If anything is missing or wrong, fail that criterion and send concrete findings to the producer, then finish_task. The scheduler will start the producer's correction; waiting or writing your own draft cannot repair its artifact.")
     return "".join(parts)
 
 
@@ -437,7 +466,12 @@ class AgentRunner:
                                 and ctx.reviews and self.nudges <= 2 and await self._can_compact_task(tools)):
                             await self._compact_delivery_repair("ended without a tool after submitting review findings")
                             continue
-                        nudge = no_tool_nudge(ctx.agent.role, [t.name for t in tools], self.nudges)
+                        if (ctx.mode == "task" and ctx.agent.role == "reviewer"
+                                and rt.run.inputs.workflow == "document"):
+                            nudge = await document_reviewer_tool_nudge(
+                                ctx, [t.name for t in tools], self.nudges)
+                        else:
+                            nudge = no_tool_nudge(ctx.agent.role, [t.name for t in tools], self.nudges)
                     if self.nudges > 2:
                         auto = await auto_finish_if_outputs_published(ctx, "ended three consecutive turns without finish_task")
                         return auto or SessionOutcome("ended", "agent ended its turn repeatedly without finish_task")
