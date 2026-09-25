@@ -1,0 +1,168 @@
+{
+  "series": "real-readiness-v61-qwen35-fixed-20260925",
+  "fixed_code": "12393db",
+  "model": "agentteam-qwen35-9b-16k",
+  "independent_checks": {
+    "actual_source_rows_loaded": true,
+    "readiness_artifacts_sha256_verified": 10,
+    "exact_source_file_quotes_and_row_order": true,
+    "summary_fixed_l3_sentence": true,
+    "review_submissions_checked": 9,
+    "review_submissions_all_four_pass": true,
+    "latency_observation_only": {
+      "count": 10,
+      "median_wall_seconds": 1274.9541242079868,
+      "min_wall_seconds": 1200.093932207994,
+      "max_wall_seconds": 1296.27984904201,
+      "is_slo_claim": false
+    }
+  },
+  "artifacts": [
+    {
+      "run": "01-run_1a0d74b88812173eb2c",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "run": "02-run_1a0d75ddace1988d982",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "run": "03-run_1a0d77196dd990d0e40",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "run": "04-run_1a0d785331095d66cff",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "run": "05-run_1a0d798fd5dd55eaa3c",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "run": "06-run_1a0d7aca77c5df584b4",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "run": "07-run_1a0d7c02228829da9b0",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "run": "08-run_1a0d7d39591b0d06e9d",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "run": "09-run_1a0d7e704e853489130",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "run": "10-run_1a0d7fa5c477a10c8e8",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    }
+  ],
+  "review": [
+    {
+      "run": "02-run_1a0d75ddace1988d982",
+      "statuses": [
+        "pass",
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "all_pass": true
+    },
+    {
+      "run": "03-run_1a0d77196dd990d0e40",
+      "statuses": [
+        "pass",
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "all_pass": true
+    },
+    {
+      "run": "04-run_1a0d785331095d66cff",
+      "statuses": [
+        "pass",
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "all_pass": true
+    },
+    {
+      "run": "05-run_1a0d798fd5dd55eaa3c",
+      "statuses": [
+        "pass",
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "all_pass": true
+    },
+    {
+      "run": "06-run_1a0d7aca77c5df584b4",
+      "statuses": [
+        "pass",
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "all_pass": true
+    },
+    {
+      "run": "07-run_1a0d7c02228829da9b0",
+      "statuses": [
+        "pass",
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "all_pass": true
+    },
+    {
+      "run": "08-run_1a0d7d39591b0d06e9d",
+      "statuses": [
+        "pass",
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "all_pass": true
+    },
+    {
+      "run": "09-run_1a0d7e704e853489130",
+      "statuses": [
+        "pass",
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "all_pass": true
+    },
+    {
+      "run": "10-run_1a0d7fa5c477a10c8e8",
+      "statuses": [
+        "pass",
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "all_pass": true
+    }
+  ],
+  "issues": [],
+  "production_ready": false,
+  "semantic_review": "pending",
+  "accepted_runs": 0
+}
