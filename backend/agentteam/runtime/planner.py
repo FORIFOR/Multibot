@@ -9,7 +9,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 from ..config.loader import PKG_ROOT, SCHEMA_DIR, platform_policy_text
 from ..config.voice import conversation_voice, voice_instructions
-from ..contracts import TaskSpec, TaskStatus, TeamPlan, task_id_problem
+from ..contracts import TaskSpec, TaskStatus, TeamPlan, is_readiness_assessment, task_id_problem
 from ..providers.base import LLMRequest
 from ..projections.views import artifact_review_ledger
 from .checks import CHECK_KINDS
@@ -264,13 +264,14 @@ async def document_plan(rt) -> TeamPlan:
     if builder is None or reviewer is None or builder.agent_id == reviewer.agent_id:
         raise PlanError("document workflow requires separate enabled builder and reviewer agents")
     path = rt.run.inputs.delivery_requirements[0].logical_path
+    readiness = is_readiness_assessment(rt.run.inputs)
     build = TaskSpec(id="t1", owner=builder.agent_id, objective=rt.run.goal,
                      depends_on=[], output_paths=[path], write_scope="workspaces/t1/",
                      acceptance=[
                          {"id":"document_contract", "description":"The exact published revision passes the requester-owned delivery contract.", "check_kind":"programmatic"},
                          {"id":"document_language", "description":f"Original prose uses the user-requested language, defaulting to {rt.config.defaults.language}. No unintended language switching. Verbatim quotations, names, identifiers and code preserve the source. Inspect the exact saved revision; format success is not language verification.", "check_kind":"model_review"},
-                         {"id":"document_request", "description":"Every content requirement in the original request is fulfilled, including requested sections and source citations. This document is an evidence-based current-status assessment: production_ready=false, L3未達, and explicitly recorded remaining acceptance conditions satisfy the request; they are not a reason to fail it. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.", "check_kind":"model_review"},
-                         {"id":"document_accuracy", "description":"The requested content preserves the supplied sources, including conditions, exceptions and operation order. The current-status conclusion production_ready=false and unverified customer/SLA/business-quality conditions must remain visible; do not infer production completion. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.", "check_kind":"model_review"}])
+                         {"id":"document_request", "description":('Every content requirement in the original request is fulfilled, including requested sections and source citations. This document is an evidence-based current-status assessment: production_ready=false, L3未達, and explicitly recorded remaining acceptance conditions satisfy the request; they are not a reason to fail it. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.' if readiness else 'Every content requirement in the original request is fulfilled, including requested sections and source citations. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.'), "check_kind":"model_review"},
+                         {"id":"document_accuracy", "description":('The requested content preserves the supplied sources, including conditions, exceptions and operation order. The current-status conclusion production_ready=false and unverified customer/SLA/business-quality conditions must remain visible; do not infer production completion. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.' if readiness else 'The requested content preserves the supplied sources, including conditions, exceptions and operation order. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.'), "check_kind":"model_review"}])
     review = TaskSpec(id="t2", owner=reviewer.agent_id,
                      objective="Independently compare the exact published revision with the original request and supplied sources. Check the requester contract and factual conditions. Submit an evidence-linked verdict for each producer criterion; do not infer correctness from file existence.",
                      depends_on=[build.id], output_paths=[], write_scope="workspaces/t2/",

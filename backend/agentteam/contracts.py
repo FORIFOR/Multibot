@@ -21,6 +21,17 @@ CheckKind = Literal["programmatic", "source_check", "human_review", "model_revie
 TASK_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}")
 
 
+# The repeated local acceptance series (backend/scripts/production_workflow.py) asks for a current-status
+# assessment delivered as readiness.json. Guidance written for that series applies only to it; other document
+# requests get general wording, so a user's memo is not reviewed against "production_ready=false / L3".
+READINESS_ASSESSMENT_PATH = "readiness.json"
+
+
+def is_readiness_assessment(inputs: Any) -> bool:
+    return any(getattr(r, "logical_path", None) == READINESS_ASSESSMENT_PATH
+               for r in (getattr(inputs, "delivery_requirements", None) or []))
+
+
 def task_id_problem(task_id: Any) -> str | None:
     if isinstance(task_id, str) and TASK_ID_RE.fullmatch(task_id):
         return None
