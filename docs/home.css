@@ -163,7 +163,7 @@ h1,h2{font-family:var(--serif);font-weight:600;letter-spacing:-.02em}
   .hero .facts{margin-top:10px}
   .demo{margin-top:14px;max-width:min(1040px, calc((100vh - 400px) * 1.6))}
 }
-.hero h1{font-family:var(--sans);font-weight:800;letter-spacing:-.045em}
+.hero h1{font-family:var(--sans);font-weight:800;letter-spacing:-.025em}
 .hero .btn,.top .nav .btn{background:var(--ink);color:#fff;box-shadow:0 10px 26px rgba(29,32,48,.2)}
 .hero .btn:hover{box-shadow:0 14px 32px rgba(29,32,48,.26)}
 

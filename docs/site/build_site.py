@@ -31,7 +31,7 @@ T = {
   lede='AIの成果物を、確かめないまま使いたくない人へ。あなたのPCの中だけで動き、できたファイルと「どの版を何で確かめたか」の記録を渡します。',
   cta1='自分のPCで始める', cta2='実行の記録を見る', facts=['オープンソース・MIT','あなたのPCで動く','外部へ勝手に送信しない'],
   cap_label='日本語字幕', demo_fallback='動画をダウンロードする',
-  demo_note='実際のアプリの録画です。この日本語版は 2026年9月22日の実行（ローカルのOllama、agentteam-qwen35-9b-16k、24回のモデル呼び出し、13分13秒、費用 $0.00）で、確認担当が1度差し戻し、2版目で通過しました。英語版は別の実行です。待ち時間は早送りしています。字幕あり・音声なし。',
+  demo_note='実際のアプリの録画です。この日本語版は 2026年9月22日の実行（ローカルのOllama、agentteam-qwen35-9b-16k）で、確認担当が1度差し戻し、2版目で通過しました。この実行の記録ファイルはリポジトリに保存していないため、回数や時間は載せていません。英語版は別の実行です。待ち時間は早送りしています。字幕あり・音声なし。',
   ask_label='お願い', ask='このCSVを年月別に集計するツールを作って。使い方とテストも付けて。',
   roles=[('master','まとめ役','進め方と完了条件を決める'),('researcher','調べる係','資料と公開ページを読む'),('builder','つくる係','ファイルを作って直す'),('reviewer','確かめる係','条件を満たすか確かめる')],
   states={'idle':'出番待ち','thinking':'計画中','researching':'調査中','building':'作業中','reviewing':'確認中','done':'担当分は完了'},
@@ -81,7 +81,7 @@ T = {
   lede='For people who will not ship an AI result they cannot verify. It runs on your computer and hands you the files plus the record of which version was checked, and how.',
   cta1='Run it on your computer', cta2='See the run record', facts=['Open source · MIT','Runs on your computer','Never sends anything out on its own'],
   cap_label='English captions', demo_fallback='Download the video',
-  demo_note='A recording of the real app. This English cut is its own run (22 September 2026, local Ollama, agentteam-qwen35-9b-16k, 37 model calls, 14m36s, cost $0.00); the reviewer sent the work back twice and the checks passed on the third version. The Japanese page shows a different run. Waiting is sped up. Captioned, no sound.',
+  demo_note='A recording of the real app. This English cut is its own run (22 September 2026, local Ollama, agentteam-qwen35-9b-16k); the reviewer sent the work back twice and the checks passed on the third version. Its record files are not kept in the repository, so call counts and timings are not quoted here. The Japanese page shows a different run. Waiting is sped up. Captioned, no sound.',
   ask_label='Request', ask='Build a tool that totals this CSV by month. Include usage notes and tests.',
   roles=[('master','Coordinator','Plans the work and the finish line'),('researcher','Researcher','Reads your files and public pages'),('builder','Maker','Writes the files and fixes them'),('reviewer','Reviewer','Checks each condition')],
   states={'idle':'On standby','thinking':'Planning','researching':'Researching','building':'Working','reviewing':'Reviewing','done':'Assigned work done'},
@@ -196,7 +196,7 @@ def page(t):
   <h1>{t['h1']}</h1>
   <p class="lede">{e(t['lede'])}</p>
   <div class="cta"><a class="btn" href="#start" data-track="quickstart_open">{e(t['cta1'])}</a><a class="quiet-link" href="#proof">{e(t['cta2'])}</a></div>
-  <p class="facts">{''.join(f'<span>{e(x)}</span>' for x in t['facts'])}</p>
+  <p class="facts">{''.join((f'<span><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">{e(x)}</a></span>' if i == 0 else f'<span>{e(x)}</span>') for i, x in enumerate(t['facts']))}</p>
   <figure class="demo">
     <video id="demo-video" width="1280" height="800" poster="{b}media/demo-poster{"" if t["lang"]=="en" else "-ja"}.jpg" preload="none" playsinline muted loop controls
            aria-describedby="demo-note"{' autoplay' if False else ''}>

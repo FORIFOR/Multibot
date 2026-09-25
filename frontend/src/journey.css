@@ -244,3 +244,6 @@
 .direction-carry{white-space:pre-wrap;overflow-wrap:anywhere;padding:10px 12px;border:1px solid var(--ob-line);border-radius:var(--ob-r);background:var(--ob-chrome);max-height:160px;overflow:auto}
 .work-item-usage{color:var(--ob-ink-3);font-size:13px;font-variant-numeric:tabular-nums;margin-right:8px}
 @media(max-width:600px){.work-filters{grid-template-columns:repeat(3,1fr)}}
+
+/* Japanese headings and notices break at phrase boundaries, not inside words (as on the public site). */
+.desk-workroom h1,.simple-workroom h1,.demo-notice,.work-status strong{word-break:auto-phrase;text-wrap:balance}
