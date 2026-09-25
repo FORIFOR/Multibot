@@ -153,7 +153,7 @@ h2{font-weight:650;letter-spacing:-.03em}
 .simple-home .run-row{min-height:52px;margin:var(--ob-s2) 0 0;padding:var(--ob-s2) var(--ob-s4);border:1px solid var(--ob-line);border-radius:var(--ob-r-lg);background:#fff;box-shadow:none}
 .simple-home .run-row:hover{border-color:#c9c9c9;background:#fafafa;transform:none;box-shadow:none}
 .simple-home .run-row .goal{font-size:15px;font-weight:600}
-.tag.fake{border-color:var(--ob-line);background:#fff;color:var(--ob-ink-2);font-weight:600}
+.tag.fake{border-color:var(--ob-bad-line);background:var(--ob-bad-bg);color:var(--ob-bad);font-weight:700}
 
 @media(max-width:900px){
   .request-examples{grid-template-columns:minmax(0,1fr)}

@@ -43,6 +43,9 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
   const [cfg, setCfg] = useState<Config | null>(null)
   const [runs, setRuns] = useState<Run[]>([])
   const [loaded, setLoaded] = useState(false)
+  // Failed loads must not read as "no runs yet" or "still checking".
+  const [runsFailed, setRunsFailed] = useState(false)
+  const [cfgFailed, setCfgFailed] = useState(false)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
   const [problems, setProblems] = useState<{ code: string; message: string }[]>([])
@@ -50,7 +53,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
   // to send it again from here.
   const [ambiguous, setAmbiguous] = useState(false)
 
-  useEffect(() => { api.config().then(setCfg).catch(() => setErr(en ? 'Could not load the team. Reload to try again.' : 'チームを読み込めませんでした。再読み込みしてください。')); api.runs().then(r => { setRuns(r); setLoaded(true) }).catch(() => null)
+  useEffect(() => { api.config().then(setCfg).catch(() => { setCfgFailed(true); setErr(en ? 'Could not load the team. Reload to try again.' : 'チームを読み込めませんでした。再読み込みしてください。') }); api.runs().then(r => { setRuns(r); setLoaded(true) }).catch(() => setRunsFailed(true))
     // A request chosen on the welcome page arrives as a draft; it is never started automatically.
     const draft = takeDraftGoal(); if (draft) setGoal(draft) }, [])
 
@@ -198,7 +201,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
             </div>
           </div></div>
           <p className="ask-hint">{readOnly ? '閲覧権限でログインしています。' : (en ? 'Review the result before selecting a version.' : 'できたものを確認してから、使う版を選べます。')}</p>
-          {!ready && <div className="setup-help">{cfg ? (en ? 'One-time setup is needed before your first request.' : '最初のお仕事の前に、接続の準備が必要です。') : (en ? 'Checking the team…' : 'チームを確認しています…')}{canConfigure && cfg && <Link to="/settings" nav={nav}>{en ? 'Prepare my team' : 'チームを準備する'} →</Link>}{cfg?.problems.length ? <details><summary>{en ? 'Setup details' : '設定の詳細'}</summary>{cfg.problems.map((p,i)=><p key={i}>{p.message}</p>)}</details>:null}</div>}
+          {!ready && <div className="setup-help">{cfg ? (en ? 'One-time setup is needed before your first request.' : '最初のお仕事の前に、接続の準備が必要です。') : cfgFailed ? (en ? 'The team could not be loaded, so requests cannot be sent yet. Reload to try again.' : 'チームを読み込めなかったため、まだお願いを送れません。再読み込みしてください。') : (en ? 'Checking the team…' : 'チームを確認しています…')}{canConfigure && cfg && <Link to="/settings" nav={nav}>{en ? 'Prepare my team' : 'チームを準備する'} →</Link>}{cfg?.problems.length ? <details><summary>{en ? 'Setup details' : '設定の詳細'}</summary>{cfg.problems.map((p,i)=><p key={i}>{p.message}</p>)}</details>:null}</div>}
           {err && <p className="err" role="alert">{err}{ambiguous && <> <Link to="/runs" nav={nav} className="btn ghost">{en ? 'Check your requests' : 'これまでのお願いを確認する'}</Link></>}</p>}
           {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code} title={p.message}>{p.code === 'team_selection' ? p.message : friendlyProblem(p, getLang())}</div>)} {canConfigure && <Link to="/settings" nav={nav}>{t("設定へ")}</Link>}</div>}
           <div className="request-examples" aria-label={en ? 'Request ideas' : 'お願いの例'}>{(en ? ['Summarize my notes', 'Make a comparison table', 'Review my writing'] : ['資料を分かりやすくまとめて', '比較表をつくって', '文章をチェックして']).map((example, i) => <button type="button" key={example} disabled={busy || readOnly} onClick={() => { setGoal((en ? ['Use only the attached material to create guide.md: a short onboarding guide with prerequisites, first steps and limitations. Cite the source sections; mark anything unverified.', 'Use only the attached material to create comparison.md with a comparison table. Include source references and mark missing facts as unverified.', 'Review the attached writing and create review.md with suggested edits, reasons and unresolved questions.'] : ['添付した資料だけを使い、前提条件・最初の手順・制約をまとめた短い導入ガイド guide.md を作ってください。根拠の節を示し、確かめられない点は未確認と明記してください。', '添付した資料だけを使い、比較表 comparison.md を作ってください。根拠を添え、資料にない内容は未確認と明記してください。', '添付した文章を確認し、修正案・理由・未解決の疑問を review.md にまとめてください。'])[i]); goalRef.current?.focus() }}><span aria-hidden="true">{['📝','🔎','✏️'][i]}</span><span className="example-label">{example}</span></button>)}</div>
@@ -215,7 +218,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
       <section className="runs-list">
         <h2>{en ? "Your recent requests" : "これまでのお願い"}</h2>
         <Link to="/runs" nav={nav} className="btn ghost">{en ? "View all work by status →" : "状態別の作業一覧を見る →"}</Link>
-        {runs.length === 0 && <p className="muted">{t("まだ実行はありません。")}</p>}
+        {runsFailed ? <p role="alert">{en ? 'Could not load earlier requests. Reload to try again.' : 'これまでのお願いを読み込めませんでした。再読み込みしてください。'}</p> : !loaded ? <p className="muted">{en ? 'Loading earlier requests…' : 'これまでのお願いを読み込んでいます…'}</p> : runs.length === 0 && <p className="muted">{t("まだ実行はありません。")}</p>}
         {runs.map((r) => (
           <Link key={r.run_id} to={`/runs/${r.run_id}`} nav={nav} className="run-row">
             <span className={'tag status-' + r.status}>{statusLabel(r.status,getLang())}</span>
