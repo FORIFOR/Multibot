@@ -51,6 +51,13 @@ summary は領域名（Identity、Isolation、Execution、Data、Audit / monitor
 `Real access keys` は「実アクセスキー」、`false` は「未達」または「偽」と書いてください。「アクター監査」のような直訳を使わず、監査記録は「操作主体の監査記録」としてください。
 提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。'''
 
+# Keep the top-level status sentence stable and source-derived.  The local
+# model repeatedly copied the newly added English history from the Business
+# quality source row into `summary`, then spent the whole run trying to repair
+# a forbidden translation.  This sentence carries the actual L3 boundary and
+# is intentionally the only accepted summary wording for this fixed series.
+SUMMARY_SAFE = 'L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。'
+
 
 def build_workflow_goal(expected):
     """Add a source-derived, low-ambiguity brief to the model request.
@@ -93,6 +100,8 @@ def build_workflow_goal(expected):
         '説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。原文に二重引用符がある場合も、JSON文字列内では必ず \\\" としてエスケープし、解析可能なJSONにする。',
         'readiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。JSON全体を配列で囲まず、最初の文字を {、最後の文字を } にする。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。',
         '{"product":"Multibot","production_ready":false,"deployment":"dedicated-single-host","summary":"日本語の現状要約","areas":[{"area":"Identity","implemented":"日本語一文","remaining":"日本語一文","source_file":"PRODUCTION_PLAN.md","evidence_quote":"入力の残条件原文"}]}',
+        f'summaryは次の一文をそのまま使用する（改変、短縮、英語の履歴追加は禁止）: {SUMMARY_SAFE}',
+        'summaryへBusiness quality行の英語履歴、semantic review、acceptance、documentなどをコピーしない。上の一文だけを使い、技術固有名以外の英語を混ぜない。',
         '上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_write_jsonのvalueオブジェクトで保存してpublish_artifactする。JSON文字列をcontentへ手作業で埋め込まない。',
         '説明や計画をテキストで返さない。最初の生成操作はworkspace_write_jsonにし、8行すべてのsource_fileとevidence_quoteを必ず含める。ツール呼出しを省略しない。',
         '新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。',
@@ -340,7 +349,8 @@ def delivery_schema(expected):
             # or edits the requested artifact.
             'x-repair-summary-examples': SUMMARY_EXAMPLES,
             'properties': {'product': {'const': 'Multibot'}, 'production_ready': {'const': False},
-                           'deployment': {'const': 'dedicated-single-host'}, 'summary': japanese,
+                           'deployment': {'const': 'dedicated-single-host'},
+                           'summary': {'allOf': [japanese, {'const': SUMMARY_SAFE}]},
                                      'areas': {'type': 'array', 'minItems': len(expected), 'maxItems': len(expected),
                                      'prefixItems': [{'allOf': [{'$ref': '#/$defs/row'}, {'properties': row_constraints(area, remaining)}]}
                                                     for area, _, remaining in expected]}}}
