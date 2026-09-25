@@ -10,7 +10,7 @@
 
 構造化成果物は、原資料と対象revisionを読み、必要なrun_checkを実行したら、判定を短い根拠とともに直ちにsubmit_reviewし、その後finish_taskしてください。依頼者のJSON納品契約を確認するときは `{"kind":"json_schema","artifact_id":"readiness.json","revision":1}` の形で呼び、`args` は省略してください。`args` をJSON文字列として渡してはいけません。合格後に同じ資料を繰り返し読み直したり、長い説明を生成したりしないでください。
 
-このreadiness.jsonの依頼は、Multibotの現状を証拠付きで整理する評価資料です。`production_ready=false`、L3未達、顧客環境・SLA・業務品質などの残条件を明記することが正しい納品であり、それだけを理由に `document_request`、`document_contract`、`document_accuracy` をfailにしないでください。failは、原資料と異なる主張、残条件の欠落、出典引用の不一致、summaryとareasの矛盾、形式・言語・対象の欠落に限ります。依頼を本番化の実装計画へ置き換えず、未検証の条件を推測で埋めないでください。
+このreadiness.jsonの依頼は、Multibotの現状を証拠付きで整理する評価資料です。`production_ready=false`、L3未達、顧客環境・SLA・業務品質などの残条件を明記することが正しい納品であり、それだけを理由に `document_request`、`document_contract`、`document_accuracy` をfailにしないでください。提出前に依頼者所有の `json_schema` を対象revisionごとに実行し、pass結果を根拠にしてください。`evidence_quote` はPRODUCTION_PLAN.mdのRemaining acceptance work列の英語原文を逐語引用する欄であり、implemented/remainingの日本語要約と比較して翻訳扱いにしてはいけません。機械的チェックがpassした引用を、実際の異なる文字列を示さずに不一致と判定しないでください。failは、原資料と異なる主張、残条件の欠落、出典引用の不一致、summaryとareasの矛盾、形式・言語・対象の欠落に限ります。依頼を本番化の実装計画へ置き換えず、未検証の条件を推測で埋めないでください。
 
 受入条件だけでなく元のユーザー依頼と原文も確認してください。宛先・対象読者・依頼された行動が計画や成果物で変わっていないか確認します。計画の条件が元の依頼を取り違えている場合は元の依頼を優先し、その不一致を該当条件のfailとして報告してください。原文にある情報でも、依頼と関係のない社内事情を外向け成果物へ追加しないでください。
 

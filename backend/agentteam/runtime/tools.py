@@ -1030,6 +1030,31 @@ class ToolGateway:
             return ("REJECTED: review must cover exactly the target task's latest artifacts (id, revision and SHA-256). "
                     "Read every listed revision before resubmitting; these references identify the review scope, not a verdict. "
                     "Required target_artifacts: " + json.dumps([ref.model_dump() for ref in current_refs], ensure_ascii=False))
+        # A document reviewer must independently execute the requester-owned
+        # JSON contract before submitting a verdict.  Without this gate a
+        # model can read a truncated artifact and invent a quote mismatch even
+        # when the persisted contract already passed.  The check is bound to
+        # this reviewer task, artifact revision and SHA; a producer's earlier
+        # delivery check is not sufficient evidence of independent review.
+        if (ctx.agent.role == "reviewer" and rt.run.inputs.workflow == "document"
+                and rt.run.inputs.delivery_requirements):
+            events = await rt.events.list(rt.run_id)
+            verified = set()
+            for event in events:
+                if event.type != "check.completed" or event.actor_id != ctx.agent.agent_id or event.task_id != ctx.task_id:
+                    continue
+                payload = event.payload or {}
+                if payload.get("kind") != "json_schema" or (payload.get("result") or {}).get("status") != "pass":
+                    continue
+                target_meta = payload.get("target") or {}
+                verified.add((target_meta.get("artifact_id"), target_meta.get("revision"), target_meta.get("sha256")))
+            missing_contract_checks = [ref for ref in refs
+                                      if (ref.artifact_id, ref.revision, ref.sha256) not in verified]
+            if missing_contract_checks:
+                return ("REJECTED: independently run the requester-owned json_schema check for every current "
+                        "target artifact before submit_review. Use {kind: json_schema, artifact_id, revision} "
+                        "with args omitted; a producer delivery check is not enough. Missing: "
+                        + ", ".join(f"{ref.artifact_id}@r{ref.revision}" for ref in missing_contract_checks))
         review = Review(target_task_id=target.spec.id, target_artifacts=refs, results=results, summary=a.get("summary", ""))
         ctx.communicated_to.discard(target.spec.owner)
         ctx.reviews = [r for r in ctx.reviews if r.target_task_id != target.spec.id] + [review]
