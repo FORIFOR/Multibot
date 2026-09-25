@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import BotAvatar from '../components/BotAvatar'
 import { api, type Config } from '../lib/api'
 import { getLang } from '../lib/i18n'
-import { friendlyProblem, teamOrder } from '../lib/journey'
+import { friendlyProblem, roleLabel, teamOrder } from '../lib/journey'
 import { clampStep, markWelcomed, setDraftGoal, WELCOME_STEPS } from '../lib/welcome'
 import '../journey.css'
 import '../welcome.css'
@@ -56,6 +56,12 @@ export default function Welcome({ nav, canConfigure = true }: { nav: (p: string)
         {step === 0 && <ul className="welcome-mates">{mates.filter(([,a])=>a.role==='master').map(([id, a]) => (
           <li key={id}><BotAvatar id={id} role={a.role} emoji={a.emoji} name={a.display_name || botName(a.role, getLang())} state="idle" />
             <div><h2>{a.display_name || botName(a.role, getLang())}</h2><p>{say(...(lines[a.role] || ['あなたが作った、専門の仲間です。', 'A specialist teammate you created.']))}</p></div></li>))}</ul>}
+        {step === 0 && <div className="welcome-roles">
+          {/* Roles, not specific bots: the coordinator picks who joins each request. Makers and checkers stay separate. */}
+          <h2>{say('依頼に合わせて加わる係', 'Who joins, depending on the request')}</h2>
+          <ul>{(['researcher', 'builder', 'reviewer', 'reporter'] as const).map(role => <li key={role}><strong>{roleLabel(role, getLang())}</strong><span>{say(...lines[role])}</span></li>)}</ul>
+          <p className="muted small">{say('チームで進めるときは、つくる係と確かめる係を別の仲間が担当します。', 'When the team works on a request, one teammate makes the files and a different one checks them.')}</p>
+        </div>}
         {step === 1 && <div className="welcome-connect">
           <div className={`welcome-status ${ready ? 'ok' : 'todo'}`} role="status">
             <strong>{ready ? say('接続は確認済みです', 'The connection is verified') : say('接続の確認が必要です', 'The connection needs checking')}</strong>

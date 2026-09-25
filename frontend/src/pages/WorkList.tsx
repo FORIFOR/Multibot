@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { api, fmtDate, type Run } from '../lib/api'
+import { api, fmtDate, money, type Run } from '../lib/api'
 import { getLang } from '../lib/i18n'
 import { statusLabel } from '../lib/journey'
 import { Link } from '../lib/router'
@@ -18,6 +18,19 @@ function matches(run: Run, filter: Filter) {
   if (filter === 'completed') return run.status === 'completed'
   return true
 }
+// What distinguishes otherwise similar rows: how much of the team worked, what it cost and how long it ran.
+function workUsage(run: Run, en: boolean): string {
+  const parts: string[] = []
+  const members = run.plan?.agents?.length
+  if (members) parts.push(en ? `${members} teammate${members === 1 ? '' : 's'}` : `${members}人`)
+  parts.push(money(run.usage.cost_usd))
+  if (run.started_at && run.finished_at) {
+    const seconds = Math.max(0, Math.round((Date.parse(run.finished_at) - Date.parse(run.started_at)) / 1000))
+    parts.push(seconds < 60 ? (en ? `${seconds}s` : `${seconds}秒`) : (en ? `${Math.round(seconds / 60)} min` : `${Math.round(seconds / 60)}分`))
+  }
+  return parts.join(' · ')
+}
+
 export default function WorkList({ nav, readOnly = false }: { nav: (path: string) => void; readOnly?: boolean }) {
   const en = getLang() === 'en'
   const filter = workFilter(new URLSearchParams(location.search).get('filter'))
@@ -42,7 +55,7 @@ export default function WorkList({ nav, readOnly = false }: { nav: (path: string
     document.addEventListener('visibilitychange', visible)
     return () => { alive = false; clearInterval(timer); document.removeEventListener('visibilitychange', visible) }
   }, [retry])
-  const labels = en ? ['All', 'In progress', 'Needs you', 'Stopped or partial', 'Completed'] : ['全て', '進行中', 'あなたの確認待ち', '中断・未完了', '完了']
+  const labels = en ? ['All', 'In progress', 'Needs you', 'Stopped or partial', 'Completed'] : ['全て', '進行中', '要確認', '中断・未完了', '完了']
   const visible = runs.filter(run => matches(run, filter) && run.goal.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()))
   return <section className="work-list" aria-labelledby="work-list-title">
     <header className="work-list-heading"><div><p className="work-list-eyebrow">{en ? 'YOUR TEAM’S WORK' : 'チームにお願いした作業'}</p><h1 id="work-list-title">{en ? 'Work' : '作業一覧'}</h1><p>{en ? 'Open a request to follow its team conversation and results.' : '作業を選ぶと、そのチームのやり取りと成果物を確認できます。'}</p></div>{!readOnly && <Link to="/" nav={nav} className="btn signal">{en ? 'New request' : '新しくお願いする'}</Link>}</header>
@@ -51,6 +64,6 @@ export default function WorkList({ nav, readOnly = false }: { nav: (path: string
     <p className="work-list-note">{en ? 'Showing up to 50 recent requests you can access. Counts refer to this list. ' : '閲覧できる直近50件が対象です。件数はこの一覧の範囲で表示します。'}{filter === 'attention' ? (en ? 'Requests awaiting your approval or blocked by a prerequisite.' : 'あなたの承認、または作業を進めるための条件確認が必要です。') : filter === 'stopped' ? (en ? 'Requests that stopped, were cancelled or ended partial. Files they produced may be incomplete or unchecked.' : '止まった・取り消した・一部だけ終わった作業です。できたファイルは未完成や未確認の場合があります。') : filter === 'completed' ? (en ? 'Only requests recorded as completed. Inspect their results before use.' : '完了が記録された作業です。成果物の内容を確認してからご利用ください。') : (en ? 'Every request is listed with its recorded status.' : 'すべての作業を、記録された実際の状態で表示します。')}</p>
     {error && <p className="work-warning" role="alert">{en ? 'Could not refresh. Displayed information may be out of date.' : '最新の一覧を取得できません。表示内容が古い可能性があります。'} <button className="btn ghost" onClick={() => setRetry(value => value + 1)}>{en ? 'Retry' : '再読み込み'}</button></p>}
     {!loaded && !error && <p role="status">{en ? 'Loading work…' : '作業を読み込んでいます…'}</p>}
-    {loaded && <><p className="work-list-count" role="status">{labels[filters.indexOf(filter)]} · {visible.length}{en ? ' requests' : '件'}</p><ul className="work-items">{visible.map(run => <li key={run.run_id}><Link to={`/runs/${run.run_id}?view=conversation&from=${filter}`} nav={nav} className="work-item"><div className="work-item-main"><span className={'tag status-' + run.status}>{statusLabel(run.status, en ? 'en' : 'ja')}</span><h2 title={run.goal}>{run.goal}</h2><time dateTime={run.created_at}>{fmtDate(run.created_at)}</time>{run.provider_kind === 'fake' && <span className="tag fake">{en ? 'Test' : 'テスト'}</span>}</div><span className="work-item-open">{en ? 'Team conversation' : 'チームのやり取り'} <span aria-hidden="true">→</span></span></Link></li>)}</ul>{!visible.length && <div className="work-list-empty"><h2>{query ? (en ? 'No matching requests' : '一致する作業はありません') : (en ? 'No requests here yet' : 'この状態の作業はありません')}</h2><p>{en ? 'Choose another filter or start a new request.' : '別の状態に切り替えるか、新しくチームにお願いできます。'}</p></div>}</>}
+    {loaded && <><p className="work-list-count" role="status">{labels[filters.indexOf(filter)]} · {visible.length}{en ? ' requests' : '件'}</p><ul className="work-items">{visible.map(run => <li key={run.run_id}><Link to={`/runs/${run.run_id}?view=conversation&from=${filter}`} nav={nav} className="work-item"><div className="work-item-main"><span className={'tag status-' + run.status}>{statusLabel(run.status, en ? 'en' : 'ja')}</span><h2 title={run.goal}>{run.goal}</h2><time dateTime={run.created_at}>{fmtDate(run.created_at)}</time><span className="work-item-usage">{workUsage(run, en)}</span>{run.provider_kind === 'fake' && <span className="tag fake">{en ? 'Test' : 'テスト'}</span>}</div><span className="work-item-open">{en ? 'Team conversation' : 'チームのやり取り'} <span aria-hidden="true">→</span></span></Link></li>)}</ul>{!visible.length && <div className="work-list-empty"><h2>{query ? (en ? 'No matching requests' : '一致する作業はありません') : (en ? 'No requests here yet' : 'この状態の作業はありません')}</h2><p>{en ? 'Choose another filter or start a new request.' : '別の状態に切り替えるか、新しくチームにお願いできます。'}</p></div>}</>}
   </section>
 }

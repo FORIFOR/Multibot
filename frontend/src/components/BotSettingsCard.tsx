@@ -59,6 +59,7 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
       <form onSubmit={save}>
         <fieldset className="bot-card-fields" disabled={busy}>
           <legend className="sr-only">{l('Botの設定', 'Bot settings')}</legend>
+          <details className="bot-character-editor"><summary>{l('キャラクター・名前・話し方を変える', 'Change character, name & voice')}</summary><div className="stack">
           <div className="bot-character-picker" role="group" aria-label={l('キャラクターを選ぶ', 'Choose a character')}>
             {BOT_CHARACTERS.map(character => {
               const characterName = en ? character.en : character.ja
@@ -70,8 +71,7 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
               </button>
             })}
           </div>
-          <small className="muted">{l('選んでから、名前や話し方を自由に編集できます。', 'Choose a character, then make the name and voice your own.')}</small>
-          <details className="bot-character-editor"><summary>{l('名前・絵文字・話し方を編集', 'Edit name, emoji & voice')}</summary><div className="stack">
+          <small className="muted">{l('ひな形を選ぶと下の欄に入ります。そのあと自由に編集できます。', 'A preset fills the fields below; edit them freely afterwards.')}</small>
           <div className="bot-identity-grid">
             <label className="bot-field">{l('名前', 'Name')}<input className="input" value={name} onChange={e => setName(e.target.value)} maxLength={40} placeholder={botName(a.role, getLang())} /></label>
             <label className="bot-field">{l('絵文字', 'Emoji')}<input className="input bot-emoji-input" value={emoji} maxLength={64} onChange={e => setEmoji(e.target.value)} placeholder="🤖" aria-invalid={!validEmoji} aria-describedby={`emoji-note-${a.id}`} /></label>
