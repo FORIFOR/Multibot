@@ -5,9 +5,10 @@ import asyncio
 from typing import Any
 
 from ..contracts import (DONE_FOR_DEPENDENTS, Message, Review, RunStatus, TaskSpec, TaskState, TaskStatus,
-                         TERMINAL_TASK_STATES)
+                         TERMINAL_TASK_STATES, task_id_problem)
 from ..ids import now_iso
 from .context import RunRuntime, SessionContext
+from .policy import PolicyEngine, PolicyViolation
 from .planner import handle_exception, milestone_replan
 from .worker import AgentRunner, SessionOutcome, build_task_message
 from .review_targets import latest_task_refs, same_refs
@@ -85,6 +86,8 @@ class Scheduler:
     # ------------------------------------------------------------ master tools
     async def add_task(self, spec: TaskSpec, causation_id: str | None = None) -> str | None:
         rt = self.rt
+        if (problem := task_id_problem(spec.id)) is not None:
+            return f"REJECTED: {problem}"
         if spec.id in rt.tasks:
             return f"REJECTED: task {spec.id} already exists"
         if len(rt.tasks) >= rt.config.limits.max_tasks:
@@ -99,6 +102,11 @@ class Scheduler:
         for d in spec.depends_on:
             if d not in rt.tasks:
                 return f"REJECTED: unknown dependency {d}"
+        for p in spec.output_paths:  # same rule validate_plan applies to the initial plan
+            try:
+                PolicyEngine.check_write_path(p)
+            except PolicyViolation as e:
+                return f"REJECTED: invalid output path {p!r}: {e}"
         for other in rt.tasks.values():
             for p in spec.output_paths:
                 if p in other.spec.output_paths:

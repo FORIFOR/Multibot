@@ -260,7 +260,7 @@ async def test_real_handoff_required_and_cross_task_inbox(tmp_path):
         assert sent.startswith('DELIVERED')
         assert 'Required handoffs are already delivered' in sent
         assert 'Do not resend the same findings under a different purpose' in sent
-        assert 'call finish_task' in sent
+        assert 'Your next tool call MUST be finish_task' in sent
         assert ctx.finished is None  # Delivery alone never finishes a task.
         recovered_prompt = await build_task_message(ctx, builder)
         assert 'Required handoffs are already delivered for the current work' in recovered_prompt

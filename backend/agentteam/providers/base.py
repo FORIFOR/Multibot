@@ -60,6 +60,28 @@ class LLMResponse:
     refusal: dict[str, Any] | None = None
 
 
+def parse_retry_after(value: str | None, *, now: float | None = None) -> float | None:
+    """Retry-After is either delay-seconds or an HTTP-date (RFC 9110 §10.2.3). Unparseable values mean 'no hint'."""
+    if not value:
+        return None
+    value = value.strip()
+    try:
+        seconds = float(value)
+    except ValueError:
+        from email.utils import parsedate_to_datetime
+        import time
+        try:
+            when = parsedate_to_datetime(value)
+        except (TypeError, ValueError, IndexError):
+            return None
+        if when is None or when.tzinfo is None:
+            return None
+        seconds = when.timestamp() - (time.time() if now is None else now)
+    if seconds != seconds or seconds in (float("inf"), float("-inf")):
+        return None
+    return max(0.0, seconds)
+
+
 class ProviderError(Exception):
     def __init__(self, kind: str, message: str, *, status: int | None = None, retryable: bool = False,
                  retry_after: float | None = None):

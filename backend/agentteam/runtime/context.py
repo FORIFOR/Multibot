@@ -14,7 +14,7 @@ from ..store.artifact_store import ArtifactStore
 from ..store.event_store import EventStore
 from ..store.run_store import RunStore
 from .mailbox import MessageBus
-from .policy import PolicyEngine
+from .policy import PolicyEngine, PolicyViolation
 from .redaction import Redactor
 
 
@@ -44,7 +44,12 @@ class RunRuntime:
         return self.run.run_id
 
     def workspace(self, task_id: str) -> Path:
-        p = self.data_dir / self.run_id / "workspaces" / task_id
+        root = self.data_dir / self.run_id / "workspaces"
+        p = root / task_id
+        # The id must name exactly one directory directly under workspaces/ (no '..', separators or absolute paths).
+        if not task_id or p.resolve().parent != root.resolve():
+            raise PolicyViolation("path_scope", f"task id {task_id!r} does not name a directory inside the run workspace",
+                                  fatal=True)
         p.mkdir(parents=True, exist_ok=True)
         return p
 

@@ -16,6 +16,8 @@ dependencies = [
   "sse-starlette>=2",
   "beautifulsoup4>=4.12",
   "pyjwt[crypto]>=2.14,<3",
+  # claude_cli sessions launch agentteam.providers.claude_cli_mcp, which uses the v2 lowlevel Server API.
+  "mcp>=2.0,<3",
 ]
 
 [project.optional-dependencies]

@@ -38,13 +38,15 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
         tabDecided.current = true
         if (TERMINAL.includes(d.status) && d.final_report) setTab('report')
       }
-      if (!selArt && d.artifacts.length) {
+      if (d.artifacts.length) {
         const latest = [...d.artifacts].filter((a) => a.artifact_id !== 'final-report.md').sort((a, b) => b.revision - a.revision)
         const pick = latest.find((a) => a.media_type.includes('html')) || latest[0] || d.artifacts[0]
-        if (pick) setSelArt({ id: pick.artifact_id, rev: pick.revision })
+        // Only the first load chooses a file. A functional update keeps the reader's later choice even when this
+        // callback was captured by the event stream before that choice was made.
+        if (pick) setSelArt((current) => current ?? { id: pick.artifact_id, rev: pick.revision })
       }
     } catch (e) { setErr(String(e)) }
-  }, [runId, selArt])
+  }, [runId])
 
   const reloadProjections = useCallback(async () => {
     try {
@@ -83,8 +85,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
       es.onerror = () => { /* EventSource reconnects with Last-Event-ID */ }
     })().catch(e => { if (alive) setErr(String(e)); es?.close() })
     return () => { alive = false; es?.close() }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runId])
+  }, [runId, reload, reloadProjections])
 
   const agents = run?.config_snapshot?.agents || {}
   const tz = undefined

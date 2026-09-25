@@ -10,7 +10,7 @@ from typing import Any
 
 import httpx
 
-from .base import LLMRequest, LLMResponse, ProbeResult, ProviderError, ProviderUsage, ToolCall, ToolSpec
+from .base import LLMRequest, LLMResponse, ProbeResult, ProviderError, ProviderUsage, ToolCall, ToolSpec, parse_retry_after
 
 
 class OpenAICompatDriver:
@@ -100,30 +100,45 @@ class OpenAICompatDriver:
         if r.status_code == 401 or r.status_code == 403:
             raise ProviderError("auth", "authentication failed", status=r.status_code)
         if r.status_code == 429:
-            ra = r.headers.get("retry-after")
             raise ProviderError("rate_limit", "rate limited", status=429, retryable=True,
-                                retry_after=float(ra) if ra and ra.replace(".", "", 1).isdigit() else None)
+                                retry_after=parse_retry_after(r.headers.get("retry-after")))
         if r.status_code >= 500:
             raise ProviderError("server", f"server error {r.status_code}", status=r.status_code, retryable=True)
         if r.status_code >= 400:
             raise ProviderError("bad_request", f"bad request {r.status_code}: {r.text[:300]}", status=r.status_code)
-        data = r.json()
-        choice = (data.get("choices") or [{}])[0]
-        msg = choice.get("message") or {}
-        text = msg.get("content") or ""
+        try:
+            data = r.json()
+        except ValueError as e:  # a proxy or overloaded server can answer 200 with HTML or a cut-off body
+            raise ProviderError("server", f"response was not JSON (status {r.status_code})", status=r.status_code,
+                                retryable=True) from e
+        if not isinstance(data, dict):
+            raise ProviderError("server", f"response JSON was {type(data).__name__}, not an object", status=r.status_code,
+                                retryable=True)
+        choices = data.get("choices")
+        choice = choices[0] if isinstance(choices, list) and choices and isinstance(choices[0], dict) else {}
+        msg = choice.get("message") if isinstance(choice.get("message"), dict) else {}
+        text = msg.get("content") if isinstance(msg.get("content"), str) else ""
         calls: list[ToolCall] = []
         raw: list[dict[str, Any]] = []
         if text:
             raw.append({"type": "text", "text": text})
-        for tc in msg.get("tool_calls") or []:
-            fn = tc.get("function") or {}
-            try:
-                args = json.loads(fn.get("arguments") or "{}")
-            except json.JSONDecodeError:
-                args = {"_raw": fn.get("arguments")}
+        for tc in msg.get("tool_calls") if isinstance(msg.get("tool_calls"), list) else []:
+            if not isinstance(tc, dict):
+                continue
+            fn = tc.get("function") if isinstance(tc.get("function"), dict) else {}
+            raw_args = fn.get("arguments")
+            if isinstance(raw_args, dict):  # some compatible servers send an object instead of a JSON string
+                args = raw_args
+            else:
+                try:
+                    args = json.loads(raw_args or "{}")
+                except (json.JSONDecodeError, TypeError):
+                    args = {"_raw": raw_args}
+                if not isinstance(args, dict):
+                    args = {"_raw": raw_args}
             calls.append(ToolCall(id=tc.get("id") or f"call_{len(calls)}", name=fn.get("name", ""), arguments=args))
             raw.append({"type": "tool_use", "id": calls[-1].id, "name": calls[-1].name, "input": args})
-        u = data.get("usage") or {}
+        u = data.get("usage") if isinstance(data.get("usage"), dict) else {}
         usage = ProviderUsage(input_tokens=int(u.get("prompt_tokens") or 0), output_tokens=int(u.get("completion_tokens") or 0))
         finish = choice.get("finish_reason") or "stop"
         stop = "tool_use" if calls else ("max_tokens" if finish == "length" else "end_turn")

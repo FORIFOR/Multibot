@@ -9,7 +9,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 from ..config.loader import PKG_ROOT, SCHEMA_DIR, platform_policy_text
 from ..config.voice import conversation_voice, voice_instructions
-from ..contracts import TaskSpec, TaskStatus, TeamPlan
+from ..contracts import TaskSpec, TaskStatus, TeamPlan, task_id_problem
 from ..providers.base import LLMRequest
 from ..projections.views import artifact_review_ledger
 from .checks import CHECK_KINDS
@@ -88,6 +88,8 @@ def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dic
     scopes: dict[str, str] = {}
     outputs: dict[str, str] = {}
     for t in plan.tasks:
+        if (problem := task_id_problem(t.id)) is not None:
+            errors.append(problem)
         if t.owner not in enabled_agent_ids:
             errors.append(f"task {t.id}: unknown or disabled owner {t.owner}")
         if t.owner not in plan.agents:
@@ -346,7 +348,7 @@ async def plan_team(rt) -> TeamPlan:
                 from .communication import communication_budget_errors
                 last_errors.extend(communication_budget_errors(plan, roles, set(enabled),
                     rt.config.limits.max_peer_messages_per_task, rt.config.limits.max_revision_rounds))
-        except (ValueError, KeyError, TypeError) as e:
+        except (ValueError, KeyError, TypeError, AttributeError) as e:  # e.g. a task entry that is not an object
             last_errors = [f"unparseable plan: {e}"]
             plan = None
         await rt.events.append(rt.run_id, "plan.proposed", {"attempt": attempt + 1, "plan": data if isinstance(data, dict) else None,
@@ -376,12 +378,36 @@ async def plan_team(rt) -> TeamPlan:
 def _extract_json(text: str) -> dict[str, Any]:
     text = text.strip()
     try:
-        return json.loads(text)
+        data = json.loads(text)
     except json.JSONDecodeError:
         start, end = text.find("{"), text.rfind("}")
-        if start >= 0 and end > start:
-            return json.loads(text[start:end + 1])
-        raise
+        if start < 0 or end <= start:
+            raise
+        data = json.loads(text[start:end + 1])
+    if not isinstance(data, dict):  # a list or scalar is a malformed answer, not a crash
+        raise ValueError(f"expected a JSON object, got {type(data).__name__}")
+    return data
+
+
+def _normalize_report(data: dict[str, Any]) -> dict[str, Any]:
+    """Give the model's report the shape its readers expect. Malformed items are dropped; a run whose work is
+    finished must not fail because the summary call answered in the wrong shape."""
+    summary = data.get("summary")
+    if not isinstance(summary, str):
+        raise ValueError("report summary must be a string")
+
+    def strings(key: str) -> list[str]:
+        value = data.get(key)
+        return [v for v in value if isinstance(v, str)] if isinstance(value, list) else []
+
+    deliverables = []
+    for d in data.get("deliverables") if isinstance(data.get("deliverables"), list) else []:
+        if (isinstance(d, dict) and isinstance(d.get("artifact_id"), str)
+                and isinstance(d.get("revision"), int) and not isinstance(d.get("revision"), bool)):
+            deliverables.append({"artifact_id": d["artifact_id"], "revision": d["revision"],
+                                 "note": d["note"] if isinstance(d.get("note"), str) else ""})
+    return {"summary": summary, "deliverables": deliverables, "verified": strings("verified"),
+            "unresolved": strings("unresolved"), "next_steps": strings("next_steps")}
 
 
 async def handle_exception(rt, task, outcome_kind: str, detail: str) -> str | None:
@@ -430,12 +456,12 @@ async def final_report(rt, evidence: dict[str, Any]) -> dict[str, Any] | None:
                      metadata={"agent_id": agent.agent_id, "mode": "report"})
     try:
         resp = await runner._call_model(req, None)
-        data = _extract_json(resp.text)
+        data = _normalize_report(_extract_json(resp.text))
     except (WorkerFailure, PolicyViolation, ValueError) as e:
         await rt.events.append(rt.run_id, "model.failed", {"stage": "report", "message": str(e)}, actor_id=agent.agent_id, actor_kind="agent")
         return None
     known = {(m.artifact_id, m.revision) for m in await rt.artifacts.list(rt.run_id)}
-    data["deliverables"] = [d for d in data.get("deliverables", []) if (d.get("artifact_id"), d.get("revision")) in known]
+    data["deliverables"] = [d for d in data["deliverables"] if (d["artifact_id"], d["revision"]) in known]
     data["author"] = agent.agent_id
     return data
 

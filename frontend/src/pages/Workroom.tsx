@@ -47,10 +47,10 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const [directionDraft, setDirectionDraft] = useState('')
   const [artifactTarget,setArtifactTarget]=useState<{id:string;revision:number;sha256:string}|null>(null)
   const refreshRef = useRef<() => Promise<void>>(async () => {})
-  const reconnectRef = useRef<() => void>(() => {})
+  const reconnectRef = useRef<() => Promise<void>>(async () => {})
 
   useEffect(() => {
-    let alive = true, inFlight = false, cursor = 0
+    let alive = true, inFlight = false, cursor = 0, nextConnectAt = 0
     setRun(null); setChat([]); setEvents([]); setConnection('connecting')
     let stream: EventSource | null = null
     let queued: ReturnType<typeof setTimeout> | undefined
@@ -59,23 +59,37 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
       inFlight = true
       try {
         const [detail, messages, updates] = await Promise.all([api.run(runId), api.chat(runId), api.events(runId,cursor)])
-        if (alive) { setRun(detail); setChat(messages); setLoadError(''); if(updates.length){cursor=updates.at(-1)!.seq;setEvents(old=>[...old,...updates])} if(!stream && detail.live && !isSettled(detail.status)) connect() }
+        if (alive) { setRun(detail); setChat(messages); setLoadError(''); if(updates.length){cursor=updates.at(-1)!.seq;setEvents(old=>[...old,...updates])} if(!streamOpen() && detail.live && !isSettled(detail.status)) connect() }
+        return detail
       } catch { if (alive) setLoadError(say('最新の状態を取得できません。表示内容が古い可能性があります。', 'Could not refresh the work. The displayed information may be out of date.')) }
       finally { inFlight = false }
     }
     const schedule = () => { if (!queued) queued = setTimeout(() => { queued = undefined; void refresh() }, 100) }
+    // The stream is only a change signal; the fetches above carry the data. Start it after the last event
+    // already loaded so a reconnect does not replay the whole history, and keep one open stream at a time.
+    const streamOpen = () => !!stream && stream.readyState !== EventSource.CLOSED
     const connect = () => {
       stream?.close()
-      if (!alive) return
-      stream = new EventSource(`/api/runs/${encodeURIComponent(runId)}/stream`)
+      if (!alive || Date.now() < nextConnectAt) return
+      stream = new EventSource(`/api/runs/${encodeURIComponent(runId)}/stream?after_seq=${cursor}`)
       stream.onopen = () => { if(alive) setConnection('live') }
       for (const type of eventTypes) stream.addEventListener(type, schedule)
       stream.addEventListener('end', () => { stream?.close(); stream = null; setConnection('ended'); schedule() })
-      stream.onerror = () => { if(alive) setConnection('reconnecting'); void refresh() }
+      stream.onerror = () => {
+        if (!alive) return
+        setConnection('reconnecting')
+        // A network drop reconnects by itself (Last-Event-ID). A refused stream is closed: wait for the 5 s resync.
+        if (stream?.readyState === EventSource.CLOSED) nextConnectAt = Date.now() + 5000
+        void refresh()
+      }
     }
-    const foreground = () => { if (!document.hidden) { void refresh(); connect() } }
-    refreshRef.current = refresh; reconnectRef.current = connect
-    void refresh(); connect()
+    // A browser may drop the stream while the tab is hidden; refresh() reopens it when the run is still live.
+    const foreground = () => { if (!document.hidden) void refresh() }
+    // After an action (resume, cancel, adopt…) the run may start again before it is reported live; open the
+    // stream for any unsettled run. The server closes it at once when nothing more will be appended.
+    const ensureStream = async () => { const detail = await refresh(); if (alive && detail && !streamOpen() && !isSettled(detail.status)) connect() }
+    refreshRef.current = async () => { await refresh() }; reconnectRef.current = ensureStream
+    void ensureStream()
     // Resync after missed SSE events and external resume; only while visible.
     const timer = setInterval(() => { if (!document.hidden) void refresh() }, 5000)
     document.addEventListener('visibilitychange', foreground)
@@ -86,7 +100,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const act = async (fn: () => Promise<unknown>) => {
     if (actionLock.current) return
     actionLock.current = true; setBusy(true); setActionError('')
-    try { await fn(); await refresh(); reconnectRef.current() }
+    try { await fn(); await reconnectRef.current() }
     catch { setActionError(say('操作を完了できませんでした。状態を確認して、もう一度お試しください。', 'The action did not finish. Check the status and try again.')) }
     finally { actionLock.current = false; setBusy(false) }
   }

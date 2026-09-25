@@ -6,7 +6,7 @@ from typing import Any
 
 import anthropic
 
-from .base import LLMRequest, LLMResponse, ProbeResult, ProviderError, ProviderUsage, ToolCall, ToolSpec
+from .base import LLMRequest, LLMResponse, ProbeResult, ProviderError, ProviderUsage, ToolCall, ToolSpec, parse_retry_after
 
 # Models that take adaptive thinking (everything current except Haiku 4.5 and pre-4.6 models).
 def _supports_adaptive(model: str) -> bool:
@@ -84,7 +84,7 @@ class AnthropicDriver:
         except anthropic.RateLimitError as e:
             ra = e.response.headers.get("retry-after") if getattr(e, "response", None) is not None else None
             raise ProviderError("rate_limit", "rate limited", status=429, retryable=True,
-                                retry_after=float(ra) if ra else None) from e
+                                retry_after=parse_retry_after(ra)) from e
         except anthropic.BadRequestError as e:
             raise ProviderError("bad_request", _safe_msg(e), status=400) from e
         except anthropic.APIStatusError as e:

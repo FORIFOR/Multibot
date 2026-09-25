@@ -329,16 +329,33 @@ class AgentRunner:
         attempts = 0
         while True:
             attempts += 1
+            # Planning, coordination, reports and replans call the model outside the Scheduler loop, so the
+            # run's wall clock is enforced here for every call, not only between task sessions.
+            remaining = rt.remaining_seconds()
+            if remaining <= 0:
+                raise WorkerFailure("timeout", "run wall-clock limit reached")
             if is_cli:
                 cap = min(rt.config.limits.max_session_cost_usd, max(0.05, rt.policy.remaining_budget()))
                 res = rt.policy.reserve_amount(cap)
                 req.metadata["max_budget_usd"] = cap
-                req.metadata["timeout"] = max(30.0, rt.remaining_seconds() - 5)
+                req.metadata["timeout"] = max(1.0, remaining - 5)
             else:
                 res = rt.policy.reserve_model_call(price, est_in, req.max_tokens)
             t0 = time.monotonic()
+            deadline = asyncio.timeout(remaining)
             try:
-                resp = await provider.complete(req)
+                async with deadline:
+                    resp = await provider.complete(req)
+            except TimeoutError:
+                if not deadline.expired():
+                    raise
+                rt.policy.release(res)
+                await rt.events.append(rt.run_id, "model.failed",
+                                       {"connection_id": ctx.agent.connection_id, "model_requested": ctx.agent.model,
+                                        "kind": "timeout", "status": None, "message": "run wall-clock limit reached during a model call",
+                                        "retryable": False, "attempt": attempts},
+                                       actor_id=ctx.agent.agent_id, actor_kind="agent", task_id=ctx.task_id, causation_id=causation_id)
+                raise WorkerFailure("timeout", "run wall-clock limit reached during a model call")
             except ProviderError as e:
                 rt.policy.release(res)
                 rt.policy.usage.model_calls -= 1 if attempts > 1 and e.retryable else 0
@@ -529,7 +546,7 @@ class AgentRunner:
                 result = await provider.run_session(
                     system=system, prompt=prompt, gateway_url=broker.url(token), tool_names=[t.name for t in self.gateway.specs()],
                     model=ctx.agent.model, effort=ctx.agent.effort, max_turns=rt.config.limits.max_session_turns,
-                    max_budget_usd=cap, timeout=max(30.0, rt.remaining_seconds() - 5), cancel_event=rt.policy.cancel_event,
+                    max_budget_usd=cap, timeout=max(1.0, rt.remaining_seconds() - 5), cancel_event=rt.policy.cancel_event,
                     cwd=str(ctx.workspace) if ctx.workspace else None)
                 cost = rt.policy.settle_amount(res_v, result.cost_usd, result.usage, extra_calls=max(0, result.num_turns - 1))
                 await rt.events.append(rt.run_id, "model.called",

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from enum import StrEnum
 import json
+import re
 from pathlib import PurePosixPath
 from typing import Any, Literal
 
@@ -14,6 +15,17 @@ from pydantic import BaseModel, Field, field_validator, model_serializer, model_
 
 MessagePurpose = Literal["request", "question", "answer", "handoff", "finding", "decision"]
 CheckKind = Literal["programmatic", "source_check", "human_review", "model_review"]
+
+# A task id becomes one directory name under the run's workspaces/ folder, so new ids are limited to
+# path-safe characters. Stored runs are not revalidated here; RunRuntime.workspace() still refuses escapes.
+TASK_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}")
+
+
+def task_id_problem(task_id: Any) -> str | None:
+    if isinstance(task_id, str) and TASK_ID_RE.fullmatch(task_id):
+        return None
+    return (f"task id {task_id!r} must be 1-64 letters, digits, '.', '_' or '-', "
+            "starting with a letter or digit")
 
 
 class ArtifactRef(BaseModel):
