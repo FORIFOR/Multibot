@@ -1,0 +1,1527 @@
+{
+  "run_id": "run_1a0d7d39591b0d06e9d",
+  "status": "completed",
+  "goal": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作として workspace_write_json を呼び出してください。readiness.json の全項目を一度に作り、source_file と evidence_quote を8行すべてに必ず含めます。\n成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まず、RFC 8259に適合するJSONをそのまま公開してください。文字列値に含まれる二重引用符は `\\\"` としてエスケープし、JSON文字列を壊さないでください。\nトップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。\nareasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。\nsummary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。summaryには簡潔に「L3未達」と、本番IdP/MFA、分散・HA、監視・SLO/SLA・運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値が未確認または残条件であることをまとめてください。残条件があることはこの現状評価の依頼に反するものではなく、未検証を本番導入済みと書かないことが正しい納品です。8領域以外の説明や追加フィールドは出力しないでください。\n日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。\n技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。\n意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。\n用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。\nIdentity の token revocation は「トークン失効」または「トークン取消」と書き、「リバイス」などの類推語を作らないでください。Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」としてください。\n要約欄は原則として日本語で書き、技術固有名として資料に現れる英字だけを残してください。英語の接続詞・動詞・役割名・状態名（with、export、auditor、collector、outage、pinnedなど）や誤綴りを混ぜないでください。TLSDNSのような連結語はTLS/DNSに分けてください。\nDeploymentのimplementedには必ず「アドバイザリ」を含め、単なる「パッケージスキャン」では置き換えないでください。これは資料のpackage advisory scansを表す必須アンカーです。\n日本語要約の中で領域名や原文の英語ラベルをそのまま書かないでください。`Production IdP` は「組織IdP」、`Identity` は「認証領域」、`Contract / operation` は「契約・運用領域」と書いてください。技術固有名（IdP、OIDC、Keycloak、SSE、Docker、TLS、DNS、LLM、SLO、SLA、RPO、RTO、ageなど）は必要な場合に限り残せます。\nsummary は領域名（Identity、Isolation、Execution、Data、Audit / monitoring、Deployment、Business quality、Contract / operation）や Operation を含めず、日本語だけで現状とL3未達を要約してください。\n`export` は「エクスポート」または「出力」と書き、英語のまま要約欄に残さないでください。\n`Real access keys` は「実アクセスキー」、`false` は「未達」または「偽」と書いてください。「アクター監査」のような直訳を使わず、監査記録は「操作主体の監査記録」としてください。\n提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。\n\n## 実行ごとに抽出した原資料の8行（このブロックを最優先で使う）\n次の8行は今回の実ファイルから機械的に抽出した根拠です。areaの順序を変えず、evidence_quoteには各行の「残条件原文」を文字単位でそのまま入れてください。implementedとremainingだけを、原文の意味を保った40〜120文字程度の日本語一文へ書き換えます。英語の原文をその2欄へコピーしません。\n### 1. Identity\n実装・検証済み原文: Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary\n残る受入条件原文: Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance\n日本語要約の指針: 実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSO、Keycloak、トークン失効を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。 残条件=本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。\nimplementedの根拠語: アクセスキー、セッション、ロール、Keycloak、SSO\nremainingの根拠語: IdP、MFA、アカウント、ライフサイクル\n### 2. Isolation\n実装・検証済み原文: Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture\n残る受入条件原文: Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance\n日本語要約の指針: 組織の結び付け、ランごとの権限、アーティファクトとイベントのアクセス確認、Docker、公開IP取得を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。 残条件=独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。\nimplementedの根拠語: 組織、アーティファクト、イベント、SSE、Docker、IP\nremainingの根拠語: 攻撃、ロール、コネクタ、egress、権限\n### 3. Execution\n実装・検証済み原文: Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation\n残る受入条件原文: Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA\n日本語要約の指針: ランごとの予算、永続キュー、操作主体ごとの冪等な受入、ワーカーリース、回復、SIGKILLドリルを日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。 残条件=負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。\nimplementedの根拠語: 予算、キュー、冪等、idempotent、ワーカー、回復、ドリル\nremainingの根拠語: 負荷、再試行、リトライ、可用性、分散、HA\n### 4. Data\n実装・検証済み原文: Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption\n残る受入条件原文: Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO\n日本語要約の指針: スナップショットと復元、チェックサム、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。 残条件=履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。\nimplementedの根拠語: スナップショット、復元、チェックサム、再開可能、age、復号\nremainingの根拠語: 保持、バックアップ、暗号化、鍵、オフサイト、RPO、RTO\n### 5. Audit / monitoring\n実装・検証済み原文: Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view\n残る受入条件原文: Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance\n日本語要約の指針: 操作主体の監査記録、監査者ロール、耐久コレクター、カーソル、メトリクス、復旧、ブラウザ画面を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。 残条件=独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。\nimplementedの根拠語: 監査者、カーソル、コレクター、メトリクス、復旧、ブラウザ\nremainingの根拠語: WORM、アラート、エスカレーション、監視、サービス、インシデント\n### 6. Deployment\n実装・検証済み原文: Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans\n残る受入条件原文: Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review\n日本語要約の指針: 固定ランタイム、コンテナ、ブラウザ/API確認、更新とロールバック、破損復旧、アドバイザリ確認を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。 残条件=実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。\nimplementedの根拠語: ランタイム、コンテナ、ブラウザ、ロールバック、アドバイザリ、依存\nremainingの根拠語: TLS、DNS、IdP、アイデンティティ、オーナー、ロールバック、セキュリティ\n### 7. Business quality\n実装・検証済み原文: Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added; fixed v22 local-Qwen series retained three interrupted runs and one Docker-gated admission refusal; v23 completed ten actual-source attempts and post-run contract recheck rejected all three completed artifacts for translation drift; v24 completed ten actual-source attempts, with three machine-contract passes, but one retained pass still contained the observed mixed-script terms \"ハードネード\" and \"键轮换与\"; v25 completed ten actual-source attempts and rejected every attempt for missing JSON, English or mixed-script summaries, missing anchors, or incomplete rows; v26 completed ten attempts, with one machine-contract pass still containing English labels and malformed Japanese; v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; v28 completed ten attempts, with two machine-contract passes still containing English area labels and glossary drift, so zero runs are accepted; v29 completed ten actual-source attempts, with six machine-contract passes and five Reviewer submissions, but semantic review remains pending and observed English/malformed terminology means zero runs are accepted; v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure, so zero runs are accepted; v31 completed ten attempts, with four machine-contract passes interrupted before Reviewer submission and six contract failures caused mainly by an English `export` term, so zero runs are accepted; v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected, so zero runs are accepted; v33 was stopped during its first attempt when another local Ollama caller appeared, with no published artifact, so zero runs are accepted; v34 stopped after one 1,200-second attempt with five retained Builder revisions, zero mechanical passes and zero Reviewer submissions, so zero runs are accepted\n残る受入条件原文: Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract\n日本語要約の指針: 合成比較を停止した事実、実資料による失敗、出力と入力の検査、過去の試験結果を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。 残条件=出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。\nimplementedの根拠語: 失敗、合成、比較、出力、入力\nremainingの根拠語: 10、ソース、出典、レビュー、レイテンシ、受入\n### 8. Contract / operation\n実装・検証済み原文: Technical limitations documented\n残る受入条件原文: Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications\n日本語要約の指針: 技術的制約の文書化を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=技術的制約を文書化している。 残条件=承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。\nimplementedの根拠語: 制約、文書、制限、説明、承認、認証\nremainingの根拠語: スコープ、SLO、SLA、サポート、インシデント、責任\n\n## 最終出力チェック（必ず最後に再確認）\n説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。原文に二重引用符がある場合も、JSON文字列内では必ず \\\" としてエスケープし、解析可能なJSONにする。\nreadiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。JSON全体を配列で囲まず、最初の文字を {、最後の文字を } にする。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。\n{\"product\":\"Multibot\",\"production_ready\":false,\"deployment\":\"dedicated-single-host\",\"summary\":\"日本語の現状要約\",\"areas\":[{\"area\":\"Identity\",\"implemented\":\"日本語一文\",\"remaining\":\"日本語一文\",\"source_file\":\"PRODUCTION_PLAN.md\",\"evidence_quote\":\"入力の残条件原文\"}]}\nsummaryは次の一文をそのまま使用する（改変、短縮、英語の履歴追加は禁止）: L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。\nsummaryへBusiness quality行の英語履歴、semantic review、acceptance、documentなどをコピーしない。上の一文だけを使い、技術固有名以外の英語を混ぜない。\n上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_write_jsonのvalueオブジェクトで保存してpublish_artifactする。JSON文字列をcontentへ手作業で埋め込まない。\n説明や計画をテキストで返さない。最初の生成操作はworkspace_write_jsonにし、8行すべてのsource_fileとevidence_quoteを必ず含める。ツール呼出しを省略しない。\n新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。",
+  "inputs": {
+    "text": "",
+    "urls": [],
+    "files": [
+      {
+        "content": "# Production acceptance plan\n\nGoal: advance Multibot to L3 for a clearly scoped enterprise workflow. **L3 remains unachieved.** The first deployment shape is an isolated installation per organization. A shared multi-tenant SaaS would require another architecture and isolation audit.\n\nThe working code and each evaluated checkout are tracked separately. The legacy 300-trial comparison stays pinned and preserved, but is paused: its 50 tasks include fictional products and synthetic business data, contrary to the user's no-dummy-data requirement for new acceptance work. It is not real-enterprise acceptance evidence. The replacement workflow uses actual repository source documents with recorded hashes and a separate fixed series.\n\n| Area | Implemented / verified | Remaining acceptance work |\n| --- | --- | --- |\n| Identity | Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary | Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance |\n| Isolation | Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture | Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance |\n| Execution | Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation | Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA |\n| Data | Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption | Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO |\n| Audit / monitoring | Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view | Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance |\n| Deployment | Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans | Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review |\n| Business quality | Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added; fixed v22 local-Qwen series retained three interrupted runs and one Docker-gated admission refusal; v23 completed ten actual-source attempts and post-run contract recheck rejected all three completed artifacts for translation drift; v24 completed ten actual-source attempts, with three machine-contract passes, but one retained pass still contained the observed mixed-script terms \"ハードネード\" and \"键轮换与\"; v25 completed ten actual-source attempts and rejected every attempt for missing JSON, English or mixed-script summaries, missing anchors, or incomplete rows; v26 completed ten attempts, with one machine-contract pass still containing English labels and malformed Japanese; v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; v28 completed ten attempts, with two machine-contract passes still containing English area labels and glossary drift, so zero runs are accepted; v29 completed ten actual-source attempts, with six machine-contract passes and five Reviewer submissions, but semantic review remains pending and observed English/malformed terminology means zero runs are accepted; v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure, so zero runs are accepted; v31 completed ten attempts, with four machine-contract passes interrupted before Reviewer submission and six contract failures caused mainly by an English `export` term, so zero runs are accepted; v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected, so zero runs are accepted; v33 was stopped during its first attempt when another local Ollama caller appeared, with no published artifact, so zero runs are accepted; v34 stopped after one 1,200-second attempt with five retained Builder revisions, zero mechanical passes and zero Reviewer submissions, so zero runs are accepted | Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract |\n| Contract / operation | Technical limitations documented | Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications |\n\nThe v35 series stopped after one interrupted local-Qwen attempt that published the wrong `MULTIBOT-PRODUCTION-SUMMARY.md` path and failed the requested JSON contract; zero runs are accepted. The v36 series stopped after one interrupted attempt with no published artifact when the model sent an invalid `workspace_write` edit branch; zero runs are accepted. The v37 series used the path-constrained and empty-edit normalization fixes: its first attempt published `readiness.json` but failed source/summary and Japanese glossary checks after 1,200 seconds, and its second attempt was stopped after 1,169 seconds with no Reviewer result. Mechanical passes, Reviewer submissions, and accepted runs remain zero. See the [v35 evidence](evidence/real-readiness-v35-qwen35-fixed-20260923/README.md), [v36 evidence](evidence/real-readiness-v36-qwen35-fixed-20260923/README.md), and [v37 evidence](evidence/real-readiness-v37-qwen35-fixed-20260923/README.md). These are retained local-model observations only and do not establish customer or L3 readiness.\n\nThe v38 series added source-derived Japanese example sentences, then stopped after seven local-Qwen attempts because the same contract failures repeated: five attempts produced no JSON, one produced a JSON object with missing `source_file` and incorrect English/quote fields, and one was interrupted by shutdown. Reviewer submissions and accepted runs remained zero. See the [v38 evidence](evidence/real-readiness-v38-qwen35-fixed-20260923/README.md). The examples did not make the local model's schema completion or source-grounded Japanese reliable; no artifact was rewritten after generation.\n\nThe v39 series added an explicit JSON skeleton and Builder instruction, then stopped during the fourth attempt after three consecutive failures to produce `readiness.json`; the one published artifact was `final-report.md`, and the other two completed attempts had no JSON artifact. Reviewer submissions and accepted runs remained zero. See the [v39 evidence](evidence/real-readiness-v39-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\n\nThe v40 series shortened the automatic delivery-check response and added an explicit next-publish action. It stopped during the fourth attempt after three failures: one published only `final-report.md`, one produced no JSON, and one produced a JSON candidate with a syntax error. Reviewer submissions and accepted runs remained zero. See the [v40 evidence](evidence/real-readiness-v40-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\n\nThe v41 series added an explicit RFC 8259 escaping instruction for source quotes inside JSON strings. It was stopped during the eighth attempt after seven retained results: one published a JSON array instead of the required object, two published only `final-report.md`, three had no valid `readiness.json`, and one published a JSON object with extensive source, Japanese-language and forbidden-term contract failures. Reviewer submissions and accepted runs remained zero. See the [v41 evidence](evidence/real-readiness-v41-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\n\nThe v42 series explicitly prohibited a JSON array and fixed the local Ollama temperature at zero for reproducibility. It was stopped during the fourth attempt after three retained failures; all three lacked a valid `readiness.json`, and Reviewer submissions and accepted runs remained zero. See the [v42 evidence](evidence/real-readiness-v42-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\n\nThe v43 series ran the same actual-source document workflow ten times on fixed code `3f428d0`. All ten attempts failed before review because the request omitted `workflow: document`, sending the run through Master planning; generated plans used invalid absolute paths or lacked the required delivery contract. Reviewer submissions and accepted runs remained zero. The implementation omission was fixed in `fd8183f`; the retained evidence is [v43](evidence/real-readiness-v43-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\n\nThe v44 series validated that workflow fix but was rejected at HTTP 422 before an LLM workflow began: document input validation required a text delivery contract even though the representative contract is JSON. The validator was corrected in `cef86aa`; no Reviewer submission or accepted run exists. See [v44 evidence](evidence/real-readiness-v44-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\n\nThe v45 series used `cef86aa` and the real local Ollama model. Two attempts each reached the 1,200-second wall-clock limit without a valid `readiness.json`; the third was stopped after the repeated failure was retained. Reviewer submissions and accepted runs remain zero. See [v45 evidence](evidence/real-readiness-v45-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\nThe v46 series used fixed code `2b18649` but was refused at HTTP 503 because Docker isolation was not running; the real local model probe succeeded, but no LLM workflow began. Reviewer submissions and accepted runs remained zero. See [v46 evidence](evidence/real-readiness-v46-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\nThe v47 series used fixed code `2b18649` after compressing delivery-check feedback into field-level repair hints. One attempt was interrupted at 1,200 seconds and the second published only `final-report.md`; a third was stopped after the repeated missing/invalid `readiness.json` result was retained. Reviewer submissions and accepted runs remained zero. The subsequent `00059ef` change advertises the requester JSON Schema directly in `workspace_write_json`; it requires a new fixed series. See [v47 evidence](evidence/real-readiness-v47-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\nThe v48 series used fixed code `e90b644` before the source-constant repair-template change. One attempt was interrupted at 1,200 seconds and the second published only `final-report.md`; a third was stopped after the repeated missing/invalid `readiness.json` result was retained. Reviewer submissions and accepted runs remained zero. See [v48 evidence](evidence/real-readiness-v48-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\nThe v49 series used fixed HEAD `0997987`, including the `5c73370` runtime repair-template change. Three actual local-Qwen attempts each ran for 1,200 seconds and ended with the same missing/invalid `readiness.json` result; a fourth was stopped after those repeated failures. Reviewer submissions and accepted runs remained zero. The retained drafts show that the model omitted required `source_file`/exact quotes and could not satisfy the strengthened Japanese-summary anchors. See [v49 evidence](evidence/real-readiness-v49-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\nThe v50 series used fixed code `16bdb0e` with additional tool-schema descriptions. Three actual local-Qwen attempts ended without any Builder tool call: each hit the model output limit and produced no valid `readiness.json`; a fourth was stopped after the repeated failure. Reviewer submissions and accepted runs remained zero. See [v50 evidence](evidence/real-readiness-v50-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\nThe v51 series used fixed code `8078758`, returning to the smaller schema and adding an immediate `workspace_write_json` instruction. Six actual local-Qwen attempts each failed to publish a valid `readiness.json` despite two tool calls; a seventh was stopped after the repeated failures. Reviewer submissions and accepted runs remained zero. See [v51 evidence](evidence/real-readiness-v51-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\nThe v52 series used fixed code `f22a826`, adding inherited `source_file` constants and required row fields to the repair template. Five actual local-Qwen attempts called tools but still failed to publish a valid `readiness.json`; a sixth was stopped after the repeated failures. Reviewer submissions and accepted runs remained zero. See [v52 evidence](evidence/real-readiness-v52-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\nThe v53 series used fixed code `c5bbec1` with complete JSON repair examples and ran the same actual-source workflow ten times on the real local Ollama model. All ten runs passed the mechanical and delivery contracts and retained a generated `readiness.json`; four ended `partial`, four were interrupted by the wall-clock limit, and two reached the model-call limit. Only two Reviewer submissions were recorded, both leaving `document_contract` unverified; the other eight ended before independent review. Semantic review is pending, accepted runs remain zero, and `production_ready=false`. See [v53 evidence](evidence/real-readiness-v53-qwen35-fixed-20260923/README.md). This does not establish customer or L3 readiness.\nThe v54 series used fixed code `27b5100` with the same actual-source inputs, local model and configuration. All ten runs passed the mechanical and delivery contracts; eight reached Reviewer submission, six Reviewer tasks accepted all four criteria, one was interrupted after submission, and three failed to finish review. The series semantic review remains pending, `production_ready=false`, and no complete ten-run business-quality acceptance exists. See [v54 evidence](evidence/real-readiness-v54-qwen35-fixed-20260924/README.md). This does not establish customer or L3 readiness.\nThe v55 series used fixed code `b39ba74` with the same actual-source inputs, local model and configuration. All ten runs passed the mechanical and delivery contracts, but only two reached Reviewer submission; nine were `partial` and one was interrupted. Semantic review remains pending, `production_ready=false`, and the lower Reviewer completion rate shows that the repeated business-quality check is not yet stable. See [v55 evidence](evidence/real-readiness-v55-qwen35-fixed-20260924/README.md). This does not establish customer or L3 readiness.\nThe v56 series used fixed code `629f7a3` after clarifying the Reviewer `run_check` call shape. All ten actual local-Qwen runs passed the mechanical and delivery contracts and reached Reviewer submission; six runs had all four Reviewer criteria pass, while four retained at least one fail. Six runs completed, one was partial and three were interrupted. Semantic review remains pending, `production_ready=false`, and the series has no complete business-quality acceptance. See [v56 evidence](evidence/real-readiness-v56-qwen35-fixed-20260924/README.md). This does not establish customer or L3 readiness.\nThe v57 series used fixed code `046db10` after clarifying that this workflow is an evidence-based current-status assessment: `production_ready=false`, L3 unachieved and unverified residual conditions are expected findings, not failures by themselves. All ten actual local-Qwen runs passed the mechanical and delivery contracts; seven reached Reviewer submission and all seven had all four criteria pass, while four runs were interrupted at the wall-clock limit. Semantic review remains pending, `production_ready=false`, and no ten-run business-quality acceptance exists. See [v57 evidence](evidence/real-readiness-v57-qwen35-fixed-20260925/README.md). This does not establish customer or L3 readiness.\nThe v58 series used fixed code `8aca9aa` after the handoff-stop change. All ten actual local-Qwen runs passed the mechanical and delivery contracts and reached Reviewer submission; six Reviewer submissions had all four criteria pass, while four retained `document_contract` and `document_accuracy` failures caused by the Reviewer not independently running `json_schema` and misreading exact English evidence quotes. Six runs completed and four were partial. Semantic review remains pending, `production_ready=false`, and zero runs are accepted. See [v58 evidence](evidence/real-readiness-v58-qwen35-fixed-20260925/README.md). This does not establish customer or L3 readiness.\nThe v59 series used fixed code `98bfc42`, requiring an independent passing Reviewer `json_schema` check for every current artifact before `submit_review`. All ten actual local-Qwen runs passed the mechanical and delivery contracts; eight reached Reviewer submission and all eight had all four criteria pass, while two were partial before Reviewer submission. Semantic review remains pending, `production_ready=false`, and zero runs are accepted. See [v59 evidence](evidence/real-readiness-v59-qwen35-fixed-20260925/README.md). This does not establish customer or L3 readiness.\nThe v60 series used fixed code `69c37a7` with the same actual-source workflow and real local-Qwen model. Three retained attempts each hit the 1,200-second wall-clock limit after the Builder copied source-history English or mixed-script text into `summary`; no valid `readiness.json` was published and no Reviewer submission occurred. A fourth attempt was started and then intentionally stopped after the repeated cause was retained. The delivery contract therefore accepted 0/10 runs and `production_ready=false`. The implementation fix in `12393db` pins a source-derived Japanese summary sentence in the next fixed series; v60 artifacts remain unchanged. See [v60 evidence](evidence/real-readiness-v60-qwen35-fixed-20260925/README.md). This does not establish customer or L3 readiness.\n\nNext engineering sequence:\n\n1. Done: authenticated deployment boundary with recorded API/browser/backup evidence and passing CI.\n2. Implemented: standards-based SSO and explicit identity/role mappings. Real local Keycloak integration verified; corporate IdP acceptance remains open.\n3. Implemented: persistent single-host admission/worker leases and real crash/recovery checks. Delivery failure drills passed without an automatic replay or false completion claim; distributed workers and workload acceptance remain open.\n4. Implemented run retention/deletion, encrypted snapshot recovery and separate audit/readiness collection with real failure drills. A constrained collector supervision unit is supplied; actual systemd deployment, independent retention, alert routing, off-site recovery and policy acceptance remain open.\n5. Run the representative workflow repeatedly with a fixed real local model; inspect outputs beyond regex grades. Fix observed implementation faults and preserve every attempt. The v22 series is stopped with zero accepted runs after three wall-clock interruptions and a Docker-gated HTTP 503. v23 completed ten attempts, but post-run checks rejected every completed artifact for translation drift. v24 completed ten attempts; three machine-contract passes were observed, but a retained pass still contained mixed-script/half-transliterated terms, so zero runs are accepted. v25 completed ten attempts and every attempt was rejected for output/summary quality or missing artifacts. v26 completed ten attempts; one machine-contract pass still contained English labels and malformed Japanese, so zero runs are accepted. v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; zero runs are accepted. v28 completed ten attempts; two machine-contract passes still contained English area labels and glossary drift, so zero runs are accepted. v29 completed ten attempts; six machine-contract passes and five Reviewer submissions were recorded, but semantic review remains pending and retained English/malformed terms mean zero runs are accepted. v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure; zero runs are accepted. v31 completed ten attempts; four machine-contract passes were interrupted before Reviewer submission and six attempts retained the English `export` term, so zero runs are accepted. v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected; its retained artifact still shows terminology defects, and zero runs are accepted. v33 was stopped during its first attempt when another local Ollama caller appeared; no artifact was published and zero runs are accepted. v34 stopped after one 1,200-second attempt with five retained Builder revisions, zero mechanical passes and zero Reviewer submissions; zero runs are accepted. The generation/review path still needs an implementation-level schema-adherence and source-grounded Japanese-summary fix before another fixed series. v41 added JSON quote-escaping guidance but still produced an array, missing/invalid artifacts and a source/translation contract failure; no artifact may be rewritten after generation to manufacture a pass. v43 then exposed a missing document-workflow field, v44 exposed a JSON-contract validator mismatch, v45 still failed to publish valid JSON after those fixes, v46 was blocked by a stopped Docker isolation service, v47 still failed after compact repair feedback, v48 repeated the same failure before the source-constant template change, and v49 confirmed three more repeated missing/invalid JSON failures after that template change, and v50 ended three times without a Builder tool call after the schema-description change; v51 restored tool calls but still produced zero valid deliveries across six attempts, and v52 still failed after adding shared source constants and required row fields. v53 completed ten actual local-Qwen attempts: all ten passed the mechanical and delivery contracts and retained `readiness.json`, but only two Reviewer submissions were recorded, both left `document_contract` unverified, semantic review remained pending, and zero runs were accepted. v54 then completed ten attempts on fixed code `27b5100`: all ten passed the mechanical and delivery contracts, eight reached Reviewer submission, six Reviewer tasks accepted all four criteria, one was interrupted after submission, and three failed to finish; the series remains pending and no complete ten-run business-quality acceptance exists. v55 completed ten attempts on fixed code `b39ba74`: all ten passed the mechanical and delivery contracts, but only two reached Reviewer submission; nine were `partial` and one was interrupted, so the repeated business-quality check remains unstable and zero runs are accepted. v56 completed ten attempts on fixed code `629f7a3` after clarifying the Reviewer `run_check` call shape: all ten passed the mechanical and delivery contracts and reached Reviewer submission, six runs had all four Reviewer criteria pass and four retained at least one fail; six runs completed, one was partial and three were interrupted, so semantic review remains pending and zero runs are accepted. v57 completed ten attempts on fixed code `046db10` after clarifying that this workflow is an evidence-based current-status assessment: all ten passed the mechanical and delivery contracts, seven reached Reviewer submission and all seven had all four criteria pass, while four runs were interrupted at the wall-clock limit; semantic review remains pending and zero runs are accepted. v58 then completed ten attempts on fixed code `8aca9aa`: all ten passed the mechanical and delivery contracts and reached Reviewer submission, but six had all four Reviewer criteria pass and four retained contract/accuracy failures caused by missing independent `json_schema` verification and evidence-quote misreading; semantic review remained pending and zero runs were accepted. v59 used fixed code `98bfc42` with a required independent passing Reviewer `json_schema` check before submission: all ten passed the mechanical and delivery contracts, eight reached Reviewer submission and all eight had all four criteria pass, while two were partial before review; semantic review remains pending and zero runs are accepted.\n6. Assemble the production release and acceptance evidence. Only then request any indispensable real deployment/identity/operating details that cannot be supplied from the available environment. Do not mark external obligations or business quality complete from unit-test counts.\n",
+        "name": "PRODUCTION_PLAN.md"
+      },
+      {
+        "content": "# Operations verification — 2026-09-14\n\nThe [recorded HTTP drill](observer-drill.json) uses a real Uvicorn listening socket, real issued/rotated keys, separate SQLite stores and saved real-model work. No network response, identity, model response or store is mocked.\n\n- Auditor permissions admit operational metadata and refuse workspace reads, exports, settings and mutations, including an accidentally assigned run grant.\n- The separate collector retains its cursor/records across real server shutdown and restart, reports the outage, clears stale metrics and records recovery.\n- Revoking the actual collector key causes an authentication failure. The newly issued key restores collection.\n- Actual snapshot restore changes the server stream ID. Both histories remain in the collector, with an explicit source-change alert.\n- A loopback backend can be monitored while preserving its configured HTTPS public Host. No public TLS/certificate claim follows from that loopback check.\n\n[Backend results](backend-tests.xml): **95 passed**. The pre-existing suite includes scripted-provider tests; these three added operations tests use actual services and recorded work. The health drill reuses the original passed local-model capability record and does not call a model or claim current model health/business success.\n\n[Browser results](browser-result.json): **5 checks passed**, zero page errors. Real admin, operator and auditor credentials were used. The deliberately unprobed staging installation visibly reports missing prerequisites. The mobile check verifies no page-width overflow; screenshots show the actual operations screen.\n\nAn initial browser attempt encountered a pre-existing listener on port 8799 before login. The new verification API failed to bind; no credentials were submitted there. The check was rerun against its own newly allocated loopback port. The existing listener was left untouched.\n\nThe supplied Linux systemd supervision unit was not installed or exercised on this macOS host. Independent off-site custody, real alert routing, a supported production IdP/TLS deployment and agreed service objectives remain unverified. No customer message or external alert was sent.\n\n![Actual operations screen](auditor-operations.png)\n",
+        "name": "README.md"
+      }
+    ],
+    "delivery_requirements": [
+      {
+        "logical_path": "readiness.json",
+        "json_schema": {
+          "$defs": {
+            "row": {
+              "additionalProperties": false,
+              "properties": {
+                "area": {
+                  "type": "string"
+                },
+                "evidence_quote": {
+                  "description": "Exact English source quotation; do not translate or alter.",
+                  "type": "string"
+                },
+                "implemented": {
+                  "description": "Japanese summary required. Do not copy the English source quotation.",
+                  "maxLength": 4000,
+                  "minLength": 1,
+                  "not": {
+                    "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                  },
+                  "pattern": "[ぁ-んァ-ン一-龯]",
+                  "type": "string"
+                },
+                "remaining": {
+                  "description": "Japanese summary required. Do not copy the English source quotation.",
+                  "maxLength": 4000,
+                  "minLength": 1,
+                  "not": {
+                    "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                  },
+                  "pattern": "[ぁ-んァ-ン一-龯]",
+                  "type": "string"
+                },
+                "source_file": {
+                  "const": "PRODUCTION_PLAN.md"
+                }
+              },
+              "required": [
+                "area",
+                "implemented",
+                "remaining",
+                "source_file",
+                "evidence_quote"
+              ],
+              "type": "object"
+            }
+          },
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "additionalProperties": false,
+          "properties": {
+            "areas": {
+              "maxItems": 8,
+              "minItems": 8,
+              "prefixItems": [
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Identity"
+                        },
+                        "evidence_quote": {
+                          "const": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Production\\ IdP\\ configuration,\\ organization\\ identity\\ policy,\\ MFA\\ enforcement\\ and\\ account\\ lifecycle\\ acceptance"
+                              }
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Isolation"
+                        },
+                        "evidence_quote": {
+                          "const": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "pattern": "アーティファクト"
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Independent\\ attack\\ review,\\ customer\\-specific\\ role/connector/egress\\ policy,\\ permission\\ lifecycle\\ acceptance"
+                              }
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Execution"
+                        },
+                        "evidence_quote": {
+                          "const": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "pattern": "(?:idempotent|冪等|べき等)"
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Workload/load\\ acceptance,\\ external\\-action\\ retry\\ policy,\\ approved\\ availability\\ topology;\\ no\\ distributed\\ workers/HA"
+                              }
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Data"
+                        },
+                        "evidence_quote": {
+                          "const": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "allOf": [
+                                {
+                                  "pattern": "age"
+                                },
+                                {
+                                  "pattern": "再開可能"
+                                }
+                              ]
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Approved\\ retention\\ policy\\ including\\ historical\\ backups/forks/provider\\ copies,\\ host\\ encryption\\ and\\ recovery\\-key\\ custody,\\ off\\-site\\ recovery\\ drill,\\ agreed\\ RPO/RTO"
+                              }
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Audit / monitoring"
+                        },
+                        "evidence_quote": {
+                          "const": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "allOf": [
+                                {
+                                  "pattern": "監査者"
+                                },
+                                {
+                                  "pattern": "カーソル"
+                                }
+                              ]
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Independent\\ retained/WORM\\ custody,\\ actual\\ alert\\ delivery\\ and\\ escalation,\\ collector\\ supervision\\ deployment,\\ service\\ objectives\\ and\\ incident\\ acceptance"
+                              }
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Deployment"
+                        },
+                        "evidence_quote": {
+                          "const": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "pattern": "アドバイザリ"
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Real\\ TLS/DNS\\ environment,\\ identity\\ service,\\ operating\\ owner,\\ target\\-environment\\ upgrade/rollback\\ and\\ security\\ review"
+                              }
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Business quality"
+                        },
+                        "evidence_quote": {
+                          "const": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Source/summary\\ correctness,\\ review\\ miss/false\\-positive\\ evaluation,\\ latency\\ and\\ acceptance\\ thresholds,\\ and\\ a\\ repeat\\ series\\ whose\\ completed\\ outputs\\ remain\\ valid\\ under\\ the\\ strengthened\\ contract"
+                              }
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/row"
+                    },
+                    {
+                      "properties": {
+                        "area": {
+                          "const": "Contract / operation"
+                        },
+                        "evidence_quote": {
+                          "const": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+                        },
+                        "implemented": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 技術的制約を文書化している。"
+                        },
+                        "remaining": {
+                          "allOf": [
+                            {
+                              "description": "Japanese summary required. Do not copy the English source quotation.",
+                              "maxLength": 4000,
+                              "minLength": 1,
+                              "not": {
+                                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                              },
+                              "pattern": "[ぁ-んァ-ン一-龯]",
+                              "type": "string"
+                            },
+                            {
+                              "not": {
+                                "pattern": "Owner\\-approved\\ service\\ scope,\\ SLO/SLA,\\ support\\ and\\ incident\\ responsibility;\\ no\\ invented\\ approvals\\ or\\ certifications"
+                              }
+                            }
+                          ],
+                          "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "type": "array"
+            },
+            "deployment": {
+              "const": "dedicated-single-host"
+            },
+            "product": {
+              "const": "Multibot"
+            },
+            "production_ready": {
+              "const": false
+            },
+            "summary": {
+              "allOf": [
+                {
+                  "description": "Japanese summary required. Do not copy the English source quotation.",
+                  "maxLength": 4000,
+                  "minLength": 1,
+                  "not": {
+                    "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                  },
+                  "pattern": "[ぁ-んァ-ン一-龯]",
+                  "type": "string"
+                },
+                {
+                  "const": "L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。"
+                }
+              ]
+            }
+          },
+          "required": [
+            "product",
+            "production_ready",
+            "deployment",
+            "summary",
+            "areas"
+          ],
+          "type": "object",
+          "x-repair-summary-examples": {
+            "Audit / monitoring": {
+              "implemented": "操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。",
+              "remaining": "独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。"
+            },
+            "Business quality": {
+              "implemented": "元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。",
+              "remaining": "出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。"
+            },
+            "Contract / operation": {
+              "implemented": "技術的制約を文書化している。",
+              "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+            },
+            "Data": {
+              "implemented": "オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。",
+              "remaining": "履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。"
+            },
+            "Deployment": {
+              "implemented": "固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。",
+              "remaining": "実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。"
+            },
+            "Execution": {
+              "implemented": "ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。",
+              "remaining": "負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。"
+            },
+            "Identity": {
+              "implemented": "実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。",
+              "remaining": "本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。"
+            },
+            "Isolation": {
+              "implemented": "組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。",
+              "remaining": "独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。"
+            }
+          }
+        }
+      }
+    ],
+    "workflow": "document"
+  },
+  "created_at": "2026-09-25T09:09:22.962Z",
+  "started_at": "2026-09-25T09:09:22.991Z",
+  "finished_at": "2026-09-25T09:30:35.742Z",
+  "config_snapshot": {
+    "agents": {
+      "builder": {
+        "agent_id": "builder",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "custom": false,
+        "display_name": "カイ",
+        "driver": "ollama",
+        "effort": null,
+        "emoji": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "builder",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          }
+        ],
+        "specialty": null,
+        "speech_style": "実務的な作成役。『こう組みます』『ここまでできました』のように具体的な構成と進捗を簡潔に伝える。",
+        "system_prompt": "# Builder — 実装とファイル作成\n指定された入力成果物revisionと既存プロジェクトの規約から作業を始めてください。\n作業は割り当てられたworkspaceで行い、必要な変更だけ作ってください。\n未実装の機能を動くように見せるダミーや固定成功ログを本番経路に入れないでください。\n許可された環境でbuild/test/実操作を行い、実行環境と結果を残してください。\n起動や実APIを試せない部分は未検証として明示してください。\n納品は実ファイルのimmutable revisionと再現手順。公開操作は承認された経路のみで行ってください。\n\n構造化された成果物では、入力を一度読み、workspace_write、publish_artifact、run_checkの順に短く実行してください。新規成果物がまだ存在しない場合はread_artifactを先に呼ばず、入力を根拠に最初の内容をworkspace_writeします。run_checkが失敗したら、その検査結果を正として失敗したフィールドだけを修正し、workspace_writeの直後に修正版をpublish_artifactしてから再検査してください。前のrevisionを再検査したり、検査結果を長く説明したりせず、修正と公開を優先してください。\n\nreadiness.json の依頼では、JSON Schemaを探したり新しいスキーマを推測したりしないでください。依頼文の5項目（area、implemented、remaining、source_file、evidence_quote）を8行すべてに入れ、summaryを含むトップレベル5項目だけを出力します。`source_file` は全行で `PRODUCTION_PLAN.md`、`evidence_quote` は入力に示された残条件原文の完全一致です。schemaというSkillや存在しない入力名を呼ばず、最初の試行で直接JSONを書いて公開してください。\n\n依頼者が指定した文字数・形式・必須項目は、実際の出力ファイルを検査してください。内容の正確性と形式検査は別です。検査の成功を推測で申告せず、資料中の条件や例外を省略しないでください。矛盾や未確認は記録し、別の依頼の固有名詞・仕様を持ち込まないでください。\n文字数などの数値を表示したコマンドが終了コード0でも、指定範囲に入った証拠にはなりません。依頼者の納品契約がある場合は run_check(kind=json_schema) にファイルのpathまたはartifact_id/revisionを渡し、保存済みの契約で検査してください。\n\n資料から文章を作る場合、対象者や設計意図と、実際に測定された評価を区別してください。初心者を対象にしていても「簡単」「使いやすい」と実証されたことにはなりません。原資料に評価結果がなければ、便利さ・正確さ・安全性を保証する宣伝表現を足さず、操作と得られるファイルを具体的に説明してください。資料に未実装・未測定とある事項は、その制限を守ってください。\n\n執筆の依頼文を本文へ転載することは、依頼を満たすことではありません。「条件を変えないでください」と書くのでなく、その条件を読者に説明してください。制作時の文字数制限やツール使用制限は、指示自体の引用・説明を依頼されていない限り本文へ入れません。根拠の節名を求められた場合は原資料に実在する節名を添えてください。条件付きの操作を常に行う手順へ変えず、前提・例外・順序を保ってください。字数が足りないときは操作条件を削らず、周辺の紹介や重複説明を省いてください。\n\n外部サービスを含む設計では、IDの発行者と結果を確定する主体を明記してください。受信側の順序制御や再接続だけで外部の約定・取消・決済を完了扱いにしないでください。引き継いだ調査資料も誤る可能性があるため、重要な状態・再送・権限の条件は元のユーザー資料と照合し、不一致をチームへ伝えてから修正します。\n\n文字列の存在検査は、その行為を実施済みと主張しているかの検査ではありません。依頼者の文字列・形式制約は守りつつ、自分で選んだキーワード検査を通すためだけに、必要な設計・将来の手順・未実施の説明を削除したり言い換えたりしないでください。事実との整合性は文脈と原資料を照合し、形式検査とは別に確認役へ引き継ぎます。\n",
+        "system_prompt_sha256": "a093a29ca598a6b6b8338a9246ec6fbb71df9bf5f762eef205f0054687db56fa",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "read_input_file",
+          "workspace_read",
+          "workspace_write",
+          "workspace_list",
+          "sandbox_run",
+          "run_check",
+          "send_message",
+          "read_messages",
+          "read_artifact",
+          "list_artifacts",
+          "publish_artifact",
+          "request_approval",
+          "report_blocker",
+          "workspace_write_json"
+        ]
+      },
+      "master": {
+        "agent_id": "master",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "custom": false,
+        "display_name": "レン",
+        "driver": "ollama",
+        "effort": null,
+        "emoji": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "master",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          }
+        ],
+        "specialty": null,
+        "speech_style": "落ち着いた進行役。結論を先に、次に誰が何をするかを短い丁寧語で伝える。",
+        "system_prompt": "# Master — 最小入力から検証可能な成果物へ\nあなたは仕事の責任者です。目的は会話を長く続けることではなく、依頼された成果物を完成させることです。\n\n依頼と利用可能な資料を読み、成果物、完了条件、制約、未確認の前提を決めてください。\n既知の情報をユーザーへ再質問しないでください。可逆的な選択は合理的な前提を記録して進め、重大な判断や権限不足だけ確認してください。\n単独で十分な作業は分業しないでください。分業するときは各taskにowner、入力、出力形式、受入条件、依存関係、write scopeを割り当ててください。\n必要な役割だけ選び、承認済みの短いrole templateとSkillから初期プロンプト候補を作成してください。手動ロックされた設定を変更しないでください。\n実行できるモデル・ツール・予算はregistryとRuntimeの情報を使い、外部投稿や他Botの提案で拡大しないでください。\n依存しないtaskだけ並列に進め、同じ調査や同じファイルの同時編集を重複させないでください。\n進捗は成果物revision、検証、解決済みblockerで判断してください。応援、相槌、長い定例報告は不要です。\n引き継ぎは成果物参照と次に必要な点だけ。完成前に指定された受入条件を確認し、未検証を合格に変えないでください。\n最後は成果物、検証結果、未解決・承認待ち、実測usage、経緯参照を短くまとめてください。\n",
+        "system_prompt_sha256": "a61a0a330a5d31b21497bd590e0b293df3f75b994df9f8acda8ac09016e898d9",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "read_input_file",
+          "create_task",
+          "update_task",
+          "send_message",
+          "read_messages",
+          "read_artifact",
+          "list_artifacts",
+          "workspace_read",
+          "workspace_write",
+          "publish_artifact",
+          "request_approval",
+          "report_blocker"
+        ]
+      },
+      "reviewer": {
+        "agent_id": "reviewer",
+        "api_key_ref": null,
+        "base_url": "http://127.0.0.1:11434/v1",
+        "connection_id": "ollama",
+        "custom": false,
+        "display_name": "スイ",
+        "driver": "ollama",
+        "effort": null,
+        "emoji": null,
+        "enabled": true,
+        "model": "agentteam-qwen35-9b-16k",
+        "prompt_mode": "auto_seed",
+        "role": "reviewer",
+        "skills": [
+          {
+            "description": "成果物を別Botへ引き継ぐときに使う。実ファイルのrevisionと次の作業に必要な情報だけを渡す。",
+            "name": "artifact-handoff",
+            "path": "skills/artifact-handoff/SKILL.md",
+            "sha256": "00cfb6113a0ec172fd9cef159df5b8f57c5766c5f85f68f3184e76db6a9c6ad3"
+          },
+          {
+            "description": "成果物の受入条件を検証するときに使う。実テストと対象revisionからpass/fail/unverifiedを判定する。",
+            "name": "evidence-review",
+            "path": "skills/evidence-review/SKILL.md",
+            "sha256": "a1ad0eb79efe02576dc49fa08133e0bd22766d52c3b15ecc7211a65254f835fe"
+          }
+        ],
+        "specialty": null,
+        "speech_style": "慎重で率直な確認役。『この条件は満たしています』『ここは再確認が必要です』と判断理由を丁寧に伝える。人格ではなく成果物を評価する。",
+        "system_prompt": "# Reviewer — 証拠に基づく検証\n受入条件と指定された成果物revisionを独立に確認してください。\n作成者の自己評価ではなく、実ファイル、実テスト、操作結果、必要なスクリーンショット、出典を根拠にしてください。\n指摘ごとに対象、再現手順または出典、影響、最小修正案を添えてください。\n不具合の最低件数を設けず、問題がなければ問題なしと報告してください。無理に反対意見や追加仕様を作らないでください。\n未検証は未検証であり、合格ではありません。スクリーンショットだけで機能全体の正常動作を認定しないでください。\n結果はpass/fail/unverified/blockedを条件別に返し、根拠eventとartifact revisionを紐付けてください。\n同じ指摘で無限に修正を回さず、予算・修正回数上限に達したら残課題を報告してください。\n外部取得が許可され工具が提供されている場合、出典URL付きの主張は web_fetch で原典を取得して照合してください。添付資料だけを使う依頼では外部取得せず、添付本文との整合性を検査し、リンク先原典の直接検証は未実施と区別してください。取得していない資料を読んだことにせず、推測で pass にしないでください。\n\n構造化成果物は、原資料と対象revisionを読み、必要なrun_checkを実行したら、判定を短い根拠とともに直ちにsubmit_reviewし、その後finish_taskしてください。依頼者のJSON納品契約を確認するときは `{\"kind\":\"json_schema\",\"artifact_id\":\"readiness.json\",\"revision\":1}` の形で呼び、`args` は省略してください。`args` をJSON文字列として渡してはいけません。合格後に同じ資料を繰り返し読み直したり、長い説明を生成したりしないでください。\n\nこのreadiness.jsonの依頼は、Multibotの現状を証拠付きで整理する評価資料です。`production_ready=false`、L3未達、顧客環境・SLA・業務品質などの残条件を明記することが正しい納品であり、それだけを理由に `document_request`、`document_contract`、`document_accuracy` をfailにしないでください。提出前に依頼者所有の `json_schema` を対象revisionごとに実行し、pass結果を根拠にしてください。`evidence_quote` はPRODUCTION_PLAN.mdのRemaining acceptance work列の英語原文を逐語引用する欄であり、implemented/remainingの日本語要約と比較して翻訳扱いにしてはいけません。機械的チェックがpassした引用を、実際の異なる文字列を示さずに不一致と判定しないでください。failは、原資料と異なる主張、残条件の欠落、出典引用の不一致、summaryとareasの矛盾、形式・言語・対象の欠落に限ります。依頼を本番化の実装計画へ置き換えず、未検証の条件を推測で埋めないでください。\n\n受入条件だけでなく元のユーザー依頼と原文も確認してください。宛先・対象読者・依頼された行動が計画や成果物で変わっていないか確認します。計画の条件が元の依頼を取り違えている場合は元の依頼を優先し、その不一致を該当条件のfailとして報告してください。原文にある情報でも、依頼と関係のない社内事情を外向け成果物へ追加しないでください。\n\n文章の意味や言語の確認を、見出し・依頼文との単純な文字列一致だけで判定しないでください。text_contains/text_not_contains は依頼者が文字列の存在・禁止を明示した場合や、明示された仕様の検査に使います。「対象ユーザーを説明する」のような意味の条件は本文の該当箇所を引用して照合してください。略語や外国語に関する依頼者固有の制限も確認し、資料に同じ略語があることだけで例外扱いしないでください。\n\n審査根拠には「正確」「確認した」という結論だけでなく、対象本文の短い引用と比較した依頼・原資料の条件を書いてください。特に「〜だけ」「〜の場合」「未実装」などの適用範囲を落として、製品全体の性質として説明していないか確認してください。言語の制限がある場合は略語も実際に列挙し、個別に許可される理由を確認します。製品名と一般的な技術略語は同じではありません。条件違反が1つでもあれば該当条件をfailとし、修正担当に具体的に渡してください。\n\n対象者や設計意図は実際の評価結果ではありません。「初心者も対象」という資料だけを根拠に「簡単」「使いやすい」と断定していないか、未測定・未確認という原資料の記述も照合してください。資料にない評価を加えた場合は正確性の条件をfailとし、操作の事実を説明する表現へ修正を依頼してください。\n\n依頼への充足と資料への忠実さを別々に確認してください。求められた見出し・必須説明・根拠節の欠落を見逃さないでください。制作指示の転載は条件の説明ではありません。操作の前に必要な状態確認、同一の入力を保つ条件、新たな操作を許す条件などが原資料にあれば、無条件の手順へ変えていないか照合してください。\n\n外部サービスとの状態同期を設計する成果物では、誰がID・約定・取消・決済を確定するかを本文と原資料で対照してください。結果未確認や取消待ちを、接続失敗後のローカル処理だけで成功に変える提案はfailです。先行する調査担当の成果物を正解として扱わず、重要な主張は元資料へ戻って照合してください。本番までを求める依頼を検証環境だけに縮小した場合も、依頼充足のfailとして指摘します。\n\n文字列検査の合否を、文脈や事実関係の合否に置き換えてはいけません。行為の名前があっても、未実施の説明・禁止事項・将来の設計である可能性があります。依頼者の明示した文字列制約は維持し、自分で選んだ検査に合わせて必要な内容を削るよう求めず、実際の主張と原資料に基づいて意味上の条件を審査してください。\n",
+        "system_prompt_sha256": "e73ab9c4ba49d9cf75f9a0ca3e00ee0f1fa06f86d2e273d47d78b09827f677fc",
+        "tools": [
+          "read_skill",
+          "finish_task",
+          "read_input_file",
+          "read_artifact",
+          "list_artifacts",
+          "run_check",
+          "sandbox_run",
+          "web_fetch",
+          "workspace_read",
+          "workspace_write",
+          "send_message",
+          "read_messages",
+          "publish_artifact",
+          "submit_review",
+          "report_blocker"
+        ]
+      }
+    },
+    "config_yaml": "schema_version: 1\nprofile_name: production-readiness-source-workflow\ndefaults:\n  connection_id: ollama\n  model: agentteam-qwen35-9b-16k\n  language: ja\n  timezone: Asia/Tokyo\n  team_mode: team\n  require_independent_review: true\nconnections:\n- id: ollama\n  driver: ollama\n  base_url: http://127.0.0.1:11434/v1\n  capability_check: passed\n  capability_detail:\n    model_requested: agentteam-qwen35-9b-16k\n    model_reported: agentteam-qwen35-9b-16k\n    error: null\n  ollama_thinking: false\n  ollama_temperature: 0.0\n  refusal_fallback: false\n  allowed_fallback_connections: []\nlimits:\n  max_active_workers: 1\n  max_tasks: 4\n  max_peer_messages_per_task: 6\n  max_revision_rounds: 2\n  max_model_calls: 40\n  max_tool_calls: 80\n  timeout_seconds: 1200\n  budget_usd: 6.0\n  max_output_tokens: 5000\n  max_tool_output_chars: 12000\n  max_session_cost_usd: 1.5\n  max_session_turns: 18\n  max_replans: 0\npolicy:\n  external_mutation: approval\n  skill_install: approval\n  telemetry: 'off'\n  share_replay: 'off'\n  fallback: explicitly_approved_only\nagents:\n- id: master\n  role: master\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/master.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - create_task\n  - update_task\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - request_approval\n  - report_blocker\n  custom: false\n- id: researcher\n  role: researcher\n  enabled: false\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/researcher.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - source-grounded-research\n  - artifact-handoff\n  tools:\n  - web_search\n  - web_fetch\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - workspace_read\n  - workspace_write\n  - publish_artifact\n  - report_blocker\n  custom: false\n- id: builder\n  role: builder\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/builder.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - artifact-handoff\n  tools:\n  - workspace_read\n  - workspace_write\n  - workspace_list\n  - sandbox_run\n  - run_check\n  - send_message\n  - read_messages\n  - read_artifact\n  - list_artifacts\n  - publish_artifact\n  - request_approval\n  - report_blocker\n  - workspace_write_json\n  custom: false\n- id: reviewer\n  role: reviewer\n  enabled: true\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/reviewer.md\n  prompt_mode: auto_seed\n  skill_ids:\n  - evidence-review\n  - artifact-handoff\n  tools:\n  - read_artifact\n  - list_artifacts\n  - run_check\n  - sandbox_run\n  - web_fetch\n  - workspace_read\n  - workspace_write\n  - send_message\n  - read_messages\n  - publish_artifact\n  - submit_review\n  - report_blocker\n  custom: false\n- id: reporter\n  role: reporter\n  enabled: false\n  connection_id: inherit\n  model: inherit\n  system_prompt_file: prompts/reporter.md\n  prompt_mode: auto_seed\n  skill_ids: []\n  tools:\n  - read_artifact\n  - list_artifacts\n  - read_events\n  - publish_artifact\n  custom: false\npricing: {}\n",
+    "provider_kind": "real"
+  },
+  "plan": {
+    "schema_version": 1,
+    "goal": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作として workspace_write_json を呼び出してください。readiness.json の全項目を一度に作り、source_file と evidence_quote を8行すべてに必ず含めます。\n成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まず、RFC 8259に適合するJSONをそのまま公開してください。文字列値に含まれる二重引用符は `\\\"` としてエスケープし、JSON文字列を壊さないでください。\nトップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。\nareasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。\nsummary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。summaryには簡潔に「L3未達」と、本番IdP/MFA、分散・HA、監視・SLO/SLA・運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値が未確認または残条件であることをまとめてください。残条件があることはこの現状評価の依頼に反するものではなく、未検証を本番導入済みと書かないことが正しい納品です。8領域以外の説明や追加フィールドは出力しないでください。\n日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。\n技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。\n意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。\n用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。\nIdentity の token revocation は「トークン失効」または「トークン取消」と書き、「リバイス」などの類推語を作らないでください。Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」としてください。\n要約欄は原則として日本語で書き、技術固有名として資料に現れる英字だけを残してください。英語の接続詞・動詞・役割名・状態名（with、export、auditor、collector、outage、pinnedなど）や誤綴りを混ぜないでください。TLSDNSのような連結語はTLS/DNSに分けてください。\nDeploymentのimplementedには必ず「アドバイザリ」を含め、単なる「パッケージスキャン」では置き換えないでください。これは資料のpackage advisory scansを表す必須アンカーです。\n日本語要約の中で領域名や原文の英語ラベルをそのまま書かないでください。`Production IdP` は「組織IdP」、`Identity` は「認証領域」、`Contract / operation` は「契約・運用領域」と書いてください。技術固有名（IdP、OIDC、Keycloak、SSE、Docker、TLS、DNS、LLM、SLO、SLA、RPO、RTO、ageなど）は必要な場合に限り残せます。\nsummary は領域名（Identity、Isolation、Execution、Data、Audit / monitoring、Deployment、Business quality、Contract / operation）や Operation を含めず、日本語だけで現状とL3未達を要約してください。\n`export` は「エクスポート」または「出力」と書き、英語のまま要約欄に残さないでください。\n`Real access keys` は「実アクセスキー」、`false` は「未達」または「偽」と書いてください。「アクター監査」のような直訳を使わず、監査記録は「操作主体の監査記録」としてください。\n提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。\n\n## 実行ごとに抽出した原資料の8行（このブロックを最優先で使う）\n次の8行は今回の実ファイルから機械的に抽出した根拠です。areaの順序を変えず、evidence_quoteには各行の「残条件原文」を文字単位でそのまま入れてください。implementedとremainingだけを、原文の意味を保った40〜120文字程度の日本語一文へ書き換えます。英語の原文をその2欄へコピーしません。\n### 1. Identity\n実装・検証済み原文: Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary\n残る受入条件原文: Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance\n日本語要約の指針: 実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSO、Keycloak、トークン失効を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。 残条件=本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。\nimplementedの根拠語: アクセスキー、セッション、ロール、Keycloak、SSO\nremainingの根拠語: IdP、MFA、アカウント、ライフサイクル\n### 2. Isolation\n実装・検証済み原文: Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture\n残る受入条件原文: Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance\n日本語要約の指針: 組織の結び付け、ランごとの権限、アーティファクトとイベントのアクセス確認、Docker、公開IP取得を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。 残条件=独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。\nimplementedの根拠語: 組織、アーティファクト、イベント、SSE、Docker、IP\nremainingの根拠語: 攻撃、ロール、コネクタ、egress、権限\n### 3. Execution\n実装・検証済み原文: Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation\n残る受入条件原文: Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA\n日本語要約の指針: ランごとの予算、永続キュー、操作主体ごとの冪等な受入、ワーカーリース、回復、SIGKILLドリルを日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。 残条件=負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。\nimplementedの根拠語: 予算、キュー、冪等、idempotent、ワーカー、回復、ドリル\nremainingの根拠語: 負荷、再試行、リトライ、可用性、分散、HA\n### 4. Data\n実装・検証済み原文: Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption\n残る受入条件原文: Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO\n日本語要約の指針: スナップショットと復元、チェックサム、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。 残条件=履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。\nimplementedの根拠語: スナップショット、復元、チェックサム、再開可能、age、復号\nremainingの根拠語: 保持、バックアップ、暗号化、鍵、オフサイト、RPO、RTO\n### 5. Audit / monitoring\n実装・検証済み原文: Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view\n残る受入条件原文: Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance\n日本語要約の指針: 操作主体の監査記録、監査者ロール、耐久コレクター、カーソル、メトリクス、復旧、ブラウザ画面を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。 残条件=独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。\nimplementedの根拠語: 監査者、カーソル、コレクター、メトリクス、復旧、ブラウザ\nremainingの根拠語: WORM、アラート、エスカレーション、監視、サービス、インシデント\n### 6. Deployment\n実装・検証済み原文: Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans\n残る受入条件原文: Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review\n日本語要約の指針: 固定ランタイム、コンテナ、ブラウザ/API確認、更新とロールバック、破損復旧、アドバイザリ確認を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。 残条件=実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。\nimplementedの根拠語: ランタイム、コンテナ、ブラウザ、ロールバック、アドバイザリ、依存\nremainingの根拠語: TLS、DNS、IdP、アイデンティティ、オーナー、ロールバック、セキュリティ\n### 7. Business quality\n実装・検証済み原文: Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added; fixed v22 local-Qwen series retained three interrupted runs and one Docker-gated admission refusal; v23 completed ten actual-source attempts and post-run contract recheck rejected all three completed artifacts for translation drift; v24 completed ten actual-source attempts, with three machine-contract passes, but one retained pass still contained the observed mixed-script terms \"ハードネード\" and \"键轮换与\"; v25 completed ten actual-source attempts and rejected every attempt for missing JSON, English or mixed-script summaries, missing anchors, or incomplete rows; v26 completed ten attempts, with one machine-contract pass still containing English labels and malformed Japanese; v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; v28 completed ten attempts, with two machine-contract passes still containing English area labels and glossary drift, so zero runs are accepted; v29 completed ten actual-source attempts, with six machine-contract passes and five Reviewer submissions, but semantic review remains pending and observed English/malformed terminology means zero runs are accepted; v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure, so zero runs are accepted; v31 completed ten attempts, with four machine-contract passes interrupted before Reviewer submission and six contract failures caused mainly by an English `export` term, so zero runs are accepted; v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected, so zero runs are accepted; v33 was stopped during its first attempt when another local Ollama caller appeared, with no published artifact, so zero runs are accepted; v34 stopped after one 1,200-second attempt with five retained Builder revisions, zero mechanical passes and zero Reviewer submissions, so zero runs are accepted\n残る受入条件原文: Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract\n日本語要約の指針: 合成比較を停止した事実、実資料による失敗、出力と入力の検査、過去の試験結果を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。 残条件=出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。\nimplementedの根拠語: 失敗、合成、比較、出力、入力\nremainingの根拠語: 10、ソース、出典、レビュー、レイテンシ、受入\n### 8. Contract / operation\n実装・検証済み原文: Technical limitations documented\n残る受入条件原文: Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications\n日本語要約の指針: 技術的制約の文書化を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=技術的制約を文書化している。 残条件=承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。\nimplementedの根拠語: 制約、文書、制限、説明、承認、認証\nremainingの根拠語: スコープ、SLO、SLA、サポート、インシデント、責任\n\n## 最終出力チェック（必ず最後に再確認）\n説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。原文に二重引用符がある場合も、JSON文字列内では必ず \\\" としてエスケープし、解析可能なJSONにする。\nreadiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。JSON全体を配列で囲まず、最初の文字を {、最後の文字を } にする。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。\n{\"product\":\"Multibot\",\"production_ready\":false,\"deployment\":\"dedicated-single-host\",\"summary\":\"日本語の現状要約\",\"areas\":[{\"area\":\"Identity\",\"implemented\":\"日本語一文\",\"remaining\":\"日本語一文\",\"source_file\":\"PRODUCTION_PLAN.md\",\"evidence_quote\":\"入力の残条件原文\"}]}\nsummaryは次の一文をそのまま使用する（改変、短縮、英語の履歴追加は禁止）: L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。\nsummaryへBusiness quality行の英語履歴、semantic review、acceptance、documentなどをコピーしない。上の一文だけを使い、技術固有名以外の英語を混ぜない。\n上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_write_jsonのvalueオブジェクトで保存してpublish_artifactする。JSON文字列をcontentへ手作業で埋め込まない。\n説明や計画をテキストで返さない。最初の生成操作はworkspace_write_jsonにし、8行すべてのsource_fileとevidence_quoteを必ず含める。ツール呼出しを省略しない。\n新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。",
+    "assumptions": [
+      "Requester selected document workflow: one producer followed by an independent reviewer."
+    ],
+    "agents": [
+      "builder",
+      "reviewer"
+    ],
+    "tasks": [
+      {
+        "id": "t1",
+        "owner": "builder",
+        "objective": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作として workspace_write_json を呼び出してください。readiness.json の全項目を一度に作り、source_file と evidence_quote を8行すべてに必ず含めます。\n成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まず、RFC 8259に適合するJSONをそのまま公開してください。文字列値に含まれる二重引用符は `\\\"` としてエスケープし、JSON文字列を壊さないでください。\nトップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。\nareasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。\nsummary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。summaryには簡潔に「L3未達」と、本番IdP/MFA、分散・HA、監視・SLO/SLA・運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値が未確認または残条件であることをまとめてください。残条件があることはこの現状評価の依頼に反するものではなく、未検証を本番導入済みと書かないことが正しい納品です。8領域以外の説明や追加フィールドは出力しないでください。\n日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。\n技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。\n意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。\n用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。\nIdentity の token revocation は「トークン失効」または「トークン取消」と書き、「リバイス」などの類推語を作らないでください。Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」としてください。\n要約欄は原則として日本語で書き、技術固有名として資料に現れる英字だけを残してください。英語の接続詞・動詞・役割名・状態名（with、export、auditor、collector、outage、pinnedなど）や誤綴りを混ぜないでください。TLSDNSのような連結語はTLS/DNSに分けてください。\nDeploymentのimplementedには必ず「アドバイザリ」を含め、単なる「パッケージスキャン」では置き換えないでください。これは資料のpackage advisory scansを表す必須アンカーです。\n日本語要約の中で領域名や原文の英語ラベルをそのまま書かないでください。`Production IdP` は「組織IdP」、`Identity` は「認証領域」、`Contract / operation` は「契約・運用領域」と書いてください。技術固有名（IdP、OIDC、Keycloak、SSE、Docker、TLS、DNS、LLM、SLO、SLA、RPO、RTO、ageなど）は必要な場合に限り残せます。\nsummary は領域名（Identity、Isolation、Execution、Data、Audit / monitoring、Deployment、Business quality、Contract / operation）や Operation を含めず、日本語だけで現状とL3未達を要約してください。\n`export` は「エクスポート」または「出力」と書き、英語のまま要約欄に残さないでください。\n`Real access keys` は「実アクセスキー」、`false` は「未達」または「偽」と書いてください。「アクター監査」のような直訳を使わず、監査記録は「操作主体の監査記録」としてください。\n提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。\n\n## 実行ごとに抽出した原資料の8行（このブロックを最優先で使う）\n次の8行は今回の実ファイルから機械的に抽出した根拠です。areaの順序を変えず、evidence_quoteには各行の「残条件原文」を文字単位でそのまま入れてください。implementedとremainingだけを、原文の意味を保った40〜120文字程度の日本語一文へ書き換えます。英語の原文をその2欄へコピーしません。\n### 1. Identity\n実装・検証済み原文: Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary\n残る受入条件原文: Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance\n日本語要約の指針: 実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSO、Keycloak、トークン失効を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。 残条件=本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。\nimplementedの根拠語: アクセスキー、セッション、ロール、Keycloak、SSO\nremainingの根拠語: IdP、MFA、アカウント、ライフサイクル\n### 2. Isolation\n実装・検証済み原文: Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture\n残る受入条件原文: Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance\n日本語要約の指針: 組織の結び付け、ランごとの権限、アーティファクトとイベントのアクセス確認、Docker、公開IP取得を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。 残条件=独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。\nimplementedの根拠語: 組織、アーティファクト、イベント、SSE、Docker、IP\nremainingの根拠語: 攻撃、ロール、コネクタ、egress、権限\n### 3. Execution\n実装・検証済み原文: Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation\n残る受入条件原文: Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA\n日本語要約の指針: ランごとの予算、永続キュー、操作主体ごとの冪等な受入、ワーカーリース、回復、SIGKILLドリルを日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。 残条件=負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。\nimplementedの根拠語: 予算、キュー、冪等、idempotent、ワーカー、回復、ドリル\nremainingの根拠語: 負荷、再試行、リトライ、可用性、分散、HA\n### 4. Data\n実装・検証済み原文: Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption\n残る受入条件原文: Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO\n日本語要約の指針: スナップショットと復元、チェックサム、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。 残条件=履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。\nimplementedの根拠語: スナップショット、復元、チェックサム、再開可能、age、復号\nremainingの根拠語: 保持、バックアップ、暗号化、鍵、オフサイト、RPO、RTO\n### 5. Audit / monitoring\n実装・検証済み原文: Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view\n残る受入条件原文: Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance\n日本語要約の指針: 操作主体の監査記録、監査者ロール、耐久コレクター、カーソル、メトリクス、復旧、ブラウザ画面を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。 残条件=独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。\nimplementedの根拠語: 監査者、カーソル、コレクター、メトリクス、復旧、ブラウザ\nremainingの根拠語: WORM、アラート、エスカレーション、監視、サービス、インシデント\n### 6. Deployment\n実装・検証済み原文: Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans\n残る受入条件原文: Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review\n日本語要約の指針: 固定ランタイム、コンテナ、ブラウザ/API確認、更新とロールバック、破損復旧、アドバイザリ確認を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。 残条件=実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。\nimplementedの根拠語: ランタイム、コンテナ、ブラウザ、ロールバック、アドバイザリ、依存\nremainingの根拠語: TLS、DNS、IdP、アイデンティティ、オーナー、ロールバック、セキュリティ\n### 7. Business quality\n実装・検証済み原文: Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added; fixed v22 local-Qwen series retained three interrupted runs and one Docker-gated admission refusal; v23 completed ten actual-source attempts and post-run contract recheck rejected all three completed artifacts for translation drift; v24 completed ten actual-source attempts, with three machine-contract passes, but one retained pass still contained the observed mixed-script terms \"ハードネード\" and \"键轮换与\"; v25 completed ten actual-source attempts and rejected every attempt for missing JSON, English or mixed-script summaries, missing anchors, or incomplete rows; v26 completed ten attempts, with one machine-contract pass still containing English labels and malformed Japanese; v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; v28 completed ten attempts, with two machine-contract passes still containing English area labels and glossary drift, so zero runs are accepted; v29 completed ten actual-source attempts, with six machine-contract passes and five Reviewer submissions, but semantic review remains pending and observed English/malformed terminology means zero runs are accepted; v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure, so zero runs are accepted; v31 completed ten attempts, with four machine-contract passes interrupted before Reviewer submission and six contract failures caused mainly by an English `export` term, so zero runs are accepted; v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected, so zero runs are accepted; v33 was stopped during its first attempt when another local Ollama caller appeared, with no published artifact, so zero runs are accepted; v34 stopped after one 1,200-second attempt with five retained Builder revisions, zero mechanical passes and zero Reviewer submissions, so zero runs are accepted\n残る受入条件原文: Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract\n日本語要約の指針: 合成比較を停止した事実、実資料による失敗、出力と入力の検査、過去の試験結果を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。 残条件=出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。\nimplementedの根拠語: 失敗、合成、比較、出力、入力\nremainingの根拠語: 10、ソース、出典、レビュー、レイテンシ、受入\n### 8. Contract / operation\n実装・検証済み原文: Technical limitations documented\n残る受入条件原文: Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications\n日本語要約の指針: 技術的制約の文書化を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=技術的制約を文書化している。 残条件=承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。\nimplementedの根拠語: 制約、文書、制限、説明、承認、認証\nremainingの根拠語: スコープ、SLO、SLA、サポート、インシデント、責任\n\n## 最終出力チェック（必ず最後に再確認）\n説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。原文に二重引用符がある場合も、JSON文字列内では必ず \\\" としてエスケープし、解析可能なJSONにする。\nreadiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。JSON全体を配列で囲まず、最初の文字を {、最後の文字を } にする。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。\n{\"product\":\"Multibot\",\"production_ready\":false,\"deployment\":\"dedicated-single-host\",\"summary\":\"日本語の現状要約\",\"areas\":[{\"area\":\"Identity\",\"implemented\":\"日本語一文\",\"remaining\":\"日本語一文\",\"source_file\":\"PRODUCTION_PLAN.md\",\"evidence_quote\":\"入力の残条件原文\"}]}\nsummaryは次の一文をそのまま使用する（改変、短縮、英語の履歴追加は禁止）: L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。\nsummaryへBusiness quality行の英語履歴、semantic review、acceptance、documentなどをコピーしない。上の一文だけを使い、技術固有名以外の英語を混ぜない。\n上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_write_jsonのvalueオブジェクトで保存してpublish_artifactする。JSON文字列をcontentへ手作業で埋め込まない。\n説明や計画をテキストで返さない。最初の生成操作はworkspace_write_jsonにし、8行すべてのsource_fileとevidence_quoteを必ず含める。ツール呼出しを省略しない。\n新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。",
+        "depends_on": [],
+        "input_artifacts": [],
+        "output_paths": [
+          "readiness.json"
+        ],
+        "acceptance": [
+          {
+            "id": "document_contract",
+            "description": "The exact published revision passes the requester-owned delivery contract.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "document_language",
+            "description": "Original prose uses the user-requested language, defaulting to ja. No unintended language switching. Verbatim quotations, names, identifiers and code preserve the source. Inspect the exact saved revision; format success is not language verification.",
+            "check_kind": "model_review"
+          },
+          {
+            "id": "document_request",
+            "description": "Every content requirement in the original request is fulfilled, including requested sections and source citations. This document is an evidence-based current-status assessment: production_ready=false, L3未達, and explicitly recorded remaining acceptance conditions satisfy the request; they are not a reason to fail it. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.",
+            "check_kind": "model_review"
+          },
+          {
+            "id": "document_accuracy",
+            "description": "The requested content preserves the supplied sources, including conditions, exceptions and operation order. The current-status conclusion production_ready=false and unverified customer/SLA/business-quality conditions must remain visible; do not infer production completion. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.",
+            "check_kind": "model_review"
+          }
+        ],
+        "write_scope": "workspaces/t1/"
+      },
+      {
+        "id": "t2",
+        "owner": "reviewer",
+        "objective": "Independently compare the exact published revision with the original request and supplied sources. Check the requester contract and factual conditions. Submit an evidence-linked verdict for each producer criterion; do not infer correctness from file existence.",
+        "depends_on": [
+          "t1"
+        ],
+        "input_artifacts": [],
+        "output_paths": [],
+        "acceptance": [
+          {
+            "id": "document_review",
+            "description": "Every producer criterion has an independent verdict on the exact revision, with unresolved findings retained.",
+            "check_kind": "programmatic"
+          }
+        ],
+        "write_scope": "workspaces/t2/"
+      }
+    ]
+  },
+  "usage": {
+    "model_calls": 21,
+    "tool_calls": 16,
+    "input_tokens": 202029,
+    "output_tokens": 15874,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "cost_usd": 0.0,
+    "reserved_usd": 0.0,
+    "wall_seconds": 1272.771772957989
+  },
+  "parent_run_id": null,
+  "fork_from_seq": null,
+  "final_report": {
+    "deliverables": [
+      {
+        "artifact_id": "readiness.json",
+        "by": "builder",
+        "logical_path": "readiness.json",
+        "revision": 1,
+        "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+        "task_id": "t1"
+      }
+    ],
+    "evidence": {
+      "approvals": [],
+      "artifacts": [
+        {
+          "artifact_id": "readiness.json",
+          "by": "builder",
+          "logical_path": "readiness.json",
+          "media_type": "application/json",
+          "revision": 1,
+          "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+          "size": 5137,
+          "sources": [],
+          "task_id": "t1"
+        }
+      ],
+      "blockers": [],
+      "checks": [
+        {
+          "actor": "builder",
+          "kind": "json_schema",
+          "problems": [
+            "areas/0: 'source_file' is a required property",
+            "areas/0/area: 'Identity' was expected",
+            "areas/0/evidence_quote: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' was expected",
+            "areas/1: 'source_file' is a required property",
+            "areas/1/area: 'Isolation' was expected",
+            "areas/1/evidence_quote: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' was expected",
+            "areas/1/implemented: '元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。' does not match 'アーティファクト'",
+            "areas/2: 'source_file' is a required property",
+            "areas/2/area: 'Execution' was expected",
+            "areas/2/evidence_quote: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' was expected",
+            "areas/2/implemented: '技術的制約を文書化している。' does not match '(?:idempotent|冪等|べき等)'",
+            "areas/3: 'source_file' is a required property",
+            "areas/3/evidence_quote: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' was expected",
+            "areas/4: 'source_file' is a required property",
+            "areas/4/area: 'Audit / monitoring' was expected",
+            "areas/4/evidence_quote: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' was expected",
+            "areas/4/implemented: '固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。' does not match '監査者'",
+            "areas/4/implemented: '固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。' does not match 'カーソル'",
+            "areas/5: 'source_file' is a required property",
+            "areas/5/area: 'Deployment' was expected"
+          ],
+          "seq": 12,
+          "status": "fail",
+          "target": {
+            "sha256": "02e719c0029b8f86d8eaeca156caf958f10daaee9a1f7794102d499e41c5e71c",
+            "workspace_path": "readiness.json"
+          },
+          "task_id": "t1"
+        },
+        {
+          "actor": "builder",
+          "kind": "json_schema",
+          "problems": [
+            "areas/0/area: 'Identity' was expected",
+            "areas/0/evidence_quote: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' was expected",
+            "areas/1/area: 'Isolation' was expected",
+            "areas/1/evidence_quote: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' was expected",
+            "areas/1/implemented: '元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。' does not match 'アーティファクト'",
+            "areas/2/area: 'Execution' was expected",
+            "areas/2/evidence_quote: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' was expected",
+            "areas/2/implemented: '技術的制約を文書化している。' does not match '(?:idempotent|冪等|べき等)'",
+            "areas/4/area: 'Audit / monitoring' was expected",
+            "areas/4/evidence_quote: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' was expected",
+            "areas/4/implemented: '固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。' does not match '監査者'",
+            "areas/4/implemented: '固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。' does not match 'カーソル'",
+            "areas/5/area: 'Deployment' was expected",
+            "areas/5/evidence_quote: 'Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review' was expected",
+            "areas/5/implemented: 'ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。' does not match 'アドバイザリ'",
+            "areas/6/area: 'Business quality' was expected",
+            "areas/6/evidence_quote: 'Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract' was expected",
+            "areas/7/area: 'Contract / operation' was expected",
+            "areas/7/evidence_quote: 'Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications' was expected"
+          ],
+          "seq": 15,
+          "status": "fail",
+          "target": {
+            "sha256": "d075849275761b1b4b4b9853df45d3c036ad275e59546fd32c7cae094f11368f",
+            "workspace_path": "readiness.json"
+          },
+          "task_id": "t1"
+        },
+        {
+          "actor": "builder",
+          "kind": "json_schema",
+          "problems": [
+            "summary: 'L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。' was expected"
+          ],
+          "seq": 18,
+          "status": "fail",
+          "target": {
+            "sha256": "7f48a7c66a19ccb82857510bb24c68009848b585282940cd92784cae0b107e00",
+            "workspace_path": "readiness.json"
+          },
+          "task_id": "t1"
+        },
+        {
+          "actor": "builder",
+          "kind": "json_schema",
+          "problems": [
+            "areas/0: 'source_file' is a required property",
+            "areas/0/area: 'Identity' was expected",
+            "areas/0/evidence_quote: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' was expected",
+            "areas/1: 'source_file' is a required property",
+            "areas/1/area: 'Isolation' was expected",
+            "areas/1/evidence_quote: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' was expected",
+            "areas/1/implemented: '元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。' does not match 'アーティファクト'",
+            "areas/2: 'source_file' is a required property",
+            "areas/2/area: 'Execution' was expected",
+            "areas/2/evidence_quote: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' was expected",
+            "areas/2/implemented: '技術的制約を文書化している。' does not match '(?:idempotent|冪等|べき等)'",
+            "areas/3: 'source_file' is a required property",
+            "areas/3/evidence_quote: 'Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO' was expected",
+            "areas/4: 'source_file' is a required property",
+            "areas/4/area: 'Audit / monitoring' was expected",
+            "areas/4/evidence_quote: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' was expected",
+            "areas/4/implemented: '固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。' does not match '監査者'",
+            "areas/4/implemented: '固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。' does not match 'カーソル'",
+            "areas/5: 'source_file' is a required property",
+            "areas/5/area: 'Deployment' was expected"
+          ],
+          "seq": 23,
+          "status": "fail",
+          "target": {
+            "sha256": "c28a192a1ab2010b806375bcd034ddebd577e85987a419fe78b21817bbde45a4",
+            "workspace_path": "readiness.json"
+          },
+          "task_id": "t1"
+        },
+        {
+          "actor": "builder",
+          "kind": "json_schema",
+          "problems": [
+            "areas/0/area: 'Identity' was expected",
+            "areas/0/evidence_quote: 'Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance' was expected",
+            "areas/1/area: 'Isolation' was expected",
+            "areas/1/evidence_quote: 'Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance' was expected",
+            "areas/1/implemented: '元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。' does not match 'アーティファクト'",
+            "areas/2/area: 'Execution' was expected",
+            "areas/2/evidence_quote: 'Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA' was expected",
+            "areas/2/implemented: '技術的制約を文書化している。' does not match '(?:idempotent|冪等|べき等)'",
+            "areas/4/area: 'Audit / monitoring' was expected",
+            "areas/4/evidence_quote: 'Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance' was expected",
+            "areas/4/implemented: '固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。' does not match '監査者'",
+            "areas/4/implemented: '固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。' does not match 'カーソル'",
+            "areas/5/area: 'Deployment' was expected",
+            "areas/5/evidence_quote: 'Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review' was expected",
+            "areas/5/implemented: 'ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。' does not match 'アドバイザリ'",
+            "areas/6/area: 'Business quality' was expected",
+            "areas/6/evidence_quote: 'Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract' was expected",
+            "areas/7/area: 'Contract / operation' was expected",
+            "areas/7/evidence_quote: 'Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications' was expected"
+          ],
+          "seq": 26,
+          "status": "fail",
+          "target": {
+            "sha256": "d075849275761b1b4b4b9853df45d3c036ad275e59546fd32c7cae094f11368f",
+            "workspace_path": "readiness.json"
+          },
+          "task_id": "t1"
+        },
+        {
+          "actor": "builder",
+          "kind": "json_schema",
+          "problems": [],
+          "seq": 29,
+          "status": "pass",
+          "target": {
+            "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+            "workspace_path": "readiness.json"
+          },
+          "task_id": "t1"
+        },
+        {
+          "actor": "reviewer",
+          "kind": "json_schema",
+          "problems": [],
+          "seq": 50,
+          "status": "pass",
+          "target": {
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632"
+          },
+          "task_id": "t2"
+        }
+      ],
+      "delivery_checks": [
+        {
+          "logical_path": "readiness.json",
+          "result": {
+            "problems": [],
+            "status": "pass"
+          },
+          "schema_sha256": "b7ce3ca775b77c771e2b8569fd11d7789c58740e43b9ff0913d0d91220fd2be2",
+          "seq": 41,
+          "target": {
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632"
+          }
+        },
+        {
+          "logical_path": "readiness.json",
+          "result": {
+            "problems": [],
+            "status": "pass"
+          },
+          "schema_sha256": "b7ce3ca775b77c771e2b8569fd11d7789c58740e43b9ff0913d0d91220fd2be2",
+          "seq": 70,
+          "target": {
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632"
+          }
+        }
+      ],
+      "failures": [],
+      "messages": {
+        "by_purpose": {
+          "decision": 1,
+          "handoff": 3
+        },
+        "count": 4
+      },
+      "model_usage_by_agent": {
+        "builder": {
+          "calls": 13,
+          "cost_usd": 0.0,
+          "model_requested": "agentteam-qwen35-9b-16k",
+          "models_reported": [
+            "agentteam-qwen35-9b-16k"
+          ],
+          "provider_kind": "real"
+        },
+        "reviewer": {
+          "calls": 7,
+          "cost_usd": 0.0,
+          "model_requested": "agentteam-qwen35-9b-16k",
+          "models_reported": [
+            "agentteam-qwen35-9b-16k"
+          ],
+          "provider_kind": "real"
+        }
+      },
+      "reviews": [
+        {
+          "by": "reviewer",
+          "results": [
+            {
+              "acceptance_id": "document_contract",
+              "evidence": "readiness.json@r1 の production_ready=false、L3 未達、残条件の列挙が PRODUCTION_PLAN.md の Remaining acceptance work 列と一致し、出典引用も正確。",
+              "note": "受入条件を満たしています",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "document_language",
+              "evidence": "readiness.json@r1 は日本語で書かれており、英語の引用は原文のまま。PRODUCTION_PLAN.md の残条件列挙も日本語と英語の原文を正確に引用。",
+              "note": "言語制約を満たしています",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "document_request",
+              "evidence": "Multibot の現状を証拠付きで整理する評価資料として、readiness.json@r1 は production_ready=false、L3 未達、残条件を明記。",
+              "note": "元の依頼を満たしています",
+              "status": "pass"
+            },
+            {
+              "acceptance_id": "document_accuracy",
+              "evidence": "実装/残条件の列挙が PRODUCTION_PLAN.md と一致し、出典引用も正確。",
+              "note": "正確性を満たしています",
+              "status": "pass"
+            }
+          ],
+          "seq": 56,
+          "summary": "readiness.json@r1 の json_schema チェックがパス。document_contract, document_language, document_request, document_accuracy の 4 つの受入条件をすべて pass と判定。submit_review を完了し、finish_task を呼び出す。",
+          "target_artifacts": [
+            {
+              "artifact_id": "readiness.json",
+              "revision": 1,
+              "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632"
+            }
+          ],
+          "target_task_id": "t1"
+        }
+      ],
+      "run": {
+        "assumptions": [
+          "Requester selected document workflow: one producer followed by an independent reviewer."
+        ],
+        "final_status": "completed",
+        "finished_at": null,
+        "goal": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作として workspace_write_json を呼び出してください。readiness.json の全項目を一度に作り、source_file と evidence_quote を8行すべてに必ず含めます。\n成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まず、RFC 8259に適合するJSONをそのまま公開してください。文字列値に含まれる二重引用符は `\\\"` としてエスケープし、JSON文字列を壊さないでください。\nトップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。\nareasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。\nsummary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。summaryには簡潔に「L3未達」と、本番IdP/MFA、分散・HA、監視・SLO/SLA・運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値が未確認または残条件であることをまとめてください。残条件があることはこの現状評価の依頼に反するものではなく、未検証を本番導入済みと書かないことが正しい納品です。8領域以外の説明や追加フィールドは出力しないでください。\n日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。\n技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。\n意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。\n用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。\nIdentity の token revocation は「トークン失効」または「トークン取消」と書き、「リバイス」などの類推語を作らないでください。Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」としてください。\n要約欄は原則として日本語で書き、技術固有名として資料に現れる英字だけを残してください。英語の接続詞・動詞・役割名・状態名（with、export、auditor、collector、outage、pinnedなど）や誤綴りを混ぜないでください。TLSDNSのような連結語はTLS/DNSに分けてください。\nDeploymentのimplementedには必ず「アドバイザリ」を含め、単なる「パッケージスキャン」では置き換えないでください。これは資料のpackage advisory scansを表す必須アンカーです。\n日本語要約の中で領域名や原文の英語ラベルをそのまま書かないでください。`Production IdP` は「組織IdP」、`Identity` は「認証領域」、`Contract / operation` は「契約・運用領域」と書いてください。技術固有名（IdP、OIDC、Keycloak、SSE、Docker、TLS、DNS、LLM、SLO、SLA、RPO、RTO、ageなど）は必要な場合に限り残せます。\nsummary は領域名（Identity、Isolation、Execution、Data、Audit / monitoring、Deployment、Business quality、Contract / operation）や Operation を含めず、日本語だけで現状とL3未達を要約してください。\n`export` は「エクスポート」または「出力」と書き、英語のまま要約欄に残さないでください。\n`Real access keys` は「実アクセスキー」、`false` は「未達」または「偽」と書いてください。「アクター監査」のような直訳を使わず、監査記録は「操作主体の監査記録」としてください。\n提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。\n\n## 実行ごとに抽出した原資料の8行（このブロックを最優先で使う）\n次の8行は今回の実ファイルから機械的に抽出した根拠です。areaの順序を変えず、evidence_quoteには各行の「残条件原文」を文字単位でそのまま入れてください。implementedとremainingだけを、原文の意味を保った40〜120文字程度の日本語一文へ書き換えます。英語の原文をその2欄へコピーしません。\n### 1. Identity\n実装・検証済み原文: Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary\n残る受入条件原文: Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance\n日本語要約の指針: 実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSO、Keycloak、トークン失効を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。 残条件=本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。\nimplementedの根拠語: アクセスキー、セッション、ロール、Keycloak、SSO\nremainingの根拠語: IdP、MFA、アカウント、ライフサイクル\n### 2. Isolation\n実装・検証済み原文: Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture\n残る受入条件原文: Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance\n日本語要約の指針: 組織の結び付け、ランごとの権限、アーティファクトとイベントのアクセス確認、Docker、公開IP取得を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。 残条件=独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。\nimplementedの根拠語: 組織、アーティファクト、イベント、SSE、Docker、IP\nremainingの根拠語: 攻撃、ロール、コネクタ、egress、権限\n### 3. Execution\n実装・検証済み原文: Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation\n残る受入条件原文: Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA\n日本語要約の指針: ランごとの予算、永続キュー、操作主体ごとの冪等な受入、ワーカーリース、回復、SIGKILLドリルを日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。 残条件=負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。\nimplementedの根拠語: 予算、キュー、冪等、idempotent、ワーカー、回復、ドリル\nremainingの根拠語: 負荷、再試行、リトライ、可用性、分散、HA\n### 4. Data\n実装・検証済み原文: Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption\n残る受入条件原文: Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO\n日本語要約の指針: スナップショットと復元、チェックサム、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。 残条件=履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。\nimplementedの根拠語: スナップショット、復元、チェックサム、再開可能、age、復号\nremainingの根拠語: 保持、バックアップ、暗号化、鍵、オフサイト、RPO、RTO\n### 5. Audit / monitoring\n実装・検証済み原文: Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view\n残る受入条件原文: Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance\n日本語要約の指針: 操作主体の監査記録、監査者ロール、耐久コレクター、カーソル、メトリクス、復旧、ブラウザ画面を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。 残条件=独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。\nimplementedの根拠語: 監査者、カーソル、コレクター、メトリクス、復旧、ブラウザ\nremainingの根拠語: WORM、アラート、エスカレーション、監視、サービス、インシデント\n### 6. Deployment\n実装・検証済み原文: Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans\n残る受入条件原文: Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review\n日本語要約の指針: 固定ランタイム、コンテナ、ブラウザ/API確認、更新とロールバック、破損復旧、アドバイザリ確認を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。 残条件=実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。\nimplementedの根拠語: ランタイム、コンテナ、ブラウザ、ロールバック、アドバイザリ、依存\nremainingの根拠語: TLS、DNS、IdP、アイデンティティ、オーナー、ロールバック、セキュリティ\n### 7. Business quality\n実装・検証済み原文: Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added; fixed v22 local-Qwen series retained three interrupted runs and one Docker-gated admission refusal; v23 completed ten actual-source attempts and post-run contract recheck rejected all three completed artifacts for translation drift; v24 completed ten actual-source attempts, with three machine-contract passes, but one retained pass still contained the observed mixed-script terms \"ハードネード\" and \"键轮换与\"; v25 completed ten actual-source attempts and rejected every attempt for missing JSON, English or mixed-script summaries, missing anchors, or incomplete rows; v26 completed ten attempts, with one machine-contract pass still containing English labels and malformed Japanese; v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; v28 completed ten attempts, with two machine-contract passes still containing English area labels and glossary drift, so zero runs are accepted; v29 completed ten actual-source attempts, with six machine-contract passes and five Reviewer submissions, but semantic review remains pending and observed English/malformed terminology means zero runs are accepted; v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure, so zero runs are accepted; v31 completed ten attempts, with four machine-contract passes interrupted before Reviewer submission and six contract failures caused mainly by an English `export` term, so zero runs are accepted; v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected, so zero runs are accepted; v33 was stopped during its first attempt when another local Ollama caller appeared, with no published artifact, so zero runs are accepted; v34 stopped after one 1,200-second attempt with five retained Builder revisions, zero mechanical passes and zero Reviewer submissions, so zero runs are accepted\n残る受入条件原文: Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract\n日本語要約の指針: 合成比較を停止した事実、実資料による失敗、出力と入力の検査、過去の試験結果を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。 残条件=出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。\nimplementedの根拠語: 失敗、合成、比較、出力、入力\nremainingの根拠語: 10、ソース、出典、レビュー、レイテンシ、受入\n### 8. Contract / operation\n実装・検証済み原文: Technical limitations documented\n残る受入条件原文: Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications\n日本語要約の指針: 技術的制約の文書化を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=技術的制約を文書化している。 残条件=承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。\nimplementedの根拠語: 制約、文書、制限、説明、承認、認証\nremainingの根拠語: スコープ、SLO、SLA、サポート、インシデント、責任\n\n## 最終出力チェック（必ず最後に再確認）\n説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。原文に二重引用符がある場合も、JSON文字列内では必ず \\\" としてエスケープし、解析可能なJSONにする。\nreadiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。JSON全体を配列で囲まず、最初の文字を {、最後の文字を } にする。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。\n{\"product\":\"Multibot\",\"production_ready\":false,\"deployment\":\"dedicated-single-host\",\"summary\":\"日本語の現状要約\",\"areas\":[{\"area\":\"Identity\",\"implemented\":\"日本語一文\",\"remaining\":\"日本語一文\",\"source_file\":\"PRODUCTION_PLAN.md\",\"evidence_quote\":\"入力の残条件原文\"}]}\nsummaryは次の一文をそのまま使用する（改変、短縮、英語の履歴追加は禁止）: L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。\nsummaryへBusiness quality行の英語履歴、semantic review、acceptance、documentなどをコピーしない。上の一文だけを使い、技術固有名以外の英語を混ぜない。\n上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_write_jsonのvalueオブジェクトで保存してpublish_artifactする。JSON文字列をcontentへ手作業で埋め込まない。\n説明や計画をテキストで返さない。最初の生成操作はworkspace_write_jsonにし、8行すべてのsource_fileとevidence_quoteを必ず含める。ツール呼出しを省略しない。\n新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。",
+        "provider_kind": "real",
+        "reason": null,
+        "run_id": "run_1a0d7d39591b0d06e9d",
+        "started_at": "2026-09-25T09:09:22.991Z",
+        "status": "completed",
+        "usage": {
+          "cache_read_tokens": 0,
+          "cache_write_tokens": 0,
+          "cost_usd": 0.0,
+          "input_tokens": 186681,
+          "model_calls": 20,
+          "output_tokens": 15586,
+          "reserved_usd": 0.0,
+          "tool_calls": 16,
+          "wall_seconds": 1170.621458166017
+        }
+      },
+      "tasks": [
+        {
+          "acceptance": [
+            {
+              "check_kind": "programmatic",
+              "description": "The exact published revision passes the requester-owned delivery contract.",
+              "id": "document_contract"
+            },
+            {
+              "check_kind": "model_review",
+              "description": "Original prose uses the user-requested language, defaulting to ja. No unintended language switching. Verbatim quotations, names, identifiers and code preserve the source. Inspect the exact saved revision; format success is not language verification.",
+              "id": "document_language"
+            },
+            {
+              "check_kind": "model_review",
+              "description": "Every content requirement in the original request is fulfilled, including requested sections and source citations. This document is an evidence-based current-status assessment: production_ready=false, L3未達, and explicitly recorded remaining acceptance conditions satisfy the request; they are not a reason to fail it. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.",
+              "id": "document_request"
+            },
+            {
+              "check_kind": "model_review",
+              "description": "The requested content preserves the supplied sources, including conditions, exceptions and operation order. The current-status conclusion production_ready=false and unverified customer/SLA/business-quality conditions must remain visible; do not infer production completion. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.",
+              "id": "document_accuracy"
+            }
+          ],
+          "attempts": 1,
+          "blocked_reason": null,
+          "id": "t1",
+          "objective": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作として workspace_write_json を呼び出してください。readiness.json の全項目を一度に作り、source_file と evidence_quote を8行すべてに必ず含めます。\n成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まず、RFC 8259に適合するJSONをそのまま公開してください。文字列値に含まれる二重引用符は `\\\"` としてエスケープし、JSON文字列を壊さないでください。\nトップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。\nareasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。\nsummary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。summaryには簡潔に「L3未達」と、本番IdP/MFA、分散・HA、監視・SLO/SLA・運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値が未確認または残条件であることをまとめてください。残条件があることはこの現状評価の依頼に反するものではなく、未検証を本番導入済みと書かないことが正しい納品です。8領域以外の説明や追加フィールドは出力しないでください。\n日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。\n技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。\n意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。\n用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。\nIdentity の token revocation は「トークン失効」または「トークン取消」と書き、「リバイス」などの類推語を作らないでください。Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」としてください。\n要約欄は原則として日本語で書き、技術固有名として資料に現れる英字だけを残してください。英語の接続詞・動詞・役割名・状態名（with、export、auditor、collector、outage、pinnedなど）や誤綴りを混ぜないでください。TLSDNSのような連結語はTLS/DNSに分けてください。\nDeploymentのimplementedには必ず「アドバイザリ」を含め、単なる「パッケージスキャン」では置き換えないでください。これは資料のpackage advisory scansを表す必須アンカーです。\n日本語要約の中で領域名や原文の英語ラベルをそのまま書かないでください。`Production IdP` は「組織IdP」、`Identity` は「認証領域」、`Contract / operation` は「契約・運用領域」と書いてください。技術固有名（IdP、OIDC、Keycloak、SSE、Docker、TLS、DNS、LLM、SLO、SLA、RPO、RTO、ageなど）は必要な場合に限り残せます。\nsummary は領域名（Identity、Isolation、Execution、Data、Audit / monitoring、Deployment、Business quality、Contract / operation）や Operation を含めず、日本語だけで現状とL3未達を要約してください。\n`export` は「エクスポート」または「出力」と書き、英語のまま要約欄に残さないでください。\n`Real access keys` は「実アクセスキー」、`false` は「未達」または「偽」と書いてください。「アクター監査」のような直訳を使わず、監査記録は「操作主体の監査記録」としてください。\n提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。\n\n## 実行ごとに抽出した原資料の8行（このブロックを最優先で使う）\n次の8行は今回の実ファイルから機械的に抽出した根拠です。areaの順序を変えず、evidence_quoteには各行の「残条件原文」を文字単位でそのまま入れてください。implementedとremainingだけを、原文の意味を保った40〜120文字程度の日本語一文へ書き換えます。英語の原文をその2欄へコピーしません。\n### 1. Identity\n実装・検証済み原文: Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary\n残る受入条件原文: Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance\n日本語要約の指針: 実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSO、Keycloak、トークン失効を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。 残条件=本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。\nimplementedの根拠語: アクセスキー、セッション、ロール、Keycloak、SSO\nremainingの根拠語: IdP、MFA、アカウント、ライフサイクル\n### 2. Isolation\n実装・検証済み原文: Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture\n残る受入条件原文: Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance\n日本語要約の指針: 組織の結び付け、ランごとの権限、アーティファクトとイベントのアクセス確認、Docker、公開IP取得を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。 残条件=独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。\nimplementedの根拠語: 組織、アーティファクト、イベント、SSE、Docker、IP\nremainingの根拠語: 攻撃、ロール、コネクタ、egress、権限\n### 3. Execution\n実装・検証済み原文: Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation\n残る受入条件原文: Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA\n日本語要約の指針: ランごとの予算、永続キュー、操作主体ごとの冪等な受入、ワーカーリース、回復、SIGKILLドリルを日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。 残条件=負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。\nimplementedの根拠語: 予算、キュー、冪等、idempotent、ワーカー、回復、ドリル\nremainingの根拠語: 負荷、再試行、リトライ、可用性、分散、HA\n### 4. Data\n実装・検証済み原文: Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption\n残る受入条件原文: Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO\n日本語要約の指針: スナップショットと復元、チェックサム、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。 残条件=履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。\nimplementedの根拠語: スナップショット、復元、チェックサム、再開可能、age、復号\nremainingの根拠語: 保持、バックアップ、暗号化、鍵、オフサイト、RPO、RTO\n### 5. Audit / monitoring\n実装・検証済み原文: Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view\n残る受入条件原文: Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance\n日本語要約の指針: 操作主体の監査記録、監査者ロール、耐久コレクター、カーソル、メトリクス、復旧、ブラウザ画面を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。 残条件=独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。\nimplementedの根拠語: 監査者、カーソル、コレクター、メトリクス、復旧、ブラウザ\nremainingの根拠語: WORM、アラート、エスカレーション、監視、サービス、インシデント\n### 6. Deployment\n実装・検証済み原文: Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans\n残る受入条件原文: Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review\n日本語要約の指針: 固定ランタイム、コンテナ、ブラウザ/API確認、更新とロールバック、破損復旧、アドバイザリ確認を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。 残条件=実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。\nimplementedの根拠語: ランタイム、コンテナ、ブラウザ、ロールバック、アドバイザリ、依存\nremainingの根拠語: TLS、DNS、IdP、アイデンティティ、オーナー、ロールバック、セキュリティ\n### 7. Business quality\n実装・検証済み原文: Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added; fixed v22 local-Qwen series retained three interrupted runs and one Docker-gated admission refusal; v23 completed ten actual-source attempts and post-run contract recheck rejected all three completed artifacts for translation drift; v24 completed ten actual-source attempts, with three machine-contract passes, but one retained pass still contained the observed mixed-script terms \"ハードネード\" and \"键轮换与\"; v25 completed ten actual-source attempts and rejected every attempt for missing JSON, English or mixed-script summaries, missing anchors, or incomplete rows; v26 completed ten attempts, with one machine-contract pass still containing English labels and malformed Japanese; v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; v28 completed ten attempts, with two machine-contract passes still containing English area labels and glossary drift, so zero runs are accepted; v29 completed ten actual-source attempts, with six machine-contract passes and five Reviewer submissions, but semantic review remains pending and observed English/malformed terminology means zero runs are accepted; v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure, so zero runs are accepted; v31 completed ten attempts, with four machine-contract passes interrupted before Reviewer submission and six contract failures caused mainly by an English `export` term, so zero runs are accepted; v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected, so zero runs are accepted; v33 was stopped during its first attempt when another local Ollama caller appeared, with no published artifact, so zero runs are accepted; v34 stopped after one 1,200-second attempt with five retained Builder revisions, zero mechanical passes and zero Reviewer submissions, so zero runs are accepted\n残る受入条件原文: Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract\n日本語要約の指針: 合成比較を停止した事実、実資料による失敗、出力と入力の検査、過去の試験結果を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。 残条件=出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。\nimplementedの根拠語: 失敗、合成、比較、出力、入力\nremainingの根拠語: 10、ソース、出典、レビュー、レイテンシ、受入\n### 8. Contract / operation\n実装・検証済み原文: Technical limitations documented\n残る受入条件原文: Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications\n日本語要約の指針: 技術的制約の文書化を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=技術的制約を文書化している。 残条件=承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。\nimplementedの根拠語: 制約、文書、制限、説明、承認、認証\nremainingの根拠語: スコープ、SLO、SLA、サポート、インシデント、責任\n\n## 最終出力チェック（必ず最後に再確認）\n説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。原文に二重引用符がある場合も、JSON文字列内では必ず \\\" としてエスケープし、解析可能なJSONにする。\nreadiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。JSON全体を配列で囲まず、最初の文字を {、最後の文字を } にする。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。\n{\"product\":\"Multibot\",\"production_ready\":false,\"deployment\":\"dedicated-single-host\",\"summary\":\"日本語の現状要約\",\"areas\":[{\"area\":\"Identity\",\"implemented\":\"日本語一文\",\"remaining\":\"日本語一文\",\"source_file\":\"PRODUCTION_PLAN.md\",\"evidence_quote\":\"入力の残条件原文\"}]}\nsummaryは次の一文をそのまま使用する（改変、短縮、英語の履歴追加は禁止）: L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。\nsummaryへBusiness quality行の英語履歴、semantic review、acceptance、documentなどをコピーしない。上の一文だけを使い、技術固有名以外の英語を混ぜない。\n上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_write_jsonのvalueオブジェクトで保存してpublish_artifactする。JSON文字列をcontentへ手作業で埋め込まない。\n説明や計画をテキストで返さない。最初の生成操作はworkspace_write_jsonにし、8行すべてのsource_fileとevidence_quoteを必ず含める。ツール呼出しを省略しない。\n新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。",
+          "owner": "builder",
+          "result": {
+            "next_steps": [
+              "master が未確認項目の補完を指示する",
+              "reviewer が L3 評価と次の作業計画を確認する"
+            ],
+            "published": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632"
+              }
+            ],
+            "summary": "readiness.json revision 1 を公開し、master と reviewer へ引き継ぎメッセージを送りました。L3未達で、組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値が未確認です。",
+            "unverified": [
+              "組織IdP/MFA",
+              "分散・HA",
+              "監視・SLO/SLA",
+              "運用責任",
+              "セキュリティ審査",
+              "出典・レビュー品質",
+              "レイテンシ",
+              "受入閾値"
+            ],
+            "verified": [
+              "readiness.json 公開",
+              "master へ引き継ぎ",
+              "reviewer へ引き継ぎ"
+            ]
+          },
+          "review": {
+            "results": [
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "readiness.json@r1 の production_ready=false、L3 未達、残条件の列挙が PRODUCTION_PLAN.md の Remaining acceptance work 列と一致し、出典引用も正確。",
+                "note": "受入条件を満たしています",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "readiness.json@r1 は日本語で書かれており、英語の引用は原文のまま。PRODUCTION_PLAN.md の残条件列挙も日本語と英語の原文を正確に引用。",
+                "note": "言語制約を満たしています",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_request",
+                "evidence": "Multibot の現状を証拠付きで整理する評価資料として、readiness.json@r1 は production_ready=false、L3 未達、残条件を明記。",
+                "note": "元の依頼を満たしています",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "実装/残条件の列挙が PRODUCTION_PLAN.md と一致し、出典引用も正確。",
+                "note": "正確性を満たしています",
+                "status": "pass"
+              }
+            ],
+            "summary": "readiness.json@r1 の json_schema チェックがパス。document_contract, document_language, document_request, document_accuracy の 4 つの受入条件をすべて pass と判定。submit_review を完了し、finish_task を呼び出す。",
+            "target_artifacts": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632"
+              }
+            ],
+            "target_task_id": "t1"
+          },
+          "status": "accepted"
+        },
+        {
+          "acceptance": [
+            {
+              "check_kind": "programmatic",
+              "description": "Every producer criterion has an independent verdict on the exact revision, with unresolved findings retained.",
+              "id": "document_review"
+            }
+          ],
+          "attempts": 1,
+          "blocked_reason": null,
+          "id": "t2",
+          "objective": "Independently compare the exact published revision with the original request and supplied sources. Check the requester contract and factual conditions. Submit an evidence-linked verdict for each producer criterion; do not infer correctness from file existence.",
+          "owner": "reviewer",
+          "result": {
+            "next_steps": [
+              "残条件の実装・検証（Identity, Isolation, Execution, Data, Audit/monitoring, Deployment, Business quality, Contract/operation）",
+              "承認済みサービス範囲/SLO/SLA/サポート責任の定義",
+              "顧客環境での更新・ロールバックとセキュリティレビュー"
+            ],
+            "published": [],
+            "summary": "readiness.json@r1 の json_schema チェックがパスし、document_contract, document_language, document_request, document_accuracy の 4 つの受入条件をすべて pass と判定。レビュー結果をレンとカイに通知済み。残条件の実装・検証と承認済みサービス範囲/SLO/SLA/サポート責任の定義が次の作業です。",
+            "unverified": [],
+            "verified": [
+              "readiness.json@r1 json_schema check pass",
+              "document_contract pass",
+              "document_language pass",
+              "document_request pass",
+              "document_accuracy pass",
+              "review finding delivered to master",
+              "handoff delivered to builder"
+            ]
+          },
+          "review": null,
+          "status": "accepted"
+        }
+      ]
+    },
+    "generated_at": "2026-09-25T09:30:35.737Z",
+    "narrative": {
+      "author": "master",
+      "deliverables": [
+        {
+          "artifact_id": "readiness.json",
+          "note": "最終検証済みアーティファクト",
+          "revision": 1
+        }
+      ],
+      "next_steps": [
+        "master が未確認項目の補完を指示する",
+        "reviewer が L3 評価と次の作業計画を確認する"
+      ],
+      "summary": "readiness.json@r1 の json_schema チェックがパス。document_contract, document_language, document_request, document_accuracy の 4 つの受入条件をすべて pass と判定。submit_review を完了し、finish_task を呼び出す。",
+      "unresolved": [
+        "組織IdP/MFA",
+        "分散・HA",
+        "監視・SLO/SLA",
+        "運用責任",
+        "セキュリティ審査",
+        "出典・レビュー品質",
+        "レイテンシ",
+        "受入閾値"
+      ],
+      "verified": [
+        "readiness.json@r1 json_schema check pass",
+        "document_contract pass",
+        "document_language pass",
+        "document_request pass",
+        "document_accuracy pass",
+        "review finding delivered to master",
+        "handoff delivered to builder"
+      ]
+    },
+    "reason": null,
+    "report_artifact": {
+      "artifact_id": "final-report.md",
+      "revision": 1
+    },
+    "status": "completed",
+    "usage": {
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "cost_usd": 0.0,
+      "input_tokens": 202029,
+      "model_calls": 21,
+      "output_tokens": 15874,
+      "reserved_usd": 0.0,
+      "tool_calls": 16,
+      "wall_seconds": 1272.7592926660145
+    }
+  },
+  "blocked_reason": null,
+  "provider_kind": "real",
+  "tasks": [
+    {
+      "run_id": "run_1a0d7d39591b0d06e9d",
+      "spec": {
+        "id": "t1",
+        "owner": "builder",
+        "objective": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作として workspace_write_json を呼び出してください。readiness.json の全項目を一度に作り、source_file と evidence_quote を8行すべてに必ず含めます。\n成果物は readiness.json の1ファイル。Markdownコードフェンスで囲まず、RFC 8259に適合するJSONをそのまま公開してください。文字列値に含まれる二重引用符は `\\\"` としてエスケープし、JSON文字列を壊さないでください。\nトップレベルは product（文字列Multibot）、production_ready（真偽値。資料のL3判定に従う）、deployment（文字列dedicated-single-host）、summary（日本語の要約）、areas（配列）です。\nareasには PRODUCTION_PLAN.md の表にある全8領域を1回ずつ、同じ順番で含めてください。各行は area（元の領域名）、implemented（実装・検証済みの内容を日本語で要約）、remaining（残る受入条件を日本語で要約）、source_file（PRODUCTION_PLAN.md）、evidence_quote（その行のRemaining acceptance work列の原文を省略せず逐語引用）の5項目です。`remaining` は必ず日本語の要約にし、英語原文をコピーしないでください。`evidence_quote` だけは英語原文をそのまま残します。\nsummary は120文字以内、各 `implemented` と `remaining` は40〜120文字程度の短い日本語一文にしてください。summaryには簡潔に「L3未達」と、本番IdP/MFA、分散・HA、監視・SLO/SLA・運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値が未確認または残条件であることをまとめてください。残条件があることはこの現状評価の依頼に反するものではなく、未検証を本番導入済みと書かないことが正しい納品です。8領域以外の説明や追加フィールドは出力しないでください。\n日本語の要約は資料から確認できる事実だけに限定してください。テスト件数を本番導入可能やSLA達成に読み替えず、未検証・未達・顧客側の条件を残してください。\n技術固有名は英字のまま保持してください。例えば暗号化ツールageを「年齢」に訳さず、readinessは「準備状況」、actor-scopedは「操作主体ごとの」としてください。\n意味を確認できないカタカナ語や途中で切れた英単語を作らないでください（例：アイデムpotent、リクエストャ、アバター、パーラン、サイントニック、オデータ、アクトアード、カーソリストリーム、デリル、アドバザリ、ステール、リカスケル、マニファクト）。Executionのimplementedには `idempotent` または「冪等性」を、Dataのimplementedには暗号化ツール名 `age` をそのまま含めてください。\n用語は次の正確な日本語を優先してください：per-run＝「ランごとの」、artifact＝「アーティファクト」、actor-scoped idempotent acceptance＝「操作主体ごとの冪等な受入」、requester-owned artifact requirements＝「依頼者所有のアーティファクト要件」、synthetic＝「合成」、auditor＝「監査者」、cursor＝「カーソル」、drill＝「ドリル」、advisory＝「アドバイザリ」、stale＝「陳腐化」、resumable＝「再開可能」。これらを意味不明なカタカナへ変換しないでください。\nIdentity の token revocation は「トークン失効」または「トークン取消」と書き、「リバイス」などの類推語を作らないでください。Latency は「レイテンシ」または「遅延」、acceptance threshold は「受入閾値」としてください。\n要約欄は原則として日本語で書き、技術固有名として資料に現れる英字だけを残してください。英語の接続詞・動詞・役割名・状態名（with、export、auditor、collector、outage、pinnedなど）や誤綴りを混ぜないでください。TLSDNSのような連結語はTLS/DNSに分けてください。\nDeploymentのimplementedには必ず「アドバイザリ」を含め、単なる「パッケージスキャン」では置き換えないでください。これは資料のpackage advisory scansを表す必須アンカーです。\n日本語要約の中で領域名や原文の英語ラベルをそのまま書かないでください。`Production IdP` は「組織IdP」、`Identity` は「認証領域」、`Contract / operation` は「契約・運用領域」と書いてください。技術固有名（IdP、OIDC、Keycloak、SSE、Docker、TLS、DNS、LLM、SLO、SLA、RPO、RTO、ageなど）は必要な場合に限り残せます。\nsummary は領域名（Identity、Isolation、Execution、Data、Audit / monitoring、Deployment、Business quality、Contract / operation）や Operation を含めず、日本語だけで現状とL3未達を要約してください。\n`export` は「エクスポート」または「出力」と書き、英語のまま要約欄に残さないでください。\n`Real access keys` は「実アクセスキー」、`false` は「未達」または「偽」と書いてください。「アクター監査」のような直訳を使わず、監査記録は「操作主体の監査記録」としてください。\n提供資料だけで完結する業務です。外部検索や架空企業のデータは不要です。Builderが作成し、Reviewerが全8領域、引用と原資料の一致、日本語要約の事実性、L3の未達判定を確認してください。Masterの計画でも全8領域を明記し、Builderの出力とReviewerの検証対象を8行に固定してください。\n\n## 実行ごとに抽出した原資料の8行（このブロックを最優先で使う）\n次の8行は今回の実ファイルから機械的に抽出した根拠です。areaの順序を変えず、evidence_quoteには各行の「残条件原文」を文字単位でそのまま入れてください。implementedとremainingだけを、原文の意味を保った40〜120文字程度の日本語一文へ書き換えます。英語の原文をその2欄へコピーしません。\n### 1. Identity\n実装・検証済み原文: Real access keys, hashed sessions, role checks; OIDC SSO with actual Keycloak/browser verification, group mapping, token revocation, expiry, key rotation and restore boundary\n残る受入条件原文: Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance\n日本語要約の指針: 実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSO、Keycloak、トークン失効を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。 残条件=本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。\nimplementedの根拠語: アクセスキー、セッション、ロール、Keycloak、SSO\nremainingの根拠語: IdP、MFA、アカウント、ライフサイクル\n### 2. Isolation\n実装・検証済み原文: Per-installation organization binding, per-run grants, artifact/event/SSE/export access checks, protected settings; Docker-only secured command tools; pinned public-IP fetch and bounded capture\n残る受入条件原文: Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance\n日本語要約の指針: 組織の結び付け、ランごとの権限、アーティファクトとイベントのアクセス確認、Docker、公開IP取得を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。 残条件=独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。\nimplementedの根拠語: 組織、アーティファクト、イベント、SSE、Docker、IP\nremainingの根拠語: 攻撃、ロール、コネクタ、egress、権限\n### 3. Execution\n実装・検証済み原文: Per-run budgets; durable single-host queue, actor-scoped idempotent acceptance, worker leases, interrupted-job review, recovery and actual local-LLM SIGKILL drill; requester-owned artifact requirements and bounded validation\n残る受入条件原文: Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA\n日本語要約の指針: ランごとの予算、永続キュー、操作主体ごとの冪等な受入、ワーカーリース、回復、SIGKILLドリルを日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。 残条件=負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。\nimplementedの根拠語: 予算、キュー、冪等、idempotent、ワーカー、回復、ドリル\nremainingの根拠語: 負荷、再試行、リトライ、可用性、分散、HA\n### 4. Data\n実装・検証済み原文: Offline snapshot/restore, checksum and artifact validation, session invalidation; resumable run deletion with stale-retry rejection; actual age encryption/verified decryption\n残る受入条件原文: Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO\n日本語要約の指針: スナップショットと復元、チェックサム、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。 残条件=履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。\nimplementedの根拠語: スナップショット、復元、チェックサム、再開可能、age、復号\nremainingの根拠語: 保持、バックアップ、暗号化、鍵、オフサイト、RPO、RTO\n### 5. Audit / monitoring\n実装・検証済み原文: Actor audit records; restricted auditor role; separate durable collector/cursor, restore stream separation, readiness/metrics, recorded outage/rotation/recovery, browser operations view\n残る受入条件原文: Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance\n日本語要約の指針: 操作主体の監査記録、監査者ロール、耐久コレクター、カーソル、メトリクス、復旧、ブラウザ画面を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。 残条件=独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。\nimplementedの根拠語: 監査者、カーソル、コレクター、メトリクス、復旧、ブラウザ\nremainingの根拠語: WORM、アラート、エスカレーション、監視、サービス、インシデント\n### 6. Deployment\n実装・検証済み原文: Locked runtime dependencies, pinned base, hardened container, browser/API checks; actual installed-wheel update/rollback and corruption recovery; current package advisory scans\n残る受入条件原文: Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review\n日本語要約の指針: 固定ランタイム、コンテナ、ブラウザ/API確認、更新とロールバック、破損復旧、アドバイザリ確認を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。 残条件=実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。\nimplementedの根拠語: ランタイム、コンテナ、ブラウザ、ロールバック、アドバイザリ、依存\nremainingの根拠語: TLS、DNS、IdP、アイデンティティ、オーナー、ロールバック、セキュリティ\n### 7. Business quality\n実装・検証済み原文: Original failures preserved; synthetic comparison paused; actual-source v1 found eight missing Japanese summaries and an age translation error despite passing model review; mandatory output checks and input retrieval added; fixed v22 local-Qwen series retained three interrupted runs and one Docker-gated admission refusal; v23 completed ten actual-source attempts and post-run contract recheck rejected all three completed artifacts for translation drift; v24 completed ten actual-source attempts, with three machine-contract passes, but one retained pass still contained the observed mixed-script terms \"ハードネード\" and \"键轮换与\"; v25 completed ten actual-source attempts and rejected every attempt for missing JSON, English or mixed-script summaries, missing anchors, or incomplete rows; v26 completed ten attempts, with one machine-contract pass still containing English labels and malformed Japanese; v27 stopped after one mechanically rejected attempt and an unexpected BrokenPipeError; v28 completed ten attempts, with two machine-contract passes still containing English area labels and glossary drift, so zero runs are accepted; v29 completed ten actual-source attempts, with six machine-contract passes and five Reviewer submissions, but semantic review remains pending and observed English/malformed terminology means zero runs are accepted; v30 stopped after six wall-clock-limited attempts with zero mechanical passes and a seventh HTTP 503 admission failure, so zero runs are accepted; v31 completed ten attempts, with four machine-contract passes interrupted before Reviewer submission and six contract failures caused mainly by an English `export` term, so zero runs are accepted; v32 was intentionally stopped during its first attempt after a concurrent local Ollama caller was detected, so zero runs are accepted; v33 was stopped during its first attempt when another local Ollama caller appeared, with no published artifact, so zero runs are accepted; v34 stopped after one 1,200-second attempt with five retained Builder revisions, zero mechanical passes and zero Reviewer submissions, so zero runs are accepted\n残る受入条件原文: Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract\n日本語要約の指針: 合成比較を停止した事実、実資料による失敗、出力と入力の検査、過去の試験結果を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=元の失敗を保持し、合成比較を停止した。実資料の入力・出力検査を追加し、過去のローカルLLM試験の失敗を記録している。 残条件=出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。\nimplementedの根拠語: 失敗、合成、比較、出力、入力\nremainingの根拠語: 10、ソース、出典、レビュー、レイテンシ、受入\n### 8. Contract / operation\n実装・検証済み原文: Technical limitations documented\n残る受入条件原文: Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications\n日本語要約の指針: 技術的制約の文書化を日本語で要約する。\nそのまま使える日本語の例（事実を追加せず、この意味を保つ）: 実装=技術的制約を文書化している。 残条件=承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。\nimplementedの根拠語: 制約、文書、制限、説明、承認、認証\nremainingの根拠語: スコープ、SLO、SLA、サポート、インシデント、責任\n\n## 最終出力チェック（必ず最後に再確認）\n説明文や計画JSONを出力せず、readiness.jsonだけを作成する。productはMultibot、production_readyはfalse、deploymentはdedicated-single-host。summaryと8行のimplemented/remainingは日本語で、技術固有名以外の英語を残さない。evidence_quoteだけは上記の残条件原文を完全一致で引用する。原文に二重引用符がある場合も、JSON文字列内では必ず \\\" としてエスケープし、解析可能なJSONにする。\nreadiness.jsonの形は次のとおり。トップレベルは product、production_ready、deployment、summary、areas の5項目だけ。JSON全体を配列で囲まず、最初の文字を {、最後の文字を } にする。areasの各行は area、implemented、remaining、source_file、evidence_quote の5項目だけ。area以外の英語ラベルや追加項目を作らない。\n{\"product\":\"Multibot\",\"production_ready\":false,\"deployment\":\"dedicated-single-host\",\"summary\":\"日本語の現状要約\",\"areas\":[{\"area\":\"Identity\",\"implemented\":\"日本語一文\",\"remaining\":\"日本語一文\",\"source_file\":\"PRODUCTION_PLAN.md\",\"evidence_quote\":\"入力の残条件原文\"}]}\nsummaryは次の一文をそのまま使用する（改変、短縮、英語の履歴追加は禁止）: L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。\nsummaryへBusiness quality行の英語履歴、semantic review、acceptance、documentなどをコピーしない。上の一文だけを使い、技術固有名以外の英語を混ぜない。\n上の形を8領域分に展開する。JSON Schemaや別の計画JSONを作らず、schema Skillを探さず、依頼されたreadiness.jsonを一度workspace_write_jsonのvalueオブジェクトで保存してpublish_artifactする。JSON文字列をcontentへ手作業で埋め込まない。\n説明や計画をテキストで返さない。最初の生成操作はworkspace_write_jsonにし、8行すべてのsource_fileとevidence_quoteを必ず含める。ツール呼出しを省略しない。\n新規runではread_artifactを先に呼ばず、read_input_fileで原資料を確認してworkspace_write→publish_artifact→run_checkを行う。run_checkが失敗した場合だけ、指摘された欄を修正して新しいrevisionを公開する。",
+        "depends_on": [],
+        "input_artifacts": [],
+        "output_paths": [
+          "readiness.json"
+        ],
+        "acceptance": [
+          {
+            "id": "document_contract",
+            "description": "The exact published revision passes the requester-owned delivery contract.",
+            "check_kind": "programmatic"
+          },
+          {
+            "id": "document_language",
+            "description": "Original prose uses the user-requested language, defaulting to ja. No unintended language switching. Verbatim quotations, names, identifiers and code preserve the source. Inspect the exact saved revision; format success is not language verification.",
+            "check_kind": "model_review"
+          },
+          {
+            "id": "document_request",
+            "description": "Every content requirement in the original request is fulfilled, including requested sections and source citations. This document is an evidence-based current-status assessment: production_ready=false, L3未達, and explicitly recorded remaining acceptance conditions satisfy the request; they are not a reason to fail it. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.",
+            "check_kind": "model_review"
+          },
+          {
+            "id": "document_accuracy",
+            "description": "The requested content preserves the supplied sources, including conditions, exceptions and operation order. The current-status conclusion production_ready=false and unverified customer/SLA/business-quality conditions must remain visible; do not infer production completion. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.",
+            "check_kind": "model_review"
+          }
+        ],
+        "write_scope": "workspaces/t1/"
+      },
+      "status": "accepted",
+      "attempt": 1,
+      "revision_round": 0,
+      "result": {
+        "summary": "readiness.json revision 1 を公開し、master と reviewer へ引き継ぎメッセージを送りました。L3未達で、組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値が未確認です。",
+        "verified": [
+          "readiness.json 公開",
+          "master へ引き継ぎ",
+          "reviewer へ引き継ぎ"
+        ],
+        "unverified": [
+          "組織IdP/MFA",
+          "分散・HA",
+          "監視・SLO/SLA",
+          "運用責任",
+          "セキュリティ審査",
+          "出典・レビュー品質",
+          "レイテンシ",
+          "受入閾値"
+        ],
+        "next_steps": [
+          "master が未確認項目の補完を指示する",
+          "reviewer が L3 評価と次の作業計画を確認する"
+        ],
+        "published": [
+          {
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632"
+          }
+        ]
+      },
+      "blocked_reason": null,
+      "updated_at": "2026-09-25T09:28:53.602Z",
+      "review": {
+        "target_task_id": "t1",
+        "target_artifacts": [
+          {
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632"
+          }
+        ],
+        "results": [
+          {
+            "acceptance_id": "document_contract",
+            "status": "pass",
+            "evidence": "readiness.json@r1 の production_ready=false、L3 未達、残条件の列挙が PRODUCTION_PLAN.md の Remaining acceptance work 列と一致し、出典引用も正確。",
+            "note": "受入条件を満たしています"
+          },
+          {
+            "acceptance_id": "document_language",
+            "status": "pass",
+            "evidence": "readiness.json@r1 は日本語で書かれており、英語の引用は原文のまま。PRODUCTION_PLAN.md の残条件列挙も日本語と英語の原文を正確に引用。",
+            "note": "言語制約を満たしています"
+          },
+          {
+            "acceptance_id": "document_request",
+            "status": "pass",
+            "evidence": "Multibot の現状を証拠付きで整理する評価資料として、readiness.json@r1 は production_ready=false、L3 未達、残条件を明記。",
+            "note": "元の依頼を満たしています"
+          },
+          {
+            "acceptance_id": "document_accuracy",
+            "status": "pass",
+            "evidence": "実装/残条件の列挙が PRODUCTION_PLAN.md と一致し、出典引用も正確。",
+            "note": "正確性を満たしています"
+          }
+        ],
+        "summary": "readiness.json@r1 の json_schema チェックがパス。document_contract, document_language, document_request, document_accuracy の 4 つの受入条件をすべて pass と判定。submit_review を完了し、finish_task を呼び出す。"
+      }
+    },
+    {
+      "run_id": "run_1a0d7d39591b0d06e9d",
+      "spec": {
+        "id": "t2",
+        "owner": "reviewer",
+        "objective": "Independently compare the exact published revision with the original request and supplied sources. Check the requester contract and factual conditions. Submit an evidence-linked verdict for each producer criterion; do not infer correctness from file existence.",
+        "depends_on": [
+          "t1"
+        ],
+        "input_artifacts": [],
+        "output_paths": [],
+        "acceptance": [
+          {
+            "id": "document_review",
+            "description": "Every producer criterion has an independent verdict on the exact revision, with unresolved findings retained.",
+            "check_kind": "programmatic"
+          }
+        ],
+        "write_scope": "workspaces/t2/"
+      },
+      "status": "accepted",
+      "attempt": 1,
+      "revision_round": 0,
+      "result": {
+        "summary": "readiness.json@r1 の json_schema チェックがパスし、document_contract, document_language, document_request, document_accuracy の 4 つの受入条件をすべて pass と判定。レビュー結果をレンとカイに通知済み。残条件の実装・検証と承認済みサービス範囲/SLO/SLA/サポート責任の定義が次の作業です。",
+        "verified": [
+          "readiness.json@r1 json_schema check pass",
+          "document_contract pass",
+          "document_language pass",
+          "document_request pass",
+          "document_accuracy pass",
+          "review finding delivered to master",
+          "handoff delivered to builder"
+        ],
+        "unverified": [],
+        "next_steps": [
+          "残条件の実装・検証（Identity, Isolation, Execution, Data, Audit/monitoring, Deployment, Business quality, Contract/operation）",
+          "承認済みサービス範囲/SLO/SLA/サポート責任の定義",
+          "顧客環境での更新・ロールバックとセキュリティレビュー"
+        ],
+        "published": []
+      },
+      "blocked_reason": null,
+      "updated_at": "2026-09-25T09:28:53.601Z",
+      "review": null
+    }
+  ],
+  "artifacts": [
+    {
+      "run_id": "run_1a0d7d39591b0d06e9d",
+      "artifact_id": "final-report.md",
+      "revision": 1,
+      "sha256": "7ff62f21aa3f356b4f9b242ee86e9d11d2e27b745fb4d1df5718090125f5f037",
+      "media_type": "text/markdown",
+      "size": 44015,
+      "logical_path": "final-report.md",
+      "storage_path": "run_1a0d7d39591b0d06e9d/artifacts/final-report.md/r1/final-report.md",
+      "task_id": null,
+      "agent_id": "master",
+      "created_at": "2026-09-25T09:30:35.740Z",
+      "event_id": "run_1a0d7d39591b0d06e9d:72",
+      "sources": []
+    },
+    {
+      "run_id": "run_1a0d7d39591b0d06e9d",
+      "artifact_id": "readiness.json",
+      "revision": 1,
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "media_type": "application/json",
+      "size": 5137,
+      "logical_path": "readiness.json",
+      "storage_path": "run_1a0d7d39591b0d06e9d/artifacts/readiness.json/r1/readiness.json",
+      "task_id": "t1",
+      "agent_id": "builder",
+      "created_at": "2026-09-25T09:24:38.881Z",
+      "event_id": "run_1a0d7d39591b0d06e9d:32",
+      "sources": []
+    }
+  ],
+  "artifact_selection": {},
+  "latest_instruction": null,
+  "approvals": [],
+  "last_seq": 73,
+  "live": false,
+  "access": {
+    "can_write": true,
+    "can_override": true,
+    "can_instruct": false
+  }
+}

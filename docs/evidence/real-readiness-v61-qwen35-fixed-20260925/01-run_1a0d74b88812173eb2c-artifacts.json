@@ -1,0 +1,18 @@
+[
+  {
+    "run_id": "run_1a0d74b88812173eb2c",
+    "artifact_id": "readiness.json",
+    "revision": 1,
+    "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+    "media_type": "application/json",
+    "size": 5137,
+    "logical_path": "readiness.json",
+    "storage_path": "run_1a0d74b88812173eb2c/artifacts/readiness.json/r1/readiness.json",
+    "task_id": "t1",
+    "agent_id": "builder",
+    "created_at": "2026-09-25T06:57:43.324Z",
+    "event_id": "run_1a0d74b88812173eb2c:32",
+    "sources": [],
+    "evidence_file": "artifact-000.bin"
+  }
+]
