@@ -64,12 +64,14 @@ try {
   // (the same race ui-polish-smoke documents).
   await form.waitFor()
   await page.waitForFunction(() => document.activeElement?.closest('#custom-bot-form') && document.activeElement.tagName === 'INPUT')
-  await form.getByLabel(lang === 'en' ? 'Name' : '名前', { exact: true }).fill(lang === 'en' ? 'QA Panda' : '確認パンダ')
+  // A unique name per run: the app refuses a second bot with the same name, and a local server keeps earlier runs.
+  const pandaName = `${lang === 'en' ? 'QA Panda' : '確認パンダ'} ${Date.now() % 100000}`
+  await form.getByLabel(lang === 'en' ? 'Name' : '名前', { exact: true }).fill(pandaName)
   await form.getByLabel(lang === 'en' ? 'What should this bot do?' : '任せたいこと', { exact: true }).fill('Read supplied sources and summarize without inventing facts.')
   await form.getByRole('button', { name: lang === 'en' ? 'Panda' : 'パンダ', exact: true }).click()
   await form.locator('button[type="submit"]').click()
   await page.locator('#custom-bot-created').waitFor()
-  const custom = (await (await fetch(`${base}/api/agents`)).json()).find(a => a.display_name === (lang === 'en' ? 'QA Panda' : '確認パンダ'))
+  const custom = (await (await fetch(`${base}/api/agents`)).json()).find(a => a.display_name === pandaName)
   if (!custom || custom.emoji !== '🐼') throw new Error('Custom bot was not persisted by the real API')
   await page.reload({ waitUntil: 'networkidle' })
   await page.locator(`#agent-card-${custom.id}`).waitFor()
