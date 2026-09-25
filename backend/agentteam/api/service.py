@@ -7,7 +7,7 @@ import fcntl
 from pathlib import Path
 from typing import Any
 
-from ..config.loader import DEFAULT_CONFIG_YAML, ConfigError, config_to_yaml, effective_all, list_skills, load_config_text
+from ..config.loader import DEFAULT_CONFIG_YAML, config_to_yaml, effective_all, list_skills, load_config_text
 from ..config.models import AgentTeamConfig
 from ..providers.base import ProviderAdapter
 from ..ids import new_id

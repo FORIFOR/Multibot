@@ -13,8 +13,7 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 from ..config.loader import read_skill_body
-from ..contracts import (Approval, ApprovalStatus, ArtifactRef, Review, ReviewResult, TaskResult, TaskSpec,
-                         TaskStatus)
+from ..contracts import (Approval, ApprovalStatus, Review, ReviewResult, TaskResult, TaskSpec)
 from ..ids import new_id, now_iso, now_utc
 from ..providers.base import ToolSpec
 from .checks import CHECK_KINDS, run_check

@@ -171,7 +171,7 @@ class Scheduler:
         refs = ", ".join(f"{r.artifact_id}@r{r.revision}" for r in m.artifact_refs) or "-"
         text = (f"# Question from {m.from_agent_id} about task {m.task_id}\n[{m.message_id}] purpose={m.purpose} artifacts={refs}\n{m.text}\n\n"
                 f"Your tasks: " + (", ".join(f"{t.spec.id} ({t.status}): {t.spec.objective}" for t in owned) or "none") + "\n"
-                f"Your published artifacts: " + (", ".join(f"{a.artifact_id}@r{a.revision}" for a in published) or "none") + "\n\n"
+                "Your published artifacts: " + (", ".join(f"{a.artifact_id}@r{a.revision}" for a in published) or "none") + "\n\n"
                 f"Answer from what you actually know or can read (read_artifact). Reply with send_message(to='{m.from_agent_id}', "
                 f"task_id='{m.task_id}', purpose='answer', reply_to='{m.message_id}'), then call finish_task. If you do not know, say so.")
         await rt.events.append(rt.run_id, "task.started", {"mode": "reply", "in_reply_to": m.message_id}, actor_id=agent.agent_id,

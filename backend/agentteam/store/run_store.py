@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from ..contracts import Approval, Message, Run, RunInputs, RunStatus, TaskState, TaskStatus, TeamPlan, Usage
+from ..contracts import Approval, Message, Run, RunInputs, RunStatus, TaskState, TeamPlan, Usage
 from ..ids import now_iso
 from .db import Database, dumps, loads
 

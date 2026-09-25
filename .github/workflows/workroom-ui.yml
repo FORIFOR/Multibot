@@ -1,7 +1,7 @@
 name: Workroom UI
 on:
   pull_request:
-    paths: ['frontend/src/main.tsx','frontend/src/workroom.css','frontend/scripts/workroom-smoke.mjs','.github/workflows/workroom-ui.yml']
+    paths: ['frontend/src/**','frontend/scripts/workroom-smoke.mjs','backend/agentteam/ui/**','.github/workflows/workroom-ui.yml']
 permissions:
   contents: read
 jobs:

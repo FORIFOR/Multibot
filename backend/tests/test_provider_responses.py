@@ -1,7 +1,6 @@
 """Malformed provider responses become ProviderErrors the worker can retry, not internal errors.
 
 These use an in-memory HTTP transport to shape the server's bytes; they say nothing about real model behaviour."""
-import json
 from email.utils import format_datetime
 from datetime import datetime, timedelta, timezone
 

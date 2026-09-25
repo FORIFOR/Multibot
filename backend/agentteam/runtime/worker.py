@@ -337,7 +337,7 @@ class AgentRunner:
 
     async def _call_model(self, req: LLMRequest, causation_id: str | None) -> LLMResponse:
         rt, ctx = self.rt, self.ctx
-        conn = rt.config.connection(ctx.agent.connection_id)
+        rt.config.connection(ctx.agent.connection_id)  # fails early on an unknown connection
         price = price_for(ctx.agent.model, rt.config.pricing, driver=ctx.agent.driver)
         est_in = (len(req.system) + sum(len(json.dumps(m, ensure_ascii=False)) for m in req.messages)
                   + sum(len(json.dumps(t.input_schema)) + len(t.description) for t in req.tools)) // 3 + 200

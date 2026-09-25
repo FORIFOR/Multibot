@@ -5,7 +5,7 @@ import asyncio
 from typing import Any, Awaitable, Callable
 
 from ..contracts import ArtifactRef, Message
-from ..ids import new_id, now_iso
+from ..ids import new_id
 from ..store.event_store import EventStore
 from ..store.run_store import RunStore
 

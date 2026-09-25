@@ -9,7 +9,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 from ..config.loader import PKG_ROOT, SCHEMA_DIR, platform_policy_text
 from ..config.voice import conversation_voice, voice_instructions
-from ..contracts import TaskSpec, TaskStatus, TeamPlan, is_readiness_assessment, task_id_problem
+from ..contracts import TaskSpec, TeamPlan, is_readiness_assessment, task_id_problem
 from ..providers.base import LLMRequest
 from ..projections.views import artifact_review_ledger
 from .checks import CHECK_KINDS
@@ -423,7 +423,7 @@ async def handle_exception(rt, task, outcome_kind: str, detail: str) -> str | No
     msg = (f"# Exception on task {task.spec.id} (owner {task.spec.owner}, attempt {task.attempt})\n"
            f"Outcome: {outcome_kind}\nDetail: {detail}\n\nObjective: {task.spec.objective}\n"
            f"Task states: " + ", ".join(f"{t.spec.id}={t.status}" for t in rt.tasks.values()) + "\n"
-           f"Published artifacts: " + (", ".join(f"{m.artifact_id}@r{m.revision}" for m in published) or "none") + "\n"
+           "Published artifacts: " + (", ".join(f"{m.artifact_id}@r{m.revision}" for m in published) or "none") + "\n"
            f"Remaining: model calls {rt.config.limits.max_model_calls - rt.policy.usage.model_calls}, "
            f"budget {rt.config.limits.budget_usd - rt.policy.usage.cost_usd:.3f} USD, wall clock {int(rt.remaining_seconds())}s.\n\n"
            "Decide with ONE update_task call (retry / accept_partial / cancel) and optionally create_task, then finish_task. "

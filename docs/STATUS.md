@@ -1,5 +1,19 @@
 # 実装・検証状況
 
+## 2026-09-26 決定論的テストと画面の検証
+
+ブランチ `fix/product-improvements-20260925` の時点で、次を実行しました。以下の過去の節にある件数は、その日の記録として残しています。
+
+| 種別 | 結果 |
+| --- | --- |
+| バックエンドの決定論的テスト（scripted provider） | 210 passed / 4 skipped（Docker と age が必要なテストはこの Mac では未実行、CI で実行） |
+| `ruff check agentteam`（pyflakes 規則のみ） | 0 件 |
+| フロントエンドの単体テスト 6 本・型検査・ビルド | すべて成功。lint は警告 20 件、エラー 0 件 |
+| ブラウザ回帰 5 本（ui-polish / three-step / ui / workroom / a11y） | すべて成功。axe の 0 件は適合を意味しません |
+| 人による手動 GUI 確認・実機 iPhone・実モデルでの受入 | 未実施 |
+
+scripted provider は実モデルの挙動を証明しません。業務品質・L2/L3 の判定は上の数値から行いません。
+
 ## 2026-09-15 最新の実資料試験
 
 受入系列を commit `c60fa71` に固定し、ローカル Ollama の `agentteam-qwen35-9b-16k` を使い、実際の `PRODUCTION_PLAN.md` と運用資料だけを入力にした系列を確認しました。v18の第1・2回は旧配信契約では機械検証とReviewer提出を通過しましたが、出力に「パイン」「ロカル」「アデュータ」「actual-source」などの翻訳崩れが残る契約の抜けを確認したため停止しました。[v18証跡](evidence/real-readiness-v18-qwen35-fixed-2026-09-15/README.md)を保存し、現行コードの配信境界に検出語と領域別の根拠語チェックを追加しました。修復例を明示したv20を1回再試験しましたが、`パイン`、`ステール`、`演算主体`などが残り現行契約でfailとなったため、Reviewer前に停止しています。[v20証跡](evidence/real-readiness-v20-qwen35-fixed-2026-09-15/README.md)。現行の決定論的テストは **107 passed / 1 skipped**。10回すべてと意味品質の独立評価が揃うまで、L1の反復条件・L2・L3を達成扱いにしません。

@@ -1,9 +1,8 @@
 """Guidance written for the readiness acceptance series must not reach other document requests."""
-import json
 from pathlib import Path
 
 from agentteam.api.service import AppService
-from agentteam.contracts import Run, RunInputs
+from agentteam.contracts import RunInputs
 from agentteam.runtime.context import SessionContext
 from agentteam.runtime.planner import document_plan
 from agentteam.runtime.scheduler import Scheduler

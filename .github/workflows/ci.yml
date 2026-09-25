@@ -100,6 +100,9 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - run: uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -e '.[dev]' pytest-timeout
         working-directory: backend
+      - name: static check (pyflakes rules; see [tool.ruff] in pyproject.toml)
+        run: .venv/bin/ruff check agentteam
+        working-directory: backend
       - run: docker pull python:3.12-slim  # sandbox image, so the Docker isolation test runs on the runner
       - name: install verified age for actual encrypted restore drill
         run: |
@@ -121,6 +124,17 @@ jobs:
         with: { node-version: 22, cache: pnpm, cache-dependency-path: frontend/pnpm-lock.yaml }
       - run: pnpm install --frozen-lockfile && pnpm build
         working-directory: frontend
+      - name: unit tests and lint (lint warnings are reported, errors fail)
+        run: pnpm test:router && pnpm test:bots && pnpm test:journey && pnpm test:welcome && pnpm test:markdown && pnpm test:delivery && pnpm lint
+        working-directory: frontend
+      - name: committed UI bundle matches this source
+        # Installed users are served backend/agentteam/ui, not frontend/dist. After UI changes run pnpm build in
+        # frontend/ and copy frontend/dist/. into backend/agentteam/ui.
+        run: |
+          if ! diff -r frontend/dist backend/agentteam/ui; then
+            echo "::error::backend/agentteam/ui is stale. Run 'pnpm build' in frontend/ and copy frontend/dist/. into backend/agentteam/ui."
+            exit 1
+          fi
   ui-smoke:
     # Drives the bundled UI (backend/agentteam/ui) end to end with the scripted test provider in headless Chrome, JA and EN.
     runs-on: ubuntu-latest
