@@ -16,10 +16,12 @@ dependencies = [
   "sse-starlette>=2",
   "beautifulsoup4>=4.12",
   "pyjwt[crypto]>=2.14,<3",
+  # claude_cli sessions launch agentteam.providers.claude_cli_mcp, which uses the v2 lowlevel Server API.
+  "mcp>=2.0,<3",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "pytest-asyncio>=0.23"]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "pytest-timeout>=2", "ruff>=0.13,<0.14"]
 
 [project.scripts]
 agentteam = "agentteam.cli:main"
@@ -36,3 +38,11 @@ artifacts = ["agentteam/ui/**", "agentteam/prompts/**", "agentteam/skills/**", "
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 200
+
+[tool.ruff.lint]
+# Start with correctness checks only (unused names, undefined names, broken f-strings). Style rules are not enforced.
+select = ["F"]

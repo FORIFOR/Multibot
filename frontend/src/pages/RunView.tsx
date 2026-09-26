@@ -6,6 +6,7 @@ import { botActivity, botStateLabel } from '../lib/bot-presentation'
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ArtifactSelection, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
 import { Link } from '../lib/router'
+import { isSettled } from '../lib/journey'
 
 type Tab = 'chat' | 'timeline' | 'report' | 'approvals'
 
@@ -38,13 +39,15 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
         tabDecided.current = true
         if (TERMINAL.includes(d.status) && d.final_report) setTab('report')
       }
-      if (!selArt && d.artifacts.length) {
+      if (d.artifacts.length) {
         const latest = [...d.artifacts].filter((a) => a.artifact_id !== 'final-report.md').sort((a, b) => b.revision - a.revision)
         const pick = latest.find((a) => a.media_type.includes('html')) || latest[0] || d.artifacts[0]
-        if (pick) setSelArt({ id: pick.artifact_id, rev: pick.revision })
+        // Only the first load chooses a file. A functional update keeps the reader's later choice even when this
+        // callback was captured by the event stream before that choice was made.
+        if (pick) setSelArt((current) => current ?? { id: pick.artifact_id, rev: pick.revision })
       }
     } catch (e) { setErr(String(e)) }
-  }, [runId, selArt])
+  }, [runId])
 
   const reloadProjections = useCallback(async () => {
     try {
@@ -83,12 +86,12 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
       es.onerror = () => { /* EventSource reconnects with Last-Event-ID */ }
     })().catch(e => { if (alive) setErr(String(e)); es?.close() })
     return () => { alive = false; es?.close() }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runId])
+  }, [runId, reload, reloadProjections])
 
   const agents = run?.config_snapshot?.agents || {}
   const tz = undefined
-  const live = run ? !TERMINAL.includes(run.status) && run.status !== 'blocked' : false
+  // Same settled rule as the work screen: an interrupted or blocked run is not live and is not waiting for messages.
+  const live = run ? !isSettled(run.status) : false
   const artifactsById = useMemo(() => {
     const m = new Map<string, Artifact[]>()
     for (const a of run?.artifacts || []) { const l = m.get(a.artifact_id) || []; l.push(a); m.set(a.artifact_id, l) }
@@ -108,18 +111,9 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
     }
     await Promise.all([reload(), reloadProjections()])
   }, [runId, reload, reloadProjections])
-  const doFork = async () => {
-    if (run?.access && !run.access.can_override) {
-      await act(async () => { const child = await api.fork(runId, {}); nav(`/runs/${child.run_id}`) })
-      return
-    }
-    const agentIds = Object.keys(agents)
-    const who = window.prompt(`どの Bot のモデルを変えて分岐しますか？ (${agentIds.join(', ')}) 空欄なら設定変更なしで再実行`, 'builder')
-    if (who === null) return
+  const doFork = async (who: string, model: string) => {
     const overrides: Record<string, unknown> = { rerun_tasks: [] }
-    if (who.trim()) {
-      const model = window.prompt(`${who} のモデル ID`, agents[who]?.model || '')
-      if (model === null) return
+    if (run?.access?.can_override !== false && who) {
       overrides.agents = { [who]: { model } }
       overrides.rerun_tasks = (run?.tasks || []).filter((t) => t.spec.owner === who).map((t) => t.spec.id)
     }
@@ -162,7 +156,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
           <div className="row">
             {canWrite && live && <button className="btn ghost" onClick={() => act(() => api.cancel(runId))}>{tr("停止")}</button>}
             {canWrite && ['interrupted', 'approval_required', 'failed', 'partial', 'cancelled'].includes(run.status) && <button className="btn" onClick={() => act(() => api.resume(runId))}>{tr("再開")}</button>}
-            {canWrite && run.plan && <button className="btn ghost" onClick={doFork}>{tr("分岐して再実行")}</button>}
+            {canWrite && run.plan && <ForkForm agents={agents} canOverride={run.access?.can_override !== false} onFork={doFork} />}
             <a className="btn ghost" href={`/api/runs/${runId}/export?fmt=jsonl`}>JSONL</a>
             <button type="button" className="btn ghost" aria-pressed={motionPaused} onClick={() => setMotionPaused(!motionPaused)}>{getLang() === 'en' ? 'Pause animation' : '動きを止める'}</button>
           </div>
@@ -185,7 +179,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
           </header>
           <div className="body">
             {tab === 'chat' && <>
-              <Chat chat={chat} agents={agents} tz={tz} ended={TERMINAL.includes(run.status)} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
+              <Chat chat={chat} agents={agents} tz={tz} ended={isSettled(run.status)} onJump={(seq) => { setTab('timeline'); setHiSeq(seq) }} />
               <InstructionComposer runId={runId} run={run} events={events} canWrite={canWrite} instructionText={instructionText}
                 setInstructionText={setInstructionText} instructionKind={instructionKind} setInstructionKind={setInstructionKind}
                 busy={instructionBusy} setBusy={setInstructionBusy} notice={instructionNotice} setNotice={setInstructionNotice} onSent={syncAfterInstruction} />
@@ -593,4 +587,24 @@ function Approvals({ approvals, onResolved, readOnly = false }: { approvals: App
       ))}
     </div>
   )
+}
+
+// Replaces two blocking window.prompt dialogs (Japanese only) with a form that works with keyboard and both languages.
+function ForkForm({ agents, canOverride, onFork }: { agents: Record<string, { model: string; display_name: string | null }>; canOverride: boolean; onFork: (who: string, model: string) => Promise<void> }) {
+  const en = getLang() === 'en'
+  const [who, setWho] = useState('')
+  const [model, setModel] = useState('')
+  const [busy, setBusy] = useState(false)
+  const choose = (id: string) => { setWho(id); setModel(agents[id]?.model || '') }
+  const submit = async (e: FormEvent) => { e.preventDefault(); if (busy || (who && !model.trim())) return; setBusy(true); try { await onFork(who, model.trim()) } finally { setBusy(false) } }
+  return <details className="fork-form"><summary className="btn ghost">{tr('分岐して再実行')}</summary>
+    <form onSubmit={submit} className="stack">
+      {canOverride && <label>{en ? 'Change the model of' : 'モデルを変える Bot'}
+        <select className="input" value={who} onChange={(e) => choose(e.target.value)}>
+          <option value="">{en ? 'No change (rerun with the same settings)' : '変更しない（同じ設定で再実行）'}</option>
+          {Object.entries(agents).map(([id, a]) => <option key={id} value={id}>{a.display_name || id}</option>)}
+        </select></label>}
+      {canOverride && who && <label>{en ? 'Model ID' : 'モデル ID'}<input className="input" value={model} onChange={(e) => setModel(e.target.value)} required /></label>}
+      <button type="submit" className="btn" disabled={busy || (!!who && !model.trim())}>{en ? 'Start the rerun' : '再実行を始める'}</button>
+    </form></details>
 }

@@ -13,8 +13,7 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 from ..config.loader import read_skill_body
-from ..contracts import (Approval, ApprovalStatus, ArtifactRef, Review, ReviewResult, TaskResult, TaskSpec,
-                         TaskStatus)
+from ..contracts import (Approval, ApprovalStatus, Review, ReviewResult, TaskResult, TaskSpec)
 from ..ids import new_id, now_iso, now_utc
 from ..providers.base import ToolSpec
 from .checks import CHECK_KINDS, run_check
@@ -784,14 +783,14 @@ class ToolGateway:
                 compact = {'status': result.get('status') if isinstance(result, dict) else 'unknown'}
                 if problems:
                     compact['problems'] = _compact_delivery_problems(problems)
-                    compact['repair_rules'] = [
-                        'Keep each area and evidence_quote exactly equal to the supplied source row and in the same order.',
-                        'Use Japanese only for summary fields implemented and remaining; change only the field named by a problem.',
-                    ]
                     template = _schema_repair_template(
                         requirement.json_schema
                     )
-                    if template is not None:
+                    if template is not None:  # only the area-table schema of the readiness series has these fields
+                        compact['repair_rules'] = [
+                            'Keep each area and evidence_quote exactly equal to the supplied source row and in the same order.',
+                            'Use Japanese only for summary fields implemented and remaining; change only the field named by a problem.',
+                        ]
                         compact['repair_template'] = template
                 checked = json.dumps(compact, ensure_ascii=False)
             except (TypeError, ValueError):

@@ -5,9 +5,10 @@ import asyncio
 from typing import Any
 
 from ..contracts import (DONE_FOR_DEPENDENTS, Message, Review, RunStatus, TaskSpec, TaskState, TaskStatus,
-                         TERMINAL_TASK_STATES)
+                         TERMINAL_TASK_STATES, task_id_problem)
 from ..ids import now_iso
 from .context import RunRuntime, SessionContext
+from .policy import PolicyEngine, PolicyViolation
 from .planner import handle_exception, milestone_replan
 from .worker import AgentRunner, SessionOutcome, build_task_message
 from .review_targets import latest_task_refs, same_refs
@@ -85,6 +86,8 @@ class Scheduler:
     # ------------------------------------------------------------ master tools
     async def add_task(self, spec: TaskSpec, causation_id: str | None = None) -> str | None:
         rt = self.rt
+        if (problem := task_id_problem(spec.id)) is not None:
+            return f"REJECTED: {problem}"
         if spec.id in rt.tasks:
             return f"REJECTED: task {spec.id} already exists"
         if len(rt.tasks) >= rt.config.limits.max_tasks:
@@ -99,6 +102,11 @@ class Scheduler:
         for d in spec.depends_on:
             if d not in rt.tasks:
                 return f"REJECTED: unknown dependency {d}"
+        for p in spec.output_paths:  # same rule validate_plan applies to the initial plan
+            try:
+                PolicyEngine.check_write_path(p)
+            except PolicyViolation as e:
+                return f"REJECTED: invalid output path {p!r}: {e}"
         for other in rt.tasks.values():
             for p in spec.output_paths:
                 if p in other.spec.output_paths:
@@ -163,7 +171,7 @@ class Scheduler:
         refs = ", ".join(f"{r.artifact_id}@r{r.revision}" for r in m.artifact_refs) or "-"
         text = (f"# Question from {m.from_agent_id} about task {m.task_id}\n[{m.message_id}] purpose={m.purpose} artifacts={refs}\n{m.text}\n\n"
                 f"Your tasks: " + (", ".join(f"{t.spec.id} ({t.status}): {t.spec.objective}" for t in owned) or "none") + "\n"
-                f"Your published artifacts: " + (", ".join(f"{a.artifact_id}@r{a.revision}" for a in published) or "none") + "\n\n"
+                "Your published artifacts: " + (", ".join(f"{a.artifact_id}@r{a.revision}" for a in published) or "none") + "\n\n"
                 f"Answer from what you actually know or can read (read_artifact). Reply with send_message(to='{m.from_agent_id}', "
                 f"task_id='{m.task_id}', purpose='answer', reply_to='{m.message_id}'), then call finish_task. If you do not know, say so.")
         await rt.events.append(rt.run_id, "task.started", {"mode": "reply", "in_reply_to": m.message_id}, actor_id=agent.agent_id,

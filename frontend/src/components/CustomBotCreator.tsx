@@ -1,3 +1,4 @@
+import { botName } from '../lib/journey'
 import { useRef, useState, type FormEvent } from 'react'
 import { api, ApiError, type Config } from '../lib/api'
 import { getLang } from '../lib/i18n'
@@ -19,7 +20,10 @@ export default function CustomBotCreator({ cfg, refresh }: { cfg: Config; refres
   const nameRef = useRef<HTMLInputElement>(null)
   const validEmoji = isBotEmoji(emoji)
   const validId = /^[a-z][a-z0-9_-]{1,31}$/.test(id)
-  const valid = validEmoji && validId && name.trim().length > 0 && prompt.trim().length > 0
+  // Two teammates with one name cannot be told apart in the roster or the chat.
+  // Compare with the names the roster shows: a saved name, or the role name (Ren, Mio…) in either language.
+  const duplicate = name.trim().length > 0 && cfg.agents.some(a => (a.display_name ? [a.display_name] : [botName(a.role, 'ja'), botName(a.role, 'en')]).some(n => n.trim() === name.trim()))
+  const valid = validEmoji && validId && name.trim().length > 0 && prompt.trim().length > 0 && !duplicate
 
   const submit = async (event: FormEvent) => {
     event.preventDefault()
@@ -77,7 +81,7 @@ export default function CustomBotCreator({ cfg, refresh }: { cfg: Config; refres
             <label className="emoji-free-input">{l('ほかの絵文字を使う', 'Use another emoji')}<input className="input bot-emoji-input" aria-describedby="emoji-help" aria-invalid={!validEmoji} value={emoji} onChange={e => setEmoji(e.target.value)} maxLength={64} required autoComplete="off" /></label>
             <small id="emoji-help" className={!validEmoji ? 'err' : 'muted'}>{l('絵文字を1つ選んでください。旗や肌の色つきの絵文字も使えます。', 'Choose one emoji. Flags and skin-tone sequences work too.')}</small>
           </fieldset>
-          <label className="bot-field"><span>{l('名前', 'Name')}</span><input ref={nameRef} className="input" value={name} onChange={e => setName(e.target.value)} maxLength={40} required placeholder={l('例：リサーチ狐', 'e.g. Research Fox')} autoComplete="off" /></label>
+          <label className="bot-field"><span>{l('名前', 'Name')}</span><input ref={nameRef} className="input" value={name} onChange={e => setName(e.target.value)} maxLength={40} required placeholder={l('例：リサーチ狐', 'e.g. Research Fox')} autoComplete="off" aria-invalid={duplicate} aria-describedby={duplicate ? 'custom-bot-name-taken' : undefined} /></label>{duplicate && <small className="err" id="custom-bot-name-taken" role="alert">{l('同じ名前の仲間がすでにいます。別の名前にしてください。', 'A teammate already has this name. Choose another name.')}</small>}
           <label className="bot-field"><span>{l('任せたいこと', 'What should this bot do?')}</span><textarea className="input" value={prompt} onChange={e => setPrompt(e.target.value)} maxLength={20000} required placeholder={l('例：資料を読み、重要なポイントをやさしい日本語でまとめて。わからないことは推測せずに教えて。', 'e.g. Read the source material and summarize the important points clearly. Flag anything uncertain.')} /></label>
           <details className="bot-advanced"><summary>{l('詳細設定（任意）', 'Advanced settings (optional)')}</summary>
             <div className="stack">

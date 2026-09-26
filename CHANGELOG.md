@@ -4,6 +4,8 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 
 ## Unreleased
 
+- Keep guidance written for the readiness acceptance series (`readiness.json`: production_ready=false, L3, PRODUCTION_PLAN.md, evidence_quote) out of other requests. The bundled builder/reviewer prompts no longer carry it; `prompts/readiness-series.md` is appended only when the delivery contract is `readiness.json`. Series criteria and reviewer wording are unchanged, but the series system prompt now differs from v61 in placement, so the next series must record this change.
+
 - Ask for a concise, complete team rationale separately from member descriptions to avoid generation ending mid-sentence at schema limits.
 
 - Allow SHA-guarded exact replacements through the existing workspace write permission, so long drafts can be corrected without regenerating the whole document; retain publication and review gates.

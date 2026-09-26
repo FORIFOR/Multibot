@@ -57,14 +57,18 @@ class EventStore:
         for q in list(self._subscribers.get(ev.run_id, ())):
             q.put_nowait(ev)
 
-    async def list(self, run_id: str, after_seq: int = 0, limit: int = 10000, types: list[str] | None = None) -> list[Event]:
+    async def list(self, run_id: str, after_seq: int = 0, limit: int | None = None, types: list[str] | None = None) -> list[Event]:
+        """All matching events in seq order. Internal readers (reports, export, instructions, prompts) need the whole
+        log; a silent default cap dropped the newest events once a run passed 10,000. Pass limit to page."""
         sql = "SELECT * FROM events WHERE run_id=? AND seq>?"
         params: list[Any] = [run_id, after_seq]
         if types:
             sql += " AND type IN (%s)" % ",".join("?" * len(types))
             params.extend(types)
-        sql += " ORDER BY seq LIMIT ?"
-        params.append(limit)
+        sql += " ORDER BY seq"
+        if limit is not None:
+            sql += " LIMIT ?"
+            params.append(limit)
         rows = await self.db.fetchall(sql, params)
         return [self._row(r) for r in rows]
 

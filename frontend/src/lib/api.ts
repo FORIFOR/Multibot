@@ -108,6 +108,7 @@ export function fmtDate(iso: string | null | undefined): string {
   if (!iso) return '—'
   try { return new Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(iso)) } catch { return iso }
 }
-export const money = (n: number) => `$${n.toFixed(4)}`
+// Four decimals keep small model costs visible; trailing zeros beyond cents carry no information ($5.00, $0.037).
+export const money = (n: number) => `$${n.toFixed(4).replace(/(\.\d\d\d*?)0+$/, '$1')}`
 export const short = (s: string, n = 10) => s.slice(0, n)
 export const TERMINAL: RunStatus[] = ['completed', 'partial', 'failed', 'cancelled']

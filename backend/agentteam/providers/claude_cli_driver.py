@@ -13,6 +13,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import signal
 import shutil
 import sys
 from dataclasses import dataclass, field
@@ -79,6 +80,29 @@ def parse_cli_result(stdout: str, stderr: str = "", returncode: int = 0) -> CliR
                      error=(str(data.get("result") or data.get("subtype")) if is_error else None), stderr=stderr, raw=data)
 
 
+_DRAINING: set[asyncio.Task] = set()
+
+
+def _kill_tree(proc) -> None:
+    """SIGKILL the CLI's process group (see start_new_session in _exec); fall back to the process itself."""
+    if hasattr(os, "killpg"):
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+            return
+        except (ProcessLookupError, PermissionError):
+            pass
+    try:
+        proc.kill()
+    except ProcessLookupError:
+        pass
+
+
+def _forget_drained(task: asyncio.Task) -> None:
+    _DRAINING.discard(task)
+    if not task.cancelled():
+        task.exception()  # retrieved so a failed drain is not reported as "never retrieved"
+
+
 class ClaudeCliDriver:
     driver = "claude_cli"
     kind = "real"
@@ -111,8 +135,11 @@ class ClaudeCliDriver:
                     cwd: str | None = None) -> CliResult:
         env = {k: v for k, v in os.environ.items() if not k.startswith(("ANTHROPIC_API_KEY", "OPENAI_API_KEY"))}
         env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
+        # Own process group: the CLI starts helpers (the MCP proxy) that inherit its pipes, and all of them must stop
+        # together on timeout, cancellation or shutdown.
         proc = await asyncio.create_subprocess_exec(*argv, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
-                                                    stdin=asyncio.subprocess.DEVNULL, env=env, cwd=cwd)
+                                                    stdin=asyncio.subprocess.DEVNULL, env=env, cwd=cwd,
+                                                    start_new_session=hasattr(os, "killpg"))
 
         async def waiter():
             return await proc.communicate()
@@ -122,9 +149,20 @@ class ClaudeCliDriver:
         cancel_task = asyncio.create_task(cancel_event.wait()) if cancel_event else None
         if cancel_task:
             watchers.append(cancel_task)
-        done, _ = await asyncio.wait(watchers, timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
+        try:
+            done, _ = await asyncio.wait(watchers, timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
+        except asyncio.CancelledError:
+            # The caller stopped waiting (run deadline or server shutdown): do not leave the CLI running.
+            _kill_tree(proc)
+            if cancel_task:
+                cancel_task.cancel()
+            # communicate() ends promptly once the killed child's pipes close; let it finish in the background so
+            # the subprocess transport is closed and reaped instead of leaking.
+            _DRAINING.add(comm)
+            comm.add_done_callback(_forget_drained)
+            raise
         if comm not in done:
-            proc.kill()
+            _kill_tree(proc)
             try:
                 await asyncio.wait_for(comm, timeout=5)
             except Exception:

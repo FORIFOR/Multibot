@@ -7,7 +7,6 @@ import os
 from pathlib import Path
 from typing import Any, Callable
 
-import yaml
 
 from ..config.loader import config_to_yaml, effective_all, load_config_text
 from ..config.models import AgentTeamConfig, IMPLEMENTED_DRIVERS

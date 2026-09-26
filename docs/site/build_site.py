@@ -3,14 +3,14 @@ Run: python3 docs/site/build_site.py   (no dependencies). The before/after text 
 verbatim from docs/record.js, the recorded run; do not replace it with a summary."""
 import html, pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]  # docs/
-ACC = {'master':'crown','researcher':'lens','builder':'pencil','reviewer':'check'}
+# The app shows each teammate as an emoji on a white tile with a role-coloured bottom edge (botIcon in
+# frontend/src/lib/bot-presentation.ts, .bot-custom-emoji in obsidian.css). The site draws the same tiles.
+EMOJI = {'master': '🧭', 'researcher': '🔎', 'builder': '🛠️', 'reviewer': '✅'}
 def bot(kind, state='idle', size='stage'):
-    face = 'happy' if state=='done' else 'focus' if state in ('thinking','reviewing') else 'normal'
     working = state in ('thinking','researching','building','reviewing')
     mark = '<i></i><i></i><i></i>' if working else ('✓' if state=='done' else '')
-    return (f'<span class="bot-character bot-{kind} bot-{state} bot-size-{size}" data-bot aria-hidden="true">'
-            f'<span class="bot-antenna"><i></i></span><span class="bot-head"><span class="bot-face face-{face}"><i class="eye left"></i><i class="eye right"></i><i class="mouth"></i></span>'
-            f'<span class="bot-accessory accessory-{ACC[kind]}"></span></span><span class="bot-body"><i class="bot-heart"></i></span>'
+    return (f'<span class="site-bot site-bot-{kind} bot-{state} site-bot-{size}" data-bot aria-hidden="true">'
+            f'<span class="site-bot-tile">{EMOJI[kind]}</span>'
             f'<span class="bot-state-mark{" is-working" if working else ""}">{mark}</span></span>')
 CMD = 'uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart'
 EV = 'https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/'
@@ -18,12 +18,20 @@ T = {
  'ja': dict(lang='ja', base='../', self='https://forifor.github.io/Multibot/ja/', other='../', other_lang='en', other_label='EN',
   title='Agent Team — 頼むのは一度。作った版を、別のAIが確かめる。',
   desc='AIの成果物を、確かめないまま使いたくない人へ。作る担当と確かめる担当を分けたAIチームが、あなたのPCの中だけで動き、できたファイルと「どの版を何で確かめたか」の記録を渡します。オープンソース・MIT。',
-  skip='本文へ', nav=[('#team','チーム'),('#proof','実際の記録'),('#privacy','データの扱い'),('#faq','よくある質問')], nav_cta='始める',
+  skip='本文へ', nav=[('#team','チーム'),('#proof','実際の記録'),('#privacy','データの扱い'),('#faq','よくある質問')], nav_cta='始める', gh_star='GitHub',
+  how_eyebrow='仕組み', how_h='信頼できるのは、<wbr>記録が残るから。', how_p='開発者向けに、実行の中身を短くまとめます。',
+  how_link='README の構成図と設計を読む',
+  how_cards=[('追記だけのイベント記録','メッセージ、ツール呼び出し、検査、レビューはすべてSQLiteのイベントとして残ります。会話・時系列・報告は、その記録から作る表示です。'),
+             ('確認は、その版のバイト列に結びつく','検査とレビューは、成果物の版ごとのSHA-256に結びつきます。新しい版は、確認されていない状態から始まります。'),
+             ('制限はプロンプトでなくコードで','予算の確保、使えるツールと書き込み先、承認、実行時間の上限は、ランタイムが強制します。'),
+             ('コマンドは隔離して実行','Docker（ネットワークなし）かmacOSのseatbeltで動かします。どちらも無ければ、隔離なしで動かさずに断ります。'),
+             ('モデルは選べる','Claude Code（APIキー不要）、Anthropic API、OpenAI互換API、Ollama。開始前に実際の呼び出しで接続を確かめます。'),
+             ('記録を持ち出せる','REST と SSE の API。1回の作業を JSONL、または SHA-256 の一覧つき ZIP で取り出せます。')],
   h1='頼むのは一度。<br>作った版を、別のAIが確かめる。',
   lede='AIの成果物を、確かめないまま使いたくない人へ。あなたのPCの中だけで動き、できたファイルと「どの版を何で確かめたか」の記録を渡します。',
   cta1='自分のPCで始める', cta2='実行の記録を見る', facts=['オープンソース・MIT','あなたのPCで動く','外部へ勝手に送信しない'],
   cap_label='日本語字幕', demo_fallback='動画をダウンロードする',
-  demo_note='実際のアプリの録画です。この日本語版は 2026年9月22日の実行（ローカルのOllama、agentteam-qwen35-9b-16k、24回のモデル呼び出し、13分13秒、費用 $0.00）で、確認担当が1度差し戻し、2版目で通過しました。英語版は別の実行です。待ち時間は早送りしています。字幕あり・音声なし。',
+  demo_note='実際のアプリの録画です。この日本語版は 2026年9月22日の実行（ローカルのOllama、agentteam-qwen35-9b-16k）で、確認担当が1度差し戻し、2版目で通過しました。この実行の記録ファイルはリポジトリに保存していないため、回数や時間は載せていません。英語版は別の実行です。待ち時間は早送りしています。字幕あり・音声なし。',
   ask_label='お願い', ask='このCSVを年月別に集計するツールを作って。使い方とテストも付けて。',
   roles=[('master','まとめ役','進め方と完了条件を決める'),('researcher','調べる係','資料と公開ページを読む'),('builder','つくる係','ファイルを作って直す'),('reviewer','確かめる係','条件を満たすか確かめる')],
   states={'idle':'出番待ち','thinking':'計画中','researching':'調査中','building':'作業中','reviewing':'確認中','done':'担当分は完了'},
@@ -60,12 +68,20 @@ T = {
  'en': dict(lang='en', base='', self='https://forifor.github.io/Multibot/', other='ja/', other_lang='ja', other_label='日本語',
   title='Agent Team — Ask once. Another AI checks the version it made.',
   desc='For people who will not ship an AI result they cannot verify. Making and checking are separate jobs; it runs on your computer and hands you the files plus the record of which version was checked, and how. Open source, MIT.',
-  skip='Skip to content', nav=[('#team','The team'),('#proof','A real record'),('#privacy','Your data'),('#faq','FAQ')], nav_cta='Get started',
+  skip='Skip to content', nav=[('#team','The team'),('#proof','A real record'),('#privacy','Your data'),('#faq','FAQ')], nav_cta='Get started', gh_star='GitHub',
+  how_eyebrow='Under the hood', how_h='You can trust it because it keeps the record.', how_p='For developers: what actually happens during a run.',
+  how_link='Read the architecture in the README',
+  how_cards=[('An append-only event log','Every message, tool call, check and review is an event in SQLite. The chat, timeline and report are views of that log.'),
+             ('Checks bound to the bytes','A check or review applies to one revision\'s SHA-256. A new revision starts out unchecked.'),
+             ('Limits in code, not prompts','Budget reservation, tool and write scopes, approvals and the run\'s time limit are enforced by the runtime.'),
+             ('Commands run isolated','Docker with no network, or the macOS seatbelt. With neither, commands are refused rather than run unsandboxed.'),
+             ('Bring your own model','Claude Code (no API key), the Anthropic API, OpenAI-compatible APIs or Ollama. A real probe call confirms the connection first.'),
+             ('Take the record with you','A REST and SSE API. Export any run as JSONL, or as a ZIP with a SHA-256 manifest.')],
   h1='Ask once. Another AI checks<br>the version it made.',
   lede='For people who will not ship an AI result they cannot verify. It runs on your computer and hands you the files plus the record of which version was checked, and how.',
   cta1='Run it on your computer', cta2='See the run record', facts=['Open source · MIT','Runs on your computer','Never sends anything out on its own'],
   cap_label='English captions', demo_fallback='Download the video',
-  demo_note='A recording of the real app. This English cut is its own run (22 September 2026, local Ollama, agentteam-qwen35-9b-16k, 37 model calls, 14m36s, cost $0.00); the reviewer sent the work back twice and the checks passed on the third version. The Japanese page shows a different run. Waiting is sped up. Captioned, no sound.',
+  demo_note='A recording of the real app. This English cut is its own run (22 September 2026, local Ollama, agentteam-qwen35-9b-16k); the reviewer sent the work back twice and the checks passed on the third version. Its record files are not kept in the repository, so call counts and timings are not quoted here. The Japanese page shows a different run. Waiting is sped up. Captioned, no sound.',
   ask_label='Request', ask='Build a tool that totals this CSV by month. Include usage notes and tests.',
   roles=[('master','Coordinator','Plans the work and the finish line'),('researcher','Researcher','Reads your files and public pages'),('builder','Maker','Writes the files and fixes them'),('reviewer','Reviewer','Checks each condition')],
   states={'idle':'On standby','thinking':'Planning','researching':'Researching','building':'Working','reviewing':'Reviewing','done':'Assigned work done'},
@@ -144,6 +160,7 @@ def page(t):
     priv = ''.join(f'<li{" class=\"note\"" if i==2 else ""}><div>{e(a)}{f"<small>{e(s)}</small>" if s else ""}</div></li>' for i,(a,s) in enumerate(t['priv']))
     conn = ''.join(f'<span>{e(n)}{f"<small>{e(s)}</small>" if s else ""}</span>' for n,s in t['conn'])
     steps = ''.join(f'<li><b>{e(h)}</b>{e(p)}</li>' for h,p in t['steps'])
+    how = ''.join(f'<article class="card" data-reveal><h3>{e(h)}</h3><p>{e(p)}</p></article>' for h,p in t['how_cards'])
     faq = ''.join(f'<details><summary>{e(q)}</summary><p>{e(a)}</p></details>' for q,a in t['faq'])
     crew = ''.join(bot(k,'done') for k,_,_ in t['roles'])
     f = t['form']
@@ -172,14 +189,14 @@ def page(t):
 <a class="skip" href="#main">{e(t['skip'])}</a>
 <header class="top">
   <a class="brand" href="./">Agent Team<small>Multibot · MIT</small></a>
-  <nav class="nav" aria-label="{'サイト内' if t['lang']=='ja' else 'Site'}">{nav}<a class="lang" href="{t['other']}" lang="{t['other_lang']}" hreflang="{t['other_lang']}">{e(t['other_label'])}</a><a class="btn" href="#start" data-track="quickstart_open">{e(t['nav_cta'])}</a></nav>
+  <nav class="nav" aria-label="{'サイト内' if t['lang']=='ja' else 'Site'}">{nav}<a class="gh-link" href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="star">{e(t['gh_star'])}</a><a class="lang" href="{t['other']}" lang="{t['other_lang']}" hreflang="{t['other_lang']}">{e(t['other_label'])}</a><a class="btn" href="#start" data-track="quickstart_open">{e(t['nav_cta'])}</a></nav>
 </header>
 <main id="main">
 <section class="hero"><div class="wrap">
   <h1>{t['h1']}</h1>
   <p class="lede">{e(t['lede'])}</p>
   <div class="cta"><a class="btn" href="#start" data-track="quickstart_open">{e(t['cta1'])}</a><a class="quiet-link" href="#proof">{e(t['cta2'])}</a></div>
-  <p class="facts">{''.join(f'<span>{e(x)}</span>' for x in t['facts'])}</p>
+  <p class="facts">{''.join((f'<span><a href="https://github.com/FORIFOR/Multibot" data-track="github_outbound" data-intent="repo">{e(x)}</a></span>' if i == 0 else f'<span>{e(x)}</span>') for i, x in enumerate(t['facts']))}</p>
   <figure class="demo">
     <video id="demo-video" width="1280" height="800" poster="{b}media/demo-poster{"" if t["lang"]=="en" else "-ja"}.jpg" preload="none" playsinline muted loop controls
            aria-describedby="demo-note"{' autoplay' if False else ''}>
@@ -227,7 +244,13 @@ def page(t):
   <ul class="checks" data-reveal>{priv}</ul>
 </div></section>
 
-<section class="section" id="start"><div class="wrap">
+<section class="section" id="how"><div class="wrap">
+  <div class="head" data-reveal><p class="eyebrow">{e(t['how_eyebrow'])}</p><h2>{t['how_h']}</h2><p class="lede">{e(t['how_p'])}</p></div>
+  <div class="grid g3 how-grid">{how}</div>
+  <p class="caveat" data-reveal><a href="https://github.com/FORIFOR/Multibot#how-it-works" data-track="github_outbound" data-intent="repo">{e(t['how_link'])}</a></p>
+</div></section>
+
+<section class="section tint" id="start"><div class="wrap">
   <div class="head" data-reveal><p class="eyebrow">{e(t['start_eyebrow'])}</p><h2>{t['start_h']}</h2><p class="lede">{e(t['start_p'])}</p></div>
   <div class="term" id="github" data-reveal><code id="cmd">{e(CMD)}</code><button type="button" id="copy" data-copied="{e(t['copied'])}">{e(t['copy'])}</button></div>
   <p class="needs" data-reveal><b>{e(t['needs_label'])}</b> {t['needs']}</p>
@@ -260,12 +283,8 @@ def page(t):
 </html>
 '''
 def build_bots_css():
-    """The site uses the product's own characters. Copy their CSS instead of keeping a second, drifting version."""
-    src = (ROOT.parent/'frontend/src/quiet-cinema.css').read_text(encoding='utf-8').splitlines()
-    i = next(n for n,l in enumerate(src) if l.startswith('/* Role-aware bot characters'))
-    j = next(n for n,l in enumerate(src) if n>i and l.startswith('@media(prefers-reduced-motion:reduce){.bot-character'))
-    base = '\n'.join(l for l in src[i:j+1] if not l.startswith('.bot-agent'))
-    polish = (ROOT.parent/'frontend/src/bot-polish.css').read_text(encoding='utf-8')
+    """Teammate tiles for the site (see EMOJI above). Kept in site/bots-site.css and inlined between the markers."""
+    base, polish = '', ''
     site = (ROOT/'site/bots-site.css').read_text(encoding='utf-8')
     css = (ROOT/'home.css').read_text(encoding='utf-8')
     a, b = css.index('/* BOTS:BEGIN'), css.index('/* BOTS:END */')

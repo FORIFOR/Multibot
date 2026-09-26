@@ -28,8 +28,9 @@ export function roleLabel(role: string, lang: UiLanguage): string {
   const roles: Record<string, [string, string]> = { master: ['まとめ役', 'Coordinator'], researcher: ['調べる係', 'Researcher'], builder: ['つくる係', 'Maker'], reviewer: ['確かめる係', 'Reviewer'], reporter: ['伝える係', 'Reporter'], specialist: ['専用の仲間', 'Specialist'] }
   return (roles[role] || ['あなたの仲間', 'Your teammate'])[lang === 'en' ? 1 : 0]
 }
-export function stateTone(status: string): 'good' | 'attention' | 'working' {
+export function stateTone(status: string): 'good' | 'bad' | 'attention' | 'working' {
   if (status === 'completed') return 'good'
+  if (status === 'failed') return 'bad' // a stopped run is a problem, not the same thing as waiting for approval
   return isSettled(status) || status === 'approval_required' ? 'attention' : 'working'
 }
 /** Teammates appear in hand-off order (plan → research → make → check → report), not config order. */

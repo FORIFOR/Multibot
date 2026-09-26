@@ -78,3 +78,72 @@ def test_probe_hint_for_not_logged_in():
     from agentteam.cli import _probe_hint
     assert "log in" in _probe_hint("bad_request: Not logged in · Please run /login")
     assert _probe_hint("something else") is None
+
+
+async def test_mcp_proxy_starts_and_forwards_through_the_session_broker():
+    """The claude_cli driver launches this exact module; it must import and speak MCP on a clean install."""
+    import sys
+
+    from mcp.client.session import ClientSession
+    from mcp.client.stdio import StdioServerParameters, stdio_client
+
+    b = SessionBroker()
+    await b.start()
+    try:
+        gw = _Gateway()
+        gw.calls = []  # the helper's class-level list is shared with other tests
+        token = b.register(gw)
+        params = StdioServerParameters(command=sys.executable,
+                                       args=["-m", "agentteam.providers.claude_cli_mcp", "--url", b.url(token)])
+        async with stdio_client(params) as (read, write):
+            async with ClientSession(read, write) as session:
+                await session.initialize()
+                listed = await session.list_tools()
+                assert [t.name for t in listed.tools] == ["echo"]
+                ok = await session.call_tool("echo", {"x": "hi"})
+                assert [c.text for c in ok.content] == ["echo:hi"]
+                assert ok.is_error is False
+                denied = await session.call_tool("other", {})
+                assert denied.is_error is True and denied.content[0].text.startswith("DENIED")
+        assert gw.calls == [("echo", {"x": "hi"}), ("other", {})]
+    finally:
+        await b.stop()
+
+
+async def test_cancelled_cli_call_does_not_leave_the_process_running(tmp_path):
+    """A run deadline or shutdown cancels the awaiting coroutine; the CLI and the helpers it started must stop too."""
+    import asyncio
+    import os
+    import uuid
+
+    from agentteam.providers.claude_cli_driver import ClaudeCliDriver
+
+    marker = tmp_path / f"alive-{uuid.uuid4().hex}"
+    script = tmp_path / "slow.sh"
+    # The child starts a grandchild that inherits the pipes, as the real CLI does with the MCP proxy.
+    script.write_text(f"#!/bin/sh\nsleep 30 &\necho \"$$ $!\" > '{marker}'\nwait\n")
+    script.chmod(0o755)
+    driver = ClaudeCliDriver("cli", binary=str(script))
+    call = asyncio.create_task(driver._exec([str(script)], timeout=60))
+    for _ in range(200):
+        if marker.exists() and len(marker.read_text().split()) == 2:
+            break
+        await asyncio.sleep(0.02)
+    pids = [int(p) for p in marker.read_text().split()]
+    call.cancel()
+    with pytest.raises(asyncio.CancelledError):
+        await call
+
+    def running(pid):
+        try:
+            os.kill(pid, 0)
+        except ProcessLookupError:
+            return False
+        return True
+
+    for _ in range(200):
+        if not any(running(pid) for pid in pids):
+            break
+        await asyncio.sleep(0.02)
+    else:
+        pytest.fail(f"processes still running after cancellation: {[p for p in pids if running(p)]}")

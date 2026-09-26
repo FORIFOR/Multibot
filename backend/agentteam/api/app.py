@@ -22,7 +22,7 @@ from pydantic import BaseModel, Field, ValidationError, field_validator
 from sse_starlette.sse import EventSourceResponse
 
 from .. import __version__
-from ..config.loader import ConfigError, PKG_ROOT, REPO_ROOT, config_to_yaml, effective_agent, list_skills, load_config_text
+from ..config.loader import ConfigError, PKG_ROOT, REPO_ROOT, config_to_yaml, effective_agent, list_skills
 from ..config.models import Connection
 from ..contracts import RunInputs, RunStatus
 from ..ids import new_id
@@ -717,7 +717,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                     raise KeyError(run_id)
                 reply = before.model_dump()
                 reply.update(status='queued' if svc.manager.durable else 'running', finished_at=None, blocked_reason=None)
-                run = await svc.manager.resume(run_id, receipt=_receipt(receipt, reply, 200))
+                await svc.manager.resume(run_id, receipt=_receipt(receipt, reply, 200))
         except KeyError:
             raise HTTPException(404, "run not found")
         except ValueError as e:

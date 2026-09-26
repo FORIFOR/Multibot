@@ -10,7 +10,7 @@ try {
  const page=await context.newPage();page.on('pageerror',e=>evidence.errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')evidence.writes.push(r.method()+' '+r.url())})
  const runs=await(await context.request.get('http://127.0.0.1:8796/api/runs')).json();evidence.runs=runs.map(r=>({id:r.run_id,status:r.status}))
  await page.goto('http://127.0.0.1:8796/runs');await page.locator('.work-items li').first().waitFor()
- const statuses={all:runs,active:runs.filter(r=>['created','queued','planning','running'].includes(r.status)),attention:runs.filter(r=>['approval_required','blocked'].includes(r.status)),completed:runs.filter(r=>r.status==='completed')}
+ const statuses={all:runs,active:runs.filter(r=>['created','queued','planning','running'].includes(r.status)),attention:runs.filter(r=>['approval_required','blocked'].includes(r.status)),stopped:runs.filter(r=>['partial','failed','interrupted','cancelled'].includes(r.status)),completed:runs.filter(r=>r.status==='completed')}
  for(const [filter,expected] of Object.entries(statuses)) {
   const link=page.locator(`.work-filters a[href="/runs?filter=${filter}"]`);await link.focus();await page.keyboard.press('Enter');assert.equal(await link.getAttribute('aria-current'),'page');assert.equal(await page.locator('.work-items li').count(),expected.length)
   await page.reload();await page.locator('.work-list-count').waitFor();assert.equal(await page.locator('.work-items li').count(),expected.length)

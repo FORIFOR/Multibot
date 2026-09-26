@@ -216,7 +216,7 @@ body:has(.desk-workroom) .top { border:0; border-bottom:1px solid #dedfd9; borde
  .desk-workroom .simple-deliverables { padding:16px; }
  .desk-workroom .conversation-scroll,.desk-workroom .conversation-empty { min-height:130px; }
  .desk-workroom .simple-direction { padding:0 16px 16px; }
- .desk-workroom .desk-bot-state { display:none; }
+ .desk-workroom .desk-bot-state { display:inline; font-size:10.5px; } /* state stays readable on phones (acceptance §4) */
 
 }
 @media(max-width:700px) {
@@ -224,3 +224,7 @@ body:has(.desk-workroom) .top { border:0; border-bottom:1px solid #dedfd9; borde
  .desk-workroom .desk-resume { position:static; }
  .desk-workroom .desk-resume > div { left:0; right:0; top:calc(100% + 8px); width:auto; max-width:none; }
 }
+
+/* Text results size to their content; a short brief should not sit above a tall empty box. Page previews keep a fixed
+   frame because a sandboxed iframe cannot be measured. */
+.creation-studio .result-reader:not(:has(iframe)){min-height:0}

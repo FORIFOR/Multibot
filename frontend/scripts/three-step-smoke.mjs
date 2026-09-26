@@ -64,14 +64,14 @@ try{
   // Direct completed link defaults to results; a completion status is not a verification badge.
   store.run.status='completed';store.run.artifacts=[file()];await page.goto(base+'/runs/journey')
   await page.locator('.result-reader .md, .result-reader pre').first().waitFor();assert.equal(await page.locator('.desk-workroom').getAttribute('data-studio-panel'),'results')
-  assert.match(await page.locator('.result-review-summary').innerText(),lang==='ja'?/確認記録はまだありません/:/No check record/)
+  await page.waitForFunction(()=>!document.querySelector('.result-review-summary.is-loading'));assert.match(await page.locator('.result-review-summary').innerText(),lang==='ja'?/確認記録はまだありません/:/No check record/)
   assert.doesNotMatch(await page.locator('body').innerText(),machinery)
   await noOverflow(page);const box=await page.locator('.result-reader').boundingBox();if(width===1440)assert.ok(box.width>=650)
   await page.screenshot({path:`${shots}/three-step-results-${width}-${lang}-${engine}.png`,fullPage:true})
   await page.locator('.result-use [data-adopt]').click();await page.waitForFunction(()=>document.querySelector('.simple-deliverables')?.textContent.match(/あなたが選んだ版|Your selected version/))
   // Do not copy a pass from another revision/hash.
   store.run.artifacts=[file(),file(2)];store.run.artifact_selection={};store.checks=[{event_id:'old-check',payload:{target:{artifact_id:'intro.md',revision:1,sha256:sha},result:{status:'pass'}}}]
-  await page.reload();await page.locator('.result-reader .md, .result-reader pre').first().waitFor();assert.match(await page.locator('.result-review-summary').innerText(),lang==='ja'?/確認記録はまだありません/:/No check record/)
+  await page.reload();await page.locator('.result-reader .md, .result-reader pre').first().waitFor();await page.waitForFunction(()=>!document.querySelector('.result-review-summary.is-loading'));assert.match(await page.locator('.result-review-summary').innerText(),lang==='ja'?/確認記録はまだありません/:/No check record/)
   store.run.status='partial';store.run.blocked_reason='出典の確認が未完了です。';await page.reload();await page.locator('.work-status.tone-attention').waitFor();assert.match(await page.locator('.simple-results .work-warning').innerText(),lang==='ja'?/完了していません/:/not complete/)
   // Approval stays visible in EVERY basic panel, and no decision is sent until clicked.
   store.run.status='approval_required';store.run.blocked_reason=null;store.run.approvals=[{approval_id:'approval',agent_id:'builder',run_id:'journey',action:'send_email',payload:{description:'テスト用の送信案を確認してください',payload:{to:'example@example.test',subject:'Preview only'}},payload_hash:'payload-hash',nonce:'nonce',expires_at:iso,status:'pending'}]

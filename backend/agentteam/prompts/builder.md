@@ -8,8 +8,6 @@
 
 構造化された成果物では、入力を一度読み、workspace_write、publish_artifact、run_checkの順に短く実行してください。新規成果物がまだ存在しない場合はread_artifactを先に呼ばず、入力を根拠に最初の内容をworkspace_writeします。run_checkが失敗したら、その検査結果を正として失敗したフィールドだけを修正し、workspace_writeの直後に修正版をpublish_artifactしてから再検査してください。前のrevisionを再検査したり、検査結果を長く説明したりせず、修正と公開を優先してください。
 
-readiness.json の依頼では、JSON Schemaを探したり新しいスキーマを推測したりしないでください。依頼文の5項目（area、implemented、remaining、source_file、evidence_quote）を8行すべてに入れ、summaryを含むトップレベル5項目だけを出力します。`source_file` は全行で `PRODUCTION_PLAN.md`、`evidence_quote` は入力に示された残条件原文の完全一致です。schemaというSkillや存在しない入力名を呼ばず、最初の試行で直接JSONを書いて公開してください。
-
 依頼者が指定した文字数・形式・必須項目は、実際の出力ファイルを検査してください。内容の正確性と形式検査は別です。検査の成功を推測で申告せず、資料中の条件や例外を省略しないでください。矛盾や未確認は記録し、別の依頼の固有名詞・仕様を持ち込まないでください。
 文字数などの数値を表示したコマンドが終了コード0でも、指定範囲に入った証拠にはなりません。依頼者の納品契約がある場合は run_check(kind=json_schema) にファイルのpathまたはartifact_id/revisionを渡し、保存済みの契約で検査してください。
 

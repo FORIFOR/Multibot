@@ -6,6 +6,7 @@ import { getLang } from '../lib/i18n'
 import { botActivity, botStateLabel } from '../lib/bot-presentation'
 import { friendlyWorkText, coordinatorPlanned, outcomeLabel, friendlyReason, teamOrder, defaultPanel, requestedPanel, resultFiles, statusLabel, stateTone, roleLabel, isSettled, type JourneyPanel } from '../lib/journey'
 import { Link } from '../lib/router'
+import { readRequestDraft, saveRequestDraft } from '../lib/request-draft'
 import { workFilter } from './WorkList'
 import BotAvatar from '../components/BotAvatar'
 import Markdown from '../components/Markdown'
@@ -19,11 +20,32 @@ import '../workroom-refinement.css'
 // Full audit tools are preserved, but loaded only when the user asks for them.
 const Inspector = lazy(() => import('./RunView'))
 const say = (ja: string, en: string) => getLang() === 'en' ? en : ja
-function hasCheckRecord(file: Artifact, evidence: any, events: Event[]): boolean {
+// A failed or unverified record is not "checked": the file list and status line must say which it is.
+// Only the latest record of each kind counts; a later review of the same bytes supersedes an earlier one.
+type CheckState = 'none' | 'pass' | 'concern'
+type Outcome = { key: string; seq: number; statuses: unknown[] }
+function latestStatuses(outcomes: Outcome[]): unknown[] {
+  const latest = new Map<string, Outcome>()
+  for (const o of outcomes) { const prev = latest.get(o.key); if (!prev || o.seq >= prev.seq) latest.set(o.key, o) }
+  return [...latest.values()].flatMap(o => o.statuses)
+}
+function recordOutcomes(file: Artifact, evidence: any, events: Event[]): Outcome[] {
   const exact = (target: any) => target?.artifact_id === file.artifact_id && target?.revision === file.revision && target?.sha256 === file.sha256
-  return [...(evidence?.checks || []), ...(evidence?.delivery_checks || [])].some((c: any) => exact(c.target)) || (evidence?.reviews || []).some((r: any) => (r.target_artifacts || []).some(exact))
-    || events.some(e => ((e.type === 'check.completed' || e.type === 'delivery.checked') && exact(e.payload.target))
-      || (e.type === 'review.submitted' && (e.payload.target_artifacts || []).some(exact)))
+  const out: Outcome[] = []
+  for (const c of evidence?.checks || []) if (exact(c.target)) out.push({ key: `check:${c.kind}`, seq: c.seq, statuses: [c.status] })
+  for (const c of evidence?.delivery_checks || []) if (exact(c.target)) out.push({ key: `delivery:${c.logical_path}`, seq: c.seq, statuses: [c.result?.status] })
+  for (const r of evidence?.reviews || []) if ((r.target_artifacts || []).some(exact)) out.push({ key: `review:${r.target_task_id}`, seq: r.seq, statuses: (r.results || []).map((x: any) => x.status) })
+  for (const e of events) {
+    if (e.type === 'check.completed' && exact(e.payload.target)) out.push({ key: `check:${e.payload.kind}`, seq: e.seq, statuses: [e.payload.result?.status] })
+    else if (e.type === 'delivery.checked' && exact(e.payload.target)) out.push({ key: `delivery:${e.payload.logical_path}`, seq: e.seq, statuses: [e.payload.result?.status] })
+    else if (e.type === 'review.submitted' && (e.payload.target_artifacts || []).some(exact)) out.push({ key: `review:${e.payload.target_task_id}`, seq: e.seq, statuses: (e.payload.results || []).map((x: any) => x.status) })
+  }
+  return out
+}
+function checkState(file: Artifact, evidence: any, events: Event[]): CheckState {
+  const statuses = latestStatuses(recordOutcomes(file, evidence, events))
+  if (!statuses.length) return 'none'
+  return statuses.every(s => s === 'pass') ? 'pass' : 'concern'
 }
 const eventTypes = ['run.created','run.started','run.queued','run.completed','run.partial','run.failed','run.cancelled','run.interrupted','run.resumed','run.blocked','team.selected','team.rejected','plan.accepted','plan.milestone','task.started','task.updated','task.ready','task.waiting','task.accepted','task.partial','task.failed','task.blocked','task.review_pending','task.cancelled','task.interrupted','artifact.published','artifact.adopted','review.submitted','check.completed','delivery.checked','approval.requested','approval.resolved','instruction.received','message.sent','model.called','model.failed','tool.called','input.read','plan.proposed','plan.rejected']
 
@@ -47,10 +69,10 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const [directionDraft, setDirectionDraft] = useState('')
   const [artifactTarget,setArtifactTarget]=useState<{id:string;revision:number;sha256:string}|null>(null)
   const refreshRef = useRef<() => Promise<void>>(async () => {})
-  const reconnectRef = useRef<() => void>(() => {})
+  const reconnectRef = useRef<() => Promise<void>>(async () => {})
 
   useEffect(() => {
-    let alive = true, inFlight = false, cursor = 0
+    let alive = true, inFlight = false, cursor = 0, nextConnectAt = 0
     setRun(null); setChat([]); setEvents([]); setConnection('connecting')
     let stream: EventSource | null = null
     let queued: ReturnType<typeof setTimeout> | undefined
@@ -59,23 +81,37 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
       inFlight = true
       try {
         const [detail, messages, updates] = await Promise.all([api.run(runId), api.chat(runId), api.events(runId,cursor)])
-        if (alive) { setRun(detail); setChat(messages); setLoadError(''); if(updates.length){cursor=updates.at(-1)!.seq;setEvents(old=>[...old,...updates])} if(!stream && detail.live && !isSettled(detail.status)) connect() }
+        if (alive) { setRun(detail); setChat(messages); setLoadError(''); if(updates.length){cursor=updates.at(-1)!.seq;setEvents(old=>[...old,...updates])} if(!streamOpen() && detail.live && !isSettled(detail.status)) connect(); else if (!streamOpen() && isSettled(detail.status)) setConnection('ended') }
+        return detail
       } catch { if (alive) setLoadError(say('最新の状態を取得できません。表示内容が古い可能性があります。', 'Could not refresh the work. The displayed information may be out of date.')) }
       finally { inFlight = false }
     }
     const schedule = () => { if (!queued) queued = setTimeout(() => { queued = undefined; void refresh() }, 100) }
+    // The stream is only a change signal; the fetches above carry the data. Start it after the last event
+    // already loaded so a reconnect does not replay the whole history, and keep one open stream at a time.
+    const streamOpen = () => !!stream && stream.readyState !== EventSource.CLOSED
     const connect = () => {
       stream?.close()
-      if (!alive) return
-      stream = new EventSource(`/api/runs/${encodeURIComponent(runId)}/stream`)
+      if (!alive || Date.now() < nextConnectAt) return
+      stream = new EventSource(`/api/runs/${encodeURIComponent(runId)}/stream?after_seq=${cursor}`)
       stream.onopen = () => { if(alive) setConnection('live') }
       for (const type of eventTypes) stream.addEventListener(type, schedule)
       stream.addEventListener('end', () => { stream?.close(); stream = null; setConnection('ended'); schedule() })
-      stream.onerror = () => { if(alive) setConnection('reconnecting'); void refresh() }
+      stream.onerror = () => {
+        if (!alive) return
+        setConnection('reconnecting')
+        // A network drop reconnects by itself (Last-Event-ID). A refused stream is closed: wait for the 5 s resync.
+        if (stream?.readyState === EventSource.CLOSED) nextConnectAt = Date.now() + 5000
+        void refresh()
+      }
     }
-    const foreground = () => { if (!document.hidden) { void refresh(); connect() } }
-    refreshRef.current = refresh; reconnectRef.current = connect
-    void refresh(); connect()
+    // A browser may drop the stream while the tab is hidden; refresh() reopens it when the run is still live.
+    const foreground = () => { if (!document.hidden) void refresh() }
+    // After an action (resume, cancel, adopt…) the run may start again before it is reported live; open the
+    // stream for any unsettled run. The server closes it at once when nothing more will be appended.
+    const ensureStream = async () => { const detail = await refresh(); if (alive && detail && !streamOpen() && !isSettled(detail.status)) connect() }
+    refreshRef.current = async () => { await refresh() }; reconnectRef.current = ensureStream
+    void ensureStream()
     // Resync after missed SSE events and external resume; only while visible.
     const timer = setInterval(() => { if (!document.hidden) void refresh() }, 5000)
     document.addEventListener('visibilitychange', foreground)
@@ -86,7 +122,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const act = async (fn: () => Promise<unknown>) => {
     if (actionLock.current) return
     actionLock.current = true; setBusy(true); setActionError('')
-    try { await fn(); await refresh(); reconnectRef.current() }
+    try { await fn(); await reconnectRef.current() }
     catch { setActionError(say('操作を完了できませんでした。状態を確認して、もう一度お試しください。', 'The action did not finish. Check the status and try again.')) }
     finally { actionLock.current = false; setBusy(false) }
   }
@@ -124,12 +160,13 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   // A review of another version is not evidence for this file.
   const evidence = run.final_report?.evidence
   const latestFiles = [...new Map(files.map(f => [f.artifact_id, f] as const).sort((a, b) => a[1].revision - b[1].revision)).values()]
-  const uncheckedFiles = latestFiles.filter(f => !hasCheckRecord(f, evidence, events)).length
+  const uncheckedFiles = latestFiles.filter(f => checkState(f, evidence, events) === 'none').length
+  const flaggedFiles = latestFiles.filter(f => checkState(f, evidence, events) === 'concern').length
   // What the coordinator says must follow the adoption that already happened, not keep asking for it.
   const adoptedList = Object.entries(run.artifact_selection || {})
   const adoptedUnverified = adoptedList.filter(([artifactId, selection]) => {
     const file = run.artifacts.find(a => a.artifact_id === artifactId && a.revision === selection.revision)
-    return !file || !hasCheckRecord(file, evidence, events)
+    return !file || checkState(file, evidence, events) !== 'pass'
   }).length
   // Who owns which task, so that "t2" in a model's own words can be shown as that teammate's work.
   const owners: Record<string,string> = Object.fromEntries(run.tasks.map(t => { const a = run.config_snapshot?.agents?.[t.spec.owner]; return [t.spec.id, a?.display_name || botName(a?.role || t.spec.owner, getLang())] }))
@@ -149,8 +186,9 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     <section className={`work-status room-head tone-${pending.length ? 'attention' : stateTone(run.status)}`} aria-label={say('進み具合','Progress')}>
 <div className="status-voice">{(() => { const m = Object.entries(run.config_snapshot?.agents || {}).find(([, a]) => a.enabled && a.role === 'master'); return m ? <BotAvatar id={m[0]} role={m[1].role} emoji={m[1].emoji} name={m[1].display_name || botName(m[1].role, getLang())} state={(() => { const mine = run.tasks.filter(t => t.spec.owner === m[0]); const raw = botActivity(mine, run.status, m[0], m[1].role, true); return coordinatorPlanned(m[1].role, mine.length, !!run.plan, raw, run.status) ? 'done' : raw })()} /> : null })()}      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status !== 'completed' ? null
         : adoptedList.length > 0 ? (adoptedUnverified > 0
-          ? say(`使う版を${adoptedList.length}件選びました。そのうち${adoptedUnverified}件は確認の記録がないまま採用しています。`, `${adoptedList.length} version(s) chosen; ${adoptedUnverified} of them were adopted with no check record.`)
+          ? say(`使う版を${adoptedList.length}件選びました。そのうち${adoptedUnverified}件は、確認を通過した記録がないまま採用しています。`, adoptedUnverified === 1 ? `${adoptedList.length} version(s) chosen. 1 was chosen without a passing check record.` : `${adoptedList.length} versions chosen. ${adoptedUnverified} were chosen without a passing check record.`)
           : say(`使う版を${adoptedList.length}件選びました。ほかのファイルも記録を見てから選べます。`, `${adoptedList.length} version(s) chosen. You can review and choose the other files too.`))
+        : flaggedFiles > 0 ? say(`要修正・未確認の項目が記録されたファイルが${flaggedFiles}件あります。記録を見てから、使う版を選んでください。`,`${flaggedFiles} file(s) have checks that failed or were left unverified. Read the record before choosing a version.`)
         : uncheckedFiles > 0 ? say(`確認の記録がないファイルが${uncheckedFiles}件あります。中身と記録を見てから、使う版を選んでください。`,`${uncheckedFiles} file(s) have no check record. Read them and the record before choosing a version.`)
         : say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.')}</p></div></div>
       <div className="work-actions"><span className="cost-summary">{say('使用額','Used')} {money(run.usage.cost_usd)}{run.usage.reserved_usd > 0 ? ` · ${say('処理中の確保額','Reserved')} ${money(run.usage.reserved_usd)}` : ''}</span>
@@ -201,7 +239,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
 
       </div>
       <div className="room-main">
-      <div id="work-conversation" tabIndex={-1}><TeamConversation key={runId} run={run} chat={chat} events={events} onOpenArtifact={ref=>{setArtifactTarget({id:ref.artifact_id,revision:ref.revision,sha256:ref.sha256});select('results')}} connection={loadError ? 'reconnecting' : connection}><Direction run={run} refresh={refresh} text={directionDraft} setText={setDirectionDraft} /></TeamConversation></div>
+      <div id="work-conversation" tabIndex={-1}><TeamConversation key={runId} run={run} chat={chat} events={events} onOpenArtifact={ref=>{setArtifactTarget({id:ref.artifact_id,revision:ref.revision,sha256:ref.sha256});select('results')}} connection={loadError ? 'reconnecting' : connection}><Direction run={run} refresh={refresh} text={directionDraft} setText={setDirectionDraft} onNewRequest={carried => { const d = readRequestDraft(); saveRequestDraft({ ...d, goal: d.goal.trim() ? `${d.goal}\n\n${carried}` : carried }); nav('/') }} /></TeamConversation></div>
       <div id="room-results" tabIndex={-1}><section className="simple-results" aria-label={say('できたもの','Your results')}>
       {files.length > 0 && run.status !== 'completed' && <p className="work-warning">{isSettled(run.status) ? say('依頼全体は完了していません。使える途中成果を確認できます。','The request is not complete. These are the available partial results.') : say('作業途中の内容です。確認・修正で変わることがあります。','These are drafts. They may change as the team checks and revises them.')}</p>}
       <Deliverables key={runId} run={run} events={events} refresh={refresh} target={artifactTarget} clearTarget={()=>setArtifactTarget(null)} onDirection={prepareDirection} />
@@ -215,7 +253,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   </div>
 }
 
-function Direction({ run, refresh, text, setText }: { run: RunDetail; refresh: () => Promise<void>; text: string; setText: (value: string) => void }) {
+function Direction({ run, refresh, text, setText, onNewRequest }: { run: RunDetail; refresh: () => Promise<void>; text: string; setText: (value: string) => void; onNewRequest: (text: string) => void }) {
   const [busy,setBusy] = useState(false), [note,setNote] = useState(''), [error,setError] = useState('')
   const lock = useRef(false)
   const allowed = run.access?.can_instruct ?? (run.access?.can_write !== false && ['created','queued','planning','running'].includes(run.status))
@@ -227,6 +265,14 @@ function Direction({ run, refresh, text, setText }: { run: RunDetail; refresh: (
     catch { setError(say('送れませんでした。入力は残してあります。','Could not send. Your text has been kept.')) }
     finally { lock.current=false;setBusy(false) }
   }
+  // A finished run cannot take directions. Do not show a dead, disabled form: offer the one thing that works,
+  // a new request that carries the text (for example a "request a change" note prepared from a result).
+  if (!allowed) return <div className="simple-direction is-closed">
+    {run.latest_instruction && <details className="saved-direction"><summary>{say('最後に保存した指示を見る','View the last saved direction')}</summary><p>{String(run.latest_instruction.payload.text)}</p><small>{say('保存の記録です。適用や修正の完了を示すものではありません。','This records receipt, not application or completion.')}</small></details>}
+    <p id="direction-note">{run.access?.can_write === false ? say('閲覧権限では指示を送れません。','Read-only access cannot send directions.') : say('この作業には、もう指示を送れません。直したい点は新しいお願いにできます。','This work no longer takes directions. You can make the change a new request.')}</p>
+    {text.trim() && <p className="direction-carry">{text}</p>}
+    {run.access?.can_write !== false && <button type="button" className="btn ghost" onClick={() => onNewRequest(text.trim())}>{text.trim() ? say('この内容で新しくお願いする','Start a new request with this text') : say('新しくお願いする','New request')}</button>}
+  </div>
   return <form className="simple-direction" onSubmit={send}>
     {run.latest_instruction && <details className="saved-direction"><summary>{say('最後に保存した指示を見る','View the last saved direction')}</summary><p>{String(run.latest_instruction.payload.text)}</p><small>{say('保存の記録です。適用や修正の完了を示すものではありません。','This records receipt, not application or completion.')}</small></details>}
     <label htmlFor="team-direction">{say('チームに伝える','Tell your team')}</label>
@@ -248,9 +294,19 @@ function ApprovalCards({ approvals,readOnly,refresh }: { approvals: Approval[]; 
   }
   return <>{error&&<p role="alert">{error}</p>}{approvals.map(a=><article className="simple-approval" key={a.approval_id}>
     <h3>{String(a.payload.description||a.action)}</h3><p>{say('実行する操作','Action')}: {a.action}</p>
-    <pre>{JSON.stringify(a.payload.payload ?? a.payload,null,2)}</pre><p>{say('有効期限','Expires')}: {fmtTime(a.expires_at)}{a.payload.estimated_cost_usd!=null ? ` · ${say('見積もり','Estimate')} $${a.payload.estimated_cost_usd}`:''}</p>
+    <ApprovalDetails value={a.payload.payload ?? a.payload} /><p>{say('有効期限','Expires')}: {fmtTime(a.expires_at)}{a.payload.estimated_cost_usd!=null ? ` · ${say('見積もり','Estimate')} $${a.payload.estimated_cost_usd}`:''}</p>
     {readOnly?<p>{say('閲覧権限では承認できません。','Read-only access cannot approve this action.')}</p>:<div className="row"><button className="btn signal" disabled={busy} onClick={()=>resolve(a,'approve')}>{say('この内容で承認','Approve this action')}</button><button className="btn ghost" disabled={busy} onClick={()=>resolve(a,'reject')}>{say('承認しない','Decline')}</button></div>}
   </article>)}</>
+}
+
+// What will be done must stay fully visible before approval, but as labelled lines rather than a JSON dump.
+// Only nested values keep their exact source text, inside a disclosure.
+function ApprovalDetails({ value }: { value: unknown }) {
+  const entries = value && typeof value === 'object' && !Array.isArray(value) ? Object.entries(value as Record<string, unknown>) : []
+  if (!entries.length) return value == null || (typeof value === 'object' && !Array.isArray(value)) ? null : <p className="approval-value">{String(value)}</p>
+  return <dl className="approval-details">{entries.map(([key, v]) => <div key={key}><dt>{key}</dt><dd>{v !== null && typeof v === 'object'
+    ? <details><summary>{say('内容を表示','Show contents')}</summary><pre>{JSON.stringify(v, null, 2)}</pre></details>
+    : String(v)}</dd></div>)}</dl>
 }
 
 type ArtifactDetail = Artifact & { text?: string; checks: Event[]; reviews: Event[] }
@@ -261,7 +317,7 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
   const shown=useRef(''), focusChoice=useRef(false), choiceRef=useRef<HTMLSpanElement>(null)
   // Use the same exact revision/hash rule as the status line.
   const evidence=run.final_report?.evidence
-  const unchecked=new Set<string>(resultFiles(run.artifacts).filter((f,_,all)=>f.revision===Math.max(...all.filter(x=>x.artifact_id===f.artifact_id).map(x=>x.revision))).filter(f=>!hasCheckRecord(f,evidence,events)).map(f=>f.artifact_id))
+  const latestState=new Map<string,CheckState>(resultFiles(run.artifacts).filter((f,_,all)=>f.revision===Math.max(...all.filter(x=>x.artifact_id===f.artifact_id).map(x=>x.revision))).map(f=>[f.artifact_id,checkState(f,evidence,events)]))
   const versions = new Map<string,Artifact[]>()
   for(const file of resultFiles(run.artifacts)){const list=versions.get(file.artifact_id)||[];list.push(file);versions.set(file.artifact_id,list)}
   for(const list of versions.values())list.sort((a,b)=>a.revision-b.revision)
@@ -285,16 +341,18 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
   const checks=(detail?.checks||[]).filter(e=>exact(e.payload.target))
   const reviews=(detail?.reviews||[]).filter(e=>(e.payload.target_artifacts||[]).some(exact))
   const reviewAuthor=(event:Event)=>{const agent=run.config_snapshot?.agents?.[event.actor_id];return agent?.display_name || (agent?botName(agent.role,getLang()):event.actor_id || say('確認者','Reviewer'))}
-  const outcomes=[...checks.map(e=>e.payload.result?.status),...reviews.flatMap(e=>(e.payload.results||[]).map((r:any)=>r.status))]
+  const outcomes=latestStatuses([...checks.map(e=>({key:e.type==='delivery.checked'?`delivery:${e.payload.logical_path}`:`check:${e.payload.kind}`,seq:e.seq,statuses:[e.payload.result?.status]})),...reviews.map(e=>({key:`review:${e.payload.target_task_id}`,seq:e.seq,statuses:(e.payload.results||[]).map((r:any)=>r.status)}))])
   const pass=outcomes.length>0&&outcomes.every(s=>s==='pass'), concern=outcomes.some(s=>s!=='pass')
+  // While the record is loading, say so; "no record" would be a claim the page has not checked yet.
+  const loadingRecord=!detail&&!error
   const isMarkdown=/markdown/.test(file.media_type)||/\.(md|markdown)$/i.test(file.logical_path)
   // The adopt button disappears once pressed; hand focus to what replaced it so keyboard users are not dropped on <body>.
   const useVersion=async()=>{if(lock.current)return;lock.current=true;setBusy(true);setNote('');try{await api.adoptArtifact(run.run_id,file.artifact_id,{revision:file.revision,expected_selected_revision:adopted?.revision ?? 0});setNote(say('この版を使うことにしました。','This version is now selected.'));focusChoice.current=true;await refresh()}catch{setError(say('選択を保存できませんでした。再読み込みしてお試しください。','Could not save your choice. Refresh and try again.'))}finally{lock.current=false;setBusy(false)}}
   return <section className="pane simple-deliverables"><header><h2>{say('できたもの','Your results')}</h2>{Object.keys(run.artifact_selection || {}).length > 0 && <a className="btn ghost" href={`/api/runs/${run.run_id}/export?fmt=zip&selection=adopted`}>{say('採用したファイルを保存','Save selected files')}</a>}<a className="btn ghost" href={`/api/runs/${run.run_id}/export?fmt=zip`}>{say('最新のファイルをまとめて取得','Get all latest files')}</a></header>
-    <div className="result-file-list" aria-label={say('ファイルを選ぶ','Choose a file')}>{[...versions.entries()].map(([key,items])=><button className={key===id?'active':''} type="button" aria-pressed={key===id} key={key} onClick={()=>{clearTarget();setSelection({id:key,revision:run.artifact_selection?.[key]?.revision||items[items.length-1].revision})}}><span aria-hidden="true">📄</span>{items[items.length-1].logical_path}{run.artifact_selection?.[key]&&<span className="tab-chosen" title={say('あなたが選んだ版があります','You selected a version')}>{say('採用','Chosen')}</span>}{unchecked.has(key)&&<span className="tab-mark" role="img" aria-label={say('確認の記録なし','No check record')} title={say('確認の記録なし','No check record')}>?</span>}</button>)}</div>
+    <div className="result-file-list" aria-label={say('ファイルを選ぶ','Choose a file')}>{[...versions.entries()].map(([key,items])=><button className={key===id?'active':''} type="button" aria-pressed={key===id} key={key} onClick={()=>{clearTarget();setSelection({id:key,revision:run.artifact_selection?.[key]?.revision||items[items.length-1].revision})}}><span aria-hidden="true">📄</span>{items[items.length-1].logical_path}{run.artifact_selection?.[key]&&<span className="tab-chosen" title={say('あなたが選んだ版があります','You selected a version')}>{say('採用','Chosen')}</span>}{latestState.get(key)==='none'&&<span className="tab-mark" role="img" aria-label={say('確認の記録なし','No check record')} title={say('確認の記録なし','No check record')}>?</span>}{latestState.get(key)==='concern'&&<span className="tab-mark is-concern" role="img" aria-label={say('要修正・未確認の項目あり','Failed or unverified items')} title={say('要修正・未確認の項目あり','Failed or unverified items')}>!</span>}</button>)}</div>
     <div className="result-decide">
-    <div className={`result-review-summary is-${pass?'pass':concern?'concern':'none'}`}>
-      <span className="review-state"><b aria-hidden="true">{pass?'✓':concern?'!':'?'}</b>{pass?say('この版の記録された確認は通過','Recorded checks passed for this version'):concern?say('この版には未確認・要修正の項目があります','This version has unchecked or flagged items'):say('未確認：この版の確認記録はまだありません','Unverified: No check record for this version yet')}</span>
+    <div className={`result-review-summary is-${loadingRecord?'loading':pass?'pass':concern?'concern':'none'}`}>
+      <span className="review-state"><b aria-hidden="true">{loadingRecord?'…':pass?'✓':concern?'!':'?'}</b>{loadingRecord?say('確認の記録を読み込んでいます…','Loading the check record…'):pass?say('この版の記録された確認は通過','Recorded checks passed for this version'):concern?say('この版には未確認・要修正の項目があります','This version has unchecked or flagged items'):say('未確認：この版の確認記録はまだありません','Unverified: No check record for this version yet')}</span>
       <button type="button" className="review-link" onClick={()=>{setRecordOpen(true);setTimeout(()=>document.getElementById('result-record')?.scrollIntoView({block:'center'}),0)}}>{say('確認の記録を見る','See the check record')}</button>
     </div>
     {error&&<p className="work-warning" role="alert">{error} <button className="btn ghost" onClick={()=>setReadAttempt(n=>n+1)}>{say('再読み込み','Refresh')}</button></p>}

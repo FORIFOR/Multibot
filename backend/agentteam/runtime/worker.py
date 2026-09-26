@@ -9,7 +9,7 @@ from typing import Any
 
 from ..config.loader import platform_policy_text
 from ..config.voice import conversation_voice, voice_instructions
-from ..contracts import TaskResult, TaskState
+from ..contracts import TaskResult, TaskState, is_readiness_assessment
 from ..providers.base import LLMRequest, LLMResponse, ProviderError
 from ..providers.pricing import price_for
 from .context import SessionContext
@@ -105,14 +105,27 @@ async def document_reviewer_tool_nudge(ctx: SessionContext, available: list[str]
         "This is a document review. Your previous turn ended without a tool call. "
         "Your next message MUST call run_check first, using the exact persisted requester contract "
         "{kind: json_schema, artifact_id: <published target>, revision: <number>} with args omitted. "
-        f"Current target revision(s): {refs_text}. Do not call read_artifact on PRODUCTION_PLAN.md or any "
-        "other source attachment; attachments are read only with read_input_file. After a passing check, "
+        f"Current target revision(s): {refs_text}. "
+        + ("Do not call read_artifact on PRODUCTION_PLAN.md or any other source attachment; "
+           if is_readiness_assessment(ctx.rt.run.inputs) else "Do not call read_artifact on a source attachment; ")
+        + "attachments are read only with read_input_file. After a passing check, "
         "call submit_review with all criteria, send the required finding/handoff, then call finish_task. "
         "Do not narrate or reread the whole source."
     )
     if streak >= 2:
         base += " This is the last reminder; another turn without a tool call leaves the review unverified."
     return base
+
+
+def _readiness_series_section(role: str) -> str:
+    """Role guidance for the readiness acceptance series (prompts/readiness-series.md)."""
+    from ..config.loader import PKG_ROOT
+    text = (PKG_ROOT / "prompts" / "readiness-series.md").read_text(encoding="utf-8")
+    for block in text.split("\n## ")[1:]:
+        name, _, body = block.partition("\n")
+        if name.strip() == role:
+            return body.strip()
+    return ""
 
 
 def build_system_prompt(ctx: SessionContext) -> str:
@@ -132,8 +145,12 @@ def build_system_prompt(ctx: SessionContext) -> str:
         + "\nUse these personal names in conversation and these IDs for message recipients. "
         "Do not announce invented teammates or substitute a different roster. Discuss changes as proposals, not existing members.")
     parts.append("\n\n## Output language\nUse the language explicitly requested by the user for all original prose in deliverables; otherwise use the team language. Do not drift into another language mid-sentence. Keep verbatim source quotations, identifiers, product names and code unchanged unless the user explicitly requests their transformation. User-specific restrictions on foreign wording or abbreviations take priority over defaults. Before publishing or approving, read the saved artifact and check its prose language separately from format checks. If you cannot verify it, report unverified rather than pass.")
+    if is_readiness_assessment(ctx.rt.run.inputs):
+        section = _readiness_series_section(agent.role)
+        if section:
+            parts.append("\n\n## Readiness assessment series\n" + section)
     if ctx.rt.run.inputs.workflow == "document" and agent.role == "reviewer":
-        parts.append("\n\n## Document review only\nYou do not write or publish a replacement document. Start by running the requester-owned json_schema check on the published readiness.json revision listed in the review target; call run_check before reading additional source text. PRODUCTION_PLAN.md and other supplied files are input attachments, not artifacts: never pass their names to read_artifact, and use read_input_file only when source text is needed. Independently run the requester-owned json_schema check for every current target artifact before submit_review. Use exactly {kind: json_schema, artifact_id: <id>, revision: <number>} and omit args; the runtime rejects a review without a passing check. The evidence_quote field is required to remain the exact English Remaining acceptance work cell; Japanese belongs only in implemented/remaining summaries. Do not call an English quote a Japanese translation merely because the summaries are Japanese. This request produces an evidence-based current-status assessment: production_ready=false, L3未達, and remaining unverified acceptance conditions are expected accurate results. Do not fail document_request, document_contract, or document_accuracy merely because production is not ready or residual conditions remain. Fail only for a source contradiction, missing required condition or citation, summary/area contradiction, or missing requested format/language/subject. Do not replace the status assessment with an implementation plan or infer customer SLA/business-quality evidence. If anything is missing or wrong, fail that criterion and send concrete findings to the producer, then finish_task. The scheduler will start the producer's correction; waiting or writing your own draft cannot repair its artifact.")
+        parts.append("\n\n## Document review only\nYou do not write or publish a replacement document. Start by running the requester-owned json_schema check on the published readiness.json revision listed in the review target; call run_check before reading additional source text. PRODUCTION_PLAN.md and other supplied files are input attachments, not artifacts: never pass their names to read_artifact, and use read_input_file only when source text is needed. Independently run the requester-owned json_schema check for every current target artifact before submit_review. Use exactly {kind: json_schema, artifact_id: <id>, revision: <number>} and omit args; the runtime rejects a review without a passing check. The evidence_quote field is required to remain the exact English Remaining acceptance work cell; Japanese belongs only in implemented/remaining summaries. Do not call an English quote a Japanese translation merely because the summaries are Japanese. This request produces an evidence-based current-status assessment: production_ready=false, L3未達, and remaining unverified acceptance conditions are expected accurate results. Do not fail document_request, document_contract, or document_accuracy merely because production is not ready or residual conditions remain. Fail only for a source contradiction, missing required condition or citation, summary/area contradiction, or missing requested format/language/subject. Do not replace the status assessment with an implementation plan or infer customer SLA/business-quality evidence. If anything is missing or wrong, fail that criterion and send concrete findings to the producer, then finish_task. The scheduler will start the producer's correction; waiting or writing your own draft cannot repair its artifact." if is_readiness_assessment(ctx.rt.run.inputs) else "\n\n## Document review only\nYou do not write or publish a replacement document. Start by running the requester-owned json_schema check on the published revision listed in the review target; call run_check before reading additional source text. Supplied files are input attachments, not artifacts: never pass their names to read_artifact, and use read_input_file only when source text is needed. Independently run the requester-owned json_schema check for every current target artifact before submit_review. Use exactly {kind: json_schema, artifact_id: <id>, revision: <number>} and omit args; the runtime rejects a review without a passing check. Fail a criterion for a source contradiction, a missing required condition or citation, or a missing requested format/language/subject. If anything is missing or wrong, fail that criterion and send concrete findings to the producer, then finish_task. The scheduler will start the producer's correction; waiting or writing your own draft cannot repair its artifact.")
     return "".join(parts)
 
 
@@ -320,7 +337,7 @@ class AgentRunner:
 
     async def _call_model(self, req: LLMRequest, causation_id: str | None) -> LLMResponse:
         rt, ctx = self.rt, self.ctx
-        conn = rt.config.connection(ctx.agent.connection_id)
+        rt.config.connection(ctx.agent.connection_id)  # fails early on an unknown connection
         price = price_for(ctx.agent.model, rt.config.pricing, driver=ctx.agent.driver)
         est_in = (len(req.system) + sum(len(json.dumps(m, ensure_ascii=False)) for m in req.messages)
                   + sum(len(json.dumps(t.input_schema)) + len(t.description) for t in req.tools)) // 3 + 200
@@ -329,16 +346,33 @@ class AgentRunner:
         attempts = 0
         while True:
             attempts += 1
+            # Planning, coordination, reports and replans call the model outside the Scheduler loop, so the
+            # run's wall clock is enforced here for every call, not only between task sessions.
+            remaining = rt.remaining_seconds()
+            if remaining <= 0:
+                raise WorkerFailure("timeout", "run wall-clock limit reached")
             if is_cli:
                 cap = min(rt.config.limits.max_session_cost_usd, max(0.05, rt.policy.remaining_budget()))
                 res = rt.policy.reserve_amount(cap)
                 req.metadata["max_budget_usd"] = cap
-                req.metadata["timeout"] = max(30.0, rt.remaining_seconds() - 5)
+                req.metadata["timeout"] = max(1.0, remaining - 5)
             else:
                 res = rt.policy.reserve_model_call(price, est_in, req.max_tokens)
             t0 = time.monotonic()
+            deadline = asyncio.timeout(remaining)
             try:
-                resp = await provider.complete(req)
+                async with deadline:
+                    resp = await provider.complete(req)
+            except TimeoutError:
+                if not deadline.expired():
+                    raise
+                rt.policy.release(res)
+                await rt.events.append(rt.run_id, "model.failed",
+                                       {"connection_id": ctx.agent.connection_id, "model_requested": ctx.agent.model,
+                                        "kind": "timeout", "status": None, "message": "run wall-clock limit reached during a model call",
+                                        "retryable": False, "attempt": attempts},
+                                       actor_id=ctx.agent.agent_id, actor_kind="agent", task_id=ctx.task_id, causation_id=causation_id)
+                raise WorkerFailure("timeout", "run wall-clock limit reached during a model call")
             except ProviderError as e:
                 rt.policy.release(res)
                 rt.policy.usage.model_calls -= 1 if attempts > 1 and e.retryable else 0
@@ -529,7 +563,7 @@ class AgentRunner:
                 result = await provider.run_session(
                     system=system, prompt=prompt, gateway_url=broker.url(token), tool_names=[t.name for t in self.gateway.specs()],
                     model=ctx.agent.model, effort=ctx.agent.effort, max_turns=rt.config.limits.max_session_turns,
-                    max_budget_usd=cap, timeout=max(30.0, rt.remaining_seconds() - 5), cancel_event=rt.policy.cancel_event,
+                    max_budget_usd=cap, timeout=max(1.0, rt.remaining_seconds() - 5), cancel_event=rt.policy.cancel_event,
                     cwd=str(ctx.workspace) if ctx.workspace else None)
                 cost = rt.policy.settle_amount(res_v, result.cost_usd, result.usage, extra_calls=max(0, result.num_turns - 1))
                 await rt.events.append(rt.run_id, "model.called",

@@ -9,7 +9,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 from ..config.loader import PKG_ROOT, SCHEMA_DIR, platform_policy_text
 from ..config.voice import conversation_voice, voice_instructions
-from ..contracts import TaskSpec, TaskStatus, TeamPlan
+from ..contracts import TaskSpec, TeamPlan, is_readiness_assessment, task_id_problem
 from ..providers.base import LLMRequest
 from ..projections.views import artifact_review_ledger
 from .checks import CHECK_KINDS
@@ -88,6 +88,8 @@ def validate_plan(plan: TeamPlan, enabled_agent_ids: list[str], agent_roles: dic
     scopes: dict[str, str] = {}
     outputs: dict[str, str] = {}
     for t in plan.tasks:
+        if (problem := task_id_problem(t.id)) is not None:
+            errors.append(problem)
         if t.owner not in enabled_agent_ids:
             errors.append(f"task {t.id}: unknown or disabled owner {t.owner}")
         if t.owner not in plan.agents:
@@ -262,13 +264,14 @@ async def document_plan(rt) -> TeamPlan:
     if builder is None or reviewer is None or builder.agent_id == reviewer.agent_id:
         raise PlanError("document workflow requires separate enabled builder and reviewer agents")
     path = rt.run.inputs.delivery_requirements[0].logical_path
+    readiness = is_readiness_assessment(rt.run.inputs)
     build = TaskSpec(id="t1", owner=builder.agent_id, objective=rt.run.goal,
                      depends_on=[], output_paths=[path], write_scope="workspaces/t1/",
                      acceptance=[
                          {"id":"document_contract", "description":"The exact published revision passes the requester-owned delivery contract.", "check_kind":"programmatic"},
                          {"id":"document_language", "description":f"Original prose uses the user-requested language, defaulting to {rt.config.defaults.language}. No unintended language switching. Verbatim quotations, names, identifiers and code preserve the source. Inspect the exact saved revision; format success is not language verification.", "check_kind":"model_review"},
-                         {"id":"document_request", "description":"Every content requirement in the original request is fulfilled, including requested sections and source citations. This document is an evidence-based current-status assessment: production_ready=false, L3未達, and explicitly recorded remaining acceptance conditions satisfy the request; they are not a reason to fail it. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.", "check_kind":"model_review"},
-                         {"id":"document_accuracy", "description":"The requested content preserves the supplied sources, including conditions, exceptions and operation order. The current-status conclusion production_ready=false and unverified customer/SLA/business-quality conditions must remain visible; do not infer production completion. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.", "check_kind":"model_review"}])
+                         {"id":"document_request", "description":('Every content requirement in the original request is fulfilled, including requested sections and source citations. This document is an evidence-based current-status assessment: production_ready=false, L3未達, and explicitly recorded remaining acceptance conditions satisfy the request; they are not a reason to fail it. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.' if readiness else 'Every content requirement in the original request is fulfilled, including requested sections and source citations. Cite the actual output for each requirement. Repeating the writing instruction is not fulfilling it. Missing required content is a failure.'), "check_kind":"model_review"},
+                         {"id":"document_accuracy", "description":('The requested content preserves the supplied sources, including conditions, exceptions and operation order. The current-status conclusion production_ready=false and unverified customer/SLA/business-quality conditions must remain visible; do not infer production completion. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.' if readiness else 'The requested content preserves the supplied sources, including conditions, exceptions and operation order. Conditional actions must not become unconditional steps; unsupported claims are marked unverified.'), "check_kind":"model_review"}])
     review = TaskSpec(id="t2", owner=reviewer.agent_id,
                      objective="Independently compare the exact published revision with the original request and supplied sources. Check the requester contract and factual conditions. Submit an evidence-linked verdict for each producer criterion; do not infer correctness from file existence.",
                      depends_on=[build.id], output_paths=[], write_scope="workspaces/t2/",
@@ -346,7 +349,7 @@ async def plan_team(rt) -> TeamPlan:
                 from .communication import communication_budget_errors
                 last_errors.extend(communication_budget_errors(plan, roles, set(enabled),
                     rt.config.limits.max_peer_messages_per_task, rt.config.limits.max_revision_rounds))
-        except (ValueError, KeyError, TypeError) as e:
+        except (ValueError, KeyError, TypeError, AttributeError) as e:  # e.g. a task entry that is not an object
             last_errors = [f"unparseable plan: {e}"]
             plan = None
         await rt.events.append(rt.run_id, "plan.proposed", {"attempt": attempt + 1, "plan": data if isinstance(data, dict) else None,
@@ -376,12 +379,36 @@ async def plan_team(rt) -> TeamPlan:
 def _extract_json(text: str) -> dict[str, Any]:
     text = text.strip()
     try:
-        return json.loads(text)
+        data = json.loads(text)
     except json.JSONDecodeError:
         start, end = text.find("{"), text.rfind("}")
-        if start >= 0 and end > start:
-            return json.loads(text[start:end + 1])
-        raise
+        if start < 0 or end <= start:
+            raise
+        data = json.loads(text[start:end + 1])
+    if not isinstance(data, dict):  # a list or scalar is a malformed answer, not a crash
+        raise ValueError(f"expected a JSON object, got {type(data).__name__}")
+    return data
+
+
+def _normalize_report(data: dict[str, Any]) -> dict[str, Any]:
+    """Give the model's report the shape its readers expect. Malformed items are dropped; a run whose work is
+    finished must not fail because the summary call answered in the wrong shape."""
+    summary = data.get("summary")
+    if not isinstance(summary, str):
+        raise ValueError("report summary must be a string")
+
+    def strings(key: str) -> list[str]:
+        value = data.get(key)
+        return [v for v in value if isinstance(v, str)] if isinstance(value, list) else []
+
+    deliverables = []
+    for d in data.get("deliverables") if isinstance(data.get("deliverables"), list) else []:
+        if (isinstance(d, dict) and isinstance(d.get("artifact_id"), str)
+                and isinstance(d.get("revision"), int) and not isinstance(d.get("revision"), bool)):
+            deliverables.append({"artifact_id": d["artifact_id"], "revision": d["revision"],
+                                 "note": d["note"] if isinstance(d.get("note"), str) else ""})
+    return {"summary": summary, "deliverables": deliverables, "verified": strings("verified"),
+            "unresolved": strings("unresolved"), "next_steps": strings("next_steps")}
 
 
 async def handle_exception(rt, task, outcome_kind: str, detail: str) -> str | None:
@@ -396,7 +423,7 @@ async def handle_exception(rt, task, outcome_kind: str, detail: str) -> str | No
     msg = (f"# Exception on task {task.spec.id} (owner {task.spec.owner}, attempt {task.attempt})\n"
            f"Outcome: {outcome_kind}\nDetail: {detail}\n\nObjective: {task.spec.objective}\n"
            f"Task states: " + ", ".join(f"{t.spec.id}={t.status}" for t in rt.tasks.values()) + "\n"
-           f"Published artifacts: " + (", ".join(f"{m.artifact_id}@r{m.revision}" for m in published) or "none") + "\n"
+           "Published artifacts: " + (", ".join(f"{m.artifact_id}@r{m.revision}" for m in published) or "none") + "\n"
            f"Remaining: model calls {rt.config.limits.max_model_calls - rt.policy.usage.model_calls}, "
            f"budget {rt.config.limits.budget_usd - rt.policy.usage.cost_usd:.3f} USD, wall clock {int(rt.remaining_seconds())}s.\n\n"
            "Decide with ONE update_task call (retry / accept_partial / cancel) and optionally create_task, then finish_task. "
@@ -430,12 +457,12 @@ async def final_report(rt, evidence: dict[str, Any]) -> dict[str, Any] | None:
                      metadata={"agent_id": agent.agent_id, "mode": "report"})
     try:
         resp = await runner._call_model(req, None)
-        data = _extract_json(resp.text)
+        data = _normalize_report(_extract_json(resp.text))
     except (WorkerFailure, PolicyViolation, ValueError) as e:
         await rt.events.append(rt.run_id, "model.failed", {"stage": "report", "message": str(e)}, actor_id=agent.agent_id, actor_kind="agent")
         return None
     known = {(m.artifact_id, m.revision) for m in await rt.artifacts.list(rt.run_id)}
-    data["deliverables"] = [d for d in data.get("deliverables", []) if (d.get("artifact_id"), d.get("revision")) in known]
+    data["deliverables"] = [d for d in data["deliverables"] if (d["artifact_id"], d["revision"]) in known]
     data["author"] = agent.agent_id
     return data
 
