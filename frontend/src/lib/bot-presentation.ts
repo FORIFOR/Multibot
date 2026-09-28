@@ -4,7 +4,11 @@ export type BotKind = 'master' | 'researcher' | 'builder' | 'reviewer' | 'report
 type Task = { status: string }
 /** The face shown for a teammate: the emoji the user chose, or the default for its kind. One source for every screen. */
 export function botIcon(id: string, role?: string, emoji?: string | null): string {
-  return emoji?.trim() || { master: '🧭', researcher: '🔎', builder: '🛠️', reviewer: '✅', reporter: '📝', helper: '🤖' }[botKind(id, role)]
+  return emoji?.trim() || { master: '🐻', researcher: '🐣', builder: '🐱', reviewer: '🐧', reporter: '🐰', helper: '🐶' }[botKind(id, role)]
+}
+/** Soft background behind each face. Same lightness and chroma for every kind; only the hue changes. */
+export function botTint(kind: BotKind): string {
+  return { master: 'oklch(0.92 0.05 65)', researcher: 'oklch(0.94 0.06 95)', builder: 'oklch(0.92 0.05 25)', reviewer: 'oklch(0.92 0.05 240)', reporter: 'oklch(0.93 0.05 330)', helper: 'oklch(0.93 0.05 150)' }[kind]
 }
 
 export function botKind(id: string, role?: string): BotKind {

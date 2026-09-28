@@ -5,7 +5,7 @@ import html, pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]  # docs/
 # The app shows each teammate as an emoji on a white tile with a role-coloured bottom edge (botIcon in
 # frontend/src/lib/bot-presentation.ts, .bot-custom-emoji in obsidian.css). The site draws the same tiles.
-EMOJI = {'master': '🧭', 'researcher': '🔎', 'builder': '🛠️', 'reviewer': '✅'}
+EMOJI = {'master': '🐻', 'researcher': '🐣', 'builder': '🐱', 'reviewer': '🐧'}  # botIcon() defaults since 2026-09-29
 def bot(kind, state='idle', size='stage'):
     working = state in ('thinking','researching','building','reviewing')
     mark = '<i></i><i></i><i></i>' if working else ('✓' if state=='done' else '')
