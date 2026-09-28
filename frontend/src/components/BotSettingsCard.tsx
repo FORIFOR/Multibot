@@ -29,6 +29,9 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
   useEffect(() => { setSpeechStyle(a.speech_style || '') }, [a.speech_style])
   const dirty = speechStyle !== (a.speech_style || '') || name !== (a.display_name || '') || emoji !== (a.emoji || '') || prompt !== (effective?.system_prompt || '') || connection !== a.connection_id || model !== a.model || effort !== (a.effort || '') || locked !== (a.prompt_mode === 'user_locked')
   const validEmoji = !emoji.trim() || isBotEmoji(emoji)
+  // Presets reuse the default names of other roles (ぽん, まめ…); two teammates with one name cannot be told apart.
+  const shownName = name.trim() || botName(a.role, getLang())
+  const duplicate = cfg.agents.some(o => o.id !== a.id && (o.display_name ? [o.display_name] : [botName(o.role, 'ja'), botName(o.role, 'en')]).some(n => n.trim() === shownName))
   const patch = async (body: Record<string, unknown>, message: string) => {
     if (pending.current) return
     pending.current = true; setBusy(true); setError(''); setNote('')
@@ -42,7 +45,7 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
   }
   const save = (event: FormEvent) => {
     event.preventDefault()
-    if (!validEmoji || !dirty) return
+    if (!validEmoji || !dirty || duplicate) return
     const body: Record<string, unknown> = { display_name: name.trim(), emoji: emoji.trim(), speech_style: speechStyle.trim(), connection_id: connection, model: model.trim() || 'inherit', effort, prompt_mode: locked ? 'user_locked' : 'auto_seed' }
     if (prompt !== effective?.system_prompt) body.system_prompt_override = prompt
     void patch(body, l('保存しました。固定チームの次の依頼から反映されます。', 'Saved. Applies to your next fixed-team request.'))
@@ -98,7 +101,7 @@ export default function BotSettingsCard({ a, cfg, refresh }: { a: AgentSpec; cfg
               <button className="btn ghost" type="button" disabled={busy || a.system_prompt_override == null} onClick={() => void patch({ reset_prompt: true }, l('同梱の指示に戻しました。', 'Restored the bundled instructions.'))}>{l('同梱の指示に戻す', 'Restore bundled instructions')}</button>
             </div>
           </details>
-          <div className="bot-card-actions"><button className="btn signal" disabled={!dirty || busy || !validEmoji} type="submit">{busy ? l('保存中…', 'Saving…') : l('変更を保存', 'Save changes')}</button>{dirty && <span className="muted small">{l('未保存の変更があります', 'Unsaved changes')}</span>}</div>
+          <div className="bot-card-actions"><button className="btn signal" disabled={!dirty || busy || !validEmoji || duplicate} type="submit">{busy ? l('保存中…', 'Saving…') : l('変更を保存', 'Save changes')}</button>{dirty && !duplicate && <span className="muted small">{l('未保存の変更があります', 'Unsaved changes')}</span>}{duplicate && <span className="err small" role="alert">{l(`「${shownName}」はほかの仲間と同じ名前です。別の名前にしてください。`, `Another teammate is already called “${shownName}”. Choose a different name.`)}</span>}</div>
         </fieldset>
       </form>
       {note && <p className="bot-save-note" role="status">{note}</p>}

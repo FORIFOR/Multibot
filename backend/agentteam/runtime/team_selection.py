@@ -38,11 +38,11 @@ def compile_roster(cfg, recommendation: Recommendation):
     templates = {a.id: a for a in cfg.agents if a.enabled and a.role not in ('master', 'reporter')}
     if len(recommendation.members) > cfg.limits.max_tasks:
         raise ValueError('team exceeds the task limit')
-    names = {master.display_name or 'レン'}
+    names = {master.display_name or PERSONAL_NAMES['master']}
     reserved_ids = {a.id for a in cfg.agents}
     selected = [master.model_copy(deep=True)]
     if selected[0].prompt_mode != 'user_locked':
-        selected[0].display_name = selected[0].display_name or 'レン'
+        selected[0].display_name = selected[0].display_name or PERSONAL_NAMES['master']
     for i, member in enumerate(recommendation.members, 1):
         template = templates.get(member.template_id)
         if template is None:

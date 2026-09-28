@@ -86,6 +86,6 @@ export function friendlyWorkText(text: string, owners: Record<string, string>, l
 
 /** Personal names are separate from capability labels and remain user editable. */
 export function botName(role: string, lang: UiLanguage = 'ja'): string {
-  const names: Record<string, [string,string]> = {master:['レン','Ren'],researcher:['ミオ','Mio'],builder:['カイ','Kai'],reviewer:['スイ','Sui'],reporter:['ナギ','Nagi']}
+  const names: Record<string, [string,string]> = {master:['ぽん','Pon'],researcher:['まめ','Mame'],builder:['むぎ','Mugi'],reviewer:['るる','Lulu'],reporter:['ここ','Koko']}
   return names[role]?.[lang==='en'?1:0] || role
 }
