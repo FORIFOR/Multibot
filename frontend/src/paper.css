@@ -67,7 +67,8 @@ a{color:var(--ob-ink)}a:hover{color:var(--pp-accent)}
 
 /* Narrow screens: sidebar becomes a compact top bar; menu items scroll sideways */
 @media (max-width:760px){
-  .shell.shell-side{grid-template-columns:1fr}
+  .shell.shell-side{grid-template-columns:minmax(0,1fr)}
+  .shell.shell-side>.main,.shell.shell-side>.top.side{min-width:0}
   .top.side{position:sticky;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;border-right:0;border-bottom:1px solid var(--ob-line);z-index:30}
   .side .brand{flex:1}
   .side-org,.side-attention,.side-foot small{display:none}
