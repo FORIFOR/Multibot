@@ -15,7 +15,9 @@ class Member(BaseModel):
     model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
     template_id: str
     name: str = Field(min_length=1, max_length=40)
-    emoji: str = Field(min_length=1, max_length=16)
+    # No longer requested (2026-09-29): recommended members show their role's original character.
+    # Kept optional so previously saved recommendations still validate; the value is not applied.
+    emoji: str = Field(default='', max_length=16)
     specialty: str = Field(min_length=1, max_length=200)
     personality: str = Field(min_length=1, max_length=600)
     # Optional for previously saved recommendations; new selection requires it.
@@ -63,7 +65,6 @@ def compile_roster(cfg, recommendation: Recommendation):
             agent.id = f'team_{suffix}'
             reserved_ids.add(agent.id)
             agent.display_name = member.name
-            agent.emoji = member.emoji
             agent.speech_style = '\n'.join(filter(None, [member.personality, member.speaking_style]))
             agent.specialty = member.specialty
             agent.custom = True
@@ -106,6 +107,7 @@ async def recommend_team(rt):
         raise PlanError('adaptive team needs an enabled coordinator')
     templates = [a for a in rt.config.agents if a.enabled and a.role not in ('master', 'reporter')]
     schema = Recommendation.model_json_schema()
+    schema['$defs']['Member']['properties'].pop('emoji', None)  # identity comes from the role's character
     schema['$defs']['Member']['properties']['template_id']['enum'] = [a.id for a in templates]
     schema['$defs']['Member']['required'].append('speaking_style')
     schema['$defs']['Member']['properties']['speaking_style'].update({
@@ -134,8 +136,8 @@ async def recommend_team(rt):
               "does not authorize implementing, deploying or connecting the proposed application; describe design contributions in that case. "
               "Choose distinct task-specific expertise, for example domain analysis, accessibility, API architecture or editing, only when needed. "
               "Several specialists may inherit the same permission template; a template is not their profession. "
-              "Give each bot a simple, approachable character identity: a short nickname, a recognizable animal emoji, "
-              "one clear personality trait and concise speaking style. Avoid human full names, occupational person emojis, "
+              "Give each bot a simple, approachable character identity: a short nickname, "
+              "one clear personality trait and concise speaking style. Avoid human full names, "
               "job titles, elaborate backstories, baby talk and forced animal noises. Expertise belongs in specialty, not the name. "
               "For Japanese names prefer short hiragana nicknames; names must not contain 係/役/担当. "
               "These are identity choices, not a fixed roster or fixed occupations; choose the team size and expertise for the task. "

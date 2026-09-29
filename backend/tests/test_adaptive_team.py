@@ -99,3 +99,22 @@ def test_user_selection_preserves_real_identities_permissions_and_roundtrip():
     cfg.agent(ids[0]).enabled = False
     with pytest.raises(ValueError):
         choose_roster(cfg, ids)
+
+
+def test_recommended_members_show_their_role_character_not_a_model_emoji():
+    """Saved recommendations with emoji still validate, but the emoji is not applied (2026-09-29)."""
+    cfg, proposal = actual()
+    assert any(m.emoji for m in proposal.members), 'the saved real recommendation carries emoji'
+    restored = load_config_text(config_to_yaml(compile_roster(cfg, proposal)))
+    for member, agent in zip(proposal.members, restored.agents[1:]):
+        original = cfg.agent(member.template_id)
+        if original.prompt_mode != 'user_locked':
+            assert agent.emoji == original.emoji, (agent.id, agent.emoji)
+
+
+def test_team_selection_schema_no_longer_asks_for_emoji():
+    schema = Recommendation.model_json_schema()
+    member = schema['$defs']['Member']
+    assert 'emoji' not in member.get('required', [])
+    raw = {'reason': 'r', 'members': [{'template_id': 'builder', 'name': 'むぎ', 'specialty': 's', 'personality': 'p', 'reason': 'x'}]}
+    assert Recommendation.model_validate(raw).members[0].emoji == ''
