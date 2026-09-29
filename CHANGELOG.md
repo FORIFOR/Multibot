@@ -4,6 +4,8 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 
 ## Unreleased
 
+- Replace the default emoji faces with six original, simple characters (SVG, single source for app and site). A chosen emoji still wins. Team recommendations no longer request or apply an emoji, so recommended members show their role's character; saved recommendations with emoji still load.
+
 - Keep guidance written for the readiness acceptance series (`readiness.json`: production_ready=false, L3, PRODUCTION_PLAN.md, evidence_quote) out of other requests. The bundled builder/reviewer prompts no longer carry it; `prompts/readiness-series.md` is appended only when the delivery contract is `readiness.json`. Series criteria and reviewer wording are unchanged, but the series system prompt now differs from v61 in placement, so the next series must record this change.
 
 - Ask for a concise, complete team rationale separately from member descriptions to avoid generation ending mid-sentence at schema limits.

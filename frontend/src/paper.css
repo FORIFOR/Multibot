@@ -79,3 +79,16 @@ a{color:var(--ob-ink)}a:hover{color:var(--pp-accent)}
   .side-foot{order:2;margin:0;padding:0;border:0;background:none;flex-wrap:nowrap}
   .side-foot a[href*="github"]{display:none}
 }
+
+/* Original default characters (assets/bots): drawn shapes, so no tile, circle or tint behind them. */
+.bot-character.bot-custom.bot-art{border-radius:0!important;background:none!important;box-shadow:none!important;overflow:visible}
+.bot-face-art{display:block;width:56px;height:52px;transition:transform .25s ease;user-select:none}
+.bot-size-card .bot-face-art{width:44px;height:40px}
+.bot-size-micro .bot-face-art{width:30px;height:28px}
+.bot-character.bot-art:hover .bot-face-art{transform:rotate(-6deg) scale(1.05)}
+.bot-art.bot-thinking .bot-face-art,.bot-art.bot-researching .bot-face-art,.bot-art.bot-building .bot-face-art,.bot-art.bot-reviewing .bot-face-art{animation:bot-art-bob 1.6s ease-in-out infinite}
+.bot-art.bot-disabled .bot-face-art{filter:grayscale(1);opacity:.55}
+@keyframes bot-art-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.motion-paused .bot-face-art{animation:none!important}
+@media(prefers-reduced-motion:reduce){.bot-face-art{animation:none!important;transition:none}}
+.bot-size-stage .bot-face-art{width:76px;height:70px}

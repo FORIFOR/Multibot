@@ -3,14 +3,17 @@ Run: python3 docs/site/build_site.py   (no dependencies). The before/after text 
 verbatim from docs/record.js, the recorded run; do not replace it with a summary."""
 import html, pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]  # docs/
-# The app shows each teammate as an emoji on a white tile with a role-coloured bottom edge (botIcon in
-# frontend/src/lib/bot-presentation.ts, .bot-custom-emoji in obsidian.css). The site draws the same tiles.
-EMOJI = {'master': '🐻', 'researcher': '🐣', 'builder': '🐱', 'reviewer': '🐧'}  # botIcon() defaults since 2026-09-29
+# The app's default teammates are original characters (frontend/src/assets/bots/*.svg, since 2026-09-29).
+# The site inlines the same files, so the two cannot drift.
+BOT_ART = ROOT.parent / 'frontend/src/assets/bots'
+def _art(kind):
+    svg = (BOT_ART / f'{kind}.svg').read_text(encoding='utf-8').strip()
+    return svg.replace('<svg ', '<svg class="site-bot-art" aria-hidden="true" focusable="false" ', 1)
 def bot(kind, state='idle', size='stage'):
     working = state in ('thinking','researching','building','reviewing')
     mark = '<i></i><i></i><i></i>' if working else ('✓' if state=='done' else '')
     return (f'<span class="site-bot site-bot-{kind} bot-{state} site-bot-{size}" data-bot aria-hidden="true">'
-            f'<span class="site-bot-tile">{EMOJI[kind]}</span>'
+            f'{_art(kind)}'
             f'<span class="bot-state-mark{" is-working" if working else ""}">{mark}</span></span>')
 CMD = 'uvx --from "git+https://github.com/FORIFOR/Multibot#subdirectory=backend" agentteam quickstart'
 EV = 'https://github.com/FORIFOR/Multibot/tree/main/docs/evidence/'
