@@ -80,15 +80,19 @@ a{color:var(--ob-ink)}a:hover{color:var(--pp-accent)}
   .side-foot a[href*="github"]{display:none}
 }
 
-/* Original default characters (assets/bots): drawn shapes, so no tile, circle or tint behind them. */
-.bot-character.bot-custom.bot-art{border-radius:0!important;background:none!important;box-shadow:none!important;overflow:visible}
-.bot-face-art{display:block;width:56px;height:52px;transition:transform .25s ease;user-select:none}
-.bot-size-card .bot-face-art{width:44px;height:40px}
-.bot-size-micro .bot-face-art{width:30px;height:28px}
-.bot-character.bot-art:hover .bot-face-art{transform:rotate(-6deg) scale(1.05)}
-.bot-art.bot-thinking .bot-face-art,.bot-art.bot-researching .bot-face-art,.bot-art.bot-building .bot-face-art,.bot-art.bot-reviewing .bot-face-art{animation:bot-art-bob 1.6s ease-in-out infinite}
-.bot-art.bot-disabled .bot-face-art{filter:grayscale(1);opacity:.55}
-@keyframes bot-art-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-.motion-paused .bot-face-art{animation:none!important}
-@media(prefers-reduced-motion:reduce){.bot-face-art{animation:none!important;transition:none}}
-.bot-size-stage .bot-face-art{width:76px;height:70px}
+/* Default characters: role shape + face (lib/bot-shapes.ts), emoji badge bottom-left, state mark bottom-right. */
+.bot-character.bot-shape{position:relative;display:inline-grid;place-items:center;width:auto;height:auto;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;filter:none!important;zoom:1!important;overflow:visible}
+.bot-shape-art{display:block;width:52px;height:52px;overflow:visible;transition:transform .25s ease}
+.bot-size-micro .bot-shape-art{width:30px;height:30px}
+.bot-size-card .bot-shape-art{width:44px;height:44px}
+.bot-size-stage .bot-shape-art{width:84px;height:84px}
+.bot-shape-badge{position:absolute;left:-5px;bottom:-4px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px var(--ob-chrome,#f6f3ee);display:grid;place-items:center;font-size:12px;line-height:1;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
+.bot-size-stage .bot-shape-badge{width:32px;height:32px;font-size:18px;left:-6px;bottom:-4px}
+.bot-size-micro .bot-shape-badge,.bot-size-micro .bot-state-mark{display:none}
+.bot-character.bot-shape:hover .bot-shape-art{transform:rotate(-6deg) scale(1.05)}
+.bot-shape.bot-thinking .bot-shape-art,.bot-shape.bot-researching .bot-shape-art,.bot-shape.bot-building .bot-shape-art,.bot-shape.bot-reviewing .bot-shape-art{animation:bot-shape-bob 1.6s ease-in-out infinite}
+.bot-shape.bot-disabled .bot-shape-art,.bot-shape.bot-stopped .bot-shape-art{filter:grayscale(1);opacity:.55}
+@keyframes bot-shape-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.motion-paused .bot-shape-art{animation:none!important}
+@media(prefers-reduced-motion:reduce){.bot-shape-art{animation:none!important;transition:none}}
+@media(forced-colors:active){.bot-shape-art path{forced-color-adjust:none}}

@@ -128,7 +128,7 @@ try {
     await toggle.focus();await page.keyboard.press('Enter')
     await page.waitForFunction(()=>document.querySelector('.bot-settings-card:last-child [role=switch]')?.getAttribute('aria-checked')==='true')
     await page.reload();await page.locator(`#agent-card-${store.lastCreated.id}`).waitFor()
-    assert.equal(await page.locator(`#agent-card-${store.lastCreated.id} .bot-custom-emoji`).textContent(),'🐼')
+    assert.equal(await page.locator(`#agent-card-${store.lastCreated.id} .bot-shape-badge`).textContent(),'🐼')
     await page.locator('.custom-bot-add').click()
     assert.equal(await page.locator('#custom-bot-form').getByLabel(lang==='ja'?'名前':'Name',{exact:true}).inputValue(),'')
     await noOverflow(page)

@@ -4,6 +4,8 @@ All notable changes. Versions follow `backend/pyproject.toml`; the API, `/api/he
 
 ## Unreleased
 
+- Teammates use the supplied character design '1b': one flat shape per role with a face that follows the state (idle, working, done, trouble); the chosen emoji, or the role's tool, is a small badge. `lib/bot-shapes.ts` is the single source; the SVG assets are its output and the public site inlines them.
+
 - Replace the default emoji faces with six original, simple characters (SVG, single source for app and site). A chosen emoji still wins. Team recommendations no longer request or apply an emoji, so recommended members show their role's character; saved recommendations with emoji still load.
 
 - Keep guidance written for the readiness acceptance series (`readiness.json`: production_ready=false, L3, PRODUCTION_PLAN.md, evidence_quote) out of other requests. The bundled builder/reviewer prompts no longer carry it; `prompts/readiness-series.md` is appended only when the delivery contract is `readiness.json`. Series criteria and reviewer wording are unchanged, but the series system prompt now differs from v61 in placement, so the next series must record this change.

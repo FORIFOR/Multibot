@@ -2,9 +2,9 @@
 export type BotVisualState = 'idle' | 'waiting' | 'thinking' | 'researching' | 'building' | 'reviewing' | 'done' | 'blocked' | 'approval' | 'stopped' | 'disabled'
 export type BotKind = 'master' | 'researcher' | 'builder' | 'reviewer' | 'reporter' | 'helper'
 type Task = { status: string }
-/** The face shown for a teammate: the emoji the user chose, or the default for its kind. One source for every screen. */
+/** The emoji shown for a teammate (badge, pickers, plain-text places): the one the user chose, or its role's tool. */
 export function botIcon(id: string, role?: string, emoji?: string | null): string {
-  return emoji?.trim() || { master: '🐻', researcher: '🐣', builder: '🐱', reviewer: '🐧', reporter: '🐰', helper: '🐶' }[botKind(id, role)]
+  return emoji?.trim() || { master: '📋', researcher: '🔎', builder: '🛠️', reviewer: '✅', reporter: '📝', helper: '🤝' }[botKind(id, role)]
 }
 /** Soft background behind each face. Same lightness and chroma for every kind; only the hue changes. */
 export function botTint(kind: BotKind): string {
