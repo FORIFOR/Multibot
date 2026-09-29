@@ -1,4 +1,5 @@
-/* Teammates: the app's original default characters (frontend/src/assets/bots), inlined by build_site.py. */
+/* Teammates: the app's default characters, design '1b' (role shape + face; frontend/src/lib/bot-shapes.ts →
+   frontend/src/assets/bots/*.svg), inlined by build_site.py. */
 .site-bot{position:relative;display:inline-grid;place-items:center;--bot:#6876e8}
 .site-bot-researcher{--bot:#2cae80}.site-bot-builder{--bot:#e39a1e}.site-bot-reviewer{--bot:#e0608f}
 .site-bot .bot-state-mark{position:absolute;right:-6px;bottom:-6px;display:grid;place-items:center;width:24px;height:24px;border:2px solid #fff;border-radius:50%;background:#1d8a67;color:#fff;font:800 12px/1 var(--sans);font-style:normal}
@@ -11,8 +12,8 @@
 @media(prefers-reduced-motion:reduce){.site-bot .bot-state-mark i{animation:none}}
 .gh-link{font-weight:650}
 .how-grid .card h3{font-size:18px}
-.site-bot-art{display:block;width:96px;height:88px;transition:transform .35s ease}
-.card .site-bot-art{width:108px;height:99px}
+.site-bot-art{display:block;width:96px;height:96px;overflow:visible;transition:transform .35s ease}
+.card .site-bot-art{width:104px;height:104px}
 .bot-thinking .site-bot-art,.bot-researching .site-bot-art,.bot-building .site-bot-art,.bot-reviewing .site-bot-art{transform:translateY(-6px) rotate(-4deg)}
 .motion-paused .site-bot-art,.paused .site-bot-art{transition:none}
 @media(prefers-reduced-motion:reduce){.site-bot-art{transition:none}}

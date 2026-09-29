@@ -48,11 +48,11 @@ for (const [w, h] of [[1440, 900], [1100, 900], [768, 1000], [390, 844]]) {
     for (let i = 0; i < 4; i++) { await page.keyboard.press('Tab'); order.push(await page.evaluate(() => (document.activeElement?.innerText || document.activeElement?.closest('label')?.innerText || document.activeElement?.tagName || '').trim().slice(0, 30))) }
     await shot(page, 'ask-1440-focus-main-button', 'keyboard only: Tab x4 from the request field. Focus order: ' + order.join(' → '))
     await page.evaluate(() => document.activeElement?.blur())
-    const tile = await page.locator('.home-companion .bot-custom-emoji').first().boundingBox()
+    const tile = await page.locator('.home-companion .bot-shape-badge').first().boundingBox()
     await page.screenshot({ path: `${out}/ask-1440-bot-rest-zoom.png`, clip: { x: tile.x - 20, y: tile.y - 20, width: 420, height: tile.height + 40 } })
     await page.mouse.move(tile.x + tile.width / 2, tile.y + tile.height / 2); await page.waitForTimeout(400)
     await page.screenshot({ path: `${out}/ask-1440-bot-hover-zoom.png`, clip: { x: tile.x - 20, y: tile.y - 20, width: 420, height: tile.height + 40 } })
-    shots.push({ file: 'ask-1440-bot-hover-zoom.png', viewport: page.viewportSize(), url: page.url(), state: 'pointer resting on the coordinator tile; ask-1440-bot-rest-zoom.png is the same clip without the pointer. transform=' + await page.locator('.home-companion .bot-custom-emoji').first().evaluate(e => getComputedStyle(e).transform), fullPage: false, horizontalOverflowPx: 0 })
+    shots.push({ file: 'ask-1440-bot-hover-zoom.png', viewport: page.viewportSize(), url: page.url(), state: 'pointer resting on the coordinator tile; ask-1440-bot-rest-zoom.png is the same clip without the pointer. transform=' + await page.locator('.home-companion .bot-shape-badge').first().evaluate(e => getComputedStyle(e).transform), fullPage: false, horizontalOverflowPx: 0 })
     await page.mouse.move(5, 5)
   }
   await context.close()

@@ -3,7 +3,8 @@ Run: python3 docs/site/build_site.py   (no dependencies). The before/after text 
 verbatim from docs/record.js, the recorded run; do not replace it with a summary."""
 import html, pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]  # docs/
-# The app's default teammates are original characters (frontend/src/assets/bots/*.svg, since 2026-09-29).
+# The app's default teammates: design '1b' role shapes with a face (frontend/src/assets/bots/*.svg, written from
+# frontend/src/lib/bot-shapes.ts botSvg()).
 # The site inlines the same files, so the two cannot drift.
 BOT_ART = ROOT.parent / 'frontend/src/assets/bots'
 def _art(kind):
