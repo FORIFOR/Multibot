@@ -2,7 +2,6 @@ import { botName } from '../lib/journey'
 import { t, getLang } from '../lib/i18n'
 import Journey from '../components/Journey'
 import BotAvatar from '../components/BotAvatar'
-import { botIcon } from '../lib/bot-presentation'
 import { friendlyProblem, roleLabel, statusLabel } from '../lib/journey'
 import { takeDraftGoal, welcomed } from '../lib/welcome'
 import '../journey.css'
@@ -186,7 +185,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
                     const ids = selectedAgentIds ?? cfg.agents.filter(a => a.enabled && !['master', 'reporter'].includes(a.role)).map(a => a.id)
                     const selected = ids.includes(a.id)
                     return <button key={a.id} type="button" className="request-character" aria-pressed={selected} onClick={() => setSelectedAgentIds(selected ? ids.filter(id => id !== a.id) : [...ids, a.id])}>
-                      <span aria-hidden="true" className="character-emoji">{botIcon(a.id, a.role, a.emoji)}</span>
+                      <span aria-hidden="true" className="character-emoji"><BotAvatar id={a.id} role={a.role} emoji={a.emoji} name={a.display_name || botName(a.role, getLang())} size="micro" /></span>
                       <strong>{a.display_name || botName(a.role, getLang())}</strong>
                       <small>{a.role === 'reviewer' ? (en ? 'Can review' : '確認できる') : (en ? 'Can create' : '作成できる')}</small>
                       <span className="character-selection">{selected ? (en ? '✓ Joining' : '✓ 参加') : (en ? 'Add' : '選ぶ')}</span>
