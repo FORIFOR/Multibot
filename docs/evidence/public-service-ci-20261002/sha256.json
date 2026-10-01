@@ -27,5 +27,9 @@
   "oidc-report-boundary-report.json": "e487f1f4bc31f37d468211187637fcd81418fb91afb185229703da44395a179d",
   "oidc-report-boundary-run.json": "019324021b82c272ff9acf0589cd9afb8fec76abfa449ba73e115bd3bf82474b",
   "report-boundary-ci-cancelled.json": "a68ebcdb44799019844b26981fcfb9a44d11a6be34d5459706cc7a9531f1e1d1",
-  "bounded-download-ci-failure.json": "61d64b8ef075bc0c403d464f4ba3b36c560537a4a71e51e13509f422d009341f"
+  "bounded-download-ci-failure.json": "61d64b8ef075bc0c403d464f4ba3b36c560537a4a71e51e13509f422d009341f",
+  "archive-mirror-ci-service-report.json": "31af8eafc79ba38128cbfba3219836077377e14f83604aa0c4bfee5c79e288a2",
+  "archive-mirror-ci-browser-failure.json": "2e4dc0be1f05023d9d917e04bf759c03bcdbb025b42bdf3cfb0a6da5a10eec2c",
+  "parallel-diagnostic-local-report.json": "3cc475822c685a4090d9f76bc8ed69d8a8e7bd7f950eda24d35cfb22097adfec",
+  "parallel-diagnostic-local.json": "80898da497aa3bf1b0bc412960c8edcdedb10409385fb17b80fbfc72130e4165"
 }

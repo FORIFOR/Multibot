@@ -1,0 +1,44 @@
+{
+  "databaseId": 36901731214,
+  "headSha": "e279288fe9ea98d3c2f2073fba8d893b459a9fdb",
+  "status": "completed",
+  "conclusion": "failure",
+  "url": "https://github.com/FORIFOR/Multibot/actions/runs/36901731214",
+  "jobs": [
+    {
+      "name": "public-service",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-10-01T17:45:29Z",
+      "completedAt": "2026-10-01T17:47:35Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36901731214/job/110502272187"
+    },
+    {
+      "name": "dependency-audit",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-01T17:45:29Z",
+      "completedAt": "2026-10-01T17:45:46Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36901731214/job/110502272515"
+    },
+    {
+      "name": "backend",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-01T17:45:30Z",
+      "completedAt": "2026-10-01T17:45:44Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36901731214/job/110502272527"
+    },
+    {
+      "name": "frontend",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-01T17:45:30Z",
+      "completedAt": "2026-10-01T17:45:45Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36901731214/job/110502272589"
+    }
+  ],
+  "observation": "The official Ubuntu archive font download completed, then the real auth-parallel-login browser verification failed. Admission, response boundary, browser isolation and retry/reload checks passed. Owned browser cleanup reported no remaining processes. The prior failure artifact excludes raw errors/credentials, so the exact assertion is not known.",
+  "model_execution": false,
+  "private_log_sha256": "975f252707aa047410f6d14b970c47fcdf3872ae0c931c22a299e99332d9bf7d"
+}

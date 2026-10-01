@@ -31,6 +31,10 @@ CI実装は `fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b`。ローカル統合は `
 
 `ad64058` の [CI 36900859459](https://github.com/FORIFOR/Multibot/actions/runs/36900859459) でも同じ取得が4分のstep上限内に完了せず、サービス検証は未到達・全体failure（`bounded-download-ci-failure.json`）。同版の [OIDC 36900859453](https://github.com/FORIFOR/Multibot/actions/runs/36900859453) はsuccess。既に検証に使ったUbuntu 24.04へpublic-service jobを固定し、使い捨てrunnerの該当ミラー項目を[Ubuntu公式archive](https://archive.ubuntu.com/ubuntu/dists/noble/Release)のHTTPSへ置換する。既存のAPT署名/index/hash検証・必要フォント・実サービスチェックは維持し、timeoutだけの変更が解消しなかった記録も残す。
 
+`e279288` の [CI 36901731214](https://github.com/FORIFOR/Multibot/actions/runs/36901731214) では公式archiveからのフォント導入が完了し、実HTTP/応答境界/主体分離/再読込再送を通過した。その後、実ブラウザーの並行ログイン確認で失敗し、全体failure。原safe reportを `archive-mirror-ci-*.json` に保全した。所有Chrome残留は0。元の生error/失敗画像は秘密を含み得るためupload対象外で、どのassertが失敗したかは未確定。同版の [OIDC 36901731168](https://github.com/FORIFOR/Multibot/actions/runs/36901731168) はsuccess。診断を安全な固定phase/error種別/通過項目に限って記録し、原因を確認する。期待値を緩めて成功扱いにしない。
+
+安全診断を追加したローカル実サービス確認（e279288 + 診断差分）は全5段階・並行ログイン3項目PASS、所有Chrome残留0だった（`parallel-diagnostic-local-*.json` / `parallel-diagnostic-local.json`）。GitHubの元失敗は再現せず、原因はまだ未特定。診断追加は固定phase・許可したerror種別・通過check IDの記録だけで、待機条件・期待値・製品実装は変更していない。
+
 この検証はloopbackの一時KeycloakとAPIの署名検証経路である。OAuth2 Proxy、本番TLS、MFA、自己登録・アカウント回復、公開環境での運用、第三者自力利用の受入は含まない。
 
 ## 次の業務品質試験の準備
