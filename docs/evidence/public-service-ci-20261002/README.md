@@ -25,6 +25,10 @@ CI実装は `fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b`。ローカル統合は `
 
 引継ぎ修正を含む `8257cd1` の [CI 36894570667](https://github.com/FORIFOR/Multibot/actions/runs/36894570667) も4ジョブsuccess、[OIDC 36894570643](https://github.com/FORIFOR/Multibot/actions/runs/36894570643) も13項目PASS（merge commit `1b8539f775b00792608128623be786d9729ab59f`）。後者の原記録は `oidc-handoff-head-*.json` に別保存し、先の成功・失敗を上書きしない。
 
+最終報告の境界修正を含む `4fc43b4` の [OIDC実行36899311495](https://github.com/FORIFOR/Multibot/actions/runs/36899311495) も13項目PASS（merge commit `2b7b5329e0efe1fef5a642d309782852a64cf410`）。原記録を `oidc-report-boundary-*.json` に保存した。
+
+同じ `4fc43b4` の [CI 36899313497](https://github.com/FORIFOR/Multibot/actions/runs/36899313497) はbackend（実記録report回帰を含む）・frontend・依存監査がsuccessだが、CI全体はcancelled。public-service jobは日本語フォント61.2 MBの取得中に10分上限を超え、実サービス検証へ到達しなかった。原状態を `report-boundary-ci-cancelled.json` に保存し、全体合格とは扱わない。取得停止の基礎原因は未特定。APTの[接続/データtimeout](https://manpages.debian.org/bookworm/apt/apt-transport-http.1.en.html)を30秒、[取得retry](https://manpages.debian.org/trixie/apt/apt.conf.5.en.html)を2回、導入step自体を4分に制限し、必要依存を省かず再検証する。パッケージ取得のretryであり、LLM試行の再実行ではない。
+
 この検証はloopbackの一時KeycloakとAPIの署名検証経路である。OAuth2 Proxy、本番TLS、MFA、自己登録・アカウント回復、公開環境での運用、第三者自力利用の受入は含まない。
 
 ## 次の業務品質試験の準備

@@ -1,0 +1,32 @@
+{
+  "series": "public-guide-qwen35-fixed-20261002",
+  "original_fingerprint_sha256": "6e42d1045dc4288910119e438a068c30ae593d7ef8629efc965c0833c543e0e5",
+  "target_runs": 10,
+  "validation_only": false,
+  "code": {
+    "commit": "4fc43b4472c67776d2df3bdfdd972f41db45fac1",
+    "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "85f659a85f8cc72824da4f5bdebea27bf1eeee030f6d351b2352bc64e27b20ca",
+    "status": ""
+  },
+  "runtime_fingerprint_sha256": "02b8ccfdf6d27ede503c96c40ad92724d44b2f4b01ea376eee069e53df064417",
+  "runtime_hash_encoding": "UTF-8 json.dumps(runtime, sort_keys=True, separators=(comma, colon)); ensure_ascii default true",
+  "source": "docs/quality/integration.md",
+  "model": "agentteam-qwen35-9b-16k",
+  "model_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+  "ollama_version": "0.33.3",
+  "files_sha256": {
+    "delivery-requirements.json": "f51a12e792c00695b342a2f1863e39eeb05419737e056004b0c8dfdaf0bdc84e",
+    "effective-config.json": "34397fff7f98ae231ae6e194ef51963988a2692a794da56e4137e8fe05270ac2",
+    "goal.txt": "9c5c52a9328b92ea49a5243800668de0a44cffb07ae6183279d0cf7172d991de",
+    "inputs/integration.md": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+    "profile.yaml": "e4828091c26d017674fb60f92cba207c900387d37b8216d9685452ad80c48a48",
+    "request.json": "162774a969cb500c7da25e9c4bae2a13a64174c0f333ae867a84fe002c0ad0d4",
+    "security/access.json": "2f7753cf932453f3c0f0755c5250c05345484747e05c7dcb636b0540df94917f"
+  },
+  "profile_source_sha256": "b64fc97824e643770d55e20bd8fca58ab43168be6ed045f68dcbd7e096c3f42d",
+  "preceding_fingerprint_sha256": "3874581f87c05f61d0a132fb047cc509279afa964161df43d7a1a622bddfb48a",
+  "semantic_review": "pending",
+  "business_quality_accepted": false,
+  "configuration_and_credential_contents_published": false
+}

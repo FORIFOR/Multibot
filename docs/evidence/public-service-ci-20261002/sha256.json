@@ -22,5 +22,9 @@
   "oidc-handoff-head-provenance.json": "155a58adf09d89ffb3c7104df52056f003bed1d361815375ae2b584384da68d6",
   "oidc-handoff-head-report.json": "8556bac1d1dc8eabdbb26aecb1e13bdc9dceced5c7ec28346d4773bfce3df0b4",
   "oidc-initial-failure.json": "2600e1a89fd91fa03b93d390efc63373ce471af57d7e0e218e44fc55f7d7f190",
-  "pyjwt215-local-report.json": "10d330611ed3f48a05904f880c535f2ef2cb304f6072508411691357acdf7bbb"
+  "pyjwt215-local-report.json": "10d330611ed3f48a05904f880c535f2ef2cb304f6072508411691357acdf7bbb",
+  "oidc-report-boundary-provenance.json": "1cddbe69cba6ad21ceaf58b4197a79f8130a6b65bb7b8b102483014ff8087916",
+  "oidc-report-boundary-report.json": "e487f1f4bc31f37d468211187637fcd81418fb91afb185229703da44395a179d",
+  "oidc-report-boundary-run.json": "019324021b82c272ff9acf0589cd9afb8fec76abfa449ba73e115bd3bf82474b",
+  "report-boundary-ci-cancelled.json": "a68ebcdb44799019844b26981fcfb9a44d11a6be34d5459706cc7a9531f1e1d1"
 }

@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "recorded_at": "2026-10-01T17:30:37.716345+00:00",
+  "scope": "read-only post-refusal inspection; no supervisor retry or model execution",
+  "fixed_commit": "4fc43b4472c67776d2df3bdfdd972f41db45fac1",
+  "fixed_checkout_clean": true,
+  "frozen_code_runtime_inputs_match": true,
+  "profile_source_matches": true,
+  "preceding_fingerprint_matches": true,
+  "series_state": {
+    "business_quality_accepted": false,
+    "model_execution_started": false,
+    "semantic_review": "pending",
+    "state": "prepared"
+  },
+  "generation_attempts": 0,
+  "preflight": {
+    "run_id": "run_1a0f881269561f0be38",
+    "status": "created",
+    "provider_kind": "real",
+    "start": false,
+    "receipt_http_status": 202,
+    "exact_preflight_receipt_hash_and_scope_match": true,
+    "bound_operator_admissions": 1,
+    "additional_model_calls": 0
+  },
+  "database_counts": {
+    "runs": 1,
+    "events": 1,
+    "tasks": 0,
+    "messages": 0,
+    "artifacts": 0,
+    "request_receipts": 1,
+    "subject_admissions": 1,
+    "execution_jobs": 0,
+    "queued_or_leased": 0,
+    "model_events": 0
+  },
+  "process_check": {
+    "matching_workflows": [],
+    "original_supervisor_pid_absent": true,
+    "original_loopback_port_closed": true
+  },
+  "locks": {
+    "all_exclusive_nonblocking_acquisitions_succeeded": true,
+    "names": [
+      "global",
+      "preceding_workflow",
+      "new_workflow",
+      "service"
+    ],
+    "released_on_exit": true
+  },
+  "original_bytes_unchanged": true,
+  "original_file_sha256": {
+    "public-guide-qwen35-fixed-20261002/fingerprint.json": "6e42d1045dc4288910119e438a068c30ae593d7ef8629efc965c0833c543e0e5",
+    "public-guide-qwen35-fixed-20261002/status.json": "c838552a7c764623be4ec63c3ba9ef39186bb0cf7cc74846d4a14089bc50b67d",
+    "public-guide-qwen35-fixed-20261002/attempts.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "public-guide-qwen35-fixed-20261002/preflight.json": "4c3bdc281bcbc03379053adb92bb36fea96e22021029dcd03dc3360d873314c9",
+    "public-guide-qwen35-fixed-20261002/delivery-requirements.json": "f51a12e792c00695b342a2f1863e39eeb05419737e056004b0c8dfdaf0bdc84e",
+    "public-guide-qwen35-fixed-20261002/effective-config.json": "34397fff7f98ae231ae6e194ef51963988a2692a794da56e4137e8fe05270ac2",
+    "public-guide-qwen35-fixed-20261002/goal.txt": "9c5c52a9328b92ea49a5243800668de0a44cffb07ae6183279d0cf7172d991de",
+    "public-guide-qwen35-fixed-20261002/inputs/integration.md": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+    "public-guide-qwen35-fixed-20261002/profile.yaml": "e4828091c26d017674fb60f92cba207c900387d37b8216d9685452ad80c48a48",
+    "public-guide-qwen35-fixed-20261002/request.json": "162774a969cb500c7da25e9c4bae2a13a64174c0f333ae867a84fe002c0ad0d4",
+    "public-guide-qwen35-fixed-20261002/security/access.json": "2f7753cf932453f3c0f0755c5250c05345484747e05c7dcb636b0540df94917f",
+    "public-guide-qwen35-fixed-20261002/data/agentteam.sqlite-shm": "b13c857002875133e2917f456ab2e955aa05e28895600e460f82e75b95b5b12d",
+    "public-guide-qwen35-fixed-20261002/data/agentteam.sqlite-wal": "8c2e8161b20055f1135492a282e0251297253398535c01c24f71d3f67305b074",
+    "public-guide-qwen35-fixed-20261002/data/agentteam.sqlite": "97e8d54f8a7255106f66cf1b213c4a4d7b558d21310b1c2bfedc3d0d526dddda",
+    "public-guide-supervisor-20261002/sessions/20261001T172737Z-293a8fc37fe24111bae6d105bb1597e3/status.json": "11bea061a94a7aa1c54570f7e95c34191de9e17491300f1d4254774998e43b5a",
+    "public-guide-supervisor-20261002/sessions/20261001T172737Z-293a8fc37fe24111bae6d105bb1597e3/cleanup.json": "0447aa4ca311b4c61287f0953f9b97208427066870f9d83fd1751c4b05002680",
+    "public-guide-supervisor-20261002/sessions/20261001T172737Z-293a8fc37fe24111bae6d105bb1597e3/resources-01.json": "cbd5a9d83b9f94d8779c30d7d89980b261f6ca254ada6d0d8c12e4dd25355457"
+  },
+  "business_quality_accepted": false,
+  "human_acceptance": "not_performed"
+}

@@ -67,7 +67,11 @@ jobs:
         with: { node-version: 22, cache: pnpm, cache-dependency-path: frontend/pnpm-lock.yaml }
       - run: pnpm install --frozen-lockfile && pnpm build
         working-directory: frontend
-      - run: sudo apt-get update -qq && sudo apt-get install -y sqlite3 fonts-noto-cjk fonts-noto-color-emoji
+      - name: Install browser verification dependencies with bounded downloads
+        timeout-minutes: 4
+        run: |
+          sudo apt-get -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 -o Acquire::Retries=2 update -qq
+          sudo apt-get -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 -o Acquire::Retries=2 install -y sqlite3 fonts-noto-cjk fonts-noto-color-emoji
       - name: Validate exact bundled UI before browser checks
         run: diff -r frontend/dist backend/agentteam/ui
       - name: Verify actual service boundaries without model execution
