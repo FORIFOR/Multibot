@@ -4,6 +4,11 @@ import { bindBrowserSession, broadcastSessionChange, browserPrincipalKey, browse
 
 export interface Identity { subject: string; role: 'admin' | 'operator' | 'viewer' | 'auditor'; organization: string | null; display_name?: string; source?: string }
 
+const AUTH_REQUEST_TIMEOUT_MS = 15000
+// A tab may disappear without sending its completion notification. Allow longer
+// than login/logout's request deadline, then require an explicit new sign-in.
+const PEER_AUTH_TIMEOUT_MS = 20000
+
 export default function AuthGate({ children }: { children: (identity: Identity, secured: boolean) => ReactNode }) {
   const [identity, setIdentity] = useState<Identity | null>(null)
   const [secured, setSecured] = useState(false)
@@ -18,14 +23,16 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
   const pendingPeers = useRef(new Set<string>())
   useEffect(() => {
     let alive = true
+    const peers = pendingPeers.current
+    const peerTimers = new Map<string, ReturnType<typeof setTimeout>>()
     const load = async () => {
       const version = ++authVersion.current
       setLoading(true)
       try {
-        const status = await fetch('/api/auth/status', { cache: 'no-store', signal: AbortSignal.timeout(15000) })
+        const status = await fetch('/api/auth/status', { cache: 'no-store', signal: AbortSignal.timeout(AUTH_REQUEST_TIMEOUT_MS) })
         if (!status.ok) throw new Error('connection')
         const settings = await status.json()
-        const response = await fetch('/api/auth/me', { cache: 'no-store', signal: AbortSignal.timeout(15000) })
+        const response = await fetch('/api/auth/me', { cache: 'no-store', signal: AbortSignal.timeout(AUTH_REQUEST_TIMEOUT_MS) })
         const next = response.ok ? await response.json() : null
         if (!alive || version !== authVersion.current) return
         setSecured(settings.enabled)
@@ -51,7 +58,18 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
       const sequence = message.sequence || 0
       if (sequence && sequence <= (peerSequences.get(sender) || 0)) return
       peerSequences.set(sender, sequence)
-      if (message.pending) pendingPeers.current.add(sender)
+      clearTimeout(peerTimers.get(sender))
+      peerTimers.delete(sender)
+      if (message.pending) {
+        pendingPeers.current.add(sender)
+        const timer = setTimeout(() => {
+          if (!alive || peerTimers.get(sender) !== timer) return
+          peerTimers.delete(sender); pendingPeers.current.delete(sender)
+          expire(ja ? '別のタブでのログイン確認が終了しませんでした。再ログインしてください。' : 'Sign-in in another tab did not finish. Sign in again.')
+          setLoading(signingOut.current || pendingPeers.current.size > 0)
+        }, PEER_AUTH_TIMEOUT_MS)
+        peerTimers.set(sender, timer)
+      }
       else pendingPeers.current.delete(sender)
       expire(ja ? '別のタブでログイン状態が変わりました。再ログインしてください。' : 'Sign-in changed in another tab. Sign in again.')
       setLoading(signingOut.current || pendingPeers.current.size > 0)
@@ -70,6 +88,8 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
     document.addEventListener('visibilitychange', visible)
     return () => {
       alive = false; authVersion.current++
+      for (const timer of peerTimers.values()) clearTimeout(timer)
+      peerTimers.clear(); peers.clear()
       channel?.close()
       window.removeEventListener('agentteam:unauthorized', expired)
       window.removeEventListener('agentteam:signout', signedOut)
@@ -85,7 +105,7 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
       const version = ++authVersion.current
       broadcastSessionChange(true)
       try {
-        const response = await fetch('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token }), signal: AbortSignal.timeout(15000) })
+        const response = await fetch('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token }), signal: AbortSignal.timeout(AUTH_REQUEST_TIMEOUT_MS) })
         if (!response.ok) throw new Error(response.status === 429 ? (ja ? 'しばらく待って再試行してください。' : 'Wait a moment before retrying.') : (ja ? 'ログインできませんでした。アクセスキーを確認してください。' : 'Sign-in failed. Check your access key.'))
         const next = await response.json()
         if (version !== authVersion.current) {

@@ -1,0 +1,62 @@
+{
+  "checked_at": "2026-10-01T18:10:36.859Z",
+  "browser": "154.0.8037.58",
+  "source": "docs/PRODUCTION_PLAN.md",
+  "source_sha256": "e0dd46337a5d8240dd1016096d4d0cdac8bbe1f260523b97faa077adbff96f23",
+  "checks": [
+    {
+      "id": "same-principal-reload",
+      "method": "Chrome with real secured API and SQLite",
+      "expected": "依頼と実資料添付を同一主体の再読込で保持",
+      "observed": "依頼と実資料添付を同一主体の再読込で保持",
+      "status": "PASS"
+    },
+    {
+      "id": "signout-clears-private-data",
+      "method": "Chrome with real secured API and SQLite",
+      "expected": "サーバーセッション失効と依頼・添付・welcome入力・検索・編集コピーの消去",
+      "observed": "サーバーセッション失効と依頼・添付・welcome入力・検索・編集コピーの消去",
+      "status": "PASS"
+    },
+    {
+      "id": "next-principal-is-empty",
+      "method": "Chrome with real secured API and SQLite",
+      "expected": "別主体へ前利用者の内容を表示しない",
+      "observed": "別主体へ前利用者の内容を表示しない",
+      "status": "PASS"
+    },
+    {
+      "id": "other-tab-signout",
+      "method": "Chrome with real secured API and SQLite",
+      "expected": "他タブのログアウトで既存画面を閉じ、タブ内の依頼と添付を消去",
+      "observed": "他タブのログアウトで既存画面を閉じ、タブ内の依頼と添付を消去",
+      "status": "PASS"
+    },
+    {
+      "id": "other-tab-signin",
+      "method": "Chrome with real secured API and SQLite",
+      "expected": "他タブが別主体でログインしても旧主体の画面・下書きを復元しない",
+      "observed": "他タブが別主体でログインしても旧主体の画面・下書きを復元しない",
+      "status": "PASS"
+    },
+    {
+      "id": "server-revocation-401",
+      "method": "Chrome with real secured API and SQLite",
+      "expected": "実SQLiteのセッション失効後のHTTP 401でメモリも消去し、同一ページの再ログインで漏れない",
+      "observed": "実SQLiteのセッション失効後のHTTP 401でメモリも消去し、同一ページの再ログインで漏れない",
+      "status": "PASS"
+    },
+    {
+      "id": "no-model-execution",
+      "method": "Chrome with real secured API and SQLite",
+      "expected": "追加run記録0件。依頼送信・LLM呼出しなし",
+      "observed": "追加run記録0件。依頼送信・LLM呼出しなし",
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "同一OS/ブラウザプロファイルの悪意ある手動ストレージ操作の隔離ではない",
+    "編集コピーは保存境界の消去確認。成果物エディタの操作試験ではない",
+    "実IdP/公開TLS/実ユーザー受入・LLM業務品質の検証ではない"
+  ]
+}

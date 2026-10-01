@@ -35,6 +35,10 @@ CI実装は `fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b`。ローカル統合は `
 
 安全診断を追加したローカル実サービス確認（e279288 + 診断差分）は全5段階・並行ログイン3項目PASS、所有Chrome残留0だった（`parallel-diagnostic-local-*.json` / `parallel-diagnostic-local.json`）。GitHubの元失敗は再現せず、原因はまだ未特定。診断追加は固定phase・許可したerror種別・通過check IDの記録だけで、待機条件・期待値・製品実装は変更していない。
 
+診断追加 `85630f1` の [CI 36903132391](https://github.com/FORIFOR/Multibot/actions/runs/36903132391) は全4ジョブsuccess（実行merge commit `ab6442189744ccb08d921a4fe7bd92071e10a924`）。実サービス5段階・並行ログイン3項目を通過し、safe diagnosticもPASS/completed、所有Chrome残留0だった（`parallel-diagnostic-ci*.json`）。元の失敗を修正できたという証明ではない。独立コード読取では、共通タイマーの送信が原子的でなく他タブ通知で後続フォームが閉じる可能性、固定100msが描画完了を保証しない点を候補として残す。失敗phaseを観測していないため、原因として断定しない。
+
+同じ `85630f1` の [OIDC 36903132449](https://github.com/FORIFOR/Multibot/actions/runs/36903132449) も13項目PASS（`oidc-parallel-diagnostic-*.json`）。公開用の実IdP登録やMFAの受入とは区別する。
+
 この検証はloopbackの一時KeycloakとAPIの署名検証経路である。OAuth2 Proxy、本番TLS、MFA、自己登録・アカウント回復、公開環境での運用、第三者自力利用の受入は含まない。
 
 ## 次の業務品質試験の準備

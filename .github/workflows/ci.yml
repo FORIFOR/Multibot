@@ -94,4 +94,7 @@ jobs:
             /tmp/multibot-public-service/browser/parallel-login.json
             /tmp/multibot-public-service/browser/parallel-diagnostic.json
             /tmp/multibot-public-service/browser/next-principal-empty.png
+            /tmp/multibot-public-service/browser/peer-tab-close.json
+            /tmp/multibot-public-service/browser/close-empty-signin.png
+            /tmp/multibot-public-service/browser/reload-empty-signin.png
           if-no-files-found: ignore

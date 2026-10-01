@@ -139,7 +139,8 @@ async def main(root: Path):
             for path in [Path(__file__), BACKEND / 'scripts/check_subject_admission.py',
                          BACKEND / 'scripts/check_public_responses.py',
                          *[REPO / 'frontend/scripts' / name for name in
-                           ('auth-browser-isolation.mjs', 'auth-retry-reload.mjs', 'auth-parallel-login.mjs')]]
+                           ('auth-browser-isolation.mjs', 'auth-retry-reload.mjs', 'auth-parallel-login.mjs',
+                            'auth-peer-tab-close.mjs')]]
         },
         'model_execution': False,
         'business_acceptance': False,
@@ -165,9 +166,11 @@ async def main(root: Path):
         env = {**os.environ, 'AUTH_TEST_URL': origin,
                'AUTH_TEST_ADMIN_KEY_FILE': str(root / 'public-service-admin.key'),
                'AUTH_TEST_OPERATOR_KEY_FILE': str(root / 'public-service-operator.key'),
-               'AUTH_TEST_DATA_DIR': str(data), 'AUTH_TEST_EVIDENCE_DIR': str(root / 'browser')}
+               'AUTH_TEST_DATA_DIR': str(data), 'AUTH_TEST_EVIDENCE_DIR': str(root / 'browser'),
+               'AUTH_PEER_EXPECT': 'recovered'}
         async with running(data, access, port):
-            for script in ('auth-browser-isolation.mjs', 'auth-retry-reload.mjs', 'auth-parallel-login.mjs'):
+            for script in ('auth-browser-isolation.mjs', 'auth-retry-reload.mjs', 'auth-parallel-login.mjs',
+                           'auth-peer-tab-close.mjs'):
                 with (root / f'{script}.log').open('xb') as log:
                     code = await run_browser_process(
                         ['node', str(REPO / 'frontend/scripts' / script)], cwd=REPO / 'frontend',

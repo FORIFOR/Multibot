@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "runner_stages_passed": 6,
+  "source_files_unchanged": 10,
+  "runner_fingerprints_match_current": 7,
+  "runner_fingerprints_overlap_before_match": true,
+  "frozen_script_sha256": "4abe3473ff5401014cbe6d9cc95fa3baecd0b741aab8df055f9ac0a249b2be7d",
+  "safe_files_checked": 4,
+  "credential_files_byte_checked": 7,
+  "credential_matches": 0,
+  "secret_pattern_matches": 0,
+  "screenshots_match_previously_viewed_r1": {
+    "close-empty-signin.png": false,
+    "reload-empty-signin.png": true
+  },
+  "browser_database": {
+    "runs": 2,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "additional_model_calls": 0,
+  "additional_jobs": 0,
+  "remaining_owned_chrome_processes": 0,
+  "owned_service_listener_closed": true,
+  "limitations": [
+    "Local actual technical accounts and actual HTTP/SQLite/Chrome; external IdP/TLS and human acceptance are outside this run.",
+    "The close case stops sender JavaScript via CDP after actual HTTP 200 so its completion callback cannot run; no response bytes are supplied.",
+    "The product peer deadline remains 20 seconds; the verification observation upper bound is 30 seconds.",
+    "This does not identify the cause of the prior GitHub parallel-login failure."
+  ],
+  "safe_files_sha256": {
+    "service/report.json": "a37de4c77003892f2f823ec693114340b64cee629951bcd3b7ef1cab854450ad",
+    "service/browser/peer-tab-close.json": "8865e5e42e26cecdf5b7216c57dc65a1010643b3948b96d95a3b6f4ff4f74c2c",
+    "service/browser/close-empty-signin.png": "b2387bab34f5082540c9b7527052fb51028246b50fd9356db559c5fee271fd5f",
+    "service/browser/reload-empty-signin.png": "b8355b9c6ead8758a675cabea13e2f3c4c6e6d0c86d29128dd2e912dcf5b84df"
+  },
+  "screenshots_visually_confirmed_empty_login": true,
+  "screenshot_review_method": {
+    "close-empty-signin.png": "Viewed final-run pixels",
+    "reload-empty-signin.png": "SHA-256 identical to independently viewed prior-run image"
+  }
+}
