@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "exact_issued_credentials_checked": 5,
+  "exact_credential_matches": 0,
+  "patterns_checked": [
+    "JWT",
+    "PEM_private_key",
+    "GitHub_token",
+    "Authorization_value"
+  ],
+  "pattern_matches": 0,
+  "screenshots_visually_inspected": 6,
+  "screenshots_contain_login_form": false,
+  "copied_allowlist": [
+    "ui-r1-failure.json",
+    "ui-r2-result.json",
+    "ui-browser-checks.json",
+    "ui-source-manifest.json",
+    "ja-report-evidence.png",
+    "ja-report-interpretation.png",
+    "ja-workroom-notes.png",
+    "en-report-evidence.png",
+    "en-report-interpretation.png",
+    "en-workroom-notes.png",
+    "ci-path-replay.json"
+  ],
+  "excluded": [
+    "private logs",
+    "SQLite databases",
+    "access/configuration files",
+    "credential files",
+    "private verification scripts"
+  ],
+  "limitations": "Exact byte/pattern scanning and AI visual review of six screenshots; not a general secret-detection guarantee.",
+  "scanned_scope": "all published files in this evidence directory; six screenshots also visually inspected",
+  "published_file_count_excluding_sha_manifest": 15
+}

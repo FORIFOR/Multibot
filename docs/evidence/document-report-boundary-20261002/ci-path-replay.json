@@ -1,0 +1,59 @@
+{
+  "status": "PASS",
+  "scope": "real-record document report rendering regression",
+  "commit": "8257cd16a01f72cc530275e2e6d6b8ec2e38958e",
+  "original_series_unchanged": true,
+  "model_execution": false,
+  "replay_limits": [
+    "original final usage is carried forward, not recomputed before the report",
+    "tasks use checkpoint status/attempts; task result/review/blocker fields are not fully reconstructed",
+    "this is not a complete historical runtime reproduction or measured token saving"
+  ],
+  "business_quality_accepted": false,
+  "human_acceptance": "not_performed",
+  "records": [
+    {
+      "rep": 1,
+      "run_id": "run_1a0f7fbead33cd46066",
+      "original_status": "completed",
+      "event_prefix_through_seq": 55,
+      "original_report_sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+      "replay_report_sha256": "71dddf0ac8fd32e9fa078c2fb5982deac84678f7445b308c231b9a5eff5dfe16",
+      "additional_model_calls": 0,
+      "original_deliverables_unchanged": true,
+      "narrative": null,
+      "policy": "runtime_evidence_only"
+    },
+    {
+      "rep": 6,
+      "run_id": "run_1a0f832606535338159",
+      "original_status": "failed",
+      "event_prefix_through_seq": 60,
+      "original_report_sha256": "ac3969af49d06c19f4d9ff8f309b06bf0362bb8a3a8e88126777dd842ab07878",
+      "replay_report_sha256": "2ef29a747ed092773b1b8ced3977997ee997088f9d00c305fa9dc889d6c93dbd",
+      "additional_model_calls": 0,
+      "original_deliverables_unchanged": true,
+      "narrative": null,
+      "policy": "runtime_evidence_only"
+    }
+  ],
+  "source_sha256": {
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/run.json": "6712dfa6685d1a280b3f40f9ee05ab3e457cb29f130fb003bb793d7626d679c8",
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/events.jsonl": "23f597b41d6fa5a7a526985af4a859bc38ee8528d59057e425b3f0768c81be13",
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/artifacts.json": "1c4ebccf2050a48b22fd5b9127fcc4e5f01a421d48e662a9437b4925270389fc",
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/artifact-000.bin": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/06-run_1a0f832606535338159/run.json": "ee7759068aab7e71320ba3d1628b9130c80832bb32ec1084281d5e686de5b8b0",
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/06-run_1a0f832606535338159/events.jsonl": "e80e841fa28e3513b3244ac8155ae17e23dcfe7ac2bb23b391d543e097288f44",
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/06-run_1a0f832606535338159/artifacts.json": "d6d44985fe1e9278117e7aebb352f5c6c1acec0945310142120c20d15e642a62",
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/06-run_1a0f832606535338159/artifact-000.bin": "ac3969af49d06c19f4d9ff8f309b06bf0362bb8a3a8e88126777dd842ab07878",
+    "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/06-run_1a0f832606535338159/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+  },
+  "implementation_sha256": {
+    "backend/agentteam/runtime/orchestrator.py": "3a4dac5dfea264c34efb29a3f2ebea70cb1dced57b46e0d20b82d789b3bbb8da",
+    "backend/scripts/check_document_report.py": "c426ace0aae6a86f06aa338cf8025346fa0ba6662cd71b53a17be7e39648e666",
+    "backend/scripts/check_message_handoff.py": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff"
+  },
+  "execution_context": "local actual replay using the repository evidence path configured for CI; not a GitHub job result",
+  "original_result_sha256": "8c03e6e356bd188263413c226d58cfae455a94b87fab53083dd65dda332e7e93"
+}

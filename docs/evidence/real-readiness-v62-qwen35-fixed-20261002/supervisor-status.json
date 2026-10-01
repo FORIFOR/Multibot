@@ -1,0 +1,9 @@
+{
+  "state": "completed",
+  "updated_at": "2026-10-01T17:04:52.331472+00:00",
+  "supervisor_pid": 22051,
+  "fixed_checkout": "9eb7988",
+  "exit_code": 0,
+  "production_ready": false,
+  "semantic_review": "pending"
+}

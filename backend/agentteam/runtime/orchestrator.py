@@ -410,9 +410,15 @@ class RunManager:
         evidence["run"]["final_status"] = str(status)
         evidence["run"]["reason"] = reason
         narrative = None
-        if status != RunStatus.cancelled and not rt.policy.cancelled:
+        # Document deliverables and their recorded review coverage are the
+        # evaluation target. A later unreviewed model summary can introduce
+        # new claims. Keep the completion record tied to the runtime ledger.
+        evidence_only = run.inputs.workflow == "document"
+        if not evidence_only and status != RunStatus.cancelled and not rt.policy.cancelled:
             narrative = await final_report(rt, evidence)
         report = {"status": str(status), "reason": reason, "generated_at": now_iso(), "evidence": evidence, "narrative": narrative,
+                  "narrative_policy": "runtime_evidence_only" if evidence_only else "optional_model_interpretation",
+                  "narrative_omission_reason": "document_workflow_has_no_post_review_interpretation" if evidence_only else None,
                   "deliverables": [{"artifact_id": m.artifact_id, "revision": m.revision, "sha256": m.sha256, "logical_path": m.logical_path,
                                     "by": m.agent_id, "task_id": m.task_id} for m in artifacts if m.artifact_id != "final-report.md"],
                   "usage": rt.policy.usage.model_dump()}
@@ -420,7 +426,9 @@ class RunManager:
         m = await self.artifacts.publish(run.run_id, "final-report.md", md.encode("utf-8"), agent_id=(narrative or {}).get("author", "runtime"),
                                          task_id=None, media_type="text/markdown")
         ev = await self.events.append(run.run_id, "report.generated", {"artifact_id": m.artifact_id, "revision": m.revision, "sha256": m.sha256,
-                                                                      "narrative_by": (narrative or {}).get("author")})
+                                                                      "narrative_by": (narrative or {}).get("author"),
+                                                                      "narrative_policy": report["narrative_policy"],
+                                                                      "narrative_omission_reason": report["narrative_omission_reason"]})
         await self.artifacts.set_event(run.run_id, m.artifact_id, m.revision, ev.event_id)
         report["report_artifact"] = {"artifact_id": m.artifact_id, "revision": m.revision}
         return report
@@ -615,6 +623,10 @@ def render_report_markdown(report: dict[str, Any], run: Run) -> str:
             results = ", ".join(f"{r['acceptance_id']}={r['status']}" for r in item["results"])
             lines.append(f"- `{ref}`: review seq {item['review_seq']}: {results}")
     lines.append("")
+    if report.get("narrative_policy") == "runtime_evidence_only":
+        lines += ["Document workflow: this report lists recorded execution and review results. "
+                  "No additional model interpretation was generated. Review results do not establish human acceptance. "
+                  "Check the requested document against its sources before using it.", ""]
     if n.get("summary"):
         lines += ["## Model summary (not a verification verdict)", n["summary"], ""]
     lines.append("## Deliverables")

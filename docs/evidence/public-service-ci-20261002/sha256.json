@@ -10,12 +10,17 @@
   "github-initial-report.json": "c09cd9b6b0594c757768a81413ed69b4b8479d0108647418aeb0395df3ebf52b",
   "github-initial-responses.json": "527da0443b6c629fa97dea73570ad8a84e7a5fc90415c24e8d9ff8d0ae7a478b",
   "github-initial-retry.json": "216515732f732d8c01c5a4c0f22af5bd3b2c9f994f72f645cda990819e949226",
+  "guide-postflight-early-refusal.json": "a2157adebd3fd8a01e46b18f115072009072721d72964addd8879b54a8893e8f",
   "guide-preflight-database.json": "b3031937563f00a48e1f6b838ce25c6b831171317fc5a604f266f2ba7ccdcbff",
   "guide-preflight-manifest.json": "b3936029dcc16682d7f36b767014c136ddbd8346747f643b1e8fb56cd0cb1591",
   "guide-preflight-pyjwt215.json": "8c85233bada8dfe97762dab87950ff6a64c109b319f73d93a0c5ee34aaf1f721",
   "local-report.json": "dd034c7cdca6b157b92ebbbcd0e2895fc19b295120121225c0f49e07d0ab31e3",
   "oidc-account-verification.json": "ac3339301c925027300593e617a7dd6e6c0c1057f1582300f461d93396f4d3a1",
   "oidc-first-token-failure.json": "5b130d571fa7ee5358cc26974a633a55b5564f4d2bc53a2af49a70111e3be4e8",
+  "oidc-fixed-provenance.json": "146242d67c2fd9f6e665d53ee8da95107ef4259f640a08cbf0677ea1c21c4733",
+  "oidc-fixed-report.json": "c0b858c80def9959903d2c1a336fdf1a64271bc76d59e8546e15eb132c8b7126",
+  "oidc-handoff-head-provenance.json": "155a58adf09d89ffb3c7104df52056f003bed1d361815375ae2b584384da68d6",
+  "oidc-handoff-head-report.json": "8556bac1d1dc8eabdbb26aecb1e13bdc9dceced5c7ec28346d4773bfce3df0b4",
   "oidc-initial-failure.json": "2600e1a89fd91fa03b93d390efc63373ce471af57d7e0e218e44fc55f7d7f190",
   "pyjwt215-local-report.json": "10d330611ed3f48a05904f880c535f2ef2cb304f6072508411691357acdf7bbb"
 }

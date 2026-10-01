@@ -526,30 +526,35 @@ function Timeline({ items, tz, hiSeq, selTask }: { items: TimelineItem[]; tz?: s
 }
 
 function Report({ run }: { run: RunDetail }) {
+  const say = (ja: string, en: string) => getLang() === 'en' ? en : ja
   const r = run.final_report
-  if (!r) return <p className="muted small">{TERMINAL.includes(run.status) ? '報告はありません。' : tr('実行完了後に、成果物・検証・未解決・費用・経緯参照をまとめた報告が生成されます。')}</p>
+  if (!r) return <p className="muted small">{TERMINAL.includes(run.status) ? say('報告はありません。', 'No report is available.') : tr('実行完了後に、成果物・検証・未解決・費用・経緯参照をまとめた報告が生成されます。')}</p>
   const n = r.narrative
   const ev = r.evidence
   return (
     <div className="report small">
-      <div className="row"><span className={'tag status-' + r.status}>{r.status}</span>{r.reason && <span className="err">{r.reason}</span>}<span className="muted">{n ? `要約: ${n.author}` : tr('要約: 生成なし（証拠のみ）')}</span></div>
-      {n?.summary && <><h2>{tr("要約")}</h2><Markdown text={n.summary} className="prose" /></>}
+      <div className="row"><span className={'tag status-' + r.status}>{r.status}</span>{r.reason && <span className="err">{r.reason}</span>}<span className="muted">{n ? `${say('AIによる解釈', 'AI interpretation')}: ${n.author}` : tr('要約: 生成なし（証拠のみ）')}</span></div>
       <h2>{tr("成果物")}</h2>
       <ul>{r.deliverables.map((d: any) => <li key={d.artifact_id + d.revision}><code>{d.logical_path}</code> r{d.revision} <span className="muted">sha {d.sha256.slice(0, 12)} · {d.by}/{d.task_id}</span></li>)}</ul>
-      <h2>{tr("検証済み")}</h2>
+      <h2>{say('記録された検査・レビュー', 'Recorded checks and reviews')}</h2>
       <ul>
         {ev.checks.map((c: any) => <li key={c.seq}>check <code>{c.kind}</code> on {c.target?.artifact_id} r{c.target?.revision} → <span className={'tag ' + c.status}>{c.status}</span> <span className="muted">#{c.seq}</span></li>)}
         {ev.reviews.map((rv: any) => <li key={rv.seq}>review of {rv.target_task_id} by {rv.by}: {rv.results.map((x: any) => <span key={x.acceptance_id} className={'tag ' + x.status} style={{ marginRight: 4 }}>{x.acceptance_id} {x.status}</span>)} <span className="muted">#{rv.seq}</span></li>)}
-        {n?.verified?.map((v: string, i: number) => <li key={i}>{v}</li>)}
+        {ev.checks.length + ev.reviews.length === 0 && <li className="muted">{tr('なし')}</li>}
       </ul>
       <h2>{tr("未解決・承認待ち")}</h2>
       <ul>
         {ev.failures.map((f: any) => <li key={f.seq}>{f.type} {f.task_id} — {f.reason} <span className="muted">#{f.seq}</span></li>)}
         {ev.blockers.map((b: any) => <li key={b.seq}>{b.actor}: {b.reason} — 必要: {b.needed}</li>)}
-        {n?.unresolved?.map((u: string, i: number) => <li key={i}>{u}</li>)}
-        {ev.failures.length + ev.blockers.length === 0 && !n?.unresolved?.length && <li className="muted">{tr("なし")}</li>}
+        {ev.failures.length + ev.blockers.length === 0 && <li className="muted">{tr("なし")}</li>}
       </ul>
-      {n?.next_steps?.length ? <><h2>{tr("次の一手")}</h2><ul>{n.next_steps.map((s: string, i: number) => <li key={i}>{s}</li>)}</ul></> : null}
+      {n && <section aria-label={say('AIによる解釈（確認が必要）', 'AI interpretation (needs confirmation)')}>
+        <h2>{say('AIによる解釈（確認が必要）', 'AI interpretation (needs confirmation)')}</h2>
+        {n.summary && <><h3>{say('AIによる要約', 'AI summary')}</h3><Markdown text={n.summary} className="prose" /></>}
+        {n.verified?.length ? <><h3>{say('AIが確認できたとする点', 'What the AI considers verified')}</h3><ul>{n.verified.map((v: string, i: number) => <li key={i}>{v}</li>)}</ul></> : null}
+        {n.unresolved?.length ? <><h3>{say('AIが未解決とする点', 'What the AI considers unresolved')}</h3><ul>{n.unresolved.map((u: string, i: number) => <li key={i}>{u}</li>)}</ul></> : null}
+        {n.next_steps?.length ? <><h3>{say('AIが提案する次の一手', 'Next steps suggested by the AI')}</h3><ul>{n.next_steps.map((s: string, i: number) => <li key={i}>{s}</li>)}</ul></> : null}
+      </section>}
       <h2>{tr("時間・費用")}</h2>
       <dl className="kv">
         <dt>model calls</dt><dd>{r.usage.model_calls}</dd>

@@ -1,5 +1,7 @@
 # 実ローカルLLM受入証拠 — v61
 
+**2026-10-02追記:** 後日の意味審査で、入力取得を「入力検査」とする提供例文由来の誤差を全10件で確認した。モデルレビュー9件も見逃したため受入は0/10。以下の `pending` は収集時の記録であり、現在の審査状況は [PR26の事後審査](https://github.com/FORIFOR/Multibot/pull/26) を参照。原status/attempts/成果物は変更していない。
+
 - 固定系列: `real-readiness-v61-qwen35-fixed-20260925`
 - 固定コード: `12393db`
 - モデル: Ollama `agentteam-qwen35-9b-16k`（同時実行1件、Claude/クラウドへの自動切替なし）

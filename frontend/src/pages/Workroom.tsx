@@ -156,7 +156,8 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     select('team')
     requestAnimationFrame(()=>{const section=document.querySelector<HTMLDetailsElement>('.conversation-direction');if(section)section.open=true;document.getElementById('team-direction')?.focus()})
   }
-  const reviewNotes: string[] = [...new Set([...run.tasks.flatMap(t => [t.blocked_reason, ...(t.result?.unverified || [])]), ...(run.final_report?.narrative?.unresolved || [])].filter((v): v is string => !!v))]
+  const reviewNotes: string[] = [...new Set(run.tasks.flatMap(t => [t.blocked_reason, ...(t.result?.unverified || [])]).filter((v): v is string => !!v))]
+  const interpretationNotes = [...new Set<string>((run.final_report?.narrative?.unresolved || []).filter((note: string) => !!note))]
   // A review of another version is not evidence for this file.
   const evidence = run.final_report?.evidence
   const latestFiles = [...new Map(files.map(f => [f.artifact_id, f] as const).sort((a, b) => a[1].revision - b[1].revision)).values()]
@@ -172,13 +173,17 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const owners: Record<string,string> = Object.fromEntries(run.tasks.map(t => { const a = run.config_snapshot?.agents?.[t.spec.owner]; return [t.spec.id, a?.display_name || botName(a?.role || t.spec.owner, getLang())] }))
   const runnable = ['created','queued','planning','running'].includes(run.status)
   // Runtime wording stays available on hover and in the detailed record; the everyday view says it plainly.
-  const noteCount = (run.blocked_reason ? 1 : 0) + reviewNotes.length
+  const noteCount = (run.blocked_reason ? 1 : 0) + reviewNotes.length + interpretationNotes.length
   const notices = noteCount > 0 ? <details className="room-notes">
     <summary>{say('確認事項','Needs attention')}（{noteCount}）</summary>
-    <ul>
+    {(run.blocked_reason || reviewNotes.length > 0) && <ul>
       {run.blocked_reason && <li title={run.blocked_reason}><b>{say('止まった理由','Why work stopped')}</b> {friendlyReason(run.blocked_reason, getLang())}</li>}
       {reviewNotes.map((note, i) => <li key={i} title={note}>{friendlyReason(note, getLang())}</li>)}
-    </ul>
+    </ul>}
+    {interpretationNotes.length > 0 && <>
+      <h3>{say('AIによる解釈（確認が必要）', 'AI interpretation (needs confirmation)')}</h3>
+      <ul>{interpretationNotes.map((note, i) => <li key={i}>{note}</li>)}</ul>
+    </>}
   </details> : null
   return <div data-studio-panel={selectedPanel} className={`simple-workroom creation-studio desk-workroom ${files.length?'has-results':'no-results'}${paused ? ' motion-paused' : ''}`}>
     <Link to={`/runs?filter=${workFilter(new URLSearchParams(location.search).get('from'))}`} nav={nav} className="work-back">{say('← 作業一覧に戻る','← Back to work')}</Link>

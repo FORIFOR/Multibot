@@ -1,0 +1,47 @@
+{
+  "status": "FAIL",
+  "failure_kind": "verification_script_incorrect_endpoint_expectation",
+  "expected_login_path": "/api/auth/session",
+  "actual_login_path": "/api/auth/login",
+  "actual_product_endpoint": "/api/auth/login",
+  "display_checks": [
+    {
+      "language": "ja",
+      "check": "RunView source narrative preserved and separated from recorded checks/reviews",
+      "narrative_list_sha256": "efd0a9eeed219461351851702c7de03ed92d6f90fe31f8226464bd0da1de0ad2",
+      "recorded_evidence_rows": 4,
+      "status": "PASS"
+    },
+    {
+      "language": "ja",
+      "check": "Workroom narrative unresolved uses source label and unchanged text",
+      "unresolved_sha256": "2e784085a1fe114a480cabfdd2afa4ac821b977e4b0e24102e31a271bd88c4dd",
+      "status": "PASS"
+    },
+    {
+      "language": "en",
+      "check": "RunView source narrative preserved and separated from recorded checks/reviews",
+      "narrative_list_sha256": "efd0a9eeed219461351851702c7de03ed92d6f90fe31f8226464bd0da1de0ad2",
+      "recorded_evidence_rows": 4,
+      "status": "PASS"
+    },
+    {
+      "language": "en",
+      "check": "Workroom narrative unresolved uses source label and unchanged text",
+      "unresolved_sha256": "2e784085a1fe114a480cabfdd2afa4ac821b977e4b0e24102e31a271bd88c4dd",
+      "status": "PASS"
+    }
+  ],
+  "page_errors": [],
+  "cleanup": {
+    "service_stopped": true,
+    "port_closed": true,
+    "owned_chrome_processes_remaining": false,
+    "browser_closed": true
+  },
+  "retained_private_attempt": "public-service-report-ui-20261002-r1",
+  "scope": "Display checks passed before the incorrect mutation assertion. Failed attempt is retained and is not promoted to a passing run.",
+  "product_changed_after_failure": false,
+  "business_quality_accepted": false,
+  "human_acceptance": "not_performed"
+}
