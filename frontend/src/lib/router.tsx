@@ -18,8 +18,8 @@ export function usePath(): [string, (p: string) => void] {
   return [path, nav]
 }
 
-export function Link({ to, nav, className, children }: { to: string; nav: (p: string) => void; className?: string; children: React.ReactNode }) {
-  return <a href={to} className={className} onClick={(e) => {
+export function Link({ to, nav, className, current, children }: { to: string; nav: (p: string) => void; className?: string; current?: boolean; children: React.ReactNode }) {
+  return <a href={to} className={className} aria-current={current ? 'page' : undefined} onClick={(e) => {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
     e.preventDefault()
     nav(to)

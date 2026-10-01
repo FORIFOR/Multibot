@@ -1,0 +1,133 @@
+{
+  "state": "CAPTURE_CANDIDATE",
+  "actor": "Independent AI verifier using a real locally issued technical operator account",
+  "accepted_by_human": false,
+  "source": {
+    "basis": "a3258b52a3d8f6f2da0c14186b3491a2b5996f71",
+    "modified_files": {
+      "frontend/src/App.tsx": "3ce8e50bf0d1e83ca47badfc34ddf7a2fe65fcf5ee085eab3e557ad6f3a3e2b4",
+      "frontend/src/lib/router.tsx": "42135605d4d362ea3aca63efd5711debe746a75577e1931fd425889c89db0fa7",
+      "frontend/src/paper.css": "d344b5b11fe08b317af77d6a57593e7dc61412de2ed2067b26b6812db731608a"
+    }
+  },
+  "full_frontend_source_file_count": 53,
+  "full_frontend_source_manifest_sha256": "67941b330a061648a495447805ef252f23dedb99d645195142b80177b571210c",
+  "full_frontend_source_canonical_sha256": "66ad73e30729efaa42403017ca32c9c0530397da718e1e96c70bfb23912f5324",
+  "private_bundle_manifest_sha256": "6ddea499006378e52abf7349b73158e0454911ef4ff16efe476535493dfc67f8",
+  "material": {
+    "path": "docs/quality/integration.md",
+    "sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06"
+  },
+  "request_submitted": false,
+  "new_model_execution": false,
+  "captures": [
+    {
+      "name": "award-request-ja.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "5f748852575f8dea65b6cb40283f76d98fc1041c81118b5dbee5b9b35d2f9adc",
+      "language": "ja",
+      "request_submitted": false,
+      "scroll_policy": "Top of page; viewport screenshot",
+      "goal_sha256": "1bfe6a892043e0387a33127bf73a02bde0ec1d84f8e89a481584000d5c4a36b1",
+      "geometry": {
+        "innerWidth": 1440,
+        "innerHeight": 900,
+        "scrollY": 0,
+        "dpr": 1,
+        "rootZoom": "1",
+        "navHeight": 900
+      }
+    },
+    {
+      "name": "award-request-mobile-ja.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "9e637f2629a744f98c7c24d2fda9b667af9386cccac35075a4389c2dbb20cb6d",
+      "language": "ja",
+      "request_submitted": false,
+      "scroll_policy": "Native scrolling places request label 16 CSS px below sticky navigation; viewport screenshot",
+      "goal_sha256": "1bfe6a892043e0387a33127bf73a02bde0ec1d84f8e89a481584000d5c4a36b1",
+      "geometry": {
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "scrollY": 637,
+        "dpr": 1,
+        "rootZoom": "1",
+        "navHeight": 107
+      }
+    },
+    {
+      "name": "award-request-en.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "f23ef09e373ecc5a7b69b625f10db03c606274544919db0e41ede0123a0af26f",
+      "language": "en",
+      "request_submitted": false,
+      "scroll_policy": "Top of page; viewport screenshot",
+      "goal_sha256": "928670fb89d3d7e11bfe6e513ef035f4cb75567b3617dddb1674f005892be94d",
+      "geometry": {
+        "innerWidth": 1440,
+        "innerHeight": 900,
+        "scrollY": 0,
+        "dpr": 1,
+        "rootZoom": "1",
+        "navHeight": 900
+      }
+    },
+    {
+      "name": "award-request-mobile-en.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "3e7970c2789322d8fe42fe40d7a1193ac2e6545622a88a889da57c8de78b66eb",
+      "language": "en",
+      "request_submitted": false,
+      "scroll_policy": "Native scrolling places request label 16 CSS px below sticky navigation; viewport screenshot",
+      "goal_sha256": "928670fb89d3d7e11bfe6e513ef035f4cb75567b3617dddb1674f005892be94d",
+      "geometry": {
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "scrollY": 674,
+        "dpr": 1,
+        "rootZoom": "1",
+        "navHeight": 107
+      }
+    }
+  ],
+  "prior_images": [
+    {
+      "path": "public-home-capture-r2/prior-public-images/award-request-en.png",
+      "sha256": "bd74d15109d5211737169691052f4a3db95078e505e0a445adf86798acd83c73"
+    },
+    {
+      "path": "public-home-capture-r2/prior-public-images/award-request-ja.png",
+      "sha256": "9cc5eb013d270829e4dc1662ca87ca204db568d7c220047db26aca62be43f9b2"
+    },
+    {
+      "path": "public-home-capture-r2/prior-public-images/award-request-mobile-en.png",
+      "sha256": "b6a8b039ed09c644c18b44db497e73df4dd7ed87235a9636a3d8c21f52ac68b6"
+    },
+    {
+      "path": "public-home-capture-r2/prior-public-images/award-request-mobile-ja.png",
+      "sha256": "76235917751bddc12a45b5dd98618f3241381849b53a4c14a71b179acecdc9d8"
+    }
+  ],
+  "original_capture_retained": "../public-home-capture-r1",
+  "image_review": "All four r2 actual PNGs viewed; visible real technical identity/loopback model target/source attachment only, no secret text observed. Mobile scroll is intentional and recorded.",
+  "cleanup": {
+    "owned_browser": [
+      {
+        "program": "public-home-capture-r2-check.mjs",
+        "tracked_processes": 10,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ],
+    "business_tables_unchanged": true,
+    "source_unchanged": true,
+    "baseline_dist_unchanged": true,
+    "root_service_not_stopped": true
+  },
+  "repo_media_not_changed": true
+}

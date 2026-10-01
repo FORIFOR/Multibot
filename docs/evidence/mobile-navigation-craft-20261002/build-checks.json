@@ -1,0 +1,12 @@
+{
+  "build_exit_code": 0,
+  "lint_exit_code": 0,
+  "lint_warning_lines": 21,
+  "new_App_warning": false,
+  "frozen_r1_dist_equals_build": true,
+  "packaged_ui_equals_build": true,
+  "ruff_modified_verifiers": "PASS",
+  "limits": [
+    "Pre-existing lint warnings are retained; zero warnings is not claimed."
+  ]
+}

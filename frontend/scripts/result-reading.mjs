@@ -13,7 +13,7 @@ const cfg = JSON.parse(readFileSync(process.env.RESULT_READING_CONFIG, 'utf8'))
 const out = cfg.output
 mkdirSync(out, { recursive: false, mode: 0o700 })
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
-const ids = ['default_results', 'artifact_bytes', 'filename_h2', 'team_closed', 'keyboard_open', 'poll_preserves_open',
+const ids = ['default_results', 'artifact_bytes', 'main_destinations', 'navigation_menu', 'navigation_escape', 'navigation_outside', 'filename_h2', 'team_closed', 'keyboard_open', 'poll_preserves_open',
   'keyboard_close', 'conversation_roundtrip', 'incomplete_warning', 'from_filter', 'overflow', 'permission_controls']
 const report = { status: 'RUNNING', started_at: new Date().toISOString(), script_sha256: sha(readFileSync(fileURLToPath(import.meta.url))),
   cases: [], http: [], failed_requests: [], console_errors: [], page_errors: [], writes: [], cleanup: [], screenshots: [],
@@ -138,6 +138,28 @@ async function runCases() {
           check(item, 'default_results', await room.getAttribute('data-studio-panel') === 'results' && await reader.isVisible())
           const initialBytes = await deadline('actual artifact byte match', () => artifactBytes(reader, source.artifact_sha256), 15000)
           check(item, 'artifact_bytes', initialBytes.sha256 === source.artifact_sha256, initialBytes)
+          const mainMenu = page.locator('.top.side')
+          const menuToggle = mainMenu.locator('.side-menu-toggle')
+          const options = mainMenu.locator('#workspace-options')
+          check(item, 'main_destinations', await mainMenu.locator('.side-new').isVisible() &&
+            await mainMenu.locator('a[href="/runs"][aria-current="page"]').isVisible() &&
+            await mainMenu.locator('a[aria-current="page"]').count() === 1)
+          await menuToggle.focus(); await page.keyboard.press('Enter')
+          await options.waitFor({ state: 'visible' })
+          check(item, 'navigation_menu', await menuToggle.getAttribute('aria-expanded') === 'true' &&
+            await options.getByRole('button', { name: en ? 'Sign out' : 'ログアウト', exact: true }).isVisible() &&
+            await options.getByRole('button', { name: en ? '日本語' : 'English', exact: true }).isVisible() &&
+            await options.locator('a[href="/settings"],a[href="/operations"]').count() === 0)
+          await page.keyboard.press('Escape')
+          await options.waitFor({ state: 'hidden' })
+          check(item, 'navigation_escape', await menuToggle.getAttribute('aria-expanded') === 'false' &&
+            await menuToggle.evaluate(el => document.activeElement === el))
+          await menuToggle.click(); await options.waitFor({ state: 'visible' })
+          await options.getByRole('button', { name: en ? '日本語' : 'English', exact: true }).focus()
+          await reader.locator('pre').click({ position: { x: 16, y: 16 } })
+          await options.waitFor({ state: 'hidden' })
+          check(item, 'navigation_outside', await menuToggle.getAttribute('aria-expanded') === 'false' &&
+            await options.evaluate(el => !el.contains(document.activeElement)))
           check(item, 'filename_h2', await page.locator('.result-file-identity').getByRole('heading', { level: 2, name: source.artifact_name, exact: true }).count() === 1)
           const team = page.locator('.team-disclosure')
           const summary = team.locator(':scope > summary')

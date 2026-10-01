@@ -1,0 +1,18 @@
+{
+  "head": "a3258b52a3d8f6f2da0c14186b3491a2b5996f71",
+  "merge_checkout": "022fd0d09504c50e77da7eb59a7fe78894943a25",
+  "ci_run": 36932496432,
+  "oidc_run": 36932496435,
+  "checks": "All 4 CI jobs and OIDC succeeded for this head",
+  "verification_reports": {
+    "github-service-36932496432/verification.json": "c20994ca70e0f1d70a7a14defe0a40feba714da114385037df26f5a0e9f5d36c",
+    "github-oidc-36932496435/verification.json": "6a24650f7ae3455d8baf200c6c106e909f3f04a143ee19ae612289d05533829c",
+    "github-site-summary-a3258b5.json": "e4d94216c8ea0ff178c8c6e3761976547051c914c9c66397147c763ac03e007e"
+  },
+  "limits": [
+    "No public service, business quality, human acceptance or award certification",
+    "OIDC stop step success does not prove API/container drainage; original cleanup absorbs stop errors",
+    "Service browser cleanup verified, original wrapper lacks final API port measurement",
+    "Fixed answer-free model series remains unstarted and separate at983be97"
+  ]
+}

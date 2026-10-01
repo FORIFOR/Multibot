@@ -1,0 +1,7 @@
+{
+  "status": "FAIL",
+  "error_type": "KeyError",
+  "field": "warning",
+  "cause": "Absent optional DOM warning was omitted by JSON serialization; direct dictionary indexing failed before comparison report was written.",
+  "changed_product_or_original_evidence": false
+}

@@ -1,0 +1,160 @@
+{
+  "state": "REVIEW_COMPLETE",
+  "actor": "Independent AI verifier, not the navigation implementation author",
+  "human_acceptance": false,
+  "business_acceptance": false,
+  "award_or_production_acceptance": false,
+  "source": {
+    "basis": "a3258b52a3d8f6f2da0c14186b3491a2b5996f71",
+    "modified_files": {
+      "frontend/src/App.tsx": "3ce8e50bf0d1e83ca47badfc34ddf7a2fe65fcf5ee085eab3e557ad6f3a3e2b4",
+      "frontend/src/lib/router.tsx": "42135605d4d362ea3aca63efd5711debe746a75577e1931fd425889c89db0fa7",
+      "frontend/src/paper.css": "d344b5b11fe08b317af77d6a57593e7dc61412de2ed2067b26b6812db731608a"
+    }
+  },
+  "candidate_bundle_sha256": "dd148d804fc2a1f4fa078324a3b61bbe0a799e48fe43748aa4f44f2e96ece4e5",
+  "verdict": "No new blocking navigation defect found in the exercised real browser paths. Scope-specific checks do not establish full service readiness.",
+  "comparison": {
+    "conditions": "Same imported real v62 rep3, unselected state, scrollY 0, viewport height 844; not mixed with older selected-state images",
+    "operator_390": {
+      "nav_before": 153,
+      "nav_after": 107,
+      "reader_top_before": 693.390625,
+      "reader_top_after": 647.390625
+    },
+    "operator_320": {
+      "nav_before": 153,
+      "nav_after": 107,
+      "reader_top_before": 717.015625,
+      "reader_top_after": 671.015625
+    },
+    "admin_320": {
+      "nav_before": 153,
+      "nav_after": 107,
+      "settings_operations": "Both remain fully visible inside opened menu; original horizontal edge clipping removed"
+    },
+    "auditor_320": {
+      "nav_before": 113,
+      "nav_after": 107,
+      "brand": "Agent Team is fully visible"
+    },
+    "desktop_1440": {
+      "nav_height_before_after": 844,
+      "reader_top_before_after": 513.578125
+    }
+  },
+  "actual_interaction_checks": {
+    "passed_groups": 14,
+    "ids": [
+      "menu-keyboard-and-closed-tab-skip",
+      "outside-pointer-closes-without-hidden-focus",
+      "routes-history-current-location",
+      "real-source-and-attachment-retained-through-menu-language-route",
+      "english-width-320",
+      "english-width-390",
+      "english-width-768",
+      "english-width-1440",
+      "open-menu-resize-and-breakpoint",
+      "logout-clears-draft-next-viewer-readonly",
+      "admin-secondary-route-current-and-close",
+      "auditor-operations-only-and-brand",
+      "native200-operator-menu-and-team-focus",
+      "native200-english-admin-panel-scroll-and-escape"
+    ],
+    "native_zoom": "Actual Chromium persistent profile zoom level 2x, outerWidth 1440, innerWidth 720, DPR 2, root/body CSS zoom 1; CDP whole-window screenshot avoids screenshot-coordinate clipping",
+    "native_focus_method": "Logout targets focused programmatically to check visibility; Escape operated by actual key. The primary menu open/close path used actual Tab/Enter/Escape. Team disclosure reused known programmatic focus reproduction plus Enter. Do not label all focus steps natural keyboard navigation.",
+    "draft_material": "Actual docs/quality/integration.md file and exact text retained across menu, language reload and route changes; removed by explicit logout before viewer login.",
+    "role_scope": "Real operator/viewer/admin/auditor logins; UI visibility/current navigation/read-only disabled controls checked. This is not a substitute for complete server RBAC regression."
+  },
+  "observed_http": {
+    "unexpected_error_count": 0,
+    "admin_ready_503_count": 3,
+    "meaning": "Real execution prerequisites are not ready; not counted as service-health success. Initial and explicit post-logout auth/me 401 expected.",
+    "business_posts": 0,
+    "auth_posts": 8,
+    "page_errors": 0,
+    "request_failures": 0
+  },
+  "image_review": {
+    "paired_baseline_candidate_all_five_each": true,
+    "interaction_all_fourteen_pngs_viewed": true,
+    "public_candidate_all_four_r2_pngs_viewed": true,
+    "keyboard_goal_all_four_pngs_viewed": true,
+    "blocking_visual_findings": []
+  },
+  "home_keyboard_observation": {
+    "record": "../home-keyboard-r1/browser/report.json",
+    "method": "Actual pointer on new-request navigation, sequential real keyboard Tab from that focus to file input, attach actual integration.md via browser file-selection protocol, then sequential Tab through Remove and source textarea to goal. No programmatic focus, scroll or scrollIntoView in this path.",
+    "sticky_occlusion_reproduced": false,
+    "four_paths": [
+      {
+        "id": "ja320",
+        "nav_bottom": 107,
+        "label_top": 353.109375,
+        "textarea_top": 392.90625,
+        "textarea_bottom": 496.90625
+      },
+      {
+        "id": "ja390",
+        "nav_bottom": 107,
+        "label_top": 759.59375,
+        "textarea_top": 799.390625,
+        "textarea_bottom": 903.390625
+      },
+      {
+        "id": "en320",
+        "nav_bottom": 107,
+        "label_top": 352.359375,
+        "textarea_top": 392.15625,
+        "textarea_bottom": 496.15625
+      },
+      {
+        "id": "en390",
+        "nav_bottom": 107,
+        "label_top": 352.28125,
+        "textarea_top": 392.078125,
+        "textarea_bottom": 496.078125
+      }
+    ],
+    "residual": "JA390 empty goal textarea was focused with top 799.39 and bottom 903.39 in 844px viewport; lower portion remained below viewport. Label and input top were not hidden by sticky nav. No typing or virtual keyboard behavior was examined."
+  },
+  "nonblocking_next_candidates": [
+    {
+      "id": "medium-width-work-heading",
+      "kind": "Observed existing-layout candidate, not established navigation regression",
+      "evidence": "../after-r1-interaction/browser/operator-en768-interrupted.png",
+      "finding": "At 768px, desktop sidebar plus actions in the same header row leaves a very narrow title column; heading truncates after a few characters. A medium-width header layout allowing actions on another row merits next iteration."
+    },
+    {
+      "id": "operations-notready-reason",
+      "kind": "Observed separate operations view limitation; unchanged source",
+      "evidence": "../after-r1-interaction/browser/auditor-ja320-menu-open.png",
+      "finding": "Not-ready view shows sandbox-exec raw technical label and generic unknown cause. Operations.tsx maps seatbelt but not sandbox-exec. The raw response was not saved, so missing underlying readiness reason must not be inferred from the mapping alone."
+    }
+  ],
+  "limits": [
+    "No real smartphone, mobile virtual keyboard, VoiceOver, human first-use test, or human design acceptance.",
+    "Opened menu contents fit in the 200% test viewport; panel overflow scrolling was not exercised despite the historical case ID containing panel-scroll.",
+    "No new request, resume, adoption, role/config mutation, LLM execution, VM startup or parent API shutdown.",
+    "Pending approval badge behavior was not intentionally exercised; do not fabricate a pending state.",
+    "Raw failure logs, profiles, databases, and keys remain private and are excluded from publication lists.",
+    "Initial baseline InvalidURL script failure is preserved separately and is not a product failure.",
+    "Public capture r1 used inherited scrollIntoView framing that hid the input label/start beneath the sticky nav; r2 changes only actual scroll position, not product code. Natural Tab observations are separate."
+  ],
+  "cleanup": {
+    "all_own_chrome_closed": true,
+    "parent_service_left_for_parent": true,
+    "no_further_api_use": true,
+    "business_model_calls_before_after": 222,
+    "source_unchanged": true
+  },
+  "records": {
+    "baseline_original_failure": "../baseline-a3258b5/browser/report.json",
+    "baseline_corrected": "../baseline-a3258b5-r2/browser/report.json",
+    "candidate_comparison": "../after-r1-capture/browser/report.json",
+    "interaction": "../after-r1-interaction/browser/report.json",
+    "public_capture_original_framing": "../public-home-capture-r1/browser/report.json",
+    "public_capture_candidate": "../public-home-capture-r2/browser/report.json",
+    "natural_keyboard_observation": "../home-keyboard-r1/browser/report.json"
+  }
+}

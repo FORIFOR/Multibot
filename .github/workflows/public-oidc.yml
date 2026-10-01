@@ -31,7 +31,7 @@ jobs:
         run: |
           umask 077
           sudo chown -R 0:0 "$OIDC_ROOT/keycloak-import"
-          docker run -d --name "$OIDC_CONTAINER" --user 0:0 --cap-drop ALL --security-opt no-new-privileges --memory 1g --pids-limit 256 --env-file "$OIDC_ROOT/keycloak.env" -e JAVA_OPTS_KC_HEAP='-Xms128m -Xmx512m' -p 127.0.0.1:8801:8080 -v "$OIDC_ROOT/keycloak-import:/opt/keycloak/data/import:ro" quay.io/keycloak/keycloak@sha256:ff4257d0d64efbe99ed1ddfaf07765cc3c36dc7518bf8324d41961327f441c54 start-dev --hostname http://127.0.0.1:8801 --import-realm --log-console-color=false --http-access-log-enabled=true --http-access-log-pattern='OIDC-JWKS-ACCESS %m %U %s' > "$OIDC_ROOT/container.private.log" 2>&1
+          backend/.venv/bin/python backend/scripts/cleanup_public_oidc.py start-container --root "$OIDC_ROOT" --container-name "$OIDC_CONTAINER"
           for i in $(seq 1 90); do
             if curl -sf --max-time 2 http://127.0.0.1:8801/realms/agentteam-verification/.well-known/openid-configuration > /dev/null; then exit 0; fi
             sleep 1
@@ -41,8 +41,7 @@ jobs:
       - name: Start the real secured API without queued work
         run: |
           umask 077
-          AGENTTEAM_MODE=production AGENTTEAM_ACCESS_FILE="$OIDC_ROOT/security/access.json" nohup backend/.venv/bin/agentteam serve --port 8798 --data-dir "$OIDC_ROOT/data" > "$OIDC_ROOT/server.private.log" 2>&1 &
-          echo $! > "$OIDC_ROOT/server.pid"
+          backend/.venv/bin/python backend/scripts/cleanup_public_oidc.py start-api --root "$OIDC_ROOT"
           for i in $(seq 1 30); do
             if curl -sf --max-time 2 http://127.0.0.1:8798/api/auth/status > /dev/null; then exit 0; fi
             sleep 1
@@ -53,6 +52,12 @@ jobs:
         # startup/import failures. Upload only the explicit safe JSON allowlist.
         run: node scripts/public-oidc.mjs > "$OIDC_ROOT/check.private.log" 2>&1
         working-directory: frontend
+      - name: Stop and verify only this job's owned services
+        if: always()
+        timeout-minutes: 3
+        # Stdlib-only cleanup also works if dependency installation failed.
+        # Failure is not swallowed; the following always-upload preserves it.
+        run: python3 backend/scripts/cleanup_public_oidc.py cleanup --root "$OIDC_ROOT"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -61,10 +66,7 @@ jobs:
           path: |
             /tmp/multibot-public-oidc/provenance.json
             /tmp/multibot-public-oidc/report.json
+            /tmp/multibot-public-oidc/cleanup-report.json
+            /tmp/multibot-public-oidc/start-api-failure.json
+            /tmp/multibot-public-oidc/start-container-failure.json
           if-no-files-found: ignore
-      - name: Stop only this job's services
-        if: always()
-        run: |
-          if test -f "$OIDC_ROOT/server.pid"; then kill -TERM "$(cat "$OIDC_ROOT/server.pid")" 2>/dev/null || true; fi
-          docker unpause "$OIDC_CONTAINER" >/dev/null 2>&1 || true
-          docker rm -f "$OIDC_CONTAINER" >/dev/null 2>&1 || true

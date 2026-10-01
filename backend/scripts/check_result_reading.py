@@ -41,7 +41,7 @@ from agentteam.store.run_store import RunStore
 
 ROLES = {'operator': ('result-reading-operator', 'write'), 'viewer': ('result-reading-viewer', 'read')}
 REPS = {3: 'completed', 2: 'failed', 9: 'interrupted'}
-BROWSER_CHECKS = {'default_results', 'artifact_bytes', 'filename_h2', 'team_closed', 'keyboard_open', 'poll_preserves_open',
+BROWSER_CHECKS = {'default_results', 'artifact_bytes', 'main_destinations', 'navigation_menu', 'navigation_escape', 'navigation_outside', 'filename_h2', 'team_closed', 'keyboard_open', 'poll_preserves_open',
                   'keyboard_close', 'conversation_roundtrip', 'incomplete_warning', 'from_filter', 'overflow', 'permission_controls'}
 STAGES = ('source_import', 'provision', 'service_start', 'served_build', 'browser', 'business_invariants', 'cleanup')
 

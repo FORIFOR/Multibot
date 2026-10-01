@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "same_recorded_pid_group_birth": true,
+  "exact_owned_api_command_suffix": true,
+  "reason": "Python launcher changed command representation during startup; old ownership record preserved.",
+  "signals_sent": 1,
+  "process_absent": true,
+  "group_empty": true,
+  "port_closed": true
+}
