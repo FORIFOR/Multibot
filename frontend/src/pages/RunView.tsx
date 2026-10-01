@@ -4,7 +4,7 @@ import Markdown from '../components/Markdown'
 import BotCharacter from '../components/BotAvatar'
 import { botActivity, botStateLabel } from '../lib/bot-presentation'
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
-import { api, fmtTime, money, TERMINAL, type Approval, type Artifact, type ArtifactSelection, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
+import { api, browserApiUrl, fmtTime, money, TERMINAL, type Approval, type Artifact, type ArtifactSelection, type ChatMessage, type Event, type RunDetail, type TaskState, type TimelineItem } from '../lib/api'
 import { Link } from '../lib/router'
 import { isSettled } from '../lib/journey'
 
@@ -66,7 +66,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
       setEvents(evs)
       lastSeq.current = evs.length ? evs[evs.length - 1].seq : 0
       await reloadProjections()
-      es = new EventSource(`/api/runs/${runId}/stream?after_seq=${lastSeq.current}`)
+      es = new EventSource(browserApiUrl(`/api/runs/${runId}/stream?after_seq=${lastSeq.current}`))
       const onEvent = (e: MessageEvent) => {
         const ev: Event = JSON.parse(e.data)
         if (ev.seq <= lastSeq.current) return
@@ -157,7 +157,7 @@ export default function RunView({ runId, nav }: { runId: string; nav: (p: string
             {canWrite && live && <button className="btn ghost" onClick={() => act(() => api.cancel(runId))}>{tr("停止")}</button>}
             {canWrite && ['interrupted', 'approval_required', 'failed', 'partial', 'cancelled'].includes(run.status) && <button className="btn" onClick={() => act(() => api.resume(runId))}>{tr("再開")}</button>}
             {canWrite && run.plan && <ForkForm agents={agents} canOverride={run.access?.can_override !== false} onFork={doFork} />}
-            <a className="btn ghost" href={`/api/runs/${runId}/export?fmt=jsonl`}>JSONL</a>
+            <a className="btn ghost" href={browserApiUrl(`/api/runs/${runId}/export?fmt=jsonl`)}>JSONL</a>
             <button type="button" className="btn ghost" aria-pressed={motionPaused} onClick={() => setMotionPaused(!motionPaused)}>{getLang() === 'en' ? 'Pause animation' : '動きを止める'}</button>
           </div>
           {pendingApprovals.length > 0 && <button className="btn signal" onClick={() => setTab('approvals')}>承認待ち {pendingApprovals.length} 件</button>}
@@ -218,7 +218,7 @@ function TeamPane({ run, agents, selTask, setSelTask, onJump }: { run: RunDetail
               <div className="agent-content">
               <div className="name">{a.display_name || id} <span className="tag">{a.role}</span>{a.prompt_mode === 'user_locked' && <span className="tag" title={tr("手動固定プロンプト")}>locked</span>}</div>
               <div className="bot-activity-label" role="status">{botStateLabel(botState, getLang())}</div>
-              <details className="bot-model-details"><summary>{getLang() === 'en' ? 'Model details' : 'モデルの詳細'}</summary><div className="model">{a.model} · {a.connection_id}/{a.driver} · prompt {a.system_prompt_sha256.slice(0, 8)}</div></details>
+              <details className="bot-model-details"><summary>{getLang() === 'en' ? 'Model details' : 'モデルの詳細'}</summary><div className="model">{a.model} · {a.connection_id ? `${a.connection_id}/` : ''}{a.driver}{a.system_prompt_sha256 && ` · prompt ${a.system_prompt_sha256.slice(0, 8)}`}</div></details>
               {tasks.map((t) => (
                 <div key={t.spec.id} className={'task' + (selTask === t.spec.id ? ' active' : '')}>
                   <button type="button" className="task-select" aria-expanded={selTask === t.spec.id} onClick={() => setSelTask(selTask === t.spec.id ? null : t.spec.id)}>
@@ -277,7 +277,7 @@ function ArtifactPane({ run, artifactsById, selections, sel, setSel, events, can
       <header>
         <h3>{tr("成果物")}</h3>
         <span className="muted small" style={{ marginLeft: 'auto' }}>{artifactsById.size} files</span>
-        <a className="btn sm ghost" href={`/api/runs/${run.run_id}/export?fmt=zip`}>{tr('まとめて取得')}</a>
+        <a className="btn sm ghost" href={browserApiUrl(`/api/runs/${run.run_id}/export?fmt=zip`)}>{tr('まとめて取得')}</a>
       </header>
       <div className="body stack">
         <div className="art-list">
@@ -558,7 +558,7 @@ function Report({ run }: { run: RunDetail }) {
         <dt>by agent</dt><dd>{Object.entries(ev.model_usage_by_agent).map(([k, v]: any) => `${k}: ${v.calls} calls / ${money(v.cost_usd)} (reported: ${v.models_reported.join(', ') || 'unknown'})`).join(' · ')}</dd>
         <dt>provider</dt><dd>{ev.run.provider_kind}</dd>
       </dl>
-      <p><a href={`/api/runs/${run.run_id}/export?fmt=md`} target="_blank" rel="noreferrer">{tr("final-report.md を開く")}</a></p>
+      <p><a href={browserApiUrl(`/api/runs/${run.run_id}/export?fmt=md`)} target="_blank" rel="noreferrer">{tr("final-report.md を開く")}</a></p>
     </div>
   )
 }

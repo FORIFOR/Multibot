@@ -2,6 +2,8 @@
 
 Goal: advance Multibot to L3 for a clearly scoped enterprise workflow. **L3 remains unachieved.** The first deployment shape is an isolated installation per organization. A shared multi-tenant SaaS would require another architecture and isolation audit.
 
+2026-10-02: the user additionally requested a public service that third parties can start using without setup assistance. The [public-service scope and launch gates](PUBLIC_SERVICE.md) track that work. Browser/account isolation, public response boundaries and per-user admission are being hardened. Public hosting, a self-registration IdP, operating ownership and business-quality acceptance remain required. The static project website is not a running public application.
+
 The working code and each evaluated checkout are tracked separately. The legacy 300-trial comparison stays pinned and preserved, but is paused: its 50 tasks include fictional products and synthetic business data, contrary to the user's no-dummy-data requirement for new acceptance work. It is not real-enterprise acceptance evidence. The replacement workflow uses actual repository source documents with recorded hashes and a separate fixed series.
 
 | Area | Implemented / verified | Remaining acceptance work |

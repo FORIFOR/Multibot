@@ -9,6 +9,7 @@ import Settings from './pages/Settings'
 import Welcome from './pages/Welcome'
 import Operations from './pages/Operations'
 import AuthGate, { type Identity } from './components/AuthGate'
+import { signOut } from './lib/browser-session'
 
 export default function App() {
   return <AuthGate>{(identity, secured) => <Workspace identity={identity} secured={secured} />}</AuthGate>
@@ -45,7 +46,7 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
         <div className="side-foot">
           <button className="langbtn" title="Language" onClick={() => { setLang(en ? 'ja' : 'en'); window.location.reload() }}>{en ? '日本語' : 'English'}</button>
           <a href="https://github.com/FORIFOR/Multibot" target="_blank" rel="noreferrer">GitHub</a>
-          {secured && <button className="langbtn" onClick={async () => { const response = await fetch('/api/auth/logout', { method: 'POST' }); const result = response.ok ? await response.json() : {}; window.location.assign(result.redirect || '/') }}>{en ? 'Sign out' : 'ログアウト'}</button>}
+          {secured && <button className="langbtn" onClick={() => { void signOut() }}>{en ? 'Sign out' : 'ログアウト'}</button>}
           {version && <small>v{version}</small>}
         </div>
       </aside>

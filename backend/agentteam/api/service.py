@@ -105,6 +105,9 @@ class AppService:
             await self.events.append(row['run_id'], "run.interrupted", {"reason": "server restarted while running"})
             await self.runs.update_run(row['run_id'], status="interrupted", blocked_reason="server restarted while running")
         await self.manager.recover_jobs()
+        from ..store.usage_store import UsageStore
+        self.usage = UsageStore(self.db)
+        await self.usage.prune()
         return self
 
     async def stop(self) -> None:

@@ -29,9 +29,11 @@ from ..ids import new_id
 from ..projections.views import chat_view, timeline_view
 from ..providers.registry import ProviderRegistry
 from .service import AppService
+from .responses import config_response, event_response, run_response
 from ..security.accounts import digest
 from ..security.server import COOKIE
 from ..store.job_store import JobConflict
+from ..store.usage_store import AdmissionLimit
 
 FRONTEND_DIST = PKG_ROOT / "ui"  # built UI bundled inside the package
 if not FRONTEND_DIST.is_dir():  # dev checkout without a bundled build
@@ -315,12 +317,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                     'tools': agent['tools']}
             if item not in cfg['execution_summary']:
                 cfg['execution_summary'].append(item)
-        if not svc.access.admin(request):
-            cfg['connections'] = []
-            cfg['effective_agents'] = {}
-            cfg['agents'] = []
-            cfg['problems'] = [{'code': p['code'], 'message': 'Administrator setup required'} for p in cfg['problems']]
-        return cfg
+        return config_response(cfg, administrator=svc.access.admin(request))
 
     @app.get("/api/config/yaml", response_class=PlainTextResponse)
     async def get_config_yaml():
@@ -496,7 +493,32 @@ def create_app(service: AppService | None = None) -> FastAPI:
         rev = await svc.save_config(cfg, f"probe {connection_id}:{target_model} → {c.capability_check}")
         return {"revision": rev, "result": c.capability_detail, "capability_check": c.capability_check}
 
+    @app.get('/api/usage')
+    async def own_usage(request: Request):
+        if svc.access.admin(request):
+            return {'limited': False}
+        cfg = svc.access.config
+        return await svc.usage.summary(svc.access.principal(request).subject,
+                                       cfg.max_subject_requests_per_day, cfg.max_subject_pending_runs)
+
+    async def _reserve_subject(request: Request, *, require_execution=True):
+        if svc.access.admin(request):
+            return None
+        cfg = svc.access.config
+        try:
+            return await svc.usage.reserve(svc.access.principal(request).subject,
+                                          cfg.max_subject_requests_per_day, cfg.max_subject_pending_runs,
+                                          require_execution=require_execution)
+        except AdmissionLimit as error:
+            raise HTTPException(429, {'code': error.code}, headers={'Retry-After': str(error.retry_after)})
+
     # ------------------------------------------------------------------ runs
+    def _run_response(request: Request, payload: dict) -> dict:
+        return run_response(payload, administrator=svc.access.admin(request))
+
+    def _event_response(request: Request, event) -> dict:
+        return event_response(event.model_dump(), administrator=svc.access.admin(request))
+
     async def _idempotency(request: Request, payload: dict):
         key = request.headers.get('idempotency-key')
         if not key:
@@ -514,7 +536,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 raise HTTPException(409, 'Idempotency-Key already used with different input')
             if not await svc.access.can_access(request, prior['run_id']):
                 raise HTTPException(404, 'run not found')
-            return None, JSONResponse(status_code=prior['status'], content=json.loads(prior['response_json']))
+            return None, JSONResponse(status_code=prior['status'], content=_run_response(request, json.loads(prior['response_json'])))
         return {'scope_key': scope, 'request_hash': request_hash}, None
 
     def _receipt(base, reply, status):
@@ -529,12 +551,14 @@ def create_app(service: AppService | None = None) -> FastAPI:
             await _check_admission(require_execution=body.start)
             if not svc.access.admin(request) and body.budget_usd and body.budget_usd > svc.config.limits.budget_usd:
                 raise HTTPException(403, 'budget exceeds organization limit')
+            admission = await _reserve_subject(request, require_execution=body.start)
             run, problems = await svc.manager.create_run(body.goal, body.inputs, budget_usd=body.budget_usd)
+            await svc.usage.bind(admission, run.run_id)
             await svc.access.grant_creator(request, run.run_id)
             if problems:
                 reply = {"run_id": run.run_id, "status": run.status, "problems": problems}
                 await svc.manager.jobs.save_receipt(run.run_id, _receipt(receipt, reply, 409))
-                return JSONResponse(status_code=409, content=reply)
+                return JSONResponse(status_code=409, content=_run_response(request, reply))
             reply = run.model_dump()
             if body.start and svc.manager.durable:
                 reply['status'] = 'queued'
@@ -542,7 +566,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 await svc.manager.submit(run.run_id, receipt=_receipt(receipt, reply, 202))
             else:
                 await svc.manager.jobs.save_receipt(run.run_id, _receipt(receipt, reply, 202))
-            return reply
+            return _run_response(request, reply)
 
     async def _check_admission(*, require_execution: bool = True):
         if svc.stopping:
@@ -563,11 +587,11 @@ def create_app(service: AppService | None = None) -> FastAPI:
     @app.get("/api/runs")
     async def list_runs(request: Request, limit: int = Query(default=50, ge=1, le=500)):
         if svc.access.admin(request):
-            return [r.model_dump() for r in await svc.runs.list_runs(limit)]
+            return [_run_response(request, r.model_dump()) for r in await svc.runs.list_runs(limit)]
         rows = await svc.db.fetchall('SELECT r.* FROM runs r JOIN run_access a ON a.run_id=r.run_id '
                                      'WHERE a.subject=? ORDER BY r.created_at DESC LIMIT ?',
                                      (svc.access.principal(request).subject, limit))
-        return [svc.runs._run(r).model_dump() for r in rows]
+        return [_run_response(request, svc.runs._run(r).model_dump()) for r in rows]
 
     async def _run_detail(run_id: str, request: Request) -> dict[str, Any]:
         run = await svc.runs.get_run(run_id)
@@ -596,16 +620,16 @@ def create_app(service: AppService | None = None) -> FastAPI:
         d['access'] = {'can_write': await svc.access.can_access(request, run_id, write=True),
                        'can_override': svc.access.admin(request),
                        'can_instruct': run.can_receive_instruction() and await svc.access.can_access(request, run_id, write=True)}
-        return d
+        return _run_response(request, d)
 
     @app.get("/api/runs/{run_id}")
     async def get_run(run_id: str, request: Request):
         return await _run_detail(run_id, request)
 
     @app.get("/api/runs/{run_id}/events")
-    async def run_events(run_id: str, after_seq: int = Query(default=0, ge=0), limit: int = Query(default=2000, ge=1, le=10000), types: str | None = None):
+    async def run_events(run_id: str, request: Request, after_seq: int = Query(default=0, ge=0), limit: int = Query(default=2000, ge=1, le=10000), types: str | None = None):
         evs = await svc.events.list(run_id, after_seq=after_seq, limit=limit, types=types.split(",") if types else None)
-        return [e.model_dump() for e in evs]
+        return [_event_response(request, e) for e in evs]
 
     @app.get("/api/runs/{run_id}/chat")
     async def run_chat(run_id: str):
@@ -664,7 +688,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
             try:
                 for e in await svc.events.list(run_id, after_seq=cursor):  # durable replay first
                     cursor = e.seq
-                    yield {"id": str(e.seq), "event": e.type, "data": json.dumps(e.model_dump(), ensure_ascii=False)}
+                    yield {"id": str(e.seq), "event": e.type, "data": json.dumps(_event_response(request, e), ensure_ascii=False)}
                 while True:
                     if svc.access.enabled:
                         account = await svc.access.authenticate(request)
@@ -679,7 +703,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                         # nothing more will be appended until the run is resumed/forked: flush and close
                         for e in await svc.events.list(run_id, after_seq=cursor):
                             cursor = e.seq
-                            yield {"id": str(e.seq), "event": e.type, "data": json.dumps(e.model_dump(), ensure_ascii=False)}
+                            yield {"id": str(e.seq), "event": e.type, "data": json.dumps(_event_response(request, e), ensure_ascii=False)}
                         run = await svc.runs.get_run(run_id)
                         yield {"event": "end", "data": json.dumps({"last_seq": cursor, "status": str(run.status) if run else None})}
                         break
@@ -691,7 +715,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                     if e.seq <= cursor:
                         continue  # dedupe by seq/id
                     cursor = e.seq
-                    yield {"id": str(e.seq), "event": e.type, "data": json.dumps(e.model_dump(), ensure_ascii=False)}
+                    yield {"id": str(e.seq), "event": e.type, "data": json.dumps(_event_response(request, e), ensure_ascii=False)}
             finally:
                 svc.events.unsubscribe(run_id, q)
 
@@ -715,18 +739,20 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 before = await svc.runs.get_run(run_id)
                 if before is None:
                     raise KeyError(run_id)
+                admission = await _reserve_subject(request)
+                await svc.usage.bind(admission, run_id)
                 reply = before.model_dump()
                 reply.update(status='queued' if svc.manager.durable else 'running', finished_at=None, blocked_reason=None)
                 await svc.manager.resume(run_id, receipt=_receipt(receipt, reply, 200))
         except KeyError:
             raise HTTPException(404, "run not found")
         except ValueError as e:
-            raise HTTPException(409, str(e))
+            raise HTTPException(409, str(e) if svc.access.admin(request) else 'execution could not be started; contact the administrator')
         except HTTPException:
             raise
         except Exception as e:
-            raise HTTPException(409, str(e))
-        return reply
+            raise HTTPException(409, str(e) if svc.access.admin(request) else 'execution could not be started; contact the administrator')
+        return _run_response(request, reply)
 
     @app.post("/api/runs/{run_id}/fork", status_code=202)
     async def fork_run(run_id: str, body: ForkBody, request: Request):
@@ -738,7 +764,9 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 if prior is not None:
                     return prior
                 await _check_admission(require_execution=body.start)
+                admission = await _reserve_subject(request, require_execution=body.start)
                 new = await svc.manager.fork(run_id, overrides=body.overrides, from_seq=body.from_seq)
+                await svc.usage.bind(admission, new.run_id)
                 await svc.access.grant_creator(request, new.run_id)
                 reply = new.model_dump()
                 if body.start and svc.manager.durable:
@@ -750,8 +778,8 @@ def create_app(service: AppService | None = None) -> FastAPI:
         except KeyError:
             raise HTTPException(404, "run not found")
         except ValueError as e:
-            raise HTTPException(409, str(e))
-        return reply
+            raise HTTPException(409, str(e) if svc.access.admin(request) else 'execution could not be started; contact the administrator')
+        return _run_response(request, reply)
 
     @app.get("/api/runs/{run_id}/export")
     async def export_run(run_id: str, request: Request, fmt: Literal["jsonl", "zip", "md"] = "jsonl",
@@ -763,7 +791,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
             raise HTTPException(404, "run not found")
         evs = await svc.events.list(run_id)
         if fmt == "jsonl":
-            body = "\n".join(json.dumps(e.model_dump(), ensure_ascii=False) for e in evs) + "\n"
+            body = "\n".join(json.dumps(_event_response(request, e), ensure_ascii=False) for e in evs) + "\n"
             return PlainTextResponse(body, media_type="application/x-ndjson",
                                      headers={"content-disposition": f'attachment; filename="{run_id}.events.jsonl"'})
         final = await svc.artifacts.get(run_id, "final-report.md")
@@ -793,7 +821,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                     "artifacts": [{"artifact_id": a.artifact_id, "revision": a.revision,
                                    "sha256": a.sha256, "path": f"artifacts/{a.logical_path}"} for a in artifacts],
                 }, ensure_ascii=False, indent=2))
-                archive.writestr("events.jsonl", "\n".join(json.dumps(e.model_dump(), ensure_ascii=False) for e in evs) + "\n")
+                archive.writestr("events.jsonl", "\n".join(json.dumps(_event_response(request, e), ensure_ascii=False) for e in evs) + "\n")
                 for artifact in artifacts:
                     # logical_path is validated before publication; using a
                     # POSIX name here keeps the bundle portable and prevents

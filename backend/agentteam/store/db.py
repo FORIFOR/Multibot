@@ -164,6 +164,13 @@ CREATE TABLE IF NOT EXISTS deleted_request_receipts (
   request_hash TEXT NOT NULL,
   deleted_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS subject_admissions (
+  admission_id TEXT PRIMARY KEY,
+  subject TEXT NOT NULL,
+  run_id TEXT,
+  recorded_at REAL NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_subject_admissions ON subject_admissions(subject,recorded_at);
 CREATE TABLE IF NOT EXISTS audit_log (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   recorded_at REAL NOT NULL,

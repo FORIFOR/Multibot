@@ -1,3 +1,6 @@
+import { browserSessionActive, browserSessionGeneration, browserSessionSubject, onBrowserSessionReset } from './browser-session'
+export type UsageAllowance = { limited: false } | { limited: true; requests_last_24h: number; max_requests_per_24h: number; requests_remaining: number; pending_runs: number; max_pending_runs: number; next_request_at: string | null }
+
 export type RunStatus = 'created' | 'queued' | 'planning' | 'running' | 'approval_required' | 'completed' | 'partial' | 'failed' | 'cancelled' | 'interrupted' | 'blocked'
 
 export interface Usage { model_calls: number; tool_calls: number; input_tokens: number; output_tokens: number; cache_read_tokens: number; cache_write_tokens: number; cost_usd: number; reserved_usd: number; wall_seconds: number }
@@ -45,30 +48,71 @@ export class ApiError extends Error {
   }
 }
 
-const pendingCommands = new Map<string, { input: string; key: string }>()
+const PENDING_COMMANDS_KEY = 'agentteam.pendingCommands'
+const pendingCommands = new Map<string, { signature: string; key: string }>()
+let commandsHydrated = false
+onBrowserSessionReset(() => { pendingCommands.clear(); commandsHydrated = false })
+function hydrateCommands(): void {
+  if (commandsHydrated) return
+  const saved = JSON.parse(sessionStorage.getItem(PENDING_COMMANDS_KEY) || '{}')
+  if (!saved || typeof saved !== 'object' || Array.isArray(saved)) throw new Error('Pending request state is unreadable. Check existing requests before clearing browser data.')
+  const entries: [string, { signature: string; key: string }][] = []
+  for (const [command, entry] of Object.entries(saved)) {
+    const value = entry as { signature?: unknown; key?: unknown }
+    if (!value || typeof value.signature !== 'string' || !/^[a-f0-9]{64}$/.test(value.signature) || typeof value.key !== 'string' || !/^[a-zA-Z0-9._-]{8,128}$/.test(value.key)) throw new Error('Pending request state is unreadable. Check existing requests before clearing browser data.')
+    entries.push([command, { signature: value.signature, key: value.key }])
+  }
+  for (const [command, entry] of entries) pendingCommands.set(command, entry)
+  commandsHydrated = true
+}
+function persistCommands(): void {
+  // If this fails, do not send: reload-safe retry is a prerequisite for a mutation.
+  if (pendingCommands.size) sessionStorage.setItem(PENDING_COMMANDS_KEY, JSON.stringify(Object.fromEntries(pendingCommands)))
+  else sessionStorage.removeItem(PENDING_COMMANDS_KEY)
+}
 
 async function req<T>(method: string, url: string, body?: unknown, idempotent = false): Promise<T> {
+  if (!browserSessionActive()) throw new ApiError(401, 'Session ended. Sign in again.')
+  const generation = browserSessionGeneration()
   const input = body ? JSON.stringify(body) : ''
   const command = `${method} ${url}`
-  if (idempotent && pendingCommands.get(command)?.input !== input) {
-    pendingCommands.set(command, { input, key: crypto.randomUUID() })
+  if (idempotent) {
+    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input))
+    if (generation !== browserSessionGeneration()) throw new ApiError(401, 'Session changed. Command not sent.')
+    const signature = Array.from(new Uint8Array(digest), value => value.toString(16).padStart(2, '0')).join('')
+    hydrateCommands()
+    if (pendingCommands.get(command)?.signature !== signature) pendingCommands.set(command, { signature, key: crypto.randomUUID() })
+    persistCommands()
   }
   const headers: Record<string, string> = body ? { 'content-type': 'application/json' } : {}
+  const subject = browserSessionSubject()
+  if (subject) headers['X-AgentTeam-Subject'] = subject
   if (idempotent) headers['Idempotency-Key'] = pendingCommands.get(command)!.key
   const send = () => fetch(url, { method, headers, body: input || undefined, ...(idempotent ? { signal: AbortSignal.timeout(30000) } : {}) })
   // A lost response is not proof of failure. Keep the key for an explicit retry;
   // never repeat a mutation just because its response did not arrive.
   const r = await send()
   const text = await r.text()
+  if (generation !== browserSessionGeneration()) throw new ApiError(401, 'Session changed. Previous response discarded.')
   let data: any = text
   try { data = text ? JSON.parse(text) : null } catch { /* keep text */ }
   if (r.status === 401) window.dispatchEvent(new Event('agentteam:unauthorized'))
-  if (idempotent && r.status < 500) pendingCommands.delete(command)
+  if (idempotent && pendingCommands.get(command)?.key === headers['Idempotency-Key'] && r.status < 500 && r.status !== 408 && r.status !== 429) { pendingCommands.delete(command); try { persistCommands() } catch { /* The received result remains authoritative. */ } }
   if (!r.ok) throw new ApiError(r.status, data)
   return data as T
 }
 
+/** Browser-native downloads and EventSource cannot supply custom request headers. */
+export function browserApiUrl(path: string): string {
+  const subject = browserSessionSubject()
+  if (!subject) return path
+  const url = new URL(path, window.location.origin)
+  url.searchParams.set('browser_subject', subject)
+  return `${url.pathname}${url.search}${url.hash}`
+}
+
 export const api = {
+  usage: () => req<UsageAllowance>('GET', '/api/usage'),
   config: () => req<Config>('GET', '/api/config'),
   runs: () => req<Run[]>('GET', '/api/runs'),
   run: (id: string) => req<RunDetail>('GET', `/api/runs/${id}`),
@@ -89,13 +133,13 @@ export const api = {
     req<ArtifactDiff>('GET', `/api/artifacts/${runId}/${artifactId}/versions/${to}/diff?from_revision=${from}`),
   adoptArtifact: (runId: string, artifactId: string, body: { revision: number; expected_selected_revision?: number; note?: string }) =>
     req<{ artifact_id: string; revision: number; seq: number; event: Event }>('POST', `/api/artifacts/${runId}/${artifactId}/adopt`, body),
-  artifactRawUrl: (runId: string, artifactId: string, rev: number) => `/api/artifacts/${encodeURIComponent(runId)}/${encodeURIComponent(artifactId)}/versions/${rev}/raw`,
+  artifactRawUrl: (runId: string, artifactId: string, rev: number) => browserApiUrl(`/api/artifacts/${encodeURIComponent(runId)}/${encodeURIComponent(artifactId)}/versions/${rev}/raw`),
   patchAgent: (id: string, body: Record<string, unknown>) => req<{ revision: number }>('PATCH', `/api/agents/${id}`, body),
   createAgent: (body: Record<string, unknown>) => req<{ revision: number; agent: AgentSpec }>('POST', '/api/agents', body),
   putConnection: (id: string, body: Record<string, unknown>) => req<{ revision: number }>('PUT', `/api/connections/${id}`, body),
   probe: (id: string, model?: string) => req<{ revision: number; result: any; capability_check: string }>('POST', `/api/connections/${id}/probe${model ? `?model=${encodeURIComponent(model)}` : ''}`),
   putLimits: (body: Record<string, unknown>) => req<{ revision: number }>('PUT', '/api/limits', body),
-  defaultPrompt: async (id: string) => (await fetch(`/api/agents/${id}/prompt/default`)).text(),
+  defaultPrompt: (id: string) => req<string>('GET', `/api/agents/${id}/prompt/default`),
 }
 
 export function fmtTime(iso: string | null | undefined, tz?: string): string {

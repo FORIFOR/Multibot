@@ -1,7 +1,7 @@
 import { botName } from '../lib/journey'
 import { useCallback, useEffect, useRef, useState, lazy, Suspense } from 'react'
 import type { FormEvent } from 'react'
-import { api, money, fmtTime, type RunDetail, type ChatMessage, type Artifact, type Event, type Approval } from '../lib/api'
+import { api, browserApiUrl, money, fmtTime, type RunDetail, type ChatMessage, type Artifact, type Event, type Approval } from '../lib/api'
 import { getLang } from '../lib/i18n'
 import { botActivity, botStateLabel } from '../lib/bot-presentation'
 import { friendlyWorkText, coordinatorPlanned, outcomeLabel, friendlyReason, teamOrder, defaultPanel, requestedPanel, resultFiles, statusLabel, stateTone, roleLabel, isSettled, type JourneyPanel } from '../lib/journey'
@@ -93,7 +93,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     const connect = () => {
       stream?.close()
       if (!alive || Date.now() < nextConnectAt) return
-      stream = new EventSource(`/api/runs/${encodeURIComponent(runId)}/stream?after_seq=${cursor}`)
+      stream = new EventSource(browserApiUrl(`/api/runs/${encodeURIComponent(runId)}/stream?after_seq=${cursor}`))
       stream.onopen = () => { if(alive) setConnection('live') }
       for (const type of eventTypes) stream.addEventListener(type, schedule)
       stream.addEventListener('end', () => { stream?.close(); stream = null; setConnection('ended'); schedule() })
@@ -336,7 +336,7 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
   useEffect(()=>{let alive=true;const key=file?`${file.artifact_id}@${file.revision}`:'';if(shown.current!==key){shown.current=key;setDetail(null);setNote('')}setError('');if(file)api.artifact(run.run_id,file.artifact_id,file.revision).then(d=>{if(alive)setDetail(d)}).catch(()=>{if(alive)setError(say('ファイルを読み込めませんでした。','Could not load the file.'))});return()=>{alive=false}},[run.run_id,file?.artifact_id,file?.revision,run.last_seq,readAttempt])
   useEffect(()=>{if(focusChoice.current&&adopted?.revision===file?.revision){focusChoice.current=false;choiceRef.current?.focus()}},[adopted?.revision,file?.revision])
   if((selection&&!file)||(target&&file?.artifact_id===target.id&&file.revision===target.revision&&file.sha256!==target.sha256))return <p role="alert">{say('参照された版を確認できません。','The referenced version could not be verified.')} <button className="btn ghost" onClick={()=>{clearTarget();setSelection(null)}}>{say('成果物一覧へ','Back to results')}</button></p>
-  if(!file)return <div className="result-empty pane"><span aria-hidden="true">📦</span><h2>{say('成果物はまだありません','No results yet')}</h2></div>
+  if(!file)return <div className="result-empty pane"><span aria-hidden="true">📄</span><h2>{isSettled(run.status) ? say('保存できる成果物はありません','No files are available to save') : say('成果物ができると、ここに届きます','Your files will appear here')}</h2><p>{isSettled(run.status) ? say('公開された成果物がない状態で、この依頼は終了または停止しています。状態と作業記録を確認してください。','This request ended or stopped without a published result. Check its status and work record.') : say('進み具合とチームのやり取りを確認しながらお待ちください。公開された版と確認の記録を、ここで読んで保存できます。','Follow progress and the team conversation while work continues. Published files and their check records can be read and saved here.')}</p></div>
   const exact=(target:any)=>target?.artifact_id===file.artifact_id&&target?.revision===file.revision&&target?.sha256===file.sha256
   const checks=(detail?.checks||[]).filter(e=>exact(e.payload.target))
   const reviews=(detail?.reviews||[]).filter(e=>(e.payload.target_artifacts||[]).some(exact))
@@ -348,7 +348,7 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
   const isMarkdown=/markdown/.test(file.media_type)||/\.(md|markdown)$/i.test(file.logical_path)
   // The adopt button disappears once pressed; hand focus to what replaced it so keyboard users are not dropped on <body>.
   const useVersion=async()=>{if(lock.current)return;lock.current=true;setBusy(true);setNote('');try{await api.adoptArtifact(run.run_id,file.artifact_id,{revision:file.revision,expected_selected_revision:adopted?.revision ?? 0});setNote(say('この版を使うことにしました。','This version is now selected.'));focusChoice.current=true;await refresh()}catch{setError(say('選択を保存できませんでした。再読み込みしてお試しください。','Could not save your choice. Refresh and try again.'))}finally{lock.current=false;setBusy(false)}}
-  return <section className="pane simple-deliverables"><header><h2>{say('できたもの','Your results')}</h2>{Object.keys(run.artifact_selection || {}).length > 0 && <a className="btn ghost" href={`/api/runs/${run.run_id}/export?fmt=zip&selection=adopted`}>{say('採用したファイルを保存','Save selected files')}</a>}<a className="btn ghost" href={`/api/runs/${run.run_id}/export?fmt=zip`}>{say('最新のファイルをまとめて取得','Get all latest files')}</a></header>
+  return <section className="pane simple-deliverables"><header><h2>{say('できたもの','Your results')}</h2>{Object.keys(run.artifact_selection || {}).length > 0 && <a className="btn ghost" href={browserApiUrl(`/api/runs/${run.run_id}/export?fmt=zip&selection=adopted`)}>{say('採用したファイルを保存','Save selected files')}</a>}<a className="btn ghost" href={browserApiUrl(`/api/runs/${run.run_id}/export?fmt=zip`)}>{say('最新のファイルをまとめて取得','Get all latest files')}</a></header>
     <div className="result-file-list" aria-label={say('ファイルを選ぶ','Choose a file')}>{[...versions.entries()].map(([key,items])=><button className={key===id?'active':''} type="button" aria-pressed={key===id} key={key} onClick={()=>{clearTarget();setSelection({id:key,revision:run.artifact_selection?.[key]?.revision||items[items.length-1].revision})}}><span aria-hidden="true">📄</span>{items[items.length-1].logical_path}{run.artifact_selection?.[key]&&<span className="tab-chosen" title={say('あなたが選んだ版があります','You selected a version')}>{say('採用','Chosen')}</span>}{latestState.get(key)==='none'&&<span className="tab-mark" role="img" aria-label={say('確認の記録なし','No check record')} title={say('確認の記録なし','No check record')}>?</span>}{latestState.get(key)==='concern'&&<span className="tab-mark is-concern" role="img" aria-label={say('要修正・未確認の項目あり','Failed or unverified items')} title={say('要修正・未確認の項目あり','Failed or unverified items')}>!</span>}</button>)}</div>
     <div className="result-decide">
     <div className={`result-review-summary is-${loadingRecord?'loading':pass?'pass':concern?'concern':'none'}`}>

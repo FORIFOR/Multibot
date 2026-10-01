@@ -1,5 +1,5 @@
 import { botName } from '../lib/journey'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import BotAvatar from '../components/BotAvatar'
 import { api, type Config } from '../lib/api'
 import { getLang } from '../lib/i18n'
@@ -8,13 +8,14 @@ import { clampStep, markWelcomed, setDraftGoal, WELCOME_STEPS } from '../lib/wel
 import '../journey.css'
 import '../welcome.css'
 
-/** First-visit introduction: meet the team, check the AI connection, pick a first request. Nothing starts here. */
+/** First-visit introduction: request, data destination and results. Nothing starts here. */
 export default function Welcome({ nav, canConfigure = true }: { nav: (p: string) => void; canConfigure?: boolean }) {
   const en = getLang() === 'en'
   const say = (ja: string, english: string) => (en ? english : ja)
   const [step, setStep] = useState(() => clampStep(Number(new URLSearchParams(window.location.search).get('step')) - 1))
   const [cfg, setCfg] = useState<Config | null>(null)
   const [failed, setFailed] = useState(false)
+  const reload = useCallback(async () => { try { setCfg(await api.config()); setFailed(false) } catch { setFailed(true) } }, [])
   useEffect(() => { api.config().then(setCfg).catch(() => setFailed(true)) }, [])
   const go = (n: number) => { const next = clampStep(n); setStep(next); history.replaceState(history.state, '', `/welcome?step=${next + 1}`) }
   const finish = (goal?: string) => { markWelcomed(); if (goal) setDraftGoal(goal); nav('/') }
@@ -28,10 +29,10 @@ export default function Welcome({ nav, canConfigure = true }: { nav: (p: string)
     reviewer: ['完了条件を一つずつ確かめます。通さないこともあります。', 'Checks each finish condition. Sometimes the answer is no.'],
     reporter: ['できたことと、まだ確かめていないことを伝えます。', 'Reports what was done and what is still unverified.'],
   }
-  const titles: [string, string][] = [['チームを紹介します', 'Meet your team'], ['AIにつなぐ', 'Connect a model'], ['最初のお願い', 'Your first request']]
+  const titles: [string, string][] = [['資料から、使うファイルへ', 'From your material to a file'], canConfigure ? ['AIと送信先を確認する', 'Check the model and destination'] : ['資料の送信先を確認する', 'Know where your material goes'], ['最初のお願い', 'Your first request']]
   const leads: [string, string][] = [
-    ['依頼に合う専門性と人数でチームを組みます。名前も話し方も違う仲間が、完成まで協力します。', 'Each request gets the expertise and team size it needs. Teammates have their own names and voices.'],
-    ['チームは、あなたが選んだAIで動きます。ローカルのAIなら、入力は外へ出ません。', 'The team runs on the model you choose. With a local model, your input never leaves.'],
+    ['資料を添えてお願いすると、チームがファイルを作り、確認の記録と一緒に渡します。中身を読んで、使う版を選び、保存できます。', 'Attach your material and ask for a file. The team creates it with a check record. Read the result, choose a version and save it.'],
+    canConfigure ? ['依頼と資料は、設定したAIで処理します。モデルの送信先と、許可したツールを実行前に確認してください。', 'The configured AI processes your request and material. Check its destination and allowed tools before starting.'] : ['運営者が用意したAIを使います。接続の設定は不要です。依頼する前に、資料の送信先を確認してください。', 'Use the AI prepared by the service administrator. No model setup is needed. Check where your material will be sent before starting.'],
     ['例を選ぶと、入力欄に入ります。自動では始まりません。', 'Pick an example to fill the request box. Nothing starts automatically.'],
   ]
   const examples: [string, string][] = [
@@ -52,7 +53,7 @@ export default function Welcome({ nav, canConfigure = true }: { nav: (p: string)
       </aside>
       <section className="welcome-main" aria-live="polite">
         <ol className="welcome-dots" aria-label={say('進み具合', 'Progress')}>{titles.map((t, i) => <li key={i} aria-current={i === step ? 'step' : undefined}><button type="button" onClick={() => go(i)} aria-label={`${i + 1}. ${say(t[0], t[1])}`} /></li>)}</ol>
-        {failed && <p className="work-warning" role="alert">{say('チームの設定を読み込めませんでした。再読み込みしてください。', 'Could not load the team settings. Reload to try again.')}</p>}
+        {failed && <p className="work-warning" role="alert">{say('受付状況を確認できませんでした。', 'Could not check service availability.')} <button type="button" className="btn ghost" onClick={reload}>{say('もう一度確認する', 'Check again')}</button></p>}
         {step === 0 && <ul className="welcome-mates">{mates.filter(([,a])=>a.role==='master').map(([id, a]) => (
           <li key={id}><BotAvatar id={id} role={a.role} emoji={a.emoji} name={a.display_name || botName(a.role, getLang())} state="idle" />
             <div><h2>{a.display_name || botName(a.role, getLang())}</h2><p>{say(...(lines[a.role] || ['あなたが作った、専門の仲間です。', 'A specialist teammate you created.']))}</p></div></li>))}</ul>}
@@ -61,17 +62,20 @@ export default function Welcome({ nav, canConfigure = true }: { nav: (p: string)
           <h2>{say('依頼に合わせて加わる係', 'Who joins, depending on the request')}</h2>
           <ul>{(['researcher', 'builder', 'reviewer', 'reporter'] as const).map(role => <li key={role}><strong>{roleLabel(role, getLang())}</strong><span>{say(...lines[role])}</span></li>)}</ul>
           <p className="muted small">{say('チームで進めるときは、つくる係と確かめる係を別の仲間が担当します。', 'When the team works on a request, one teammate makes the files and a different one checks them.')}</p>
+          <p className="muted small">{say('確認はAIによる記録です。内容の正確性は保証されません。未確認や要修正の項目を見て、使う前にご自身でも確認してください。', 'Checks are records of AI review, not a guarantee of accuracy. Read unverified or flagged items and inspect the result before using it.')}</p>
         </div>}
         {step === 1 && <div className="welcome-connect">
           <div className={`welcome-status ${ready ? 'ok' : 'todo'}`} role="status">
-            <strong>{ready ? say('接続は確認済みです', 'The connection is verified') : say('接続の確認が必要です', 'The connection needs checking')}</strong>
-            {conn && <p><span className="mono">{conn.driver}</span> · <span className="mono">{cfg?.defaults.model}</span></p>}
-            {!ready && cfg && <ul>{cfg.problems.slice(0, 4).map((p, i) => <li key={i} title={p.message}>{friendlyProblem(p, getLang())}</li>)}</ul>}
+            <strong>{failed ? say('受付状況を確認できません', 'Availability could not be checked') : !cfg ? say('受付状況を確認しています…', 'Checking availability…') : ready ? say('接続の準備ができています', 'The connection is ready') : canConfigure ? say('接続の確認が必要です', 'The connection needs checking') : say('運営者による確認が必要です', 'The service administrator needs to check preparation')}</strong>
+            {canConfigure && conn && <p><span className="mono">{conn.driver}</span> · <span className="mono">{cfg?.defaults.model}</span></p>}
+            {!ready && cfg && (canConfigure ? <ul>{cfg.problems.slice(0, 4).map((p, i) => <li key={i} title={p.message}>{friendlyProblem(p, getLang())}</li>)}</ul> : <p>{say('現在、お願いを受け付ける準備が整っていません。時間をおいて再確認するか、運営者にお問い合わせください。', 'Requests are not available yet. Check again later or contact the service administrator.')}</p>)}
+            {cfg?.execution_summary?.length ? <ul>{[...new Set(cfg.execution_summary.map(item => `${item.destination} · ${item.model}`))].map(destination => <li key={destination}>{destination}</li>)}</ul> : null}
+            {!ready && cfg && <button type="button" className="btn ghost" onClick={reload}>{say('受付状況を再確認', 'Check availability again')}</button>}
           </div>
           <ul className="welcome-facts">
-            <li>{say('実行記録とファイルは、このPCに保存します。', 'The work record and files stay on this computer.')}</li>
-            <li>{say('クラウドのAIを選んだ場合は、入力がその接続先へ送られます。', 'If you choose a cloud model, your input goes to that provider.')}</li>
-            <li>{say('外部への投稿や送信はしません。作るのは草案までです。', 'Nothing is posted or sent externally. It stops at drafts.')}</li>
+            <li>{say('送信した資料・実行記録・成果物は、Agent Teamが動いているサーバーに保存します。', 'Submitted material, work records and files are stored on the server running Agent Team.')}</li>
+            <li>{say('依頼と資料は、表示された接続先のAIに送られます。ローカルモデルでも、許可されたツールは外部へ通信する場合があります。', 'Your request and material go to the displayed AI destination. Even with a local model, allowed tools may communicate externally.')}</li>
+            <li>{say('開始前に送信先・許可された操作・予算上限を確認できます。停止しても、すでに送信した資料は取り消せません。', 'Check the destination, allowed actions and budget before starting. Stopping cannot recall material already sent.')}</li>
           </ul>
           {canConfigure && <button type="button" className="btn ghost" onClick={() => { markWelcomed(); nav('/settings') }}>{ready ? say('接続を変える', 'Change the connection') : say('接続を設定する', 'Set up the connection')}</button>}
         </div>}
