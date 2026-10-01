@@ -26,6 +26,8 @@ backend/.venv/bin/python backend/scripts/check_public_service.py --root /tmp/mul
 
 旧secure-container/OIDCも、`provision_secure_smoke.py` 経由で旧架空会議メモのrunとemailを読み込んでいたため自動移管しない。実モデル生成済みでも、元資料が架空であれば実資料受入へ数えない。実IdP自体の存在や既存証拠は取り消さず、対象の限界を保持する。
 
-旧pytest全件・fixture状態網羅・JA/ENの模擬UI・WebKit・Docker/seatbelt・age・実IdP/コンテナの各回帰範囲は新自動CIと同等ではない。必要な範囲を実資料・実サービスの検証へ移す作業が残る。特にSSOの登録/本人確認/回復、公開TLS、負荷/復元、実LLMの業務品質は別途受入が必要。
+別の `public-oidc.yml` は専用の実Keycloak・API・Chromeを使い、実発行トークンの署名検証、JWKS取得/キャッシュ/鍵切替、IdP停止中の期限切れ、権限・トークン失効を確認する。登録するのは検証専用の実技術アカウントで、氏名・メールアドレス・架空業務資料を与えない。OAuth2 Proxyや公開TLSを経由する本番ブラウザーログインではなく、実code/PKCEフローで得たトークンをAPIへ渡す限定的な回帰確認である。ローカルのLLM試験へ影響しないよう、この確認スクリプトは使い捨てGitHub Actions環境のみで動作する。証拠は `provenance.json` と秘密情報を含まない `report.json` の2点に限定する。
+
+旧pytest全件・fixture状態網羅・JA/ENの模擬UI・WebKit・Docker/seatbelt・age・実IdP/コンテナの全回帰範囲は新自動CIと同等ではない。必要な範囲を実資料・実サービスの検証へ移す作業が残る。特にSSOの登録/本人確認/回復、公開TLS、負荷/復元、実LLMの業務品質は別途受入が必要。
 
 既存のbranch protection/required checksは変更しない。名前を変えた旧チェックが必須なら未達のまま扱い、空ジョブやskipで合格にしない。PR27初回の `[skip ci]` は旧模擬試験を起動しないための一時措置で、切替後は新CIを実行して結果を確認する。

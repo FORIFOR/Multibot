@@ -11,6 +11,8 @@ CI実装は `fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b`。ローカル統合は `
 - 生のPlaywright失敗には入力値が含まれる可能性があるため、uploadは安全な結果JSONとキー消去後の画面の明示リストに限定した。鍵・DB・設定・生ログ・失敗画像は含めない。
 - Nodeだけの強制終了では独立したChromeプロセス群が残り得るため、観測した親子関係とPID開始時刻を再確認して終了する。実Chromeを停止状態に置いた5秒timeout試験で残留0を確認した（`browser-timeout-cleanup.json`）。通常の3ブラウザー試験でも残留0。無関係なサービスは停止していない。
 
+修正後 `1b932e9da8bb26e77fabd693022562981ba80fcc` の [GitHub実行36890627114](https://github.com/FORIFOR/Multibot/actions/runs/36890627114) は4ジョブすべてsuccess。実行対象のPR merge commitは `8e39fa177ad4828f0c511c4f00b61a9869d3545b`。`github-fixed-*.json` に実サービスPASSと監査原記録（runtime46依存、frontend production4依存、ともに既知脆弱性0件）を保持する。
+
 旧模擬試験は履歴を保持して手動workflowへ移した。旧pytest、模擬UI、Docker/seatbelt、暗号化、実IdPの回帰範囲を新CIで網羅したとは扱わない。必須チェックを変更・迂回していない。範囲と限界は [CI方針](../../CI.md) を参照。
 
 ## 依存監査の修正
@@ -23,7 +25,7 @@ CI実装は `fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b`。ローカル統合は `
 
 `backend/scripts/public_service_workflow.py` と [再現手順](../../quality/public-service-workflow.md) を追加した。入力は実 `docs/quality/integration.md` 全文で、完成回答・過去成果物・固定回答のconstは渡さない。原資料に残っていた「再読込でキーを失う」という旧説明を、現行実装と実ブラウザー証拠に合わせて訂正した。目標はguide.md、3見出し、400〜700字、同条件10回。元の480秒・30呼出・1800出力tokenを維持する。
 
-実operatorによる `start:false` を同一キーで2回送信し、run・receipt・受付台帳は各1件、実行job・model.called・成果物は0件だった。未完了の実v62を参照する起動ガードが新サービス/モデル開始前に拒否した。`guide-preflight-database.json` と `guide-preflight-manifest.json` はvalidation-only r4の記録。10回の生成、非空/採用ZIP、実行中のlease遅延、意味品質を検証した記録ではない。
+実operatorによる `start:false` を同一キーで2回送信し、run・receipt・受付台帳は各1件、実行job・model.called・成果物は0件だった。未完了の実v62を参照する起動ガードが新サービス/モデル開始前に拒否した。`guide-preflight-database.json` と `guide-preflight-manifest.json` はvalidation-only r4の記録。その後、cleanな `1b932e9` と専用PyJWT2.15.0環境を使うvalidation-only r5でも同じ受付/ガードと件数を確認した（`guide-preflight-pyjwt215.json`）。10回の生成、非空/採用ZIP、実行中のlease遅延、意味品質を検証した記録ではない。
 
 独立担当の読み取りレビューで、終端状態後のqueue解放待ち、最新版ZIP一覧の完全照合、資料の再読込説明を補強した。形式・完遂・モデルレビュー・独立意味審査・人間受入は別判定を保持する。v62終了後に全結果を保存して意味照合し、資源を確認してから、新しいcleanな固定コード/実Python依存/モデル/資料/設定で本試験を開始する。事後の採用ZIP操作も人間受入とは記録しない。
 
