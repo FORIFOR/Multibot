@@ -1,0 +1,32 @@
+# 実サービスのCI移行と、完成例を与えない試験の準備
+
+2026-10-02 JST。一般公開・本番受入・業務品質は未達のまま。実HTTP/SQLite/Chromeの回帰確認を自動CIへ移し、次の実LLM試験を始める前の安全な受付確認を行った。今回は新たなモデル推論を行っていない。
+
+## CIの実測
+
+CI実装は `fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b`。ローカル統合は `local-report.json`、GitHub初回実行は [36889372543](https://github.com/FORIFOR/Multibot/actions/runs/36889372543) と `github-initial-*.json` に保持する。GitHubはPRのmerge commit `825c254f8a796d8400450121aefccd0ebab1c7e9` を実行した。
+
+- 実HTTP/SQLite受付8項目、実資料の保存記録を使う応答境界9項目、実Chrome主体分離7項目、応答喪失と再読込後の再送、並行ログイン3項目を通過。利用者別の鍵を実発行し、専用DBとloopback APIを使用した。
+- GitHubのbackend静的確認、frontend build/lint・配布UI一致、public-serviceはsuccess。**初回CI全体はfailure**。依存監査がPyJWT 2.14.0の既知脆弱性を検出した。フロント依存監査はその時点では未実行。
+- 生のPlaywright失敗には入力値が含まれる可能性があるため、uploadは安全な結果JSONとキー消去後の画面の明示リストに限定した。鍵・DB・設定・生ログ・失敗画像は含めない。
+- Nodeだけの強制終了では独立したChromeプロセス群が残り得るため、観測した親子関係とPID開始時刻を再確認して終了する。実Chromeを停止状態に置いた5秒timeout試験で残留0を確認した（`browser-timeout-cleanup.json`）。通常の3ブラウザー試験でも残留0。無関係なサービスは停止していない。
+
+旧模擬試験は履歴を保持して手動workflowへ移した。旧pytest、模擬UI、Docker/seatbelt、暗号化、実IdPの回帰範囲を新CIで網羅したとは扱わない。必須チェックを変更・迂回していない。範囲と限界は [CI方針](../../CI.md) を参照。
+
+## 依存監査の修正
+
+[PyJWT公式advisory](https://github.com/jpadilla/pyjwt/security/advisories/GHSA-42vr-xj54-vc7v) に従い、配布条件を `>=2.15,<3`、lockを2.15.0と公式配布hashへ更新した。旧実行環境を変更せず、専用venvへhash付きで導入し、依存整合性を確認した。修正後のローカル監査は46依存で既知脆弱性0件。同venvの実HTTP/SQLite/Chromeも通過した（`dependency-fix.json`、`pyjwt215-local-report.json`）。これは監査時点の既知情報であり、未発見の脆弱性がないという保証ではない。
+
+公式に記録された問題は特定の署名検証前payload解析での未処理例外である。このアプリで認証回避やプロセス停止が実証されたとは主張しない。2.15.0のJWKS取得/キャッシュ変更に対する**実SSO回帰は未実施**。アクセスキー試験では代替できず、実IdPによる確認が残る。稼働中v62のcheckout・依存・モデルは変更していない。
+
+## 次の業務品質試験の準備
+
+`backend/scripts/public_service_workflow.py` と [再現手順](../../quality/public-service-workflow.md) を追加した。入力は実 `docs/quality/integration.md` 全文で、完成回答・過去成果物・固定回答のconstは渡さない。原資料に残っていた「再読込でキーを失う」という旧説明を、現行実装と実ブラウザー証拠に合わせて訂正した。目標はguide.md、3見出し、400〜700字、同条件10回。元の480秒・30呼出・1800出力tokenを維持する。
+
+実operatorによる `start:false` を同一キーで2回送信し、run・receipt・受付台帳は各1件、実行job・model.called・成果物は0件だった。未完了の実v62を参照する起動ガードが新サービス/モデル開始前に拒否した。`guide-preflight-database.json` と `guide-preflight-manifest.json` はvalidation-only r4の記録。10回の生成、非空/採用ZIP、実行中のlease遅延、意味品質を検証した記録ではない。
+
+独立担当の読み取りレビューで、終端状態後のqueue解放待ち、最新版ZIP一覧の完全照合、資料の再読込説明を補強した。形式・完遂・モデルレビュー・独立意味審査・人間受入は別判定を保持する。v62終了後に全結果を保存して意味照合し、資源を確認してから、新しいcleanな固定コード/実Python依存/モデル/資料/設定で本試験を開始する。事後の採用ZIP操作も人間受入とは記録しない。
+
+## 保持場所
+
+公開JSONの生バイトのhashは `sha256.json`。鍵・SQLite・生ログを含む完全記録は `~/.cache/agentteam-bench/` の `public-service-ci-20261002-r2`、`public-service-ci-gh-36889372543`、`public-service-cleanup-20261002-r1`、`public-service-dependency-audit-20261002-r1`、`public-service-pyjwt215-integration-20261002-r1`、`public-guide-runner-preflight-20261002-r4` に保持する。以前の失敗/r1〜r3も削除・上書きしていない。

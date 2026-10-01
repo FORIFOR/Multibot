@@ -1,0 +1,19 @@
+{
+  "runs": 1,
+  "receipts": 1,
+  "model_events": 0,
+  "execution_jobs": 0,
+  "run_states": [
+    [
+      "created"
+    ]
+  ],
+  "artifacts": 0,
+  "subject_admissions": 1,
+  "source_sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+  "actual_source_matches_repository": true,
+  "incomplete_v62_guard": "blocked_before_service_start",
+  "business_quality_accepted": false,
+  "semantic_review": "pending",
+  "distribution_count": 60
+}
