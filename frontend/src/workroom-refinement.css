@@ -157,6 +157,13 @@ body:has(.desk-workroom) .top { border:0; border-bottom:1px solid #dedfd9; borde
 .desk-workroom .room-live-grid { gap:12px; }
 .desk-workroom .room-live-grid #room-team { order:0; }
 .desk-workroom .room-team { padding:0 0 10px; background:none; border:0; border-radius:0; display:flex; gap:14px; align-items:flex-start; }
+.desk-workroom .team-disclosure { width:100%; min-width:0; }
+.desk-workroom .team-expanded { display:flex; gap:14px; align-items:flex-start; }
+.desk-workroom .team-disclosure > summary { min-height:44px; padding:10px 0; cursor:pointer; font-size:13px; line-height:1.7; color:var(--ob-ink-2); }
+.desk-workroom .team-disclosure > summary:focus-visible { outline:3px solid var(--ob-ring); outline-offset:3px; border-radius:4px; }
+.desk-workroom .team-disclosure-hint { margin-left:12px; color:var(--ob-ink-3); }
+.desk-workroom .room-team.is-compact { padding-bottom:0; }
+.desk-workroom .room-team.is-compact .team-expanded { padding:8px 0 12px; }
 .desk-workroom .team-section-heading { margin:0; min-height:40px; align-items:center; }
 .desk-workroom .team-section-heading h2 { font-size:11px; white-space:nowrap; color:#526158; }
 .desk-workroom .team-section-heading > button { display:none; }
@@ -204,6 +211,7 @@ body:has(.desk-workroom) .top { border:0; border-bottom:1px solid #dedfd9; borde
  .desk-workroom .room-main { border-radius:12px; }
  .desk-workroom.has-results #work-conversation { border-left:0; }
  .desk-workroom .room-team { flex-direction:column; gap:0; }
+ .desk-workroom .team-expanded { flex-direction:column; gap:0; }
  .desk-workroom .team-section-heading { min-height:24px; }
  .desk-workroom .room-view-nav { background:#f5f5f2; }
  .desk-workroom .desk-person-detail { position:static; margin-top:6px; width:auto; max-width:100%; }

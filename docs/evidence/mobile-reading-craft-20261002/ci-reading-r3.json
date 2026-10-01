@@ -1,0 +1,914 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-01T21:53:24.437525+00:00",
+  "finished_at": "2026-10-01T21:54:43.774062+00:00",
+  "revision": "983be97291d1252b0873d200136dbd8eb9110eee",
+  "implementation_sha256": {
+    "backend/scripts/check_result_reading.py": "535979f94e4186286b6b6769931b3fcc56e411b053544d54a787912e632acf1c",
+    "frontend/scripts/result-reading.mjs": "5775fe049229dfd6c35708a24ba8ea4713fffc2f57ce35ab8b7dd6222e64abaa",
+    "backend/scripts/check_public_service.py": "969239ec468ee084b8d22e11226841940fd33f990e2a8bd11c1bff86877aa9b4",
+    "backend/scripts/check_message_handoff.py": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff",
+    "backend/agentteam/api/app.py": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+    "backend/agentteam/api/service.py": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+    "backend/agentteam/api/responses.py": "786d9f2a16dc6d7ba4d8163d931721a1fded10f8f7736b79ef7b214987396a48",
+    "backend/agentteam/store/db.py": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+    "frontend/src/App.tsx": "4ee3a61e7795a1aa4e542a62cea6634d0d52712919605a3fae6b02d007e5b79e",
+    "frontend/src/workroom.css": "87122f28a23b94e8a7fcd6cf968b931db244b0a67c0adbd35760402afe5d5086",
+    "frontend/src/main.tsx": "d86f5bd9a12ff32dc95f5eeb85c879877e1fa7c7820120b7061f277b2703b87b",
+    "frontend/src/quiet-cinema.css": "cc5b2823e6bf49866ad9a6a03c3d4ebc4e1873591a272b136ab735874fd9e9c5",
+    "frontend/src/ui-polish.css": "64fae4f662c4492a7918cde764d26dd7fff6727404faddfeb14beff41cd8d847",
+    "frontend/src/styles.css": "3738efc79cb6249e5689cb3e15515381a7f163900c75afd12ed0e3d1f0f532a3",
+    "frontend/src/journey.css": "51d8cc3293bfcf00f7e4e99f62fb831217cfee273394321dd9552558dab030b4",
+    "frontend/src/paper.css": "c0c3250b83d11b22d8c0c9bca741b92565d04deefe593bf6b19269749dbf5eb1",
+    "frontend/src/obsidian.css": "7db3b45853a00de1795ef190e41360470f93772cd4c056192944ca4f372404f7",
+    "frontend/src/welcome.css": "89ced29d15bb2b708289324dc2b8cf2a082e93a4eb5bd3f48233de8efa725167",
+    "frontend/src/workroom-refinement.css": "2ec73a4dd35b0ee44a553115c1092a2ba816bacdb9c2338a77c5e50542f279fb",
+    "frontend/src/bot-polish.css": "4f1f20b37d4bf5eee5f3ba60ca6a303d9a6d5b28ec42bac45f4b1a191aabc597",
+    "frontend/src/components/Orb.tsx": "cfc66cdb7ab2d5f06fb8bd9701ad9c94596a30a4c38707ff000ffe122d2f9867",
+    "frontend/src/components/Journey.tsx": "6aeaa2454f69bdbe11f18746ec03aa9244690f4fddcbd5708e3288ef00e9af0a",
+    "frontend/src/components/Markdown.tsx": "2e247aae584beda90e72c5e9f398ba25a98657d27102f9a49e73f4ff41b59f49",
+    "frontend/src/components/ElapsedTime.tsx": "8e61850cdcb18ceba4ce4b76694d2b7b15730cba515d7ff6da86f40a03b644e8",
+    "frontend/src/components/WorkProgress.tsx": "0a84fecf3e7cda1324bdef4ec04161892bacf59acfbbed347e5a406d6efbdeaa",
+    "frontend/src/components/AuthGate.tsx": "743b1bb57b5552a7ea7e15be18674db2fc0ee52fb7e2a0fb6e48a89f02678fe8",
+    "frontend/src/components/CustomBotCreator.tsx": "7632360fc333784d6cace39c85c6e314cb453c5af54a7e1fafe8aae8d7e59a90",
+    "frontend/src/components/BotSettingsCard.tsx": "77fdf8e145f1cc05f600defdc2843c649fca495b30642405edb9668314d4f511",
+    "frontend/src/components/ConversationActivity.tsx": "f45c38114758f8169ac1e136bd30788cd4467beb9fabe4d7b6c1545550e85743",
+    "frontend/src/components/ArtifactWorkbench.tsx": "6d5c615660b8c974354e17d87f3b6ba0841cd8534aab9782695a1b35a3cd1e34",
+    "frontend/src/components/TeamConversation.tsx": "3d65e94a225cbe846a5ffecf2543abc45a05946b80bd72c9b79100a77aff02d9",
+    "frontend/src/components/BotAvatar.tsx": "f42b97467f50bd579cee05fb9e57fd2df2062d9a918d157d5304ef453ed4ee53",
+    "frontend/src/lib/text-delivery.ts": "19be72cfa747fc4499573e8311863db4ed1d5e5b96839a52264fed34bc7a83cb",
+    "frontend/src/lib/bot-presentation.ts": "e6555364f6cc65824da80d7ab7c9ec07f21a09d5d0c07484fb915e4a66ccdbe8",
+    "frontend/src/lib/request-draft.ts": "e44a0e22f8b46f814e09353bc054c55132de52e818b09606c95c4af6c02fd3ca",
+    "frontend/src/lib/welcome.ts": "0955e881084f03aed147b5a634eacc92f13b4376f4293a98ed40d6869ace28f5",
+    "frontend/src/lib/i18n.ts": "7c5d0b0e80b2e04d0d775685bac67786b7832b02774bbba80f9ea9287a161d30",
+    "frontend/src/lib/markdown.ts": "93baf3981ea7391742549c51b6506020a1ce35863b7311643d8e7ba3cbe622b2",
+    "frontend/src/lib/journey.ts": "a4da9b538370e8c5f98f24ba09027e5094b9d41db0aa4ea996cb22260815347e",
+    "frontend/src/lib/bot-shapes.ts": "bff03e56344a7698909ddff567c8a07c5e4ee1124cdb643b39525d19ae8688bd",
+    "frontend/src/lib/api.ts": "004ef6d39892f37f5f580797746f0b36a9a8af0c3911723d7b863117099b294b",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+    "frontend/src/lib/router.tsx": "57fe3c8716f96462731ffa3e2106434878b04be98966b424128f60d97bed8c9b",
+    "frontend/src/lib/bot-characters.ts": "49e323c068b96542fdeac67dd84946aad39aeaa02eca071c11b1bb4105e919e8",
+    "frontend/src/lib/bot-identity.ts": "2a7526ebf34383aea6186c553079d9e14c9da7488cd37b7ddc9ad0c2dd4754ba",
+    "frontend/src/pages/Settings.tsx": "69ef7b07e0903e28c6d91cdd6b926122198ba91cc1e171de8f69689ff2559729",
+    "frontend/src/pages/Home.tsx": "2007851a0987fc5c82b6d21f0b778ad0dc7b5babb1f91fafb61978995e230cff",
+    "frontend/src/pages/WorkList.tsx": "edd1613327fb92a55e13011742c2cf6b8b7765b3b9d0fb3cc7e249a6cf358a3a",
+    "frontend/src/pages/Workroom.tsx": "44b4cd579bb7e7cef90fe91b2aeea349a86f25a248bba8acf4e4447b360beb71",
+    "frontend/src/pages/Operations.tsx": "9f169dfafae367acc7343e7f974adb0d7760a8d8b8095d887285cd920b6a90dc",
+    "frontend/src/pages/RunView.tsx": "58cd97d169db263a72580d4cc7ba5655c84ca28e23ddde7e00e242f863dba9db",
+    "frontend/src/pages/Welcome.tsx": "06cfc80f5c4660191bee19fef41cb91514b5173ecb6792f578206a6ee85e61e2",
+    "frontend/package.json": "5f43cbf4820bd547386870684243701c727c133f02f8a074f2e5828004aa518f",
+    "frontend/pnpm-lock.yaml": "2ab11685dc0173d2a5f3da0ac912f0263aacee34cdbd6e4d440fe2ce081265ac"
+  },
+  "dist_sha256": {
+    "assets/RunView-DuOzrHT4.js": "0d20db50717333b464c1db8242efb393f367d1157560eb5333bdc357bbe4929c",
+    "assets/index-BA1-FMhZ.js": "79b6a5332d8a43ecb7209a20111ad397dd46cca8821bea44011937ca7fc14e64",
+    "assets/index-Bs3TStsF.css": "49b382eef3c5dc6c2f2576783218cff7bfcb2c134c376718ef28946e3cdba079",
+    "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "index.html": "4d7741628c0406e3eb327bc4bfdf0d63bdc521205bb7cd7e6293744d52242250"
+  },
+  "stages": {
+    "source_import": "PASS",
+    "provision": "PASS",
+    "service_start": "PASS",
+    "served_build": "PASS",
+    "browser": "PASS",
+    "business_invariants": "PASS",
+    "cleanup": "PASS"
+  },
+  "checks": [
+    {
+      "id": "imported_three_original_states",
+      "passed": true
+    },
+    {
+      "id": "actual_api_started",
+      "passed": true
+    },
+    {
+      "id": "no_imported_execution_jobs",
+      "passed": true
+    },
+    {
+      "id": "served_index_matches_frontend_dist",
+      "passed": true
+    },
+    {
+      "id": "served_asset_matches_dist",
+      "passed": true
+    },
+    {
+      "id": "served_asset_matches_dist",
+      "passed": true
+    },
+    {
+      "id": "all_browser_cases_passed",
+      "passed": true
+    },
+    {
+      "id": "no_business_or_artifact_change",
+      "passed": true
+    },
+    {
+      "id": "no_models_or_jobs",
+      "passed": true
+    },
+    {
+      "id": "implementation_hashes_unchanged",
+      "passed": true
+    },
+    {
+      "id": "frontend_dist_unchanged",
+      "passed": true
+    }
+  ],
+  "error_type": null,
+  "cleanup_error_type": null,
+  "source_unchanged": true,
+  "model_event_delta": 0,
+  "jobs": 0,
+  "business_unchanged": true,
+  "cleanup": {
+    "api_started": true,
+    "api_stopped": true,
+    "port_closed": true,
+    "browser_processes": [
+      {
+        "program": "result-reading.mjs",
+        "tracked_processes": 19,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ],
+    "runtime_error_markers": 0
+  },
+  "browser": {
+    "status": "PASS",
+    "planned_cases": 12,
+    "attempted_cases": 12,
+    "passed_cases": 12,
+    "failed_cases": 0,
+    "unattempted_cases": 0,
+    "planned_checks": 144,
+    "passed_checks": 144,
+    "failed_checks": 0,
+    "unverified_checks": 0,
+    "chrome_version": "154.0.8037.58",
+    "cases": [
+      {
+        "role": "operator",
+        "width": 390,
+        "rep": 3,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "operator",
+        "width": 390,
+        "rep": 2,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "operator",
+        "width": 390,
+        "rep": 9,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "operator",
+        "width": 320,
+        "rep": 3,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "operator",
+        "width": 320,
+        "rep": 2,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "operator",
+        "width": 320,
+        "rep": 9,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "viewer",
+        "width": 390,
+        "rep": 3,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "viewer",
+        "width": 390,
+        "rep": 2,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "viewer",
+        "width": 390,
+        "rep": 9,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "viewer",
+        "width": 320,
+        "rep": 3,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "viewer",
+        "width": 320,
+        "rep": 2,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "role": "viewer",
+        "width": 320,
+        "rep": 9,
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "default_results",
+            "status": "PASS"
+          },
+          {
+            "id": "artifact_bytes",
+            "status": "PASS"
+          },
+          {
+            "id": "filename_h2",
+            "status": "PASS"
+          },
+          {
+            "id": "team_closed",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_open",
+            "status": "PASS"
+          },
+          {
+            "id": "poll_preserves_open",
+            "status": "PASS"
+          },
+          {
+            "id": "keyboard_close",
+            "status": "PASS"
+          },
+          {
+            "id": "conversation_roundtrip",
+            "status": "PASS"
+          },
+          {
+            "id": "incomplete_warning",
+            "status": "PASS"
+          },
+          {
+            "id": "from_filter",
+            "status": "PASS"
+          },
+          {
+            "id": "overflow",
+            "status": "PASS"
+          },
+          {
+            "id": "permission_controls",
+            "status": "PASS"
+          }
+        ]
+      }
+    ],
+    "http_status_counts": {
+      "200": 224,
+      "401": 4
+    },
+    "page_error_count": 0,
+    "console_error_count": 4,
+    "network_summary": {
+      "http_errors": 0,
+      "expected_auth_401": 4,
+      "failed_requests": 0,
+      "navigation_aborts": 0,
+      "unexpected_console_errors": 0,
+      "unauthorized_write_requests": 0
+    },
+    "cleanup": [
+      {
+        "id": "operator-390-context",
+        "status": "PASS"
+      },
+      {
+        "id": "operator-320-context",
+        "status": "PASS"
+      },
+      {
+        "id": "viewer-390-context",
+        "status": "PASS"
+      },
+      {
+        "id": "viewer-320-context",
+        "status": "PASS"
+      },
+      {
+        "id": "browser-close",
+        "status": "PASS"
+      },
+      {
+        "id": "owned-chrome-close",
+        "status": "PASS"
+      }
+    ]
+  },
+  "served_assets": [
+    {
+      "path": "/assets/index-BA1-FMhZ.js",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "/assets/index-Bs3TStsF.css",
+      "status": 200,
+      "hash_matches": true
+    }
+  ],
+  "limits": [
+    "Original v62 rep3 completed / rep2 failed / rep9 interrupted are storage imports, not new business runs.",
+    "Run fields, complete event logs and immutable artifact bytes are preserved. Task rows are not reconstructed from incomplete checkpoints.",
+    "Only real login/session/audit writes are allowed; business run/events/artifact state must remain identical.",
+    "No artifact-none or multi-version case exists in these source records; none is fabricated.",
+    "Viewport and keyboard checks do not establish semantic quality, screen-reader quality, a physical mobile-device result or human acceptance.",
+    "Adoption and ZIP operations are intentionally not performed in this read-only CI regression.",
+    "All screenshots, raw browser errors, service logs, SQLite and keys remain private; upload only safe-report.json."
+  ],
+  "source_sha256": {
+    "evidence/03-run_1a0f8118bd3ccca713e/run.json": "6cc9a5b0203a0b572b57e717f1c3d130e4f2aca97c73ce41ed521631ac1c33ab",
+    "evidence/03-run_1a0f8118bd3ccca713e/events.jsonl": "73297cf5fddaa85a2483f039e0e8ca081373fa7764a67c821196f2dfb7f067c3",
+    "evidence/03-run_1a0f8118bd3ccca713e/artifacts.json": "6af8f4007a56ae6bfec70172786eda1932c0cfd3053ddc0fa9e667dc061b8bcd",
+    "evidence/03-run_1a0f8118bd3ccca713e/artifact-000.bin": "536a9ebcacd4fd4d484c67859268ed550d18adf516d974208f8db3d8c3dd8546",
+    "evidence/03-run_1a0f8118bd3ccca713e/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "evidence/02-run_1a0f80632e5c1220524/run.json": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+    "evidence/02-run_1a0f80632e5c1220524/events.jsonl": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+    "evidence/02-run_1a0f80632e5c1220524/artifacts.json": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+    "evidence/02-run_1a0f80632e5c1220524/artifact-000.bin": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+    "evidence/02-run_1a0f80632e5c1220524/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "evidence/09-run_1a0f84e775a61f6bc86/run.json": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+    "evidence/09-run_1a0f84e775a61f6bc86/events.jsonl": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+    "evidence/09-run_1a0f84e775a61f6bc86/artifacts.json": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+    "evidence/09-run_1a0f84e775a61f6bc86/artifact-000.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+  },
+  "model_execution_requested": false,
+  "model_execution": false,
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false
+}

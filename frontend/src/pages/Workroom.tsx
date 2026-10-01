@@ -68,6 +68,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const [paused, setPaused] = useState(false)
   const [directionDraft, setDirectionDraft] = useState('')
   const [artifactTarget,setArtifactTarget]=useState<{id:string;revision:number;sha256:string}|null>(null)
+  const [teamOpenByRun,setTeamOpenByRun]=useState<Record<string,boolean>>({})
   const refreshRef = useRef<() => Promise<void>>(async () => {})
   const reconnectRef = useRef<() => Promise<void>>(async () => {})
 
@@ -165,6 +166,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const flaggedFiles = latestFiles.filter(f => checkState(f, evidence, events) === 'concern').length
   // What the coordinator says must follow the adoption that already happened, not keep asking for it.
   const adoptedList = Object.entries(run.artifact_selection || {})
+  const unselectedFiles = latestFiles.filter(f => !run.artifact_selection?.[f.artifact_id]).length
   const adoptedUnverified = adoptedList.filter(([artifactId, selection]) => {
     const file = run.artifacts.find(a => a.artifact_id === artifactId && a.revision === selection.revision)
     return !file || checkState(file, evidence, events) !== 'pass'
@@ -172,6 +174,8 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   // Who owns which task, so that "t2" in a model's own words can be shown as that teammate's work.
   const owners: Record<string,string> = Object.fromEntries(run.tasks.map(t => { const a = run.config_snapshot?.agents?.[t.spec.owner]; return [t.spec.id, a?.display_name || botName(a?.role || t.spec.owner, getLang())] }))
   const runnable = ['created','queued','planning','running'].includes(run.status)
+  const teammates = teamOrder(Object.entries(run.config_snapshot?.agents || {}).filter(([,a]) => a.enabled && (run.inputs.team_selection !== 'adaptive' || !!run.config_snapshot?.team_recommendation || a.role === 'master')))
+  const compactTeam = isSettled(run.status) && files.length > 0 && selectedPanel === 'results' && pending.length === 0
   // Runtime wording stays available on hover and in the detailed record; the everyday view says it plainly.
   const noteCount = (run.blocked_reason ? 1 : 0) + reviewNotes.length + interpretationNotes.length
   const notices = noteCount > 0 ? <details className="room-notes">
@@ -192,7 +196,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
 <div className="status-voice">{(() => { const m = Object.entries(run.config_snapshot?.agents || {}).find(([, a]) => a.enabled && a.role === 'master'); return m ? <BotAvatar id={m[0]} role={m[1].role} emoji={m[1].emoji} name={m[1].display_name || botName(m[1].role, getLang())} state={(() => { const mine = run.tasks.filter(t => t.spec.owner === m[0]); const raw = botActivity(mine, run.status, m[0], m[1].role, true); return coordinatorPlanned(m[1].role, mine.length, !!run.plan, raw, run.status) ? 'done' : raw })()} /> : null })()}      <div role="status"><strong>{pending.length ? say('あなたの確認が必要です','Your approval is needed') : statusLabel(run.status, getLang())}</strong><p>{run.status !== 'completed' ? null
         : adoptedList.length > 0 ? (adoptedUnverified > 0
           ? say(`使う版を${adoptedList.length}件選びました。そのうち${adoptedUnverified}件は、確認を通過した記録がないまま採用しています。`, adoptedUnverified === 1 ? `${adoptedList.length} version(s) chosen. 1 was chosen without a passing check record.` : `${adoptedList.length} versions chosen. ${adoptedUnverified} were chosen without a passing check record.`)
-          : say(`使う版を${adoptedList.length}件選びました。ほかのファイルも記録を見てから選べます。`, `${adoptedList.length} version(s) chosen. You can review and choose the other files too.`))
+          : say(`使う版を${adoptedList.length}件選びました。${unselectedFiles ? `残り${unselectedFiles}件も記録を見てから選べます。` : ''}`, `${adoptedList.length} ${adoptedList.length===1?'version':'versions'} chosen.${unselectedFiles ? ` Review the ${unselectedFiles} remaining ${unselectedFiles===1?'file':'files'} before choosing.` : ''}`))
         : flaggedFiles > 0 ? say(`要修正・未確認の項目が記録されたファイルが${flaggedFiles}件あります。記録を見てから、使う版を選んでください。`,`${flaggedFiles} file(s) have checks that failed or were left unverified. Read the record before choosing a version.`)
         : uncheckedFiles > 0 ? say(`確認の記録がないファイルが${uncheckedFiles}件あります。中身と記録を見てから、使う版を選んでください。`,`${uncheckedFiles} file(s) have no check record. Read them and the record before choosing a version.`)
         : say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.')}</p></div></div>
@@ -222,8 +226,15 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
       <div className="room-side">
         {notices}
         {run.config_snapshot?.team_recommendation && <details className="team-recommendation"><summary>{say('今回のチーム構成','This task’s team')}</summary><p>{run.config_snapshot.team_recommendation.reason}</p><ul>{run.config_snapshot.team_recommendation.members.map((m,i)=><li key={i}><strong>{m.name} · {m.specialty}</strong><p>{m.reason}</p></li>)}</ul></details>}
-        <section id="room-team" className="simple-team-room room-team" aria-label={say('チームの様子','Your team')}>
-      <div className="team-section-heading"><h2>{say('AIチーム','AI team')}</h2><button type="button" className="btn ghost" aria-pressed={paused} onClick={()=>setPaused(!paused)}>{paused?say('動きを再開','Resume animation'):say('動きを止める','Pause animation')}</button></div><ol className="team-stage">{teamOrder(Object.entries(run.config_snapshot?.agents || {}).filter(([,a]) => a.enabled && (run.inputs.team_selection !== 'adaptive' || !!run.config_snapshot?.team_recommendation || a.role === 'master'))).map(([id,a]) => {
+        <section id="room-team" className={`simple-team-room room-team${compactTeam?' is-compact':''}`} aria-label={say('チームの様子','Your team')}>
+      <details className="team-disclosure" open={!compactTeam || !!teamOpenByRun[runId]}>
+        <summary hidden={!compactTeam} onFocus={e=>{
+          // Native focus can leave a partly visible label behind the narrow-screen sticky menu.
+          const menu=document.querySelector('.top.side')?.getBoundingClientRect(), target=e.currentTarget.getBoundingClientRect()
+          if(menu && menu.right>target.left && menu.left<target.right && target.top<menu.bottom+8 && target.bottom>menu.top)
+            window.scrollBy({top:target.top-menu.bottom-8,behavior:'instant'})
+        }} onClick={e=>{e.preventDefault();if(compactTeam)setTeamOpenByRun(old=>({...old,[runId]:!old[runId]}))}}><span>{say('AIチーム','AI team')} · {teammates.length}{say('名',' members')}</span><span className="team-disclosure-hint">{say('担当と作業を見る','Roles & work')}</span></summary>
+      <div className="team-expanded"><div className="team-section-heading"><h2>{say('AIチーム','AI team')}</h2><button type="button" className="btn ghost" aria-pressed={paused} onClick={()=>setPaused(!paused)}>{paused?say('動きを再開','Resume animation'):say('動きを止める','Pause animation')}</button></div><ol className="team-stage">{teammates.map(([id,a]) => {
         const tasks = run.tasks.filter(t => t.spec.owner === id), raw = botActivity(tasks, run.status, id, a.role, a.enabled)
         const state = coordinatorPlanned(a.role, tasks.length, !!run.plan, raw, run.status) ? 'done' : raw
         const task = tasks.find(t => t.status === 'running') || tasks.find(t => !['accepted','cancelled'].includes(t.status)) || tasks[tasks.length - 1]
@@ -234,6 +245,7 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
         </li>
       })}</ol>
       {Object.keys(run.config_snapshot?.agents || {}).length === 0 && <p className="simple-empty">{say('チームの準備ができると、ここに仲間が表示されます。','Your teammates appear here once the team is ready.')}</p>}
+      </div></details>
         </section>
         <div id="room-request"><details className="simple-request pane" aria-label={say("お願いの内容","Your request")}><summary>{say('資料と前提','Materials & context')}</summary>
       {!run.inputs.text && run.inputs.files.length === 0 && run.inputs.urls.length === 0 && <p className="simple-empty">{say('資料や参照先は添えられていません。','No files or references were attached.')}</p>}
@@ -355,10 +367,10 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
   const useVersion=async()=>{if(lock.current)return;lock.current=true;setBusy(true);setNote('');try{await api.adoptArtifact(run.run_id,file.artifact_id,{revision:file.revision,expected_selected_revision:adopted?.revision ?? 0});setNote(say('この版を使うことにしました。','This version is now selected.'));focusChoice.current=true;await refresh()}catch{setError(say('選択を保存できませんでした。再読み込みしてお試しください。','Could not save your choice. Refresh and try again.'))}finally{lock.current=false;setBusy(false)}}
   const selectedCount=Object.keys(run.artifact_selection || {}).length
   const openRecord=()=>{setRecordOpen(true);requestAnimationFrame(()=>{recordRef.current?.focus();recordRef.current?.scrollIntoView({block:'center'})})}
-  return <section className="pane simple-deliverables result-workflow"><header><h2>{say('できたもの','Your results')}</h2><p>{say('内容と確認の記録を読み、使う版を選んで保存できます。','Read the content and its check record, then choose a version to save.')}</p></header>
+  return <section className="pane simple-deliverables result-workflow">
     {versions.size>1&&<div className="result-file-list" aria-label={say('ファイルを選ぶ','Choose a file')}>{[...versions.entries()].map(([key,items])=><button className={key===id?'active':''} type="button" aria-pressed={key===id} key={key} onClick={()=>{clearTarget();setSelection({id:key,revision:run.artifact_selection?.[key]?.revision||items[items.length-1].revision})}}><span aria-hidden="true">📄</span>{items[items.length-1].logical_path}{run.artifact_selection?.[key]&&<span className="tab-chosen" title={say('あなたが選んだ版があります','You selected a version')}>{say('採用','Chosen')}</span>}{latestState.get(key)==='none'&&<span className="tab-mark" role="img" aria-label={say('確認の記録なし','No check record')} title={say('確認の記録なし','No check record')}>?</span>}{latestState.get(key)==='concern'&&<span className="tab-mark is-concern" role="img" aria-label={say('要修正・未確認の項目あり','Failed or unverified items')} title={say('要修正・未確認の項目あり','Failed or unverified items')}>!</span>}</button>)}</div>}
     <div className="result-reading-head">
-      <div className="result-file-identity"><span className="result-step">{say('01 読む','01 Read')}</span><h3>{file.logical_path}</h3><p>{say('版','Version')} {file.revision} · {adopted?.revision===file.revision?say('採用した版','Selected version'):say('未採用の候補','Unselected candidate')}</p></div>
+      <div className="result-file-identity"><span className="result-step">{say('01 読む','01 Read')}</span><h2>{file.logical_path}</h2><p>{say('版','Version')} {file.revision} · {adopted?.revision===file.revision?say('採用した版','Selected version'):say('未採用の候補','Unselected candidate')}</p></div>
       {list.length>1&&<label className="result-version-picker">{say('表示する版','Version to read')}<select value={file.revision} onChange={e=>{clearTarget();setSelection({id:file.artifact_id,revision:Number(e.target.value)})}}>{list.map(f=><option key={f.revision} value={f.revision}>{say('版','Version')} {f.revision}{adopted?.revision===f.revision?say('（採用）',' (selected)'):''}</option>)}</select></label>}
       <div className="result-display-tools">{isMarkdown&&<button type="button" className="btn ghost" aria-pressed={showSource} onClick={()=>setShowSource(!showSource)}>{showSource?say('読みやすく表示','Show formatted'):say('原文を表示','Show source')}</button>}<a className="btn ghost" href={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)} target="_blank" rel="noreferrer">{say('別のタブで開く','Open in a new tab')} <span aria-hidden="true">↗</span></a></div>
     </div>

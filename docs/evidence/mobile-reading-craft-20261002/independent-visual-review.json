@@ -1,0 +1,92 @@
+{
+  "created_at": "2026-10-01T21:52:44.494954+00:00",
+  "actor": "Independent AI critique, prior product knowledge",
+  "human_acceptance": false,
+  "business_acceptance": false,
+  "visual_and_interaction_scope_status": "PASS_WITH_LIMITS",
+  "improvements": [
+    {
+      "id": "earlier-reader",
+      "method": "same-condition root real Chrome screenshot/report comparison plus independent view_image",
+      "observed": [
+        {
+          "width": 320,
+          "reader_top_before": 956.203125,
+          "reader_top_after": 717.015625,
+          "reduction_css_px": 239.1875,
+          "condition": "same actual imported rep3 unselected; scroll0; height844",
+          "measurement_owner": "root actual Chrome; this reviewer read report and opened images"
+        },
+        {
+          "width": 390,
+          "reader_top_before": 858.984375,
+          "reader_top_after": 693.390625,
+          "reduction_css_px": 165.59375,
+          "condition": "same actual imported rep3 unselected; scroll0; height844",
+          "measurement_owner": "root actual Chrome; this reviewer read report and opened images"
+        }
+      ],
+      "judgment": "Collapsing settled team and removing repeated results heading makes actual file identity and body arrive within mobile first viewport."
+    },
+    {
+      "id": "truthful-state",
+      "method": "independent actual image review of completed/failed/interrupted files; independent read-only browser",
+      "observed": "Failed/interrupted warning and unselected/selected version identity remain distinct from recorded file-check status. Team role details still expand when requested. No fabricated completion needed."
+    },
+    {
+      "id": "keyboard-and-focus",
+      "method": "independent actual Chrome/API",
+      "observed": "Team opening/closing and hidden-member focus skip; review-link focus; actual reader PageDown; retained unsent integration.md text across panels. Final r6 additionally resolves exact programmatic-focus occlusion without changing the verified natural keyboard route."
+    },
+    {
+      "id": "native200",
+      "method": "actual browser zoom preference and measured outer1440/inner720/DPR2, followed by real-image review",
+      "observed": "Final focused team label and disclosure arrow no longer clipped by sticky navigation; selected-file identity and reader remain legible."
+    }
+  ],
+  "remaining_items": [
+    {
+      "kind": "suggestion",
+      "priority": "P3",
+      "item": "The 390px sticky navigation is 153 CSSpx high and still occupies substantial reading space. Future shared-shell compactness could improve reading, but must preserve New request, language and logout discoverability. This iteration adds no blocking defect here."
+    },
+    {
+      "kind": "not_verified",
+      "item": "Screen reader, IME, real touch/physical mobile device and unassisted first-time human success are not evaluated by these headless-Chrome checks."
+    },
+    {
+      "kind": "not_verified",
+      "item": "This iteration does not validate newly generated content, restore operational readiness, or establish L2/L3/public-service acceptance; existing business-quality and deployment gates remain."
+    },
+    {
+      "kind": "scope_limit",
+      "item": "Final r6 uses already-adopted rep3 from another verifier. Only root baseline/after-r1 is same-unselected-condition comparison. Do not combine these datasets."
+    }
+  ],
+  "evidence_boundaries": {
+    "original_failures_retained": true,
+    "r1_http_expectation_error_not_product_failure": true,
+    "r3_r4_natural_keyboard_non_reproduction_retained": true,
+    "r5_programmatic_cause_isolated": true,
+    "r6_fixed_case_retested": true,
+    "centered_after_manual_scroll_is_not_pass_evidence": true,
+    "prior_directory_collision_confirmation": "See browser-critique-review-r1/review.json; original conservative warning retained."
+  },
+  "resources": {
+    "all_owned_chrome_closed": true,
+    "remaining_owned_processes": 0,
+    "no_further_api_use_planned": true,
+    "root_owned_api_may_be_stopped_by_root": true
+  },
+  "final_records": [
+    "browser-critique-r6/browser/report.json",
+    "browser-critique-r6/cleanup.json",
+    "browser-critique-r6/source-before.json",
+    "browser-critique-r6/source-after.json",
+    "browser-critique-review-r2/review.json"
+  ],
+  "manifests": {
+    "r1_to_r5": "browser-critique-review-r1/manifest.json",
+    "r6": "browser-critique-review-r2/manifest.json"
+  }
+}

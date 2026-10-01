@@ -1,0 +1,151 @@
+{
+  "review_kind": "同モデル別agentによる独立静的レビュー。人間受入ではない。",
+  "reviewed_at": "2026-10-01T21:29:53.373876+00:00",
+  "revision": "983be97291d1252b0873d200136dbd8eb9110eee",
+  "source_sha256": {
+    "frontend/src/pages/Workroom.tsx": "0aa16cf873aecc3579ede63b2d4bd88984c4bd690270c3037dae53630204c778",
+    "frontend/src/workroom-refinement.css": "4187c195827d78f6bd01efb94f82a1d6cd324b504bb857a345e2bdf88c3f1162",
+    "frontend/src/paper.css": "932e419f283c74139a36640c1e97f7b1a2d78a7d3660527547b56667064291c3",
+    "frontend/src/lib/journey.ts": "a4da9b538370e8c5f98f24ba09027e5094b9d41db0aa4ea996cb22260815347e",
+    "frontend/src/App.tsx": "4ee3a61e7795a1aa4e542a62cea6634d0d52712919605a3fae6b02d007e5b79e",
+    "frontend/src/components/TeamConversation.tsx": "3d65e94a225cbe846a5ffecf2543abc45a05946b80bd72c9b79100a77aff02d9",
+    "frontend/src/components/ArtifactWorkbench.tsx": "6d5c615660b8c974354e17d87f3b6ba0841cd8534aab9782695a1b35a3cd1e34"
+  },
+  "app_changed": false,
+  "services_started": false,
+  "model_execution": false,
+  "checks": [
+    {
+      "id": "collapse-scope",
+      "method": "static",
+      "status": "PASS",
+      "expected": "終了し成果物を読んでいる状態にだけ初期折畳みを適用",
+      "observed": "defaultPanel は isSettled と成果物数で決まる。isSettled は completed/partial/failed/cancelled/interrupted/blocked。approval_required は対象外。成果物は final-report.md を除外。",
+      "attention": "isSettled(run.status) && files.length>0 && selectedPanel===results に限定。active、承認待ち、成果物なし、会話表示では既存の見えるチームを保持。",
+      "evidence": [
+        "frontend/src/lib/journey.ts:4",
+        "frontend/src/lib/journey.ts:13",
+        "frontend/src/pages/Workroom.tsx:141"
+      ]
+    },
+    {
+      "id": "mounted-panels-and-drafts",
+      "method": "static",
+      "status": "PASS",
+      "expected": "切替で入力・読取状態を捨てない",
+      "observed": "両 panel は常時 mount、1000px以下で display:none。directionDraft は親 state、会話検索/追従は TeamConversation state、選択版/recordOpen/showSource は Deliverables state。編集コピーは ArtifactWorkbench state+localStorage。",
+      "attention": "selectedPanel を conditional mount/key に使わない。既存 select は history.replaceState を使用し App の key=path を更新しない。nav() へ置換すると remount による入力喪失のおそれ。別 run では runId key のリセットを維持。",
+      "evidence": [
+        "frontend/src/pages/Workroom.tsx:69",
+        "frontend/src/pages/Workroom.tsx:145",
+        "frontend/src/pages/Workroom.tsx:247",
+        "frontend/src/pages/Workroom.tsx:250",
+        "frontend/src/workroom-refinement.css:117",
+        "frontend/src/App.tsx:54",
+        "frontend/src/components/ArtifactWorkbench.tsx:7"
+      ]
+    },
+    {
+      "id": "team-disclosure-state",
+      "method": "static",
+      "status": "PASS",
+      "expected": "表示を戻しても利用者の開閉を保持",
+      "observed": "現在各メンバーは native details。run detail は5秒ごと更新される。",
+      "attention": "外側 disclosure を再取得/run オブジェクトや panel に連動した key で再mountせず、ユーザーの開閉値と対象外状態の強制展開を分離する。onToggle は子メンバー disclosure と区別し、プログラム的 open による toggle で保存値を上書きしない。summary は先頭の native 操作、focus-visible と開閉表示を残す。",
+      "evidence": [
+        "frontend/src/pages/Workroom.tsx:116",
+        "frontend/src/pages/Workroom.tsx:225",
+        "frontend/src/pages/Workroom.tsx:232",
+        "frontend/src/workroom-refinement.css:159",
+        "frontend/src/workroom-refinement.css:165"
+      ]
+    },
+    {
+      "id": "warnings-and-approval",
+      "method": "static",
+      "status": "PASS",
+      "expected": "前置き縮小で状態・権限・出自を隠さない",
+      "observed": "load/action error と pending approval は nav 前。未完了/draft 警告は成果物本文前。AI unresolved は別ラベル。",
+      "attention": "team の disclosure に notices、approval、partial/draft 警告を巻き込まない。adoptedUnverified は先に優先する。記録 pass を人間確認/内容正確の保証へ言い換えない。",
+      "evidence": [
+        "frontend/src/pages/Workroom.tsx:177",
+        "frontend/src/pages/Workroom.tsx:184",
+        "frontend/src/pages/Workroom.tsx:193",
+        "frontend/src/pages/Workroom.tsx:210",
+        "frontend/src/pages/Workroom.tsx:212",
+        "frontend/src/pages/Workroom.tsx:249",
+        "frontend/src/pages/Workroom.tsx:373"
+      ]
+    },
+    {
+      "id": "remaining-selection-count",
+      "method": "static",
+      "status": "FAIL",
+      "expected": "残っている成果物の数に一致する案内",
+      "observed": "completed + 採用あり + 全採用版 check pass では、単一成果物も必ず「ほかのファイルも…」となる。",
+      "attention": "latestFiles の artifact_id 集合から artifact_selection の採用済 ID を除いた件数を数える。revision 数ではない。古い版を採用していても未採用ファイル数へ入れない。0 なら他ファイル案内を省く。現行 adoptedList には結果表示対象外 ID も含まれ得るため単純な latestFiles.length-adoptedList.length は避ける。",
+      "evidence": [
+        "frontend/src/pages/Workroom.tsx:163",
+        "frontend/src/pages/Workroom.tsx:167",
+        "frontend/src/pages/Workroom.tsx:195"
+      ]
+    },
+    {
+      "id": "reader-heading-and-focus",
+      "method": "static",
+      "status": "PASS",
+      "expected": "重複見出しを除去しつつ読んでいるファイルと版が識別できる",
+      "observed": "外枠 h2「できたもの」とファイル h3、nav「成果物」が重なる。ファイル名/版/採用状態、複数版selectは別責務。",
+      "attention": "外枠 h2 を除くならファイル見出し等に意味のある h2 を保持し、既存 paper.css の h3 selector によるスタイル欠落に注意。最新版と採用版・選択中の版を同一扱いにしない。reader の region/tabIndex=0、record の focus、採用後 choiceRef focus は維持。",
+      "evidence": [
+        "frontend/src/pages/Workroom.tsx:358",
+        "frontend/src/pages/Workroom.tsx:361",
+        "frontend/src/pages/Workroom.tsx:362",
+        "frontend/src/pages/Workroom.tsx:366",
+        "frontend/src/pages/Workroom.tsx:357",
+        "frontend/src/pages/Workroom.tsx:342",
+        "frontend/src/paper.css:173"
+      ]
+    },
+    {
+      "id": "permissions-and-exports",
+      "method": "static",
+      "status": "PASS",
+      "expected": "閲覧と変更操作を分離",
+      "observed": "stop/resume は canWrite、instruction は can_instruct、approve は readOnly、adopt は can_write。viewer も読取/保存は可能。adoption API は expected_selected_revision 使用、export/raw は browserApiUrl で主体境界維持。",
+      "attention": "配置変更で mutation ボタンを viewer に新規表示しない。取得リンク/原文/編集コピーは既存の読み取り用途を維持。採用ZIPとlatestZIPを混同しない。",
+      "evidence": [
+        "frontend/src/pages/Workroom.tsx:200",
+        "frontend/src/pages/Workroom.tsx:215",
+        "frontend/src/pages/Workroom.tsx:264",
+        "frontend/src/pages/Workroom.tsx:355",
+        "frontend/src/pages/Workroom.tsx:385",
+        "frontend/src/pages/Workroom.tsx:387",
+        "frontend/src/pages/Workroom.tsx:390"
+      ]
+    },
+    {
+      "id": "layout-specificity",
+      "method": "static",
+      "status": "PASS",
+      "expected": "閉じたdisclosureとmobileレイアウトがCSSで競合しない",
+      "observed": "room-side は display:contents、room-team は order:0/display:flex。mobile でも会話/成果物の切替は CSS。paper.css が読取領域の後発スタイルを持つ。",
+      "attention": "native details に room-team の display:flex を直接引き継ぐ場合の closed 表示を実画面で確認。summary 以外が閉じている時に露出せず、closed 内容が tab order へ残らず、スクロール/読み上げ順が自然であることを確認。",
+      "evidence": [
+        "frontend/src/workroom-refinement.css:83",
+        "frontend/src/workroom-refinement.css:158",
+        "frontend/src/workroom-refinement.css:159",
+        "frontend/src/workroom-refinement.css:203",
+        "frontend/src/paper.css:166"
+      ]
+    }
+  ],
+  "runtime_status": "NOT_APPLICABLE: 今回は読み取り監査のみ。修正後の実画面/keyboard/再取得/パネル往復は未実施。",
+  "runtime_next_checks": [
+    "終了かつ成果物表示で team 初期閉鎖、明示開く→会話→成果物往復→5秒refresh 後も所定 state",
+    "failed/interrupted成果物の未完了警告、approval_required、成果物なしの既存導線",
+    "JA/EN 390/320 と native200%、summary keyboard/focus、閉じた内容へのTab侵入なし",
+    "会話検索/方向 draft/成果物編集コピーを往復して維持、viewerは変更不可",
+    "単一採用後と実複数成果物がある場合の残数（実資料がなければ複数は未検証）"
+  ]
+}
