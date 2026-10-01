@@ -87,6 +87,18 @@ async function realTokens(name) {
     // This is a correlation check, not independent ID-token validation. The
     // application independently verifies each access token against real JWKS.
     ensure(tokenPart(issued.id_token, 1).nonce === nonce, 'nonce_correlation')
+    const claims = tokenPart(issued.access_token, 1)
+    const header = tokenPart(issued.access_token, 0)
+    const required = ['exp', 'iat', 'iss', 'aud', 'sub', 'azp']
+    report.token_preconditions ||= []
+    report.token_preconditions.push({ account: name,
+      unverified_metadata_only: true,
+      required_claims_present: Object.fromEntries(required.map(key => [key, claims[key] !== undefined && claims[key] !== null])),
+      rs256: header.alg === 'RS256', kid_present: typeof header.kid === 'string',
+      issuer_matches: claims.iss === issuer, client_matches: claims.azp === clientId,
+      audience_matches: [claims.aud].flat().includes('agentteam-api'),
+      group_array_present: Array.isArray(claims.groups), lifetime_seconds: claims.exp - claims.iat })
+    ensure(required.every(key => claims[key] !== undefined && claims[key] !== null), 'issued_access_token_missing_required_claim')
     return issued
   } finally {
     clearTimeout(timer); pending = null

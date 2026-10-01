@@ -68,7 +68,7 @@ def prepare(root, report):
              'clients': [{'clientId': CLIENT, 'secret': secret, 'protocol': 'openid-connect', 'enabled': True,
                           'publicClient': False, 'standardFlowEnabled': True, 'directAccessGrantsEnabled': False,
                           'redirectUris': ['http://127.0.0.1:8802/callback'], 'webOrigins': [],
-                          'defaultClientScopes': ['profile'], 'optionalClientScopes': [],
+                          'defaultClientScopes': ['basic', 'profile'], 'optionalClientScopes': [],
                           'attributes': {'pkce.code.challenge.method': 'S256'},
                           'protocolMappers': [
                               {'name': 'api-audience', 'protocol': 'openid-connect', 'protocolMapper': 'oidc-audience-mapper',

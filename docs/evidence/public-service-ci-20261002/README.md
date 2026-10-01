@@ -19,7 +19,7 @@ CI実装は `fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b`。ローカル統合は `
 
 [PyJWT公式advisory](https://github.com/jpadilla/pyjwt/security/advisories/GHSA-42vr-xj54-vc7v) に従い、配布条件を `>=2.15,<3`、lockを2.15.0と公式配布hashへ更新した。旧実行環境を変更せず、専用venvへhash付きで導入し、依存整合性を確認した。修正後のローカル監査は46依存で既知脆弱性0件。同venvの実HTTP/SQLite/Chromeも通過した（`dependency-fix.json`、`pyjwt215-local-report.json`）。これは監査時点の既知情報であり、未発見の脆弱性がないという保証ではない。
 
-公式に記録された問題は特定の署名検証前payload解析での未処理例外である。このアプリで認証回避やプロセス停止が実証されたとは主張しない。2.15.0のJWKS取得/キャッシュ変更に対する**実SSO回帰は未実施**。アクセスキー試験では代替できず、実IdPによる確認が残る。専用 `public-oidc.yml` を追加したが、初回 [36892758365](https://github.com/FORIFOR/Multibot/actions/runs/36892758365) は検証用キーのアカウント名に予約接頭辞を使ったため、IdP/API起動前の準備で失敗した（`oidc-initial-failure.json`）。一般の技術アカウント名へ修正し、実キー発行とprivate保存・非GitHub環境の拒否を確認した（`oidc-account-verification.json`）。この準備確認はSSO成功を意味しない。稼働中v62のcheckout・依存・モデルは変更していない。
+公式に記録された問題は特定の署名検証前payload解析での未処理例外である。このアプリで認証回避やプロセス停止が実証されたとは主張しない。2.15.0のJWKS取得/キャッシュ変更に対する**実SSO回帰は未実施**。アクセスキー試験では代替できず、実IdPによる確認が残る。専用 `public-oidc.yml` を追加したが、初回 [36892758365](https://github.com/FORIFOR/Multibot/actions/runs/36892758365) は検証用キーのアカウント名に予約接頭辞を使ったため、IdP/API起動前の準備で失敗した（`oidc-initial-failure.json`）。一般の技術アカウント名へ修正し、実キー発行とprivate保存・非GitHub環境の拒否を確認した（`oidc-account-verification.json`）。この準備確認はSSO成功を意味しない。 再実行 [36893451047](https://github.com/FORIFOR/Multibot/actions/runs/36893451047) は実Keycloak/PKCEのトークン取得後、初回APIが401で失敗した（`oidc-first-token-failure.json`）。[Keycloak公式変更](https://github.com/keycloak/keycloak/blob/main/docs/documentation/upgrading/topics/changes/changes-25_0_0.adoc) に照らし、`profile` だけだったclient scopeへ `sub` を提供する `basic` を追加した。元のトークンは公開・保持していないため、元401の原因をsub欠落と断定しない。次の実行ではclaimの存在と期待値との一致だけを保存し、JWTやclaim値を公開しない。稼働中v62のcheckout・依存・モデルは変更していない。
 
 ## 次の業務品質試験の準備
 
