@@ -1,0 +1,14 @@
+{
+  "run_url": "https://github.com/FORIFOR/Multibot/actions/runs/36892758365",
+  "head_sha": "57226479ccfe5c15517be2db87db4118ddf53b82",
+  "status": "completed",
+  "conclusion": "failure",
+  "failure_stage": "provision_actual_key",
+  "reason": "AccessConfig reserves the oidc- subject prefix for SSO principals",
+  "idp_started": false,
+  "api_started": false,
+  "model_execution": false,
+  "verification_started": false,
+  "cleanup_step": "success",
+  "human_acceptance": "not_performed"
+}

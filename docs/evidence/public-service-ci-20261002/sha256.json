@@ -14,5 +14,7 @@
   "guide-preflight-manifest.json": "b3936029dcc16682d7f36b767014c136ddbd8346747f643b1e8fb56cd0cb1591",
   "guide-preflight-pyjwt215.json": "8c85233bada8dfe97762dab87950ff6a64c109b319f73d93a0c5ee34aaf1f721",
   "local-report.json": "dd034c7cdca6b157b92ebbbcd0e2895fc19b295120121225c0f49e07d0ab31e3",
+  "oidc-account-verification.json": "ac3339301c925027300593e617a7dd6e6c0c1057f1582300f461d93396f4d3a1",
+  "oidc-initial-failure.json": "2600e1a89fd91fa03b93d390efc63373ce471af57d7e0e218e44fc55f7d7f190",
   "pyjwt215-local-report.json": "10d330611ed3f48a05904f880c535f2ef2cb304f6072508411691357acdf7bbb"
 }
