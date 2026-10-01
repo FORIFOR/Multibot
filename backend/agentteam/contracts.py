@@ -185,6 +185,9 @@ class Message(BaseModel):
     from_agent_id: str
     to_agent_id: str
     task_id: str
+    # Related task and budget scope remain task_id. This is the originating
+    # task session, assigned by the runtime; old deliveries have no provenance.
+    source_task_id: str | None = None
     purpose: MessagePurpose
     text: str = Field(min_length=1)
     artifact_refs: list[ArtifactRef] = Field(default_factory=list)

@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
       - run: uv venv backend/.venv --python 3.12 && uv pip install --python backend/.venv/bin/python -r backend/requirements.lock -e 'backend[dev]'
-      - run: backend/.venv/bin/ruff check backend/agentteam backend/scripts/check_public_service.py backend/scripts/check_subject_admission.py backend/scripts/check_public_responses.py backend/scripts/public_service_workflow.py backend/scripts/provision_public_oidc.py
+      - run: backend/.venv/bin/ruff check backend/agentteam backend/scripts/check_public_service.py backend/scripts/check_subject_admission.py backend/scripts/check_public_responses.py backend/scripts/public_service_workflow.py backend/scripts/provision_public_oidc.py backend/scripts/check_message_handoff.py
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 10

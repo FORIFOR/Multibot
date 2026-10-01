@@ -260,7 +260,7 @@ async def build_task_message(ctx: SessionContext, task: TaskState, review_feedba
     if targets:
         missing = sorted(set(targets) - ctx.communicated_to)
         if missing:
-            lines.append("\n## Required team communication\nBefore finish_task, use send_message to each of: " + ", ".join(missing) + ". Use purpose handoff, finding or decision, task_id=" + spec.id + ". State the actual result, remaining uncertainty and what the recipient should do next; reference published artifact revisions. A task cannot finish without these deliveries. Read your inbox and answer relevant questions; do not invent conversation.")
+            lines.append("\n## Required team communication\nBefore finish_task, use send_message to each of: " + ", ".join(missing) + ". Use purpose handoff, finding or decision. Omit task_id to use " + spec.id + ", or specify the related task being discussed; the runtime records " + spec.id + " as this delivery's originating task. State the actual result, remaining uncertainty and what the recipient should do next; reference published artifact revisions. A task cannot finish without these deliveries. Read your inbox and answer relevant questions; do not invent conversation.")
         else:
             lines.append("\n## Required team communication\nRequired handoffs are already delivered for the current work. Do not resend unchanged findings under a different purpose. Once the requested work is ready, call finish_task; publication and completion checks still apply. Publishing a new revision or submitting a new review requires a fresh handoff.")
     msgs = await rt.bus.read(ctx.agent.agent_id, None, unread_only=not include_read_messages)
@@ -416,7 +416,8 @@ class AgentRunner:
         feedback = task.review.model_dump_json() if task.review else None
         message = await build_task_message(ctx, task, feedback, include_read_messages=True)
         sent = [m for m in await self.rt.runs.list_messages(self.rt.run_id)
-                if m.from_agent_id == ctx.agent.agent_id and m.task_id == task.spec.id]
+                if m.from_agent_id == ctx.agent.agent_id
+                and (m.source_task_id == task.spec.id or (m.source_task_id is None and m.task_id == task.spec.id))]
         if sent:
             message += "\n## Messages already delivered (do not resend unchanged)\n" + "\n".join(
                 f"- {m.message_id} to={m.to_agent_id} purpose={m.purpose}: {m.text}" for m in sent[-20:])

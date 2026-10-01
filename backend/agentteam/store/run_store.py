@@ -90,9 +90,9 @@ class RunStore:
     # ---- messages
     async def insert_message(self, m: Message) -> None:
         await self.db.execute(
-            "INSERT INTO messages(message_id,run_id,seq,from_agent_id,to_agent_id,task_id,purpose,text,artifact_refs_json,"
-            "reply_to,recorded_at,read_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
-            (m.message_id, m.run_id, m.seq, m.from_agent_id, m.to_agent_id, m.task_id, m.purpose, m.text,
+            "INSERT INTO messages(message_id,run_id,seq,from_agent_id,to_agent_id,task_id,source_task_id,purpose,text,artifact_refs_json,"
+            "reply_to,recorded_at,read_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            (m.message_id, m.run_id, m.seq, m.from_agent_id, m.to_agent_id, m.task_id, m.source_task_id, m.purpose, m.text,
              dumps([a.model_dump() for a in m.artifact_refs]), m.reply_to, m.recorded_at, m.read_at),
         )
 
@@ -130,7 +130,8 @@ class RunStore:
     def _msg(r) -> Message:
         return Message(
             message_id=r["message_id"], run_id=r["run_id"], seq=r["seq"], from_agent_id=r["from_agent_id"],
-            to_agent_id=r["to_agent_id"], task_id=r["task_id"], purpose=r["purpose"], text=r["text"],
+            to_agent_id=r["to_agent_id"], task_id=r["task_id"], source_task_id=r["source_task_id"],
+            purpose=r["purpose"], text=r["text"],
             artifact_refs=loads(r["artifact_refs_json"], []), reply_to=r["reply_to"], recorded_at=r["recorded_at"],
             read_at=r["read_at"],
         )

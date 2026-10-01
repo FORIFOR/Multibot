@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS messages (
   from_agent_id TEXT NOT NULL,
   to_agent_id TEXT NOT NULL,
   task_id TEXT NOT NULL,
+  source_task_id TEXT,
   purpose TEXT NOT NULL,
   text TEXT NOT NULL,
   artifact_refs_json TEXT NOT NULL,
@@ -201,6 +202,10 @@ class Database:
         columns = {r['name'] for r in await self.fetchall('PRAGMA table_info(audit_log)')}
         if 'details_json' not in columns:
             await self.execute("ALTER TABLE audit_log ADD COLUMN details_json TEXT NOT NULL DEFAULT '{}'")
+        message_columns = {r['name'] for r in await self.fetchall('PRAGMA table_info(messages)')}
+        if 'source_task_id' not in message_columns:
+            # Do not infer origins for old related-task deliveries.
+            await self.execute('ALTER TABLE messages ADD COLUMN source_task_id TEXT')
         return self
 
     async def close(self) -> None:
