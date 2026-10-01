@@ -1,0 +1,145 @@
+{
+  "series": "real-readiness-v61-qwen35-fixed-20260925",
+  "reviewed_at": "2026-10-01T14:55:13.394354+00:00",
+  "method": "Read-only post-hoc source/output comparison by the coordinating AI and two same-model AI subagents; not a human/customer acceptance or a fresh runtime test.",
+  "environment": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "python": "3.14.7"
+  },
+  "semantic_review": "completed_with_findings",
+  "status": "FAIL",
+  "fixed_checkout": "36bcafa5aa9bed629c1f02c569c16ec62364565e",
+  "implementation_change_commit": "12393dbc81c00613bb0d5f7347dda6d7c3047883",
+  "provenance_note": "The original README and independent-check call 12393db fixed_code. The retained fingerprint records 36bcafa; their diff changes only documentation/evidence, but the PRODUCTION_PLAN input matches 36bcafa, not 12393db. Preserve the original records and distinguish implementation change from executed checkout.",
+  "areas": [
+    {
+      "area": "Identity",
+      "status": "PASS",
+      "observed": "Group mapping is omitted in the permitted short summary; no reversed or invented claim found."
+    },
+    {
+      "area": "Isolation",
+      "status": "PASS",
+      "observed": "The short summary omits protected settings, pinned destinations and bounded capture; it is not an exhaustive isolation specification."
+    },
+    {
+      "area": "Execution",
+      "status": "PASS",
+      "observed": "Interrupted-job review, requester-owned requirements and bounded validation are omitted; the single-host and no-HA boundary remains."
+    },
+    {
+      "area": "Data",
+      "status": "PASS",
+      "observed": "Session invalidation and explicit forks/provider copies are omitted; the summary is not an exhaustive retention policy."
+    },
+    {
+      "area": "Audit / monitoring",
+      "status": "PASS",
+      "observed": "Collector supervision deployment and restore stream separation are shortened; no claim that systemd was deployed."
+    },
+    {
+      "area": "Deployment",
+      "status": "PASS",
+      "observed": "Installed-wheel and dependency details are shortened; actual TLS/DNS and target-environment acceptance remain outstanding."
+    },
+    {
+      "area": "Business quality",
+      "status": "FAIL",
+      "observed": "Input retrieval is mistranslated as input checks. The identical error is already present in the supplied Japanese example."
+    },
+    {
+      "area": "Contract / operation",
+      "status": "PASS",
+      "observed": "Owner identity is omitted from owner-approved scope; no completed approval or certification is claimed."
+    }
+  ],
+  "finding": {
+    "id": "V61-SEM-01",
+    "source_file": "PRODUCTION_PLAN.md",
+    "source_line": 15,
+    "source_text": "mandatory output checks and input retrieval added",
+    "output_text": "実資料の入力・出力検査を追加",
+    "expected_meaning": "必須の出力検査と入力取得を追加",
+    "origin": "provided Japanese example in request.txt and SUMMARY_EXAMPLES; not independently invented by the model",
+    "affected_artifacts": 10,
+    "completed_reviews_missing_this_finding": 9,
+    "independent_defect_patterns": 1,
+    "generalized_reviewer_miss_rate": null
+  },
+  "accepted_runs": 0,
+  "production_ready": false,
+  "l3_achieved": false,
+  "new_local_model_calls": 0,
+  "recipient_check": {
+    "status": "NOT_APPLICABLE",
+    "reason": "No recipient/address or external sending action in this workflow."
+  },
+  "due_date_check": {
+    "status": "NOT_APPLICABLE",
+    "reason": "No due-date requirement or generated due date in this workflow."
+  },
+  "human_customer_acceptance": {
+    "status": "BLOCKED",
+    "reason": "No human/customer acceptance supplied; AI review does not replace it."
+  },
+  "raw_record_policy": "Original drafts, attempts, run state, status and independent-check remain unchanged. This sidecar supersedes only the pending post-hoc review statement, not historical run states.",
+  "limitations": [
+    "Ten byte-identical artifacts, one semantic defect pattern; no general accuracy or miss-rate estimate.",
+    "Summary was fixed and all Japanese row examples were supplied; no independent unseen-source summarization demonstrated.",
+    "One run was interrupted before review; no ten-run complete acceptance.",
+    "Fix changes the harness guidance/example only; fresh local-model validation must use a new fixed series.",
+    "Fingerprint model/config fields are historical records, not revalidated by this post-hoc review."
+  ],
+  "artifacts": [
+    {
+      "file": "01-run_1a0d74b88812173eb2c-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "file": "02-run_1a0d75ddace1988d982-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "file": "03-run_1a0d77196dd990d0e40-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "file": "04-run_1a0d785331095d66cff-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "file": "05-run_1a0d798fd5dd55eaa3c-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "file": "06-run_1a0d7aca77c5df584b4-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "file": "07-run_1a0d7c02228829da9b0-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "file": "08-run_1a0d7d39591b0d06e9d-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "file": "09-run_1a0d7e704e853489130-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    },
+    {
+      "file": "10-run_1a0d7fa5c477a10c8e8-draft-r1.json",
+      "sha256": "96995974d640d8c0ce6e589802db0bc8a22d19489876b9ae0e2695cc75ddc632",
+      "bytes": 5137
+    }
+  ]
+}

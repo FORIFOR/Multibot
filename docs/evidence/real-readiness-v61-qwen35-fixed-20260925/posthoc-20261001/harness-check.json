@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "method": "runpy loads actual production_workflow.py; source_rows, build_workflow_goal and delivery_schema use retained source. Assert corrected input-retrieval wording in both request and schema repair example, and absence of old input-check wording.",
+  "command_interpreter": "Python from the existing backend virtual environment",
+  "example_characters": 63,
+  "model_calls": 0,
+  "is_business_quality_acceptance": false
+}
