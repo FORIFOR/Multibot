@@ -26,5 +26,6 @@
   "oidc-report-boundary-provenance.json": "1cddbe69cba6ad21ceaf58b4197a79f8130a6b65bb7b8b102483014ff8087916",
   "oidc-report-boundary-report.json": "e487f1f4bc31f37d468211187637fcd81418fb91afb185229703da44395a179d",
   "oidc-report-boundary-run.json": "019324021b82c272ff9acf0589cd9afb8fec76abfa449ba73e115bd3bf82474b",
-  "report-boundary-ci-cancelled.json": "a68ebcdb44799019844b26981fcfb9a44d11a6be34d5459706cc7a9531f1e1d1"
+  "report-boundary-ci-cancelled.json": "a68ebcdb44799019844b26981fcfb9a44d11a6be34d5459706cc7a9531f1e1d1",
+  "bounded-download-ci-failure.json": "61d64b8ef075bc0c403d464f4ba3b36c560537a4a71e51e13509f422d009341f"
 }

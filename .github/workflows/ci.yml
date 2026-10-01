@@ -55,7 +55,7 @@ jobs:
   public-service:
     # Actual issued credentials, repository documents, HTTP, SQLite and Chrome.
     # Saved capability evidence is a prerequisite record only; no LLM executes.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -70,6 +70,9 @@ jobs:
       - name: Install browser verification dependencies with bounded downloads
         timeout-minutes: 4
         run: |
+          # The runner mirror exceeded setup deadlines on the 61 MB CJK font package.
+          # Use Ubuntu's archive; APT's signed indexes and package hashes still apply.
+          sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu#https://archive.ubuntu.com/ubuntu#g' /etc/apt/apt-mirrors.txt
           sudo apt-get -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 -o Acquire::Retries=2 update -qq
           sudo apt-get -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 -o Acquire::Retries=2 install -y sqlite3 fonts-noto-cjk fonts-noto-color-emoji
       - name: Validate exact bundled UI before browser checks

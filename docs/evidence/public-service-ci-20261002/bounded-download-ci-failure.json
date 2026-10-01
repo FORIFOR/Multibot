@@ -1,0 +1,45 @@
+{
+  "databaseId": 36900859459,
+  "headSha": "ad64058c30b30417c18e424e9efa790cf76750e9",
+  "status": "completed",
+  "conclusion": "failure",
+  "url": "https://github.com/FORIFOR/Multibot/actions/runs/36900859459",
+  "jobs": [
+    {
+      "name": "frontend",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-01T17:38:31Z",
+      "completedAt": "2026-10-01T17:38:45Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36900859459/job/110499363442"
+    },
+    {
+      "name": "dependency-audit",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-01T17:38:29Z",
+      "completedAt": "2026-10-01T17:38:47Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36900859459/job/110499363924"
+    },
+    {
+      "name": "public-service",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-10-01T17:38:28Z",
+      "completedAt": "2026-10-01T17:43:01Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36900859459/job/110499363991"
+    },
+    {
+      "name": "backend",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-01T17:38:28Z",
+      "completedAt": "2026-10-01T17:38:40Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36900859459/job/110499364025"
+    }
+  ],
+  "public_service_verification": "not_started",
+  "observation": "The bounded setup step still did not complete the 61.2 MB fonts-noto-cjk download from azure.archive.ubuntu.com before its four-minute limit. This does not establish the underlying network cause.",
+  "model_execution": false,
+  "private_log_sha256": "e5517bf49d779e06bd37d778e734add870dd462a21bc2fb5f0944cb3c2484a81"
+}
