@@ -167,8 +167,14 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
               <div className="request-materials-heading"><h2 id="request-materials-title">{en ? 'Add your material' : '資料を添える'}</h2><span>{en ? 'Optional' : '必要なときに'}</span></div>
               <p>{en ? 'Attach the source you want the team to use, or paste it below.' : 'チームに読んでほしい資料を選ぶか、本文を貼り付けてください。'}</p>
               <div className="request-materials-inputs"><div className="attachment-picker">
-                <label className="attachment-label" htmlFor="run-attachments">{t('依頼に含める資料')} <span className="muted">{t('txt / md / csv、1ファイル512KBまで')}</span></label>
-                <input id="run-attachments" className="input" type="file" accept=".txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv" multiple disabled={busy || readOnly} onChange={onFiles} />
+                <div className="attachment-add-row">
+                  <label className="attachment-add" htmlFor="run-attachments">
+                    <input id="run-attachments" className="attachment-native" type="file" accept=".txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv" multiple disabled={busy || readOnly} onChange={onFiles} aria-describedby="attachment-help attachment-status" />
+                    <span aria-hidden="true">＋</span><span>{en ? 'Add files' : '資料を追加'}</span>
+                  </label>
+                  <span id="attachment-help">{t('txt / md / csv、1ファイル512KBまで')}</span>
+                </div>
+                <p id="attachment-status" className="attachment-status" role="status">{files.length > 0 ? (en ? `Attached to this request · ${files.length} ${files.length === 1 ? 'file' : 'files'}` : `依頼に添付済み · ${files.length}件`) : (en ? 'No files attached yet' : 'まだ資料は添付されていません')}</p>
                 {files.length > 0 && <div className="attachment-list" aria-label={t('添付済み資料')}>
                   {files.map(file => <div className="attachment-item" key={file.name}>
                     <span className="mono">{file.name}</span><span className="muted small">{file.content.length.toLocaleString()} {t('文字')}</span>

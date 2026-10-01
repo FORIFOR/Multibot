@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "scope": "Independent two-batch run; not combined with implementer 20-batch result",
+  "checks": {
+    "implementation_sha256_unchanged": true,
+    "source_sha256_unchanged": true,
+    "http_full_run_model_matches_source": true,
+    "http_all_events_match_source": true,
+    "http_no_jobs_admissions_receipts": true,
+    "http_new_model_events_zero": true,
+    "each_http_terminal_audit_exact": true,
+    "direct_full_run_model_matches_source": true,
+    "direct_all_events_match_source": true,
+    "direct_no_jobs_admissions_receipts": true,
+    "direct_new_model_events_zero": true,
+    "artifact_bytes_match_original": true,
+    "direct_audit_insert_count": true,
+    "http48_direct64": true,
+    "runtime_log_error_zero": true,
+    "owned_port_closed": true,
+    "service_stopped": true,
+    "safe_report_issued_key_matches_zero": true,
+    "safe_report_no_jwt_or_raw_error": true
+  },
+  "counts": {
+    "http": {
+      "runs": 3,
+      "events": 232,
+      "execution_jobs": 0,
+      "subject_admissions": 0,
+      "request_receipts": 0,
+      "audit_log": 98,
+      "model_events": 75
+    },
+    "direct": {
+      "runs": 3,
+      "events": 232,
+      "execution_jobs": 0,
+      "subject_admissions": 0,
+      "request_receipts": 0,
+      "audit_log": 114,
+      "model_events": 75
+    }
+  },
+  "source_file_count": 14,
+  "source_model_event_count": 75,
+  "artifact_count": 5,
+  "implementation_sha256": {
+    "backend/agentteam/store/db.py": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+    "backend/agentteam/store/job_store.py": "b1d709a9da46a872a3c0e291c1cc732773e1701176399c7af9791ab4d85d8497",
+    "backend/agentteam/store/usage_store.py": "83dc934e86dafb43a5b457d9fc0d745170d44e44b4dfc37d1ad1cd9b6095e24b",
+    "backend/agentteam/security/server.py": "29e30b467789a9eccc7cb17417b20b520827e30be364b7e68b5e839ccb76fc0a",
+    "backend/scripts/check_database_concurrency.py": "9af4df8e75307c4c74db3c781715757dba3457783074d10dba84b17cb44a949d"
+  },
+  "safe_report_sha256": "6364197951d97c25011bfabb38d324ebbf6ebf7e775688803743d0ce5b0b7be7",
+  "model_execution": false,
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false,
+  "limit": "Ordinary operations only; cancellation completeness and identity with earlier HTTP stderr cause are not established."
+}

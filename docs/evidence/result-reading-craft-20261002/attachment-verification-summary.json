@@ -1,0 +1,64 @@
+{
+  "created_at": "2026-10-01T19:38:19.525356+00:00",
+  "overall": "PARTIAL_VERIFICATION",
+  "original_round_status": "FAILED",
+  "original_report_preserved": true,
+  "completed_checks": {
+    "label_opens_real_input_and_source_read_exactly": true,
+    "keyboard_same_file_reselect_no_duplicate": true,
+    "reload_keeps_draft_and_marks_attached": true,
+    "language_preserves_source_and_localizes_status": true,
+    "remove_and_reload_does_not_resurrect_file": true,
+    "real_browser_200_percent": true
+  },
+  "unverified": {
+    "native_chooser_cancel": {
+      "status": "NOT_EXECUTED",
+      "reason": "CUA resolved existing Chrome profile-picker process, not owned headed Chrome; no action taken on unrelated Chrome; real cancel wait reached 240 second timeout",
+      "actual_error_name": "TimeoutError",
+      "synthetic_cancel_or_empty_selection_not_used": true
+    }
+  },
+  "db_after_readonly": {
+    "runs": 0,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "db_unchanged": true,
+  "source_sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+  "cleanup": [
+    {
+      "program": "browser.mjs",
+      "tracked_processes": 30,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "listeners_closed": [
+    true,
+    true
+  ],
+  "private_bundle_hashes_unchanged": true,
+  "home_source_unchanged": true,
+  "paper_css_changed_by_concurrent_workroom_and_worklist_edits": true,
+  "delivery_bundle_was_private_copy": true,
+  "public_json_key_value_scan_pass": true,
+  "build": "PASS",
+  "oxlint": {
+    "exit_code": 0,
+    "warnings": "2 pre-existing react(set-state-in-effect) warnings in Home.tsx:69,71"
+  },
+  "axe": [],
+  "native_zoom": {
+    "innerWidth": 720,
+    "outerWidth": 1440,
+    "dpr": 2,
+    "scrollWidth": 720,
+    "bodyZoom": "1",
+    "rootZoom": "1"
+  },
+  "human_acceptance": false,
+  "general_business_quality_acceptance": false,
+  "public_capture_prepared_not_executed": "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/run_capture.py"
+}

@@ -60,3 +60,7 @@ CIは実HTTP/SQLite/Chromeの既存jobに公開ページ生成整合と実ブラ
 - 完成例なし実資料業務の10回、公開先/TLS/実IdP自己登録、費用と運用責任、負荷・復旧・独立セキュリティ審査は別途未達。AIによる独立レビューを人間受入と呼ばない。
 
 private原保存先: `~/.cache/agentteam-bench/award-craft-20261002` と `~/.cache/agentteam-bench/app-first-request-craft-20261002`。失敗・不適切な計測・途中画像も原保存先に保持する。ここへは名前を指定した公開可能な証拠だけをコピーする。
+
+## 続く反復
+
+同日の[資料追加・読む・確認・採用・保存](../result-reading-craft-20261002/README.md)でアプリを更新し、公開サイトの4画像も新しい実キャプチャへ差し替えた。このディレクトリの原画像とmanifestは当時の証拠として保持し、最新の公開画像hashは次の反復のmanifestを参照する。

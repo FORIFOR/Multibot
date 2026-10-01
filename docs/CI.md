@@ -10,6 +10,7 @@
 - Pythonの静的確認、フロントエンドbuild/lint、配布済みUIとビルドの一致。
 - 保存した実v62の1回目/6回目を別SQLiteへ再構成し、文書経路の最終報告で追加モデル呼出・追加解釈がなく、元の状態と成果物が変わらないことの回帰確認。完全な過去runtime再現や新たな業務品質評価ではない。
 - `backend/scripts/check_public_service.py` による実HTTP・SQLiteの受付上限/再送/応答権限境界、実Chromeでのログイン・別タブ・下書き破棄・通信切断・並行ログイン。
+- `backend/scripts/check_database_concurrency.py` による実資料・実APIの並行読取と監査保存。共有接続の読取cursorと別接続の利用枠transactionが重なる競合を、実SQLiteと実HTTPで確認する。負荷容量や可用性の受入ではない。
 
 入力はこのリポジトリの資料と実資料からの保存済みv18/v61記録。実際に鍵を発行し、loopbackでAPIを起動する。受付/応答/ブラウザーでDBを分離する。新規要求は `start:false`、キュー直接検証はサービス停止中に行い再起動前に取り消す。LLMを起動せず、応答を代替しない。保存された過去のprobeは受付の前提記録としてのみ用い、CI上のモデル疎通を確認したとは扱わない。
 

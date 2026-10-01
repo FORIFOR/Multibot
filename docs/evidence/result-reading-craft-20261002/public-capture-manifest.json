@@ -1,0 +1,84 @@
+{
+  "created_at": "2026-10-01T19:43:44.485148+00:00",
+  "revision": "01b11f0bacd5a5a1c37af5ebd9cf724b3fe6efff",
+  "source_diff_sha256": "a08b7c6f9865e99270cb077f9c2d1e9fbf5b2e5e140f5ee64a8472c8052b86c4",
+  "source_and_private_bundle_manifest": "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/combined-final-r2/report.json",
+  "all_source_hashes_unchanged": true,
+  "images": [
+    {
+      "filename": "award-request-ja.png",
+      "prior_sha256": "033fef2e1cbeb1d21d4e63eb235132189fa41b6d1345c3705f0e6b40b908ad4b",
+      "prior_preserved_path": "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/prior-public-images/award-request-ja.png",
+      "captured_sha256": "9cc5eb013d270829e4dc1662ca87ca204db568d7c220047db26aca62be43f9b2",
+      "published_candidate_sha256": "9cc5eb013d270829e4dc1662ca87ca204db568d7c220047db26aca62be43f9b2",
+      "dimensions": "1440x900",
+      "caption": "Actual app, repository material attached, request not submitted; mobile scrolled to request inputs and submit action"
+    },
+    {
+      "filename": "award-request-en.png",
+      "prior_sha256": "f5809c355b0e6d7d231778469b6bd1c2a7d028fbc2c42295c30e92b3abf1a5ed",
+      "prior_preserved_path": "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/prior-public-images/award-request-en.png",
+      "captured_sha256": "bd74d15109d5211737169691052f4a3db95078e505e0a445adf86798acd83c73",
+      "published_candidate_sha256": "bd74d15109d5211737169691052f4a3db95078e505e0a445adf86798acd83c73",
+      "dimensions": "1440x900",
+      "caption": "Actual app, repository material attached, request not submitted; mobile scrolled to request inputs and submit action"
+    },
+    {
+      "filename": "award-request-mobile-ja.png",
+      "prior_sha256": "a1a608dc561d202fc8b8639676e0e6d31ccf70bb65f01a6bb2ad03ee960146e1",
+      "prior_preserved_path": "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/prior-public-images/award-request-mobile-ja.png",
+      "captured_sha256": "76235917751bddc12a45b5dd98618f3241381849b53a4c14a71b179acecdc9d8",
+      "published_candidate_sha256": "76235917751bddc12a45b5dd98618f3241381849b53a4c14a71b179acecdc9d8",
+      "dimensions": "390x844",
+      "caption": "Actual app, repository material attached, request not submitted; mobile scrolled to request inputs and submit action"
+    },
+    {
+      "filename": "award-request-mobile-en.png",
+      "prior_sha256": "89301ddafa07cc34670d5a88e09f13f4dc8e5f2e9e22ed4384845a708734241a",
+      "prior_preserved_path": "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/prior-public-images/award-request-mobile-en.png",
+      "captured_sha256": "b6a8b039ed09c644c18b44db497e73df4dd7ed87235a9636a3d8c21f52ac68b6",
+      "published_candidate_sha256": "b6a8b039ed09c644c18b44db497e73df4dd7ed87235a9636a3d8c21f52ac68b6",
+      "dimensions": "390x844",
+      "caption": "Actual app, repository material attached, request not submitted; mobile scrolled to request inputs and submit action"
+    }
+  ],
+  "safe_review": {
+    "exact_key_bytes_absent_from_png_and_safe_json": true,
+    "pixel_review": "All four images inspected by implementation author; show technical operator, repository source, loopback destination and estimated limit; no visible credential/token or customer personal data",
+    "image_byte_scan_limit": "Compressed PNG byte scan is not OCR; pixel review used in addition"
+  },
+  "actual_db_counts": {
+    "runs": 0,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "cleanup": [
+    {
+      "program": "capture.mjs",
+      "tracked_processes": 11,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "listeners_closed": [
+    true,
+    true
+  ],
+  "static_script_review": {
+    "status": "NO_DEPENDENCY_ON_REMOVED_CLASS_OR_LABEL_FOUND",
+    "checked": "frontend/scripts and backend/scripts/check_public_service.py; all native file references retain #run-attachments and .attachment-item",
+    "six_stage_specific": {
+      "auth-browser-isolation.mjs": "line48 #run-attachments.setInputFiles unchanged id",
+      "auth-peer-tab-close.mjs": "line60 #run-attachments.setInputFiles unchanged id",
+      "auth-retry-reload.mjs": "no removed picker class/name selector",
+      "auth-parallel-login.mjs": "no removed picker class/name selector",
+      "backend_http_admission_and_response_replay": "no DOM selector dependency"
+    },
+    "limits": "Static compatibility review only; final combined six-stage runtime verification owned by root. Legacy sample-data demos not executed."
+  },
+  "source_material_sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+  "unverified_native_cancel_retained_in": "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/verification-summary.json",
+  "human_acceptance": false,
+  "general_business_quality_acceptance": false
+}

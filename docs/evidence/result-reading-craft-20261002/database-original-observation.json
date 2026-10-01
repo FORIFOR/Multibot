@@ -1,0 +1,30 @@
+{
+  "status": "UNRESOLVED",
+  "recorded_at": "2026-10-01T19:49:48.714549+00:00",
+  "evidence_type": "actual server stderr observed during tool session termination; excerpt only",
+  "tool_session_id": 71722,
+  "tool_chunk_id": "589469",
+  "source_output_reported_lines": 181,
+  "source_output_reported_tokens": 4432,
+  "captured_tool_output_max_tokens": 1000,
+  "full_raw_stderr_saved": false,
+  "limitation": "The service used the terminal pipe without a dedicated log file. The result was already truncated by write_stdin; full original output and exception timestamps are unavailable. This file is an explicitly shortened transcription, not a full raw log.",
+  "server_lifetime_utc": {
+    "start": "2026-10-01T19:39:53.650418+00:00",
+    "end": "2026-10-01T19:44:36.814230+00:00"
+  },
+  "audit_evidence": "../db-lock-audit-observation.json",
+  "finding": "GET /api/config authorized at 19:42:16.099526Z lacks response row; GET /api/usage ran 19:42:16.110044–19:42:16.140878Z, during native200 capture. Association is not proof of the exact failed request.",
+  "code_facts": [
+    "db.py:12–14: WAL, synchronous FULL, busy_timeout 5000",
+    "db.py:199: single aiosqlite connection, isolation_level=None",
+    "server.py:136,189: authorize audit inserts using shared Database.execute",
+    "usage_store.py:39–43: GET summary calls transaction and prune before SELECT",
+    "job_store.py:28–37: transaction opens separate connection, BEGIN IMMEDIATE/commit",
+    "orchestrator.py:80–94: empty durable queue only polls pending; no jobs were imported"
+  ],
+  "hypothesis": "Overlapping shared read cursors/audit INSERT and separate usage writer may cause immediate SQLite BUSY. No root-cause reproduction has yet been performed.",
+  "quality_assessment_statement": "Only mode=ro SELECT/PRAGMA, no explicit BEGIN/writes. No full HTTP response/error monitor, so cannot assert 500-free.",
+  "service_state": "stopped",
+  "original_v62_unchanged": true
+}

@@ -1,0 +1,17 @@
+{
+  "actor": "AI",
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false,
+  "run_id": "run_1a0f7fbead33cd46066",
+  "checks": [],
+  "shots": [],
+  "limitations": [
+    "Original v62 statements are unchanged and not re-evaluated as passed",
+    "All source artifacts have revision 1; multiple-version select not exercised",
+    "API actor_kind human labels authenticated user actions; actual operator is AI"
+  ],
+  "chrome": "154.0.8037.58",
+  "chrome_pid": 98814,
+  "status": "FAIL",
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ ''\n- 'result-record'\n"
+}
