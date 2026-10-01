@@ -203,11 +203,12 @@ class RunManager:
         return problems
 
     # ------------------------------------------------------------ create/start
-    async def create_run(self, goal: str, inputs: RunInputs | None = None, *, budget_usd: float | None = None,
-                         config: AgentTeamConfig | None = None) -> tuple[Run, list[dict[str, Any]]]:
-        cfg = config or self.config_getter()
+    def creation_config(self, inputs: RunInputs | None = None, *, budget_usd: float | None = None,
+                        config: AgentTeamConfig | None = None) -> tuple[AgentTeamConfig, list[dict[str, Any]]]:
+        # Freeze the configuration before admission awaits; configuration updates
+        # must not replace what was checked before the run is persisted.
+        cfg = (config or self.config_getter()).model_copy(deep=True)
         if budget_usd is not None:
-            cfg = cfg.model_copy(deep=True)
             cfg.limits.budget_usd = float(budget_usd)
         selection_problems = []
         if inputs is not None and inputs.selected_agent_ids is not None:
@@ -216,6 +217,13 @@ class RunManager:
                 cfg = choose_roster(cfg, inputs.selected_agent_ids)
             except ValueError as exc:
                 selection_problems.append({'code': 'team_selection', 'message': str(exc)})
+        return cfg, selection_problems
+
+    async def create_run(self, goal: str, inputs: RunInputs | None = None, *, budget_usd: float | None = None,
+                         config: AgentTeamConfig | None = None,
+                         resolved_config: tuple[AgentTeamConfig, list[dict[str, Any]]] | None = None) -> tuple[Run, list[dict[str, Any]]]:
+        cfg, selection_problems = (resolved_config if resolved_config is not None
+                                   else self.creation_config(inputs, budget_usd=budget_usd, config=config))
         problems = selection_problems + self.precheck(cfg)
         run = Run(run_id=new_id("run"), status=RunStatus.created, goal=goal.strip(), inputs=inputs or RunInputs(), created_at=now_iso(),
                   config_snapshot={"config_yaml": config_to_yaml(cfg)}, usage=Usage())
@@ -498,11 +506,7 @@ class RunManager:
         await self.submit(run_id, resume=True, receipt=receipt)
         return (await self.runs.get_run(run_id))  # type: ignore[return-value]
 
-    async def fork(self, run_id: str, *, overrides: dict[str, Any] | None = None, from_seq: int | None = None,
-                   keep_accepted: bool = True) -> Run:
-        src = await self.runs.get_run(run_id)
-        if src is None:
-            raise KeyError(run_id)
+    def fork_config(self, src: Run, overrides: dict[str, Any] | None = None) -> AgentTeamConfig:
         cfg = (load_config_text(src.config_snapshot["config_yaml"], allow_fake=bool(self.fake_adapters))
                if src.inputs.selected_agent_ids is not None else self.config_getter().model_copy(deep=True))
         if src.inputs.selected_agent_ids is not None:
@@ -520,6 +524,14 @@ class RunManager:
                 a.system_prompt_override = o["system_prompt_override"]
         if (overrides or {}).get("budget_usd"):
             cfg.limits.budget_usd = float(overrides["budget_usd"])
+        return cfg
+
+    async def fork(self, run_id: str, *, overrides: dict[str, Any] | None = None, from_seq: int | None = None,
+                   keep_accepted: bool = True, resolved_config: AgentTeamConfig | None = None) -> Run:
+        src = await self.runs.get_run(run_id)
+        if src is None:
+            raise KeyError(run_id)
+        cfg = resolved_config if resolved_config is not None else self.fork_config(src, overrides)
         problems = self.precheck(cfg)
         if problems:
             raise ValueError("; ".join(p["message"] for p in problems))

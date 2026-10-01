@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "method": "Independent read-only SQLite/source/hash/secret verification after actual runner",
+  "checks": {
+    "runner_all79_pass": true,
+    "http30_completed": true,
+    "code_hashes_unchanged": true,
+    "source_hashes_unchanged": true,
+    "original_run_fields_identical": true,
+    "original_event_prefixes_identical": true,
+    "original_artifact_bytes_identical": true,
+    "new_model_events_zero": true,
+    "no_pending_or_leased_jobs": true,
+    "all_actual_jobs_cancelled": true,
+    "logs_no_error": true,
+    "owned_port_closed": true,
+    "safe_report_no_issued_keys": true,
+    "safe_report_no_jwt_or_raw_traceback": true,
+    "gateway_new_model_events_zero": true
+  },
+  "http_request_count": 30,
+  "runner_check_count": 79,
+  "job_state_counts": {
+    "cancelled": 8
+  },
+  "original_model_event_count": 75,
+  "model_event_count": 75,
+  "original_event_count": 232,
+  "source_file_count": 14,
+  "implementation_file_count": 13,
+  "safe_report_sha256": "3c3bbb105c38e39ce53dfd26f8c82d5b3eba1432414b30003f72fe5b401d46de",
+  "implementation_sha256": {
+    "backend/agentteam/api/app.py": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+    "backend/agentteam/api/service.py": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+    "backend/agentteam/runtime/tool_capabilities.py": "a42b01c8e4700e6cca95c234264a445876d7f6d121302677b4b46836c5e4ee15",
+    "backend/agentteam/runtime/tools.py": "403a1eab90d928f85cc358425b41de7a107ca212845043581fbef1e64be9ad66",
+    "backend/agentteam/runtime/orchestrator.py": "5f8696a9c57ea6277774bd5b68229ebaa4ca5de7ef69b375bf235ef710b490ed",
+    "backend/agentteam/runtime/checks.py": "cc535751848aafb9d29de736f3e0d75aceb7da3c6872f47a6b929c766610177e",
+    "backend/agentteam/runtime/check_worker.py": "a761507ddb74ae18114657d274bd50f66c564ad9f76b6bef65834f6d1b0e6af2",
+    "backend/agentteam/runtime/sandbox.py": "201d945457279b7fbd2fc34894c19e414b52291090c48a4aedd3276b18f4d2d3",
+    "backend/agentteam/runtime/worker.py": "83e5415e8582d044d0399e66e490b485834b80609991f547d219b6b09abbb85b",
+    "backend/scripts/check_document_sandbox.py": "89b0c021afbb3e4f45f692086aba12ba14a6725376aa0cad5432767d012784ce",
+    "backend/scripts/check_message_handoff.py": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff",
+    "backend/scripts/check_database_concurrency.py": "9af4df8e75307c4c74db3c781715757dba3457783074d10dba84b17cb44a949d",
+    "backend/scripts/public_service_workflow.py": "85f659a85f8cc72824da4f5bdebea27bf1eeee030f6d351b2352bc64e27b20ca"
+  },
+  "model_execution": false,
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false,
+  "limits": [
+    "No inference was run. Queued technical verification jobs were actually cancelled, not omitted.",
+    "This does not demonstrate successful document generation or production acceptance.",
+    "Separate config-snapshot proof uses direct service/store operations; no deterministic HTTP race claim."
+  ],
+  "gateway_added_event_count": 10
+}

@@ -22,6 +22,7 @@ from .context import SessionContext
 from .policy import PolicyViolation
 from .review_targets import latest_task_refs, same_refs
 from .sandbox import run_command
+from .tool_capabilities import allowed_tools, is_document_reviewer
 from .webtools import FetchDenied, web_fetch, web_search
 
 PURPOSES = ["request", "question", "answer", "handoff", "finding", "decision"]
@@ -246,16 +247,12 @@ class ToolGateway:
 
     @property
     def document_reviewer(self) -> bool:
-        return self.rt.run.inputs.workflow == "document" and self.ctx.agent.role == "reviewer"
+        return is_document_reviewer(self.rt.run.inputs.workflow, self.ctx.agent.role)
 
     def allowed_tools(self) -> list[str]:
-        if not self.document_reviewer:
-            return self.ctx.tools
         # A document reviewer verifies immutable producer revisions. Corrections
         # must go through submit_review and the scheduler, not another writer.
-        read_review = {"read_skill", "read_input_file", "read_artifact", "list_artifacts", "run_check",
-                       "send_message", "read_messages", "read_events", "submit_review", "finish_task", "report_blocker"}
-        return [name for name in self.ctx.tools if name in read_review]
+        return allowed_tools(self.rt.run.inputs.workflow, self.ctx.agent.role, self.ctx.tools)
 
     def specs(self) -> list[ToolSpec]:
         from ..config.voice import conversation_voice, message_delivery_hint

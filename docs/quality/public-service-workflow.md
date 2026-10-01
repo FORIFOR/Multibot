@@ -8,7 +8,7 @@
 - 出力は日本語 `guide.md`、指定3見出し、400〜700 Unicode文字（空白・改行・Markdown込み）。入力は実資料と依頼だけです。schemaはstring型と文字数だけで、完成文、`const`、過去成果物、`x-repair-summary-examples` は渡しません。
 - 元導入ガイド比較の480秒／30モデル呼出／1800出力token、1 worker、replan 0を使用します。Ollamaは既存の `127.0.0.1:11434/v1` のみ、fallbackなしです。過去の実成功probeの記録を再利用しますが、その記録が現在の能力を再証明したとは扱いません。probe APIは呼びません。
 - document経路の最終実行報告は、成果物・レビュー対象版・実行状態の記録だけから生成します。v62で確認された、レビュー後の追加LLM要約が原資料にない主張を加える経路を除きました。依頼した文書の生成とモデルレビューは継続します。この変更も新固定系列の条件であり、旧系列との同一条件比較や業務品質改善の実証とは扱いません。
-- Web検索ツール・sandbox shellは提供しません。builderにはcommandを実行できる `run_check` も提供しません。reviewerの `run_check` はdocument workflowの既存gatewayでcommandを拒否します。現行secure admissionはreviewerの `run_check` にもDocker条件を課すため、本実行には既存Docker隔離の準備が必要です。
+- Web検索ツール・sandbox shellは提供しません。builderにはcommandを実行できる `run_check` も提供しません。reviewerの `run_check` はdocument workflowのgatewayでcommandを拒否します。文書専用の実効権限を受付でも照合する変更後の新系列では、このファイル検査だけを理由にDockerを起動しません。他担当者やteam経路にコマンド権限があれば隔離は必要です。旧 `4fc43b4` 固定系列のDocker条件はそのまま保持し、設定や監督だけを差し替えて同じ系列で実行しません。
 - 受付試験は `start:false` で実runとreceiptを作成します。モデル呼出・成果物生成・実行待ちjobがないことを確認し、10回の生成試行には数えません。operatorの日次受付枠には計上されます。
 
 ## 準備と安全な受付試験

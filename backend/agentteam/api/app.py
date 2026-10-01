@@ -22,11 +22,12 @@ from pydantic import BaseModel, Field, ValidationError, field_validator
 from sse_starlette.sse import EventSourceResponse
 
 from .. import __version__
-from ..config.loader import ConfigError, PKG_ROOT, REPO_ROOT, config_to_yaml, effective_agent, list_skills
-from ..config.models import Connection
+from ..config.loader import ConfigError, PKG_ROOT, REPO_ROOT, config_to_yaml, effective_agent, list_skills, load_config_text
+from ..config.models import AgentTeamConfig, Connection
 from ..contracts import RunInputs, RunStatus
 from ..ids import new_id
 from ..projections.views import chat_view, timeline_view
+from ..runtime.tool_capabilities import requires_command_sandbox
 from ..providers.registry import ProviderRegistry
 from .service import AppService
 from .responses import config_response, event_response, run_response
@@ -198,17 +199,17 @@ def create_app(service: AppService | None = None) -> FastAPI:
         return {'ok': True}
 
     @app.get('/api/admin/ready')
-    async def readiness():
+    async def readiness(workflow: Literal['team', 'document'] = 'team'):
         from ..runtime.sandbox import backend_name
         await svc.db.fetchone('SELECT 1')
         free = shutil.disk_usage(svc.data_dir).free
         problems = svc.manager.precheck(svc.config)
-        needs_sandbox = any(a.enabled and set(a.tools) & {'sandbox_run', 'run_check'} for a in svc.config.agents)
+        needs_sandbox = requires_command_sandbox(svc.config, workflow)
         sandbox = await backend_name() if needs_sandbox else 'not_required'
         dispatcher_ready = not svc.manager.durable or (svc.manager._dispatcher is not None and not svc.manager._dispatcher.done())
         sandbox_ready = sandbox in ('docker', 'not_required') if svc.access.enabled else sandbox not in ('none', 'subprocess')
         ready = dispatcher_ready and not svc.stopping and free >= 500 * 1024 * 1024 and not problems and sandbox_ready
-        return JSONResponse({'ready': ready, 'disk_free_bytes': free, 'sandbox_backend': sandbox,
+        return JSONResponse({'ready': ready, 'workflow': workflow, 'disk_free_bytes': free, 'sandbox_backend': sandbox,
                              'audit_stream_id': svc.audit_stream_id,
                              'execution_dispatcher_ready': dispatcher_ready,
                              'configuration_problems': [p['code'] for p in problems]}, status_code=200 if ready else 503)
@@ -548,11 +549,14 @@ def create_app(service: AppService | None = None) -> FastAPI:
             receipt, prior = await _idempotency(request, body.model_dump())
             if prior is not None:
                 return prior
-            await _check_admission(require_execution=body.start)
-            if not svc.access.admin(request) and body.budget_usd and body.budget_usd > svc.config.limits.budget_usd:
+            organization_budget = svc.config.limits.budget_usd
+            resolved = svc.manager.creation_config(body.inputs, budget_usd=body.budget_usd)
+            cfg, _ = resolved
+            await _check_admission(cfg, body.inputs.workflow, require_execution=body.start)
+            if not svc.access.admin(request) and body.budget_usd and body.budget_usd > organization_budget:
                 raise HTTPException(403, 'budget exceeds organization limit')
             admission = await _reserve_subject(request, require_execution=body.start)
-            run, problems = await svc.manager.create_run(body.goal, body.inputs, budget_usd=body.budget_usd)
+            run, problems = await svc.manager.create_run(body.goal, body.inputs, resolved_config=resolved)
             await svc.usage.bind(admission, run.run_id)
             await svc.access.grant_creator(request, run.run_id)
             if problems:
@@ -568,7 +572,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 await svc.manager.jobs.save_receipt(run.run_id, _receipt(receipt, reply, 202))
             return _run_response(request, reply)
 
-    async def _check_admission(*, require_execution: bool = True):
+    async def _check_admission(cfg: AgentTeamConfig, workflow: str, *, require_execution: bool = True):
         if svc.stopping:
             raise HTTPException(503, 'server shutting down')
         if require_execution and svc.access.enabled:
@@ -579,7 +583,7 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 raise HTTPException(429, 'execution queue limit reached', headers={'Retry-After': '30'})
         if shutil.disk_usage(svc.data_dir).free < 500 * 1024 * 1024:
             raise HTTPException(503, 'insufficient storage space')
-        if require_execution and svc.access.enabled and any(a.enabled and set(a.tools) & {'sandbox_run', 'run_check'} for a in svc.config.agents):
+        if require_execution and svc.access.enabled and requires_command_sandbox(cfg, workflow):
             from ..runtime.sandbox import backend_name
             if await backend_name() != 'docker':
                 raise HTTPException(503, 'secured command tools require Docker isolation')
@@ -735,10 +739,11 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 receipt, prior = await _idempotency(request, {})
                 if prior is not None:
                     return prior
-                await _check_admission()
                 before = await svc.runs.get_run(run_id)
                 if before is None:
                     raise KeyError(run_id)
+                cfg = load_config_text(before.config_snapshot['config_yaml'], allow_fake=bool(svc.fake_adapters))
+                await _check_admission(cfg, before.inputs.workflow)
                 admission = await _reserve_subject(request)
                 await svc.usage.bind(admission, run_id)
                 reply = before.model_dump()
@@ -763,9 +768,24 @@ def create_app(service: AppService | None = None) -> FastAPI:
                 receipt, prior = await _idempotency(request, body.model_dump())
                 if prior is not None:
                     return prior
-                await _check_admission(require_execution=body.start)
+                src = await svc.runs.get_run(run_id)
+                if src is None:
+                    raise KeyError(run_id)
+                cfg = None
+                config_error = None
+                try:
+                    cfg = svc.manager.fork_config(src, body.overrides)
+                except (ValueError, TypeError, AttributeError) as error:
+                    # Preserve malformed-config/override errors at manager.fork,
+                    # after the existing admission reservation. Until then use
+                    # the prior conservative current-config command boundary.
+                    config_error = error
+                await _check_admission(cfg if cfg is not None else svc.config,
+                                       src.inputs.workflow if cfg is not None else 'team', require_execution=body.start)
                 admission = await _reserve_subject(request, require_execution=body.start)
-                new = await svc.manager.fork(run_id, overrides=body.overrides, from_seq=body.from_seq)
+                if config_error is not None:
+                    raise config_error
+                new = await svc.manager.fork(run_id, overrides=body.overrides, from_seq=body.from_seq, resolved_config=cfg)
                 await svc.usage.bind(admission, new.run_id)
                 await svc.access.grant_creator(request, new.run_id)
                 reply = new.model_dump()

@@ -1,0 +1,132 @@
+{
+  "status": "FAIL",
+  "started_at": "2026-10-01T20:44:28.609578+00:00",
+  "finished_at": "2026-10-01T20:44:28.920787+00:00",
+  "revision": "81f2ab4fc85b5983df8b8ace958c15f054a1f7e8",
+  "implementation_sha256": {
+    "backend/agentteam/api/app.py": "9fafcbc923c0d6b0c3d5352c852e1d05546aa497803075ddb57795352d35e6fa",
+    "backend/agentteam/api/service.py": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+    "backend/agentteam/runtime/tool_capabilities.py": "a42b01c8e4700e6cca95c234264a445876d7f6d121302677b4b46836c5e4ee15",
+    "backend/agentteam/runtime/tools.py": "403a1eab90d928f85cc358425b41de7a107ca212845043581fbef1e64be9ad66",
+    "backend/agentteam/runtime/orchestrator.py": "5f8696a9c57ea6277774bd5b68229ebaa4ca5de7ef69b375bf235ef710b490ed",
+    "backend/agentteam/runtime/checks.py": "cc535751848aafb9d29de736f3e0d75aceb7da3c6872f47a6b929c766610177e",
+    "backend/agentteam/runtime/check_worker.py": "a761507ddb74ae18114657d274bd50f66c564ad9f76b6bef65834f6d1b0e6af2",
+    "backend/agentteam/runtime/sandbox.py": "201d945457279b7fbd2fc34894c19e414b52291090c48a4aedd3276b18f4d2d3",
+    "backend/agentteam/runtime/worker.py": "83e5415e8582d044d0399e66e490b485834b80609991f547d219b6b09abbb85b",
+    "backend/scripts/check_document_sandbox.py": "0f3b7583d8e5959412253fd10e0d4ad35a72028e1ca0d4f642f3fa731ea4d530",
+    "backend/scripts/check_message_handoff.py": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff",
+    "backend/scripts/check_database_concurrency.py": "9af4df8e75307c4c74db3c781715757dba3457783074d10dba84b17cb44a949d",
+    "backend/scripts/public_service_workflow.py": "85f659a85f8cc72824da4f5bdebea27bf1eeee030f6d351b2352bc64e27b20ca"
+  },
+  "source_sha256": {
+    "evidence/01-run_1a0f7fbead33cd46066/run.json": "6712dfa6685d1a280b3f40f9ee05ab3e457cb29f130fb003bb793d7626d679c8",
+    "evidence/01-run_1a0f7fbead33cd46066/events.jsonl": "23f597b41d6fa5a7a526985af4a859bc38ee8528d59057e425b3f0768c81be13",
+    "evidence/01-run_1a0f7fbead33cd46066/artifacts.json": "1c4ebccf2050a48b22fd5b9127fcc4e5f01a421d48e662a9437b4925270389fc",
+    "evidence/01-run_1a0f7fbead33cd46066/artifact-000.bin": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+    "evidence/01-run_1a0f7fbead33cd46066/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "evidence/02-run_1a0f80632e5c1220524/run.json": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+    "evidence/02-run_1a0f80632e5c1220524/events.jsonl": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+    "evidence/02-run_1a0f80632e5c1220524/artifacts.json": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+    "evidence/02-run_1a0f80632e5c1220524/artifact-000.bin": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+    "evidence/02-run_1a0f80632e5c1220524/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "evidence/09-run_1a0f84e775a61f6bc86/run.json": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+    "evidence/09-run_1a0f84e775a61f6bc86/events.jsonl": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+    "evidence/09-run_1a0f84e775a61f6bc86/artifacts.json": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+    "evidence/09-run_1a0f84e775a61f6bc86/artifact-000.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+  },
+  "source_unchanged": true,
+  "python": "3.12.12 (main, Oct  9 2025, 11:07:00) [Clang 17.0.0 (clang-1700.6.3.2)]",
+  "sqlite": "3.53.4",
+  "config_sha256": {
+    "file_only": "e4828091c26d017674fb60f92cba207c900387d37b8216d9685452ad80c48a48",
+    "preserved_full": "b64fc97824e643770d55e20bd8fca58ab43168be6ed045f68dcbd7e096c3f42d"
+  },
+  "checks": [
+    {
+      "id": "actual_non_docker_backend",
+      "passed": true,
+      "backend": "sandbox-exec"
+    },
+    {
+      "id": "all_execution_slots_held",
+      "passed": true
+    },
+    {
+      "id": "admin_real_login",
+      "passed": true
+    },
+    {
+      "id": "operator_real_login",
+      "passed": true
+    },
+    {
+      "id": "ready_default_conservative",
+      "passed": true,
+      "http_status": 503
+    },
+    {
+      "id": "ready_document_file_only",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "id": "ready_not_required",
+      "passed": true
+    },
+    {
+      "id": "ready_unknown_workflow",
+      "passed": true,
+      "http_status": 422
+    },
+    {
+      "id": "create_document",
+      "passed": true,
+      "http_status": 202
+    },
+    {
+      "id": "create_document_queued_only",
+      "passed": true
+    }
+  ],
+  "queues": [],
+  "model_execution": false,
+  "model_event_delta": 0,
+  "job_state_counts": {
+    "cancelled": 1
+  },
+  "cleanup": {
+    "service_stopped": true,
+    "port_closed": true,
+    "pending_jobs": 0
+  },
+  "error_type": "AttributeError",
+  "cleanup_error_type": null,
+  "limits": [
+    "Actual v62 inputs/artifacts are reused; technical tool/role/workflow/selection/override variants are labelled boundary tests.",
+    "All real execution slots are held before requests; queued jobs are cancelled before release. No model, probe, CLI agent or VM execution.",
+    "Explicit seatbelt backend selection resolves to sandbox-exec on macOS or none elsewhere; require_container refuses both before shell creation.",
+    "JSON schema replay launches the fixed bounded check_worker on real recorded bytes; this is not shell/model execution.",
+    "TOCTOU checks use real config replacement between resolution and SQLite persistence; HTTP race timing is not claimed.",
+    "This verifies implementation boundaries, not completed inference, document semantic quality or human acceptance."
+  ],
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false,
+  "http_statuses": [
+    {
+      "id": "ready_default_conservative",
+      "status": 503
+    },
+    {
+      "id": "ready_document_file_only",
+      "status": 200
+    },
+    {
+      "id": "ready_unknown_workflow",
+      "status": 422
+    },
+    {
+      "id": "create_document",
+      "status": 202
+    }
+  ]
+}
