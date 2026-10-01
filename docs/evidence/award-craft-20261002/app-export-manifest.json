@@ -1,0 +1,34 @@
+{
+  "images": [
+    {
+      "source": "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r3/browser/award-request-ja.png",
+      "target": "docs/media/award-request-ja.png",
+      "sha256": "033fef2e1cbeb1d21d4e63eb235132189fa41b6d1345c3705f0e6b40b908ad4b",
+      "bytes": 152593,
+      "byte_identical": true
+    },
+    {
+      "source": "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r3/browser/award-request-en.png",
+      "target": "docs/media/award-request-en.png",
+      "sha256": "f5809c355b0e6d7d231778469b6bd1c2a7d028fbc2c42295c30e92b3abf1a5ed",
+      "bytes": 132790,
+      "byte_identical": true
+    },
+    {
+      "source": "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r3/browser/award-request-mobile-ja-action.png",
+      "target": "docs/media/award-request-mobile-ja.png",
+      "sha256": "a1a608dc561d202fc8b8639676e0e6d31ccf70bb65f01a6bb2ad03ee960146e1",
+      "bytes": 72589,
+      "byte_identical": true
+    },
+    {
+      "source": "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r3/browser/award-request-mobile-en-action.png",
+      "target": "docs/media/award-request-mobile-en.png",
+      "sha256": "89301ddafa07cc34670d5a88e09f13f4dc8e5f2e9e22ed4384845a708734241a",
+      "bytes": 65864,
+      "byte_identical": true
+    }
+  ],
+  "reviewer": "Independent AI quality_assessment; no blocking image findings",
+  "capture": "Unedited actual Chrome screenshots; no inference submitted"
+}

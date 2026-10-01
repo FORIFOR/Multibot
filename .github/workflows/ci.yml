@@ -79,6 +79,25 @@ jobs:
         run: diff -r frontend/dist backend/agentteam/ui
       - name: Verify actual service boundaries without model execution
         run: backend/.venv/bin/python backend/scripts/check_public_service.py --root /tmp/multibot-public-service
+      - name: Verify generated public pages and real browser behavior
+        run: |
+          python3 docs/site/build_site.py
+          git diff --exit-code -- docs/index.html docs/ja/index.html
+          python3 -m http.server 8897 --bind 127.0.0.1 --directory docs > /tmp/multibot-site-server.log 2>&1 &
+          site_pid=$!
+          trap 'kill "$site_pid" 2>/dev/null || true; wait "$site_pid" 2>/dev/null || true' EXIT
+          curl --fail --retry 10 --retry-connrefused --retry-delay 1 --silent http://127.0.0.1:8897/ > /dev/null
+          node frontend/scripts/site-quality-audit.mjs --url http://127.0.0.1:8897/ --out /tmp/multibot-site-quality
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-site-quality-evidence
+          retention-days: 7
+          path: |
+            /tmp/multibot-site-quality/*.json
+            /tmp/multibot-site-quality/*.png
+            /tmp/multibot-site-quality/runner-source.mjs
+          if-no-files-found: ignore
       - uses: actions/upload-artifact@v4
         if: always()
         with:

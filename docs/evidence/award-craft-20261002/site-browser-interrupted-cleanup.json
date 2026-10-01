@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-01T19:10:14.379357+00:00",
+  "owned_browser": {
+    "pid": 88673,
+    "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "profile": "/var/folders/qy/086ttpq57jsd36jnc1jffst00000gn/T/playwright_chromiumdev_profile-vFlrBB",
+    "started_at": "2026-10-01T19:09:40.404Z",
+    "exit_code": null,
+    "exit_signal": "SIGKILL",
+    "still_running": false,
+    "profile_removed": true
+  },
+  "members_of_owned_process_group": [],
+  "cleanup": [
+    {
+      "scope": "ja-normal-1440",
+      "label": "pending-response-drain",
+      "status": "PASS"
+    },
+    {
+      "scope": "ja-normal-1440",
+      "label": "context-close",
+      "status": "PASS"
+    },
+    {
+      "scope": "audit",
+      "label": "browser-connection-close",
+      "status": "PASS"
+    },
+    {
+      "scope": "audit",
+      "label": "owned-browser-server-close",
+      "status": "PASS"
+    }
+  ],
+  "exit_was_nonzero": true,
+  "acceptance_result": false
+}

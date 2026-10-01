@@ -1,0 +1,1322 @@
+{
+  "browser": "154.0.8037.58",
+  "scope": "Real HTTP and actual Chrome computed colors/pixels; no submission or model execution",
+  "formula": {
+    "srgb_linear": "c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; c=channel/255",
+    "luminance": "0.2126 R + 0.7152 G + 0.0722 B",
+    "contrast": "(max(Lfg,Lbg)+0.05)/(min(Lfg,Lbg)+0.05)",
+    "source": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+  },
+  "conditions": [
+    {
+      "name": "ja-normal",
+      "lang": "ja",
+      "width": 1440,
+      "height": 1000,
+      "scale": 1,
+      "method": "Normal real document",
+      "samples": [
+        {
+          "label": "proof-arrow",
+          "selector": ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]",
+          "screenshot": "contrast-ja-normal-proof-arrow.png",
+          "arrow": {
+            "element": "span",
+            "text": "↓",
+            "aria_hidden": "true",
+            "foreground": "rgb(255, 255, 255)",
+            "resolved_foreground_rgb": [
+              255,
+              255,
+              255
+            ],
+            "resolved_background_rgb": [
+              189,
+              65,
+              28
+            ],
+            "background_ancestors": [
+              {
+                "element": "span",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "a.btn",
+                "background": "rgb(189, 65, 28)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "div.cta",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "div.hero-copy",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "section.hero.wrap",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "main#main",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "body",
+                "background": "rgb(251, 249, 245)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "html",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              }
+            ],
+            "font_size": "14px",
+            "font_weight": "650",
+            "foreground_luminance": 1,
+            "background_luminance": 0.14683250766671493,
+            "contrast_ratio": 5.334484696897243,
+            "rect": {
+              "left": 267,
+              "right": 281,
+              "top": 711,
+              "bottom": 736.890625
+            }
+          },
+          "main_labels": [
+            {
+              "element": "a.btn",
+              "text": "実際の修正を見る",
+              "aria_hidden": null,
+              "foreground": "rgb(255, 255, 255)",
+              "resolved_foreground_rgb": [
+                255,
+                255,
+                255
+              ],
+              "resolved_background_rgb": [
+                189,
+                65,
+                28
+              ],
+              "background_ancestors": [
+                {
+                  "element": "a.btn",
+                  "background": "rgb(189, 65, 28)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.cta",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.hero-copy",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "section.hero.wrap",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "main#main",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "body",
+                  "background": "rgb(251, 249, 245)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "html",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                }
+              ],
+              "font_size": "14px",
+              "font_weight": "650",
+              "foreground_luminance": 1,
+              "background_luminance": 0.14683250766671493,
+              "contrast_ratio": 5.334484696897243,
+              "rect": {
+                "left": 100,
+                "right": 304,
+                "top": 697.953125,
+                "bottom": 749.953125
+              }
+            }
+          ]
+        },
+        {
+          "label": "footer-arrow",
+          "selector": ".hero-footer > span[aria-hidden=\"true\"]",
+          "screenshot": "contrast-ja-normal-footer-arrow.png",
+          "arrow": {
+            "element": "span",
+            "text": "↓",
+            "aria_hidden": "true",
+            "foreground": "rgb(101, 94, 84)",
+            "resolved_foreground_rgb": [
+              101,
+              94,
+              84
+            ],
+            "resolved_background_rgb": [
+              251,
+              249,
+              245
+            ],
+            "background_ancestors": [
+              {
+                "element": "span",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "div.hero-footer",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "section.hero.wrap",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "main#main",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "body",
+                "background": "rgb(251, 249, 245)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "html",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              }
+            ],
+            "font_size": "10px",
+            "font_weight": "400",
+            "foreground_luminance": 0.11412202066315914,
+            "background_luminance": 0.9485316540334325,
+            "contrast_ratio": 6.084080917348682,
+            "rect": {
+              "left": 1332.671875,
+              "right": 1340,
+              "top": 910.140625,
+              "bottom": 921.140625
+            }
+          },
+          "main_labels": [
+            {
+              "element": "span",
+              "text": "OPEN SOURCE · MIT",
+              "aria_hidden": null,
+              "foreground": "rgb(101, 94, 84)",
+              "resolved_foreground_rgb": [
+                101,
+                94,
+                84
+              ],
+              "resolved_background_rgb": [
+                251,
+                249,
+                245
+              ],
+              "background_ancestors": [
+                {
+                  "element": "span",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.hero-footer",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "section.hero.wrap",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "main#main",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "body",
+                  "background": "rgb(251, 249, 245)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "html",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                }
+              ],
+              "font_size": "10px",
+              "font_weight": "400",
+              "foreground_luminance": 0.11412202066315914,
+              "background_luminance": 0.9485316540334325,
+              "contrast_ratio": 6.084080917348682,
+              "rect": {
+                "left": 100,
+                "right": 224.453125,
+                "top": 910.140625,
+                "bottom": 921.140625
+              }
+            },
+            {
+              "element": "span",
+              "text": "FILES + REVIEWS + HISTORY",
+              "aria_hidden": null,
+              "foreground": "rgb(101, 94, 84)",
+              "resolved_foreground_rgb": [
+                101,
+                94,
+                84
+              ],
+              "resolved_background_rgb": [
+                251,
+                249,
+                245
+              ],
+              "background_ancestors": [
+                {
+                  "element": "span",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.hero-footer",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "section.hero.wrap",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "main#main",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "body",
+                  "background": "rgb(251, 249, 245)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "html",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                }
+              ],
+              "font_size": "10px",
+              "font_weight": "400",
+              "foreground_luminance": 0.11412202066315914,
+              "background_luminance": 0.9485316540334325,
+              "contrast_ratio": 6.084080917348682,
+              "rect": {
+                "left": 687.0625,
+                "right": 870.078125,
+                "top": 910.140625,
+                "bottom": 921.140625
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "en-normal",
+      "lang": "en",
+      "width": 1440,
+      "height": 1000,
+      "scale": 1,
+      "method": "Normal real document",
+      "samples": [
+        {
+          "label": "proof-arrow",
+          "selector": ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]",
+          "screenshot": "contrast-en-normal-proof-arrow.png",
+          "arrow": {
+            "element": "span",
+            "text": "↓",
+            "aria_hidden": "true",
+            "foreground": "rgb(255, 255, 255)",
+            "resolved_foreground_rgb": [
+              255,
+              255,
+              255
+            ],
+            "resolved_background_rgb": [
+              189,
+              65,
+              28
+            ],
+            "background_ancestors": [
+              {
+                "element": "span",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "a.btn",
+                "background": "rgb(189, 65, 28)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "div.cta",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "div.hero-copy",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "section.hero.wrap",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "main#main",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "body",
+                "background": "rgb(251, 249, 245)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "html",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              }
+            ],
+            "font_size": "14px",
+            "font_weight": "650",
+            "foreground_luminance": 1,
+            "background_luminance": 0.14683250766671493,
+            "contrast_ratio": 5.334484696897243,
+            "rect": {
+              "left": 322.65625,
+              "right": 336.65625,
+              "top": 742.1875,
+              "bottom": 768.078125
+            }
+          },
+          "main_labels": [
+            {
+              "element": "a.btn",
+              "text": "Explore a real revision",
+              "aria_hidden": null,
+              "foreground": "rgb(255, 255, 255)",
+              "resolved_foreground_rgb": [
+                255,
+                255,
+                255
+              ],
+              "resolved_background_rgb": [
+                189,
+                65,
+                28
+              ],
+              "background_ancestors": [
+                {
+                  "element": "a.btn",
+                  "background": "rgb(189, 65, 28)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.cta",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.hero-copy",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "section.hero.wrap",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "main#main",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "body",
+                  "background": "rgb(251, 249, 245)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "html",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                }
+              ],
+              "font_size": "14px",
+              "font_weight": "650",
+              "foreground_luminance": 1,
+              "background_luminance": 0.14683250766671493,
+              "contrast_ratio": 5.334484696897243,
+              "rect": {
+                "left": 100,
+                "right": 359.65625,
+                "top": 729.140625,
+                "bottom": 781.140625
+              }
+            }
+          ]
+        },
+        {
+          "label": "footer-arrow",
+          "selector": ".hero-footer > span[aria-hidden=\"true\"]",
+          "screenshot": "contrast-en-normal-footer-arrow.png",
+          "arrow": {
+            "element": "span",
+            "text": "↓",
+            "aria_hidden": "true",
+            "foreground": "rgb(101, 94, 84)",
+            "resolved_foreground_rgb": [
+              101,
+              94,
+              84
+            ],
+            "resolved_background_rgb": [
+              251,
+              249,
+              245
+            ],
+            "background_ancestors": [
+              {
+                "element": "span",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "div.hero-footer",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "section.hero.wrap",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "main#main",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "body",
+                "background": "rgb(251, 249, 245)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "html",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              }
+            ],
+            "font_size": "10px",
+            "font_weight": "400",
+            "foreground_luminance": 0.11412202066315914,
+            "background_luminance": 0.9485316540334325,
+            "contrast_ratio": 6.084080917348682,
+            "rect": {
+              "left": 1332.671875,
+              "right": 1340,
+              "top": 941.328125,
+              "bottom": 952.328125
+            }
+          },
+          "main_labels": [
+            {
+              "element": "span",
+              "text": "OPEN SOURCE · MIT",
+              "aria_hidden": null,
+              "foreground": "rgb(101, 94, 84)",
+              "resolved_foreground_rgb": [
+                101,
+                94,
+                84
+              ],
+              "resolved_background_rgb": [
+                251,
+                249,
+                245
+              ],
+              "background_ancestors": [
+                {
+                  "element": "span",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.hero-footer",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "section.hero.wrap",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "main#main",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "body",
+                  "background": "rgb(251, 249, 245)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "html",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                }
+              ],
+              "font_size": "10px",
+              "font_weight": "400",
+              "foreground_luminance": 0.11412202066315914,
+              "background_luminance": 0.9485316540334325,
+              "contrast_ratio": 6.084080917348682,
+              "rect": {
+                "left": 100,
+                "right": 224.453125,
+                "top": 941.328125,
+                "bottom": 952.328125
+              }
+            },
+            {
+              "element": "span",
+              "text": "FILES + REVIEWS + HISTORY",
+              "aria_hidden": null,
+              "foreground": "rgb(101, 94, 84)",
+              "resolved_foreground_rgb": [
+                101,
+                94,
+                84
+              ],
+              "resolved_background_rgb": [
+                251,
+                249,
+                245
+              ],
+              "background_ancestors": [
+                {
+                  "element": "span",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.hero-footer",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "section.hero.wrap",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "main#main",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "body",
+                  "background": "rgb(251, 249, 245)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "html",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                }
+              ],
+              "font_size": "10px",
+              "font_weight": "400",
+              "foreground_luminance": 0.11412202066315914,
+              "background_luminance": 0.9485316540334325,
+              "contrast_ratio": 6.084080917348682,
+              "rect": {
+                "left": 687.0625,
+                "right": 870.078125,
+                "top": 941.328125,
+                "bottom": 952.328125
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "en-text2",
+      "lang": "en",
+      "width": 720,
+      "height": 1000,
+      "scale": 2,
+      "method": "Same stress as site-round3 audit: precomputed font-size of every HTMLElement x2; 720 CSS-px viewport; not browser zoom",
+      "samples": [
+        {
+          "label": "proof-arrow",
+          "selector": ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]",
+          "screenshot": "contrast-en-text2-proof-arrow.png",
+          "arrow": {
+            "element": "span",
+            "text": "↓",
+            "aria_hidden": "true",
+            "foreground": "rgb(255, 255, 255)",
+            "resolved_foreground_rgb": [
+              255,
+              255,
+              255
+            ],
+            "resolved_background_rgb": [
+              189,
+              65,
+              28
+            ],
+            "background_ancestors": [
+              {
+                "element": "span",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "a.btn",
+                "background": "rgb(189, 65, 28)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "div.cta",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "div.hero-copy",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "section.hero.wrap",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "main#main",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "body",
+                "background": "rgb(251, 249, 245)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "html",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              }
+            ],
+            "font_size": "28px",
+            "font_weight": "650",
+            "foreground_luminance": 1,
+            "background_luminance": 0.14683250766671493,
+            "contrast_ratio": 5.334484696897243,
+            "rect": {
+              "left": 396.3125,
+              "right": 424.3125,
+              "top": 948.359375,
+              "bottom": 1000.15625
+            }
+          },
+          "main_labels": [
+            {
+              "element": "a.btn",
+              "text": "Explore a real revision",
+              "aria_hidden": null,
+              "foreground": "rgb(255, 255, 255)",
+              "resolved_foreground_rgb": [
+                255,
+                255,
+                255
+              ],
+              "resolved_background_rgb": [
+                189,
+                65,
+                28
+              ],
+              "background_ancestors": [
+                {
+                  "element": "a.btn",
+                  "background": "rgb(189, 65, 28)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.cta",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.hero-copy",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "section.hero.wrap",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "main#main",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "body",
+                  "background": "rgb(251, 249, 245)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "html",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                }
+              ],
+              "font_size": "28px",
+              "font_weight": "650",
+              "foreground_luminance": 1,
+              "background_luminance": 0.14683250766671493,
+              "contrast_ratio": 5.334484696897243,
+              "rect": {
+                "left": 20,
+                "right": 447.3125,
+                "top": 935.359375,
+                "bottom": 1013.15625
+              }
+            }
+          ]
+        },
+        {
+          "label": "footer-arrow",
+          "selector": ".hero-footer > span[aria-hidden=\"true\"]",
+          "screenshot": "contrast-en-text2-footer-arrow.png",
+          "arrow": {
+            "element": "span",
+            "text": "↓",
+            "aria_hidden": "true",
+            "foreground": "rgb(101, 94, 84)",
+            "resolved_foreground_rgb": [
+              101,
+              94,
+              84
+            ],
+            "resolved_background_rgb": [
+              251,
+              249,
+              245
+            ],
+            "background_ancestors": [
+              {
+                "element": "span",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "div.hero-footer",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "section.hero.wrap",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "main#main",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "body",
+                "background": "rgb(251, 249, 245)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              },
+              {
+                "element": "html",
+                "background": "rgba(0, 0, 0, 0)",
+                "background_image": "none",
+                "opacity": "1",
+                "filter": "none",
+                "mix_blend_mode": "normal"
+              }
+            ],
+            "font_size": "18px",
+            "font_weight": "400",
+            "foreground_luminance": 0.11412202066315914,
+            "background_luminance": 0.9485316540334325,
+            "contrast_ratio": 6.084080917348682,
+            "rect": {
+              "left": 686.8125,
+              "right": 700,
+              "top": 501.40625,
+              "bottom": 522.40625
+            }
+          },
+          "main_labels": [
+            {
+              "element": "span",
+              "text": "OPEN SOURCE · MIT",
+              "aria_hidden": null,
+              "foreground": "rgb(101, 94, 84)",
+              "resolved_foreground_rgb": [
+                101,
+                94,
+                84
+              ],
+              "resolved_background_rgb": [
+                251,
+                249,
+                245
+              ],
+              "background_ancestors": [
+                {
+                  "element": "span",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.hero-footer",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "section.hero.wrap",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "main#main",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "body",
+                  "background": "rgb(251, 249, 245)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "html",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                }
+              ],
+              "font_size": "18px",
+              "font_weight": "400",
+              "foreground_luminance": 0.11412202066315914,
+              "background_luminance": 0.9485316540334325,
+              "contrast_ratio": 6.084080917348682,
+              "rect": {
+                "left": 20,
+                "right": 244.015625,
+                "top": 501.40625,
+                "bottom": 522.40625
+              }
+            },
+            {
+              "element": "span",
+              "text": "FILES + REVIEWS + HISTORY",
+              "aria_hidden": null,
+              "foreground": "rgb(101, 94, 84)",
+              "resolved_foreground_rgb": [
+                101,
+                94,
+                84
+              ],
+              "resolved_background_rgb": [
+                251,
+                249,
+                245
+              ],
+              "background_ancestors": [
+                {
+                  "element": "span",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "div.hero-footer",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "section.hero.wrap",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "main#main",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "body",
+                  "background": "rgb(251, 249, 245)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                },
+                {
+                  "element": "html",
+                  "background": "rgba(0, 0, 0, 0)",
+                  "background_image": "none",
+                  "opacity": "1",
+                  "filter": "none",
+                  "mix_blend_mode": "normal"
+                }
+              ],
+              "font_size": "18px",
+              "font_weight": "400",
+              "foreground_luminance": 0.11412202066315914,
+              "background_luminance": 0.9485316540334325,
+              "contrast_ratio": 6.084080917348682,
+              "rect": {
+                "left": 323.203125,
+                "right": 607.640625,
+                "top": 501.40625,
+                "bottom": 522.40625
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finished_at": "2026-10-01T19:10:44.015Z",
+  "review": {
+    "screenshots_visually_inspected": 6,
+    "all_main_labels_above_4_5_to_1_unrounded": true,
+    "arrows_are_aria_hidden": true,
+    "full_wcag_conformance_claim": false,
+    "source_modified": false,
+    "model_execution": false,
+    "form_submission": false,
+    "browser_closed": true
+  }
+}

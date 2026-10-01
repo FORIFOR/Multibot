@@ -148,13 +148,13 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
       <Journey current="request" />
       <section className="hero">
         <div className="home-intro">
-          <h1>{en ? <>What shall we make{' '}<wbr />together?</> : <>今日は、何を<br />一緒につくろう？</>}</h1>
+          <h1>{en ? 'What shall we make together?' : <>今日は、何を<span className="home-phrase">一緒に</span>つくろう？</>}</h1>
           <p className="lede">{en ? 'Tell your team what you need. Attach your material to receive a file with its check record.' : 'やりたいことを教えてください。資料を添えて依頼すると、確認の記録が付いたファイルを受け取れます。'}</p>
         </div>
         <form className="ask" onSubmit={start}>
           {/* The coordinator is the one you talk to; the rest of the team stands behind it. */}
           <div className="home-companion">
-            {companion && <BotAvatar id={companion.id} role={companion.role} emoji={companion.emoji} name={companion.display_name || botName(companion.role, getLang())} state="idle" size="stage" />}
+            {companion && <BotAvatar id={companion.id} role={companion.role} emoji={companion.emoji} name={companion.display_name || botName(companion.role, getLang())} state="idle" size="card" />}
             <div className="home-team" role="group" aria-label={en ? 'Your team' : 'あなたのチーム'}>{teammates.filter(a => a.id !== companion?.id).map(a => <BotAvatar key={a.id} id={a.id} role={a.role} emoji={a.emoji} name={a.display_name || botName(a.role, getLang())} state="idle" />)}</div>
             <div className="companion-says">
               <strong className="companion-name">{companion?.display_name || botName(companion?.role || 'master', getLang())}<span>{roleLabel(companion?.role || 'master', getLang())}</span></strong>
@@ -166,7 +166,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
             <section className="request-materials" aria-labelledby="request-materials-title">
               <div className="request-materials-heading"><h2 id="request-materials-title">{en ? 'Add your material' : '資料を添える'}</h2><span>{en ? 'Optional' : '必要なときに'}</span></div>
               <p>{en ? 'Attach the source you want the team to use, or paste it below.' : 'チームに読んでほしい資料を選ぶか、本文を貼り付けてください。'}</p>
-              <div className="attachment-picker">
+              <div className="request-materials-inputs"><div className="attachment-picker">
                 <label className="attachment-label" htmlFor="run-attachments">{t('依頼に含める資料')} <span className="muted">{t('txt / md / csv、1ファイル512KBまで')}</span></label>
                 <input id="run-attachments" className="input" type="file" accept=".txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv" multiple disabled={busy || readOnly} onChange={onFiles} />
                 {files.length > 0 && <div className="attachment-list" aria-label={t('添付済み資料')}>
@@ -177,11 +177,16 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
                 </div>}
                 {fileError && <p className="err small" role="alert">{fileError}</p>}
               </div>
-              <label htmlFor="request-source">{en ? 'Or paste the source text' : '本文を貼り付ける'}</label>
+              <div className="request-source-field"><label htmlFor="request-source">{en ? 'Or paste the source text' : '本文を貼り付ける'}</label>
               <textarea id="request-source" className="input" rows={3} placeholder={en ? 'Paste the material to summarize, compare or review.' : '要約・比較・確認してほしい本文を貼り付けてください。'} value={text} onChange={e => setText(e.target.value)} disabled={busy || readOnly} />
+              </div></div>
             </section>
             <label className="ask-label" htmlFor="request-goal">{en ? 'What would you like to make?' : 'どんなものを作りますか？'}</label>
             <textarea id="request-goal" ref={goalRef} className="input" required placeholder={en ? 'For example: turn these notes into a clear comparison report.' : '例：この資料をもとに、分かりやすい比較レポートをつくって。'} value={goal} onChange={e => setGoal(e.target.value)} disabled={busy || readOnly} />
+            <div className="request-send-summary">
+              <span><strong>{en ? 'Send to' : '送信先'}</strong>{cfg?.execution_summary?.length ? [...new Set(cfg.execution_summary.map(item => `${item.destination} · ${item.model}`))].join(' / ') : (en ? 'Not confirmed yet' : 'まだ確認できていません')}</span>
+              {cfg && <span><strong>{en ? 'Estimated limit' : '見積り上限'}</strong>{money(budget && Number.isFinite(Number(budget)) && Number(budget)>0 ? Number(budget) : cfg.limits.budget_usd)}{en ? ' per request' : '／1回'}</span>}
+            </div>
             <div className="ask-foot">
               <details className="more">
                 <summary>{en ? 'Links and budget (optional)' : '参照URL・予算（任意）'}</summary>

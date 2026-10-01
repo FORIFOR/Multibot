@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-10-01T18:54:38.217825+00:00",
+  "checks": [
+    "recorded run detail projected; administrator snapshot and run authorization retained",
+    "SSE and native downloads reject changed browser principal before administrator projection",
+    "non-admin configuration allowlist keeps roster, model destination and request budget",
+    "real-document start=False creation and persisted receipt replay projected without inference",
+    "start=False fork and run list projected",
+    "recorded event API, SSE, JSONL and ZIP logs projected; administrator events unchanged",
+    "real preflight refusal keeps 409 with private administrator diagnostics",
+    "runtime snapshot preserved; no execution jobs or new model calls",
+    "actual-source v18 tool details withheld without rewriting source evidence"
+  ],
+  "transport": "real loopback HTTP with actual issued keys and SQLite",
+  "source_sha256": {
+    "docs/evidence/real-readiness-v18-qwen35-fixed-2026-09-15/01/run.json": "2b07e1b362406c0b380fdd61bf17abf5a513d8f3e7a06cc60bc328b7226baa6b",
+    "docs/evidence/real-readiness-v18-qwen35-fixed-2026-09-15/01/events.jsonl": "2086c59dbe265f0192bb90d3b6215975fda2e39feba361a47baf95e0423920d9",
+    "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9"
+  },
+  "model_inference": "none; saved actual records and start=False requests only",
+  "previous_evidence": "r3 is retained but excluded from acceptance evidence because it also used a legacy synthetic LP scenario.",
+  "limitations": [
+    "No successful resume was initiated because that starts model execution.",
+    "No concrete host-absolute-path case is verified by the selected actual-source tool events.",
+    "No hosted IdP, public TLS, business-quality or production acceptance is claimed."
+  ]
+}

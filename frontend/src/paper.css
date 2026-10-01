@@ -97,20 +97,61 @@ a{color:var(--ob-ink)}a:hover{color:var(--pp-accent)}
 @media(prefers-reduced-motion:reduce){.bot-shape-art{animation:none!important;transition:none}}
 @media(forced-colors:active){.bot-shape-art path{forced-color-adjust:none}}
 
-/* Source material is part of the request, not an administrator setting. */
-.request-materials{padding:20px 20px 16px;border-bottom:1px solid var(--ob-line-2);display:grid;gap:10px;min-width:0}
+/* First request: one working surface, with visible labels and real source material.
+   This is the Paper Home layout; the previous Obsidian layout remains for historical compatibility. */
+.simple-home .hero{gap:20px;margin:8px auto 0}
+.simple-home .home-intro{width:100%;justify-items:start;gap:10px;text-align:left}
+.simple-home .home-intro h1{font-size:clamp(26px,2.7vw,38px);line-height:1.35;letter-spacing:-.035em;text-wrap:balance}
+.home-phrase{white-space:nowrap}
+.simple-home .home-intro .lede{max-width:56em;margin:0;font-size:14px;line-height:1.8;text-align:left}
+.simple-home .home-companion{min-width:0;gap:14px;padding:0 6px;align-items:center}
+.simple-home .home-team:empty{display:none}
+.simple-home .companion-says{font-size:12.5px;line-height:1.7}
+.simple-home .companion-name{font-size:14px}
+.simple-home .companion-says p{display:block;margin:3px 0 0}
+.simple-home .companion-link{margin:0;min-height:32px;font-size:12px}
+.simple-home .ask-tray{padding:0;border:0;border-radius:16px;background:none}
+.simple-home .ask-field{border:1px solid var(--ob-line);border-radius:16px;box-shadow:0 2px 5px rgb(27 26 23 / 3%);overflow:hidden}
+.simple-home .ask-label{position:static;display:block;width:auto;height:auto;overflow:visible;clip:auto;white-space:normal;margin:0;padding:18px 20px 0;font:600 15px/1.7 var(--sans);color:var(--ob-ink)}
+.simple-home #request-goal{min-height:120px;max-height:50vh;padding:10px 20px 18px;border-radius:0;font-size:16px;line-height:1.75}
+.request-send-summary{display:flex;flex-wrap:wrap;gap:6px 20px;padding:0 20px 12px;color:var(--ob-ink-3);font-size:11px;line-height:1.7;overflow-wrap:anywhere}
+.request-send-summary>span:first-child{flex:1;min-width:min(100%,240px)}
+.request-send-summary strong{margin-right:8px;font-weight:500;color:var(--ob-ink-2)}
+.simple-home .ask-foot{padding:10px 12px;gap:8px}
+.simple-home .ask .ask-hint{margin:0;font-size:12px}
+.simple-home .runs-list{margin-top:40px}
+.request-materials{padding:18px 20px;border-bottom:1px solid var(--ob-line-2);display:grid;gap:8px;min-width:0;background:var(--ob-bg)}
 .request-materials-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px}
 .request-materials-heading h2{font:600 15px/1.6 var(--sans);color:var(--ob-ink)}
 .request-materials-heading span,.request-materials>p{font-size:12px;color:var(--ob-ink-3);margin:0;line-height:1.7}
-.request-materials>label{font-size:13px;font-weight:600;color:var(--ob-ink-2)}
-.request-materials .attachment-label{flex-wrap:wrap;line-height:1.7}
-.request-materials .attachment-picker{background:var(--ob-chrome);border-color:var(--ob-line);min-width:0}
+.request-materials-inputs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:4px;min-width:0}
+.request-source-field{display:grid;align-content:start;gap:8px;min-width:0}
+.request-source-field>label{font-size:13px;font-weight:600;color:var(--ob-ink-2);line-height:1.7}
+.request-materials .attachment-label{flex-wrap:wrap;gap:2px 6px;line-height:1.7;font-size:13px}
+.request-materials .attachment-label .muted{display:block;width:100%;font-size:11px}
+.request-materials .attachment-picker{padding:0;border:0;border-radius:0;background:none;min-width:0;gap:8px;align-content:start}
 .request-materials input[type=file]{min-width:0;max-width:100%;font-size:13px}
-.simple-home .ask .request-materials textarea{min-height:88px;box-shadow:none;border:1px solid var(--ob-line);background:var(--ob-bg);font-size:14px}
-.request-materials .attachment-item{flex-wrap:wrap;gap:4px 8px}
+.simple-home .ask .request-materials textarea{min-height:102px;box-shadow:none;border:1px solid var(--ob-line);background:#fff;font-size:14px;padding:10px 12px;line-height:1.7}
+.request-materials .attachment-item{flex-wrap:wrap;gap:4px 8px;padding:4px 8px;font-size:12px}
 .request-materials .attachment-item .mono{max-width:100%}
 .request-allowance{margin-top:12px;padding-top:12px;border-top:1px solid var(--ob-line-2);font-size:12px;color:var(--ob-ink-2);line-height:1.7}
 .request-allowance p{margin:0 0 4px}.request-allowance small{display:block;color:var(--ob-ink-3)}
 .request-allowance .btn,.setup-help .btn{margin-top:8px;min-height:40px;font-size:12px}
 .welcome-status li{overflow-wrap:anywhere}
-@media(max-width:600px){.request-materials{padding:16px 12px;gap:8px}.request-materials .attachment-label .muted{display:block;width:100%}}
+@media(max-width:1100px){.request-materials-inputs{grid-template-columns:minmax(0,1fr);gap:14px}}
+@media(max-width:600px){
+  .simple-home .hero{gap:16px;margin-top:0}
+  .simple-home .home-intro{gap:8px}
+  .simple-home .home-intro h1{font-size:26px;line-height:1.45}
+  .simple-home .home-intro .lede{font-size:13px;line-height:1.8}
+  .simple-home .home-companion{gap:12px;padding:0 4px;align-items:flex-start}
+  .simple-home .companion-says{min-width:0}
+  .simple-home .companion-link{display:inline-flex;max-width:100%;white-space:normal;line-height:1.6;padding:6px 0}
+  .request-materials{padding:16px 14px;gap:6px}
+  .request-materials-inputs{gap:12px;margin-top:6px}
+  .simple-home .ask .request-materials textarea{min-height:90px;font-size:16px}
+  .simple-home .ask-label{padding:16px 14px 0;font-size:14px}
+  .simple-home #request-goal{padding:10px 14px 16px;min-height:120px;max-height:50vh}
+  .request-send-summary{padding:0 14px 12px;gap:6px}
+  .simple-home .ask-foot{padding:10px;gap:8px}
+}
