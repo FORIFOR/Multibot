@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "owned_service_pid": 53839,
+  "pid_absent": true,
+  "listener_closed": true,
+  "port": 64048,
+  "owned_browser_remaining": 0,
+  "original_source49_and_db_sha256_unchanged": true,
+  "model_called_count": 222,
+  "execution_jobs": 0,
+  "artifact_adopted_events": 0,
+  "unrelated_services_touched": false
+}

@@ -1,0 +1,4256 @@
+{
+  "state": "OBSERVED",
+  "actor": "Independent AI reviewer; known application, not first-time human",
+  "started_at": "2026-10-01T23:33:56.809Z",
+  "cases": [
+    {
+      "id": "ja-320-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 320,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 107,
+          "top": 0,
+          "right": 320,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 288,
+          "height": 233.5,
+          "top": 157.375,
+          "right": 304,
+          "bottom": 390.875,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 56,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 86,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 288,
+          "height": 75.5,
+          "top": 255.375,
+          "right": 304,
+          "bottom": 330.875,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 338.875,
+          "width": 288,
+          "height": 44,
+          "top": 338.875,
+          "right": 304,
+          "bottom": 382.875,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 671.015625,
+          "width": 254,
+          "height": 590.796875,
+          "top": 671.015625,
+          "right": 287,
+          "bottom": 1261.8125,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 170.359375,
+              "y": 338.875,
+              "width": 133.640625,
+              "height": 44,
+              "top": 338.875,
+              "right": 304,
+              "bottom": 382.875,
+              "left": 170.359375
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "ja-320-rep3",
+        "sha256": "d9f5c8a1172c62effc02389e395acc2e81edf595b54810586fa5fbdce9e9fe3f"
+      }
+    },
+    {
+      "id": "ja-320-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 320,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 107,
+          "top": 0,
+          "right": 320,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 288,
+          "height": 234.25,
+          "top": 157.375,
+          "right": 304,
+          "bottom": 391.625,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 56,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 86,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 288,
+          "height": 26.25,
+          "top": 255.375,
+          "right": 304,
+          "bottom": 281.625,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 289.625,
+          "width": 288,
+          "height": 94,
+          "top": 289.625,
+          "right": 304,
+          "bottom": 383.625,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 732.765625,
+          "width": 254,
+          "height": 590.796875,
+          "top": 732.765625,
+          "right": 287,
+          "bottom": 1323.5625,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 194,
+              "y": 289.625,
+              "width": 110,
+              "height": 44,
+              "top": 289.625,
+              "right": 304,
+              "bottom": 333.625,
+              "left": 194
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 211,
+              "y": 576.5625,
+              "width": 76,
+              "height": 44,
+              "top": 576.5625,
+              "right": 287,
+              "bottom": 620.5625,
+              "left": 211
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 16,
+              "y": 339.625,
+              "width": 133.640625,
+              "height": 44,
+              "top": 339.625,
+              "right": 149.640625,
+              "bottom": 383.625,
+              "left": 16
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 17,
+              "y": 511.625,
+              "width": 286,
+              "height": 61,
+              "top": 511.625,
+              "right": 303,
+              "bottom": 572.625,
+              "left": 17
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-320-rep2",
+        "sha256": "d0cedc48ee88f0e171de4ab632145b2d01a67a29cf853f28ca047d78ff3e4a54"
+      }
+    },
+    {
+      "id": "ja-320-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 320,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 107,
+          "top": 0,
+          "right": 320,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 288,
+          "height": 234.25,
+          "top": 157.375,
+          "right": 304,
+          "bottom": 391.625,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 56,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 86,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 288,
+          "height": 26.25,
+          "top": 255.375,
+          "right": 304,
+          "bottom": 281.625,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 289.625,
+          "width": 288,
+          "height": 94,
+          "top": 289.625,
+          "right": 304,
+          "bottom": 383.625,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 732.765625,
+          "width": 254,
+          "height": 590.796875,
+          "top": 732.765625,
+          "right": 287,
+          "bottom": 1323.5625,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 194,
+              "y": 289.625,
+              "width": 110,
+              "height": 44,
+              "top": 289.625,
+              "right": 304,
+              "bottom": 333.625,
+              "left": 194
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 211,
+              "y": 576.5625,
+              "width": 76,
+              "height": 44,
+              "top": 576.5625,
+              "right": 287,
+              "bottom": 620.5625,
+              "left": 211
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 16,
+              "y": 339.625,
+              "width": 133.640625,
+              "height": 44,
+              "top": 339.625,
+              "right": 149.640625,
+              "bottom": 383.625,
+              "left": 16
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 17,
+              "y": 511.625,
+              "width": 286,
+              "height": 61,
+              "top": 511.625,
+              "right": 303,
+              "bottom": 572.625,
+              "left": 17
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-320-rep9",
+        "sha256": "034f0a816dd25fbe0d174bffb725fd080707c482dab654d35976afa05978effa"
+      }
+    },
+    {
+      "id": "ja-390-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 107,
+          "top": 0,
+          "right": 390,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 358,
+          "height": 209.875,
+          "top": 157.375,
+          "right": 374,
+          "bottom": 367.25,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 56,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 86,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 358,
+          "height": 51.875,
+          "top": 255.375,
+          "right": 374,
+          "bottom": 307.25,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 315.25,
+          "width": 358,
+          "height": 44,
+          "top": 315.25,
+          "right": 374,
+          "bottom": 359.25,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 647.390625,
+          "width": 324,
+          "height": 590.796875,
+          "top": 647.390625,
+          "right": 357,
+          "bottom": 1238.1875,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 240.359375,
+              "y": 315.25,
+              "width": 133.640625,
+              "height": 44,
+              "top": 315.25,
+              "right": 374,
+              "bottom": 359.25,
+              "left": 240.359375
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "ja-390-rep3",
+        "sha256": "05c50a74af6a8856d6291925bc41fb4210075d04c9d4ad4270ffd12df4bc1675"
+      }
+    },
+    {
+      "id": "ja-390-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 107,
+          "top": 0,
+          "right": 390,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 358,
+          "height": 184.25,
+          "top": 157.375,
+          "right": 374,
+          "bottom": 341.625,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 56,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 86,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 358,
+          "height": 26.25,
+          "top": 255.375,
+          "right": 374,
+          "bottom": 281.625,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 289.625,
+          "width": 358,
+          "height": 44,
+          "top": 289.625,
+          "right": 374,
+          "bottom": 333.625,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 682.765625,
+          "width": 324,
+          "height": 590.796875,
+          "top": 682.765625,
+          "right": 357,
+          "bottom": 1273.5625,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 124.359375,
+              "y": 289.625,
+              "width": 110,
+              "height": 44,
+              "top": 289.625,
+              "right": 234.359375,
+              "bottom": 333.625,
+              "left": 124.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 141.359375,
+              "y": 576.5625,
+              "width": 76,
+              "height": 44,
+              "top": 576.5625,
+              "right": 217.359375,
+              "bottom": 620.5625,
+              "left": 141.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 240.359375,
+              "y": 289.625,
+              "width": 133.640625,
+              "height": 44,
+              "top": 289.625,
+              "right": 374,
+              "bottom": 333.625,
+              "left": 240.359375
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 17,
+              "y": 461.625,
+              "width": 356,
+              "height": 61,
+              "top": 461.625,
+              "right": 373,
+              "bottom": 522.625,
+              "left": 17
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-390-rep2",
+        "sha256": "96a2f9271a058200014e23fdcf2fce182dd8a0c5b3151e182862c2e70ef3d690"
+      }
+    },
+    {
+      "id": "ja-390-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 107,
+          "top": 0,
+          "right": 390,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 358,
+          "height": 184.25,
+          "top": 157.375,
+          "right": 374,
+          "bottom": 341.625,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 56,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 86,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 358,
+          "height": 26.25,
+          "top": 255.375,
+          "right": 374,
+          "bottom": 281.625,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 289.625,
+          "width": 358,
+          "height": 44,
+          "top": 289.625,
+          "right": 374,
+          "bottom": 333.625,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 682.765625,
+          "width": 324,
+          "height": 590.796875,
+          "top": 682.765625,
+          "right": 357,
+          "bottom": 1273.5625,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 124.359375,
+              "y": 289.625,
+              "width": 110,
+              "height": 44,
+              "top": 289.625,
+              "right": 234.359375,
+              "bottom": 333.625,
+              "left": 124.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 141.359375,
+              "y": 576.5625,
+              "width": 76,
+              "height": 44,
+              "top": 576.5625,
+              "right": 217.359375,
+              "bottom": 620.5625,
+              "left": 141.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 240.359375,
+              "y": 289.625,
+              "width": 133.640625,
+              "height": 44,
+              "top": 289.625,
+              "right": 374,
+              "bottom": 333.625,
+              "left": 240.359375
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 17,
+              "y": 461.625,
+              "width": 356,
+              "height": 61,
+              "top": 461.625,
+              "right": 373,
+              "bottom": 522.625,
+              "left": 17
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-390-rep9",
+        "sha256": "e98dee07c946e77578b6d3b5979f417a0df995e7a00b4579568b93c9114dca8d"
+      }
+    },
+    {
+      "id": "ja-1100-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1100,
+        "innerHeight": 844,
+        "outerWidth": 1100,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1100,
+        "scrollWidth": 1100,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 804,
+          "height": 169.0625,
+          "top": 50.375,
+          "right": 1076,
+          "bottom": 219.4375,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 568.015625,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 840.015625,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 568.015625,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 840.015625,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 568.015625,
+          "height": 51.875,
+          "top": 159.5625,
+          "right": 840.015625,
+          "bottom": 211.4375,
+          "left": 272
+        },
+        "actions": {
+          "x": 860.015625,
+          "y": 96.40625,
+          "width": 215.984375,
+          "height": 73,
+          "top": 96.40625,
+          "right": 1076,
+          "bottom": 169.40625,
+          "left": 860.015625
+        },
+        "reader": {
+          "x": 297,
+          "y": 513.578125,
+          "width": 414,
+          "height": 590.796875,
+          "top": 513.578125,
+          "right": 711,
+          "bottom": 1104.375,
+          "left": 297
+        },
+        "gridColumns": "568.016px 215.984px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 942.359375,
+              "y": 125.40625,
+              "width": 133.640625,
+              "height": 44,
+              "top": 125.40625,
+              "right": 1076,
+              "bottom": 169.40625,
+              "left": 942.359375
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "ja-1100-rep3",
+        "sha256": "ecdce67b93fff7f65283e34e5ac09c85781b436d6f597e78e54702298f434bc1"
+      }
+    },
+    {
+      "id": "ja-1100-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1100,
+        "innerHeight": 844,
+        "outerWidth": 1100,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1100,
+        "scrollWidth": 1100,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 804,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1076,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 450.015625,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 722.015625,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 450.015625,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 722.015625,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 450.015625,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 722.015625,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 742.015625,
+          "y": 83.59375,
+          "width": 333.984375,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1076,
+          "bottom": 156.59375,
+          "left": 742.015625
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 414,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 711,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "450.016px 333.984px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 824.359375,
+              "y": 112.59375,
+              "width": 110,
+              "height": 44,
+              "top": 112.59375,
+              "right": 934.359375,
+              "bottom": 156.59375,
+              "left": 824.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 671.359375,
+              "y": 261.84375,
+              "width": 109.28125,
+              "height": 44,
+              "top": 261.84375,
+              "right": 780.640625,
+              "bottom": 305.84375,
+              "left": 671.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 942.359375,
+              "y": 112.59375,
+              "width": 133.640625,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1076,
+              "bottom": 156.59375,
+              "left": 942.359375
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 462,
+              "height": 40,
+              "top": 379.8125,
+              "right": 735,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-1100-rep2",
+        "sha256": "e4df656387dc419570b07174db4b16287903949f6a45e023f8ccd38e117b18fb"
+      }
+    },
+    {
+      "id": "ja-1100-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1100,
+        "innerHeight": 844,
+        "outerWidth": 1100,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1100,
+        "scrollWidth": 1100,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 804,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1076,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 450.015625,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 722.015625,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 450.015625,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 722.015625,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 450.015625,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 722.015625,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 742.015625,
+          "y": 83.59375,
+          "width": 333.984375,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1076,
+          "bottom": 156.59375,
+          "left": 742.015625
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 414,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 711,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "450.016px 333.984px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 824.359375,
+              "y": 112.59375,
+              "width": 110,
+              "height": 44,
+              "top": 112.59375,
+              "right": 934.359375,
+              "bottom": 156.59375,
+              "left": 824.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 671.359375,
+              "y": 261.84375,
+              "width": 109.28125,
+              "height": 44,
+              "top": 261.84375,
+              "right": 780.640625,
+              "bottom": 305.84375,
+              "left": 671.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 942.359375,
+              "y": 112.59375,
+              "width": 133.640625,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1076,
+              "bottom": 156.59375,
+              "left": 942.359375
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 462,
+              "height": 40,
+              "top": 379.8125,
+              "right": 735,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-1100-rep9",
+        "sha256": "149fb13ef6fcff5f19284c2cdf2dff8525683576e42fae6b95c7545f2af6a7fb"
+      }
+    },
+    {
+      "id": "ja-1101-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1101,
+        "innerHeight": 844,
+        "outerWidth": 1101,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1101,
+        "scrollWidth": 1101,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 805,
+          "height": 169.0625,
+          "top": 50.375,
+          "right": 1077,
+          "bottom": 219.4375,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 569.015625,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 841.015625,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 569.015625,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 841.015625,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 569.015625,
+          "height": 51.875,
+          "top": 159.5625,
+          "right": 841.015625,
+          "bottom": 211.4375,
+          "left": 272
+        },
+        "actions": {
+          "x": 861.015625,
+          "y": 96.40625,
+          "width": 215.984375,
+          "height": 73,
+          "top": 96.40625,
+          "right": 1077,
+          "bottom": 169.40625,
+          "left": 861.015625
+        },
+        "reader": {
+          "x": 297,
+          "y": 513.578125,
+          "width": 415,
+          "height": 590.796875,
+          "top": 513.578125,
+          "right": 712,
+          "bottom": 1104.375,
+          "left": 297
+        },
+        "gridColumns": "569.016px 215.984px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 943.359375,
+              "y": 125.40625,
+              "width": 133.640625,
+              "height": 44,
+              "top": 125.40625,
+              "right": 1077,
+              "bottom": 169.40625,
+              "left": 943.359375
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "ja-1101-rep3",
+        "sha256": "0e4e886a20cf2b86d401d43928c6b2374de670b16f8c5fcbf324bbc88f33422c"
+      }
+    },
+    {
+      "id": "ja-1101-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1101,
+        "innerHeight": 844,
+        "outerWidth": 1101,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1101,
+        "scrollWidth": 1101,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 805,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1077,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 451.015625,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 723.015625,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 451.015625,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 723.015625,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 451.015625,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 723.015625,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 743.015625,
+          "y": 83.59375,
+          "width": 333.984375,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1077,
+          "bottom": 156.59375,
+          "left": 743.015625
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 415,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 712,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "451.016px 333.984px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 825.359375,
+              "y": 112.59375,
+              "width": 110,
+              "height": 44,
+              "top": 112.59375,
+              "right": 935.359375,
+              "bottom": 156.59375,
+              "left": 825.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 672.359375,
+              "y": 261.84375,
+              "width": 109.28125,
+              "height": 44,
+              "top": 261.84375,
+              "right": 781.640625,
+              "bottom": 305.84375,
+              "left": 672.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 943.359375,
+              "y": 112.59375,
+              "width": 133.640625,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1077,
+              "bottom": 156.59375,
+              "left": 943.359375
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 463,
+              "height": 40,
+              "top": 379.8125,
+              "right": 736,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-1101-rep2",
+        "sha256": "bd1537adfc72438647be5421f2d5a9711f38040f2a744d788d93266a07f03e24"
+      }
+    },
+    {
+      "id": "ja-1101-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1101,
+        "innerHeight": 844,
+        "outerWidth": 1101,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1101,
+        "scrollWidth": 1101,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 805,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1077,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 451.015625,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 723.015625,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 451.015625,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 723.015625,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 451.015625,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 723.015625,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 743.015625,
+          "y": 83.59375,
+          "width": 333.984375,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1077,
+          "bottom": 156.59375,
+          "left": 743.015625
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 415,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 712,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "451.016px 333.984px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 825.359375,
+              "y": 112.59375,
+              "width": 110,
+              "height": 44,
+              "top": 112.59375,
+              "right": 935.359375,
+              "bottom": 156.59375,
+              "left": 825.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 672.359375,
+              "y": 261.84375,
+              "width": 109.28125,
+              "height": 44,
+              "top": 261.84375,
+              "right": 781.640625,
+              "bottom": 305.84375,
+              "left": 672.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 943.359375,
+              "y": 112.59375,
+              "width": 133.640625,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1077,
+              "bottom": 156.59375,
+              "left": 943.359375
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 463,
+              "height": 40,
+              "top": 379.8125,
+              "right": 736,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-1101-rep9",
+        "sha256": "b78dde7e418f9171086a6231906b3849c5dc44f1a70ee08914dc4850adcbdde1"
+      }
+    },
+    {
+      "id": "ja-1440-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1440,
+        "innerHeight": 844,
+        "outerWidth": 1440,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 1144,
+          "height": 169.0625,
+          "top": 50.375,
+          "right": 1416,
+          "bottom": 219.4375,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 908.015625,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 1180.015625,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 908.015625,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 1180.015625,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 908.015625,
+          "height": 51.875,
+          "top": 159.5625,
+          "right": 1180.015625,
+          "bottom": 211.4375,
+          "left": 272
+        },
+        "actions": {
+          "x": 1200.015625,
+          "y": 96.40625,
+          "width": 215.984375,
+          "height": 73,
+          "top": 96.40625,
+          "right": 1416,
+          "bottom": 169.40625,
+          "left": 1200.015625
+        },
+        "reader": {
+          "x": 297,
+          "y": 513.578125,
+          "width": 671.03125,
+          "height": 590.796875,
+          "top": 513.578125,
+          "right": 968.03125,
+          "bottom": 1104.375,
+          "left": 297
+        },
+        "gridColumns": "908.016px 215.984px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 1282.359375,
+              "y": 125.40625,
+              "width": 133.640625,
+              "height": 44,
+              "top": 125.40625,
+              "right": 1416,
+              "bottom": 169.40625,
+              "left": 1282.359375
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "ja-1440-rep3",
+        "sha256": "a27f10eef8d6f44b47d206d8e0aced4797a96d304752d9db1306de49ccda23e4"
+      }
+    },
+    {
+      "id": "ja-1440-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1440,
+        "innerHeight": 844,
+        "outerWidth": 1440,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 1144,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1416,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 790.015625,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 1062.015625,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 790.015625,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 1062.015625,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 790.015625,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 1062.015625,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 1082.015625,
+          "y": 83.59375,
+          "width": 333.984375,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1416,
+          "bottom": 156.59375,
+          "left": 1082.015625
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 671.03125,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 968.03125,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "790.016px 333.984px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 1164.359375,
+              "y": 112.59375,
+              "width": 110,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1274.359375,
+              "bottom": 156.59375,
+              "left": 1164.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 1011.359375,
+              "y": 261.84375,
+              "width": 109.28125,
+              "height": 44,
+              "top": 261.84375,
+              "right": 1120.640625,
+              "bottom": 305.84375,
+              "left": 1011.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 1282.359375,
+              "y": 112.59375,
+              "width": 133.640625,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1416,
+              "bottom": 156.59375,
+              "left": 1282.359375
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 719.03125,
+              "height": 40,
+              "top": 379.8125,
+              "right": 992.03125,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-1440-rep2",
+        "sha256": "f2bcee1fb7ffe579895c10e59f58b3484dc6232e38ea7ece2a3183eac5f9da1b"
+      }
+    },
+    {
+      "id": "ja-1440-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1440,
+        "innerHeight": 844,
+        "outerWidth": 1440,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 1144,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1416,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 790.015625,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 1062.015625,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 790.015625,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 1062.015625,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 790.015625,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 1062.015625,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 1082.015625,
+          "y": 83.59375,
+          "width": 333.984375,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1416,
+          "bottom": 156.59375,
+          "left": 1082.015625
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 671.03125,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 968.03125,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "790.016px 333.984px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "続きを進める",
+            "rect": {
+              "x": 1164.359375,
+              "y": 112.59375,
+              "width": 110,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1274.359375,
+              "bottom": 156.59375,
+              "left": 1164.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "確認して再開",
+            "rect": {
+              "x": 1011.359375,
+              "y": 261.84375,
+              "width": 109.28125,
+              "height": 44,
+              "top": 261.84375,
+              "right": 1120.640625,
+              "bottom": 305.84375,
+              "left": 1011.359375
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "新しくお願いする",
+            "rect": {
+              "x": 1282.359375,
+              "y": 112.59375,
+              "width": 133.640625,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1416,
+              "bottom": 156.59375,
+              "left": 1282.359375
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 719.03125,
+              "height": 40,
+              "top": 379.8125,
+              "right": 992.03125,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "ja-1440-rep9",
+        "sha256": "6a11a67a6cd9f63303efe4d736cf16b4cbda281bf9081d89b39e22f3a5fdd248"
+      }
+    },
+    {
+      "id": "en-320-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 320,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 107,
+          "top": 0,
+          "right": 320,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 288,
+          "height": 233.5,
+          "top": 157.375,
+          "right": 304,
+          "bottom": 390.875,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 56,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 86,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 288,
+          "height": 75.5,
+          "top": 255.375,
+          "right": 304,
+          "bottom": 330.875,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 338.875,
+          "width": 288,
+          "height": 44,
+          "top": 338.875,
+          "right": 304,
+          "bottom": 382.875,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 671.015625,
+          "width": 254,
+          "height": 590.796875,
+          "top": 671.015625,
+          "right": 287,
+          "bottom": 1261.8125,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 186.953125,
+              "y": 338.875,
+              "width": 117.046875,
+              "height": 44,
+              "top": 338.875,
+              "right": 304,
+              "bottom": 382.875,
+              "left": 186.953125
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "en-320-rep3",
+        "sha256": "6ddfe7ad6a78c8bffdc85dd45471d814a05ccdeec2ddf91d88269f3c74442093"
+      }
+    },
+    {
+      "id": "en-320-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 320,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 107,
+          "top": 0,
+          "right": 320,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 288,
+          "height": 234.25,
+          "top": 157.375,
+          "right": 304,
+          "bottom": 391.625,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 56,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 86,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 288,
+          "height": 26.25,
+          "top": 255.375,
+          "right": 304,
+          "bottom": 281.625,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 289.625,
+          "width": 288,
+          "height": 94,
+          "top": 289.625,
+          "right": 304,
+          "bottom": 383.625,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 732.765625,
+          "width": 254,
+          "height": 590.796875,
+          "top": 732.765625,
+          "right": 287,
+          "bottom": 1323.5625,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 175.265625,
+              "y": 289.625,
+              "width": 128.734375,
+              "height": 44,
+              "top": 289.625,
+              "right": 304,
+              "bottom": 333.625,
+              "left": 175.265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 192.265625,
+              "y": 555.625,
+              "width": 94.734375,
+              "height": 59.5625,
+              "top": 555.625,
+              "right": 287,
+              "bottom": 615.1875,
+              "left": 192.265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 16,
+              "y": 339.625,
+              "width": 117.046875,
+              "height": 44,
+              "top": 339.625,
+              "right": 133.046875,
+              "bottom": 383.625,
+              "left": 16
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 17,
+              "y": 511.625,
+              "width": 286,
+              "height": 61,
+              "top": 511.625,
+              "right": 303,
+              "bottom": 572.625,
+              "left": 17
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-320-rep2",
+        "sha256": "99f210fe1d31bcf6dee4b2e58b5b0bb366de4926994964a6d7823d975f218374"
+      }
+    },
+    {
+      "id": "en-320-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 320,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 107,
+          "top": 0,
+          "right": 320,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 288,
+          "height": 234.25,
+          "top": 157.375,
+          "right": 304,
+          "bottom": 391.625,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 56,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 288,
+          "height": 86,
+          "top": 161.375,
+          "right": 304,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 288,
+          "height": 26.25,
+          "top": 255.375,
+          "right": 304,
+          "bottom": 281.625,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 289.625,
+          "width": 288,
+          "height": 94,
+          "top": 289.625,
+          "right": 304,
+          "bottom": 383.625,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 732.765625,
+          "width": 254,
+          "height": 590.796875,
+          "top": 732.765625,
+          "right": 287,
+          "bottom": 1323.5625,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 175.265625,
+              "y": 289.625,
+              "width": 128.734375,
+              "height": 44,
+              "top": 289.625,
+              "right": 304,
+              "bottom": 333.625,
+              "left": 175.265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 192.265625,
+              "y": 555.625,
+              "width": 94.734375,
+              "height": 59.5625,
+              "top": 555.625,
+              "right": 287,
+              "bottom": 615.1875,
+              "left": 192.265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 16,
+              "y": 339.625,
+              "width": 117.046875,
+              "height": 44,
+              "top": 339.625,
+              "right": 133.046875,
+              "bottom": 383.625,
+              "left": 16
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 17,
+              "y": 511.625,
+              "width": 286,
+              "height": 61,
+              "top": 511.625,
+              "right": 303,
+              "bottom": 572.625,
+              "left": 17
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-320-rep9",
+        "sha256": "fd87ee5bf6c06e5281faa399fabe4e1d8ef72a1dc1af0f34c599c1578f051bd2"
+      }
+    },
+    {
+      "id": "en-390-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 107,
+          "top": 0,
+          "right": 390,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 358,
+          "height": 233.5,
+          "top": 157.375,
+          "right": 374,
+          "bottom": 390.875,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 56,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 86,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 358,
+          "height": 75.5,
+          "top": 255.375,
+          "right": 374,
+          "bottom": 330.875,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 338.875,
+          "width": 358,
+          "height": 44,
+          "top": 338.875,
+          "right": 374,
+          "bottom": 382.875,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 671.015625,
+          "width": 324,
+          "height": 590.796875,
+          "top": 671.015625,
+          "right": 357,
+          "bottom": 1261.8125,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 256.953125,
+              "y": 338.875,
+              "width": 117.046875,
+              "height": 44,
+              "top": 338.875,
+              "right": 374,
+              "bottom": 382.875,
+              "left": 256.953125
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "en-390-rep3",
+        "sha256": "82dd42289a3d4e3f54aa6000e7e7f2e5b7717b9988e3a1397356d91602c6a2d5"
+      }
+    },
+    {
+      "id": "en-390-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 107,
+          "top": 0,
+          "right": 390,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 358,
+          "height": 184.25,
+          "top": 157.375,
+          "right": 374,
+          "bottom": 341.625,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 56,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 86,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 358,
+          "height": 26.25,
+          "top": 255.375,
+          "right": 374,
+          "bottom": 281.625,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 289.625,
+          "width": 358,
+          "height": 44,
+          "top": 289.625,
+          "right": 374,
+          "bottom": 333.625,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 682.765625,
+          "width": 324,
+          "height": 590.796875,
+          "top": 682.765625,
+          "right": 357,
+          "bottom": 1273.5625,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 122.21875,
+              "y": 289.625,
+              "width": 128.734375,
+              "height": 44,
+              "top": 289.625,
+              "right": 250.953125,
+              "bottom": 333.625,
+              "left": 122.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 139.21875,
+              "y": 555.625,
+              "width": 94.734375,
+              "height": 59.5625,
+              "top": 555.625,
+              "right": 233.953125,
+              "bottom": 615.1875,
+              "left": 139.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 256.953125,
+              "y": 289.625,
+              "width": 117.046875,
+              "height": 44,
+              "top": 289.625,
+              "right": 374,
+              "bottom": 333.625,
+              "left": 256.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 17,
+              "y": 461.625,
+              "width": 356,
+              "height": 61,
+              "top": 461.625,
+              "right": 373,
+              "bottom": 522.625,
+              "left": 17
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-390-rep2",
+        "sha256": "6b7df2d62b77e73e774f6eb9e936749ca6f63c7e27c19659c9fe9bb068ae126d"
+      }
+    },
+    {
+      "id": "en-390-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "outerWidth": 500,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 107,
+          "top": 0,
+          "right": 390,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 16,
+          "y": 157.375,
+          "width": 358,
+          "height": 184.25,
+          "top": 157.375,
+          "right": 374,
+          "bottom": 341.625,
+          "left": 16
+        },
+        "title": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 56,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "goal": {
+          "x": 16,
+          "y": 161.375,
+          "width": 358,
+          "height": 86,
+          "top": 161.375,
+          "right": 374,
+          "bottom": 247.375,
+          "left": 16
+        },
+        "status": {
+          "x": 16,
+          "y": 255.375,
+          "width": 358,
+          "height": 26.25,
+          "top": 255.375,
+          "right": 374,
+          "bottom": 281.625,
+          "left": 16
+        },
+        "actions": {
+          "x": 16,
+          "y": 289.625,
+          "width": 358,
+          "height": 44,
+          "top": 289.625,
+          "right": 374,
+          "bottom": 333.625,
+          "left": 16
+        },
+        "reader": {
+          "x": 33,
+          "y": 682.765625,
+          "width": 324,
+          "height": 590.796875,
+          "top": 682.765625,
+          "right": 357,
+          "bottom": 1273.5625,
+          "left": 33
+        },
+        "gridColumns": "minmax(0px, 1fr)",
+        "gridAreas": "\"voice\" \"goal\" \"actions\"",
+        "titleFont": "20px",
+        "titleLineHeight": "28px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 122.21875,
+              "y": 289.625,
+              "width": 128.734375,
+              "height": 44,
+              "top": 289.625,
+              "right": 250.953125,
+              "bottom": 333.625,
+              "left": 122.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 139.21875,
+              "y": 555.625,
+              "width": 94.734375,
+              "height": 59.5625,
+              "top": 555.625,
+              "right": 233.953125,
+              "bottom": 615.1875,
+              "left": 139.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 256.953125,
+              "y": 289.625,
+              "width": 117.046875,
+              "height": 44,
+              "top": 289.625,
+              "right": 374,
+              "bottom": 333.625,
+              "left": 256.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 17,
+              "y": 461.625,
+              "width": 356,
+              "height": 61,
+              "top": 461.625,
+              "right": 373,
+              "bottom": 522.625,
+              "left": 17
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-390-rep9",
+        "sha256": "67084b7a4a4e319dad5efd6bb438fb29de2dafafe86212e250af97cd1433ab39"
+      }
+    },
+    {
+      "id": "en-1100-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1100,
+        "innerHeight": 844,
+        "outerWidth": 1100,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1100,
+        "scrollWidth": 1100,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 804,
+          "height": 169.0625,
+          "top": 50.375,
+          "right": 1076,
+          "bottom": 219.4375,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 590.078125,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 862.078125,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 590.078125,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 862.078125,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 590.078125,
+          "height": 51.875,
+          "top": 159.5625,
+          "right": 862.078125,
+          "bottom": 211.4375,
+          "left": 272
+        },
+        "actions": {
+          "x": 882.078125,
+          "y": 96.40625,
+          "width": 193.921875,
+          "height": 73,
+          "top": 96.40625,
+          "right": 1076,
+          "bottom": 169.40625,
+          "left": 882.078125
+        },
+        "reader": {
+          "x": 297,
+          "y": 513.578125,
+          "width": 414,
+          "height": 590.796875,
+          "top": 513.578125,
+          "right": 711,
+          "bottom": 1104.375,
+          "left": 297
+        },
+        "gridColumns": "590.078px 193.922px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 958.953125,
+              "y": 125.40625,
+              "width": 117.046875,
+              "height": 44,
+              "top": 125.40625,
+              "right": 1076,
+              "bottom": 169.40625,
+              "left": 958.953125
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "en-1100-rep3",
+        "sha256": "2c9868b810217313d957831ad94b1a69f9c97926b30fbed63df2ea016fb14050"
+      }
+    },
+    {
+      "id": "en-1100-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1100,
+        "innerHeight": 844,
+        "outerWidth": 1100,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1100,
+        "scrollWidth": 1100,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 804,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1076,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 453.34375,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 725.34375,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 453.34375,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 725.34375,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 453.34375,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 725.34375,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 745.34375,
+          "y": 83.59375,
+          "width": 330.65625,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1076,
+          "bottom": 156.59375,
+          "left": 745.34375
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 414,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 711,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "453.344px 330.656px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 822.21875,
+              "y": 112.59375,
+              "width": 128.734375,
+              "height": 44,
+              "top": 112.59375,
+              "right": 950.953125,
+              "bottom": 156.59375,
+              "left": 822.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 687.953125,
+              "y": 261.84375,
+              "width": 173.75,
+              "height": 44,
+              "top": 261.84375,
+              "right": 861.703125,
+              "bottom": 305.84375,
+              "left": 687.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 958.953125,
+              "y": 112.59375,
+              "width": 117.046875,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1076,
+              "bottom": 156.59375,
+              "left": 958.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 462,
+              "height": 40,
+              "top": 379.8125,
+              "right": 735,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-1100-rep2",
+        "sha256": "102755c6a12b4b7cec1890873b1978ce0a465fe1f153b499a72a57448390e49b"
+      }
+    },
+    {
+      "id": "en-1100-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1100,
+        "innerHeight": 844,
+        "outerWidth": 1100,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1100,
+        "scrollWidth": 1100,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 804,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1076,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 453.34375,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 725.34375,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 453.34375,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 725.34375,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 453.34375,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 725.34375,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 745.34375,
+          "y": 83.59375,
+          "width": 330.65625,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1076,
+          "bottom": 156.59375,
+          "left": 745.34375
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 414,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 711,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "453.344px 330.656px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 822.21875,
+              "y": 112.59375,
+              "width": 128.734375,
+              "height": 44,
+              "top": 112.59375,
+              "right": 950.953125,
+              "bottom": 156.59375,
+              "left": 822.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 687.953125,
+              "y": 261.84375,
+              "width": 173.75,
+              "height": 44,
+              "top": 261.84375,
+              "right": 861.703125,
+              "bottom": 305.84375,
+              "left": 687.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 958.953125,
+              "y": 112.59375,
+              "width": 117.046875,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1076,
+              "bottom": 156.59375,
+              "left": 958.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 462,
+              "height": 40,
+              "top": 379.8125,
+              "right": 735,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-1100-rep9",
+        "sha256": "db469553bdda851d34c8a9b1eea989aef8cff15df80c277c68f20dc08bc5a215"
+      }
+    },
+    {
+      "id": "en-1101-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1101,
+        "innerHeight": 844,
+        "outerWidth": 1101,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1101,
+        "scrollWidth": 1101,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 805,
+          "height": 169.0625,
+          "top": 50.375,
+          "right": 1077,
+          "bottom": 219.4375,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 591.078125,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 863.078125,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 591.078125,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 863.078125,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 591.078125,
+          "height": 51.875,
+          "top": 159.5625,
+          "right": 863.078125,
+          "bottom": 211.4375,
+          "left": 272
+        },
+        "actions": {
+          "x": 883.078125,
+          "y": 96.40625,
+          "width": 193.921875,
+          "height": 73,
+          "top": 96.40625,
+          "right": 1077,
+          "bottom": 169.40625,
+          "left": 883.078125
+        },
+        "reader": {
+          "x": 297,
+          "y": 513.578125,
+          "width": 415,
+          "height": 590.796875,
+          "top": 513.578125,
+          "right": 712,
+          "bottom": 1104.375,
+          "left": 297
+        },
+        "gridColumns": "591.078px 193.922px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 959.953125,
+              "y": 125.40625,
+              "width": 117.046875,
+              "height": 44,
+              "top": 125.40625,
+              "right": 1077,
+              "bottom": 169.40625,
+              "left": 959.953125
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "en-1101-rep3",
+        "sha256": "8551d5fa537acf242613a364ed815a609cc790181659bac709e481f5880c303a"
+      }
+    },
+    {
+      "id": "en-1101-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1101,
+        "innerHeight": 844,
+        "outerWidth": 1101,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1101,
+        "scrollWidth": 1101,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 805,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1077,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 454.34375,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 726.34375,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 454.34375,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 726.34375,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 454.34375,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 726.34375,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 746.34375,
+          "y": 83.59375,
+          "width": 330.65625,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1077,
+          "bottom": 156.59375,
+          "left": 746.34375
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 415,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 712,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "454.344px 330.656px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 823.21875,
+              "y": 112.59375,
+              "width": 128.734375,
+              "height": 44,
+              "top": 112.59375,
+              "right": 951.953125,
+              "bottom": 156.59375,
+              "left": 823.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 688.953125,
+              "y": 261.84375,
+              "width": 173.75,
+              "height": 44,
+              "top": 261.84375,
+              "right": 862.703125,
+              "bottom": 305.84375,
+              "left": 688.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 959.953125,
+              "y": 112.59375,
+              "width": 117.046875,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1077,
+              "bottom": 156.59375,
+              "left": 959.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 463,
+              "height": 40,
+              "top": 379.8125,
+              "right": 736,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-1101-rep2",
+        "sha256": "0f944673af2c6941fe8af30b5f90995f42d93b218e5d6d447dbb3c867ba155d2"
+      }
+    },
+    {
+      "id": "en-1101-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1101,
+        "innerHeight": 844,
+        "outerWidth": 1101,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1101,
+        "scrollWidth": 1101,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 805,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1077,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 454.34375,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 726.34375,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 454.34375,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 726.34375,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 454.34375,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 726.34375,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 746.34375,
+          "y": 83.59375,
+          "width": 330.65625,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1077,
+          "bottom": 156.59375,
+          "left": 746.34375
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 415,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 712,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "454.344px 330.656px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 823.21875,
+              "y": 112.59375,
+              "width": 128.734375,
+              "height": 44,
+              "top": 112.59375,
+              "right": 951.953125,
+              "bottom": 156.59375,
+              "left": 823.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 688.953125,
+              "y": 261.84375,
+              "width": 173.75,
+              "height": 44,
+              "top": 261.84375,
+              "right": 862.703125,
+              "bottom": 305.84375,
+              "left": 688.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 959.953125,
+              "y": 112.59375,
+              "width": 117.046875,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1077,
+              "bottom": 156.59375,
+              "left": 959.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 463,
+              "height": 40,
+              "top": 379.8125,
+              "right": 736,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-1101-rep9",
+        "sha256": "eb6088f47a00a4c6c3d82aac6483540268d36dad16151a9012f50b017f6ba56a"
+      }
+    },
+    {
+      "id": "en-1440-rep3",
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "status": "completed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1440,
+        "innerHeight": 844,
+        "outerWidth": 1440,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 1144,
+          "height": 169.0625,
+          "top": 50.375,
+          "right": 1416,
+          "bottom": 219.4375,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 930.078125,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 1202.078125,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 930.078125,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 1202.078125,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 930.078125,
+          "height": 51.875,
+          "top": 159.5625,
+          "right": 1202.078125,
+          "bottom": 211.4375,
+          "left": 272
+        },
+        "actions": {
+          "x": 1222.078125,
+          "y": 96.40625,
+          "width": 193.921875,
+          "height": 73,
+          "top": 96.40625,
+          "right": 1416,
+          "bottom": 169.40625,
+          "left": 1222.078125
+        },
+        "reader": {
+          "x": 297,
+          "y": 513.578125,
+          "width": 671.03125,
+          "height": 590.796875,
+          "top": 513.578125,
+          "right": 968.03125,
+          "bottom": 1104.375,
+          "left": 297
+        },
+        "gridColumns": "930.078px 193.922px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 1298.953125,
+              "y": 125.40625,
+              "width": 117.046875,
+              "height": 44,
+              "top": 125.40625,
+              "right": 1416,
+              "bottom": 169.40625,
+              "left": 1298.953125
+            }
+          }
+        ],
+        "warning": []
+      },
+      "screenshot": {
+        "name": "en-1440-rep3",
+        "sha256": "a16ef0681a762357be8065e7dd7387ec4f68318e50d844e1ba2068b6e9102233"
+      }
+    },
+    {
+      "id": "en-1440-rep2",
+      "run_id": "run_1a0f80632e5c1220524",
+      "status": "failed",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1440,
+        "innerHeight": 844,
+        "outerWidth": 1440,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 1144,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1416,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 793.34375,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 1065.34375,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 793.34375,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 1065.34375,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 793.34375,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 1065.34375,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 1085.34375,
+          "y": 83.59375,
+          "width": 330.65625,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1416,
+          "bottom": 156.59375,
+          "left": 1085.34375
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 671.03125,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 968.03125,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "793.344px 330.656px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 1162.21875,
+              "y": 112.59375,
+              "width": 128.734375,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1290.953125,
+              "bottom": 156.59375,
+              "left": 1162.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 1027.953125,
+              "y": 261.84375,
+              "width": 173.75,
+              "height": 44,
+              "top": 261.84375,
+              "right": 1201.703125,
+              "bottom": 305.84375,
+              "left": 1027.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 1298.953125,
+              "y": 112.59375,
+              "width": 117.046875,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1416,
+              "bottom": 156.59375,
+              "left": 1298.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 719.03125,
+              "height": 40,
+              "top": 379.8125,
+              "right": 992.03125,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-1440-rep2",
+        "sha256": "5efa208bf957498f07ef5906a120fec53b90a3ddabbdeb3ed2ae9b5478e17550"
+      }
+    },
+    {
+      "id": "en-1440-rep9",
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "status": "interrupted",
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "geometry": {
+        "innerWidth": 1440,
+        "innerHeight": 844,
+        "outerWidth": 1440,
+        "dpr": 1,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 248,
+          "height": 844,
+          "top": 0,
+          "right": 248,
+          "bottom": 844,
+          "left": 0
+        },
+        "room": {
+          "x": 272,
+          "y": 50.375,
+          "width": 1144,
+          "height": 143.4375,
+          "top": 50.375,
+          "right": 1416,
+          "bottom": 193.8125,
+          "left": 272
+        },
+        "title": {
+          "x": 272,
+          "y": 54.375,
+          "width": 793.34375,
+          "height": 67.1875,
+          "top": 54.375,
+          "right": 1065.34375,
+          "bottom": 121.5625,
+          "left": 272
+        },
+        "goal": {
+          "x": 272,
+          "y": 54.375,
+          "width": 793.34375,
+          "height": 97.1875,
+          "top": 54.375,
+          "right": 1065.34375,
+          "bottom": 151.5625,
+          "left": 272
+        },
+        "status": {
+          "x": 272,
+          "y": 159.5625,
+          "width": 793.34375,
+          "height": 26.25,
+          "top": 159.5625,
+          "right": 1065.34375,
+          "bottom": 185.8125,
+          "left": 272
+        },
+        "actions": {
+          "x": 1085.34375,
+          "y": 83.59375,
+          "width": 330.65625,
+          "height": 73,
+          "top": 83.59375,
+          "right": 1416,
+          "bottom": 156.59375,
+          "left": 1085.34375
+        },
+        "reader": {
+          "x": 297,
+          "y": 527.953125,
+          "width": 671.03125,
+          "height": 590.796875,
+          "top": 527.953125,
+          "right": 968.03125,
+          "bottom": 1118.75,
+          "left": 297
+        },
+        "gridColumns": "793.344px 330.656px",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 1162.21875,
+              "y": 112.59375,
+              "width": 128.734375,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1290.953125,
+              "bottom": 156.59375,
+              "left": 1162.21875
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 1027.953125,
+              "y": 261.84375,
+              "width": 173.75,
+              "height": 44,
+              "top": 261.84375,
+              "right": 1201.703125,
+              "bottom": 305.84375,
+              "left": 1027.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 1298.953125,
+              "y": 112.59375,
+              "width": 117.046875,
+              "height": 44,
+              "top": 112.59375,
+              "right": 1416,
+              "bottom": 156.59375,
+              "left": 1298.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 273,
+              "y": 379.8125,
+              "width": 719.03125,
+              "height": 40,
+              "top": 379.8125,
+              "right": 992.03125,
+              "bottom": 419.8125,
+              "left": 273
+            }
+          }
+        ]
+      },
+      "screenshot": {
+        "name": "en-1440-rep9",
+        "sha256": "7a2b6d424baf13935d34ab7a1d7cd201d337220fbda73e156e3942b2304a629c"
+      }
+    }
+  ],
+  "interactions": [],
+  "writes": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "page_errors": [],
+  "failed_requests": [],
+  "http_errors": [],
+  "new_model_execution": false,
+  "html_sha256": "164e055993e0d77ec38651e4b3b988e4cf46f0a56b2935111f170336444901c4",
+  "bundle_sha256": "dd148d804fc2a1f4fa078324a3b61bbe0a799e48fe43748aa4f44f2e96ece4e5",
+  "chrome": "154.0.8037.58",
+  "finished_at": "2026-10-01T23:34:02.447Z"
+}

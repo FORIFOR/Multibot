@@ -79,7 +79,7 @@ function Workspace({ identity, secured }: { identity: Identity; secured: boolean
         </div>
       </aside>
       <main className={'main' + (runId ? ' wide' : '')}>
-        {identity.role === 'auditor' || (path.startsWith('/operations') && identity.role === 'admin') ? <Operations /> : runId ? <RunView key={path} runId={runId} nav={nav} /> : path.startsWith('/settings') && identity.role === 'admin' ? <Settings /> : path.startsWith('/welcome') ? <Welcome nav={nav} canConfigure={identity.role === 'admin'} /> : path.split('?')[0] === '/runs' ? <WorkList nav={nav} readOnly={identity.role === 'viewer'} /> : <Home nav={nav} readOnly={identity.role === 'viewer'} canConfigure={identity.role === 'admin'} />}
+        {identity.role === 'auditor' || (path.startsWith('/operations') && identity.role === 'admin') ? <Operations secured={secured} /> : runId ? <RunView key={path} runId={runId} nav={nav} /> : path.startsWith('/settings') && identity.role === 'admin' ? <Settings /> : path.startsWith('/welcome') ? <Welcome nav={nav} canConfigure={identity.role === 'admin'} /> : path.split('?')[0] === '/runs' ? <WorkList nav={nav} readOnly={identity.role === 'viewer'} /> : <Home nav={nav} readOnly={identity.role === 'viewer'} canConfigure={identity.role === 'admin'} />}
       </main>
     </div>
   )

@@ -53,11 +53,15 @@
  .simple-workroom .room-live-grid { grid-template-columns:minmax(0,1fr); gap:16px; }
  .simple-workroom .room-team .team-stage { grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 12px; }
 }
-@media(max-width:700px) {
+/* With the sidebar visible, a tablet still has a narrow reading surface.
+   Give the request and its state a full row before the work controls. */
+@media(max-width:1100px) {
  .simple-workroom .room-head { display:flex; flex-direction:column; align-items:stretch; padding:16px; gap:10px; }
  .simple-workroom .room-head .room-goal { order:0; }
  .simple-workroom .room-head .status-voice { order:1; }
  .simple-workroom .room-head .work-actions { order:2; }
+}
+@media(max-width:700px) {
  .simple-workroom .room-head .room-goal h1 { font-size:18px; }
  .simple-workroom .live-conversation > header { padding:16px; }
  .simple-workroom .conversation-toolbar,.simple-workroom .conversation-scroll { padding-inline:16px; }
@@ -199,8 +203,12 @@ body:has(.desk-workroom) .top { border:0; border-bottom:1px solid #dedfd9; borde
 .desk-workroom .work-inspector { margin-top:8px; }
 .desk-resume { position:relative; }
 .desk-resume > summary { list-style:none; cursor:pointer; display:flex; align-items:center; }
-.desk-resume > div { position:absolute; z-index:5; right:0; top:calc(100% + 8px); width:280px; max-width:80vw; padding:16px; border:1px solid #d9dfd8; border-radius:12px; background:#fff; box-shadow:0 12px 32px #20362920; }
+.desk-resume > div { position:absolute; z-index:5; right:0; top:calc(100% + 8px); width:280px; max-width:80vw; padding:16px; border:1px solid #d9dfd8; border-radius:12px; background:#fff; box-shadow:0 12px 32px #20362920; scroll-margin-bottom:16px; }
 .desk-resume > div p { margin:0 0 12px; font-size:13px; }
+@media(min-width:701px) and (max-width:1100px) {
+ .desk-workroom .work-actions { max-width:none; }
+ .desk-workroom .work-actions .cost-summary { flex-basis:auto; margin-right:auto; text-align:left; }
+}
 @media(min-width:1001px) {
  .desk-workroom.no-results .room-main { display:block; width:min(100%,1000px); align-self:center; }
  .desk-workroom.no-results[data-studio-panel=team] #room-results { display:none; }

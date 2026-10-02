@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "scanned_file_count": 33,
+  "actual_key_file_count": 5,
+  "actual_key_value_hits": 0,
+  "private_key_or_jwt_pattern_hits": 0,
+  "method": "Named actual key bytes and PEM/JWT signatures; not OCR",
+  "excluded": [
+    "keys",
+    "access account file",
+    "SQLite",
+    "profile directories",
+    "private logs",
+    "raw events/artifact bytes"
+  ],
+  "named_pngs_visually_reviewed": 10
+}

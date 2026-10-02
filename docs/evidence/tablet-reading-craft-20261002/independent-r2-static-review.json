@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "independent_static_review",
+  "scope": "Workroom resume disclosure onToggle clipped-panel scroll; Operations prop/text boundary also read",
+  "source_sha256": {
+    "frontend/src/pages/Workroom.tsx": "0fc2ba14a62c8686c611ab8273e75069f66b9514da9a31ff0ec521f9b9343f66",
+    "frontend/src/workroom-refinement.css": "60e0d541df6148a6a72c2ca271173b943e8bfa1726837be329521c25b5dc190f",
+    "frontend/src/components/AuthGate.tsx": "743b1bb57b5552a7ea7e15be18674db2fc0ee52fb7e2a0fb6e48a89f02678fe8",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+    "frontend/src/pages/Operations.tsx": "89113218ebdf0a05a9da5dbe7fbb6704584807464d1981b76c233606fb132521",
+    "frontend/src/App.tsx": "e021310967703ea56602730f5fb6bc6b83c2e6e0c69ce321098f772b00fb2c61"
+  },
+  "blocking_findings": [],
+  "reviewed_behavior": [
+    {
+      "path": "frontend/src/pages/Workroom.tsx",
+      "lines": [
+        205,
+        210
+      ],
+      "result": "Opening a permitted native disclosure inspects the actual direct panel and scrolls only when its bottom crosses innerHeight minus 16. Closing does nothing."
+    },
+    {
+      "path": "frontend/src/workroom-refinement.css",
+      "line": 206,
+      "result": "scroll-margin-bottom:16px complements block:end; no animation introduced."
+    },
+    {
+      "path": "frontend/src/pages/Workroom.tsx",
+      "lines": [
+        205,
+        210
+      ],
+      "result": "canWrite, plan and interrupted/partial/failed/cancelled visibility guards, warning text, disabled busy state and explicit confirmation-only resume action remain unchanged."
+    }
+  ],
+  "unchanged_boundaries": [
+    "No focus() call or tabindex change in this diff; native summary retains DOM focus.",
+    "No auth/peer/request deadline/session/draft state change.",
+    "No automatic resume request is introduced by opening the disclosure.",
+    "Existing team summary sticky-header focus handling remains unchanged."
+  ],
+  "limitations": [
+    "Static review does not establish actual focus visibility. Scroll-to-bottom can place the summary or the beginning of a taller panel above the visible region if the panel exceeds available viewport height.",
+    "Very short viewports or a panel taller than the currently observed translation remain untested by this reviewer.",
+    "Parent/browser reviewer separately reported actual native200 inner720x456 measurements: summary top230 > sticky bottom107, panel bottom440 <456, confirm bottom423. These are reported external measurements, not a fresh execution by this static reviewer."
+  ],
+  "operations_review": {
+    "blocking_findings": [],
+    "frontend_hashes_match_author_freeze": true,
+    "contract": "Existing AuthGate secured prop is passed without new fetch or role changes. sandbox-exec is the actual runtime name; secured readiness requires docker or not_required; local readiness permits sandbox-exec. Unknown backend/cause fallback and quality disclaimer remain.",
+    "backend_reference": "backend/agentteam/api/app.py:201-214; backend/agentteam/runtime/tool_capabilities.py:32-49",
+    "actual_tests_by_this_reviewer": false
+  },
+  "runtime_execution": false,
+  "product_edits_by_reviewer": false,
+  "human_acceptance": "not_performed"
+}

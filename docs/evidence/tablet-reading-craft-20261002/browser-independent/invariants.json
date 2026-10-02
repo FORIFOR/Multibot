@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "source_file_count": 49,
+  "original_source_sha256_unchanged": true,
+  "original_database_sha256_unchanged": true,
+  "imported_database_counts": {
+    "model_called": 222,
+    "execution_jobs": 0,
+    "artifact_adopted_events": 0
+  },
+  "all_browser_runs_business_tables_unchanged": true
+}

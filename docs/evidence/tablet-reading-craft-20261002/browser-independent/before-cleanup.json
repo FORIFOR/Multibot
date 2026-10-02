@@ -1,0 +1,15 @@
+{
+  "owned_browser": [
+    {
+      "program": "capture.mjs",
+      "tracked_processes": 31,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "business_tables_unchanged": true,
+  "source_unchanged": true,
+  "baseline_dist_unchanged": true,
+  "root_service_not_stopped": true
+}

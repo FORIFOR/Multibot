@@ -202,7 +202,12 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
         : say('成果物と確認内容を見てから、使う版を選べます。','Review the files and checks, then choose a version to use.')}</p></div></div>
       <div className="work-actions"><span className="cost-summary">{say('使用額','Used')} {money(run.usage.cost_usd)}{run.usage.reserved_usd > 0 ? ` · ${say('処理中の確保額','Reserved')} ${money(run.usage.reserved_usd)}` : ''}</span>
         {canWrite && runnable && <button className="btn ghost" disabled={busy} onClick={() => act(() => api.cancel(runId))}>{say('作業を止める','Stop work')}</button>}
-        {canWrite && run.plan && ['interrupted','partial','failed','cancelled'].includes(run.status) && <details className="desk-resume"><summary className="btn signal">{say('続きを進める','Continue work')}</summary><div><p>{say('途中の作業を再実行する場合があります。送信済みの資料・外部処理は取り消されません。','Unfinished tasks may run again. Sent material and completed external effects cannot be undone.')}</p><button className="btn signal" disabled={busy} onClick={() => act(() => api.resume(runId))}>{say('確認して再開','Confirm and continue')}</button></div></details>}
+        {canWrite && run.plan && ['interrupted','partial','failed','cancelled'].includes(run.status) && <details className="desk-resume" onToggle={e => {
+          if (!e.currentTarget.open) return
+          const panel = e.currentTarget.querySelector<HTMLElement>(':scope > div')
+          // Opening the warning must also reveal its confirmation at browser zoom.
+          if (panel && panel.getBoundingClientRect().bottom > window.innerHeight - 16) panel.scrollIntoView({ block: 'end', behavior: 'instant' })
+        }}><summary className="btn signal">{say('続きを進める','Continue work')}</summary><div><p>{say('途中の作業を再実行する場合があります。送信済みの資料・外部処理は取り消されません。','Unfinished tasks may run again. Sent material and completed external effects cannot be undone.')}</p><button className="btn signal" disabled={busy} onClick={() => act(() => api.resume(runId))}>{say('確認して再開','Confirm and continue')}</button></div></details>}
         <button className="btn ghost" onClick={() => nav('/')}>{say('新しくお願いする','New request')}</button>
       </div>
       <header className="simple-run-heading room-goal">
