@@ -71,7 +71,7 @@ function persistCommands(): void {
   else sessionStorage.removeItem(PENDING_COMMANDS_KEY)
 }
 
-async function req<T>(method: string, url: string, body?: unknown, idempotent = false): Promise<T> {
+async function req<T>(method: string, url: string, body?: unknown, idempotent = false, signal?: AbortSignal): Promise<T> {
   if (!browserSessionActive()) throw new ApiError(401, 'Session ended. Sign in again.')
   const generation = browserSessionGeneration()
   const input = body ? JSON.stringify(body) : ''
@@ -88,7 +88,7 @@ async function req<T>(method: string, url: string, body?: unknown, idempotent = 
   const subject = browserSessionSubject()
   if (subject) headers['X-AgentTeam-Subject'] = subject
   if (idempotent) headers['Idempotency-Key'] = pendingCommands.get(command)!.key
-  const send = () => fetch(url, { method, headers, body: input || undefined, ...(idempotent ? { signal: AbortSignal.timeout(30000) } : {}) })
+  const send = () => fetch(url, { method, headers, body: input || undefined, signal: idempotent ? AbortSignal.timeout(30000) : signal })
   // A lost response is not proof of failure. Keep the key for an explicit retry;
   // never repeat a mutation just because its response did not arrive.
   const r = await send()
@@ -115,9 +115,9 @@ export const api = {
   usage: () => req<UsageAllowance>('GET', '/api/usage'),
   config: () => req<Config>('GET', '/api/config'),
   runs: () => req<Run[]>('GET', '/api/runs'),
-  run: (id: string) => req<RunDetail>('GET', `/api/runs/${id}`),
-  events: (id: string, after = 0) => req<Event[]>('GET', `/api/runs/${id}/events?after_seq=${after}`),
-  chat: (id: string) => req<ChatMessage[]>('GET', `/api/runs/${id}/chat`),
+  run: (id: string, signal?: AbortSignal) => req<RunDetail>('GET', `/api/runs/${id}`, undefined, false, signal),
+  events: (id: string, after = 0, signal?: AbortSignal) => req<Event[]>('GET', `/api/runs/${id}/events?after_seq=${after}`, undefined, false, signal),
+  chat: (id: string, signal?: AbortSignal) => req<ChatMessage[]>('GET', `/api/runs/${id}/chat`, undefined, false, signal),
   timeline: (id: string, tools = true) => req<TimelineItem[]>('GET', `/api/runs/${id}/timeline?tools=${tools}`),
   instruction: (id: string, body: { text: string; kind: 'change' | 'question' | 'edit' | 'control'; expected_seq?: number }) =>
     req<InstructionReceipt>('POST', `/api/runs/${id}/instructions`, body),

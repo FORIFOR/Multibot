@@ -20,6 +20,7 @@ import '../workroom-refinement.css'
 // Full audit tools are preserved, but loaded only when the user asks for them.
 const Inspector = lazy(() => import('./RunView'))
 const say = (ja: string, en: string) => getLang() === 'en' ? en : ja
+const WORKROOM_READ_TIMEOUT_MS = 15000
 // A failed or unverified record is not "checked": the file list and status line must say which it is.
 // Only the latest record of each kind counts; a later review of the same bytes supersedes an earlier one.
 type CheckState = 'none' | 'pass' | 'concern'
@@ -73,19 +74,30 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
   const reconnectRef = useRef<() => Promise<void>>(async () => {})
 
   useEffect(() => {
-    let alive = true, inFlight = false, cursor = 0, nextConnectAt = 0
-    setRun(null); setChat([]); setEvents([]); setConnection('connecting')
+    let alive = true, cursor = 0, nextConnectAt = 0
+    let currentRead: AbortController | null = null
+    setRun(null); setChat([]); setEvents([]); setLoadError(''); setConnection('connecting')
     let stream: EventSource | null = null
     let queued: ReturnType<typeof setTimeout> | undefined
-    const refresh = async () => {
-      if (!alive || inFlight) return
-      inFlight = true
+    const refresh = async (replacePending = false) => {
+      if (!alive || (currentRead && !replacePending)) return
+      // Manual reload replaces an unfinished read. Poll and stream signals share one batch.
+      // The deadline includes response bodies; a stalled body must not keep reload locked.
+      currentRead?.abort()
+      const read = new AbortController()
+      currentRead = read
+      const deadline = setTimeout(() => read.abort(), WORKROOM_READ_TIMEOUT_MS)
       try {
-        const [detail, messages, updates] = await Promise.all([api.run(runId), api.chat(runId), api.events(runId,cursor)])
-        if (alive) { setRun(detail); setChat(messages); setLoadError(''); if(updates.length){cursor=updates.at(-1)!.seq;setEvents(old=>[...old,...updates])} if(!streamOpen() && detail.live && !isSettled(detail.status)) connect(); else if (!streamOpen() && isSettled(detail.status)) setConnection('ended') }
+        const [detail, messages, updates] = await Promise.all([api.run(runId,read.signal), api.chat(runId,read.signal), api.events(runId,cursor,read.signal)])
+        if (!alive || currentRead !== read) return
+        setRun(detail); setChat(messages); setLoadError(''); if(updates.length){cursor=updates.at(-1)!.seq;setEvents(old=>[...old,...updates])} if(!streamOpen() && detail.live && !isSettled(detail.status)) connect(); else if (!streamOpen() && isSettled(detail.status)) setConnection('ended')
         return detail
-      } catch { if (alive) setLoadError(say('最新の状態を取得できません。表示内容が古い可能性があります。', 'Could not refresh the work. The displayed information may be out of date.')) }
-      finally { inFlight = false }
+      } catch { if (alive && currentRead === read) setLoadError(say('最新の状態を取得できません。表示内容が古い可能性があります。', 'Could not refresh the work. The displayed information may be out of date.')) }
+      finally {
+        clearTimeout(deadline)
+        read.abort() // Cancel sibling GETs when one member of the batch fails.
+        if (currentRead === read) currentRead = null
+      }
     }
     const schedule = () => { if (!queued) queued = setTimeout(() => { queued = undefined; void refresh() }, 100) }
     // The stream is only a change signal; the fetches above carry the data. Start it after the last event
@@ -111,13 +123,13 @@ export default function Workroom({ runId, nav }: { runId: string; nav: (path: st
     // After an action (resume, cancel, adopt…) the run may start again before it is reported live; open the
     // stream for any unsettled run. The server closes it at once when nothing more will be appended.
     const ensureStream = async () => { const detail = await refresh(); if (alive && detail && !streamOpen() && !isSettled(detail.status)) connect() }
-    refreshRef.current = async () => { await refresh() }; reconnectRef.current = ensureStream
+    refreshRef.current = async () => { await refresh(true) }; reconnectRef.current = ensureStream
     void ensureStream()
     // Resync after missed SSE events and external resume; only while visible.
     const timer = setInterval(() => { if (!document.hidden) void refresh() }, 5000)
     document.addEventListener('visibilitychange', foreground)
     window.addEventListener('pageshow', foreground)
-    return () => { alive = false; stream?.close(); clearInterval(timer); clearTimeout(queued); document.removeEventListener('visibilitychange', foreground); window.removeEventListener('pageshow', foreground) }
+    return () => { alive = false; currentRead?.abort(); stream?.close(); clearInterval(timer); clearTimeout(queued); document.removeEventListener('visibilitychange', foreground); window.removeEventListener('pageshow', foreground) }
   }, [runId])
   const refresh = useCallback(() => refreshRef.current(), [])
   const act = async (fn: () => Promise<unknown>) => {

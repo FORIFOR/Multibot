@@ -1,0 +1,293 @@
+{
+  "status": "PASS_EVIDENCE_REVIEW_WITH_LIMITS",
+  "reviewed_at": "2026-10-02T01:52:51.984318+00:00",
+  "method": "既存実7段階safe JSONと停止後SQLiteのread-only照合。独立再実行なし。",
+  "evidence_root": "workroom-recovery-service-regression-20261002-r1",
+  "runtime_revision_base": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "runtime_has_uncommitted_product_fix": true,
+  "reported_started_at": "2026-10-02T01:45:09.481325+00:00",
+  "reported_finished_at": "2026-10-02T01:45:49.001085+00:00",
+  "stage_count": 7,
+  "stages": [
+    "actual HTTP/SQLite admission",
+    "actual-source response projection",
+    "auth-initial-recovery.mjs",
+    "auth-browser-isolation.mjs",
+    "auth-retry-reload.mjs",
+    "auth-parallel-login.mjs",
+    "auth-peer-tab-close.mjs"
+  ],
+  "evidence_sha256": {
+    "report.json": "5f31900f3f73190d184af7f570cb21cbcd5dba15860496dc67c1e05409a9633f",
+    "admission/verification.json": "3437bb5e91a851a41d801006ac39515c75031923a0c6502569fa06de0912f5ed",
+    "responses/response-check.json": "9757c94c4e39e0ba9a3404f8259d3935d019a2c1424b0e13d0442b0cb67b0452",
+    "browser/initial-recovery.json": "22f80f3a2caa1cf67487aa1656b46404d77f1d721c12950d0473ae55e7880822",
+    "browser/results.json": "69814651857a2187143a985343e2fac363a5cfac163733a6cda33c40372fdf9b",
+    "browser/retry-reload.json": "678491906d3adef3d8802f19f59908289b32552b7ef91cd758fa83bc84e5108a",
+    "browser/parallel-login.json": "12ab419786cf3a90d6b565704c2050bbcc81dd671572cbb2ef784c2354b41c2f",
+    "browser/parallel-diagnostic.json": "20b43df64e733d7e483603d0fd99f1638c7e748a4e2cb3b1d2bcfa9ad457d661",
+    "browser/peer-tab-close.json": "6688f5f014090298aa5e4d1650ca49e864974ae266302dc479a32283bafb1b0b"
+  },
+  "recorded_source_hash_checks": [
+    {
+      "path": "backend/scripts/check_public_service.py",
+      "expected_sha256": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+      "actual_sha256": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+      "matches": true
+    },
+    {
+      "path": "backend/scripts/check_subject_admission.py",
+      "expected_sha256": "019501e0bccee5b59e11c052263238b297d64326719b1a6081b13ba73350c504",
+      "actual_sha256": "019501e0bccee5b59e11c052263238b297d64326719b1a6081b13ba73350c504",
+      "matches": true
+    },
+    {
+      "path": "backend/scripts/check_public_responses.py",
+      "expected_sha256": "2a429ec29178db481d5a229dac1792816c0da2881b5792ed961197cb886d2bfe",
+      "actual_sha256": "2a429ec29178db481d5a229dac1792816c0da2881b5792ed961197cb886d2bfe",
+      "matches": true
+    },
+    {
+      "path": "frontend/scripts/auth-initial-recovery.mjs",
+      "expected_sha256": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64",
+      "actual_sha256": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64",
+      "matches": true
+    },
+    {
+      "path": "frontend/scripts/auth-browser-isolation.mjs",
+      "expected_sha256": "5e0094862ecc721498e86a19051f7b35ab23ac83336ac3837d5a749dddeb2c58",
+      "actual_sha256": "5e0094862ecc721498e86a19051f7b35ab23ac83336ac3837d5a749dddeb2c58",
+      "matches": true
+    },
+    {
+      "path": "frontend/scripts/auth-retry-reload.mjs",
+      "expected_sha256": "3d865b0bdc1ef929fc6d4839bc55b90a200b392ee8ac280e17d497ba74145218",
+      "actual_sha256": "3d865b0bdc1ef929fc6d4839bc55b90a200b392ee8ac280e17d497ba74145218",
+      "matches": true
+    },
+    {
+      "path": "frontend/scripts/auth-parallel-login.mjs",
+      "expected_sha256": "89872cd7dca1ab9f6977b7df3e22cda5c1342966006ce4e99f0e3ae831e8159e",
+      "actual_sha256": "89872cd7dca1ab9f6977b7df3e22cda5c1342966006ce4e99f0e3ae831e8159e",
+      "matches": true
+    },
+    {
+      "path": "frontend/scripts/auth-peer-tab-close.mjs",
+      "expected_sha256": "4abe3473ff5401014cbe6d9cc95fa3baecd0b741aab8df055f9ac0a249b2be7d",
+      "actual_sha256": "4abe3473ff5401014cbe6d9cc95fa3baecd0b741aab8df055f9ac0a249b2be7d",
+      "matches": true
+    },
+    {
+      "path": "frontend/scripts/auth-initial-recovery.mjs",
+      "expected_sha256": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64",
+      "actual_sha256": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/components/AuthGate.tsx",
+      "expected_sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+      "actual_sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/lib/browser-session.ts",
+      "expected_sha256": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+      "actual_sha256": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+      "matches": true
+    },
+    {
+      "path": "backend/scripts/check_public_service.py",
+      "expected_sha256": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+      "actual_sha256": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+      "matches": true
+    },
+    {
+      "path": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+      "expected_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "actual_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "matches": true
+    },
+    {
+      "path": "docs/evidence/real-readiness-v18-qwen35-fixed-2026-09-15/01/run.json",
+      "expected_sha256": "2b07e1b362406c0b380fdd61bf17abf5a513d8f3e7a06cc60bc328b7226baa6b",
+      "actual_sha256": "2b07e1b362406c0b380fdd61bf17abf5a513d8f3e7a06cc60bc328b7226baa6b",
+      "matches": true
+    },
+    {
+      "path": "docs/evidence/real-readiness-v18-qwen35-fixed-2026-09-15/01/events.jsonl",
+      "expected_sha256": "2086c59dbe265f0192bb90d3b6215975fda2e39feba361a47baf95e0423920d9",
+      "actual_sha256": "2086c59dbe265f0192bb90d3b6215975fda2e39feba361a47baf95e0423920d9",
+      "matches": true
+    },
+    {
+      "path": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+      "expected_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "actual_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "matches": true
+    }
+  ],
+  "build_source_and_bundle_hash_checks": {
+    "frontend/src/pages/Workroom.tsx": {
+      "sha256": "f3e8924f8e9bab8fe973f5b4f8b4ec920ddb8671ffbfd260eb072ab7a5230174",
+      "matches": true
+    },
+    "frontend/src/lib/api.ts": {
+      "sha256": "fbad0a6cfe12d52329b70badf7580cde16d1f0d31a13eef05a7373487b7437ca",
+      "matches": true
+    },
+    "frontend/src/components/AuthGate.tsx": {
+      "sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+      "matches": true
+    },
+    "backend/agentteam/ui/assets/RunView-B84ZRFQg.js": {
+      "sha256": "96705c91694caba39cb08ab664416473aa55b3857c00df532902c7559876caaa",
+      "matches": true
+    },
+    "backend/agentteam/ui/assets/index-BQqhmjTV.css": {
+      "sha256": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+      "matches": true
+    },
+    "backend/agentteam/ui/assets/index-NKax6_35.js": {
+      "sha256": "209e168b0e024e065bc9440c175e5b1190e512e88afccdb11f71e9ac74c3f2b4",
+      "matches": true
+    },
+    "backend/agentteam/ui/favicon.svg": {
+      "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+      "matches": true
+    },
+    "backend/agentteam/ui/icons.svg": {
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+      "matches": true
+    },
+    "backend/agentteam/ui/index.html": {
+      "sha256": "582a4d54123477179dd70ff1db664ca2da8f63c2f65de2181a83a389b5c1caf0",
+      "matches": true
+    }
+  },
+  "build_report_sha256": "915da9f8d70807d905c1355b3c7864c4e31d195ed0560c549e3ff0448f9bd7b8",
+  "current_dist_equals_packaged_ui": true,
+  "packaged_ui_file_count": 6,
+  "product_source_mapping_limit": "suiteは検証8fileを記録。api.ts/Workroomと配布UIの実HTTP応答bytesをsuite自身で採取していない。直前build-checksの製品hash/配布hashと現物一致、create_appの既定配布経路で関連づける。連続観測やserved-bytes確認とはしない。",
+  "database_readonly_counts": {
+    "admission": {
+      "runs": 3,
+      "run_statuses": {
+        "cancelled": 1,
+        "created": 2
+      },
+      "jobs": 1,
+      "job_states": {
+        "cancelled": 1
+      },
+      "pending_jobs": 0,
+      "artifacts": 0,
+      "model_events": 0
+    },
+    "responses": {
+      "runs": 4,
+      "run_statuses": {
+        "completed": 1,
+        "created": 3
+      },
+      "jobs": 0,
+      "job_states": {},
+      "pending_jobs": 0,
+      "artifacts": 0,
+      "model_events": 20
+    },
+    "browser-data": {
+      "runs": 2,
+      "run_statuses": {
+        "created": 2
+      },
+      "jobs": 0,
+      "job_states": {},
+      "pending_jobs": 0,
+      "artifacts": 0,
+      "model_events": 0
+    }
+  },
+  "historical_model_events": {
+    "source_path": "docs/evidence/real-readiness-v18-qwen35-fixed-2026-09-15/01/events.jsonl",
+    "source_sha256": "2086c59dbe265f0192bb90d3b6215975fda2e39feba361a47baf95e0423920d9",
+    "model_events": 20,
+    "all_model_event_fields_and_payload_match_original": true,
+    "new_model_events": 0
+  },
+  "model_execution_requested": false,
+  "new_model_events_observed": 0,
+  "chrome_cleanup": {
+    "groups": 5,
+    "tracked_processes_sum": 58,
+    "remaining_sum": 0,
+    "signals_sum": 0,
+    "reported_processes": [
+      {
+        "program": "auth-initial-recovery.mjs",
+        "tracked_processes": 14,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-browser-isolation.mjs",
+        "tracked_processes": 10,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-retry-reload.mjs",
+        "tracked_processes": 9,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-parallel-login.mjs",
+        "tracked_processes": 10,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-peer-tab-close.mjs",
+        "tracked_processes": 15,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "api_cleanup": {
+    "scope": "browser_verification_api",
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "api_cleanup_scope_limit": "task/process lock/port/lifespanの結果はbrowser_verification_apiのみ。admission/responsesの終了はそれぞれのrunnerがfinallyで待つが、このscopeで実port閉鎖を測定したとはしない。",
+  "readme_snapshot_review": {
+    "path": "docs/evidence/workroom-read-recovery-20261002/README.md",
+    "sha256": "45fdafb8bc8290dbb939bef6da5f09d7ffb71ffbe1dd5481452629f807df1977",
+    "status": "PASS_FOR_BEFORE_AND_STATIC_SECTIONS",
+    "issues": [],
+    "runtime_section": "pendingとして正確。修正後browser r2/r3はこのレビュー対象外。",
+    "local_suite_report_byte_identical_to_public_candidate": true
+  },
+  "limits": [
+    "既存認証・同キー・peer回帰であり、新Workroomのhold/deadline/routeの専用試験ではない。",
+    "suite全体DB0ではない。admission3run/cancelledjob1、responses4run/旧model20、browser2run。追加推論0と区別する。",
+    "原CI36947671100の旧timer段階失敗原因は未確定。この並行PASSで遡って修正済みとはしない。",
+    "現ローカル候補であり今回変更のGitHubCIではない。",
+    "生ログ/DB/設定/鍵/本文をレビュー出力へコピーしていない。"
+  ],
+  "human_acceptance": false,
+  "new_services_started_by_reviewer": 0,
+  "new_product_tests_executed_by_reviewer": 0
+}

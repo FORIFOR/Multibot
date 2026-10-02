@@ -1,0 +1,398 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-02T01:51:07.334Z",
+  "cases": [
+    {
+      "id": "ja390-route",
+      "status": "PASS",
+      "phase": "cleanup",
+      "source_run_id": "run_1a0f84e775a61f6bc86",
+      "original_status": "interrupted",
+      "http": [
+        {
+          "phase": "login",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "login",
+          "path": "/api/auth/me",
+          "status": 401,
+          "ms": null
+        },
+        {
+          "phase": "login",
+          "path": "/api/auth/login",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/auth/me",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/health",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86",
+          "status": 200,
+          "ms": null,
+          "record": {
+            "run_id": "run_1a0f84e775a61f6bc86",
+            "status": "interrupted",
+            "live": false,
+            "last_seq": 94
+          }
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "held_initial",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "held_initial",
+          "path": "/api/auth/me",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "held_initial",
+          "path": "/api/health",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "held_initial",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "held_initial",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "held_initial",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+          "status": 200,
+          "ms": null
+        },
+        {
+          "phase": "actual-route-change",
+          "path": "/api/runs",
+          "status": 200,
+          "ms": 131
+        },
+        {
+          "phase": "actual-route-change",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms": 132
+        },
+        {
+          "phase": "actual-route-change",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms": 246
+        },
+        {
+          "phase": "actual-route-change",
+          "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+          "status": 200,
+          "ms": 247
+        },
+        {
+          "phase": "actual-route-change",
+          "path": "/api/runs/run_1a0f80632e5c1220524/events",
+          "status": 200,
+          "ms": 248
+        },
+        {
+          "phase": "actual-route-change",
+          "path": "/api/runs/run_1a0f80632e5c1220524",
+          "status": 200,
+          "ms": 253
+        },
+        {
+          "phase": "actual-route-change",
+          "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+          "status": 200,
+          "ms": 270
+        }
+      ],
+      "requests": [
+        {
+          "phase": "baseline",
+          "kind": "detail",
+          "method": "GET",
+          "ms": null,
+          "after_seq": null
+        },
+        {
+          "phase": "baseline",
+          "kind": "chat",
+          "method": "GET",
+          "ms": null,
+          "after_seq": null
+        },
+        {
+          "phase": "baseline",
+          "kind": "events",
+          "method": "GET",
+          "ms": null,
+          "after_seq": 0
+        },
+        {
+          "phase": "held_initial",
+          "kind": "detail",
+          "method": "GET",
+          "ms": null,
+          "after_seq": null
+        },
+        {
+          "phase": "held_initial",
+          "kind": "chat",
+          "method": "GET",
+          "ms": null,
+          "after_seq": null
+        },
+        {
+          "phase": "held_initial",
+          "kind": "events",
+          "method": "GET",
+          "ms": null,
+          "after_seq": 0
+        }
+      ],
+      "network_failures": [
+        {
+          "phase": "actual-route-change",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86",
+          "kind": "detail",
+          "ms": 110,
+          "closing": false
+        }
+      ],
+      "page_error_types": [],
+      "screenshots": [
+        "ja390-route-before.png",
+        "ja390-route-held.png",
+        "ja390-route-new-route-before-old-release.png",
+        "ja390-route-new-route-after-old-release.png"
+      ],
+      "keyboard": [],
+      "observations": [
+        {
+          "tag": "initial-held",
+          "ms": 49,
+          "requests": {
+            "detail": 1,
+            "chat": 1,
+            "events": 1
+          },
+          "opening": true
+        }
+      ],
+      "held_actual_responses": [
+        {
+          "status": 200,
+          "kind": "detail",
+          "ms": 0
+        }
+      ],
+      "released_original": [
+        {
+          "status": 200,
+          "command": "unavailable_after_abort",
+          "matched_real_cancel": true,
+          "expected_protocol_after_cancel": true,
+          "error_name": "Error",
+          "at_ms": 336
+        }
+      ],
+      "chrome_version": "154.0.8037.93",
+      "original_artifact": {
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches_original": true
+      },
+      "record_before": {
+        "run_id": "run_1a0f84e775a61f6bc86",
+        "status": "interrupted",
+        "live": false,
+        "last_seq": 94,
+        "artifacts": [
+          {
+            "run_id": "run_1a0f84e775a61f6bc86",
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+          }
+        ]
+      },
+      "baseline_geometry": {
+        "inner": [
+          390,
+          844
+        ],
+        "outer": [
+          500,
+          965
+        ],
+        "dpr": 1,
+        "root_zoom": "1",
+        "body_zoom": "1",
+        "scroll": [
+          0,
+          0
+        ],
+        "overflow": 0,
+        "active_tag": "H1",
+        "active_button_text": null,
+        "active_rect": {
+          "x": 16,
+          "y": 161.375,
+          "width": 343,
+          "height": 56,
+          "top": 161.375,
+          "right": 359,
+          "bottom": 217.375,
+          "left": 16
+        },
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 375,
+          "height": 107,
+          "top": 0,
+          "right": 375,
+          "bottom": 107,
+          "left": 0
+        },
+        "active_visible": true
+      },
+      "destination_before_old_release": {
+        "run_id": "run_1a0f80632e5c1220524",
+        "status": "failed",
+        "live": false,
+        "last_seq": 80,
+        "artifacts": [
+          {
+            "run_id": "run_1a0f80632e5c1220524",
+            "artifact_id": "final-report.md",
+            "revision": 1,
+            "sha256": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+          },
+          {
+            "run_id": "run_1a0f80632e5c1220524",
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+          }
+        ]
+      },
+      "destination_artifact": {
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches_original": true
+      },
+      "destination_status_label": "作業が止まりました",
+      "final_artifact": {
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches_original": true
+      },
+      "record_final": {
+        "run_id": "run_1a0f80632e5c1220524",
+        "status": "failed",
+        "live": false,
+        "last_seq": 80,
+        "artifacts": [
+          {
+            "run_id": "run_1a0f80632e5c1220524",
+            "artifact_id": "final-report.md",
+            "revision": 1,
+            "sha256": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+          },
+          {
+            "run_id": "run_1a0f80632e5c1220524",
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+          }
+        ]
+      },
+      "route_remains_destination_after_old_release": true,
+      "rendered_artifact_href_matches_destination": true,
+      "post_login_401_count": 0,
+      "principal_unchanged": true,
+      "protocol_error_types": [],
+      "final_requests": {
+        "detail": 1,
+        "chat": 1,
+        "events": 1
+      }
+    }
+  ],
+  "writes": [
+    {
+      "case": "ja390-route",
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "cleanup": [
+    {
+      "case": "ja390-route",
+      "id": "release-original",
+      "status": "PASS"
+    },
+    {
+      "case": "ja390-route",
+      "id": "close-owned-context",
+      "status": "PASS"
+    }
+  ],
+  "human_acceptance": false,
+  "model_execution_requested": false,
+  "method": "Real Chrome, actual keyed AppService and preserved v62. CDP holds original HTTP200 at Response stage; no response replacement, no business mutation. Native200 uses real Chrome profile default zoom, not CSS zoom.",
+  "business_writes_observed": 0,
+  "finished_at": "2026-10-02T01:51:09.830Z"
+}
