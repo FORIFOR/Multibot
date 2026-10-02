@@ -1,0 +1,770 @@
+{
+  "status": "PASS",
+  "phase": "completed",
+  "error_name": null,
+  "passed_check_ids": [
+    "parallel-real-signin",
+    "parallel-signin-response-loss",
+    "cookie-subject-mismatch"
+  ],
+  "rounds": [
+    {
+      "id": "parallel",
+      "pages": [
+        {
+          "page": "A",
+          "page_closed": false,
+          "probe": {
+            "events": [
+              {
+                "kind": "probe_installed",
+                "epoch_ms": 1790902991853,
+                "performance_ms": 281.59999999403954,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "timer_registered",
+                "epoch_ms": 1790902991856,
+                "performance_ms": 284.59999999403954,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "timer_fired_before_request_submit",
+                "epoch_ms": 1790902992254,
+                "performance_ms": 682.6999999880791,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "actual_submit_event",
+                "epoch_ms": 1790902992267,
+                "performance_ms": 695.5999999940395,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "request_submit_returned",
+                "epoch_ms": 1790902992270,
+                "performance_ms": 698.0999999940395,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992273,
+                "performance_ms": 701.7999999821186,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992273,
+                "performance_ms": 701.7999999821186,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "storage_received",
+                "epoch_ms": 1790902992274,
+                "performance_ms": 702.1999999880791,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "storage_received",
+                "epoch_ms": 1790902992305,
+                "performance_ms": 733.5999999940395,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": false
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992306,
+                "performance_ms": 734.5999999940395,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": false,
+                "input_valid": false,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": false
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992411,
+                "performance_ms": 839.2999999821186,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": false,
+                "input_valid": false,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": false
+              }
+            ],
+            "dropped_events": 0
+          }
+        },
+        {
+          "page": "B",
+          "page_closed": false,
+          "probe": {
+            "events": [
+              {
+                "kind": "probe_installed",
+                "epoch_ms": 1790902991853,
+                "performance_ms": 108.30000001192093,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "timer_registered",
+                "epoch_ms": 1790902991856,
+                "performance_ms": 111.30000001192093,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "timer_fired_before_request_submit",
+                "epoch_ms": 1790902992057,
+                "performance_ms": 312.5,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "actual_submit_event",
+                "epoch_ms": 1790902992267,
+                "performance_ms": 522.2000000178814,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "request_submit_returned",
+                "epoch_ms": 1790902992270,
+                "performance_ms": 524.8000000119209,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992273,
+                "performance_ms": 528.4000000059605,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992273,
+                "performance_ms": 528.5,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "storage_received",
+                "epoch_ms": 1790902992276,
+                "performance_ms": 531.4000000059605,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992305,
+                "performance_ms": 560.7000000178814,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": false
+              },
+              {
+                "kind": "storage_received",
+                "epoch_ms": 1790902992410,
+                "performance_ms": 665.8000000119209,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": false
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992411,
+                "performance_ms": 665.8000000119209,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": false
+              }
+            ],
+            "dropped_events": 0
+          }
+        }
+      ],
+      "submission_settled": [
+        {
+          "page": "A",
+          "fulfilled": true,
+          "error_name": null
+        },
+        {
+          "page": "B",
+          "fulfilled": true,
+          "error_name": null
+        }
+      ],
+      "login_requests": [
+        {
+          "page": "B",
+          "epoch_ms": 1790902992272
+        },
+        {
+          "page": "A",
+          "epoch_ms": 1790902992272
+        }
+      ],
+      "held_responses": [
+        {
+          "page": "B",
+          "epoch_ms": 1790902992282,
+          "status": 200
+        },
+        {
+          "page": "A",
+          "epoch_ms": 1790902992282,
+          "status": 200
+        }
+      ],
+      "barrier": {
+        "deadline_ms": 5000,
+        "pauses": [
+          {
+            "page": "B",
+            "epoch_ms": 1790902992061,
+            "reason": "EventListener",
+            "actual_submit_event": true
+          },
+          {
+            "page": "A",
+            "epoch_ms": 1790902992256,
+            "reason": "EventListener",
+            "actual_submit_event": true
+          }
+        ],
+        "both_actual_submit_tasks_paused": true,
+        "release": [
+          {
+            "page": "A",
+            "breakpoint_removed": true,
+            "resume_completed": true
+          },
+          {
+            "page": "B",
+            "breakpoint_removed": true,
+            "resume_completed": true
+          }
+        ]
+      },
+      "target_epoch_ms": 1790902992055
+    },
+    {
+      "id": "response_loss",
+      "pages": [
+        {
+          "page": "A",
+          "page_closed": false,
+          "probe": {
+            "events": [
+              {
+                "kind": "probe_installed",
+                "epoch_ms": 1790902992534,
+                "performance_ms": 112,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "timer_registered",
+                "epoch_ms": 1790902992534,
+                "performance_ms": 112.80000001192093,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "timer_fired_before_request_submit",
+                "epoch_ms": 1790902992922,
+                "performance_ms": 500.09999999403954,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "actual_submit_event",
+                "epoch_ms": 1790902992927,
+                "performance_ms": 506,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "request_submit_returned",
+                "epoch_ms": 1790902992929,
+                "performance_ms": 507.40000000596046,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992930,
+                "performance_ms": 509,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992931,
+                "performance_ms": 509.19999998807907,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "storage_received",
+                "epoch_ms": 1790902992932,
+                "performance_ms": 510.40000000596046,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992980,
+                "performance_ms": 558.6999999880791,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": false
+              },
+              {
+                "kind": "storage_received",
+                "epoch_ms": 1790902993085,
+                "performance_ms": 663.9000000059605,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": false
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902993085,
+                "performance_ms": 663.9000000059605,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": false
+              }
+            ],
+            "dropped_events": 0
+          }
+        },
+        {
+          "page": "B",
+          "page_closed": false,
+          "probe": {
+            "events": [
+              {
+                "kind": "probe_installed",
+                "epoch_ms": 1790902992533,
+                "performance_ms": 51.5,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "timer_registered",
+                "epoch_ms": 1790902992534,
+                "performance_ms": 52.5,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "timer_fired_before_request_submit",
+                "epoch_ms": 1790902992737,
+                "performance_ms": 255.40000000596046,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "actual_submit_event",
+                "epoch_ms": 1790902992927,
+                "performance_ms": 445.5,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "request_submit_returned",
+                "epoch_ms": 1790902992929,
+                "performance_ms": 447,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992933,
+                "performance_ms": 451.40000000596046,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992933,
+                "performance_ms": 451.40000000596046,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "storage_received",
+                "epoch_ms": 1790902992934,
+                "performance_ms": 452.5,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": true,
+                "input_valid": true,
+                "submit_disabled": true,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": true
+              },
+              {
+                "kind": "storage_received",
+                "epoch_ms": 1790902992980,
+                "performance_ms": 498.2999999821186,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": false
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902992980,
+                "performance_ms": 498.2999999821186,
+                "form_count": 0,
+                "input_present": false,
+                "input_has_value": false,
+                "input_valid": null,
+                "submit_disabled": null,
+                "connecting_count": 1,
+                "workspace_count": 0,
+                "pending": false
+              },
+              {
+                "kind": "broadcast_received",
+                "epoch_ms": 1790902993085,
+                "performance_ms": 603.5,
+                "form_count": 1,
+                "input_present": true,
+                "input_has_value": false,
+                "input_valid": false,
+                "submit_disabled": false,
+                "connecting_count": 0,
+                "workspace_count": 0,
+                "pending": false
+              }
+            ],
+            "dropped_events": 0
+          }
+        }
+      ],
+      "submission_settled": [
+        {
+          "page": "A",
+          "fulfilled": true,
+          "error_name": null
+        },
+        {
+          "page": "B",
+          "fulfilled": true,
+          "error_name": null
+        }
+      ],
+      "login_requests": [
+        {
+          "page": "B",
+          "epoch_ms": 1790902992930
+        },
+        {
+          "page": "A",
+          "epoch_ms": 1790902992931
+        },
+        {
+          "page": "A",
+          "epoch_ms": 1790902993176
+        }
+      ],
+      "held_responses": [
+        {
+          "page": "A",
+          "epoch_ms": 1790902992960,
+          "status": 200
+        },
+        {
+          "page": "B",
+          "epoch_ms": 1790902992960,
+          "status": 200
+        }
+      ],
+      "barrier": {
+        "deadline_ms": 5000,
+        "pauses": [
+          {
+            "page": "B",
+            "epoch_ms": 1790902992738,
+            "reason": "EventListener",
+            "actual_submit_event": true
+          },
+          {
+            "page": "A",
+            "epoch_ms": 1790902992923,
+            "reason": "EventListener",
+            "actual_submit_event": true
+          }
+        ],
+        "both_actual_submit_tasks_paused": true,
+        "release": [
+          {
+            "page": "A",
+            "breakpoint_removed": true,
+            "resume_completed": true
+          },
+          {
+            "page": "B",
+            "breakpoint_removed": true,
+            "resume_completed": true
+          }
+        ]
+      },
+      "target_epoch_ms": 1790902992734
+    }
+  ],
+  "debug_cleanup": [
+    {
+      "page": "A",
+      "target_closed": false,
+      "steps": [
+        {
+          "name": "remove_breakpoint",
+          "status": "PASS"
+        },
+        {
+          "name": "disable_debugger",
+          "status": "PASS"
+        },
+        {
+          "name": "disable_fetch",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "page": "B",
+      "target_closed": true,
+      "steps": []
+    }
+  ],
+  "scheduling": "Real DOMDebugger submit breakpoint barrier; not natural simultaneous-user timing"
+}

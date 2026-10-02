@@ -1,0 +1,24 @@
+{
+  "reviewed_at": "2026-10-02T00:58:59.526024+00:00",
+  "review_type": "instrument-only差分の静的独立確認",
+  "status": "PASS_WITH_LIMITS",
+  "source_sha256": "3a6aca0e995d580f1f46d6e7304e130806af98e04e04a7e6e53f6b307f5f9ef8",
+  "base_sha256": "e6e3f43f4a40633cc9915cda2f319c08e24332828c0af8396711dba40ee2570e",
+  "new_execution": false,
+  "blocking_findings": [],
+  "confirmed": [
+    "200ms timerと実requestSubmitを維持",
+    "Fetchで実200の保留/解放/実ConnectionResetを維持、架空responseなし",
+    "実BC/storageは追加observerのみ。送信/受信handlerのmonkeypatchなし",
+    "両200/workspace非表示/明示login/主体不一致401/追加run0/job0の既存assertを維持",
+    "allSettledで片タブ例外でも両submit観測を回収、rejectedを再throwしてPASSへ変えない",
+    "安全出力は固定scalar/件数/時刻/pendingbool/errorname、キー本文/header/Cookie/ID/DOMdumpなし",
+    "collectObservationsは2秒有界、raw私有保存/画像より前に安全snapshotを保存"
+  ],
+  "limits": [
+    "instrumentationには追加capture listenerと通知observer、release前のDOM RPCがあり時間的無摂動ではない",
+    "dropped_events>0やobservation_error時は未観測を維持し原CI原因を断定しない",
+    "originの元CI rawerrorは未入手。新実観測で同型のfailureを見ても元CIそのものの例外を確認したとは称さない"
+  ],
+  "optional_hardening": "catch冒頭で既存状態をまず保存してからboundedcollect→再保存すると観測回収中に外側timeoutが来ても直近phaseが残る。現状をblockingとはしない。"
+}

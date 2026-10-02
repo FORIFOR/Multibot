@@ -1,0 +1,16 @@
+{
+  "reviewed_at": "2026-10-02T01:13:53.617780+00:00",
+  "review_type": "2点の文言修正後のREADME再照合。新実行なし。",
+  "status": "PASS",
+  "readme_sha256": "2f7c6c2b5242cc61278ecbf3d0acf1036bfe16f943212b4174cd704ba08e2381",
+  "previous_readme_sha256": "2f7c6c2b5242cc61278ecbf3d0acf1036bfe16f943212b4174cd704ba08e2381",
+  "resolved": [
+    "3秒期限はcleanup helper内に限定し、通常経路Fetch.disableはwrapper180秒依存と明記",
+    "共有Cookieの主体は実発行キーの認証による切替と明記"
+  ],
+  "blocking_findings": [],
+  "scope": "最終suite追記前のREADME。今後の追記内容を先取りして承認しない。",
+  "original_ci_status": "FAIL retained; cause unconfirmed",
+  "controlled_prototype_and_nonreproducing_observations_separate": true,
+  "new_execution": false
+}

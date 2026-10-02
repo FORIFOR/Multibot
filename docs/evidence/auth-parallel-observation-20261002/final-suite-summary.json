@@ -1,0 +1,418 @@
+{
+  "status": "PASS",
+  "review_kind": "same-model AI independent static review and one actual seven-stage run",
+  "recorded_at": "2026-10-02T01:14:39.793989+00:00",
+  "head": "330c18c874fb34c13b5f75f404244f6d57ca63b4",
+  "code_diff_sha256": "b826caf2b3463deef283dde94e6efe64a92cd8447b4b1a28224b31578e04caa6",
+  "code_and_ui_unchanged": true,
+  "code_file_count": 229,
+  "source_input_count": 4,
+  "ui_file_count": 6,
+  "target_script_sha256": "89872cd7dca1ab9f6977b7df3e22cda5c1342966006ce4e99f0e3ae831e8159e",
+  "reference_private_script_sha256": "d469f53798d3d2dda9c9ccceaa2e0dc87044cabdc1093887c4158d6b0202527f",
+  "execution": {
+    "exit_code": 0,
+    "elapsed_seconds": 39.69156816700706,
+    "started_at": "2026-10-02T01:11:03.472018+00:00",
+    "finished_at": "2026-10-02T01:11:43.163593+00:00",
+    "test_attempt": 1
+  },
+  "static_review": {
+    "blocking_findings": 0,
+    "original_three_assertions_retained": true,
+    "response_bytes_fabricated": false,
+    "notifications_fabricated": false,
+    "credentials_file_references_only": true,
+    "active_round_closed_before_followup_login": true,
+    "cleanup_failure_propagates_to_exit": true,
+    "local_screenshot_wait_relies_on_outer_process_deadline": true
+  },
+  "planned_stages": 7,
+  "completed_stages": [
+    "actual HTTP/SQLite admission",
+    "actual-source response projection",
+    "auth-initial-recovery.mjs",
+    "auth-browser-isolation.mjs",
+    "auth-retry-reload.mjs",
+    "auth-parallel-login.mjs",
+    "auth-peer-tab-close.mjs"
+  ],
+  "stage_check_counts": {
+    "admission": 8,
+    "responses": 9,
+    "initial_recovery": 12,
+    "browser_isolation": 7,
+    "parallel": 3,
+    "peer": 2
+  },
+  "parallel_rounds": [
+    {
+      "id": "parallel",
+      "pause_count_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "post_count_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "held_200_count_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "both_paused_before_post": true,
+      "arrival_spread_ms": 129,
+      "breakpoints_removed_and_resumed": true
+    },
+    {
+      "id": "response_loss",
+      "pause_count_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "post_count_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "held_200_count_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "both_paused_before_post": true,
+      "arrival_spread_ms": 140,
+      "breakpoints_removed_and_resumed": true
+    }
+  ],
+  "browser_version": "154.0.8037.93",
+  "initial_business_before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "initial_business_after": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "database_scopes": [
+    {
+      "scope": "admission/data",
+      "runs": 3,
+      "run_status_counts": {
+        "cancelled": 1,
+        "created": 2
+      },
+      "jobs_by_state": {
+        "cancelled": 1
+      },
+      "model_events": 0,
+      "artifacts": 0,
+      "db_sha256_after": "ec0f958d350b207dff175f2b613e87a7d253a6dda85be528096bdfde3f00bb10",
+      "historical_source_model_events": 0,
+      "additional_model_events": 0
+    },
+    {
+      "scope": "responses/data",
+      "runs": 4,
+      "run_status_counts": {
+        "completed": 1,
+        "created": 3
+      },
+      "jobs_by_state": {},
+      "model_events": 20,
+      "artifacts": 0,
+      "db_sha256_after": "136dba0e8deb6af1d482cca1cd319e7e0d99a397f1ba0c2eb9d55e8a75dc4fe2",
+      "historical_source_model_events": 20,
+      "additional_model_events": 0
+    },
+    {
+      "scope": "browser-data",
+      "runs": 2,
+      "run_status_counts": {
+        "created": 2
+      },
+      "jobs_by_state": {},
+      "model_events": 0,
+      "artifacts": 0,
+      "db_sha256_after": "27b98ecde820effbaa8fb7f587ddd3f6bfabe32699ad81c59e6046bd12996b57",
+      "historical_source_model_events": 0,
+      "additional_model_events": 0
+    }
+  ],
+  "owned_browser_cleanup": [
+    {
+      "program": "auth-initial-recovery.mjs",
+      "tracked_processes": 13,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-browser-isolation.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-retry-reload.mjs",
+      "tracked_processes": 9,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-parallel-login.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-peer-tab-close.mjs",
+      "tracked_processes": 15,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "owned_browser_api_cleanup": {
+    "scope": "browser_verification_api",
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "post_run_ports": [
+    {
+      "scope": "admission",
+      "port_closed_post_run": true
+    },
+    {
+      "scope": "responses",
+      "port_closed_post_run": true
+    },
+    {
+      "scope": "browser",
+      "port_closed_post_run": true
+    }
+  ],
+  "private_log_metadata": {
+    "runner.private.log": {
+      "bytes": 3006,
+      "sha256": "7f728ae79aead78c76d3825cd2f254746e301e414dc2651f4b0399c3c1e21c80",
+      "traceback_count": 0
+    },
+    "run/auth-initial-recovery.mjs.log": {
+      "bytes": 38,
+      "sha256": "18f241f8e9a8d56dcce25d4916f07d521c8a6ea3672a8e7983280e20ca58cefd",
+      "traceback_count": 0
+    },
+    "run/auth-peer-tab-close.mjs.log": {
+      "bytes": 56,
+      "sha256": "83c35f72eac2677252b2cc0b9439838612d75a3f73f54915e394bc3588817213",
+      "traceback_count": 0
+    },
+    "run/browser-api.private.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "traceback_count": 0
+    },
+    "run/auth-parallel-login.mjs.log": {
+      "bytes": 1079,
+      "sha256": "36290eab5621140e34a2b85f5f4c5288510cd23f96842be4eab8c8c541170181",
+      "traceback_count": 0
+    },
+    "run/auth-retry-reload.mjs.log": {
+      "bytes": 652,
+      "sha256": "38426f8e82c58517569ae50e66210f3913806db557d1b6a4134268a01a8c80c5",
+      "traceback_count": 0
+    },
+    "run/auth-browser-isolation.mjs.log": {
+      "bytes": 141,
+      "sha256": "ad078cb31b423b6bcc6156971ea43640bbeb9fb3d768f804e703f3fa2e2e3a09",
+      "traceback_count": 0
+    }
+  },
+  "additional_model_events": 0,
+  "model_execution_requested": false,
+  "VM_execution_requested": false,
+  "human_acceptance": false,
+  "original_ci_failure": {
+    "run_id": 36947671100,
+    "phase": "response_loss_submit_both_forms",
+    "cause": "UNCONFIRMED",
+    "original_failure_retained": true
+  },
+  "checks": [
+    {
+      "id": "seven_stages",
+      "status": "PASS"
+    },
+    {
+      "id": "code_sha256_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "input_sha256_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "frontend_dist_sha256_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "distribution_sha256_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "distributed_ui_exact",
+      "status": "PASS"
+    },
+    {
+      "id": "target_script_sha256",
+      "status": "PASS"
+    },
+    {
+      "id": "runtime_verifier_hashes",
+      "status": "PASS"
+    },
+    {
+      "id": "profile_source_hash",
+      "status": "PASS"
+    },
+    {
+      "id": "responses_source_hash",
+      "status": "PASS"
+    },
+    {
+      "id": "admission_source_hash",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_old_assertions",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_real_submit_barrier",
+      "status": "PASS"
+    },
+    {
+      "id": "response_loss_real_submit_barrier",
+      "status": "PASS"
+    },
+    {
+      "id": "debug_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "owned_chrome_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "owned_browser_api_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "admission/data_no_active_jobs",
+      "status": "PASS"
+    },
+    {
+      "id": "admission/data_no_new_models",
+      "status": "PASS"
+    },
+    {
+      "id": "admission/data_inspection_read_only",
+      "status": "PASS"
+    },
+    {
+      "id": "recorded_event_prefix_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "recorded_config_snapshot_preserved",
+      "status": "PASS"
+    },
+    {
+      "id": "all_response_model_events_are_source_records",
+      "status": "PASS"
+    },
+    {
+      "id": "responses/data_no_active_jobs",
+      "status": "PASS"
+    },
+    {
+      "id": "responses/data_no_new_models",
+      "status": "PASS"
+    },
+    {
+      "id": "responses/data_inspection_read_only",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-data_no_active_jobs",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-data_no_new_models",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-data_inspection_read_only",
+      "status": "PASS"
+    },
+    {
+      "id": "admission/access.json_port_closed",
+      "status": "PASS"
+    },
+    {
+      "id": "responses/security/access.json_port_closed",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-access.json_port_closed",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_recovery_12_checks",
+      "status": "PASS"
+    },
+    {
+      "id": "all_browser_isolation_checks",
+      "status": "PASS"
+    },
+    {
+      "id": "retry_no_duplicate_and_no_jobs",
+      "status": "PASS"
+    },
+    {
+      "id": "peer_close_reload",
+      "status": "PASS"
+    },
+    {
+      "id": "private_log_no_traceback",
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "One fresh local full-suite execution only; no retries. This does not establish the original CI failure cause.",
+    "DOMDebugger deliberately controls submit task scheduling; natural simultaneous-user timing and all scheduling interleavings are not established.",
+    "Cleanup failure propagation was statically reviewed; this run did not inject a new cleanup failure.",
+    "Browser API has actual lifespan, service-lock, task and port cleanup evidence. Admission/response APIs additionally have post-run closed-port observations, not equivalent lifespan instrumentation.",
+    "Browser retry stage intentionally saved two real-document start:false runs; admission saved three and cancelled one directly queued job. Responses imported one actual recorded run and saved three start:false requests/forks.",
+    "All 20 response-scope model events are unchanged historical source records. No additional model events or active jobs were observed.",
+    "Raw logs, issued keys, access profiles, databases, execution PID/argv and failure screenshots remain private."
+  ],
+  "secret_scan": {
+    "actual_key_file_count": 7,
+    "safe_files_checked": 14,
+    "key_byte_hits": 0
+  }
+}
