@@ -1,0 +1,210 @@
+{
+  "status": "PASS",
+  "review_kind": "implementation_agent_read_only_postcheck",
+  "safe_report_sha256": "73a123c41ea3b0bfb09bf72b876b985696906ceccfa736950b2cdcac2011546a",
+  "elapsed_seconds": 35.256352,
+  "counts": {
+    "runs": 3,
+    "events": 229,
+    "artifacts": 5,
+    "model_events": 74,
+    "model_called_events": 73
+  },
+  "checks": [
+    {
+      "id": "all_four_cases_and_40_checks_pass",
+      "passed": true
+    },
+    {
+      "id": "code_56_matches_frozen_start",
+      "passed": true
+    },
+    {
+      "id": "source_14_matches_frozen_start",
+      "passed": true
+    },
+    {
+      "id": "dist_six_matches_frozen_start",
+      "passed": true
+    },
+    {
+      "id": "distributed_ui_matches_measured_dist",
+      "passed": true
+    },
+    {
+      "id": "parent_product_r2_manifest_matches",
+      "passed": true
+    },
+    {
+      "id": "saved_runner_sources_match",
+      "passed": true
+    },
+    {
+      "id": "original_run_fields_rep3",
+      "passed": true
+    },
+    {
+      "id": "original_event_fields_rep3",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_metadata_rep3_0",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_bytes_rep3_0",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_metadata_rep3_1",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_bytes_rep3_1",
+      "passed": true
+    },
+    {
+      "id": "original_run_fields_rep2",
+      "passed": true
+    },
+    {
+      "id": "original_event_fields_rep2",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_metadata_rep2_2",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_bytes_rep2_2",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_metadata_rep2_3",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_bytes_rep2_3",
+      "passed": true
+    },
+    {
+      "id": "original_run_fields_rep9",
+      "passed": true
+    },
+    {
+      "id": "original_event_fields_rep9",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_metadata_rep9_4",
+      "passed": true
+    },
+    {
+      "id": "original_artifact_bytes_rep9_4",
+      "passed": true
+    },
+    {
+      "id": "database_counts_match_original_records",
+      "passed": true
+    },
+    {
+      "id": "execution_jobs_zero",
+      "passed": true
+    },
+    {
+      "id": "model_events_match_original",
+      "passed": true
+    },
+    {
+      "id": "safe_invariant_flags",
+      "passed": true
+    },
+    {
+      "id": "cut_actual_network_failure_correlated",
+      "passed": true
+    },
+    {
+      "id": "cut_playwright_failure_correlated",
+      "passed": true
+    },
+    {
+      "id": "all_original_body_and_identity_preserved",
+      "passed": true
+    },
+    {
+      "id": "unsent_copy_is_exact_original_1024_codepoints",
+      "passed": true
+    },
+    {
+      "id": "all_retry_focus_geometry_pass",
+      "passed": true
+    },
+    {
+      "id": "browser_late_cleanup_pass",
+      "passed": true
+    },
+    {
+      "id": "owned_process_exit_pass",
+      "passed": true
+    },
+    {
+      "id": "api_lifespan_shutdown_pass",
+      "passed": true
+    },
+    {
+      "id": "api_port_still_closed",
+      "passed": true
+    },
+    {
+      "id": "original_failures_remain_failed",
+      "passed": true
+    },
+    {
+      "id": "safe_key_scan",
+      "passed": true
+    }
+  ],
+  "code_files_verified": 56,
+  "source_files_verified": 14,
+  "dist_files_verified": 6,
+  "browser_cases": 4,
+  "browser_checks": 40,
+  "process_cleanup": [
+    {
+      "program": "artifact-load-recovery.mjs",
+      "tracked_processes": 20,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "api_cleanup": {
+    "scope": "artifact_recovery_api",
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "actual_cut_network_events": 1,
+  "cut_exact_path_phase_inspector_correlated": true,
+  "old_failures": {
+    "original_r1_safe_sha256": "f413b31d8db5b35bf5267dd3e481e8566c2bfb4ecb76815ab3e8f58ff32e546a",
+    "original_r1_addendum_sha256": "0860a1a730e77a483e28201e929e0ba94c950b0928dbf4047c93b1bc625df7de",
+    "invalid_source_safe_sha256": "a01850a22cd4d04c977793ea367561e9c391382dbc63e0e075d0f425cbeb0120",
+    "old_browser_script_sha256": "c01256b88ebc5332d1ef782ac078403475f8e9eaaf1a9aa63067144d4c9d9187",
+    "private_postcheck_r1_failure_sha256": "0178a2637bf28e57fddcbbd87d9d5cd641af977315d31a1963bc172b07b04db9"
+  },
+  "limits": [
+    "Original r1 remains overall FAIL with 3 complete cases/30 passed checks, plus 2 setup checks in failed cut; missing original Network.loadingFailed details cannot be inferred. Parent 170-second timeout terminated the residual Node after original until polling did not stop.",
+    "Invalid-source failure used the original browser script and occurred before browser/API startup; the Python wrapper source is unchanged.",
+    "Private postcheck r1 compared SHA strings against structured product manifest entries and failed before business verification; its script/failure are retained separately. Corrected postcheck r2 compares both SHA and bytes. This is not a product/browser failure.",
+    "r2 is a separate single full execution of the final script, not a merged result from earlier successful cases.",
+    "Raw HTTP, original run/artifact bodies, protocol event IDs/errors, credentials, logs, SQLite, and browser config remain private.",
+    "Read-only transport/UI recovery regression, not new inference, general availability, production acceptance, semantic quality, or human acceptance. Genuine empty-record branch and partial response-body stall remain unverified."
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "checks": {
+    "fixed983_runtime_validator_pass": true,
+    "old4fc_and_new983_expected_runtime_identical": true,
+    "old4fc_frozen_files_still_match": true,
+    "old4fc_fingerprint_matches_baseline": true,
+    "v62_fingerprint_matches_fixed_predecessor": true,
+    "requires_docker_false": true,
+    "metadata_digest_unchanged": true,
+    "no_action_started": true,
+    "main1338_unchanged_during_observation": true,
+    "all3_fixed_checkouts_clean_at_expected_commits": true,
+    "observer_fixed_commit": true,
+    "observer_fixed_clean": true,
+    "observer_fingerprint_matches_preparation": true,
+    "observer_supervisor_matches_preparation": true,
+    "observer_frozen_files": true,
+    "observer_actual_frozen_readonly_validator": true,
+    "observer_still_prepared_no_generation": true,
+    "observer_no_models_jobs_artifacts": true,
+    "observer_locks_available": true,
+    "observer_stop_contract": true,
+    "observer_preceding_supervisor_child_pid_absent": true,
+    "observer_no_other_workflow": true,
+    "observer_normal_pressure": true,
+    "observer_model_metadata_identity": true,
+    "observer_threshold_unchanged": true,
+    "observer_prior_ten_complete": true,
+    "observer_prior_cleanup": true,
+    "observer_prior_semantic_review_completed": true,
+    "observer_frozen_files_unchanged_during_observation": true,
+    "observer_supervisor_unchanged": true,
+    "main_matches_prior_1338_baseline": true
+  },
+  "launch_gate": "BLOCKED_BY_RECORDED_CONDITIONS",
+  "resource_blockers": [
+    "disk_over_10gib",
+    "memory_meets_unchanged_gate"
+  ],
+  "memory_bytes": 5881364480,
+  "required_memory_bytes": 8741958113,
+  "disk_bytes": 10069110784,
+  "required_disk_exclusive_minimum_bytes": 10737418240,
+  "prepared_attempts": 0,
+  "main_file_count": 1338,
+  "source_sha256": "c319c6f0176db8f138d08013226517d0f90329f4061416ffeb27cb8acf4eb7e5",
+  "observer_changes": [
+    "output directory",
+    "observer label only"
+  ],
+  "model_vm_probe_supervisor_execution": false,
+  "limits": [
+    "Read-only point-in-time observation; no launch approval, allocation guarantee or inference capacity experiment.",
+    "Main snapshot covers tracked and nonignored paths; ignored content and .git internals excluded. Raw status/path identities remain private.",
+    "Resident metadata is not an assertion of active inference. Actual unrelated browser/API processes are not categorized as LLM workflows."
+  ]
+}

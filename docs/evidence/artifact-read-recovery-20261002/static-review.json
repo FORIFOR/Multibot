@@ -1,0 +1,87 @@
+{
+  "status": "STATIC_REVIEW_NO_BLOCKING_FINDING",
+  "reviewed_at": "2026-10-02T02:48:52.995031+00:00",
+  "base_head": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "product_source_sha256": {
+    "frontend/src/pages/Workroom.tsx": "4420f039855a3e3251004575586b25417175c1234bf58b931088f8b1a7d45b59",
+    "frontend/src/lib/api.ts": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6"
+  },
+  "reviewed_diff_sha256": "1219e1ba9e9a043a85a5c668f0f6de3c9ca101526b3f0d53d559eebec8baf973",
+  "new_service_or_browser_or_model_started": false,
+  "reviewer_changed_product_source": false,
+  "runtime_after_status": "NOT_PERFORMED_BY_THIS_REVIEW",
+  "human_acceptance": "not_performed",
+  "required_changes": [],
+  "reviewed_contracts": [
+    {
+      "id": "optional_signal_only",
+      "result": "PASS_STATIC",
+      "source": "frontend/src/lib/api.ts:131",
+      "evidence": "artifact GETだけ任意AbortSignalを既存reqへ渡す。req本文全体・主体header/generation・401・Idempotency-Key・mutation処理はHEADとbyte一致。"
+    },
+    {
+      "id": "deadline_and_cleanup",
+      "result": "PASS_STATIC",
+      "source": "frontend/src/pages/Workroom.tsx:378",
+      "evidence": "effect invocationごとのAbortControllerと15秒timer。fetch/bodyを通じて同じsignal。cleanupはalive=false、timer解除、abort。successはalive/aborted、catchはaliveにより旧effectの結果を無効化。finallyは当該timerだけを解除し新しいread stateを変更しない。"
+    },
+    {
+      "id": "complete_identity",
+      "result": "PASS_STATIC",
+      "source": "frontend/src/pages/Workroom.tsx:371",
+      "evidence": "run/id/revision/SHAをreadKey・新detail照合・表示detail照合に使う。fileのprimitive依存で取得し、同版以外の旧detailを本文・レビュー・採用に流用しない。不存在/参照SHA不一致拒否は維持。"
+    },
+    {
+      "id": "unknown_vs_empty",
+      "result": "PASS_STATIC",
+      "source": "frontend/src/pages/Workroom.tsx:406",
+      "evidence": "pending/errorは概要とexpanded recordへ同じ未取得/取得不能状態を表示。readReadyの成功だけが記録0件を宣言する。初回errorの本文もLoadingではなく取得不能へ変わる。"
+    },
+    {
+      "id": "adoption_blocking",
+      "result": "PASS_STATIC",
+      "source": "frontend/src/pages/Workroom.tsx:411",
+      "evidence": "採用buttonはbusy||!readReadyでdisabled、handlerもlock||!readReadyで拒否する。既存can_writeとadopted revision条件、expected_selected_revision、202後親refreshを維持。採用を品質保証に変えない。"
+    },
+    {
+      "id": "cached_copy",
+      "result": "PASS_STATIC",
+      "source": "frontend/src/pages/Workroom.tsx:382; frontend/src/pages/Workroom.tsx:448",
+      "evidence": "同readKeyはloadedDetailを消さず、same tuple ArtifactWorkbenchのkeyとmountを維持。再取得中/失敗時も本文・ローカル編集copyを残す構造。別tupleではdetailを表示しない。実editor入力保持はafter未検証。"
+    },
+    {
+      "id": "stable_read_retry",
+      "result": "PASS_STATIC",
+      "source": "frontend/src/pages/Workroom.tsx:429",
+      "evidence": "常設buttonはready/pending/errorで同じDOM、readAttemptのみを増やす。次effectで旧GETをcleanup abortして新GET。aria-controlsが本文/記録、aria-describedbyがread statusへ関連する。採用POSTや親3GETを起動しない。focus移譲処理を追加しない。"
+    },
+    {
+      "id": "unchanged_security_and_exports",
+      "result": "PASS_STATIC",
+      "source": "frontend/src/pages/Workroom.tsx:419; frontend/src/pages/Workroom.tsx:446; frontend/src/pages/Workroom.tsx:449",
+      "evidence": "別タブraw、iframe sandbox、採用/最新ZIPの主体query、コピー保存、Backend ACL・採用比較更新を変えていない。AuthGate・browser-session・ArtifactWorkbench・Backend2fileはHEADと一致。"
+    }
+  ],
+  "scope_limits": [
+    "採用errorは読取stateと別表示になったが、旧error blockのRefreshはreadAttemptのみ。読取開始時setErrorを消す既存動作も残る。採用状況を親runから再照会する回復が修正されたとは言わない。",
+    "run.last_seqによる自動再取得で15秒deadlineはeffect開始ごとに更新される。進行中の連続イベントによる取得中断/待機延長は未実測。停止済み原runのafter結果を進行状態一般へ広げない。",
+    "HTML iframeは別raw要求であり、このbuttonはmetadata/text/checks GETを再取得する。iframe自体・別タブraw・artifactDiff・ZIPの通信回復をこの変更で検証したとは言わない。",
+    "同file参照の再選択そのものは従来どおりprimitiveが同じなら再読取を起こさない。新しい明示buttonで回復できる契約。",
+    "新しい小幅wrap/常設buttonの高さ・focus視認性/実200%・読上げ・body単独停止・複数版/別主体切替はこの静的レビューでは未実測。",
+    "原指摘の解消は静的な経路の確認に限る。実200保留/通信切断のafter画像・HTTP・copy不変・取消とcleanupを別途確認する。"
+  ],
+  "after_minimum_checks": [
+    "初回保留中の自然Tab/Enterで旧artifact GET取消→新しい実200、原bytesとtuple一致。",
+    "自然期限時に本文/summary/expandedが取得不能へ移り、採用disabledのまま。",
+    "同一版の常設buttonで再読取し、原本文/未送信copyを保持、取得中とerror時採用disabled、復帰後だけ元権限の採用可能へ。",
+    "同一button DOM/focusが再取得成功/失敗で保持され、表示切替や受動取得で不要にfocus移動しない。",
+    "原source/run/events/artifact/adoption不変、model/job0、ownedcleanup。"
+  ],
+  "unchanged_modules_verified": {
+    "frontend/src/lib/browser-session.ts": true,
+    "frontend/src/components/AuthGate.tsx": true,
+    "frontend/src/components/ArtifactWorkbench.tsx": true,
+    "backend/agentteam/api/app.py": true,
+    "backend/agentteam/security/server.py": true
+  }
+}

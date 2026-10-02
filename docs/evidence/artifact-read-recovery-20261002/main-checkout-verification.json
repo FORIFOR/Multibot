@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-10-02T03:04:59.244044+00:00",
+  "scope": "main checkout content/status/head only",
+  "files": 1338,
+  "same_paths": false,
+  "changed_count": 3,
+  "same_status": true,
+  "same_head": true,
+  "status": "FAIL"
+}

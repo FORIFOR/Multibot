@@ -1,0 +1,101 @@
+{
+  "reviewed_at": "2026-10-02T03:03:44.019247+00:00",
+  "status": "PASS_WITH_SCOPE_LIMITS",
+  "reviewer": "同モデルの独立AIによる既存証拠読取。新たな実行・サービス起動なし。",
+  "scope": "成果物回復r2製品上での既存run/chat/events 3GET回復回帰。新artifact専用CIとは別試験。",
+  "source_report_sha256": "2076f16d19d947ce53fb852aa8e2e1995d5aae9926c0362547ed7945acb063b6",
+  "product_sha256": {
+    "frontend/src/lib/api.ts": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6",
+    "frontend/src/pages/Workroom.tsx": "e8c07d67306d10cb47a016fb92ef86ba015ca3f26e836f65a30f4373e15d4a7d"
+  },
+  "evidence_revision": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "uncommitted_product_patch": true,
+  "implementation": {
+    "count": 56,
+    "matched": true,
+    "mismatches": []
+  },
+  "dist": {
+    "count": 6,
+    "matched": true,
+    "mismatches": []
+  },
+  "packaged_dist": {
+    "count": 6,
+    "matched": true,
+    "mismatches": []
+  },
+  "source": {
+    "count": 14,
+    "matched": true,
+    "mismatches": []
+  },
+  "browser_counts": {
+    "planned_cases": 5,
+    "attempted_cases": 5,
+    "passed_cases": 5,
+    "failed_cases": 0,
+    "planned_checks": 45,
+    "passed_checks": 45,
+    "failed_checks": 0,
+    "unverified_checks": 0
+  },
+  "stage_results": {
+    "source_import": "PASS",
+    "provision": "PASS",
+    "service": "PASS",
+    "served_build": "PASS",
+    "browser": "PASS",
+    "invariants": "PASS",
+    "cleanup": "PASS"
+  },
+  "business_unchanged": true,
+  "source_unchanged": true,
+  "model_event_delta": 0,
+  "jobs": 0,
+  "writes": {
+    "POST login": 5
+  },
+  "api_cleanup": {
+    "scope": "workroom_recovery_api",
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "process_cleanup": [
+    {
+      "program": "workroom-load-recovery.mjs",
+      "tracked_processes": 21,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "served_assets": [
+    {
+      "path": "/assets/index-BQqhmjTV.css",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "/assets/index-BtMUEHfg.js",
+      "status": 200,
+      "hash_matches": true
+    }
+  ],
+  "runtime_error_markers": 0,
+  "blocking_findings": [],
+  "limits": [
+    "過去のmodelイベントを0件と主張しない。追加差分0を確認。",
+    "task行は再構成しない実v62のrun/events/artifactsコピーでの確認。",
+    "この5ケース45項目のPASSはartifact専用CIの4ケース40項目や全認証7段階の新規実行を意味しない。",
+    "Response段階の実200保留でありbodyのみの停止を分離実証していない。",
+    "受付・採用・生成は行わず、人間受入・内容品質・一般性能を認定しない。"
+  ]
+}

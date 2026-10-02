@@ -1,0 +1,83 @@
+{
+  "status": "STATIC_REVIEW_NO_BLOCKING_FINDING",
+  "reviewed_at": "2026-10-02T02:54:31.570610+00:00",
+  "source_sha256": {
+    "backend/scripts/check_artifact_recovery.py": "11b6f0ca762201461c6aa5ae1cfe3950a3daa4da2aa6899c06fa3bd7d660b76f",
+    "frontend/scripts/artifact-load-recovery.mjs": "c01256b88ebc5332d1ef782ac078403475f8e9eaaf1a9aa63067144d4c9d9187"
+  },
+  "new_service_browser_model_execution": false,
+  "source_edited_by_reviewer": false,
+  "planned_cases": 4,
+  "planned_checks": 40,
+  "runtime_status": "NOT_REVIEWED_NOT_CLAIMED_PASS",
+  "review_scope": "実原bytes/fulltuple、模擬response禁止、自然retry、copy保持、DB/model不変、安全公開、timeout/所有cleanupと原失敗保存。",
+  "prior_static_contracts": [
+    {
+      "id": "real_source",
+      "status": "PASS_STATIC",
+      "source": "backend/scripts/check_artifact_recovery.py:149-153; frontend/scripts/artifact-load-recovery.mjs:94-107",
+      "finding": "既存import_recordsは実v62のRun全field/events/artifact metadataとbytesを照合して新privateSQLiteへ複写。実HTTP baseline本文SHAとexact targetのchecks/reviews存在を確認し、架空artifactや版を作らない。"
+    },
+    {
+      "id": "real_fault_only",
+      "status": "PASS_STATIC",
+      "source": "frontend/scripts/artifact-load-recovery.mjs:109-123",
+      "finding": "実artifact200をCDP Responseで保留、実Network.setBlockedURLsで遮断。fulfill/偽body/偽HTTP status/通知置換はない。解除時は元interceptionをcontinueし、取消済みならNetwork IDのERR_ABORTEDと既知CDP失効errorを照合。"
+    },
+    {
+      "id": "read_guard",
+      "status": "PASS_STATIC",
+      "source": "frontend/scripts/artifact-load-recovery.mjs:126-178",
+      "finding": "pending/error状態、adopt disabled、誤No record表示不存在を確認。12秒時点pending、22秒以内error、初回manualはinitialGETから2秒未満で自然Tab/Enter、旧応答を解除する前に新実artifact200を待つ。本文は同一textContent snapshotのSHAで照合。"
+    },
+    {
+      "id": "real_copy_and_readonly",
+      "status": "PASS_STATIC",
+      "source": "frontend/scripts/artifact-load-recovery.mjs:129-139; backend/scripts/check_artifact_recovery.py:187-194",
+      "finding": "編集copyは元artifactの先頭1024Unicode codepointsのみで全文/抜粋SHAを保存、未送信のままpending/error/recoveryで保持検査。page書込は実loginのみ許可し、最後とfinallyにDB/run/events/artifact bytes不変・model delta0/job0を照合。"
+    },
+    {
+      "id": "identity_and_records",
+      "status": "PASS_STATIC_WITH_SCOPE_LIMIT",
+      "source": "frontend/scripts/artifact-load-recovery.mjs:193-199",
+      "finding": "実run_id/status/last_seq/URL、最後のartifactJSONが元HTTP全体と一致、本文SHAを照合。UI確認リストは件数とNo-record不存在の検査であり、各行全テキストや意味の正しさを検査していない。実HTTP原文はprivate。"
+    },
+    {
+      "id": "safe_publication",
+      "status": "PASS_STATIC",
+      "source": "backend/scripts/check_artifact_recovery.py:51-110; backend/scripts/check_artifact_recovery.py:230-232",
+      "finding": "safe_browserはcase/check ID・status・allowlist数値/boolean/hashのみを返し、baseline原本文・raw errorを削除。safe-reportのみ候補、actual key byteをscan。consoleは定形status/typeだけ、Node/HTTP生ログはprivateへredirect。"
+    },
+    {
+      "id": "bounded_owned_cleanup",
+      "status": "PASS_STATIC",
+      "source": "frontend/scripts/artifact-load-recovery.mjs:203-234; backend/scripts/check_artifact_recovery.py:200-233",
+      "finding": "各cleanupを独立5秒boundedで試行、実context/browser/serverのみ終了。親run_browser_processの所有追跡/170秒timeout、running_browser_apiのtask/port終了を再利用。API/browser cleanup失敗・runtime error markerは全体FAIL。"
+    },
+    {
+      "id": "preserve_failure",
+      "status": "PASS_STATIC",
+      "source": "backend/scripts/check_artifact_recovery.py:113-118; frontend/scripts/artifact-load-recovery.mjs:202",
+      "finding": "exclusive root作成で既存結果を上書きせず、原exceptionはprivate、途中未実施checkはUNVERIFIEDとしてsafeに残す。未実測モデル値はnull、falseへ変換しない。"
+    }
+  ],
+  "focus_gap_status": "RESOLVED_IN_SCRIPT_STATICALLY_RUNTIME_PENDING",
+  "focus_revision": {
+    "source": "frontend/scripts/artifact-load-recovery.mjs:173-188; backend/scripts/check_artifact_recovery.py:74-80",
+    "observed": "readyと原本文SHA一致後、record.click前に2rAF待ち。retry.focused、viewport全体内、headerとの実rect非重複、中心pointが当該要素かをassertする。検証側はfocus/scrollの修復を行わない。safe projectionは固定7数値/4boolだけを許可。",
+    "prior_checks_not_weakened": "初回GETからEnter<2秒の旧native_retry判定が失敗すれば直ちにthrowするため、後段native_retry再判定で失敗がPASSへ上書きされる経路はない。",
+    "product_claim": "この脚本追加だけで製品focusが直ったとは言わない。root r2と実測結果を別途照合する。"
+  },
+  "review_record_correction": "初回tool読取時にはfocus assertionが未追加で、そのgapを担当へ共有した。static-review.json保存時までに担当修正が完了し、同ファイル内source SHA/保全snapshotは修正後の値になった。初回gap記述は初回読取だけの所見であり、現在sourceの欠陥として使わない。このfinal-reviewが現在hashに対する判定。元メモは手続経緯として保全し公開用要約には本ファイルを使う。",
+  "limitations": [
+    "4caseはすべてoperator/rep3。viewer、全言語/幅、複数版/ファイル、読み上げ、HTMLiframe/差分/ZIP、採用失敗回復を検証したとは言わない。",
+    "原3runは同じartifact本文SHA。本文hashだけでrun識別はできず、URLと実API identityの照合へ依拠する。",
+    "確認リストは件数一致であり、全レビュー行の意味評価や引用正確性の合格ではない。",
+    "success-empty用の実artifactはないため、記録0件成功branchは未検証のまま。",
+    "Response-stage保留はbody単独停止ではない。取消済み旧要求へのCDP解放失敗を遅い成功応答がReactへ到達した証拠にしない。",
+    "root/schema同一性はsource SHAで固定する。現在は未実行脚本の静的レビューであり4/40を成功と記録しない。",
+    "このレビューは既存r1製品beforeやbrowser after原FAILを消去・成功化しない。人間受入・業務品質・一般公開サービスの認定ではない。"
+  ],
+  "required_changes": [],
+  "safe_summary_publication": "本文/実鍵/rawerror/private資料の値を含まない。このJSONは公開候補にできるが、保全source snapshotや原private reportsの一括公開はしない。"
+}

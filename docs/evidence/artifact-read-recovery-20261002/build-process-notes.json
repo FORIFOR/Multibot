@@ -1,0 +1,18 @@
+{
+  "prior_head": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "build_initial_failure": {
+    "command": "npm run build",
+    "cwd": "repository root",
+    "exit_code": 254,
+    "reason": "package.json is in frontend; no compile occurred"
+  },
+  "search_failure": {
+    "paths": [
+      "backend/scripts",
+      ".github/workflows/ci.yml",
+      "pyproject.toml"
+    ],
+    "reason": "looked relative to frontend; read-only rg failure"
+  },
+  "subsequent_build": "frontend npm run build succeeded; same source after primitive dependency cleanup"
+}

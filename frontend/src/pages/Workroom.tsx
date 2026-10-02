@@ -21,6 +21,7 @@ import '../workroom-refinement.css'
 const Inspector = lazy(() => import('./RunView'))
 const say = (ja: string, en: string) => getLang() === 'en' ? en : ja
 const WORKROOM_READ_TIMEOUT_MS = 15000
+const ARTIFACT_READ_TIMEOUT_MS = 15000
 // A failed or unverified record is not "checked": the file list and status line must say which it is.
 // Only the latest record of each kind counts; a later review of the same bytes supersedes an earlier one.
 type CheckState = 'none' | 'pass' | 'concern'
@@ -348,7 +349,7 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
   const [showSource,setShowSource]=useState(false)
   const [readAttempt,setReadAttempt]=useState(0)
   const [recordOpen,setRecordOpen]=useState(false)
-  const shown=useRef(''), focusChoice=useRef(false), choiceRef=useRef<HTMLSpanElement>(null), recordRef=useRef<HTMLElement>(null)
+  const shown=useRef(''), focusChoice=useRef(false), choiceRef=useRef<HTMLSpanElement>(null), recordRef=useRef<HTMLElement>(null), readRetryRef=useRef<HTMLButtonElement>(null)
   // Use the same exact revision/hash rule as the status line.
   const evidence=run.final_report?.evidence
   const latestState=new Map<string,CheckState>(resultFiles(run.artifacts).filter((f,_,all)=>f.revision===Math.max(...all.filter(x=>x.artifact_id===f.artifact_id).map(x=>x.revision))).map(f=>[f.artifact_id,checkState(f,evidence,events)]))
@@ -365,9 +366,45 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
   const revision=selection&&selection.id===id?selection.revision:adopted?.revision
   const file=revision!=null?list.find(a=>a.revision===revision):list[list.length-1]
   useEffect(()=>{if(file&&!selection)setSelection({id:file.artifact_id,revision:file.revision})},[file,selection])
-  const [detail,setDetail]=useState<ArtifactDetail|null>(null),[error,setError]=useState(''),[note,setNote]=useState(''),[busy,setBusy]=useState(false)
+  const [loadedDetail,setDetail]=useState<ArtifactDetail|null>(null),[error,setError]=useState(''),[note,setNote]=useState(''),[busy,setBusy]=useState(false)
+  const [read,setRead]=useState<{key:string;state:'pending'|'ready'|'error';message:string}>({key:'',state:'pending',message:''})
+  const fileId=file?.artifact_id, fileRevision=file?.revision, fileSha=file?.sha256
+  const readKey=fileId?JSON.stringify([run.run_id,fileId,fileRevision,fileSha]):''
+  // A previous response may remain mounted for the same bytes, never for another run or revision.
+  const detail=loadedDetail&&file&&loadedDetail.run_id===run.run_id&&loadedDetail.artifact_id===file.artifact_id&&loadedDetail.revision===file.revision&&loadedDetail.sha256===file.sha256?loadedDetail:null
+  const readState=read.key===readKey?read.state:'pending'
+  const readReady=readState==='ready'&&!!detail
   const lock=useRef(false)
-  useEffect(()=>{let alive=true;const key=file?`${file.artifact_id}@${file.revision}`:'';if(shown.current!==key){shown.current=key;setDetail(null);setNote('')}setError('');if(file)api.artifact(run.run_id,file.artifact_id,file.revision).then(d=>{if(alive)setDetail(d)}).catch(()=>{if(alive)setError(say('ファイルを読み込めませんでした。','Could not load the file.'))});return()=>{alive=false}},[run.run_id,file?.artifact_id,file?.revision,run.last_seq,readAttempt])
+  useEffect(()=>{
+    if(!fileId||fileRevision==null||!fileSha)return
+    let alive=true, timedOut=false
+    const controller=new AbortController()
+    if(shown.current!==readKey){shown.current=readKey;setDetail(null);setNote('')}
+    setError('');setRead({key:readKey,state:'pending',message:''})
+    const deadline=setTimeout(()=>{timedOut=true;controller.abort()},ARTIFACT_READ_TIMEOUT_MS)
+    api.artifact(run.run_id,fileId,fileRevision,controller.signal).then(d=>{
+      if(!alive||controller.signal.aborted)return
+      if(d.run_id!==run.run_id||d.artifact_id!==fileId||d.revision!==fileRevision||d.sha256!==fileSha)throw new Error('Artifact version mismatch')
+      setDetail(d);setRead({key:readKey,state:'ready',message:''})
+    }).catch(()=>{
+      if(alive)setRead({key:readKey,state:'error',message:timedOut
+        ?say('本文と確認の記録の取得に時間がかかっています。再読み込みして確認してください。','Loading the file and check record is taking too long. Reload them to try again.')
+        :say('本文と確認の記録を取得できませんでした。再読み込みして確認してください。','Could not retrieve the file and check record. Reload them to try again.')})
+    }).finally(()=>clearTimeout(deadline))
+    return()=>{alive=false;clearTimeout(deadline);controller.abort()}
+  },[run.run_id,fileId,fileRevision,fileSha,readKey,run.last_seq,readAttempt])
+  useEffect(()=>{
+    if(!readReady)return
+    const frame=requestAnimationFrame(()=>{
+      const button=readRetryRef.current
+      if(!button||document.activeElement!==button)return
+      // Loaded text can push this still-focused control below the viewport. Keep its position visible without moving focus.
+      const rect=button.getBoundingClientRect(), menu=document.querySelector('.top.side')?.getBoundingClientRect()
+      const top=menu&&menu.right>rect.left&&menu.left<rect.right?Math.max(8,menu.bottom+8):8
+      if(rect.top<top||rect.bottom>window.innerHeight-8)button.scrollIntoView({block:'center',behavior:'instant'})
+    })
+    return()=>cancelAnimationFrame(frame)
+  },[readReady,readKey])
   useEffect(()=>{if(focusChoice.current&&adopted?.revision===file?.revision){focusChoice.current=false;choiceRef.current?.focus()}},[adopted?.revision,file?.revision])
   if((selection&&!file)||(target&&file?.artifact_id===target.id&&file.revision===target.revision&&file.sha256!==target.sha256))return <p role="alert">{say('参照された版を確認できません。','The referenced version could not be verified.')} <button className="btn ghost" onClick={()=>{clearTarget();setSelection(null)}}>{say('成果物一覧へ','Back to results')}</button></p>
   if(!file)return <div className="result-empty pane"><span aria-hidden="true">📄</span><h2>{isSettled(run.status) ? say('保存できる成果物はありません','No files are available to save') : say('成果物ができると、ここに届きます','Your files will appear here')}</h2><p>{isSettled(run.status) ? say('公開された成果物がない状態で、この依頼は終了または停止しています。状態と作業記録を確認してください。','This request ended or stopped without a published result. Check its status and work record.') : say('進み具合とチームのやり取りを確認しながらお待ちください。公開された版と確認の記録を、ここで読んで保存できます。','Follow progress and the team conversation while work continues. Published files and their check records can be read and saved here.')}</p></div>
@@ -378,13 +415,15 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
   const outcomes=latestStatuses([...checks.map(e=>({key:e.type==='delivery.checked'?`delivery:${e.payload.logical_path}`:`check:${e.payload.kind}`,seq:e.seq,statuses:[e.payload.result?.status]})),...reviews.map(e=>({key:`review:${e.payload.target_task_id}`,seq:e.seq,statuses:(e.payload.results||[]).map((r:any)=>r.status)}))])
   const pass=outcomes.length>0&&outcomes.every(s=>s==='pass'), concern=outcomes.some(s=>s!=='pass')
   // While the record is loading, say so; "no record" would be a claim the page has not checked yet.
-  const loadingRecord=!detail&&!error
+  const loadingRecord=readState==='pending'
+  const unavailableRecord=readState==='error'
+  const recordMessage=loadingRecord?say('確認の記録を読み込んでいます…','Loading the check record…'):say('確認の記録を取得できません。再読み込みしてください。','The check record is unavailable. Please reload it.')
   const isMarkdown=/markdown/.test(file.media_type)||/\.(md|markdown)$/i.test(file.logical_path)
   // The adopt button disappears once pressed; hand focus to what replaced it so keyboard users are not dropped on <body>.
-  const useVersion=async()=>{if(lock.current)return;lock.current=true;setBusy(true);setNote('');try{await api.adoptArtifact(run.run_id,file.artifact_id,{revision:file.revision,expected_selected_revision:adopted?.revision ?? 0});setNote(say('この版を使うことにしました。','This version is now selected.'));focusChoice.current=true;await refresh()}catch{setError(say('選択を保存できませんでした。再読み込みしてお試しください。','Could not save your choice. Refresh and try again.'))}finally{lock.current=false;setBusy(false)}}
+  const useVersion=async()=>{if(lock.current||!readReady)return;lock.current=true;setBusy(true);setNote('');try{await api.adoptArtifact(run.run_id,file.artifact_id,{revision:file.revision,expected_selected_revision:adopted?.revision ?? 0});setNote(say('この版を使うことにしました。','This version is now selected.'));focusChoice.current=true;await refresh()}catch{setError(say('選択を保存できませんでした。再読み込みしてお試しください。','Could not save your choice. Refresh and try again.'))}finally{lock.current=false;setBusy(false)}}
   const selectedCount=Object.keys(run.artifact_selection || {}).length
   const openRecord=()=>{setRecordOpen(true);requestAnimationFrame(()=>{recordRef.current?.focus();recordRef.current?.scrollIntoView({block:'center'})})}
-  return <section className="pane simple-deliverables result-workflow">
+  return <section className="pane simple-deliverables result-workflow" data-artifact-read-state={readState}>
     {versions.size>1&&<div className="result-file-list" aria-label={say('ファイルを選ぶ','Choose a file')}>{[...versions.entries()].map(([key,items])=><button className={key===id?'active':''} type="button" aria-pressed={key===id} key={key} onClick={()=>{clearTarget();setSelection({id:key,revision:run.artifact_selection?.[key]?.revision||items[items.length-1].revision})}}><span aria-hidden="true">📄</span>{items[items.length-1].logical_path}{run.artifact_selection?.[key]&&<span className="tab-chosen" title={say('あなたが選んだ版があります','You selected a version')}>{say('採用','Chosen')}</span>}{latestState.get(key)==='none'&&<span className="tab-mark" role="img" aria-label={say('確認の記録なし','No check record')} title={say('確認の記録なし','No check record')}>?</span>}{latestState.get(key)==='concern'&&<span className="tab-mark is-concern" role="img" aria-label={say('要修正・未確認の項目あり','Failed or unverified items')} title={say('要修正・未確認の項目あり','Failed or unverified items')}>!</span>}</button>)}</div>}
     <div className="result-reading-head">
       <div className="result-file-identity"><span className="result-step">{say('01 読む','01 Read')}</span><h2>{file.logical_path}</h2><p>{say('版','Version')} {file.revision} · {adopted?.revision===file.revision?say('採用した版','Selected version'):say('未採用の候補','Unselected candidate')}</p></div>
@@ -392,26 +431,29 @@ function Deliverables({run,events,refresh,target,clearTarget,onDirection}:{run:R
       <div className="result-display-tools">{isMarkdown&&<button type="button" className="btn ghost" aria-pressed={showSource} onClick={()=>setShowSource(!showSource)}>{showSource?say('読みやすく表示','Show formatted'):say('原文を表示','Show source')}</button>}<a className="btn ghost" href={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)} target="_blank" rel="noreferrer">{say('別のタブで開く','Open in a new tab')} <span aria-hidden="true">↗</span></a></div>
     </div>
     {error&&<p className="work-warning" role="alert">{error} <button className="btn ghost" onClick={()=>setReadAttempt(n=>n+1)}>{say('再読み込み','Refresh')}</button></p>}
-    <div className="result-reader" role="region" aria-label={say(`成果物：${file.logical_path}`,`Result: ${file.logical_path}`)} tabIndex={0}>{file.media_type.includes('html')?<iframe title={file.logical_path} sandbox="" src={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)}/>:isMarkdown&&detail?.text!=null&&!showSource?<Markdown text={detail.text} className="md result-md"/>:<pre>{detail?.text ?? (detail?say('この形式は別のウィンドウで開いてください。','Open this file in a new window to view it.'):say('読み込み中…','Loading…'))}</pre>}</div>
+    {unavailableRecord&&<p className="work-warning" role="alert">{read.message}{detail&&<> {say('前回取得した本文を表示しています。','The previously retrieved file is still shown.')}</>}</p>}
+    <div id="result-body" className="result-reader" role="region" aria-label={say(`成果物：${file.logical_path}`,`Result: ${file.logical_path}`)} tabIndex={0}>{file.media_type.includes('html')?<iframe title={file.logical_path} sandbox="" src={api.artifactRawUrl(run.run_id,file.artifact_id,file.revision)}/>:isMarkdown&&detail?.text!=null&&!showSource?<Markdown text={detail.text} className="md result-md"/>:<pre>{detail?.text ?? (detail?say('この形式は別のウィンドウで開いてください。','Open this file in a new window to view it.'):unavailableRecord?say('本文をまだ表示できません。下の再読み込みで確認できます。','The file is unavailable. Use reload below to try again.'):say('読み込み中…','Loading…'))}</pre>}</div>
     <section className="result-checks" aria-labelledby="result-checks-title">
       <h3 id="result-checks-title" className="result-step">{say('02 確認の記録を読む','02 Read the check record')}</h3>
-      <div className={`result-review-summary is-${loadingRecord?'loading':pass?'pass':concern?'concern':'none'}`}>
-        <span className="review-state"><b aria-hidden="true">{loadingRecord?'…':pass?'✓':concern?'!':'?'}</b>{loadingRecord?say('確認の記録を読み込んでいます…','Loading the check record…'):pass?say('この版の記録された確認は通過','Recorded checks passed for this version'):concern?say('この版には未確認・要修正の項目があります','This version has unchecked or flagged items'):say('未確認：この版の確認記録はまだありません','Unverified: No check record for this version yet')}</span>
+      <div className={`result-review-summary is-${loadingRecord?'loading':unavailableRecord?'none':pass?'pass':concern?'concern':'none'}`}>
+        <span id="artifact-read-status" className="review-state" role="status"><b aria-hidden="true">{loadingRecord?'…':unavailableRecord?'?':pass?'✓':concern?'!':'?'}</b>{loadingRecord||unavailableRecord?recordMessage:pass?say('この版の記録された確認は通過','Recorded checks passed for this version'):concern?say('この版には未確認・要修正の項目があります','This version has unchecked or flagged items'):say('未確認：この版の確認記録はまだありません','Unverified: No check record for this version yet')}</span>
         <button type="button" className="review-link" aria-controls="result-record" onClick={openRecord}>{say('確認の記録を見る','See the check record')}</button>
+        <button type="button" className="review-link" ref={readRetryRef} data-artifact-retry aria-controls="result-body result-record" aria-describedby="artifact-read-status" onClick={()=>setReadAttempt(n=>n+1)}>{say('本文と確認を再読み込み','Reload file and checks')}</button>
       </div>
       <p className="result-check-limit">{say('確認は表示中の版に対する記録です。内容の完全な正しさを保証するものではありません。','These checks apply to the version shown. They do not guarantee that every statement is correct.')}</p>
     <details id="result-record" className="result-record" open={recordOpen} onToggle={e=>setRecordOpen(e.currentTarget.open)}><summary ref={recordRef}>{say('版と確認の記録','Versions & check record')}</summary>
       <p>{file.logical_path} · {say('版','Version')} {file.revision} · <span title={file.sha256}>{say('この版の識別子','Version identifier')} <code>{file.sha256.slice(0,12)}</code></span></p>
       <ul className="check-record">
-        {checks.map(e=><li key={e.event_id}><span className={`check-mark is-${e.payload.result?.status||'unknown'}`}>{outcomeLabel(e.payload.result?.status,getLang())}</span>{e.type==='delivery.checked'?say('依頼した必須条件','Required delivery conditions'):say('自動チェック','Automatic check')} <code>{String(e.payload.kind||e.payload.result?.kind||'')}</code>{e.payload.result?.problems?.length?<span className="check-detail"> — {e.payload.result.problems.join(' / ')}</span>:null}{e.payload.result?.detail?<span className="check-detail"> — {String(e.payload.result.detail).slice(0,240)}</span>:null}</li>)}
-        {reviews.flatMap(e=>(e.payload.results||[]).map((r:any,n:number)=><li key={e.event_id+n}><span className={`check-mark is-${r.status}`}>{outcomeLabel(r.status,getLang())}</span>{say(`${reviewAuthor(e)}の確認`,`Review by ${reviewAuthor(e)}`)} <code>{String(r.acceptance_id||'')}</code>{r.evidence||r.reason?<span className="check-detail"> — {String(r.evidence||r.reason).slice(0,240)}</span>:null}</li>))}
-        {checks.length+reviews.length===0&&<li className="is-quiet">{say('この版に対する確認の記録はありません。','No checks were recorded for this version.')}</li>}
+        {readReady&&checks.map(e=><li key={e.event_id}><span className={`check-mark is-${e.payload.result?.status||'unknown'}`}>{outcomeLabel(e.payload.result?.status,getLang())}</span>{e.type==='delivery.checked'?say('依頼した必須条件','Required delivery conditions'):say('自動チェック','Automatic check')} <code>{String(e.payload.kind||e.payload.result?.kind||'')}</code>{e.payload.result?.problems?.length?<span className="check-detail"> — {e.payload.result.problems.join(' / ')}</span>:null}{e.payload.result?.detail?<span className="check-detail"> — {String(e.payload.result.detail).slice(0,240)}</span>:null}</li>)}
+        {readReady&&reviews.flatMap(e=>(e.payload.results||[]).map((r:any,n:number)=><li key={e.event_id+n}><span className={`check-mark is-${r.status}`}>{outcomeLabel(r.status,getLang())}</span>{say(`${reviewAuthor(e)}の確認`,`Review by ${reviewAuthor(e)}`)} <code>{String(r.acceptance_id||'')}</code>{r.evidence||r.reason?<span className="check-detail"> — {String(r.evidence||r.reason).slice(0,240)}</span>:null}</li>))}
+        {!readReady&&<li className="is-quiet">{recordMessage}</li>}
+        {readReady&&checks.length+reviews.length===0&&<li className="is-quiet">{say('この版に対する確認の記録はありません。','No checks were recorded for this version.')}</li>}
       </ul>
     </details>
     </section>
     <section className="result-choice-panel" aria-labelledby="result-choice-title">
       <div><h3 id="result-choice-title" className="result-step">{say('03 使う版を選ぶ','03 Choose a version')}</h3><p className="result-choice-file">{file.logical_path} · {say('版','Version')} {file.revision}</p><p className="result-choice-help">{say('採用は保存する版の選択です。内容を確認してから選んでください。','Selecting a version chooses what to save. Review its content before making your choice.')}</p></div>
-      <div className="result-use"><span className="review-choice">{adopted?.revision===file.revision?<span className="chosen-pill" ref={choiceRef} tabIndex={-1}><b aria-hidden="true">★</b>{say('あなたが選んだ版','Your selected version')}</span>:say('まだ採用していない候補','Not yet selected by you')}</span>{run.access?.can_write!==false&&adopted?.revision!==file.revision&&<button data-adopt className={pass?'btn signal':'btn adopt-caution'} disabled={busy||!detail} onClick={useVersion}>{pass?say('この版を使う','Use this version'):concern?say('指摘が残ったまま、この版を使う','Use this version with open findings'):say('未確認のまま、この版を使う','Use this version unverified')}</button>}<span role="status">{note}</span></div>
+      <div className="result-use"><span className="review-choice">{adopted?.revision===file.revision?<span className="chosen-pill" ref={choiceRef} tabIndex={-1}><b aria-hidden="true">★</b>{say('あなたが選んだ版','Your selected version')}</span>:say('まだ採用していない候補','Not yet selected by you')}</span>{run.access?.can_write!==false&&adopted?.revision!==file.revision&&<button data-adopt className={pass?'btn signal':'btn adopt-caution'} disabled={busy||!readReady} onClick={useVersion}>{pass?say('この版を使う','Use this version'):concern?say('指摘が残ったまま、この版を使う','Use this version with open findings'):say('未確認のまま、この版を使う','Use this version unverified')}</button>}<span role="status">{note}</span></div>
       {run.access?.can_write===false&&<p className="result-choice-help">{say('閲覧権限では、採用する版を変更できません。','Read-only access cannot change the selected version.')}</p>}
       {selectedCount>0&&<div className="result-selected-export"><div><strong>{say(`${selectedCount}件の採用版を保存する`,`Save ${selectedCount} selected ${selectedCount===1?'file':'files'}`)}</strong><p>{say('採用した版と作業記録をZIPで取得します。','Download the selected versions and work record as a ZIP.')}</p></div><a className="btn signal" href={browserApiUrl(`/api/runs/${run.run_id}/export?fmt=zip&selection=adopted`)}>{say('採用したファイルを保存','Save selected files')} <span aria-hidden="true">↓</span></a></div>}
     </section>

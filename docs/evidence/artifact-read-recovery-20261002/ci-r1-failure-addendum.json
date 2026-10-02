@@ -1,0 +1,57 @@
+{
+  "status": "ORIGINAL_FAILURE_PRESERVED",
+  "observed_at": "2026-10-02T03:04:18.126698+00:00",
+  "original_sha256": {
+    "safe-report.json": "f413b31d8db5b35bf5267dd3e481e8566c2bfb4ecb76815ab3e8f58ff32e546a",
+    "report.private.json": "25176152a2442f67fd00c8a93808f52b5b080edc021fd53aa52717276ae0fdc4",
+    "browser/report.json": "176ba3fe1918b4875854c047f23315ff38e618162aa36609eb3505afcb982f15",
+    "runner-source.py": "11b6f0ca762201461c6aa5ae1cfe3950a3daa4da2aa6899c06fa3bd7d660b76f",
+    "browser-source.mjs": "c01256b88ebc5332d1ef782ac078403475f8e9eaaf1a9aa63067144d4c9d9187"
+  },
+  "overall_status": "FAIL",
+  "overall_error_type": "TimeoutError",
+  "passed_cases": 3,
+  "passed_checks": 32,
+  "failed_checks": 1,
+  "unverified_checks": 7,
+  "cut": {
+    "exact_artifact_playwright_failed_count": 1,
+    "known_inspector_error_count": 1,
+    "network_loading_failed_raw_saved": false,
+    "blocked_reason_verified": null
+  },
+  "cleanup": {
+    "api": {
+      "scope": "artifact_recovery_api",
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "owned_processes": [
+      {
+        "program": "artifact-load-recovery.mjs",
+        "tracked_processes": 19,
+        "signals_sent": 1,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ],
+    "browser_all_cleanup_pass": true
+  },
+  "source_unchanged": true,
+  "business_unchanged": true,
+  "model_event_delta": 0,
+  "jobs": 0,
+  "limits": [
+    "The original raw Network.loadingFailed event fields were filtered out and cannot be recovered or inferred from this attempt.",
+    "Original browser result has three fully passed cases (30 checks) plus two passed setup checks in the failed cut case. Overall result remains FAIL.",
+    "Static source shows Promise.race timeout did not cancel the until loop whose false blocked.length predicate kept scheduling timers. The owned parent reached its 170 second timeout and terminated the remaining Node process. This is verifier behavior, not a product timeout result.",
+    "No root, source, or original report was overwritten. API/process cleanup PASS does not turn the overall failure into success."
+  ]
+}

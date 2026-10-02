@@ -1,0 +1,395 @@
+{
+  "status": "PASS",
+  "scope": "The six explicitly exercised artifact-read and focused-retry boundaries only. Not general UI, business-quality or production acceptance.",
+  "actor": "Independent AI actual-browser reviewer, not a first-time human",
+  "revision": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "product_diff_sha256": "9b4666f9143ace1657fbb951732f8295af8fe62bc8e8e0929bc68bf3d9573735",
+  "product_source_count": 109,
+  "product_source_scope": "Product frontend source and backend Python only, plus dependency manifest/lock. Concurrent CI scripts are not part of the unchanged product assertion.",
+  "started_at": "2026-10-02T02:54:42.116685+00:00",
+  "finished_at": "2026-10-02T02:55:23.317720+00:00",
+  "checks": [
+    {
+      "id": "ja390-manual",
+      "status": "PASS",
+      "deadline_observed_at_ms": null,
+      "retry_at_ms": 292,
+      "recovered_at_ms": 368,
+      "role": "operator",
+      "record_unchanged": true,
+      "principal_unchanged": true,
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "other_get_failures": 0,
+      "focus_observations": [
+        {
+          "tag": "ready-after-retry",
+          "at_ms": 370,
+          "state": "ready",
+          "same_dom": true,
+          "focused": true,
+          "visible": true,
+          "rect": {
+            "x": 184,
+            "y": 399.5625,
+            "width": 158,
+            "height": 44,
+            "top": 399.5625,
+            "right": 342,
+            "bottom": 443.5625,
+            "left": 184
+          },
+          "viewport": [
+            390,
+            844
+          ]
+        }
+      ],
+      "late_original_handling": [
+        {
+          "status": 200,
+          "command": "unavailable_after_abort",
+          "matched_actual_cancel": true,
+          "expected_protocol_after_cancel": true,
+          "error_name": "Error",
+          "at_ms": 392
+        }
+      ]
+    },
+    {
+      "id": "ja320-deadline",
+      "status": "PASS",
+      "deadline_observed_at_ms": 15036,
+      "retry_at_ms": 15140,
+      "recovered_at_ms": 15217,
+      "role": "operator",
+      "record_unchanged": true,
+      "principal_unchanged": true,
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "other_get_failures": 0,
+      "focus_observations": [
+        {
+          "tag": "ready-after-retry",
+          "at_ms": 15219,
+          "state": "ready",
+          "same_dom": true,
+          "focused": true,
+          "visible": true,
+          "rect": {
+            "x": 33,
+            "y": 399.5625,
+            "width": 158,
+            "height": 44,
+            "top": 399.5625,
+            "right": 191,
+            "bottom": 443.5625,
+            "left": 33
+          },
+          "viewport": [
+            320,
+            844
+          ]
+        }
+      ],
+      "late_original_handling": [
+        {
+          "status": 200,
+          "command": "unavailable_after_abort",
+          "matched_actual_cancel": true,
+          "expected_protocol_after_cancel": true,
+          "error_name": "Error",
+          "at_ms": 15242
+        }
+      ]
+    },
+    {
+      "id": "en768-transport",
+      "status": "PASS",
+      "deadline_observed_at_ms": null,
+      "retry_at_ms": 393,
+      "recovered_at_ms": 466,
+      "role": "operator",
+      "record_unchanged": true,
+      "principal_unchanged": true,
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "other_get_failures": 0,
+      "focus_observations": [
+        {
+          "tag": "ready-after-retry",
+          "at_ms": 468,
+          "state": "ready",
+          "same_dom": true,
+          "focused": true,
+          "visible": true,
+          "rect": {
+            "x": 530.109375,
+            "y": 399.75,
+            "width": 173.890625,
+            "height": 44,
+            "top": 399.75,
+            "right": 704,
+            "bottom": 443.75,
+            "left": 530.109375
+          },
+          "viewport": [
+            768,
+            844
+          ]
+        }
+      ],
+      "late_original_handling": []
+    },
+    {
+      "id": "en-native200-loaded",
+      "status": "PASS",
+      "deadline_observed_at_ms": 15013,
+      "retry_at_ms": 15381,
+      "recovered_at_ms": 15439,
+      "role": "operator",
+      "record_unchanged": true,
+      "principal_unchanged": true,
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "other_get_failures": 0,
+      "focus_observations": [
+        {
+          "tag": "ready-after-retry",
+          "at_ms": 15441,
+          "state": "ready",
+          "same_dom": true,
+          "focused": true,
+          "visible": true,
+          "rect": {
+            "x": 49,
+            "y": 258.3828125,
+            "width": 173.8828125,
+            "height": 44,
+            "top": 258.3828125,
+            "right": 222.8828125,
+            "bottom": 302.3828125,
+            "left": 49
+          },
+          "viewport": [
+            720,
+            456
+          ]
+        }
+      ],
+      "late_original_handling": [
+        {
+          "status": 200,
+          "command": "unavailable_after_abort",
+          "matched_actual_cancel": true,
+          "expected_protocol_after_cancel": true,
+          "error_name": "Error",
+          "at_ms": 15693
+        }
+      ]
+    },
+    {
+      "id": "en390-viewer",
+      "status": "PASS",
+      "deadline_observed_at_ms": null,
+      "retry_at_ms": null,
+      "recovered_at_ms": null,
+      "role": "viewer",
+      "record_unchanged": true,
+      "principal_unchanged": true,
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "other_get_failures": 0,
+      "focus_observations": [
+        {
+          "tag": "viewer-recovered",
+          "at_ms": null,
+          "state": "ready",
+          "same_dom": true,
+          "focused": true,
+          "visible": true,
+          "rect": {
+            "x": 33,
+            "y": 452.15625,
+            "width": 173.890625,
+            "height": 44,
+            "top": 452.15625,
+            "right": 206.890625,
+            "bottom": 496.15625,
+            "left": 33
+          },
+          "viewport": [
+            390,
+            844
+          ]
+        }
+      ],
+      "late_original_handling": []
+    },
+    {
+      "id": "ja390-other-focus",
+      "status": "PASS",
+      "deadline_observed_at_ms": null,
+      "retry_at_ms": null,
+      "recovered_at_ms": null,
+      "role": "operator",
+      "record_unchanged": true,
+      "principal_unchanged": true,
+      "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "other_get_failures": 0,
+      "focus_observations": [
+        {
+          "tag": "ready-other-control",
+          "at_ms": 232,
+          "state": "ready",
+          "same_dom": true,
+          "focused": false,
+          "visible": false,
+          "rect": {
+            "x": 33,
+            "y": 1141.5625,
+            "width": 116,
+            "height": 44,
+            "top": 1141.5625,
+            "right": 149,
+            "bottom": 1185.5625,
+            "left": 33
+          },
+          "viewport": [
+            390,
+            844
+          ]
+        }
+      ],
+      "late_original_handling": [
+        {
+          "status": 200,
+          "command": "continued_original",
+          "at_ms": 204
+        }
+      ]
+    }
+  ],
+  "regression_status": {
+    "original_before": "Preserved original observation demonstrates pending file retry gap and unfetched-record absence claims.",
+    "after_r1": "Original overallFAIL and3 focus-geometry failures retained; native200/viewer passed in that run.",
+    "after_r2": "All six cases completed, including original four fault modes, actual viewer and explicit different-focus control."
+  },
+  "native200": {
+    "geometry": {
+      "inner": [
+        720,
+        456
+      ],
+      "outer": [
+        1440,
+        1000
+      ],
+      "dpr": 2,
+      "root_zoom": "1",
+      "body_zoom": "1",
+      "scroll": [
+        0,
+        0
+      ],
+      "active_tag": "H1",
+      "active_text": null,
+      "active_rect": {
+        "x": 24,
+        "y": 161.25,
+        "width": 672,
+        "height": 67.1875,
+        "top": 161.25,
+        "right": 696,
+        "bottom": 228.4375,
+        "left": 24
+      },
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 720,
+        "height": 107,
+        "top": 0,
+        "right": 720,
+        "bottom": 107,
+        "left": 0
+      },
+      "overflow": 0,
+      "active_visible": true
+    },
+    "verified": true,
+    "editor_copy_preserved": true,
+    "direction_preserved": true,
+    "editor_excerpt_sha256": "17e45c7fb86b80b39f0721e7329434a30d74a33d290150a6790df9a0024bebf4",
+    "direction_excerpt_sha256": "3b870f2f990cff5569a56379da8c4fb558fcc074ad07cec81d0d263db65cc528",
+    "evidence_limit": "Editor/direction retention proved by real DOM input values and SHA; named viewport images are focus/check-state evidence and do not show the whole editor."
+  },
+  "other_focus_control": {
+    "natural_actions": "Tab to retry, Shift+Tab to See check record, then continue the original held200 without an added request.",
+    "focus_retained": true,
+    "scroll_before": [
+      0,
+      225
+    ],
+    "scroll_after": [
+      0,
+      225
+    ],
+    "scroll_unchanged": true,
+    "file_gets_before": 1,
+    "file_gets_after": 1,
+    "focus_target_visible_before": true,
+    "focus_target_visible_after": false,
+    "limitation": "No focus or scroll was stolen. The other control itself moved below the viewport as the first body grew; this is intentionally not claimed as all-controls visibility preservation."
+  },
+  "visual_review": {
+    "opened_images": [
+      "ja390-manual-recovered-focus.png",
+      "ja320-deadline-retry-focus.png",
+      "ja320-deadline-recovered-focus.png",
+      "en768-transport-fault-check-record-open.png",
+      "en768-transport-recovered-focus.png",
+      "en-native200-loaded-retry-focus.png",
+      "en-native200-loaded-recovered-focus.png",
+      "en390-viewer-viewer-reload-focus.png",
+      "ja390-other-focus-other-control-before-original-release.png",
+      "ja390-other-focus-other-control-after-original-release.png"
+    ],
+    "findings": "The corrected retry remains visibly outlined after initial recovery at390/320/768 and native200. Error summary and expanded record both state unavailability instead of absence. Viewer gets read access without an adoption button. Mobile labels wrap without horizontal overflow.",
+    "border_limit": "Geometry checks control border boxes; natural Tab placement at320 can put the outside outline at the bottom edge. This is not a blanket focus-appearance conformance claim."
+  },
+  "invariants": {
+    "business_unchanged": true,
+    "model_event_delta": 0,
+    "model_called_before": 73,
+    "model_called_after": 73,
+    "jobs_after": 0,
+    "original_source_unchanged": true,
+    "implementation_unchanged": true,
+    "bundle_unchanged": true,
+    "api_cleanup": {
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "browser_cleanup": [
+      {
+        "program": "check.mjs",
+        "tracked_processes": 52,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "limits": [
+    "Actual archived v62 records and real API/keys/SQLite; no reconstructed task rows, invented revision/status or new model output.",
+    "HTTP response-stage hold does not isolate body-only timeout; stream-body boundary is static code coverage only.",
+    "Superseded/timed-out original responses were truly canceled: Network.loadingFailed canceled+ERR_ABORTED paired with invalid CDP interception ID. This does not claim a canceled response was delivered successfully to React.",
+    "Different-focus control continued its actual held200; it is not a fabricated late response.",
+    "Ready geometry sampled after two animation frames to include the r2 post-layout adjustment; r1 failure images remain unchanged.",
+    "No new route/subject-switch, multi-version, Safari/iPhone, virtual-keyboard, screen-reader or human first-use exercise here.",
+    "No claims of public-service availability, general business quality, L3, WCAG conformance or award certification."
+  ]
+}

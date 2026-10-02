@@ -1,0 +1,24 @@
+{
+  "status": "STATIC_SUPPLEMENT_NO_BLOCKING_FINDING",
+  "reviewed_at": "2026-10-02T02:55:35.625710+00:00",
+  "workroom_sha256": "e8c07d67306d10cb47a016fb92ef86ba015ca3f26e836f65a30f4373e15d4a7d",
+  "api_sha256": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6",
+  "new_runtime_execution": false,
+  "source_edited": false,
+  "r1_record_preserved": "static-after-r1/static-review.json",
+  "change": "readRetryRefを常設buttonへ付け、readReady/readKeyが変わった時のrAFで現在focusがそのbuttonの場合に限り幾何を確認し、viewport外/stickyheader下に隠れた場合にscrollIntoView center instant。focus()は呼ばない。",
+  "source": "frontend/src/pages/Workroom.tsx:396-407",
+  "assessment": [
+    "現在focusがretry以外なら何もしないため、本文・編集copy・他controlのfocusを奪わない。",
+    "readReady=falseでは予約せず、cleanupでrAFを取消する。unmount・版切替で旧frameを残さない。",
+    "API optional signalはr1と同じSHA。artifact read controller/15秒deadline/fulltuple照合/read-errorとadoption error/既存主体generationを変更していない。",
+    "本文取得でretryが押し下げられるr1実欠点に対し、追加toolbarや強制focus移動ではなく既存controlの可視範囲だけを調整する。"
+  ],
+  "limits": [
+    "実r2はまだ進行中。この静的補足でcaseや全体をPASSとはしない。",
+    "現在focusがretryに残っているpassive再取得のready遷移でも幾何補正は動き得る。別controlへfocusがある時は動かない。全自動スクロール不存在の主張はしない。",
+    "非常に低いviewportやheaderが画面中央を越える条件、横overflowはこのeffectだけで一般保証しない。実画像/geometryの範囲で確認する。",
+    "r1のfocus画面外FAILを保持し、r2単体の4case結果・原本文/copy・cleanupと分けて判定する。",
+    "r1の理論的abort後成功解決addendumと、採用error retry等の別scope制約は未変更。"
+  ]
+}

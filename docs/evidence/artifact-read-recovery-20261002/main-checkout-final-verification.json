@@ -1,0 +1,12 @@
+{
+  "recorded_at": "2026-10-02T03:05:34.778670+00:00",
+  "files": 1338,
+  "already_missing_in_original": 3,
+  "same_paths_including_tracked_missing": true,
+  "changed_count": 0,
+  "same_status": true,
+  "same_head": true,
+  "original_false_assertion_preserved": "main-checkout-verification.json",
+  "explanation": "Initial comparison excluded three already-missing tracked paths and counted the same missing paths as changes; original snapshot marks them kind=missing. Compare the original kind and the complete git path set.",
+  "status": "PASS"
+}

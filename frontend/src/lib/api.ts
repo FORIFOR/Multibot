@@ -128,7 +128,7 @@ export const api = {
   health: () => req<{ ok: boolean; version: string; config_revision: number; live_runs: string[] }>('GET', '/api/health'),
   approvals: (status?: string) => req<Approval[]>('GET', `/api/approvals${status ? `?status=${status}` : ''}`),
   resolveApproval: (id: string, body: { decision: string; note?: string; expected_hash?: string; nonce?: string }) => req<Approval>('POST', `/api/approvals/${id}/resolve`, body),
-  artifact: (runId: string, artifactId: string, rev: number) => req<Artifact & { text?: string; checks: Event[]; reviews: Event[] }>('GET', `/api/artifacts/${runId}/${artifactId}/versions/${rev}`),
+  artifact: (runId: string, artifactId: string, rev: number, signal?: AbortSignal) => req<Artifact & { text?: string; checks: Event[]; reviews: Event[] }>('GET', `/api/artifacts/${runId}/${artifactId}/versions/${rev}`, undefined, false, signal),
   artifactDiff: (runId: string, artifactId: string, from: number, to: number) =>
     req<ArtifactDiff>('GET', `/api/artifacts/${runId}/${artifactId}/versions/${to}/diff?from_revision=${from}`),
   adoptArtifact: (runId: string, artifactId: string, body: { revision: number; expected_selected_revision?: number; note?: string }) =>
