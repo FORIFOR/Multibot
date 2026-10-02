@@ -16,9 +16,11 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
   const [loading, setLoading] = useState(true)
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
+  const [connectionFailed, setConnectionFailed] = useState(false)
   const [busy, setBusy] = useState(false)
   const ja = getLang() !== 'en'
   const authVersion = useRef(0)
+  const connectionFailureVersion = useRef<number | null>(null)
   const signingOut = useRef(false)
   const pendingPeers = useRef(new Set<string>())
   useEffect(() => {
@@ -27,7 +29,9 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
     const peerTimers = new Map<string, ReturnType<typeof setTimeout>>()
     const load = async () => {
       const version = ++authVersion.current
+      connectionFailureVersion.current = null
       setLoading(true)
+      setConnectionFailed(false)
       try {
         const status = await fetch('/api/auth/status', { cache: 'no-store', signal: AbortSignal.timeout(AUTH_REQUEST_TIMEOUT_MS) })
         if (!status.ok) throw new Error('connection')
@@ -43,12 +47,16 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
       } catch {
         if (!alive || version !== authVersion.current) return
         suspendBrowserSession(); setIdentity(null)
+        connectionFailureVersion.current = version
+        setConnectionFailed(true)
         setError(ja ? 'サーバーへ接続できません。再読込してください。' : 'Cannot connect to the server. Reload to retry.')
       } finally { if (alive && version === authVersion.current) setLoading(false) }
     }
     const expire = (message: string) => {
       authVersion.current++
+      connectionFailureVersion.current = null
       clearBrowserSession(); setIdentity(null); setToken(''); setBusy(false); setLoading(false); setError(message)
+      setConnectionFailed(false)
     }
     const expired = () => { expire(ja ? 'セッションが終了しました。再ログインしてください。' : 'Session ended. Sign in again.'); broadcastSessionChange() }
     const peerSequences = new Map<string, number>()
@@ -100,8 +108,18 @@ export default function AuthGate({ children }: { children: (identity: Identity, 
   }, [ja])
   if (loading) return <main className="main" role="status">{ja ? '接続を確認しています…' : 'Connecting…'}</main>
   if (identity) return <Fragment key={browserPrincipalKey(identity, secured)}>{children(identity, secured)}</Fragment>
+  if (connectionFailed) return <main className="main" style={{ maxWidth: 480, paddingTop: 96 }}>
+    <h1>Multibot</h1>
+    <p role="alert" className="lede">{error}</p>
+    <button type="button" className="btn signal" onClick={() => {
+      // A peer/logout event can invalidate this screen before React repaints it.
+      if (connectionFailureVersion.current !== authVersion.current || signingOut.current || pendingPeers.current.size > 0) return
+      window.location.reload()
+    }}>{ja ? '再読込して接続を確認' : 'Reload and check connection'}</button>
+  </main>
   const keyForm = <form className="stack" onSubmit={async event => {
-      event.preventDefault(); setBusy(true); setError('')
+      event.preventDefault(); setBusy(true); setError(''); setConnectionFailed(false)
+      connectionFailureVersion.current = null
       const version = ++authVersion.current
       broadcastSessionChange(true)
       try {

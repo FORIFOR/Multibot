@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "Observed rejection of an existing non-credential repository file before Chrome/API work; not a product authentication test",
+  "process_exit_code": 1,
+  "negative_report_status": "FAIL",
+  "failure_check": "issued_key_file",
+  "source": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/cleanup.json",
+  "source_sha256": "27d8c75fa06a47dffe100b77dd28f740506d672414bc2367d3e1d9a9009732b1",
+  "source_unchanged": true,
+  "browser_cases_started": 0,
+  "new_database_created": false,
+  "business_counts_verified": false,
+  "safe_result_sha256": "ce5a570edb99878f3af7d143c2a35689be1601d77851a03fa9217b8d72f4b14e",
+  "runner_sha256": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64"
+}

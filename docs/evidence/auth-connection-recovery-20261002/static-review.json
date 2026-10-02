@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-02T00:33:10.990251+00:00",
+  "kind": "independent_final_static_review",
+  "status": "NO_BLOCKING_FINDINGS_IN_REVIEWED_DIFF",
+  "source": {
+    "path": "frontend/src/components/AuthGate.tsx",
+    "baseline_sha256": "743b1bb57b5552a7ea7e15be18674db2fc0ee52fb7e2a0fb6e48a89f02678fe8",
+    "reviewed_sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+    "diff_sha256": "b3f878cbb21120f9dfd67b97b00d3f4e852d7f26a4e06738c442eec2a863dad5",
+    "browser_session_sha256": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95"
+  },
+  "findings": [],
+  "checked_boundaries": [
+    {
+      "lines": [
+        30,
+        53
+      ],
+      "result": "load begins by invalidating the failure version and dedicated display; valid current-version load catch alone stores its version and enables the connection-failure screen. Existing stale/alive guards remain."
+    },
+    {
+      "lines": [
+        55,
+        60
+      ],
+      "result": "All expire callers synchronously increment authVersion and null failure version, clear private state, then remove the dedicated screen."
+    },
+    {
+      "lines": [
+        109,
+        119
+      ],
+      "result": "Loading and authenticated branches retain precedence. Only current connection failure shows the explicit type=button reload action; key and SSO forms are absent in this branch."
+    },
+    {
+      "lines": [
+        114,
+        118
+      ],
+      "result": "Click synchronously rejects a stale failure version, own logout, or pending peers before reloading. A peer/logout expiry cannot activate the old handler before React repaint."
+    },
+    {
+      "lines": [
+        120,
+        143
+      ],
+      "result": "Explicit key login invalidates the failure ref/state before starting; existing authentication, stale-success and stale-error handling is unchanged."
+    },
+    {
+      "lines": [
+        7,
+        10
+      ],
+      "result": "15-second request deadline and 20-second peer deadline are unchanged."
+    },
+    {
+      "lines": [
+        63,
+        108
+      ],
+      "result": "Peer sender/sequence, timers, timeout, event subscriptions and visibility reload entry retain their existing behavior. No direct load retry, polling retry, or automatic navigation is added."
+    }
+  ],
+  "draft_and_subject_contract": "Existing suspendBrowserSession on load failure and clearBrowserSession on expiry are unchanged. Full reload uses the already implemented principal binding: same-principal persisted draft may survive, changed-principal private data is cleared. This review does not assert a new runtime result.",
+  "scope_note": "load() also runs on visible revalidation of an active session, so the new screen is for authentication-state retrieval connection failure, not only the initial request.",
+  "unverified": [
+    "New actual blocked/retry/recovered keyboard interactions and screenshot rendering are delegated to the runtime verifier and are not established here.",
+    "No new SSO, physical-device, human usability, or whole-security acceptance is asserted."
+  ],
+  "reviewer_product_edits": false,
+  "new_services_or_models_started": false,
+  "human_acceptance": "not_performed"
+}

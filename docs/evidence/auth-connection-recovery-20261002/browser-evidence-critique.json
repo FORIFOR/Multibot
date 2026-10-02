@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "kind": "independent_evidence_and_pixel_critique",
+  "reviewed_at": "2026-10-02T00:43:26.510655+00:00",
+  "status": "NO_NEW_BLOCKING_USABILITY_FINDING_IN_OBSERVED_RECOVERY_SCOPE",
+  "basis": "docs/design/AWARD_QUALITY.md; actual retained observations; source hashes and other implementers actual HTTP/SQLite/Chrome evidence",
+  "source_sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+  "build_manifest_sha256": "52d697a719cce2ad4b91f730f0f93c89a26c94e0d3ed3377883ec170af2105b8",
+  "reports_sha256": {
+    "browser_safe": "bcbbde9309029ec3ef9a1ffe9661c2658a8c378bb262eff2fba4432f6dc72515",
+    "browser": "60e4edea59be746963826b85b67319a7715ce56f83afebda64ee03ae7a656104",
+    "peer": "dc80f8faf4454c4526e4ee03dcd1be0ed426bb52991e20b5f8b591b5a2c71db3",
+    "original_r1_failure": "1daa6430663c03f68bae26fb148aa6028372917b79fd3c598df318cca19f6ce2"
+  },
+  "source_hash_count": 58,
+  "all_current_source_and_private_runner_hashes_match": true,
+  "all_six_private_ui_files_match_build": true,
+  "all_17_named_manifest_entries_match": true,
+  "observed_geometry": [
+    {
+      "case": "ja390-status",
+      "inner": [
+        390,
+        844
+      ],
+      "outer": [
+        500,
+        965
+      ],
+      "dpr": 1,
+      "root_css_zoom": "1",
+      "body_css_zoom": "1",
+      "overflow": 0,
+      "keyboard_stages": [
+        {
+          "stage": "repeat_while_blocked",
+          "tabs": 0,
+          "button_rect": {
+            "x": 16,
+            "y": 199.84375,
+            "width": 177.171875,
+            "height": 44,
+            "top": 199.84375,
+            "right": 193.171875,
+            "bottom": 243.84375,
+            "left": 16
+          }
+        },
+        {
+          "stage": "explicit_reload_after_unblock",
+          "tabs": 1,
+          "button_rect": {
+            "x": 16,
+            "y": 199.84375,
+            "width": 177.171875,
+            "height": 44,
+            "top": 199.84375,
+            "right": 193.171875,
+            "bottom": 243.84375,
+            "left": 16
+          }
+        }
+      ]
+    },
+    {
+      "case": "en768-me",
+      "inner": [
+        768,
+        844
+      ],
+      "outer": [
+        770,
+        967
+      ],
+      "dpr": 1,
+      "root_css_zoom": "1",
+      "body_css_zoom": "1",
+      "overflow": 0,
+      "keyboard_stages": [
+        {
+          "stage": "explicit_reload_after_unblock",
+          "tabs": 0,
+          "button_rect": {
+            "x": 24,
+            "y": 199.84375,
+            "width": 253.21875,
+            "height": 44,
+            "top": 199.84375,
+            "right": 277.21875,
+            "bottom": 243.84375,
+            "left": 24
+          }
+        }
+      ]
+    },
+    {
+      "case": "ja320-status",
+      "inner": [
+        320,
+        844
+      ],
+      "outer": [
+        500,
+        967
+      ],
+      "dpr": 1,
+      "root_css_zoom": "1",
+      "body_css_zoom": "1",
+      "overflow": 0,
+      "keyboard_stages": [
+        {
+          "stage": "explicit_reload_after_unblock",
+          "tabs": 0,
+          "button_rect": {
+            "x": 16,
+            "y": 226.09375,
+            "width": 177.171875,
+            "height": 44,
+            "top": 226.09375,
+            "right": 193.171875,
+            "bottom": 270.09375,
+            "left": 16
+          }
+        }
+      ]
+    },
+    {
+      "case": "ja-native200-me",
+      "inner": [
+        720,
+        412
+      ],
+      "outer": [
+        1440,
+        967
+      ],
+      "dpr": 2,
+      "root_css_zoom": "1",
+      "body_css_zoom": "1",
+      "overflow": 0,
+      "keyboard_stages": [
+        {
+          "stage": "explicit_reload_after_unblock",
+          "tabs": 0,
+          "button_rect": {
+            "x": 24,
+            "y": 199.84375,
+            "width": 177.1640625,
+            "height": 44,
+            "top": 199.84375,
+            "right": 201.1640625,
+            "bottom": 243.84375,
+            "left": 24
+          }
+        }
+      ]
+    }
+  ],
+  "pixel_observations": [
+    "The single prominent reload button gives a concrete next step below the connection explanation; the misleading disabled key form from baseline is absent.",
+    "JA390, JA320, EN768 and actual Chrome profile zoom 200% show readable text, an uncut focus outline and a 44 CSS-pixel control inside the viewport.",
+    "A repeated blocked reload remains a connection failure rather than displaying a sign-in or workspace. The following real successful load returns an empty enabled key form.",
+    "The revoked-key 401 is visibly a sign-in problem and has no connection-reload control. Error text is readable and key input is empty.",
+    "No credential, real personal data, invented success claim or quality certification is visible in the ten reviewed images."
+  ],
+  "images_viewed_sha256": {
+    "ja390-status-failed-focused.png": "21acadfc1ba2910d501417045bf0f8149868a1febef3a7746dcd2a89e46491a0",
+    "ja390-status-blocked-again.png": "c283d6dbb75bd40638c955f01133ae2ac24553694f0bce0ae0310d66f58113c1",
+    "en768-me-failed-focused.png": "38ee7e47f3a7d580859660aa4c15c8f009130b3ae30e5bdc219efd3f9300d581",
+    "ja320-status-failed-focused.png": "ea04a37f0e47516a16ba347a47ca2b3391a6d6716bb6fa0e64b85a64c7ea9a5a",
+    "ja-native200-me-failed-focused.png": "6d080b2aca8a4f9364232ad0aabdb3999cc9d608d77cb83d50cc0b4a798d7ba6",
+    "ja390-status-signin.png": "85022605011787a05723668af75451491fc7d89e1fbc7eeaa08a4b05a36e5fbe",
+    "ja390-revoked-key.png": "a4c1c9c0bd2109325916e44772dd21f3dbe12600d6ae357a024cb72fe1fe47c7",
+    "en768-me-signin.png": "9549878e6c1532434278046fbdb2437ab6a24a0f29a23938743acc15a0c00192",
+    "ja320-status-signin.png": "8a45cb24fcf9862a8bf259aea16eb33e8eb50cc8c2c3dd4595592471dc2c67cb",
+    "ja-native200-me-signin.png": "9c2928047332f94df542b87e96c4fd5e853749bcdac65a044d7200b995e032d2"
+  },
+  "peer_evidence": {
+    "close_empty_signin_ms": 20087,
+    "close_completion_observed": false,
+    "reload_empty_signin_ms": 77,
+    "reload_completion_observed": true,
+    "both_clear_private_storage": true,
+    "both_no_connection_reload_control": true,
+    "both_require_explicit_login": true,
+    "limits": "These are two different recovery causes: the 77ms path is a real completion notification, not proof the 20s expiry runs early."
+  },
+  "current_db_observed": {
+    "runs": 0,
+    "execution_jobs": 0,
+    "artifacts": 0,
+    "model_events": 0,
+    "pending_jobs": 0
+  },
+  "business_before_after_final_equal_zero": true,
+  "owned_cleanup": {
+    "api": {
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "chrome_process_records": 48,
+    "remaining_processes": 0,
+    "signals_sent": 0
+  },
+  "original_r1_failure": {
+    "status": "FAIL retained",
+    "stage": "authenticated_visibility_connection_failure",
+    "recorded_error_type": "TimeoutError",
+    "interpretation": "The real hidden-document prerequisite was not achieved; no visibility-triggered auth re-fetch was observed. This is not proof of a product failure or of successful authenticated recovery.",
+    "original_source_unchanged_field": null,
+    "no_new_test_by_reviewer": true
+  },
+  "remaining_limits_and_followups": [
+    "Authenticated visibility revalidation, its owner-bound saved draft, and re-entry to an existing workspace are not established by r2.",
+    "Screen-reader announcements/focus semantics were not exercised. role=alert/status and keyboard pixels alone do not establish screen-reader usability or WCAG conformance.",
+    "SSO and logout communication-failure recovery remain outside this new actual observation scope.",
+    "Actual browser zoom used a private Chrome profile setting with viewport:null, observed inner720x412/outer1440x967/DPR2 and root/body CSS zoom1. This does not test browser-menu interaction or a physical mobile device.",
+    "If connectivity remains unavailable after repeated attempts, the screen still offers retry only; defined operator contact/status guidance remains a future service usability consideration, not a new blocker for this bounded fix.",
+    "The synchronous stale-click version guard was statically reviewed. These runtime records establish control absence after peer invalidation, not an adversarial pre-repaint click race.",
+    "No external award score, human first-use acceptance, full service completion or business-quality acceptance is inferred."
+  ],
+  "secret_scan": {
+    "actual_issued_key_files_checked": 5,
+    "actual_key_matches": 0,
+    "jwt_shape_matches": 0,
+    "binary_scan_is_not_ocr": true,
+    "images_visually_reviewed": 10
+  },
+  "product_edits_by_reviewer": false,
+  "new_service_browser_model_probe_or_vm_started_by_reviewer": false,
+  "human_acceptance": false,
+  "award_certification": false
+}

@@ -121,6 +121,7 @@ jobs:
             /tmp/multibot-public-service/admission/verification.json
             /tmp/multibot-public-service/responses/response-check.json
             /tmp/multibot-public-service/browser/results.json
+            /tmp/multibot-public-service/browser/initial-recovery.json
             /tmp/multibot-public-service/browser/retry-reload.json
             /tmp/multibot-public-service/browser/parallel-login.json
             /tmp/multibot-public-service/browser/parallel-diagnostic.json

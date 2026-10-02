@@ -9,14 +9,16 @@
 - 固定依存関係の脆弱性監査（既存ジョブを維持）。
 - Pythonの静的確認、フロントエンドbuild/lint、配布済みUIとビルドの一致。
 - 保存した実v62の1回目/6回目を別SQLiteへ再構成し、文書経路の最終報告で追加モデル呼出・追加解釈がなく、元の状態と成果物が変わらないことの回帰確認。完全な過去runtime再現や新たな業務品質評価ではない。
-- `backend/scripts/check_public_service.py` による実HTTP・SQLiteの受付上限/再送/応答権限境界、実Chromeでのログイン・別タブ・下書き破棄・通信切断・並行ログイン。
+- `backend/scripts/check_public_service.py` による実HTTP・SQLiteの受付上限/再送/応答権限境界、実Chromeでのログイン・別タブ・下書き破棄・通信切断・並行ログイン。API 2段階とChrome 5段階の計7段階。
 - `backend/scripts/check_database_concurrency.py` による実資料・実APIの並行読取と監査保存。共有接続の読取cursorと別接続の利用枠transactionが重なる競合を、実SQLiteと実HTTPで確認する。負荷容量や可用性の受入ではない。
 - `backend/scripts/check_document_sandbox.py` による文書ファイル検査の受付とコマンド隔離の確認。実資料・実HTTP/SQLite・実Gatewayを使い、推論は実行枠を保持して待機させる。コマンド権限が残る設定では拒否する。公開artifactはallowlistの `safe-report.json` だけとし、私有ログ・鍵・DBは含めない。
 - `backend/scripts/check_result_reading.py` と実Chromeによる、保存した実v62の完了/失敗/中断の成果物画面。operator/viewerの320/390幅で、結果優先・本文見出し・nativeチーム開閉・定期更新/会話往復・未完了警告・戻り先・横overflowを確認する。小画面の常設ナビゲーション、メニューの開閉、Escape後のfocus、外側クリック後に隠れた操作へfocusを残さないことも実画面で確認する。元資料と業務状態不変、追加モデル/キュー0、所有サービス/ブラウザー終了を照合し、`safe-report.json` のみ公開する。採用/ZIPや一般業務品質の受入をこの読取り回帰へ含めない。
 
 入力はこのリポジトリの資料と実資料からの保存済みv18/v61/v62記録。実際に鍵を発行し、loopbackでAPIを起動する。受付/応答/ブラウザーでDBを分離する。既存の受付/応答試験の新規要求は `start:false`、キュー直接検証はサービス停止中に行い再起動前に取り消す。文書の隔離境界試験は実行枠を全て取得した状態で `start:true` を受付し、queuedを実APIでcancelledにしてから枠を解放する。LLMを起動せず、応答を代替しない。保存された過去のprobeは受付の前提記録としてのみ用い、CI上のモデル疎通を確認したとは扱わない。
 
-秘密キー・セッション・DB・設定・非公開ログをartifactに含めず、個別に列挙した結果JSONと、キー入力欄消去後の画面だけを保持する。Playwrightの生エラーには入力値を含む可能性があるため、失敗JSON/画像やログはuploadしない。失敗時は生エラーを含まない `report.json` の状態と通過項目を保持し、別の成功で上書きしない。生の失敗記録はローカル検証ではprivate rootへ保持するが、CIではrunner終了時に消える。
+`auth-initial-recovery.mjs` は初回のJA390 `/api/auth/status` とEN768 `/api/auth/me` をChrome CDPで実際に遮断する。接続エラー時はログイン欄や作業画面を見せず、明示的な再読込操作を出すこと、遮断中の再読込は再び失敗状態になること、遮断解除後のTab/Enterによる再読込で空のログイン画面へ戻ることを実APIで確認する。その後、実発行operatorキーでログインし主体を照合する。API応答の差替えは行わない。業務DB件数と原資料/実装SHAの前後一致、明示ログイン以外のwriteなしを確認し、固定項目の `browser/initial-recovery.json` だけを公開する。5秒の自動復帰観察を超える可用性、SSO、認証済み利用中の接続失敗は対象外。子プロセスの上限は120秒で、既存の所有Chrome追跡・終了確認を使う。
+
+秘密キー・セッション・DB・設定・非公開ログをartifactに含めず、個別に列挙した結果JSONと、キー入力欄消去後の画面だけを保持する。Playwrightの生エラーには入力値を含む可能性があるため、生エラー入りの失敗JSON/画像やログはuploadしない。失敗時は生エラーを含まない `report.json` と初回接続回帰の `initial-recovery.json` の状態・実施項目・未確認値を保持し、別の成功で上書きしない。生の失敗記録はローカル検証ではprivate rootへ保持するが、CIではrunner終了時に消える。
 
 ローカル再現は依存関係、Chrome、Node、sqlite3、最新配布UIを用意して、次を実行する。指定する保存先は新規ディレクトリに限る。
 

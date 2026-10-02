@@ -1,0 +1,211 @@
+{
+  "status": "PASS",
+  "method": "Actual CDP Network.setBlockedURLs, real API, issued key and SQLite",
+  "planned_cases": 2,
+  "cases": [
+    {
+      "id": "ja390-status",
+      "status": "PASS",
+      "checks": [
+        "initial_failure_explicit_reload_and_no_auth_controls",
+        "keyboard_reload_while_blocked_preserves_failure_boundary",
+        "restored_transport_waits_for_explicit_reload_for_five_seconds",
+        "keyboard_reload_restores_empty_enabled_login",
+        "actual_issued_operator_login_and_identity",
+        "http_and_browser_error_boundaries"
+      ],
+      "http": [
+        {
+          "phase": "restored_reload",
+          "route": "/api/auth/status",
+          "status": 200
+        },
+        {
+          "phase": "restored_reload",
+          "route": "/api/auth/me",
+          "status": 401
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/auth/login",
+          "status": 200
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/config",
+          "status": 200
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/usage",
+          "status": 200
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/runs",
+          "status": 200
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/health",
+          "status": 200
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/approvals",
+          "status": 200
+        }
+      ],
+      "failed_requests": [
+        {
+          "phase": "initial_failure",
+          "route": "/api/auth/status",
+          "expected_block": true,
+          "expected_navigation_abort": false,
+          "context_close_abort": false
+        },
+        {
+          "phase": "blocked_reload",
+          "route": "/api/auth/status",
+          "expected_block": true,
+          "expected_navigation_abort": false,
+          "context_close_abort": false
+        }
+      ],
+      "page_error_count": 0
+    },
+    {
+      "id": "en768-me",
+      "status": "PASS",
+      "checks": [
+        "initial_failure_explicit_reload_and_no_auth_controls",
+        "keyboard_reload_while_blocked_preserves_failure_boundary",
+        "restored_transport_waits_for_explicit_reload_for_five_seconds",
+        "keyboard_reload_restores_empty_enabled_login",
+        "actual_issued_operator_login_and_identity",
+        "http_and_browser_error_boundaries"
+      ],
+      "http": [
+        {
+          "phase": "initial_failure",
+          "route": "/api/auth/status",
+          "status": 200
+        },
+        {
+          "phase": "blocked_reload",
+          "route": "/api/auth/status",
+          "status": 200
+        },
+        {
+          "phase": "restored_reload",
+          "route": "/api/auth/status",
+          "status": 200
+        },
+        {
+          "phase": "restored_reload",
+          "route": "/api/auth/me",
+          "status": 401
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/auth/login",
+          "status": 200
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/config",
+          "status": 200
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/runs",
+          "status": 200
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/health",
+          "status": 200
+        },
+        {
+          "phase": "issued_key_login",
+          "route": "/api/approvals",
+          "status": 200
+        }
+      ],
+      "failed_requests": [
+        {
+          "phase": "initial_failure",
+          "route": "/api/auth/me",
+          "expected_block": true,
+          "expected_navigation_abort": false,
+          "context_close_abort": false
+        },
+        {
+          "phase": "blocked_reload",
+          "route": "/api/auth/me",
+          "expected_block": true,
+          "expected_navigation_abort": false,
+          "context_close_abort": false
+        }
+      ],
+      "page_error_count": 0
+    }
+  ],
+  "writes": [
+    {
+      "case": "ja390-status",
+      "phase": "issued_key_login",
+      "method": "POST",
+      "route": "/api/auth/login"
+    },
+    {
+      "case": "en768-me",
+      "phase": "issued_key_login",
+      "method": "POST",
+      "route": "/api/auth/login"
+    }
+  ],
+  "cleanup": [
+    {
+      "name": "ja390-status-context",
+      "status": "PASS"
+    },
+    {
+      "name": "en768-me-context",
+      "status": "PASS"
+    },
+    {
+      "name": "browser",
+      "status": "PASS"
+    }
+  ],
+  "source_sha256": {
+    "frontend/scripts/auth-initial-recovery.mjs": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64",
+    "frontend/src/components/AuthGate.tsx": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+    "backend/scripts/check_public_service.py": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+    "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9"
+  },
+  "source_unchanged": true,
+  "business_before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "business_after": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "model_execution_requested": false,
+  "human_acceptance": "not_performed",
+  "limits": [
+    "Initial unauthenticated JA390 status / EN768 me failures only; no SSO or existing-session acceptance.",
+    "Five seconds without automatic recovery is an observation window, not an indefinite guarantee.",
+    "No screenshots, raw API bodies, credentials, database, or exception messages are public.",
+    "Browser process drainage is measured by the parent check_public_service runner."
+  ],
+  "browser": "154.0.8037.93"
+}
