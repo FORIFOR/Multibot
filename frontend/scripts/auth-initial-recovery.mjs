@@ -39,6 +39,18 @@ const privateFailure = error => {
   try { writeFileSync(resolve(out, 'initial-recovery.private.log'), String(error?.stack || error) + '\n', { mode: 0o600, flag: 'a' }) }
   catch { report.private_log_write_failed = true }
 }
+// Fixed booleans only: the Playwright message may contain command lines and paths.
+// These markers describe the observed exception, not the cause of a browser startup failure.
+const launchFailureMarkers = error => {
+  const message = typeof error?.message === 'string' ? error.message : ''
+  return {
+    wrapper_deadline: message === 'chrome_launch',
+    playwright_timeout: message.includes('Timeout 15000ms exceeded'),
+    target_closed: message.includes('Target page, context or browser has been closed'),
+    executable_missing: message.includes("Executable doesn't exist"),
+    sandbox_rejected: message.includes('No usable sandbox') || message.includes('Running as root without --no-sandbox is not supported'),
+  }
+}
 const counts = () => {
   const value = JSON.parse(execFileSync('sqlite3', ['-readonly', '-json', resolve(data, 'agentteam.sqlite'),
     "SELECT (SELECT count(*) FROM runs) AS runs,(SELECT count(*) FROM execution_jobs) AS jobs,(SELECT count(*) FROM events WHERE type LIKE 'model.%') AS model_events,(SELECT count(*) FROM artifacts) AS artifacts;"],
@@ -51,7 +63,11 @@ async function bounded(promise, id, maximum = 15000, cleanup = false) {
   failureCheck = id
   let timer
   const remaining = cleanup ? maximum : Math.min(maximum, Math.max(1, end - Date.now()))
-  try { return await Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(id)), remaining) })]) }
+  if (id === 'chrome_launch') report.browser_launch.wrapper_timeout_ms = remaining
+  try { return await Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => {
+    if (id === 'chrome_launch') report.browser_launch.wrapper_deadline_fired = true
+    reject(new Error(id))
+  }, remaining) })]) }
   finally { clearTimeout(timer) }
 }
 async function close(name, action) {
@@ -70,7 +86,21 @@ try {
   report.source_sha256 = hashes()
   report.business_before = counts()
   save()
-  browser = await bounded(chromium.launch({ channel: 'chrome', timeout: 15000 }), 'chrome_launch')
+  report.browser_launch = { state: 'STARTED', started_at: new Date().toISOString(),
+    elapsed_ms: null, timeout_ms: 15000, wrapper_timeout_ms: null, wrapper_deadline_fired: false, markers: null }
+  const launchStarted = performance.now()
+  save()
+  try {
+    browser = await bounded(chromium.launch({ channel: 'chrome', timeout: 15000 }), 'chrome_launch')
+    report.browser_launch.state = 'SUCCEEDED'
+  } catch (error) {
+    report.browser_launch.state = 'FAILED'
+    report.browser_launch.markers = launchFailureMarkers(error)
+    throw error
+  } finally {
+    report.browser_launch.elapsed_ms = Math.round(performance.now() - launchStarted)
+    save()
+  }
   report.browser = browser.version()
   for (const test of [{ id: 'ja390-status', lang: 'ja', width: 390, path: '/api/auth/status' },
     { id: 'en768-me', lang: 'en', width: 768, path: '/api/auth/me' }]) {

@@ -1,0 +1,52 @@
+{
+  "recorded_at": "2026-10-02T03:23:03.728815+00:00",
+  "status": "NOT_RUN",
+  "actor": "independent AI evidence reviewer",
+  "run_id": 36959652900,
+  "head": "0f2d377724bc2ec8c5a8469a663d991227bbd7f6",
+  "workflow_status": "completed",
+  "workflow_conclusion": "failure",
+  "service_job_conclusion": "failure",
+  "site_step": {
+    "name": "Verify generated public pages and real browser behavior",
+    "status": "completed",
+    "conclusion": "skipped",
+    "started_at": "2026-10-02T03:20:44Z",
+    "completed_at": "2026-10-02T03:20:44Z"
+  },
+  "preceding_failed_steps": [
+    {
+      "name": "Verify actual service boundaries without model execution",
+      "conclusion": "failure",
+      "started_at": "2026-10-02T03:20:24Z",
+      "completed_at": "2026-10-02T03:20:44Z"
+    }
+  ],
+  "site_artifact_count": 0,
+  "original_zip": "NOT_AVAILABLE: current run has no public-site-quality-evidence artifact",
+  "checks": {
+    "run_head_matches": true,
+    "site_was_skipped": true,
+    "site_artifact_absent": true,
+    "prior_plan_files_unchanged": true
+  },
+  "unverified": [
+    "execution merge/tree for site (site did not execute)",
+    "7 site source / 10 served resources / runner comparison",
+    "4 preserved Home PNG served-byte comparison",
+    "18 conditions / 185 checks",
+    "axe executed/incomplete scope",
+    "owned Chrome/profile cleanup for site"
+  ],
+  "limits": [
+    "No site measurement was executed at this head in this run; no current site success/defect inference.",
+    "No old artifact is substituted. No ZIP or19JSON extracted because current site artifact is absent.",
+    "Current service failure is handled by another agent; this record does not identify its cause.",
+    "No local browser/service/model/code changes or raw log downloads.",
+    "Public performance, human/award/WCAG/business/L3 acceptance remain unverified."
+  ],
+  "plans_unchanged": {
+    "next-export-recovery-observation-20261002-r1": true,
+    "next-workroom-artifact-observation-20261002-r1": true
+  }
+}

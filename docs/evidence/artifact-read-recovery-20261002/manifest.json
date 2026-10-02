@@ -4,8 +4,8 @@
   "scope": "Actual artifact read recovery: original failure, two product iterations, independent review, real HTTP/SQLite/Chrome; no business-quality or public-service acceptance.",
   "files": {
     "README.md": {
-      "sha256": "1b7db080d79cecd47fe2f2027f4b9a25fdd9c13d7ec140c4f56ff7cb6475e56d",
-      "bytes": 12888
+      "sha256": "e5fc83e036a2b8e713200ce3dbc7d22bbc23331ac6393ff4074283c417003ccc",
+      "bytes": 12893
     },
     "abort-resolution-edge-addendum.json": {
       "sha256": "16aae0753f917465571e09d719f75da0532906c8282a341fb6d48a98b65fdc66",

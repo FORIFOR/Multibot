@@ -43,7 +43,7 @@ r2では本文取得の成功後、まだretry自身にfocusがあり、実矩�
 
 最後の別操作へ移った対照では、その別操作自体は本文増高でy609→1141pxへ移り画面外になった。今回の補正は復帰後retryの範囲であり、全focus要素を可視に保ったとはしない。320幅で期限後にTabした時のfocus輪郭が画面端に接する余白の制約も残す。これは残る操作上の制約で、受賞水準に達したという判定はしない。
 
-同じ最終製品で[既存の3 GET回復5ケース](parent-read-regression.json)も一度実行し、PASSを保存した。[別担当の照合](parent-read-regression-review.json)でcode56/source14/dist6が現製品と一致し、所有Chrome21件残留0を確認した。新しい成果物取得の証拠と、作業詳細・会話・イベント取得の回帰結果を分ける。追加model/jobは0。元資料・業務・配布UIは不変で、所有APIの終了を確認した。
+同じ最終製品で[既存の3 GET回復5ケース](parent-read-regression.json)も一度実行し、PASSを保存した。[別担当の照合](parent-read-regression-review.json)でcode56/source14/dist6が現製品と一致し、検証所有21 process残留0を確認した。新しい成果物取得の証拠と、作業詳細・会話・イベント取得の回帰結果を分ける。追加model/jobは0。元資料・業務・配布UIは不変で、所有APIの終了を確認した。
 
 ## 実通信の回帰をCIへ加える
 
