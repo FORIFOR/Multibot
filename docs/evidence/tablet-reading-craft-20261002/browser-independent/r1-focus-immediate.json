@@ -1,0 +1,1575 @@
+{
+  "state": "OBSERVED",
+  "actor": "Independent AI reviewer; known application, not first-time human",
+  "started_at": "2026-10-01T23:40:33.970Z",
+  "cases": [],
+  "interactions": [
+    {
+      "id": "before-open",
+      "geometry": {
+        "innerWidth": 720,
+        "innerHeight": 456,
+        "outerWidth": 1440,
+        "dpr": 2,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 720,
+        "scrollWidth": 720,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 24,
+          "y": 157.25,
+          "width": 672,
+          "height": 195.4375,
+          "top": 157.25,
+          "right": 696,
+          "bottom": 352.6875,
+          "left": 24
+        },
+        "title": {
+          "x": 24,
+          "y": 161.25,
+          "width": 672,
+          "height": 67.1875,
+          "top": 161.25,
+          "right": 696,
+          "bottom": 228.4375,
+          "left": 24
+        },
+        "goal": {
+          "x": 24,
+          "y": 161.25,
+          "width": 672,
+          "height": 97.1875,
+          "top": 161.25,
+          "right": 696,
+          "bottom": 258.4375,
+          "left": 24
+        },
+        "status": {
+          "x": 24,
+          "y": 266.4375,
+          "width": 672,
+          "height": 26.25,
+          "top": 266.4375,
+          "right": 696,
+          "bottom": 292.6875,
+          "left": 24
+        },
+        "actions": {
+          "x": 24,
+          "y": 300.6875,
+          "width": 672,
+          "height": 44,
+          "top": 300.6875,
+          "right": 696,
+          "bottom": 344.6875,
+          "left": 24
+        },
+        "reader": {
+          "x": 49,
+          "y": 620.8359375,
+          "width": 622,
+          "height": 319.546875,
+          "top": 620.8359375,
+          "right": 671,
+          "bottom": 940.3828125,
+          "left": 49
+        },
+        "gridColumns": "minmax(0px, 1fr) auto",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "active": {
+          "tag": "SUMMARY",
+          "class": "btn signal",
+          "rect": {
+            "x": 442.2265625,
+            "y": 300.6875,
+            "width": 128.7265625,
+            "height": 44,
+            "top": 300.6875,
+            "right": 570.953125,
+            "bottom": 344.6875,
+            "left": 442.2265625
+          }
+        },
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 442.2265625,
+              "y": 300.6875,
+              "width": 128.7265625,
+              "height": 44,
+              "top": 300.6875,
+              "right": 570.953125,
+              "bottom": 344.6875,
+              "left": 442.2265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 449.9375,
+              "width": 173.75,
+              "height": 44,
+              "top": 449.9375,
+              "right": 481.703125,
+              "bottom": 493.9375,
+              "left": 307.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 578.953125,
+              "y": 300.6875,
+              "width": 117.046875,
+              "height": 44,
+              "top": 300.6875,
+              "right": 696,
+              "bottom": 344.6875,
+              "left": 578.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 25,
+              "y": 472.6875,
+              "width": 670,
+              "height": 40,
+              "top": 472.6875,
+              "right": 695,
+              "bottom": 512.6875,
+              "left": 25
+            }
+          }
+        ]
+      },
+      "disclosure": {
+        "open": false,
+        "summary": {
+          "x": 442.2265625,
+          "y": 300.6875,
+          "width": 128.7265625,
+          "height": 44,
+          "top": 300.6875,
+          "right": 570.953125,
+          "bottom": 344.6875,
+          "left": 442.2265625
+        },
+        "content": {
+          "x": 290.953125,
+          "y": 352.6875,
+          "width": 280,
+          "height": 158.25,
+          "top": 352.6875,
+          "right": 570.953125,
+          "bottom": 510.9375,
+          "left": 290.953125
+        },
+        "buttons": [
+          {
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 449.9375,
+              "width": 173.75,
+              "height": 44,
+              "top": 449.9375,
+              "right": 481.703125,
+              "bottom": 493.9375,
+              "left": 307.953125
+            }
+          }
+        ],
+        "body": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 720,
+            "height": 1898.5078125,
+            "top": 0,
+            "right": 720,
+            "bottom": 1898.5078125,
+            "left": 0
+          },
+          "scrollHeight": 1899
+        },
+        "scrolling": {
+          "scrollTop": 0,
+          "scrollHeight": 1898,
+          "clientHeight": 456
+        }
+      },
+      "screenshot": {
+        "name": "before-open",
+        "sha256": "852e417c8750559181ad6236f1927b15206cda7bf3d87fab9db1898d7c91ca53"
+      }
+    },
+    {
+      "id": "opened",
+      "geometry": {
+        "innerWidth": 720,
+        "innerHeight": 456,
+        "outerWidth": 1440,
+        "dpr": 2,
+        "scrollY": 0,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 720,
+        "scrollWidth": 720,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 24,
+          "y": 157.25,
+          "width": 672,
+          "height": 195.4375,
+          "top": 157.25,
+          "right": 696,
+          "bottom": 352.6875,
+          "left": 24
+        },
+        "title": {
+          "x": 24,
+          "y": 161.25,
+          "width": 672,
+          "height": 67.1875,
+          "top": 161.25,
+          "right": 696,
+          "bottom": 228.4375,
+          "left": 24
+        },
+        "goal": {
+          "x": 24,
+          "y": 161.25,
+          "width": 672,
+          "height": 97.1875,
+          "top": 161.25,
+          "right": 696,
+          "bottom": 258.4375,
+          "left": 24
+        },
+        "status": {
+          "x": 24,
+          "y": 266.4375,
+          "width": 672,
+          "height": 26.25,
+          "top": 266.4375,
+          "right": 696,
+          "bottom": 292.6875,
+          "left": 24
+        },
+        "actions": {
+          "x": 24,
+          "y": 300.6875,
+          "width": 672,
+          "height": 44,
+          "top": 300.6875,
+          "right": 696,
+          "bottom": 344.6875,
+          "left": 24
+        },
+        "reader": {
+          "x": 49,
+          "y": 620.8359375,
+          "width": 622,
+          "height": 319.546875,
+          "top": 620.8359375,
+          "right": 671,
+          "bottom": 940.3828125,
+          "left": 49
+        },
+        "gridColumns": "minmax(0px, 1fr) auto",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "active": {
+          "tag": "SUMMARY",
+          "class": "btn signal",
+          "rect": {
+            "x": 442.2265625,
+            "y": 300.6875,
+            "width": 128.7265625,
+            "height": 44,
+            "top": 300.6875,
+            "right": 570.953125,
+            "bottom": 344.6875,
+            "left": 442.2265625
+          }
+        },
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 442.2265625,
+              "y": 300.6875,
+              "width": 128.7265625,
+              "height": 44,
+              "top": 300.6875,
+              "right": 570.953125,
+              "bottom": 344.6875,
+              "left": 442.2265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 449.9375,
+              "width": 173.75,
+              "height": 44,
+              "top": 449.9375,
+              "right": 481.703125,
+              "bottom": 493.9375,
+              "left": 307.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 578.953125,
+              "y": 300.6875,
+              "width": 117.046875,
+              "height": 44,
+              "top": 300.6875,
+              "right": 696,
+              "bottom": 344.6875,
+              "left": 578.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 25,
+              "y": 472.6875,
+              "width": 670,
+              "height": 40,
+              "top": 472.6875,
+              "right": 695,
+              "bottom": 512.6875,
+              "left": 25
+            }
+          }
+        ]
+      },
+      "disclosure": {
+        "open": true,
+        "summary": {
+          "x": 442.2265625,
+          "y": 300.6875,
+          "width": 128.7265625,
+          "height": 44,
+          "top": 300.6875,
+          "right": 570.953125,
+          "bottom": 344.6875,
+          "left": 442.2265625
+        },
+        "content": {
+          "x": 290.953125,
+          "y": 352.6875,
+          "width": 280,
+          "height": 158.25,
+          "top": 352.6875,
+          "right": 570.953125,
+          "bottom": 510.9375,
+          "left": 290.953125
+        },
+        "buttons": [
+          {
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 449.9375,
+              "width": 173.75,
+              "height": 44,
+              "top": 449.9375,
+              "right": 481.703125,
+              "bottom": 493.9375,
+              "left": 307.953125
+            }
+          }
+        ],
+        "body": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 720,
+            "height": 1898.5078125,
+            "top": 0,
+            "right": 720,
+            "bottom": 1898.5078125,
+            "left": 0
+          },
+          "scrollHeight": 1899
+        },
+        "scrolling": {
+          "scrollTop": 0,
+          "scrollHeight": 1898,
+          "clientHeight": 456
+        }
+      },
+      "screenshot": {
+        "name": "opened",
+        "sha256": "fbc6e2542cad94f6291806b83ba7d6f5e256c2470e6de5003423ed6d2095a0af"
+      }
+    },
+    {
+      "id": "tab-to-confirm",
+      "geometry": {
+        "innerWidth": 720,
+        "innerHeight": 456,
+        "outerWidth": 1440,
+        "dpr": 2,
+        "scrollY": 37.5,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 720,
+        "scrollWidth": 720,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 24,
+          "y": 119.75,
+          "width": 672,
+          "height": 195.4375,
+          "top": 119.75,
+          "right": 696,
+          "bottom": 315.1875,
+          "left": 24
+        },
+        "title": {
+          "x": 24,
+          "y": 123.75,
+          "width": 672,
+          "height": 67.1875,
+          "top": 123.75,
+          "right": 696,
+          "bottom": 190.9375,
+          "left": 24
+        },
+        "goal": {
+          "x": 24,
+          "y": 123.75,
+          "width": 672,
+          "height": 97.1875,
+          "top": 123.75,
+          "right": 696,
+          "bottom": 220.9375,
+          "left": 24
+        },
+        "status": {
+          "x": 24,
+          "y": 228.9375,
+          "width": 672,
+          "height": 26.25,
+          "top": 228.9375,
+          "right": 696,
+          "bottom": 255.1875,
+          "left": 24
+        },
+        "actions": {
+          "x": 24,
+          "y": 263.1875,
+          "width": 672,
+          "height": 44,
+          "top": 263.1875,
+          "right": 696,
+          "bottom": 307.1875,
+          "left": 24
+        },
+        "reader": {
+          "x": 49,
+          "y": 583.3359375,
+          "width": 622,
+          "height": 319.546875,
+          "top": 583.3359375,
+          "right": 671,
+          "bottom": 902.8828125,
+          "left": 49
+        },
+        "gridColumns": "minmax(0px, 1fr) auto",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "active": {
+          "tag": "BUTTON",
+          "class": "btn signal",
+          "rect": {
+            "x": 307.953125,
+            "y": 412.4375,
+            "width": 173.75,
+            "height": 44,
+            "top": 412.4375,
+            "right": 481.703125,
+            "bottom": 456.4375,
+            "left": 307.953125
+          }
+        },
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 442.2265625,
+              "y": 263.1875,
+              "width": 128.7265625,
+              "height": 44,
+              "top": 263.1875,
+              "right": 570.953125,
+              "bottom": 307.1875,
+              "left": 442.2265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 412.4375,
+              "width": 173.75,
+              "height": 44,
+              "top": 412.4375,
+              "right": 481.703125,
+              "bottom": 456.4375,
+              "left": 307.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 578.953125,
+              "y": 263.1875,
+              "width": 117.046875,
+              "height": 44,
+              "top": 263.1875,
+              "right": 696,
+              "bottom": 307.1875,
+              "left": 578.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 25,
+              "y": 435.1875,
+              "width": 670,
+              "height": 40,
+              "top": 435.1875,
+              "right": 695,
+              "bottom": 475.1875,
+              "left": 25
+            }
+          }
+        ]
+      },
+      "disclosure": {
+        "open": true,
+        "summary": {
+          "x": 442.2265625,
+          "y": 263.1875,
+          "width": 128.7265625,
+          "height": 44,
+          "top": 263.1875,
+          "right": 570.953125,
+          "bottom": 307.1875,
+          "left": 442.2265625
+        },
+        "content": {
+          "x": 290.953125,
+          "y": 315.1875,
+          "width": 280,
+          "height": 158.25,
+          "top": 315.1875,
+          "right": 570.953125,
+          "bottom": 473.4375,
+          "left": 290.953125
+        },
+        "buttons": [
+          {
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 412.4375,
+              "width": 173.75,
+              "height": 44,
+              "top": 412.4375,
+              "right": 481.703125,
+              "bottom": 456.4375,
+              "left": 307.953125
+            }
+          }
+        ],
+        "body": {
+          "rect": {
+            "x": 0,
+            "y": -37.5,
+            "width": 720,
+            "height": 1898.5078125,
+            "top": -37.5,
+            "right": 720,
+            "bottom": 1861.0078125,
+            "left": 0
+          },
+          "scrollHeight": 1899
+        },
+        "scrolling": {
+          "scrollTop": 37.5,
+          "scrollHeight": 1898,
+          "clientHeight": 456
+        }
+      },
+      "screenshot": {
+        "name": "tab-to-confirm",
+        "sha256": "b8c7c2d94be5a7e43782486708df80d1eae56c4e72362c88278760504f957d0a"
+      }
+    },
+    {
+      "id": "pagedown",
+      "geometry": {
+        "innerWidth": 720,
+        "innerHeight": 456,
+        "outerWidth": 1440,
+        "dpr": 2,
+        "scrollY": 37.5,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 720,
+        "scrollWidth": 720,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 24,
+          "y": 119.75,
+          "width": 672,
+          "height": 195.4375,
+          "top": 119.75,
+          "right": 696,
+          "bottom": 315.1875,
+          "left": 24
+        },
+        "title": {
+          "x": 24,
+          "y": 123.75,
+          "width": 672,
+          "height": 67.1875,
+          "top": 123.75,
+          "right": 696,
+          "bottom": 190.9375,
+          "left": 24
+        },
+        "goal": {
+          "x": 24,
+          "y": 123.75,
+          "width": 672,
+          "height": 97.1875,
+          "top": 123.75,
+          "right": 696,
+          "bottom": 220.9375,
+          "left": 24
+        },
+        "status": {
+          "x": 24,
+          "y": 228.9375,
+          "width": 672,
+          "height": 26.25,
+          "top": 228.9375,
+          "right": 696,
+          "bottom": 255.1875,
+          "left": 24
+        },
+        "actions": {
+          "x": 24,
+          "y": 263.1875,
+          "width": 672,
+          "height": 44,
+          "top": 263.1875,
+          "right": 696,
+          "bottom": 307.1875,
+          "left": 24
+        },
+        "reader": {
+          "x": 49,
+          "y": 583.3359375,
+          "width": 622,
+          "height": 319.546875,
+          "top": 583.3359375,
+          "right": 671,
+          "bottom": 902.8828125,
+          "left": 49
+        },
+        "gridColumns": "minmax(0px, 1fr) auto",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "active": {
+          "tag": "BUTTON",
+          "class": "btn signal",
+          "rect": {
+            "x": 307.953125,
+            "y": 412.4375,
+            "width": 173.75,
+            "height": 44,
+            "top": 412.4375,
+            "right": 481.703125,
+            "bottom": 456.4375,
+            "left": 307.953125
+          }
+        },
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 442.2265625,
+              "y": 263.1875,
+              "width": 128.7265625,
+              "height": 44,
+              "top": 263.1875,
+              "right": 570.953125,
+              "bottom": 307.1875,
+              "left": 442.2265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 412.4375,
+              "width": 173.75,
+              "height": 44,
+              "top": 412.4375,
+              "right": 481.703125,
+              "bottom": 456.4375,
+              "left": 307.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 578.953125,
+              "y": 263.1875,
+              "width": 117.046875,
+              "height": 44,
+              "top": 263.1875,
+              "right": 696,
+              "bottom": 307.1875,
+              "left": 578.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 25,
+              "y": 435.1875,
+              "width": 670,
+              "height": 40,
+              "top": 435.1875,
+              "right": 695,
+              "bottom": 475.1875,
+              "left": 25
+            }
+          }
+        ]
+      },
+      "disclosure": {
+        "open": true,
+        "summary": {
+          "x": 442.2265625,
+          "y": 263.1875,
+          "width": 128.7265625,
+          "height": 44,
+          "top": 263.1875,
+          "right": 570.953125,
+          "bottom": 307.1875,
+          "left": 442.2265625
+        },
+        "content": {
+          "x": 290.953125,
+          "y": 315.1875,
+          "width": 280,
+          "height": 158.25,
+          "top": 315.1875,
+          "right": 570.953125,
+          "bottom": 473.4375,
+          "left": 290.953125
+        },
+        "buttons": [
+          {
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 412.4375,
+              "width": 173.75,
+              "height": 44,
+              "top": 412.4375,
+              "right": 481.703125,
+              "bottom": 456.4375,
+              "left": 307.953125
+            }
+          }
+        ],
+        "body": {
+          "rect": {
+            "x": 0,
+            "y": -37.5,
+            "width": 720,
+            "height": 1898.5078125,
+            "top": -37.5,
+            "right": 720,
+            "bottom": 1861.0078125,
+            "left": 0
+          },
+          "scrollHeight": 1899
+        },
+        "scrolling": {
+          "scrollTop": 37.5,
+          "scrollHeight": 1898,
+          "clientHeight": 456
+        }
+      },
+      "screenshot": {
+        "name": "pagedown",
+        "sha256": "181e8422e44929523f81564d36a653ba1c4fb7d4ccd9b5b09d4f3a08fd636e93"
+      }
+    },
+    {
+      "id": "pageup",
+      "geometry": {
+        "innerWidth": 720,
+        "innerHeight": 456,
+        "outerWidth": 1440,
+        "dpr": 2,
+        "scrollY": 474,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 720,
+        "scrollWidth": 720,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 24,
+          "y": -316.75,
+          "width": 672,
+          "height": 195.4375,
+          "top": -316.75,
+          "right": 696,
+          "bottom": -121.3125,
+          "left": 24
+        },
+        "title": {
+          "x": 24,
+          "y": -312.75,
+          "width": 672,
+          "height": 67.1875,
+          "top": -312.75,
+          "right": 696,
+          "bottom": -245.5625,
+          "left": 24
+        },
+        "goal": {
+          "x": 24,
+          "y": -312.75,
+          "width": 672,
+          "height": 97.1875,
+          "top": -312.75,
+          "right": 696,
+          "bottom": -215.5625,
+          "left": 24
+        },
+        "status": {
+          "x": 24,
+          "y": -207.5625,
+          "width": 672,
+          "height": 26.25,
+          "top": -207.5625,
+          "right": 696,
+          "bottom": -181.3125,
+          "left": 24
+        },
+        "actions": {
+          "x": 24,
+          "y": -173.3125,
+          "width": 672,
+          "height": 44,
+          "top": -173.3125,
+          "right": 696,
+          "bottom": -129.3125,
+          "left": 24
+        },
+        "reader": {
+          "x": 49,
+          "y": 146.8359375,
+          "width": 622,
+          "height": 319.546875,
+          "top": 146.8359375,
+          "right": 671,
+          "bottom": 466.3828125,
+          "left": 49
+        },
+        "gridColumns": "minmax(0px, 1fr) auto",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "active": {
+          "tag": "BUTTON",
+          "class": "btn signal",
+          "rect": {
+            "x": 307.953125,
+            "y": -24.0625,
+            "width": 173.75,
+            "height": 44,
+            "top": -24.0625,
+            "right": 481.703125,
+            "bottom": 19.9375,
+            "left": 307.953125
+          }
+        },
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 442.2265625,
+              "y": -173.3125,
+              "width": 128.7265625,
+              "height": 44,
+              "top": -173.3125,
+              "right": 570.953125,
+              "bottom": -129.3125,
+              "left": 442.2265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": -24.0625,
+              "width": 173.75,
+              "height": 44,
+              "top": -24.0625,
+              "right": 481.703125,
+              "bottom": 19.9375,
+              "left": 307.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 578.953125,
+              "y": -173.3125,
+              "width": 117.046875,
+              "height": 44,
+              "top": -173.3125,
+              "right": 696,
+              "bottom": -129.3125,
+              "left": 578.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 25,
+              "y": -1.3125,
+              "width": 670,
+              "height": 40,
+              "top": -1.3125,
+              "right": 695,
+              "bottom": 38.6875,
+              "left": 25
+            }
+          }
+        ]
+      },
+      "disclosure": {
+        "open": true,
+        "summary": {
+          "x": 442.2265625,
+          "y": -173.3125,
+          "width": 128.7265625,
+          "height": 44,
+          "top": -173.3125,
+          "right": 570.953125,
+          "bottom": -129.3125,
+          "left": 442.2265625
+        },
+        "content": {
+          "x": 290.953125,
+          "y": -121.3125,
+          "width": 280,
+          "height": 158.25,
+          "top": -121.3125,
+          "right": 570.953125,
+          "bottom": 36.9375,
+          "left": 290.953125
+        },
+        "buttons": [
+          {
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": -24.0625,
+              "width": 173.75,
+              "height": 44,
+              "top": -24.0625,
+              "right": 481.703125,
+              "bottom": 19.9375,
+              "left": 307.953125
+            }
+          }
+        ],
+        "body": {
+          "rect": {
+            "x": 0,
+            "y": -474,
+            "width": 720,
+            "height": 1898.5078125,
+            "top": -474,
+            "right": 720,
+            "bottom": 1424.5078125,
+            "left": 0
+          },
+          "scrollHeight": 1899
+        },
+        "scrolling": {
+          "scrollTop": 474,
+          "scrollHeight": 1898,
+          "clientHeight": 456
+        }
+      },
+      "screenshot": {
+        "name": "pageup",
+        "sha256": "b8c7c2d94be5a7e43782486708df80d1eae56c4e72362c88278760504f957d0a"
+      }
+    },
+    {
+      "id": "shift-tab-summary",
+      "geometry": {
+        "innerWidth": 720,
+        "innerHeight": 456,
+        "outerWidth": 1440,
+        "dpr": 2,
+        "scrollY": 37.5,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 720,
+        "scrollWidth": 720,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 24,
+          "y": 119.75,
+          "width": 672,
+          "height": 195.4375,
+          "top": 119.75,
+          "right": 696,
+          "bottom": 315.1875,
+          "left": 24
+        },
+        "title": {
+          "x": 24,
+          "y": 123.75,
+          "width": 672,
+          "height": 67.1875,
+          "top": 123.75,
+          "right": 696,
+          "bottom": 190.9375,
+          "left": 24
+        },
+        "goal": {
+          "x": 24,
+          "y": 123.75,
+          "width": 672,
+          "height": 97.1875,
+          "top": 123.75,
+          "right": 696,
+          "bottom": 220.9375,
+          "left": 24
+        },
+        "status": {
+          "x": 24,
+          "y": 228.9375,
+          "width": 672,
+          "height": 26.25,
+          "top": 228.9375,
+          "right": 696,
+          "bottom": 255.1875,
+          "left": 24
+        },
+        "actions": {
+          "x": 24,
+          "y": 263.1875,
+          "width": 672,
+          "height": 44,
+          "top": 263.1875,
+          "right": 696,
+          "bottom": 307.1875,
+          "left": 24
+        },
+        "reader": {
+          "x": 49,
+          "y": 583.3359375,
+          "width": 622,
+          "height": 319.546875,
+          "top": 583.3359375,
+          "right": 671,
+          "bottom": 902.8828125,
+          "left": 49
+        },
+        "gridColumns": "minmax(0px, 1fr) auto",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "active": {
+          "tag": "SUMMARY",
+          "class": "btn signal",
+          "rect": {
+            "x": 442.2265625,
+            "y": 263.1875,
+            "width": 128.7265625,
+            "height": 44,
+            "top": 263.1875,
+            "right": 570.953125,
+            "bottom": 307.1875,
+            "left": 442.2265625
+          }
+        },
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 442.2265625,
+              "y": 263.1875,
+              "width": 128.7265625,
+              "height": 44,
+              "top": 263.1875,
+              "right": 570.953125,
+              "bottom": 307.1875,
+              "left": 442.2265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 412.4375,
+              "width": 173.75,
+              "height": 44,
+              "top": 412.4375,
+              "right": 481.703125,
+              "bottom": 456.4375,
+              "left": 307.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 578.953125,
+              "y": 263.1875,
+              "width": 117.046875,
+              "height": 44,
+              "top": 263.1875,
+              "right": 696,
+              "bottom": 307.1875,
+              "left": 578.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 25,
+              "y": 435.1875,
+              "width": 670,
+              "height": 40,
+              "top": 435.1875,
+              "right": 695,
+              "bottom": 475.1875,
+              "left": 25
+            }
+          }
+        ]
+      },
+      "disclosure": {
+        "open": true,
+        "summary": {
+          "x": 442.2265625,
+          "y": 263.1875,
+          "width": 128.7265625,
+          "height": 44,
+          "top": 263.1875,
+          "right": 570.953125,
+          "bottom": 307.1875,
+          "left": 442.2265625
+        },
+        "content": {
+          "x": 290.953125,
+          "y": 315.1875,
+          "width": 280,
+          "height": 158.25,
+          "top": 315.1875,
+          "right": 570.953125,
+          "bottom": 473.4375,
+          "left": 290.953125
+        },
+        "buttons": [
+          {
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 412.4375,
+              "width": 173.75,
+              "height": 44,
+              "top": 412.4375,
+              "right": 481.703125,
+              "bottom": 456.4375,
+              "left": 307.953125
+            }
+          }
+        ],
+        "body": {
+          "rect": {
+            "x": 0,
+            "y": -37.5,
+            "width": 720,
+            "height": 1898.5078125,
+            "top": -37.5,
+            "right": 720,
+            "bottom": 1861.0078125,
+            "left": 0
+          },
+          "scrollHeight": 1899
+        },
+        "scrolling": {
+          "scrollTop": 37.5,
+          "scrollHeight": 1898,
+          "clientHeight": 456
+        }
+      },
+      "screenshot": {
+        "name": "shift-tab-summary",
+        "sha256": "f382649ea1b795d9d107a16329a173bfb02fc811303928603d8dd659fd6ce013"
+      }
+    },
+    {
+      "id": "closed",
+      "geometry": {
+        "innerWidth": 720,
+        "innerHeight": 456,
+        "outerWidth": 1440,
+        "dpr": 2,
+        "scrollY": 37.5,
+        "rootZoom": "1",
+        "bodyZoom": "1",
+        "clientWidth": 720,
+        "scrollWidth": 720,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        },
+        "room": {
+          "x": 24,
+          "y": 119.75,
+          "width": 672,
+          "height": 195.4375,
+          "top": 119.75,
+          "right": 696,
+          "bottom": 315.1875,
+          "left": 24
+        },
+        "title": {
+          "x": 24,
+          "y": 123.75,
+          "width": 672,
+          "height": 67.1875,
+          "top": 123.75,
+          "right": 696,
+          "bottom": 190.9375,
+          "left": 24
+        },
+        "goal": {
+          "x": 24,
+          "y": 123.75,
+          "width": 672,
+          "height": 97.1875,
+          "top": 123.75,
+          "right": 696,
+          "bottom": 220.9375,
+          "left": 24
+        },
+        "status": {
+          "x": 24,
+          "y": 228.9375,
+          "width": 672,
+          "height": 26.25,
+          "top": 228.9375,
+          "right": 696,
+          "bottom": 255.1875,
+          "left": 24
+        },
+        "actions": {
+          "x": 24,
+          "y": 263.1875,
+          "width": 672,
+          "height": 44,
+          "top": 263.1875,
+          "right": 696,
+          "bottom": 307.1875,
+          "left": 24
+        },
+        "reader": {
+          "x": 49,
+          "y": 583.3359375,
+          "width": 622,
+          "height": 319.546875,
+          "top": 583.3359375,
+          "right": 671,
+          "bottom": 902.8828125,
+          "left": 49
+        },
+        "gridColumns": "minmax(0px, 1fr) auto",
+        "gridAreas": "\"voice actions\" \"goal goal\"",
+        "titleFont": "24px",
+        "titleLineHeight": "33.6px",
+        "titleClamp": "2",
+        "active": {
+          "tag": "SUMMARY",
+          "class": "btn signal",
+          "rect": {
+            "x": 442.2265625,
+            "y": 263.1875,
+            "width": 128.7265625,
+            "height": 44,
+            "top": 263.1875,
+            "right": 570.953125,
+            "bottom": 307.1875,
+            "left": 442.2265625
+          }
+        },
+        "buttons": [
+          {
+            "tag": "SUMMARY",
+            "text": "Continue work",
+            "rect": {
+              "x": 442.2265625,
+              "y": 263.1875,
+              "width": 128.7265625,
+              "height": 44,
+              "top": 263.1875,
+              "right": 570.953125,
+              "bottom": 307.1875,
+              "left": 442.2265625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 412.4375,
+              "width": 173.75,
+              "height": 44,
+              "top": 412.4375,
+              "right": 481.703125,
+              "bottom": 456.4375,
+              "left": 307.953125
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "New request",
+            "rect": {
+              "x": 578.953125,
+              "y": 263.1875,
+              "width": 117.046875,
+              "height": 44,
+              "top": 263.1875,
+              "right": 696,
+              "bottom": 307.1875,
+              "left": 578.953125
+            }
+          }
+        ],
+        "warning": [
+          {
+            "text": "The request is not complete. These are the available partial results.",
+            "rect": {
+              "x": 25,
+              "y": 435.1875,
+              "width": 670,
+              "height": 40,
+              "top": 435.1875,
+              "right": 695,
+              "bottom": 475.1875,
+              "left": 25
+            }
+          }
+        ]
+      },
+      "disclosure": {
+        "open": false,
+        "summary": {
+          "x": 442.2265625,
+          "y": 263.1875,
+          "width": 128.7265625,
+          "height": 44,
+          "top": 263.1875,
+          "right": 570.953125,
+          "bottom": 307.1875,
+          "left": 442.2265625
+        },
+        "content": {
+          "x": 290.953125,
+          "y": 315.1875,
+          "width": 280,
+          "height": 158.25,
+          "top": 315.1875,
+          "right": 570.953125,
+          "bottom": 473.4375,
+          "left": 290.953125
+        },
+        "buttons": [
+          {
+            "text": "Confirm and continue",
+            "rect": {
+              "x": 307.953125,
+              "y": 412.4375,
+              "width": 173.75,
+              "height": 44,
+              "top": 412.4375,
+              "right": 481.703125,
+              "bottom": 456.4375,
+              "left": 307.953125
+            }
+          }
+        ],
+        "body": {
+          "rect": {
+            "x": 0,
+            "y": -37.5,
+            "width": 720,
+            "height": 1898.5078125,
+            "top": -37.5,
+            "right": 720,
+            "bottom": 1861.0078125,
+            "left": 0
+          },
+          "scrollHeight": 1899
+        },
+        "scrolling": {
+          "scrollTop": 37.5,
+          "scrollHeight": 1898,
+          "clientHeight": 456
+        }
+      },
+      "screenshot": {
+        "name": "closed",
+        "sha256": "dfd6dd85b07a833f13db9e2277db2972ab4e621751bfdace9e685e87dc59c208"
+      }
+    }
+  ],
+  "writes": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "page_errors": [],
+  "failed_requests": [],
+  "http_errors": [],
+  "new_model_execution": false,
+  "chrome": "154.0.8037.93",
+  "confirm_pressed": false,
+  "finished_at": "2026-10-01T23:40:41.379Z"
+}

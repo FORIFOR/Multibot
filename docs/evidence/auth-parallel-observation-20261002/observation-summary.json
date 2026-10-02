@@ -1,0 +1,614 @@
+{
+  "state": "OBSERVED_NOT_REPRODUCED",
+  "reviewed_at": "2026-10-02T01:00:20.133789+00:00",
+  "source_sha256": "3a6aca0e995d580f1f46d6e7304e130806af98e04e04a7e6e53f6b307f5f9ef8",
+  "product_changed": false,
+  "script_change": "Diagnostic observation only; original 200ms and held two HTTP200 plus all prior assertions remain required",
+  "original_ci_failure": {
+    "run_id": 36947671100,
+    "head": "330c18c874fb34c13b5f75f404244f6d57ca63b4",
+    "phase": "response_loss_submit_both_forms",
+    "error_name": "Error",
+    "passed_check_ids": [
+      "parallel-real-signin"
+    ],
+    "raw_error_unavailable": true,
+    "preserved": true,
+    "cause": "UNCONFIRMED"
+  },
+  "hypothesis_status": "Static form-removal-before-timer path remains plausible but neither bounded actual observation reproduced it. Original CI is not marked resolved.",
+  "local_conditions": [
+    {
+      "root": "auth-parallel-observation-20261002-r1",
+      "status": "PASS",
+      "browser": "154.0.8037.93",
+      "conditions": "Instrumented original 200ms timer; one run; real AppService/issued keys/SQLite/Chrome; no response substitution",
+      "safe_report_sha256": "eb4841a785764e4dd114472e4736ef02b6e37fd337e07cf194e58a654f98a3f2",
+      "diagnostic_sha256": "90308f74c891db35f69bac7b0c26178f1c95ab2823f53f79f3aa9f4d0fedb5ea",
+      "rounds": [
+        {
+          "id": "parallel",
+          "submission_settled": [
+            {
+              "page": "A",
+              "fulfilled": true,
+              "error_name": null
+            },
+            {
+              "page": "B",
+              "fulfilled": true,
+              "error_name": null
+            }
+          ],
+          "held_response_count": 2,
+          "held_statuses": [
+            200,
+            200
+          ],
+          "login_request_count": 2,
+          "pages": [
+            {
+              "page": "A",
+              "observation_complete": true,
+              "timeline": [
+                {
+                  "kind": "timer_fired_before_request_submit",
+                  "relative_to_target_ms": 5,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "actual_submit_event",
+                  "relative_to_target_ms": 5,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 11,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": true,
+                  "connecting_count": 0,
+                  "pending": true
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 166,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": false
+                }
+              ]
+            },
+            {
+              "page": "B",
+              "observation_complete": true,
+              "timeline": [
+                {
+                  "kind": "timer_fired_before_request_submit",
+                  "relative_to_target_ms": 3,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "actual_submit_event",
+                  "relative_to_target_ms": 4,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 12,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": true
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 64,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "response_loss",
+          "submission_settled": [
+            {
+              "page": "A",
+              "fulfilled": true,
+              "error_name": null
+            },
+            {
+              "page": "B",
+              "fulfilled": true,
+              "error_name": null
+            }
+          ],
+          "held_response_count": 2,
+          "held_statuses": [
+            200,
+            200
+          ],
+          "login_request_count": 3,
+          "pages": [
+            {
+              "page": "A",
+              "observation_complete": true,
+              "timeline": [
+                {
+                  "kind": "timer_fired_before_request_submit",
+                  "relative_to_target_ms": 3,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "actual_submit_event",
+                  "relative_to_target_ms": 3,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 4,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": true,
+                  "connecting_count": 0,
+                  "pending": true
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 32,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": false
+                }
+              ]
+            },
+            {
+              "page": "B",
+              "observation_complete": true,
+              "timeline": [
+                {
+                  "kind": "timer_fired_before_request_submit",
+                  "relative_to_target_ms": 3,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "actual_submit_event",
+                  "relative_to_target_ms": 3,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 4,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": true,
+                  "connecting_count": 0,
+                  "pending": true
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 138,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": false
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passed_check_ids": [
+        "parallel-real-signin",
+        "parallel-signin-response-loss",
+        "cookie-subject-mismatch"
+      ],
+      "source_unchanged": true,
+      "bundle_unchanged": true,
+      "business_final": {
+        "runs": 0,
+        "jobs": 0,
+        "model_events": 0,
+        "artifacts": 0
+      },
+      "api_cleanup": {
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      },
+      "browser_cleanup": [
+        {
+          "program": "auth-parallel-login.mjs",
+          "tracked_processes": 11,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "root": "auth-parallel-observation-20261002-r2",
+      "status": "PASS",
+      "browser": "154.0.8037.93",
+      "conditions": "Original 200ms timer with fixed real CDP B-renderer CPU throttling rate6; one run; actual service and no response substitution",
+      "safe_report_sha256": "702ebba76ebacb5cbe02cc79e6ede69374b3180dd8521110ab4984218cde421a",
+      "diagnostic_sha256": "4a9b24fc829e440d0bfaad3a6eba293121a507e634cebf0a5a70cf6ae3eecded",
+      "rounds": [
+        {
+          "id": "parallel",
+          "submission_settled": [
+            {
+              "page": "A",
+              "fulfilled": true,
+              "error_name": null
+            },
+            {
+              "page": "B",
+              "fulfilled": true,
+              "error_name": null
+            }
+          ],
+          "held_response_count": 2,
+          "held_statuses": [
+            200,
+            200
+          ],
+          "login_request_count": 2,
+          "pages": [
+            {
+              "page": "A",
+              "observation_complete": true,
+              "timeline": [
+                {
+                  "kind": "timer_fired_before_request_submit",
+                  "relative_to_target_ms": 3,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "actual_submit_event",
+                  "relative_to_target_ms": 3,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 5,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": true,
+                  "connecting_count": 0,
+                  "pending": true
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 127,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": false
+                }
+              ]
+            },
+            {
+              "page": "B",
+              "observation_complete": true,
+              "timeline": [
+                {
+                  "kind": "timer_fired_before_request_submit",
+                  "relative_to_target_ms": 1,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "actual_submit_event",
+                  "relative_to_target_ms": 2,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 21,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": true
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 23,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "response_loss",
+          "submission_settled": [
+            {
+              "page": "A",
+              "fulfilled": true,
+              "error_name": null
+            },
+            {
+              "page": "B",
+              "fulfilled": true,
+              "error_name": null
+            }
+          ],
+          "held_response_count": 2,
+          "held_statuses": [
+            200,
+            200
+          ],
+          "login_request_count": 3,
+          "pages": [
+            {
+              "page": "A",
+              "observation_complete": true,
+              "timeline": [
+                {
+                  "kind": "timer_fired_before_request_submit",
+                  "relative_to_target_ms": 1,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "actual_submit_event",
+                  "relative_to_target_ms": 1,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 2,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": true,
+                  "connecting_count": 0,
+                  "pending": true
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 116,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": false
+                }
+              ]
+            },
+            {
+              "page": "B",
+              "observation_complete": true,
+              "timeline": [
+                {
+                  "kind": "timer_fired_before_request_submit",
+                  "relative_to_target_ms": 0,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "actual_submit_event",
+                  "relative_to_target_ms": 0,
+                  "form_count": 1,
+                  "input_present": true,
+                  "input_has_value": true,
+                  "input_valid": true,
+                  "submit_disabled": false,
+                  "connecting_count": 0,
+                  "pending": null
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 9,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": true
+                },
+                {
+                  "kind": "storage_received",
+                  "relative_to_target_ms": 11,
+                  "form_count": 0,
+                  "input_present": false,
+                  "input_has_value": false,
+                  "input_valid": null,
+                  "submit_disabled": null,
+                  "connecting_count": 1,
+                  "pending": false
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "passed_check_ids": [
+        "parallel-real-signin",
+        "parallel-signin-response-loss",
+        "cookie-subject-mismatch"
+      ],
+      "source_unchanged": true,
+      "bundle_unchanged": true,
+      "business_final": {
+        "runs": 0,
+        "jobs": 0,
+        "model_events": 0,
+        "artifacts": 0
+      },
+      "api_cleanup": {
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      },
+      "browser_cleanup": [
+        {
+          "program": "throttled-observation.mjs",
+          "tracked_processes": 12,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ]
+    }
+  ],
+  "test_count_limit": {
+    "allowed": 2,
+    "executed": 2,
+    "further_run_requested": false
+  },
+  "diagnostic_limits": [
+    "Observers add readonly DOM work and two bounded collection RPCs before response release. This is not a timing-neutral measurement.",
+    "BroadcastChannel observation can include same-tab messages from another channel; only storage_received is used here as an unambiguous other-document notification.",
+    "No error/form-removal was reproduced, so no product or synchronization fix is claimed.",
+    "CPU throttling applies only to private r2 B renderer and is explicitly controlled, not natural simultaneous-user timing.",
+    "Independent AI technical observations are not human acceptance, external IdP acceptance, or business quality."
+  ],
+  "cleanup_all_owned_closed": true,
+  "model_execution": false
+}

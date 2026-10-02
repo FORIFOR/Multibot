@@ -1,0 +1,187 @@
+{
+  "reviewed_at": "2026-10-02T00:51:54.670107+00:00",
+  "review_type": "独立した保存artifact/実GitHub終了状態/source照合。新実行なし。",
+  "verification_status": "PASS",
+  "ci_run_status": "FAILURE",
+  "head": "330c18c874fb34c13b5f75f404244f6d57ca63b4",
+  "executed_merge": "22fe57835280ec39bf32723168784b45c81d15f9",
+  "run_id": 36947671100,
+  "artifact_id": 11202212579,
+  "zip_sha256": "4c826e30c516fc90547e329e5872691adf4494ea02feabc3ffb1b180bb41f3d4",
+  "artifact_entry_count": 10,
+  "source_comparison_count": 70,
+  "source_unique_file_count": 51,
+  "checks": [
+    {
+      "id": "exact_head",
+      "pass": true
+    },
+    {
+      "id": "merge_parent_and_empty_head_to_merge_diff",
+      "pass": true
+    },
+    {
+      "id": "all_recorded_revision_is_merge",
+      "pass": true
+    },
+    {
+      "id": "zip_digest_and_entry_integrity",
+      "pass": true
+    },
+    {
+      "id": "source_hashes_match_exact_head",
+      "pass": true
+    },
+    {
+      "id": "artifact_explicit_allowlist",
+      "pass": true
+    },
+    {
+      "id": "browser_api_and_chrome_cleanup",
+      "pass": true
+    }
+  ],
+  "outcomes": {
+    "frontend": "success",
+    "backend": "success",
+    "dependency_audit": "success",
+    "public_service_job": "failure",
+    "database_concurrency": {
+      "status": "PASS",
+      "http_passed": 480,
+      "direct_passed": 640,
+      "new_model_events": 0,
+      "jobs": 0,
+      "source_unchanged": true,
+      "runtime_log_error": false,
+      "cleanup": {
+        "service_stopped": true,
+        "port_closed": true,
+        "browser_started": false
+      }
+    },
+    "document_sandbox": {
+      "status": "PASS",
+      "checks_passed": 79,
+      "checks_total": 79,
+      "http_calls": 30,
+      "model_event_delta": 0,
+      "job_state_counts": {
+        "cancelled": 8
+      },
+      "source_unchanged": true,
+      "cleanup": {
+        "service_stopped": true,
+        "port_closed": true,
+        "pending_jobs": 0
+      }
+    },
+    "service_suite": {
+      "status": "FAILED",
+      "planned_stages": 7,
+      "completed_stages": [
+        "actual HTTP/SQLite admission",
+        "actual-source response projection",
+        "auth-initial-recovery.mjs",
+        "auth-browser-isolation.mjs",
+        "auth-retry-reload.mjs"
+      ],
+      "new_initial_recovery": {
+        "status": "PASS",
+        "cases": 2,
+        "checks": 12,
+        "source_unchanged": true,
+        "business_before": {
+          "runs": 0,
+          "jobs": 0,
+          "model_events": 0,
+          "artifacts": 0
+        },
+        "business_after": {
+          "runs": 0,
+          "jobs": 0,
+          "model_events": 0,
+          "artifacts": 0
+        }
+      },
+      "isolation_checks_passed": 7,
+      "retry": {
+        "checked_at": "2026-10-02T00:48:14.502Z",
+        "browser": "154.0.8037.57",
+        "status": "PASS",
+        "method": "Chrome response-stage TCP reset after real API response; same built api.ts; start:false",
+        "lost_response_http_status": 202,
+        "retry_http_status": 202,
+        "duplicate_run_count": 0,
+        "deliberate_new_run_count": 1,
+        "execution_jobs": 0,
+        "stored_fields": [
+          "signature",
+          "key"
+        ],
+        "limits": [
+          "409 configuration-blocked receipts are valid delivery receipts; this is not an LLM success or business acceptance",
+          "Changed request content after unknown outcome still requires manual outcome review",
+          "Storage disabled/unreadable fails before sending rather than silently creating a fresh key"
+        ]
+      },
+      "parallel": {
+        "status": "FAIL",
+        "phase": "response_loss_submit_both_forms",
+        "error_name": "Error",
+        "passed_check_ids": [
+          "parallel-real-signin"
+        ]
+      },
+      "peer": "NOT_RUN",
+      "model_execution": false,
+      "chrome": {
+        "groups": 4,
+        "tracked": 46,
+        "remaining": 0,
+        "signals_sent": 0
+      },
+      "api_cleanup": {
+        "scope": "browser_verification_api",
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      }
+    },
+    "result_reading": "SKIPPED",
+    "site": "SKIPPED"
+  },
+  "bundle_evidence": {
+    "committed_ui_six_files_match_root_recorded_manifest": true,
+    "ci_frontend_build_and_committed_diff_success": true,
+    "ci_public_service_built_dist_vs_committed_ui_diff_success": true,
+    "runtime_response_byte_hashes_in_this_artifact": false
+  },
+  "safe_publication_review": {
+    "entries_match_workflow_allowlist": true,
+    "pattern_scan": {
+      "jwt": 0,
+      "private_key": 0,
+      "bearer_value": 0
+    },
+    "image_visually_reviewed": "multibot-public-service/browser/next-principal-empty.png",
+    "image_secret_or_user_document_visible": false,
+    "actual_ci_issued_secret_byte_scan": "not_possible_from_safe_artifact; CI private key files not uploaded"
+  },
+  "limits": [
+    "本review PASSは取得・照合が完了した意味。CI全体とparallelはFAILのまま。",
+    "parallel原rawerror/失敗画像は安全allowlist外なので、このartifactだけで具体原因は確定できない。失敗phaseはresponse_loss_submit_both_forms。",
+    "新初回回復2条件成功を認証済みvisibility/SSO/読み上げ/第三者受入へ一般化しない。",
+    "peer・result reading・siteは本CI未実施。前版やローカルの結果で本CIを補って成功扱いしない。",
+    "新初回回復stage DB0は全suite最終DB0の証明ではない。全suite最終DBはsafe artifactに未保存。",
+    "終了計測は記録されたbrowser API/Chrome、DB/sandbox所有APIの範囲。",
+    "記録されたsource SHAをexact head Git objectへ照合し、GitHub compareでmergeとの差分0と親を確認。runtime全ファイルの連続監視ではない。",
+    "LLM/VM/監督/サービス/Chromeのローカル再起動、コード編集、再実行、mergeはしていない。"
+  ]
+}

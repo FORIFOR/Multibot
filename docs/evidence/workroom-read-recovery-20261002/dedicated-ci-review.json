@@ -1,0 +1,537 @@
+{
+  "status": "PASS_REVIEW_WITH_STATED_LIMITS",
+  "reviewed_at": "2026-10-02T02:05:44.989106+00:00",
+  "method": "最終2script静的読取、保存されたsafe/実入力hash/現code/distの独立照合。試験再実行なし。",
+  "base_revision": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "candidate_script_sha256": {
+    "backend/scripts/check_workroom_recovery.py": "a0a70afe8e6b3ee50369096beee8a62ce9658e3784c2cbac0e1a44242a7a0b23",
+    "frontend/scripts/workroom-load-recovery.mjs": "67c2809a572ba1b86ecf6e369bcde3bd0c54725e741bc6619a557d34226c5123"
+  },
+  "evidence": {
+    "final_positive": {
+      "root": "workroom-load-recovery-ci-20261002-r2",
+      "sha256": "d0a7979aa08c5d2fdd165523059feac90574ccdfe5ff15bf9f7314c865d37058",
+      "status": "PASS"
+    },
+    "original_failed": {
+      "root": "workroom-load-recovery-ci-20261002-r1",
+      "sha256": "d934b0862f884102cf912c2476c10c0b34955b052eb7b866ae17167e22f1f8a0",
+      "status": "FAIL"
+    },
+    "invalid_source": {
+      "root": "workroom-load-recovery-ci-invalid-20261002-r1",
+      "sha256": "059d7e6fc2db152ec54c07adde8ea1809508086752a9d3ca5823f74ef2371160",
+      "status": "FAIL"
+    }
+  },
+  "duration_seconds": 75.826434,
+  "passed_cases": 5,
+  "passed_checks": 45,
+  "source_checks": {
+    "implementation_files": [
+      {
+        "path": "backend/scripts/check_result_reading.py",
+        "sha256": "3fcc5950669ff40afe5980814cd9cfe36e8a4d71f03427916c41e65343e2d439",
+        "matches": true
+      },
+      {
+        "path": "frontend/scripts/result-reading.mjs",
+        "sha256": "e7cbf66f98959dd3ad767c1ff203b625a8b0f65ae36628a336c866fd22013c35",
+        "matches": true
+      },
+      {
+        "path": "backend/scripts/check_public_service.py",
+        "sha256": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+        "matches": true
+      },
+      {
+        "path": "backend/scripts/check_message_handoff.py",
+        "sha256": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff",
+        "matches": true
+      },
+      {
+        "path": "backend/agentteam/api/app.py",
+        "sha256": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+        "matches": true
+      },
+      {
+        "path": "backend/agentteam/api/service.py",
+        "sha256": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+        "matches": true
+      },
+      {
+        "path": "backend/agentteam/api/responses.py",
+        "sha256": "786d9f2a16dc6d7ba4d8163d931721a1fded10f8f7736b79ef7b214987396a48",
+        "matches": true
+      },
+      {
+        "path": "backend/agentteam/store/db.py",
+        "sha256": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/App.tsx",
+        "sha256": "e021310967703ea56602730f5fb6bc6b83c2e6e0c69ce321098f772b00fb2c61",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/workroom.css",
+        "sha256": "87122f28a23b94e8a7fcd6cf968b931db244b0a67c0adbd35760402afe5d5086",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/main.tsx",
+        "sha256": "d86f5bd9a12ff32dc95f5eeb85c879877e1fa7c7820120b7061f277b2703b87b",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/quiet-cinema.css",
+        "sha256": "cc5b2823e6bf49866ad9a6a03c3d4ebc4e1873591a272b136ab735874fd9e9c5",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/ui-polish.css",
+        "sha256": "64fae4f662c4492a7918cde764d26dd7fff6727404faddfeb14beff41cd8d847",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/styles.css",
+        "sha256": "3738efc79cb6249e5689cb3e15515381a7f163900c75afd12ed0e3d1f0f532a3",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/journey.css",
+        "sha256": "51d8cc3293bfcf00f7e4e99f62fb831217cfee273394321dd9552558dab030b4",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/paper.css",
+        "sha256": "d344b5b11fe08b317af77d6a57593e7dc61412de2ed2067b26b6812db731608a",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/obsidian.css",
+        "sha256": "7db3b45853a00de1795ef190e41360470f93772cd4c056192944ca4f372404f7",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/welcome.css",
+        "sha256": "89ced29d15bb2b708289324dc2b8cf2a082e93a4eb5bd3f48233de8efa725167",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/workroom-refinement.css",
+        "sha256": "60e0d541df6148a6a72c2ca271173b943e8bfa1726837be329521c25b5dc190f",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/bot-polish.css",
+        "sha256": "4f1f20b37d4bf5eee5f3ba60ca6a303d9a6d5b28ec42bac45f4b1a191aabc597",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/Orb.tsx",
+        "sha256": "cfc66cdb7ab2d5f06fb8bd9701ad9c94596a30a4c38707ff000ffe122d2f9867",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/Journey.tsx",
+        "sha256": "6aeaa2454f69bdbe11f18746ec03aa9244690f4fddcbd5708e3288ef00e9af0a",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/Markdown.tsx",
+        "sha256": "2e247aae584beda90e72c5e9f398ba25a98657d27102f9a49e73f4ff41b59f49",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/ElapsedTime.tsx",
+        "sha256": "8e61850cdcb18ceba4ce4b76694d2b7b15730cba515d7ff6da86f40a03b644e8",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/WorkProgress.tsx",
+        "sha256": "0a84fecf3e7cda1324bdef4ec04161892bacf59acfbbed347e5a406d6efbdeaa",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/AuthGate.tsx",
+        "sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/CustomBotCreator.tsx",
+        "sha256": "7632360fc333784d6cace39c85c6e314cb453c5af54a7e1fafe8aae8d7e59a90",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/BotSettingsCard.tsx",
+        "sha256": "77fdf8e145f1cc05f600defdc2843c649fca495b30642405edb9668314d4f511",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/ConversationActivity.tsx",
+        "sha256": "f45c38114758f8169ac1e136bd30788cd4467beb9fabe4d7b6c1545550e85743",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/ArtifactWorkbench.tsx",
+        "sha256": "6d5c615660b8c974354e17d87f3b6ba0841cd8534aab9782695a1b35a3cd1e34",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/TeamConversation.tsx",
+        "sha256": "3d65e94a225cbe846a5ffecf2543abc45a05946b80bd72c9b79100a77aff02d9",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/components/BotAvatar.tsx",
+        "sha256": "f42b97467f50bd579cee05fb9e57fd2df2062d9a918d157d5304ef453ed4ee53",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/text-delivery.ts",
+        "sha256": "19be72cfa747fc4499573e8311863db4ed1d5e5b96839a52264fed34bc7a83cb",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/bot-presentation.ts",
+        "sha256": "e6555364f6cc65824da80d7ab7c9ec07f21a09d5d0c07484fb915e4a66ccdbe8",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/request-draft.ts",
+        "sha256": "e44a0e22f8b46f814e09353bc054c55132de52e818b09606c95c4af6c02fd3ca",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/welcome.ts",
+        "sha256": "0955e881084f03aed147b5a634eacc92f13b4376f4293a98ed40d6869ace28f5",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/i18n.ts",
+        "sha256": "7c5d0b0e80b2e04d0d775685bac67786b7832b02774bbba80f9ea9287a161d30",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/markdown.ts",
+        "sha256": "93baf3981ea7391742549c51b6506020a1ce35863b7311643d8e7ba3cbe622b2",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/journey.ts",
+        "sha256": "a4da9b538370e8c5f98f24ba09027e5094b9d41db0aa4ea996cb22260815347e",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/bot-shapes.ts",
+        "sha256": "bff03e56344a7698909ddff567c8a07c5e4ee1124cdb643b39525d19ae8688bd",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/api.ts",
+        "sha256": "fbad0a6cfe12d52329b70badf7580cde16d1f0d31a13eef05a7373487b7437ca",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/browser-session.ts",
+        "sha256": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/router.tsx",
+        "sha256": "42135605d4d362ea3aca63efd5711debe746a75577e1931fd425889c89db0fa7",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/bot-characters.ts",
+        "sha256": "49e323c068b96542fdeac67dd84946aad39aeaa02eca071c11b1bb4105e919e8",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/lib/bot-identity.ts",
+        "sha256": "2a7526ebf34383aea6186c553079d9e14c9da7488cd37b7ddc9ad0c2dd4754ba",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/pages/Settings.tsx",
+        "sha256": "69ef7b07e0903e28c6d91cdd6b926122198ba91cc1e171de8f69689ff2559729",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/pages/Home.tsx",
+        "sha256": "2007851a0987fc5c82b6d21f0b778ad0dc7b5babb1f91fafb61978995e230cff",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/pages/WorkList.tsx",
+        "sha256": "edd1613327fb92a55e13011742c2cf6b8b7765b3b9d0fb3cc7e249a6cf358a3a",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/pages/Workroom.tsx",
+        "sha256": "f3e8924f8e9bab8fe973f5b4f8b4ec920ddb8671ffbfd260eb072ab7a5230174",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/pages/Operations.tsx",
+        "sha256": "89113218ebdf0a05a9da5dbe7fbb6704584807464d1981b76c233606fb132521",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/pages/RunView.tsx",
+        "sha256": "58cd97d169db263a72580d4cc7ba5655c84ca28e23ddde7e00e242f863dba9db",
+        "matches": true
+      },
+      {
+        "path": "frontend/src/pages/Welcome.tsx",
+        "sha256": "06cfc80f5c4660191bee19fef41cb91514b5173ecb6792f578206a6ee85e61e2",
+        "matches": true
+      },
+      {
+        "path": "frontend/package.json",
+        "sha256": "5f43cbf4820bd547386870684243701c727c133f02f8a074f2e5828004aa518f",
+        "matches": true
+      },
+      {
+        "path": "frontend/pnpm-lock.yaml",
+        "sha256": "2ab11685dc0173d2a5f3da0ac912f0263aacee34cdbd6e4d440fe2ce081265ac",
+        "matches": true
+      },
+      {
+        "path": "backend/scripts/check_workroom_recovery.py",
+        "sha256": "a0a70afe8e6b3ee50369096beee8a62ce9658e3784c2cbac0e1a44242a7a0b23",
+        "matches": true
+      },
+      {
+        "path": "frontend/scripts/workroom-load-recovery.mjs",
+        "sha256": "67c2809a572ba1b86ecf6e369bcde3bd0c54725e741bc6619a557d34226c5123",
+        "matches": true
+      }
+    ],
+    "original_source_files": [
+      {
+        "path": "evidence/03-run_1a0f8118bd3ccca713e/run.json",
+        "sha256": "6cc9a5b0203a0b572b57e717f1c3d130e4f2aca97c73ce41ed521631ac1c33ab",
+        "matches": true
+      },
+      {
+        "path": "evidence/03-run_1a0f8118bd3ccca713e/events.jsonl",
+        "sha256": "73297cf5fddaa85a2483f039e0e8ca081373fa7764a67c821196f2dfb7f067c3",
+        "matches": true
+      },
+      {
+        "path": "evidence/03-run_1a0f8118bd3ccca713e/artifacts.json",
+        "sha256": "6af8f4007a56ae6bfec70172786eda1932c0cfd3053ddc0fa9e667dc061b8bcd",
+        "matches": true
+      },
+      {
+        "path": "evidence/03-run_1a0f8118bd3ccca713e/artifact-000.bin",
+        "sha256": "536a9ebcacd4fd4d484c67859268ed550d18adf516d974208f8db3d8c3dd8546",
+        "matches": true
+      },
+      {
+        "path": "evidence/03-run_1a0f8118bd3ccca713e/artifact-001.bin",
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches": true
+      },
+      {
+        "path": "evidence/02-run_1a0f80632e5c1220524/run.json",
+        "sha256": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+        "matches": true
+      },
+      {
+        "path": "evidence/02-run_1a0f80632e5c1220524/events.jsonl",
+        "sha256": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+        "matches": true
+      },
+      {
+        "path": "evidence/02-run_1a0f80632e5c1220524/artifacts.json",
+        "sha256": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+        "matches": true
+      },
+      {
+        "path": "evidence/02-run_1a0f80632e5c1220524/artifact-000.bin",
+        "sha256": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+        "matches": true
+      },
+      {
+        "path": "evidence/02-run_1a0f80632e5c1220524/artifact-001.bin",
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches": true
+      },
+      {
+        "path": "evidence/09-run_1a0f84e775a61f6bc86/run.json",
+        "sha256": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+        "matches": true
+      },
+      {
+        "path": "evidence/09-run_1a0f84e775a61f6bc86/events.jsonl",
+        "sha256": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+        "matches": true
+      },
+      {
+        "path": "evidence/09-run_1a0f84e775a61f6bc86/artifacts.json",
+        "sha256": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+        "matches": true
+      },
+      {
+        "path": "evidence/09-run_1a0f84e775a61f6bc86/artifact-000.bin",
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches": true
+      }
+    ],
+    "dist_files": [
+      {
+        "path": "assets/RunView-B84ZRFQg.js",
+        "sha256": "96705c91694caba39cb08ab664416473aa55b3857c00df532902c7559876caaa",
+        "matches": true
+      },
+      {
+        "path": "assets/index-BQqhmjTV.css",
+        "sha256": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+        "matches": true
+      },
+      {
+        "path": "assets/index-NKax6_35.js",
+        "sha256": "209e168b0e024e065bc9440c175e5b1190e512e88afccdb11f71e9ac74c3f2b4",
+        "matches": true
+      },
+      {
+        "path": "favicon.svg",
+        "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+        "matches": true
+      },
+      {
+        "path": "icons.svg",
+        "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+        "matches": true
+      },
+      {
+        "path": "index.html",
+        "sha256": "582a4d54123477179dd70ff1db664ca2da8f63c2f65de2181a83a389b5c1caf0",
+        "matches": true
+      }
+    ]
+  },
+  "source_snapshot_copies_match_final_scripts": true,
+  "served_index_check": true,
+  "served_assets": [
+    {
+      "path": "/assets/index-BQqhmjTV.css",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "/assets/index-NKax6_35.js",
+      "status": 200,
+      "hash_matches": true
+    }
+  ],
+  "checks": [
+    {
+      "id": "real_prefix",
+      "status": "PASS",
+      "observed": "実rep2 goal全11406 codepointsと先頭1024 codepointsのUTF-8 SHAをsafe記録と再照合。実受信goalからArray.from/sliceで切るのみで架空文・モデル/送信なし。元goalを書換えない。"
+    },
+    {
+      "id": "manual_before_passive_refresh",
+      "status": "PASS",
+      "observed": "初回GET開始からEnter2000ms未満を要求する最終変更を確認。実59ms、旧応答解放前の新3GET実200はEnter28ms後。保留起点だけで自動poll/期限による回復を借りる静的懸念を解消。"
+    },
+    {
+      "id": "deadline_and_cancel",
+      "status": "PASS",
+      "observed": "初回detail/chat/events個別と既表示allの保留は本物200のみ。12秒時点pending、期限エラー上限22秒、旧request同NetworkIDのcanceled/ERR_ABORTED、既知CDP Invalidを確認する。safeが未到達をPASSに置換しない。"
+    },
+    {
+      "id": "safe_and_cleanup",
+      "status": "PASS",
+      "observed": "raw browser JSONと例外はprivate。safeはcheck/phase/error型/数値/hashだけに投影し、実サービスstdout/stderrもprivate。CDP/context/Chromeは個別期限、wrapperは所有process出生情報で後始末し、cleanup失敗が全体非0へ伝播する。CI uploadはsafe-report.jsonだけ。"
+    },
+    {
+      "id": "failure_history",
+      "status": "PASS",
+      "observed": "原r1の4case/37checks通過・loaded準備未到達8checksと全体FAILを保持。r2は別rootで最終script5case/45checksを実行した結果で、原r1の成功書換えではない。負例はsource段階FAIL、API/Chrome0、未観測null。"
+    },
+    {
+      "id": "scope_documentation",
+      "status": "PASS",
+      "observed": "原r2/r3の独立UI記録・追加モデル0/過去model区別・同一SHAのrun識別・旧応答既取消/body単独未測定等の記述は証拠と一致。",
+      "correction": "CI初回期限3条件15.323〜15.329秒に対しloadedは15.449秒。親へ数値範囲を分ける訂正を連絡済み。"
+    }
+  ],
+  "draft_source": {
+    "draft_source_goal_sha256": "f1fe1a2664d370ef6def182303a6807dfd7b157edb52814cd509a26d69c6091d",
+    "draft_excerpt_sha256": "4ec58ee1c61cc668ca77042121cfc02a6efee71e42f5feb516782243432fcba5",
+    "draft_source_codepoints": 11406,
+    "draft_excerpt_codepoints": 1024,
+    "predeadline_observed_after_hold_ms": 12002,
+    "deadline_error_after_hold_ms": 15449,
+    "enter_after_hold_ms": 20089,
+    "enter_after_initial_request_ms": 25101,
+    "recovery_after_enter_ms": 29,
+    "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "old_cancelled_count": 6,
+    "held_200_by_route": {
+      "detail": 2,
+      "chat": 2,
+      "events": 2
+    },
+    "draft_preserved": true,
+    "identity_status_last_seq_preserved": true,
+    "expected_abort_count": 6
+  },
+  "deadline_observations_ms": {
+    "manual_pending": null,
+    "deadline_detail": 15329,
+    "deadline_chat": 15323,
+    "deadline_events": 15324,
+    "loaded_poll": 15449
+  },
+  "original_r1_status": "FAIL",
+  "original_r1_cases_passed": 4,
+  "original_r1_checks_passed": 37,
+  "original_r1_checks_unverified": 8,
+  "negative_source_status": "FAIL_BEFORE_START",
+  "negative_uses_pre_excerpt_fix_scripts": true,
+  "business_unchanged": true,
+  "new_model_event_delta": 0,
+  "jobs": 0,
+  "runtime_error_markers": 0,
+  "api_cleanup": {
+    "scope": "workroom_recovery_api",
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "process_cleanup": [
+    {
+      "program": "workroom-load-recovery.mjs",
+      "tracked_processes": 21,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "readme_snapshot_sha256": "2c9b75e0107a9d23c286d3ac5a6c5eaec07f60d4a94cdffa846681592ee4071d",
+  "readme_loaded_timing_correction_present": true,
+  "ci_upload": "/tmp/multibot-workroom-recovery/safe-report.json only",
+  "limits": [
+    "本記録はローカルCI候補の実測をレビューしたもの。push後GitHubCIの結果ではない。",
+    "Response段階保留はheaders到達後の本文だけのstream停止を実証しない。旧応答は取消済みでReactへのlate成功到達を実証しない。",
+    "5条件の通信境界であり全ロール/全幅/liveSSE/保留中主体切替/自然発生率/人間初見/業務品質の受入ではない。",
+    "importは元run/event/artifactを保持するがtasksを復元しない。追加model0と旧model記録0を混同しない。",
+    "負例と原r1は抜粋修正前scriptの別記録として保持。最終codeで再実行したと称さない。"
+  ],
+  "new_execution_by_reviewer": false,
+  "human_acceptance": false,
+  "public_safe_projection_only": true
+}

@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-10-01T23:45:20.327404+00:00",
+  "basis_head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+  "source_sha256": {
+    "frontend/src/App.tsx": "e021310967703ea56602730f5fb6bc6b83c2e6e0c69ce321098f772b00fb2c61",
+    "frontend/src/pages/Operations.tsx": "89113218ebdf0a05a9da5dbe7fbb6704584807464d1981b76c233606fb132521",
+    "frontend/src/pages/Workroom.tsx": "0fc2ba14a62c8686c611ab8273e75069f66b9514da9a31ff0ec521f9b9343f66",
+    "frontend/src/workroom-refinement.css": "60e0d541df6148a6a72c2ca271173b943e8bfa1726837be329521c25b5dc190f"
+  },
+  "bundle_sha256": {
+    "assets/RunView-hMHd7ldx.js": "c1eccc78b0de720f7128ae9673105846b800929967c6514119c6bddb11f226b2",
+    "assets/index-BFApKLIo.js": "542b52f1afe40af8b265382cd62f9dd19dabdd2f243aa3d61ed686ab283ba18e",
+    "assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+    "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "index.html": "68a492d293fa5c3c8d36a6b3c347bbd2fbc1286bc1a57a181113d4d195edc02a"
+  },
+  "build_exit": 0,
+  "lint_exit": 0,
+  "lint_limit": "Existing warnings are retained in full private log."
+}

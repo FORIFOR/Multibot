@@ -14,7 +14,7 @@ from .oidc import OIDCVerifier, Principal
 
 COOKIE = 'agentteam_session'
 PUBLIC = {'/api/health/live', '/api/auth/status', '/api/auth/login'}
-READ_ROUTES = {'/api/health', '/api/config', '/api/runs', '/api/approvals', '/api/auth/me'}
+READ_ROUTES = {'/api/health', '/api/config', '/api/runs', '/api/approvals', '/api/auth/me', '/api/usage'}
 AUDITOR_ROUTES = {'/api/auth/me', '/api/admin/ready', '/api/admin/metrics', '/api/admin/audit', '/api/admin/jobs'}
 WRITE_ROUTES = {'/api/runs', '/api/runs/{run_id}/cancel', '/api/runs/{run_id}/resume',
                 '/api/runs/{run_id}/fork', '/api/runs/{run_id}/instructions',
@@ -156,8 +156,18 @@ class ServerAccess:
             raise HTTPException(status, detail)
         if p is None:
             await reject(401, 'authentication required')
-        route = request.scope['route'].path
+        # A shared browser cookie can change before another tab processes the
+        # sign-in notification. Refuse to submit that tab's document as the new
+        # principal. This optional UI context is never an authentication grant.
         read = request.method in ('GET', 'HEAD')
+        # EventSource and native downloads cannot set request headers. Their
+        # optional URL context has the same check and grants no access itself.
+        expected_subject = request.headers.get('x-agentteam-subject')
+        if expected_subject is None and read:
+            expected_subject = request.query_params.get('browser_subject')
+        if expected_subject is not None and expected_subject != p.subject:
+            await reject(401, 'browser account changed; sign in again')
+        route = request.scope['route'].path
         if not read and not request.headers.get('authorization'):
             if request.headers.get('origin') != self.config.public_origin:
                 await reject(403, 'same-origin request required')

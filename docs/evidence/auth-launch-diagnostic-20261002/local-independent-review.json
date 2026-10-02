@@ -1,0 +1,157 @@
+{
+  "reviewed_at": "2026-10-02T03:32:01.347327+00:00",
+  "status": "PASS_WITH_SCOPE_LIMITS",
+  "method": "担当者による実7段階1回の保存済み証拠を独立読取照合。追加試験/サービス起動なし。",
+  "source_evidence_sha256": {
+    "before.json": "5bd2ec0c990ddb63ecb0af48bacb9761817d7ce593a44b7065dcf586d5a0c86b",
+    "after.json": "798237e552eadb24588b0fd6360b2d5a56d6c5543646313c042c3bf1197525b4",
+    "runtime.json": "4ebd9ce1e614f9e5c2f4f930803f804267fac4d4691f3888006cea38c2de4a7c",
+    "execution-result.json": "e6942988111dffe78911e17dc0152ece4e5a236f81e894dc5b8edb506c126454",
+    "run/report.json": "9e121471c5b8c694e349b5eb009cc88669691c6ce8b1a9b6e6c35c9547b05e3b",
+    "run/browser/initial-recovery.json": "64268aea1c506ed05091acbf2931976191ad5e1bb11ac5aaf7e5782ddffb00e0"
+  },
+  "diagnostic_script_sha256": "c03e2b0a0dcf03dde2b909ed78719d41ec1a26d98a53c66347f5745cf5fb9378",
+  "implementation_input_ui_checks": {
+    "code_sha256": {
+      "count": 116,
+      "before_equals_after": true,
+      "current_matches": true
+    },
+    "input_sha256": {
+      "count": 6,
+      "before_equals_after": true,
+      "current_matches": true
+    },
+    "frontend_dist_sha256": {
+      "count": 6,
+      "before_equals_after": true,
+      "current_matches": true
+    },
+    "distribution_sha256": {
+      "count": 6,
+      "before_equals_after": true,
+      "current_matches": true
+    }
+  },
+  "only_code_change_vs_0f2d377": [
+    "frontend/scripts/auth-initial-recovery.mjs"
+  ],
+  "current_product_and_ui_equal_committed_0f2d377": true,
+  "initial_recorded_sources_matched": 5,
+  "suite_recorded_runners_matched": 8,
+  "suite": {
+    "attempts": 1,
+    "elapsed_seconds": 40.42,
+    "completed_stages": [
+      "actual HTTP/SQLite admission",
+      "actual-source response projection",
+      "auth-initial-recovery.mjs",
+      "auth-browser-isolation.mjs",
+      "auth-retry-reload.mjs",
+      "auth-parallel-login.mjs",
+      "auth-peer-tab-close.mjs"
+    ],
+    "status": "PASS",
+    "initial_cases": 2,
+    "initial_checks": 12,
+    "browser_launch": {
+      "state": "SUCCEEDED",
+      "started_at": "2026-10-02T03:28:28.966Z",
+      "elapsed_ms": 741,
+      "timeout_ms": 15000,
+      "wrapper_timeout_ms": 15000,
+      "wrapper_deadline_fired": false,
+      "markers": null
+    },
+    "browser_version": "154.0.8037.93",
+    "initial_business_before_after": {
+      "runs": 0,
+      "jobs": 0,
+      "model_events": 0,
+      "artifacts": 0
+    },
+    "browser_suite_final_database_counts": {
+      "runs": 2,
+      "jobs": 0,
+      "model_calls": 0
+    },
+    "retry_deliberate_start_false_new_run": 1,
+    "additional_models_jobs": 0
+  },
+  "cleanup": {
+    "api": {
+      "scope": "browser_verification_api",
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "owned_processes": [
+      {
+        "program": "auth-initial-recovery.mjs",
+        "tracked_processes": 14,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-browser-isolation.mjs",
+        "tracked_processes": 10,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-retry-reload.mjs",
+        "tracked_processes": 9,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-parallel-login.mjs",
+        "tracked_processes": 10,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-peer-tab-close.mjs",
+        "tracked_processes": 15,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ],
+    "owned_tracked_total": 58,
+    "remaining": 0,
+    "signals": 0
+  },
+  "diagnostic_safety": {
+    "only_fixed_launch_state_timestamp_numeric_bool_markers_added": true,
+    "raw_exception_message_not_projected": true,
+    "existing_case_assertions_deadlines_cleanup_preserved": true,
+    "successful_launch_measured": true,
+    "failure_marker_branches_dynamically_exercised": false,
+    "markers_are_cause_proof": false,
+    "original_github_failure_cause": "unknown"
+  },
+  "documentation_notes_sent": [
+    "原CI段落の0件DBを初回認証検証用DBに限定する。",
+    "process追跡数はNode親を含む所有process数と表記する。"
+  ],
+  "blocking_findings": [],
+  "limits": [
+    "今回のlaunch741msはperformance計測開始後のsafe保存1回を含む実区間で、Chrome内部だけの起動時間ではない。",
+    "SUCCEEDED/markersnullは失敗分類分岐の実証ではない。原GitHub chrome_launch/Error原因は不明のまま。",
+    "原CI36959652900をPASSへ変更しない。新GitHub診断と新artifact/readingを実行した証拠ではない。",
+    "初回認証DB0とsuite最終ブラウザーDB2runを区別する。応答用DBには原model履歴があり新推論0とは別。",
+    "API終了計測はbrowser_verification_api scope。rawlogs/keys/DBを公開せず、sourceと一致するsafe測定を根拠とする。",
+    "同モデルAI読取照合であり、人間受入・一般運用品質・受賞・業務意味品質の認定ではない。"
+  ]
+}

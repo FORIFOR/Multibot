@@ -1,0 +1,252 @@
+{
+  "actor": "AI",
+  "human_acceptance": false,
+  "conditions": [
+    {
+      "lang": "ja",
+      "width": 320,
+      "rep": 3,
+      "scroll_width": 320,
+      "reader_top": 717.015625,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋✓      できたものを見てみよう成果物と確認内容を見てから、使う版を選べます。"
+    },
+    {
+      "lang": "ja",
+      "width": 320,
+      "rep": 2,
+      "scroll_width": 320,
+      "reader_top": 778.765625,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋Ⅱ      作業が止まりました"
+    },
+    {
+      "lang": "ja",
+      "width": 320,
+      "rep": 9,
+      "scroll_width": 320,
+      "reader_top": 778.765625,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋Ⅱ      作業が中断しています"
+    },
+    {
+      "lang": "ja",
+      "width": 390,
+      "rep": 3,
+      "scroll_width": 390,
+      "reader_top": 693.390625,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋✓      できたものを見てみよう成果物と確認内容を見てから、使う版を選べます。"
+    },
+    {
+      "lang": "ja",
+      "width": 390,
+      "rep": 2,
+      "scroll_width": 390,
+      "reader_top": 728.765625,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋Ⅱ      作業が止まりました"
+    },
+    {
+      "lang": "ja",
+      "width": 390,
+      "rep": 9,
+      "scroll_width": 390,
+      "reader_top": 728.765625,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋Ⅱ      作業が中断しています"
+    },
+    {
+      "lang": "ja",
+      "width": 768,
+      "rep": 3,
+      "scroll_width": 768,
+      "reader_top": 471.203125,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋✓      できたものを見てみよう成果物と確認内容を見てから、使う版を選べます。"
+    },
+    {
+      "lang": "ja",
+      "width": 768,
+      "rep": 2,
+      "scroll_width": 768,
+      "reader_top": 461.953125,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋Ⅱ      作業が止まりました"
+    },
+    {
+      "lang": "ja",
+      "width": 768,
+      "rep": 9,
+      "scroll_width": 768,
+      "reader_top": 488.203125,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋Ⅱ      作業が中断しています"
+    },
+    {
+      "lang": "ja",
+      "width": 1440,
+      "rep": 3,
+      "scroll_width": 1440,
+      "reader_top": 513.578125,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋✓      できたものを見てみよう成果物と確認内容を見てから、使う版を選べます。"
+    },
+    {
+      "lang": "ja",
+      "width": 1440,
+      "rep": 2,
+      "scroll_width": 1440,
+      "reader_top": 527.953125,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋Ⅱ      作業が止まりました"
+    },
+    {
+      "lang": "ja",
+      "width": 1440,
+      "rep": 9,
+      "scroll_width": 1440,
+      "reader_top": 527.953125,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補",
+      "team_open": false,
+      "status": "📋Ⅱ      作業が中断しています"
+    },
+    {
+      "lang": "en",
+      "width": 320,
+      "rep": 3,
+      "scroll_width": 320,
+      "reader_top": 717.015625,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋✓      Your results are ready to viewReview the files and checks, then choose a version to use."
+    },
+    {
+      "lang": "en",
+      "width": 320,
+      "rep": 2,
+      "scroll_width": 320,
+      "reader_top": 778.765625,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋Ⅱ      The work could not be completed"
+    },
+    {
+      "lang": "en",
+      "width": 320,
+      "rep": 9,
+      "scroll_width": 320,
+      "reader_top": 778.765625,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋Ⅱ      The work was interrupted"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "rep": 3,
+      "scroll_width": 390,
+      "reader_top": 687.015625,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋✓      Your results are ready to viewReview the files and checks, then choose a version to use."
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "rep": 2,
+      "scroll_width": 390,
+      "reader_top": 698.765625,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋Ⅱ      The work could not be completed"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "rep": 9,
+      "scroll_width": 390,
+      "reader_top": 698.765625,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋Ⅱ      The work was interrupted"
+    },
+    {
+      "lang": "en",
+      "width": 768,
+      "rep": 3,
+      "scroll_width": 768,
+      "reader_top": 471.203125,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋✓      Your results are ready to viewReview the files and checks, then choose a version to use."
+    },
+    {
+      "lang": "en",
+      "width": 768,
+      "rep": 2,
+      "scroll_width": 768,
+      "reader_top": 488.203125,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋Ⅱ      The work could not be completed"
+    },
+    {
+      "lang": "en",
+      "width": 768,
+      "rep": 9,
+      "scroll_width": 768,
+      "reader_top": 488.203125,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋Ⅱ      The work was interrupted"
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "rep": 3,
+      "scroll_width": 1440,
+      "reader_top": 513.578125,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋✓      Your results are ready to viewReview the files and checks, then choose a version to use."
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "rep": 2,
+      "scroll_width": 1440,
+      "reader_top": 527.953125,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋Ⅱ      The work could not be completed"
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "rep": 9,
+      "scroll_width": 1440,
+      "reader_top": 527.953125,
+      "identity": "01 Readreadiness.jsonVersion 1 · Unselected candidate",
+      "team_open": false,
+      "status": "📋Ⅱ      The work was interrupted"
+    }
+  ],
+  "page_errors": [],
+  "phase": "en1440-rep9",
+  "chrome": "154.0.8037.58",
+  "pid": 19671,
+  "status": "PASS",
+  "chrome_exited": true
+}

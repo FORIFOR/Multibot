@@ -1,0 +1,47 @@
+{
+  "started_at": "2026-10-01T18:11:38.174353+00:00",
+  "revision": "85630f1efae4e9c13e09a1c246153f3c6c43056d",
+  "origin": "http://127.0.0.1:63723",
+  "profile_source_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+  "source_sha256": {
+    "frontend/src/components/AuthGate.tsx": "743b1bb57b5552a7ea7e15be18674db2fc0ee52fb7e2a0fb6e48a89f02678fe8",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+    "frontend/scripts/auth-peer-tab-close.mjs": "69f666b392d9b2615ca05ac13115172541cd9477521efad3918ff8be0a2762f7",
+    "frontend/scripts/auth-parallel-login.mjs": "e6e3f43f4a40633cc9915cda2f319c08e24332828c0af8396711dba40ee2570e",
+    "backend/agentteam/ui/index.html": "0534e5dbfa365027a7c034b3126e5027a1176cc2c41ce9e3c0ef0c6da06f63a7"
+  },
+  "model_execution": false,
+  "cleanup": [
+    {
+      "program": "auth-peer-tab-close.mjs",
+      "tracked_processes": 16,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-parallel-login.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-browser-isolation.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "owned_server_listener_closed": true,
+  "source_hashes_unchanged": {
+    "frontend/src/components/AuthGate.tsx": true,
+    "frontend/src/lib/browser-session.ts": true,
+    "frontend/scripts/auth-peer-tab-close.mjs": true,
+    "frontend/scripts/auth-parallel-login.mjs": true,
+    "backend/agentteam/ui/index.html": true
+  },
+  "finished_at": "2026-10-01T18:12:03.944501+00:00"
+}

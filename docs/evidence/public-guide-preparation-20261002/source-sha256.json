@@ -1,0 +1,10 @@
+{
+  "public-guide-qwen35-fixed-20261002/fingerprint.json": "6e42d1045dc4288910119e438a068c30ae593d7ef8629efc965c0833c543e0e5",
+  "public-guide-qwen35-fixed-20261002/status.json": "c838552a7c764623be4ec63c3ba9ef39186bb0cf7cc74846d4a14089bc50b67d",
+  "public-guide-qwen35-fixed-20261002/attempts.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "public-guide-qwen35-fixed-20261002/preflight.json": "4c3bdc281bcbc03379053adb92bb36fea96e22021029dcd03dc3360d873314c9",
+  "public-guide-supervisor-20261002/sessions/20261001T172737Z-293a8fc37fe24111bae6d105bb1597e3/status.json": "11bea061a94a7aa1c54570f7e95c34191de9e17491300f1d4254774998e43b5a",
+  "public-guide-supervisor-20261002/sessions/20261001T172737Z-293a8fc37fe24111bae6d105bb1597e3/cleanup.json": "0447aa4ca311b4c61287f0953f9b97208427066870f9d83fd1751c4b05002680",
+  "public-guide-supervisor-20261002/sessions/20261001T172737Z-293a8fc37fe24111bae6d105bb1597e3/resources-01.json": "cbd5a9d83b9f94d8779c30d7d89980b261f6ca254ada6d0d8c12e4dd25355457",
+  "public-guide-preparation-audit-20261002-r1/inspection.json": "4afd70bf297d0eb6a7e25274eef98768501fc5076eeddadf0f103bfe0b29d7ec"
+}

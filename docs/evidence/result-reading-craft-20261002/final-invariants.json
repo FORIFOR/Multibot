@@ -1,0 +1,19 @@
+{
+  "original_files_and_database_unchanged": true,
+  "model_events_before": 223,
+  "model_events_after": 223,
+  "new_model_events": 0,
+  "execution_jobs": 0,
+  "adoption_counts": [
+    [
+      "run_1a0f7fbead33cd46066",
+      1
+    ],
+    [
+      "run_1a0f8118bd3ccca713e",
+      1
+    ]
+  ],
+  "human_acceptance": "not_performed",
+  "actor": "AI"
+}

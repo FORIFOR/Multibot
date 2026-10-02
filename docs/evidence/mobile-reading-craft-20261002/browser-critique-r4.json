@@ -1,0 +1,128 @@
+{
+  "status": "NOT_REPRODUCED",
+  "method": "Actual Chrome native 200% Shift+Tab twice from existing raw-file link, then Enter; no UI modifications",
+  "started_at": "2026-10-01T21:42:57.948Z",
+  "steps": [
+    {
+      "tag": "SUMMARY",
+      "text": "資料と前提",
+      "isTeam": false,
+      "focus": {
+        "x": 34,
+        "y": 181.4765625,
+        "width": 652,
+        "height": 44,
+        "top": 181.4765625,
+        "right": 686,
+        "bottom": 225.4765625,
+        "left": 34
+      },
+      "sticky": {
+        "x": 0,
+        "y": 0,
+        "width": 720,
+        "height": 107,
+        "top": 0,
+        "right": 720,
+        "bottom": 107,
+        "left": 0
+      },
+      "scrollY": 1410.5,
+      "innerWidth": 720,
+      "outerWidth": 1440,
+      "dpr": 2
+    },
+    {
+      "tag": "SUMMARY",
+      "text": "AIチーム · 3名担当と作業を見る",
+      "isTeam": true,
+      "focus": {
+        "x": 24,
+        "y": 181.3125,
+        "width": 672,
+        "height": 44,
+        "top": 181.3125,
+        "right": 696,
+        "bottom": 225.3125,
+        "left": 24
+      },
+      "sticky": {
+        "x": 0,
+        "y": 0,
+        "width": 720,
+        "height": 107,
+        "top": 0,
+        "right": 720,
+        "bottom": 107,
+        "left": 0
+      },
+      "scrollY": 208,
+      "innerWidth": 720,
+      "outerWidth": 1440,
+      "dpr": 2
+    }
+  ],
+  "model_execution": false,
+  "human_acceptance": false,
+  "team_focus_before_enter": {
+    "tag": "SUMMARY",
+    "text": "AIチーム · 3名担当と作業を見る",
+    "isTeam": true,
+    "focus": {
+      "x": 24,
+      "y": 181.3125,
+      "width": 672,
+      "height": 44,
+      "top": 181.3125,
+      "right": 696,
+      "bottom": 225.3125,
+      "left": 24
+    },
+    "sticky": {
+      "x": 0,
+      "y": 0,
+      "width": 720,
+      "height": 107,
+      "top": 0,
+      "right": 720,
+      "bottom": 107,
+      "left": 0
+    },
+    "scrollY": 208,
+    "innerWidth": 720,
+    "outerWidth": 1440,
+    "dpr": 2
+  },
+  "team_focus": {
+    "tag": "SUMMARY",
+    "text": "AIチーム · 3名担当と作業を見る",
+    "isTeam": true,
+    "focus": {
+      "x": 24,
+      "y": 181.3125,
+      "width": 672,
+      "height": 44,
+      "top": 181.3125,
+      "right": 696,
+      "bottom": 225.3125,
+      "left": 24
+    },
+    "sticky": {
+      "x": 0,
+      "y": 0,
+      "width": 720,
+      "height": 107,
+      "top": 0,
+      "right": 720,
+      "bottom": 107,
+      "left": 0
+    },
+    "scrollY": 208,
+    "innerWidth": 720,
+    "outerWidth": 1440,
+    "dpr": 2
+  },
+  "focus_overlapped_by_sticky_header": false,
+  "overlap_css_px": 0,
+  "finished_at": "2026-10-01T21:42:59.092Z"
+}

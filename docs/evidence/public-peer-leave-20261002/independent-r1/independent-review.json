@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "runner_stages_passed": 6,
+  "runtime_and_ui_files_unchanged": 10,
+  "runner_fingerprints_match_current": 7,
+  "runner_fingerprints_overlap_before_match": true,
+  "safe_files_checked": 4,
+  "credential_files_byte_checked": 7,
+  "credential_matches": 0,
+  "secret_pattern_matches": 0,
+  "screenshots_visually_confirmed_empty_login": true,
+  "additional_model_execution": false,
+  "remaining_owned_chrome_processes": 0,
+  "limitations": [
+    "The 21.5-second observation upper bound is close to the 20-second product timer and is scheduled to be widened only in the verification script.",
+    "An implementation-owner run overlapped due to coordination timing; each run used a separate private service root.",
+    "This run retained the final observer-clock fields, and all captured code and runner fingerprint hashes match after execution.",
+    "This does not identify the cause of the prior GitHub parallel-login failure or validate external IdP/TLS or human acceptance."
+  ],
+  "safe_files_sha256": {
+    "service/report.json": "4e8eaacb754ebdc6f327b1d2092bd62e500c4fe9d51a35ae914fd2a7bf160293",
+    "service/browser/peer-tab-close.json": "6023924841f87f88d136dc3571ee00c8892cc7fedb07d7aee1d68e0471477f50",
+    "service/browser/close-empty-signin.png": "dc8df28bb6161073829fd35dca2b4d30c0eb815fa7f35778306ea6a0b5f1410a",
+    "service/browser/reload-empty-signin.png": "b8355b9c6ead8758a675cabea13e2f3c4c6e6d0c86d29128dd2e912dcf5b84df"
+  }
+}

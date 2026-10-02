@@ -1,0 +1,60 @@
+{
+  "started_at": "2026-10-01T22:56:24.140Z",
+  "status": "PASS",
+  "mode": "fixed-code-verification",
+  "source": "docs/PRODUCTION_PLAN.md",
+  "source_sha256": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+  "checks": [
+    {
+      "id": "peer-close",
+      "status": "PASS",
+      "actual_login_status": 200,
+      "observed_ms": 20249,
+      "observer_clock_advanced_ms": 20064,
+      "empty_signin_after_ms": 20060,
+      "actual_completion_notification_observed": false,
+      "prior_workspace_closed": true,
+      "private_storage_cleared": true,
+      "subject_matches_actual_login_response": true,
+      "role_matches_actual_login_response": true,
+      "empty_workspace_after_explicit_signin": true
+    },
+    {
+      "id": "peer-reload",
+      "status": "PASS",
+      "actual_login_status": 200,
+      "observed_ms": 2063,
+      "observer_clock_advanced_ms": 124,
+      "empty_signin_after_ms": 110,
+      "actual_completion_notification_observed": true,
+      "prior_workspace_closed": true,
+      "private_storage_cleared": true,
+      "subject_matches_actual_login_response": true,
+      "role_matches_actual_login_response": true,
+      "empty_workspace_after_explicit_signin": true
+    }
+  ],
+  "model_execution": false,
+  "human_acceptance": false,
+  "limitations": [
+    "Local actual technical accounts; no external IdP/TLS acceptance",
+    "CDP holds actual HTTP 200 responses; it supplies no response bytes",
+    "For abrupt close, CDP stops sender JavaScript after HTTP 200 is held so no completion callback can run during tab departure",
+    "A suspended browser cannot render until it resumes; the lease is checked when its JavaScript runs"
+  ],
+  "browser": "154.0.8037.57",
+  "counts_before": {
+    "runs": 2,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "counts_after": {
+    "runs": 2,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "additional_runs": 0,
+  "additional_jobs": 0,
+  "additional_model_calls": 0,
+  "finished_at": "2026-10-01T22:56:51.890Z"
+}

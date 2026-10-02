@@ -1,0 +1,18 @@
+{
+  "status": "NO_ADDITIONAL_BLOCKING_FINDING_IN_VIEWED_R2_IMAGES",
+  "viewed": [
+    "r2-ja320-deadline-recovered-focus.png",
+    "r2-en768-transport-recovered-focus.png",
+    "r2-en-native200-loaded-recovered-focus.png"
+  ],
+  "observations": [
+    "320幅で本文後の操作が自然に2行へ折り返され、retryのfocus輪郭がstickyの下で見える。",
+    "英語768幅は2操作が同列に収まり、本文・記録見出し・注意書きとの階層を維持。",
+    "実200%は記録とretryの大きさ/輪郭が明瞭。読み上げやSafariの確認ではない。"
+  ],
+  "limitations": [
+    "原資料のAI生成内容・チェックの通過表示は、人間受入や自由な業務品質の証明ではない。",
+    "別controlへ移動した場合はfocusを奪わず、全文表示でそのcontrolが画面外になる観測を残す。",
+    "first-time third-party acceptance not performed"
+  ]
+}

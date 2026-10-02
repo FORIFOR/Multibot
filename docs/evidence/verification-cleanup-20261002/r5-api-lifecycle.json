@@ -1,0 +1,262 @@
+{
+  "status": "PASS",
+  "source_sha256": {
+    "backend/scripts/cleanup_public_oidc.py": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+    "backend/scripts/check_public_service.py": "fa1c9f35d5f01debe5c3c053fb65d73c110004ddd12d4812f3c3e428f37babe2",
+    ".github/workflows/public-oidc.yml": "bea892d03c241b70cec4d1bdc451c5847546f9bc606ebc2b0a4120176f9adc0a",
+    "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9"
+  },
+  "checks": [
+    {
+      "id": "real_subprocess_api_started",
+      "passed": true
+    },
+    {
+      "id": "unstarted_cleanup_saved",
+      "passed": true
+    },
+    {
+      "id": "unstarted_cleanup_left_other_api_alive",
+      "passed": true
+    },
+    {
+      "id": "real_ownership_record_replayed_elsewhere_rejected",
+      "passed": true
+    },
+    {
+      "id": "rejected_record_did_not_signal_other_api",
+      "passed": true
+    },
+    {
+      "id": "real_zero_models_and_jobs",
+      "passed": true
+    },
+    {
+      "id": "real_subprocess_api_cleanup",
+      "passed": true
+    },
+    {
+      "id": "actual_missing_input_start_rejected",
+      "passed": true
+    },
+    {
+      "id": "missing_input_cleanup_report_saved",
+      "passed": true
+    },
+    {
+      "id": "actual_invalid_config_start_failed",
+      "passed": true
+    },
+    {
+      "id": "failed_start_cleanup",
+      "passed": true
+    },
+    {
+      "id": "inprocess-normal_real_api_200",
+      "passed": true
+    },
+    {
+      "id": "inprocess-normal_task_lock_port_cleanup",
+      "passed": true
+    },
+    {
+      "id": "inprocess-normal_no_models_or_jobs",
+      "passed": true
+    },
+    {
+      "id": "inprocess-caller-failure_real_api_200",
+      "passed": true
+    },
+    {
+      "id": "inprocess-caller-failure_actual_caller_failure_preserved",
+      "passed": true
+    },
+    {
+      "id": "inprocess-caller-failure_task_lock_port_cleanup",
+      "passed": true
+    },
+    {
+      "id": "inprocess-caller-failure_no_models_or_jobs",
+      "passed": true
+    },
+    {
+      "id": "all_source_bytes_unchanged",
+      "passed": true
+    }
+  ],
+  "cases": {
+    "not-started": {
+      "started_at": "2026-10-01T22:44:16.640931+00:00",
+      "status": "PASS",
+      "model_execution_requested": false,
+      "human_acceptance": "not_performed",
+      "services": {
+        "api": {
+          "status": "NOT_STARTED",
+          "started": false,
+          "signals_sent": 0,
+          "identity_matches": null,
+          "process_absent": null,
+          "group_empty": null,
+          "port_closed": null
+        },
+        "container": {
+          "status": "NOT_STARTED",
+          "started": false,
+          "owned_count": null,
+          "removed_count": 0,
+          "remaining_owned_count": null,
+          "port_closed": null
+        }
+      },
+      "script_sha256": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+      "finished_at": "2026-10-01T22:44:16.641517+00:00"
+    },
+    "wrong-root-record": {
+      "started_at": "2026-10-01T22:44:16.678824+00:00",
+      "status": "FAIL",
+      "model_execution_requested": false,
+      "human_acceptance": "not_performed",
+      "services": {
+        "api": {
+          "status": "FAIL",
+          "error_type": "ValueError"
+        },
+        "container": {
+          "status": "NOT_STARTED",
+          "started": false,
+          "owned_count": null,
+          "removed_count": 0,
+          "remaining_owned_count": null,
+          "port_closed": null
+        }
+      },
+      "script_sha256": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+      "finished_at": "2026-10-01T22:44:16.680622+00:00"
+    },
+    "api-success": {
+      "started_at": "2026-10-01T22:44:16.719466+00:00",
+      "status": "PASS",
+      "model_execution_requested": false,
+      "human_acceptance": "not_performed",
+      "services": {
+        "api": {
+          "status": "PASS",
+          "started": true,
+          "signals_sent": 1,
+          "identity_matches": true,
+          "process_absent": true,
+          "group_empty": true,
+          "port_closed": true,
+          "ready_observed": true,
+          "runtime_error_markers": 0
+        },
+        "container": {
+          "status": "NOT_STARTED",
+          "started": false,
+          "owned_count": null,
+          "removed_count": 0,
+          "remaining_owned_count": null,
+          "port_closed": null
+        }
+      },
+      "script_sha256": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+      "finished_at": "2026-10-01T22:44:16.965562+00:00"
+    },
+    "missing-prepared-input": {
+      "started_at": "2026-10-01T22:44:17.042696+00:00",
+      "status": "PASS",
+      "model_execution_requested": false,
+      "human_acceptance": "not_performed",
+      "services": {
+        "api": {
+          "status": "NOT_STARTED",
+          "started": false,
+          "signals_sent": 0,
+          "identity_matches": null,
+          "process_absent": null,
+          "group_empty": null,
+          "port_closed": null
+        },
+        "container": {
+          "status": "NOT_STARTED",
+          "started": false,
+          "owned_count": null,
+          "removed_count": 0,
+          "remaining_owned_count": null,
+          "port_closed": null
+        }
+      },
+      "script_sha256": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+      "finished_at": "2026-10-01T22:44:17.043226+00:00"
+    },
+    "invalid-real-document-as-profile": {
+      "started_at": "2026-10-01T22:44:17.641527+00:00",
+      "status": "PASS",
+      "model_execution_requested": false,
+      "human_acceptance": "not_performed",
+      "services": {
+        "api": {
+          "status": "PASS",
+          "started": true,
+          "signals_sent": 0,
+          "identity_matches": null,
+          "process_absent": true,
+          "group_empty": true,
+          "port_closed": true,
+          "ready_observed": false,
+          "runtime_error_markers": 3
+        },
+        "container": {
+          "status": "NOT_STARTED",
+          "started": false,
+          "owned_count": null,
+          "removed_count": 0,
+          "remaining_owned_count": null,
+          "port_closed": null
+        }
+      },
+      "script_sha256": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+      "finished_at": "2026-10-01T22:44:17.658639+00:00"
+    },
+    "inprocess-normal": {
+      "cleanup": {
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      },
+      "counts": {
+        "runs": 0,
+        "jobs": 0,
+        "models": 0
+      }
+    },
+    "inprocess-caller-failure": {
+      "cleanup": {
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      },
+      "counts": {
+        "runs": 0,
+        "jobs": 0,
+        "models": 0
+      }
+    }
+  },
+  "model_execution_requested": false,
+  "human_acceptance": "not_performed",
+  "container_execution": "not_performed_no_VM_started"
+}

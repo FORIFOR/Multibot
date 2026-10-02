@@ -1,0 +1,29 @@
+{
+  "revision": "fc7d41995a25ea958735a5e205d3f153e2c28ffd",
+  "pyjwt_version": "2.15.0",
+  "origin": "http://127.0.0.1:8798",
+  "issuer": "http://127.0.0.1:8801/realms/agentteam-verification",
+  "client_id": "agentteam-verification-login",
+  "profile_source": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+  "profile_source_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+  "profile_sha256": "b64fc97824e643770d55e20bd8fca58ab43168be6ed045f68dcbd7e096c3f42d",
+  "document_source": "docs/PRODUCTION_PLAN.md",
+  "document_sha256": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+  "verification_files_sha256": {
+    "backend/scripts/provision_public_oidc.py": "a38ec2f4eb297ec7832a8178cceb517984900f05874de8fe65cd3c4ec0fd2c0d",
+    "frontend/scripts/public-oidc.mjs": "b3500675d47e50f608a3a1e4b018c081aa93ca184075a2a04d9ca8c0fddb5d23",
+    ".github/workflows/public-oidc.yml": "bea892d03c241b70cec4d1bdc451c5847546f9bc606ebc2b0a4120176f9adc0a"
+  },
+  "historical_probe_is_not_current_model_verification": true,
+  "model_execution": false,
+  "scope": "real authorization-code/PKCE token acquisition and API JWT/JWKS verification",
+  "not_verified": [
+    "OAuth2 Proxy",
+    "public TLS",
+    "MFA",
+    "registration",
+    "account recovery",
+    "business quality",
+    "human acceptance"
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "scanned_at": "2026-10-01T20:53:11.813710+00:00",
+  "status": "PASS",
+  "scope": "Changed existing tracked files compared with HEAD (staged and unstaged), untracked candidate files, and all current named evidence files. Deleted files and the two generated scan/manifest files excluded. Later changes require rescan.",
+  "scanned_file_count": 27,
+  "scanned_files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "cf6d6d59d63bda1628dbde77e05cc820ba207cce499ea24a80c5e9741ece10d0",
+      "size_bytes": 6998
+    },
+    {
+      "path": "backend/agentteam/api/app.py",
+      "sha256": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+      "size_bytes": 54052
+    },
+    {
+      "path": "backend/agentteam/runtime/orchestrator.py",
+      "sha256": "5f8696a9c57ea6277774bd5b68229ebaa4ca5de7ef69b375bf235ef710b490ed",
+      "size_bytes": 42385
+    },
+    {
+      "path": "backend/agentteam/runtime/tool_capabilities.py",
+      "sha256": "a42b01c8e4700e6cca95c234264a445876d7f6d121302677b4b46836c5e4ee15",
+      "size_bytes": 1755
+    },
+    {
+      "path": "backend/agentteam/runtime/tools.py",
+      "sha256": "403a1eab90d928f85cc358425b41de7a107ca212845043581fbef1e64be9ad66",
+      "size_bytes": 78455
+    },
+    {
+      "path": "backend/scripts/check_document_sandbox.py",
+      "sha256": "89b0c021afbb3e4f45f692086aba12ba14a6725376aa0cad5432767d012784ce",
+      "size_bytes": 26044
+    },
+    {
+      "path": "docs/CI.md",
+      "sha256": "87c65889d7118a1cd8b9ca6140f8fe21663c4f61e8d25724d1f78ddee419b5de",
+      "size_bytes": 5596
+    },
+    {
+      "path": "docs/PRODUCTION.md",
+      "sha256": "8b0ff3a12d17658fe9f66cde1e283511b1d01ef8c73deecbe4e4fe3e47151354",
+      "size_bytes": 30141
+    },
+    {
+      "path": "docs/PUBLIC_SERVICE.md",
+      "sha256": "a743c69767c91ea1dca15725aee5526e46cabe706746dfb5d1adb46260dbde03",
+      "size_bytes": 10018
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/README.md",
+      "sha256": "c61d82a5dddaadc5aa385fee1ef4d9363b4004f0825091c3e1c4110592553631",
+      "size_bytes": 7284
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/baseline-ci-summary.json",
+      "sha256": "73bf2178b69600d8fc860afae5f2c2b19f53ab25e5b57ceeafabf650890e3cd1",
+      "size_bytes": 14283
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/baseline-rejection.json",
+      "sha256": "14cc024e6351f3cda8864b3af962422e8802738c0a44bc219cd2fde203a43d10",
+      "size_bytes": 5092
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/boundary-final.json",
+      "sha256": "a159592a4dd5994b0170c178fd10498b2d340de1030f04d96f3a2a5a09998516",
+      "size_bytes": 15970
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/boundary-independent.json",
+      "sha256": "3c3bbb105c38e39ce53dfd26f8c82d5b3eba1432414b30003f72fe5b401d46de",
+      "size_bytes": 15970
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/boundary-prior-r3.json",
+      "sha256": "9b10d89bf30ab068ade2c4c37c218912869b70d9d091ef30a8afad3381ded0a9",
+      "size_bytes": 15970
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/configuration-independent.json",
+      "sha256": "584c8f8bd4cbcb8114f2482a1164675c6f99a621c41437f7e949dc92cdeb61f2",
+      "size_bytes": 3818
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/independent-verification.json",
+      "sha256": "941faa90005c9d5f55851ab6d18804cc58306ccd580e9b882cdada539d2908de",
+      "size_bytes": 3039
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/invalid-source.json",
+      "sha256": "2e2025fc1b49c448c5486ed6b9d090c9b78626624b2494862ff871aacfeaf043",
+      "size_bytes": 3087
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/publication-review.json",
+      "sha256": "f001615e535765e905a281f0b0609327368d01db1e420136fba0b236374c1fe8",
+      "size_bytes": 2965
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/report-replay.json",
+      "sha256": "9633ca2a1f82f2bc55c5f2e7cf739902175bb5960526ab6cf43194f83c30912f",
+      "size_bytes": 4405
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/resource-check.json",
+      "sha256": "5220aa13cd94995f625c8f83f14189829c3b30489163d31f218948c733252581",
+      "size_bytes": 1127
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/runner-failure-r1.json",
+      "sha256": "05a30a1edace9b12faa835e4e591d49976bfa0384a81fb61a54c943487ee30ee",
+      "size_bytes": 6164
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/runner-failure-r2.json",
+      "sha256": "b0d4cfe0ac9c9687125ad89b66bd1fb043ad5958aa4c90f9c28cd8bab5f7b7b5",
+      "size_bytes": 14258
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/service-regression.json",
+      "sha256": "7ef7dd78e9f1d33e8bb148ffa62f284dad2f874dd3f0d5026bb4c44bd78bb627",
+      "size_bytes": 2332
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/supervisor-helper-review.json",
+      "sha256": "a80c031a036c9cbca496e88473cf02cbeb5bfe526f179fbbdba27211aca1c10f",
+      "size_bytes": 4595
+    },
+    {
+      "path": "docs/evidence/document-file-check-boundary-20261002/supervisor-static-review.json",
+      "sha256": "b8f7385feb32da9393ac3761d91b383e1ea854091e842172c1d95de6d9fd628c",
+      "size_bytes": 7434
+    },
+    {
+      "path": "docs/quality/public-service-workflow.md",
+      "sha256": "5f67a1173c7332e784704180d3ec6c1995a69f49aa23efca66f459789d3b9ca4",
+      "size_bytes": 13763
+    }
+  ],
+  "actual_key_reference_count": 142,
+  "actual_key_files": [
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-cleanup-integrated-20261002-r1/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-cleanup-integrated-20261002-r1/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-cleanup-integrated-20261002-r1/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-cleanup-integrated-20261002-r1/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-cleanup-integrated-20261002-r1/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-cleanup-integrated-20261002-r1/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-cleanup-integrated-20261002-r1/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r1/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-admission-20261002-r2/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-admission-20261002-r2/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-admission-20261002-r2/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r1/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r1/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r1/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r1/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r1/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r1/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/combined-final-r2/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/combined-final-r2/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/combined-final-r1/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/combined-final-r1/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/round-a/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/attachment-craft-20261002/round-a/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-admission-20261002/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-admission-20261002/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-admission-20261002/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/craft-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/fixed-r3/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/fixed-r3/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/fixed-r2/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/fixed-r2/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/craft-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/original-r1/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/original-r1/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/fixed-r1/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/fixed-r1/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/original-r2/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-20261002/original-r2/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/http-db-concurrency-r2/concurrency-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/http-db-concurrency-r2/concurrency-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/craft-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/craft-viewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-pyjwt215-integration-20261002-r1/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-pyjwt215-integration-20261002-r1/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-pyjwt215-integration-20261002-r1/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-pyjwt215-integration-20261002-r1/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-pyjwt215-integration-20261002-r1/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-pyjwt215-integration-20261002-r1/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-pyjwt215-integration-20261002-r1/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/http-db-concurrency-r3/concurrency-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/http-db-concurrency-r3/concurrency-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-r1/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-r1/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-r1/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-r1/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-r1/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-r1/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-r1/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-db-r2/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-db-r2/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-db-r2/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-db-r2/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-db-r2/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-db-r2/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/service-integration-db-r2/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/http-db-concurrency-r1/concurrency-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/http-db-concurrency-r1/concurrency-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r1/service/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r1/service/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r1/service/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r1/service/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r1/service/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r1/service/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r1/service/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-oidc-account-bb9kh_gd/emergency-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-report-ui-20261002-r1/report-ui-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-report-ui-20261002-r1/report-ui-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-admission-20261002-r3/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-admission-20261002-r3/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-admission-20261002-r3/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r2/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r2/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r2/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r2/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r2/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r2/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-ci-20261002-r2/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-sandbox-independent-20261002-r1/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-sandbox-independent-20261002-r1/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r2/service/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r2/service/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r2/service/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r2/service/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r2/service/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r2/service/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-peer-leave-independent-20261002-r2/service/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/round-c/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/database-concurrency-independent-20261002-r1/concurrency-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/database-concurrency-independent-20261002-r1/concurrency-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-service-regression-20261002/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-service-regression-20261002/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-service-regression-20261002/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-service-regression-20261002/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-service-regression-20261002/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-service-regression-20261002/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-service-regression-20261002/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/round-c/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/round-b/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/round-b/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r2/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r2/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r3/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r3/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r4/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-r4/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/baseline-r2/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/baseline-r2/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-export/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-parallel-diagnostic-20261002-r1/service/public-service-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-parallel-diagnostic-20261002-r1/service/responses/public-response-reviewer.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-parallel-diagnostic-20261002-r1/service/responses/forifor.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-parallel-diagnostic-20261002-r1/service/admission/admission-other.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-parallel-diagnostic-20261002-r1/service/admission/admission-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-parallel-diagnostic-20261002-r1/service/admission/admission-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-parallel-diagnostic-20261002-r1/service/public-service-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-boundary-20261002/after-r2/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-boundary-20261002/after-r2/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-boundary-20261002/after-r4/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-boundary-20261002/after-r4/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/final-export/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/round-a/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/app-first-request-craft-20261002/round-a/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-boundary-20261002/after-r3/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-boundary-20261002/after-r3/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-report-ui-20261002-r2/report-ui-admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-report-ui-20261002-r2/report-ui-operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-boundary-20261002/after-r1/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-boundary-20261002/after-r1/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-file-check-boundary-20261002/baseline-r1/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-browser-isolation-20261002/admin.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/public-service-browser-isolation-20261002/operator.key",
+    "/Users/horioshuuhei/.cache/agentteam-bench/document-config-independent-20261002-r1/admin.key"
+  ],
+  "actual_key_values_are_not_recorded": true,
+  "actual_key_matches": [],
+  "private_material_pattern_matches": [],
+  "forbidden_raw_evidence_candidates": [],
+  "readme_missing_relative_links": [],
+  "files_changed_during_scan": [],
+  "image_scan_limit": "Exact compressed PNG byte matching is not OCR; previous actual-image visual reviews are separate. No new pixel-review claim.",
+  "execution_limit": "This scan does not execute product code, services, models or acceptance tests. It only inspects the current public candidates against selected real key files and static patterns.",
+  "scanner_sha256": "0a886514d5bc8840e4a5ba4d23faf42af6480961d1b73d92fd8731df8b1fb7a3",
+  "human_or_business_acceptance": false
+}

@@ -1,0 +1,355 @@
+{
+  "status": "ISSUE_REPRODUCED",
+  "method": "Exact r2 programmatic-focus route in actual native 200% Chrome; stages isolate focus from Enter; not human Tab-route evidence",
+  "started_at": "2026-10-01T21:46:45.344Z",
+  "stages": [
+    {
+      "name": "initial_top",
+      "active": {
+        "tag": "H1",
+        "isTeam": false,
+        "rect": {
+          "x": 24,
+          "y": 161.25,
+          "width": 436.0234375,
+          "height": 67.1875,
+          "top": 161.25,
+          "right": 460.0234375,
+          "bottom": 228.4375,
+          "left": 24
+        }
+      },
+      "team": {
+        "x": 24,
+        "y": 389.3125,
+        "width": 672,
+        "height": 44,
+        "top": 389.3125,
+        "right": 696,
+        "bottom": 433.3125,
+        "left": 24
+      },
+      "teamOpen": false,
+      "sticky": {
+        "selector": ".top.side",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        }
+      },
+      "readingHead": {
+        "x": 49,
+        "y": 458.3125,
+        "width": 622,
+        "height": 96.1484375,
+        "top": 458.3125,
+        "right": 671,
+        "bottom": 554.4609375,
+        "left": 49
+      },
+      "scrollY": 0,
+      "innerWidth": 720,
+      "outerWidth": 1440,
+      "dpr": 2,
+      "rootZoom": "1",
+      "bodyZoom": "1"
+    },
+    {
+      "name": "before_programmatic_focus",
+      "active": {
+        "tag": "H1",
+        "isTeam": false,
+        "rect": {
+          "x": 24,
+          "y": -141.75,
+          "width": 436.0234375,
+          "height": 67.1875,
+          "top": -141.75,
+          "right": 460.0234375,
+          "bottom": -74.5625,
+          "left": 24
+        }
+      },
+      "team": {
+        "x": 24,
+        "y": 86.3125,
+        "width": 672,
+        "height": 44,
+        "top": 86.3125,
+        "right": 696,
+        "bottom": 130.3125,
+        "left": 24
+      },
+      "teamOpen": false,
+      "sticky": {
+        "selector": ".top.side",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        }
+      },
+      "readingHead": {
+        "x": 49,
+        "y": 155.3125,
+        "width": 622,
+        "height": 96.1484375,
+        "top": 155.3125,
+        "right": 671,
+        "bottom": 251.4609375,
+        "left": 49
+      },
+      "scrollY": 303,
+      "innerWidth": 720,
+      "outerWidth": 1440,
+      "dpr": 2,
+      "rootZoom": "1",
+      "bodyZoom": "1"
+    },
+    {
+      "name": "immediate_after_focus_before_enter",
+      "active": {
+        "tag": "SUMMARY",
+        "isTeam": true,
+        "rect": {
+          "x": 24,
+          "y": 86.3125,
+          "width": 672,
+          "height": 44,
+          "top": 86.3125,
+          "right": 696,
+          "bottom": 130.3125,
+          "left": 24
+        }
+      },
+      "team": {
+        "x": 24,
+        "y": 86.3125,
+        "width": 672,
+        "height": 44,
+        "top": 86.3125,
+        "right": 696,
+        "bottom": 130.3125,
+        "left": 24
+      },
+      "teamOpen": false,
+      "sticky": {
+        "selector": ".top.side",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        }
+      },
+      "readingHead": {
+        "x": 49,
+        "y": 155.3125,
+        "width": 622,
+        "height": 96.1484375,
+        "top": 155.3125,
+        "right": 671,
+        "bottom": 251.4609375,
+        "left": 49
+      },
+      "scrollY": 303,
+      "innerWidth": 720,
+      "outerWidth": 1440,
+      "dpr": 2,
+      "rootZoom": "1",
+      "bodyZoom": "1"
+    },
+    {
+      "name": "after_frames_before_enter",
+      "active": {
+        "tag": "SUMMARY",
+        "isTeam": true,
+        "rect": {
+          "x": 24,
+          "y": 86.3125,
+          "width": 672,
+          "height": 44,
+          "top": 86.3125,
+          "right": 696,
+          "bottom": 130.3125,
+          "left": 24
+        }
+      },
+      "team": {
+        "x": 24,
+        "y": 86.3125,
+        "width": 672,
+        "height": 44,
+        "top": 86.3125,
+        "right": 696,
+        "bottom": 130.3125,
+        "left": 24
+      },
+      "teamOpen": false,
+      "sticky": {
+        "selector": ".top.side",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        }
+      },
+      "readingHead": {
+        "x": 49,
+        "y": 155.3125,
+        "width": 622,
+        "height": 96.1484375,
+        "top": 155.3125,
+        "right": 671,
+        "bottom": 251.4609375,
+        "left": 49
+      },
+      "scrollY": 303,
+      "innerWidth": 720,
+      "outerWidth": 1440,
+      "dpr": 2,
+      "rootZoom": "1",
+      "bodyZoom": "1"
+    },
+    {
+      "name": "immediate_after_enter",
+      "active": {
+        "tag": "SUMMARY",
+        "isTeam": true,
+        "rect": {
+          "x": 24,
+          "y": 86.3125,
+          "width": 672,
+          "height": 44,
+          "top": 86.3125,
+          "right": 696,
+          "bottom": 130.3125,
+          "left": 24
+        }
+      },
+      "team": {
+        "x": 24,
+        "y": 86.3125,
+        "width": 672,
+        "height": 44,
+        "top": 86.3125,
+        "right": 696,
+        "bottom": 130.3125,
+        "left": 24
+      },
+      "teamOpen": true,
+      "sticky": {
+        "selector": ".top.side",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        }
+      },
+      "readingHead": {
+        "x": 49,
+        "y": 243.3125,
+        "width": 622,
+        "height": 96.1484375,
+        "top": 243.3125,
+        "right": 671,
+        "bottom": 339.4609375,
+        "left": 49
+      },
+      "scrollY": 303,
+      "innerWidth": 720,
+      "outerWidth": 1440,
+      "dpr": 2,
+      "rootZoom": "1",
+      "bodyZoom": "1"
+    },
+    {
+      "name": "after_frames_after_enter",
+      "active": {
+        "tag": "SUMMARY",
+        "isTeam": true,
+        "rect": {
+          "x": 24,
+          "y": 86.3125,
+          "width": 672,
+          "height": 44,
+          "top": 86.3125,
+          "right": 696,
+          "bottom": 130.3125,
+          "left": 24
+        }
+      },
+      "team": {
+        "x": 24,
+        "y": 86.3125,
+        "width": 672,
+        "height": 44,
+        "top": 86.3125,
+        "right": 696,
+        "bottom": 130.3125,
+        "left": 24
+      },
+      "teamOpen": true,
+      "sticky": {
+        "selector": ".top.side",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 720,
+          "height": 107,
+          "top": 0,
+          "right": 720,
+          "bottom": 107,
+          "left": 0
+        }
+      },
+      "readingHead": {
+        "x": 49,
+        "y": 243.3125,
+        "width": 622,
+        "height": 96.1484375,
+        "top": 243.3125,
+        "right": 671,
+        "bottom": 339.4609375,
+        "left": 49
+      },
+      "scrollY": 303,
+      "innerWidth": 720,
+      "outerWidth": 1440,
+      "dpr": 2,
+      "rootZoom": "1",
+      "bodyZoom": "1"
+    }
+  ],
+  "model_execution": false,
+  "human_acceptance": false,
+  "html_sha256": "23a2f69d51279a31d76803282438bc1c16d480b48ea180ae231d0513231005a4",
+  "bundle_sha256": "2d0bc22ba1b0d3da229a4d1d5d1ff6e50303a6014a44f139a5388ee71bdf7c35",
+  "overlap_css_px": 20.6875,
+  "finished_at": "2026-10-01T21:46:47.441Z"
+}

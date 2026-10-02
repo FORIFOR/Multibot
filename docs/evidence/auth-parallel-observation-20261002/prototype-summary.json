@@ -1,0 +1,137 @@
+{
+  "status": "PASS",
+  "classification": "One actual controlled-submit scheduling verification; original CI cause remains unconfirmed",
+  "reviewed_at": "2026-10-02T01:05:00.163143+00:00",
+  "repo_script_sha256": "3a6aca0e995d580f1f46d6e7304e130806af98e04e04a7e6e53f6b307f5f9ef8",
+  "private_script_sha256": "d469f53798d3d2dda9c9ccceaa2e0dc87044cabdc1093887c4158d6b0202527f",
+  "application_changes": false,
+  "repeat_count": 1,
+  "natural_simultaneous_user_observation": false,
+  "original_ci_failure_retained": {
+    "run": 36947671100,
+    "phase": "response_loss_submit_both_forms",
+    "cause": "UNCONFIRMED"
+  },
+  "rounds": [
+    {
+      "id": "parallel",
+      "genuine_submit_pause_count_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "both_actual_submit_tasks_paused": true,
+      "pause_arrival_spread_ms": 195,
+      "before_resume_login_requests_zero_assertion_passed": true,
+      "held_http200_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "release": [
+        {
+          "page": "A",
+          "breakpoint_removed": true,
+          "resume_completed": true
+        },
+        {
+          "page": "B",
+          "breakpoint_removed": true,
+          "resume_completed": true
+        }
+      ],
+      "all_submissions_fulfilled": true
+    },
+    {
+      "id": "response_loss",
+      "genuine_submit_pause_count_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "both_actual_submit_tasks_paused": true,
+      "pause_arrival_spread_ms": 185,
+      "before_resume_login_requests_zero_assertion_passed": true,
+      "held_http200_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "release": [
+        {
+          "page": "A",
+          "breakpoint_removed": true,
+          "resume_completed": true
+        },
+        {
+          "page": "B",
+          "breakpoint_removed": true,
+          "resume_completed": true
+        }
+      ],
+      "all_submissions_fulfilled": true
+    }
+  ],
+  "old_check_ids_passed": [
+    "parallel-real-signin",
+    "parallel-signin-response-loss",
+    "cookie-subject-mismatch"
+  ],
+  "debug_cleanup": [
+    {
+      "page": "A",
+      "target_closed": false,
+      "steps": [
+        {
+          "name": "remove_breakpoint",
+          "status": "PASS"
+        },
+        {
+          "name": "disable_debugger",
+          "status": "PASS"
+        },
+        {
+          "name": "disable_fetch",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "page": "B",
+      "target_closed": true,
+      "steps": []
+    }
+  ],
+  "owned_browser_cleanup": [
+    {
+      "program": "barrier-observation.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "owned_api_cleanup": {
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "business_final": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "source_unchanged": true,
+  "bundle_unchanged": true,
+  "limits": [
+    "The old 200ms scheduling assumption is statically inadequate, but the original CI form-removal hypothesis was not reproduced in two prior bounded observations.",
+    "This uses actual DOMDebugger event-listener breakpoints and unchanged real requestSubmit/React handlers; no notification replacement, dispatch fabrication, response bytes, or LLM.",
+    "Actual tasks are deliberately paused and resumed. This is a controlled concurrency regression condition, not natural user simultaneity.",
+    "The existing three checks and both-HTTP200 requirement were retained, plus one held response per page.",
+    "No additional retry/commit/repo change was made after this private run."
+  ],
+  "protocol_reference": "https://raw.githubusercontent.com/ChromeDevTools/devtools-protocol/master/json/browser_protocol.json"
+}

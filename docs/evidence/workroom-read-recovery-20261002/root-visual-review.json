@@ -1,0 +1,22 @@
+{
+  "reviewer": "implementation agent visual inspection",
+  "method": "opened all four original PNGs with view_image",
+  "images": {
+    "ja320-deadline-deadline-focus.png": "3ecf05c3f11521e3ee94e7e2133baad3ee58ac1ae0a4c12340e1d3830c908d5a",
+    "en768-loaded-deadline-deadline-warning-focused.png": "4791f96fdeb2f875c68f88f67a9020191da0da350bdc22fb287957a7344eb54a",
+    "en-native200-manual-focused-retry.png": "7715827e79f3a1c724f9f020268ec1ec62e539af012e6df76f461ca6e96d719b",
+    "ja390-manual-recovered.png": "228ce83d559360f5dcb52e5ef3b4b344857e4c91df3f88da9a273a29f3d0437f"
+  },
+  "observations": [
+    "JA320 deadline message and focused retry are readable without horizontal clipping. The message refers to reading, not a failed business operation.",
+    "EN768 keeps the original failed work state above a distinct stale-reading warning; the focused Refresh is visible. Inline button wrapping remains the existing style.",
+    "Native200 has a visible focused retry and the same two main destinations. This is the browser agent's measured native zoom, not CSS zoom.",
+    "JA390 recovery shows the original interrupted/draft warning and readiness.json, not a completed-success replacement."
+  ],
+  "blockers_seen": [],
+  "limits": [
+    "Images cannot independently prove abort, identity or saved data; compare the original HTTP/SQLite/browser report.",
+    "Four core cases passed but the containing original r2 run is FAIL because additional route selector preparation failed before navigation.",
+    "No human, screen reader, Safari/iPhone or live inference acceptance."
+  ]
+}

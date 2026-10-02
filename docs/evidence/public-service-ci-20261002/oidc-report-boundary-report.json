@@ -1,0 +1,348 @@
+{
+  "revision": "2b7b5329e0efe1fef5a642d309782852a64cf410",
+  "pyjwt_version": "2.15.0",
+  "origin": "http://127.0.0.1:8798",
+  "issuer": "http://127.0.0.1:8801/realms/agentteam-verification",
+  "client_id": "agentteam-verification-login",
+  "profile_source": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+  "profile_source_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+  "profile_sha256": "b64fc97824e643770d55e20bd8fca58ab43168be6ed045f68dcbd7e096c3f42d",
+  "document_source": "docs/PRODUCTION_PLAN.md",
+  "document_sha256": "cf6c9bce027f9bc2acf117d4f076b7205d29c9cf3ff2330ed6c10a6b0c19134b",
+  "verification_files_sha256": {
+    "backend/scripts/provision_public_oidc.py": "a38ec2f4eb297ec7832a8178cceb517984900f05874de8fe65cd3c4ec0fd2c0d",
+    "frontend/scripts/public-oidc.mjs": "b3500675d47e50f608a3a1e4b018c081aa93ca184075a2a04d9ca8c0fddb5d23",
+    ".github/workflows/public-oidc.yml": "5c36e3a6c6ced839612a779605dd4ef7f2b2ed087cd1e08dcb50611431cdf531"
+  },
+  "historical_probe_is_not_current_model_verification": true,
+  "model_execution": false,
+  "scope": "real authorization-code/PKCE token acquisition and API JWT/JWKS verification",
+  "not_verified": [
+    "OAuth2 Proxy",
+    "public TLS",
+    "MFA",
+    "registration",
+    "account recovery",
+    "business quality",
+    "human acceptance"
+  ],
+  "started_at": "2026-10-01T17:26:54.346Z",
+  "status": "PASS",
+  "checks": [
+    "real_technical_accounts_without_fabricated_person_or_email",
+    "cold_api_verifier_fetches_real_jwks_once",
+    "same_real_token_uses_jwks_cache_without_more_fetches",
+    "real_key_rotation_refreshes_jwks_and_retains_previous_valid_key",
+    "cached_key_authenticates_while_actual_keycloak_is_paused",
+    "expired_jwks_fails_closed_503_while_emergency_key_remains_available",
+    "actual_idp_recovery_fetches_jwks_and_restores_authentication",
+    "real_id_token_and_unassigned_access_token_rejected_operator_is_not_admin",
+    "real_operator_saves_repository_document_start_false_and_replays_same_receipt",
+    "real_issued_token_rejected_after_actual_expiry",
+    "logout_revokes_actual_token_without_revoking_other_identity",
+    "sqlite_has_one_real_admission_zero_jobs_and_zero_model_events",
+    "report_and_service_logs_contain_no_issued_credentials_or_callback_codes"
+  ],
+  "http": [
+    {
+      "stage": "initial_jwks_fetch",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "cached_jwks",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "cached_jwks",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "cached_jwks",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "real_signing_key_rotation",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "real_signing_key_rotation",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "cache_during_actual_idp_outage",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "expired_cache_during_actual_idp_outage",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 503,
+      "expected": 503
+    },
+    {
+      "stage": "expired_cache_during_actual_idp_outage",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "idp_recovery",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "real_token_rejections",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "real_token_rejections",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "stage": "real_token_rejections",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "stage": "real_token_rejections",
+      "path": "/api/admin/audit",
+      "method": "GET",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "stage": "actual_document_unstarted_request",
+      "path": "/api/runs",
+      "method": "POST",
+      "status": 202,
+      "expected": 202
+    },
+    {
+      "stage": "actual_document_unstarted_request",
+      "path": "/api/runs",
+      "method": "POST",
+      "status": 202,
+      "expected": 202
+    },
+    {
+      "stage": "actual_document_unstarted_request",
+      "path": "/api/runs/run_1a0f8827ef038c5a925",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "actual_expired_token",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "actual_expired_token",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "stage": "actual_token_logout",
+      "path": "/api/auth/logout",
+      "method": "POST",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "stage": "actual_token_logout",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "stage": "actual_token_logout",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 200,
+      "expected": 200
+    }
+  ],
+  "jwks_observations": [
+    {
+      "label": "before_first_api_token",
+      "successful_certs_gets": 0
+    },
+    {
+      "label": "first_valid_token",
+      "successful_certs_gets": 1
+    },
+    {
+      "label": "three_cached_requests",
+      "successful_certs_gets": 1
+    },
+    {
+      "label": "new_real_signing_key",
+      "successful_certs_gets": 2
+    },
+    {
+      "label": "retained_previous_key",
+      "successful_certs_gets": 2
+    },
+    {
+      "label": "after_real_idp_recovery",
+      "successful_certs_gets": 4
+    },
+    {
+      "label": "final",
+      "successful_certs_gets": 4
+    }
+  ],
+  "chrome_version": "154.0.8037.57",
+  "token_preconditions": [
+    {
+      "account": "verification-admin",
+      "unverified_metadata_only": true,
+      "required_claims_present": {
+        "exp": true,
+        "iat": true,
+        "iss": true,
+        "aud": true,
+        "sub": true,
+        "azp": true
+      },
+      "rs256": true,
+      "kid_present": true,
+      "issuer_matches": true,
+      "client_matches": true,
+      "audience_matches": true,
+      "group_array_present": true,
+      "lifetime_seconds": 300
+    },
+    {
+      "account": "verification-admin",
+      "unverified_metadata_only": true,
+      "required_claims_present": {
+        "exp": true,
+        "iat": true,
+        "iss": true,
+        "aud": true,
+        "sub": true,
+        "azp": true
+      },
+      "rs256": true,
+      "kid_present": true,
+      "issuer_matches": true,
+      "client_matches": true,
+      "audience_matches": true,
+      "group_array_present": true,
+      "lifetime_seconds": 300
+    },
+    {
+      "account": "verification-operator",
+      "unverified_metadata_only": true,
+      "required_claims_present": {
+        "exp": true,
+        "iat": true,
+        "iss": true,
+        "aud": true,
+        "sub": true,
+        "azp": true
+      },
+      "rs256": true,
+      "kid_present": true,
+      "issuer_matches": true,
+      "client_matches": true,
+      "audience_matches": true,
+      "group_array_present": true,
+      "lifetime_seconds": 300
+    },
+    {
+      "account": "verification-unassigned",
+      "unverified_metadata_only": true,
+      "required_claims_present": {
+        "exp": true,
+        "iat": true,
+        "iss": true,
+        "aud": true,
+        "sub": true,
+        "azp": true
+      },
+      "rs256": true,
+      "kid_present": true,
+      "issuer_matches": true,
+      "client_matches": true,
+      "audience_matches": true,
+      "group_array_present": false,
+      "lifetime_seconds": 300
+    },
+    {
+      "account": "verification-viewer",
+      "unverified_metadata_only": true,
+      "required_claims_present": {
+        "exp": true,
+        "iat": true,
+        "iss": true,
+        "aud": true,
+        "sub": true,
+        "azp": true
+      },
+      "rs256": true,
+      "kid_present": true,
+      "issuer_matches": true,
+      "client_matches": true,
+      "audience_matches": true,
+      "group_array_present": true,
+      "lifetime_seconds": 30
+    }
+  ],
+  "jwks_timing": {
+    "cache_ttl_seconds": 60,
+    "first_api_started_at": "2026-10-01T17:27:09.426Z",
+    "rotation_api_started_at": "2026-10-01T17:27:11.112Z",
+    "elapsed_before_rotation_ms": 1685,
+    "elapsed_after_rotation_ms": 1801
+  },
+  "cleanup": [
+    {
+      "name": "browser-close",
+      "status": "PASS"
+    },
+    {
+      "name": "callback-close",
+      "status": "PASS"
+    }
+  ],
+  "finished_at": "2026-10-01T17:28:47.833Z"
+}

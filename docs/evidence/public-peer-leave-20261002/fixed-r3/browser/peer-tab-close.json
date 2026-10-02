@@ -1,0 +1,60 @@
+{
+  "started_at": "2026-10-01T18:11:38.449Z",
+  "status": "PASS",
+  "mode": "fixed-code-verification",
+  "source": "docs/PRODUCTION_PLAN.md",
+  "source_sha256": "e0dd46337a5d8240dd1016096d4d0cdac8bbe1f260523b97faa077adbff96f23",
+  "checks": [
+    {
+      "id": "peer-close",
+      "status": "PASS",
+      "actual_login_status": 200,
+      "observed_ms": 20219,
+      "observer_clock_advanced_ms": 20101,
+      "empty_signin_after_ms": 20099,
+      "actual_completion_notification_observed": false,
+      "prior_workspace_closed": true,
+      "private_storage_cleared": true,
+      "subject_matches_actual_login_response": true,
+      "role_matches_actual_login_response": true,
+      "empty_workspace_after_explicit_signin": true
+    },
+    {
+      "id": "peer-reload",
+      "status": "PASS",
+      "actual_login_status": 200,
+      "observed_ms": 171,
+      "observer_clock_advanced_ms": 71,
+      "empty_signin_after_ms": 69,
+      "actual_completion_notification_observed": true,
+      "prior_workspace_closed": true,
+      "private_storage_cleared": true,
+      "subject_matches_actual_login_response": true,
+      "role_matches_actual_login_response": true,
+      "empty_workspace_after_explicit_signin": true
+    }
+  ],
+  "model_execution": false,
+  "human_acceptance": false,
+  "limitations": [
+    "Local actual technical accounts; no external IdP/TLS acceptance",
+    "CDP holds actual HTTP 200 responses; it supplies no response bytes",
+    "For abrupt close, CDP stops sender JavaScript after HTTP 200 is held so no completion callback can run during tab departure",
+    "A suspended browser cannot render until it resumes; the lease is checked when its JavaScript runs"
+  ],
+  "browser": "154.0.8037.58",
+  "counts_before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "counts_after": {
+    "runs": 0,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "additional_runs": 0,
+  "additional_jobs": 0,
+  "additional_model_calls": 0,
+  "finished_at": "2026-10-01T18:12:00.099Z"
+}

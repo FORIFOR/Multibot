@@ -1,3 +1,4 @@
+import { browserSessionActive, onBrowserSessionReset } from './browser-session'
 /** Tab-scoped draft, never sent until submit; browser storage may be unavailable. */
 export interface RequestDraft { goal: string; text: string; urls: string; files: { name: string; content: string }[]; budget: string; outputPath?: string; minChars?: string; maxChars?: string; excludedPhrases?: string; documentWorkflow?: boolean; adaptiveTeam?: boolean; selectedAgentIds?: string[] }
 const key = 'agentteam.requestDraft'
@@ -13,6 +14,7 @@ export function readRequestDraft(): RequestDraft {
   return memory
 }
 export function saveRequestDraft(value: RequestDraft): boolean {
+  if (!browserSessionActive()) return false
   memory = value
   hydrated = true
   try { sessionStorage.setItem(key, JSON.stringify(value)); return true } catch { return false }
@@ -22,3 +24,5 @@ export function clearRequestDraft(): void {
   memory = { goal: '', text: '', urls: '', files: [], budget: '' }
   try { sessionStorage.removeItem(key) } catch { /* Memory has still been cleared. */ }
 }
+
+onBrowserSessionReset(clearRequestDraft)

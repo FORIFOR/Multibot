@@ -1,0 +1,33 @@
+{
+  "status": "OBSERVATION_COMPLETE_WITH_PRODUCT_DEFECTS",
+  "revision": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "real_cases": 2,
+  "product_findings": [
+    "artifact_pending_cannot_retry",
+    "unknown_check_record_asserted_absent"
+  ],
+  "held_35s": 35004,
+  "ja_file_requests": 1,
+  "ja_other_gets": {
+    "detail": 8,
+    "chat": 8,
+    "events": 8
+  },
+  "en_single_path_failure_confirmed": {
+    "all_injections_exact_artifact": true,
+    "non_artifact_network_failures": 0,
+    "other_three_gets_200": {
+      "detail": 1,
+      "chat": 1,
+      "events": 1
+    }
+  },
+  "source_and_business_unchanged": true,
+  "model_called_unchanged": true,
+  "additional_model_events": 0,
+  "new_jobs": 0,
+  "api_stopped": true,
+  "port_closed": true,
+  "owned_chrome_remaining": 0,
+  "human_acceptance": false
+}

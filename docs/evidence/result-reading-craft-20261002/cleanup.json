@@ -1,0 +1,104 @@
+{
+  "started_at": "2026-10-01T19:44:36.512842+00:00",
+  "service_pid": 644,
+  "origin": "http://127.0.0.1:54271",
+  "service_argv": [
+    "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/serve.py",
+    "after-r2-dist"
+  ],
+  "service_python": "/Users/horioshuuhei/.cache/agentteam-bench/public-service-dependency-audit-20261002-r1/venv/bin/python",
+  "confirmation": {
+    "quality_assessment": "rep3/rep4 complete; all owned Chrome closed; no more API use",
+    "browser_isolation": "native200 final-r2 complete; 11 tracked Chrome processes, remaining 0, signal 0; no more API use"
+  },
+  "only_owned_service_signalled": true,
+  "signal": "SIGTERM",
+  "service_identity": "644 89523   644 Fri Oct  2 04:39:52 2026     /opt/homebrew/Cellar/python@3.12/3.12.12_1/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python /Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/serve.py after-r2-dist",
+  "service_remaining": false,
+  "port": 54271,
+  "port_closed": true,
+  "our_chrome_processes": [
+    {
+      "record": "after-r1/results.json",
+      "owned_chrome_pid": 98172,
+      "still_present": false,
+      "process": null,
+      "present_at_final_cleanup": false
+    },
+    {
+      "record": "after-r1-adoption/results.json",
+      "owned_chrome_pid": 98814,
+      "still_present": false,
+      "process": null,
+      "present_at_final_cleanup": false
+    },
+    {
+      "record": "after-r1-adoption-r2/results.json",
+      "owned_chrome_pid": 99012,
+      "still_present": false,
+      "process": null,
+      "present_at_final_cleanup": false
+    },
+    {
+      "record": "after-r2-en/results.json",
+      "owned_chrome_pid": 1504,
+      "still_present": false,
+      "process": null,
+      "present_at_final_cleanup": false
+    },
+    {
+      "record": "baseline/results.json",
+      "owned_chrome_pid": 95117,
+      "still_present": false,
+      "process": null,
+      "present_at_final_cleanup": false
+    },
+    {
+      "record": "baseline-scroll-top/results.json",
+      "owned_chrome_pid": 95402,
+      "still_present": false,
+      "process": null,
+      "present_at_final_cleanup": false
+    },
+    {
+      "record": "baseline-viewport/results.json",
+      "owned_chrome_pid": 96625,
+      "still_present": false,
+      "process": null,
+      "present_at_final_cleanup": false
+    }
+  ],
+  "source_files_verified": 49,
+  "original_database_sha256": "b09f02479d1c60111fff52525fc465e2ac7bbac434acd91354f8a834659f2cf3",
+  "original_series_unchanged": true,
+  "state": {
+    "original_events_unchanged": true,
+    "model_events_before": 223,
+    "model_events_after": 223,
+    "new_model_events": 0,
+    "execution_jobs_before": 0,
+    "execution_jobs_after": 0,
+    "adoptions": [
+      [
+        "run_1a0f7fbead33cd46066",
+        1
+      ],
+      [
+        "run_1a0f8118bd3ccca713e",
+        1
+      ],
+      [
+        "run_1a0f81a9b714c338a4d",
+        1
+      ]
+    ]
+  },
+  "actor": "AI",
+  "human_acceptance": "not_performed",
+  "status": "PASS",
+  "finished_at": "2026-10-01T19:44:36.814230+00:00",
+  "cleanup_only_status": "PASS",
+  "service_runtime_errors_observed": true,
+  "service_error_observation": "db-lock-observation/observation.json",
+  "no_runtime_error_claim": false
+}

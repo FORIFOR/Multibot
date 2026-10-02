@@ -1,0 +1,284 @@
+{
+  "status": "FAIL",
+  "phase": "rep3-adoption",
+  "started_at": "2026-10-01T21:39:46.075Z",
+  "actor": "AI independent reviewer",
+  "human_acceptance": false,
+  "model_execution": false,
+  "source_before": {
+    "frontend/src/pages/Workroom.tsx": "722d5907e211bc8f04ccd125c9e7139089283e0a0e44ca799f249ba75b4192bf",
+    "frontend/src/workroom-refinement.css": "2ec73a4dd35b0ee44a553115c1092a2ba816bacdb9c2338a77c5e50542f279fb",
+    "frontend/src/paper.css": "c0c3250b83d11b22d8c0c9bca741b92565d04deefe593bf6b19269749dbf5eb1"
+  },
+  "checks": [
+    {
+      "id": "frozen-after-r1-bundle",
+      "passed": true
+    },
+    {
+      "id": "ja390-default-closed",
+      "passed": true
+    },
+    {
+      "id": "ja390-native-tab-summary",
+      "passed": true,
+      "tab_steps": 6
+    },
+    {
+      "id": "ja390-enter-opens",
+      "passed": true
+    },
+    {
+      "id": "ja390-open-first-inner-focus",
+      "passed": true
+    },
+    {
+      "id": "ja390-back-to-summary",
+      "passed": true
+    },
+    {
+      "id": "ja390-space-closes",
+      "passed": true
+    },
+    {
+      "id": "ja390-closed-skips-inner-focus",
+      "passed": true
+    },
+    {
+      "id": "ja390-open-preserved-on-poll",
+      "passed": true
+    },
+    {
+      "id": "ja390-conversation-team-visible",
+      "passed": true
+    },
+    {
+      "id": "ja390-open-preserved-panel-roundtrip",
+      "passed": true
+    },
+    {
+      "id": "ja390-explicit-close",
+      "passed": true
+    },
+    {
+      "id": "ja390-closed-preserved-panel-roundtrip",
+      "passed": true
+    },
+    {
+      "id": "ja390-closed-preserved-on-poll",
+      "passed": true
+    },
+    {
+      "id": "ja390-single-h2-filename",
+      "passed": true
+    },
+    {
+      "id": "ja390-no-horizontal-overflow",
+      "passed": true,
+      "inner_width": 390,
+      "client_width": 375,
+      "scroll_width": 375,
+      "max_rect_right": 375
+    },
+    {
+      "id": "failed-partial-warning-visible",
+      "passed": true
+    },
+    {
+      "id": "failed-real-direction-allowed",
+      "passed": true
+    },
+    {
+      "id": "failed-direction-retained",
+      "passed": true
+    },
+    {
+      "id": "conversation-query-retained",
+      "passed": true
+    },
+    {
+      "id": "local-copy-edit-retained",
+      "passed": true
+    },
+    {
+      "id": "direction-and-result-mounted",
+      "passed": true
+    },
+    {
+      "id": "from-stopped-back-preserved",
+      "passed": true
+    },
+    {
+      "id": "status-completed-warning",
+      "passed": true
+    },
+    {
+      "id": "status-failed-warning",
+      "passed": true
+    },
+    {
+      "id": "status-failed-resume-keeps-disclosure",
+      "passed": true
+    },
+    {
+      "id": "status-interrupted-warning",
+      "passed": true
+    },
+    {
+      "id": "status-interrupted-resume-keeps-disclosure",
+      "passed": true
+    },
+    {
+      "id": "en320-default-closed",
+      "passed": true
+    },
+    {
+      "id": "en320-native-tab-summary",
+      "passed": true,
+      "tab_steps": 6
+    },
+    {
+      "id": "en320-enter-opens",
+      "passed": true
+    },
+    {
+      "id": "en320-open-first-inner-focus",
+      "passed": true
+    },
+    {
+      "id": "en320-back-to-summary",
+      "passed": true
+    },
+    {
+      "id": "en320-space-closes",
+      "passed": true
+    },
+    {
+      "id": "en320-closed-skips-inner-focus",
+      "passed": true
+    },
+    {
+      "id": "en320-open-preserved-on-poll",
+      "passed": true
+    },
+    {
+      "id": "en320-conversation-team-visible",
+      "passed": true
+    },
+    {
+      "id": "en320-open-preserved-panel-roundtrip",
+      "passed": true
+    },
+    {
+      "id": "en320-explicit-close",
+      "passed": true
+    },
+    {
+      "id": "en320-closed-preserved-panel-roundtrip",
+      "passed": true
+    },
+    {
+      "id": "en320-closed-preserved-on-poll",
+      "passed": true
+    },
+    {
+      "id": "en320-single-h2-filename",
+      "passed": true
+    },
+    {
+      "id": "en320-no-horizontal-overflow",
+      "passed": true,
+      "inner_width": 320,
+      "client_width": 305,
+      "scroll_width": 305,
+      "max_rect_right": 305
+    },
+    {
+      "id": "from-completed-back-preserved",
+      "passed": true
+    },
+    {
+      "id": "viewer-no-adopt-resume",
+      "passed": true
+    },
+    {
+      "id": "viewer-selection-readonly-copy",
+      "passed": true
+    },
+    {
+      "id": "viewer-no-direction-input",
+      "passed": true
+    },
+    {
+      "id": "rep3-before-unselected",
+      "passed": true
+    },
+    {
+      "id": "rep3-adopt-http200",
+      "passed": false
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "method": "POST",
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/adopt"
+    }
+  ],
+  "page_errors": [],
+  "http_errors": [
+    {
+      "status": 401,
+      "path": "/api/auth/me"
+    },
+    {
+      "status": 401,
+      "path": "/api/auth/me"
+    },
+    {
+      "status": 401,
+      "path": "/api/auth/me"
+    }
+  ],
+  "cleanup": {
+    "browser_connection_closed": true,
+    "owned_browser_exited": true
+  },
+  "limits": [
+    "Actual historical v62 records imported into private SQLite. No generated business input.",
+    "Direction and artifact copy edit use existing record text only; no send/resume/new request.",
+    "No real active/approval/artifact-none case exists in imported records; those states are not manufactured.",
+    "Browser local draft edits do not change original artifact bytes."
+  ],
+  "browser": "154.0.8037.58",
+  "owned_browser_pid": 20961,
+  "index_sha256": "23a2f69d51279a31d76803282438bc1c16d480b48ea180ae231d0513231005a4",
+  "direction_source": {
+    "kind": "exact prefix of imported rep2 goal",
+    "sha256": "8599e1aed64b196c514c08352c298a57d3e47d4e8b7e7548ab9243a273a41693",
+    "characters": 900
+  },
+  "query_source_sha256": "a361547ac1640c72e09bdadc09d5b8b8cf427893e53066c4ebec309fc3cf25b3",
+  "copy_source_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+  "local_edit_sha256": "300e0c47dadb3fce6ab115de7baa864f565b52697811f5ed0ed7c4756f04e031",
+  "adoption": {
+    "run_id": "run_1a0f8118bd3ccca713e",
+    "artifact_id": "readiness.json",
+    "revision": 1,
+    "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "actor": "AI selection, not human acceptance"
+  },
+  "error_name": "AssertionError",
+  "finished_at": "2026-10-01T21:40:09.689Z"
+}

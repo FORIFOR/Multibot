@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "method": "Independent AI visual inspection of all seven actual application screenshots; no app code changes or model execution.",
+  "public_candidates": [
+    "award-request-ja.png",
+    "award-request-en.png",
+    "award-request-mobile-ja-action.png",
+    "award-request-mobile-en-action.png"
+  ],
+  "observed": [
+    "The four publication candidates contain the actual integration.md request and technical-account/local-service labels; no credential values, personal email or customer information was visible.",
+    "Desktop and mobile JA/EN show the destination and estimated limit before the submission button.",
+    "The 320px heading no longer breaks the Japanese phrase 一緒に.",
+    "The supplied 200% top and action captures have no major clipping; zoom measurement itself was supplied by the implementation agent."
+  ],
+  "limits": [
+    "This is a visual review, not human acceptance, a new zoom measurement, request submission, or output quality validation.",
+    "No authorization to publish externally is created by this review."
+  ],
+  "sha256": {
+    "award-request-ja.png": "033fef2e1cbeb1d21d4e63eb235132189fa41b6d1345c3705f0e6b40b908ad4b",
+    "award-request-en.png": "f5809c355b0e6d7d231778469b6bd1c2a7d028fbc2c42295c30e92b3abf1a5ed",
+    "award-request-mobile-ja-action.png": "a1a608dc561d202fc8b8639676e0e6d31ccf70bb65f01a6bb2ad03ee960146e1",
+    "award-request-mobile-en-action.png": "89301ddafa07cc34670d5a88e09f13f4dc8e5f2e9e22ed4384845a708734241a",
+    "home-320-source.png": "094cd82f4eebe49a9eca557d20b2924bea93a676d3f0e7f05ffce4c17d0d7511",
+    "home-browser-200-action.png": "bf5a264a553aa1d73fc433de28f0a525f8d1015807781bd668756406717e0a09",
+    "home-browser-200-top.png": "7ddb27523dec162b2b578c7924d89a8bc6b9a88246e10b8e4ae87df7ba1bf17b"
+  }
+}

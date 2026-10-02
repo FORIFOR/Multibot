@@ -1,0 +1,576 @@
+[
+  {
+    "logical_path": "readiness.json",
+    "json_schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "product",
+        "production_ready",
+        "deployment",
+        "summary",
+        "areas"
+      ],
+      "$defs": {
+        "row": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "area",
+            "implemented",
+            "remaining",
+            "source_file",
+            "evidence_quote"
+          ],
+          "properties": {
+            "area": {
+              "type": "string"
+            },
+            "implemented": {
+              "type": "string",
+              "description": "Japanese summary required. Do not copy the English source quotation.",
+              "minLength": 1,
+              "maxLength": 4000,
+              "pattern": "[ぁ-んァ-ン一-龯]",
+              "not": {
+                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+              }
+            },
+            "remaining": {
+              "type": "string",
+              "description": "Japanese summary required. Do not copy the English source quotation.",
+              "minLength": 1,
+              "maxLength": 4000,
+              "pattern": "[ぁ-んァ-ン一-龯]",
+              "not": {
+                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+              }
+            },
+            "source_file": {
+              "const": "PRODUCTION_PLAN.md"
+            },
+            "evidence_quote": {
+              "type": "string",
+              "description": "Exact English source quotation; do not translate or alter."
+            }
+          }
+        }
+      },
+      "x-repair-summary-examples": {
+        "Identity": {
+          "implemented": "実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。",
+          "remaining": "本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。"
+        },
+        "Isolation": {
+          "implemented": "組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。",
+          "remaining": "独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。"
+        },
+        "Execution": {
+          "implemented": "ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。",
+          "remaining": "負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。"
+        },
+        "Data": {
+          "implemented": "オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。",
+          "remaining": "履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。"
+        },
+        "Audit / monitoring": {
+          "implemented": "操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。",
+          "remaining": "独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。"
+        },
+        "Deployment": {
+          "implemented": "固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。",
+          "remaining": "実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。"
+        },
+        "Business quality": {
+          "implemented": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+          "remaining": "出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。"
+        },
+        "Contract / operation": {
+          "implemented": "技術的制約を文書化している。",
+          "remaining": "承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+        }
+      },
+      "properties": {
+        "product": {
+          "const": "Multibot"
+        },
+        "production_ready": {
+          "const": false
+        },
+        "deployment": {
+          "const": "dedicated-single-host"
+        },
+        "summary": {
+          "allOf": [
+            {
+              "type": "string",
+              "description": "Japanese summary required. Do not copy the English source quotation.",
+              "minLength": 1,
+              "maxLength": 4000,
+              "pattern": "[ぁ-んァ-ン一-龯]",
+              "not": {
+                "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+              }
+            },
+            {
+              "const": "L3未達。組織IdP/MFA、分散・HA、監視・SLO/SLA、運用責任、セキュリティ審査、出典・レビュー品質・レイテンシ・受入閾値は未確認。"
+            }
+          ]
+        },
+        "areas": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Identity"
+                    },
+                    "evidence_quote": {
+                      "const": "Production IdP configuration, organization identity policy, MFA enforcement and account lifecycle acceptance"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Production\\ IdP\\ configuration,\\ organization\\ identity\\ policy,\\ MFA\\ enforcement\\ and\\ account\\ lifecycle\\ acceptance"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 本番IdPの構成、組織の認証ポリシー、MFA強制、アカウントライフサイクルの受入確認が必要。"
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 実アクセスキー、ハッシュ化セッション、ロール確認、OIDC SSOのKeycloakとブラウザ検証、トークン失効・有効期限・鍵回転・復元境界を確認済み。"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Isolation"
+                    },
+                    "evidence_quote": {
+                      "const": "Independent attack review, customer-specific role/connector/egress policy, permission lifecycle acceptance"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Independent\\ attack\\ review,\\ customer\\-specific\\ role/connector/egress\\ policy,\\ permission\\ lifecycle\\ acceptance"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 独立した攻撃レビュー、顧客固有のロール・コネクタ・egress方針、権限ライフサイクルの受入確認が必要。"
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "pattern": "アーティファクト"
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 組織ごとの結び付け、ランごとの権限、アーティファクト・イベント・SSE・出力のアクセス確認、Docker制限、公開IP取得を確認済み。"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Execution"
+                    },
+                    "evidence_quote": {
+                      "const": "Workload/load acceptance, external-action retry policy, approved availability topology; no distributed workers/HA"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Workload/load\\ acceptance,\\ external\\-action\\ retry\\ policy,\\ approved\\ availability\\ topology;\\ no\\ distributed\\ workers/HA"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 負荷受入、外部操作の再試行方針、承認済みの可用性構成が必要で、分散ワーカーとHAは未実装。"
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "pattern": "(?:idempotent|冪等|べき等)"
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: ランごとの予算、永続単一ホストキュー、操作主体ごとの冪等な受入、ワーカーリース、回復、実LLMのSIGKILLドリルを確認済み。"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Data"
+                    },
+                    "evidence_quote": {
+                      "const": "Approved retention policy including historical backups/forks/provider copies, host encryption and recovery-key custody, off-site recovery drill, agreed RPO/RTO"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Approved\\ retention\\ policy\\ including\\ historical\\ backups/forks/provider\\ copies,\\ host\\ encryption\\ and\\ recovery\\-key\\ custody,\\ off\\-site\\ recovery\\ drill,\\ agreed\\ RPO/RTO"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 履歴バックアップ等を含む保持方針、ホスト暗号化と復旧鍵管理、オフサイト復旧ドリル、RPO/RTOの合意が必要。"
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "allOf": [
+                            {
+                              "pattern": "age"
+                            },
+                            {
+                              "pattern": "再開可能"
+                            }
+                          ]
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: オフラインスナップショットと復元、チェックサム・アーティファクト検証、再開可能な削除、陳腐化リトライ拒否、age暗号化と復号を確認済み。"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Audit / monitoring"
+                    },
+                    "evidence_quote": {
+                      "const": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Independent\\ retained/WORM\\ custody,\\ actual\\ alert\\ delivery\\ and\\ escalation,\\ collector\\ supervision\\ deployment,\\ service\\ objectives\\ and\\ incident\\ acceptance"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 独立したWORM保管、実際のアラート配送とエスカレーション、コレクター監視、サービス目標とインシデント受入が必要。"
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "allOf": [
+                            {
+                              "pattern": "監査者"
+                            },
+                            {
+                              "pattern": "カーソル"
+                            }
+                          ]
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 操作主体の監査記録、監査者ロール、耐久コレクターとカーソル、復旧分離、メトリクス、障害・回転・復旧記録、ブラウザ画面を確認済み。"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Deployment"
+                    },
+                    "evidence_quote": {
+                      "const": "Real TLS/DNS environment, identity service, operating owner, target-environment upgrade/rollback and security review"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Real\\ TLS/DNS\\ environment,\\ identity\\ service,\\ operating\\ owner,\\ target\\-environment\\ upgrade/rollback\\ and\\ security\\ review"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 実TLS/DNS環境、認証サービス、運用オーナー、対象環境での更新・ロールバック、セキュリティレビューが必要。"
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "pattern": "アドバイザリ"
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 固定ランタイムとベース、強化コンテナ、ブラウザ/API確認、更新・ロールバックと破損復旧、パッケージのアドバイザリ確認を実施済み。"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Business quality"
+                    },
+                    "evidence_quote": {
+                      "const": "Source/summary correctness, review miss/false-positive evaluation, latency and acceptance thresholds, and a repeat series whose completed outputs remain valid under the strengthened contract"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Source/summary\\ correctness,\\ review\\ miss/false\\-positive\\ evaluation,\\ latency\\ and\\ acceptance\\ thresholds,\\ and\\ a\\ repeat\\ series\\ whose\\ completed\\ outputs\\ remain\\ valid\\ under\\ the\\ strengthened\\ contract"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 出典と要約の正確性、レビュー見逃し・誤検出、レイテンシと受入閾値、強化契約を満たす反復試験が必要。"
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/row"
+                },
+                {
+                  "properties": {
+                    "area": {
+                      "const": "Contract / operation"
+                    },
+                    "evidence_quote": {
+                      "const": "Owner-approved service scope, SLO/SLA, support and incident responsibility; no invented approvals or certifications"
+                    },
+                    "remaining": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        },
+                        {
+                          "not": {
+                            "pattern": "Owner\\-approved\\ service\\ scope,\\ SLO/SLA,\\ support\\ and\\ incident\\ responsibility;\\ no\\ invented\\ approvals\\ or\\ certifications"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 承認済みサービス範囲、SLO/SLA、サポートとインシデント責任が必要で、承認や認証の捏造は認めない。"
+                    },
+                    "implemented": {
+                      "allOf": [
+                        {
+                          "type": "string",
+                          "description": "Japanese summary required. Do not copy the English source quotation.",
+                          "minLength": 1,
+                          "maxLength": 4000,
+                          "pattern": "[ぁ-んァ-ン一-龯]",
+                          "not": {
+                            "pattern": "年齢|アイデム|イデム|potent|リクエストャ|リクエストャー|アバター|パーラン|サイントニック|オデータ|アクトアード|カーソリストリーム|デリル|アドバザリ|ステール|リカスケル|マニファクト|バイントーリング|レジャーリー|アデュータ|コッレクター|レタード|キーcloak|パインされた|バックス|演算主体|アクター監査|actor-scoped|per-run|requester-owned|resumable|synthetic|auditor|cursor|drill|stale|artifact|advisory|パイン|ロカル|アデュータ|actual-source|サマリー|キーcloak|ハードening|デシフryption|エGRESS|シネティック|コリザ|コレクタ監督|HTPP|承約|キールドリル|アドバザリスキャン|ハードネード|键轮换与|パケijd|リバイス|ラテンシー|収容閾値|ハードened|パッケージアドバイススキャン|インストールワheel|パッケge|鍵轮换|与界定済|with Keycloak|mappiung|export|auditor|collector|outage|pinned|TLSDNS|操作主体ごとな|Production IdP|Contract / operation|Identity|Real access keys|アクター監査|false|実証アクセスキー"
+                          }
+                        }
+                      ],
+                      "description": "日本語要約の例（事実を追加せず、この意味を保つ）: 技術的制約を文書化している。"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+]

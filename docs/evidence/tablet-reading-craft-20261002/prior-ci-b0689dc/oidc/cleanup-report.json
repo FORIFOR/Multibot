@@ -1,0 +1,30 @@
+{
+  "started_at": "2026-10-01T22:57:33.649685+00:00",
+  "status": "PASS",
+  "model_execution_requested": false,
+  "human_acceptance": "not_performed",
+  "services": {
+    "api": {
+      "status": "PASS",
+      "started": true,
+      "signals_sent": 1,
+      "identity_matches": true,
+      "process_absent": true,
+      "group_empty": true,
+      "port_closed": true,
+      "ready_observed": true,
+      "runtime_error_markers": 0
+    },
+    "container": {
+      "status": "PASS",
+      "started": true,
+      "owned_count": 1,
+      "removed_count": 1,
+      "remaining_owned_count": 0,
+      "port_closed": true,
+      "creation_outcome_verified": true
+    }
+  },
+  "script_sha256": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+  "finished_at": "2026-10-01T22:57:34.072615+00:00"
+}

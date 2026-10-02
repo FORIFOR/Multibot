@@ -1,0 +1,208 @@
+{
+  "status": "PASS",
+  "review_type": "保存済み GitHub safe artifact の独立照合。新しい製品試験は実行していない。",
+  "checked_at": "2026-10-02T02:25:06.859245+00:00",
+  "run_id": 36954449965,
+  "run_url": "https://github.com/FORIFOR/Multibot/actions/runs/36954449965",
+  "run_attempt": 1,
+  "head": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "execution_merge": "28ecbbadf0c213e2cdedec1226bc8a1b550ef10e",
+  "merge_parents": [
+    "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+    "a32b136749b1e17100f3228c753a31b0810b4df7"
+  ],
+  "head_tree": "7913394f1d2857dc9447b09c844516dc1874c2a0",
+  "merge_tree": "7913394f1d2857dc9447b09c844516dc1874c2a0",
+  "artifact_revision_matches_merge": true,
+  "all_four_jobs_success": true,
+  "artifact": {
+    "id": 11204999140,
+    "name": "public-service-evidence",
+    "sha256": "680b62f75f0b99b33067c35f65729ff46a77da346ef52c35d93a9d497ad30fd3",
+    "github_digest_matches": true,
+    "file_count": 16,
+    "exact_workflow_allowlist_matches": true,
+    "original_zip_preserved": true
+  },
+  "source_verification": {
+    "sha256": "30fbdb3cfa364aa1d636e2006c43cb2f5769be762343aab276ae90972ce3a9c8",
+    "map_entries": 216,
+    "unique_paths": 105,
+    "mismatches": 0,
+    "recovery_code_count": 56,
+    "recovery_original_sources": 14,
+    "recovery_dist_count": 6,
+    "existing_suite_runner_count": 8
+  },
+  "new_recovery": {
+    "cases_passed": 5,
+    "checks_passed": 45,
+    "duration_seconds": 76.272044,
+    "model_event_delta": 0,
+    "jobs": 0,
+    "source_unchanged": true,
+    "business_original_bytes_unchanged": true,
+    "manual_enter_after_initial_request_ms": 95,
+    "deadline_observation_ms": [
+      15301,
+      15302,
+      15298,
+      15429
+    ],
+    "unsent_real_goal_prefix_codepoints": 1024,
+    "original_goal_prefix_hash_matches": true,
+    "chrome_cleanup": [
+      {
+        "program": "workroom-load-recovery.mjs",
+        "tracked_processes": 22,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ],
+    "api_cleanup": {
+      "scope": "workroom_recovery_api",
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    }
+  },
+  "existing": {
+    "service_stages": [
+      "actual HTTP/SQLite admission",
+      "actual-source response projection",
+      "auth-initial-recovery.mjs",
+      "auth-browser-isolation.mjs",
+      "auth-retry-reload.mjs",
+      "auth-parallel-login.mjs",
+      "auth-peer-tab-close.mjs"
+    ],
+    "service_duration_seconds": 48.094778,
+    "browser_tracked_processes": 60,
+    "browser_remaining": 0,
+    "browser_signals": 0,
+    "api_cleanup": {
+      "scope": "browser_verification_api",
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "initial_auth_recovery_cases": 2,
+    "initial_auth_recovery_checks": 12,
+    "initial_auth_recovery_business_before_after_equal_zero": true,
+    "retry_lost_response_and_replay_status": 202,
+    "retry_duplicates": 0,
+    "retry_deliberate_new_run": 1,
+    "browser_database_final_runs": 2,
+    "browser_database_final_jobs_and_models": 0,
+    "parallel_checks": 3,
+    "peer_checks": 2,
+    "reading_cases": 12,
+    "reading_checks": 192,
+    "reading_model_event_delta": 0,
+    "reading_jobs": 0,
+    "reading_cleanup": {
+      "api_started": true,
+      "api_stopped": true,
+      "port_closed": true,
+      "browser_processes": [
+        {
+          "program": "result-reading.mjs",
+          "tracked_processes": 19,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ],
+      "runtime_error_markers": 0
+    },
+    "database_http": {
+      "planned": 480,
+      "attempted": 480,
+      "passed": 480,
+      "failed": 0,
+      "unattempted": 0,
+      "status_counts": {
+        "200": 480
+      },
+      "exception_types": {},
+      "missing_or_incomplete_terminal_audit": 0,
+      "audit_check_completed": true
+    },
+    "database_direct": {
+      "planned": 640,
+      "attempted": 640,
+      "passed": 640,
+      "failed": 0,
+      "unattempted": 0,
+      "errors": []
+    },
+    "database_model_event_delta": 0,
+    "database_jobs": 0,
+    "database_cleanup": {
+      "service_stopped": true,
+      "port_closed": true,
+      "browser_started": false
+    },
+    "sandbox_checks": 79,
+    "sandbox_http": 30,
+    "sandbox_model_event_delta": 0,
+    "sandbox_cancelled_jobs": 8,
+    "sandbox_pending_jobs": 0,
+    "sandbox_cleanup": {
+      "service_stopped": true,
+      "port_closed": true,
+      "pending_jobs": 0
+    }
+  },
+  "original_local_failures_preserved_separately": [
+    {
+      "committed_path": "docs/evidence/workroom-read-recovery-20261002/local-recovery-r1-failed.json",
+      "sha256": "d934b0862f884102cf912c2476c10c0b34955b052eb7b866ae17167e22f1f8a0",
+      "original_private_root": "workroom-load-recovery-ci-20261002-r1",
+      "status": "FAIL",
+      "unchanged_original_bytes": true,
+      "same_execution_as_new_ci": false
+    },
+    {
+      "committed_path": "docs/evidence/workroom-read-recovery-20261002/local-recovery-invalid-source.json",
+      "sha256": "059d7e6fc2db152ec54c07adde8ea1809508086752a9d3ca5823f74ef2371160",
+      "original_private_root": "workroom-load-recovery-ci-invalid-20261002-r1",
+      "status": "FAIL",
+      "unchanged_original_bytes": true,
+      "same_execution_as_new_ci": false
+    }
+  ],
+  "safe_publication_review": {
+    "exact_artifact_allowlist": true,
+    "private_logs_databases_keys_not_in_artifact": true,
+    "pem_jwt_pattern_hits": 0,
+    "three_empty_state_png_visually_checked": true,
+    "visible_credentials_found": false,
+    "exact_issued_ci_key_value_scan": "not_possible_keys_intentionally_not_downloaded"
+  },
+  "limitations": [
+    "新しい CI 1 回の保存済み証拠の照合。元の CI 並行ログイン失敗原因、旧読み込み失敗の全原因を確定しない。",
+    "既存 7 段階の browser API 終了計測は browser_verification_api の範囲。admission/response の全 port の事後独立測定ではない。",
+    "過去の実レコード由来 model.called が存在しても追加推論は 0。suite 全体の DB 行数 0 を意味せず、retry の実 start:false 2 runs と sandbox の cancelled 8 jobs は意図した記録。",
+    "CI は原 run/events/artifact bytes を再利用し、tasks 行を再構成していない。原 v62 run を再稼働させない。",
+    "CDP Response-stage 保留は body 部分受信停止の個別実証ではない。旧応答は実取消であり、遅い成功応答が React へ到達したとは言わない。",
+    "保留中の別主体切替はこの専用 5 ケースでは未実施。artifact GET の独立 effect は今回変更の範囲外。",
+    "原成果物は複数 run で同一 SHA。本文 SHA だけで run を識別せず、別途 URL/run_id/status/last_seq を確認した runner の記録に依拠する。",
+    "private SQLite/生 HTTP/ログはダウンロードしていない。実行時不変と終了の事実は source が一致する runner の safe 記録に依拠する。",
+    "同モデル AI 独立照合であり、人間受入・業務意味品質・一般公開運用・受賞品質の合格ではない。"
+  ],
+  "blocking_findings": []
+}

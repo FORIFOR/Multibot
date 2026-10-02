@@ -1,0 +1,62 @@
+{
+  "frontend/src/pages/Workroom.tsx": {
+    "sha256": "4420f039855a3e3251004575586b25417175c1234bf58b931088f8b1a7d45b59",
+    "bytes": 55060
+  },
+  "frontend/src/lib/api.ts": {
+    "sha256": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6",
+    "bytes": 15374
+  },
+  "frontend/src/components/AuthGate.tsx": {
+    "sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+    "bytes": 11122
+  },
+  "frontend/dist/index.html": {
+    "sha256": "ee3a64e4959313025a027bcde844887459cfb14cf7c774dfcfde54eb3a04df4b",
+    "bytes": 395
+  },
+  "frontend/dist/icons.svg": {
+    "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "bytes": 5031
+  },
+  "frontend/dist/favicon.svg": {
+    "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "bytes": 338
+  },
+  "frontend/dist/assets/index-CgSH_RBD.js": {
+    "sha256": "6c435e612612f49404ffdf7d2bd98715ad246fb00305c95dadb0634ef2520069",
+    "bytes": 397083
+  },
+  "frontend/dist/assets/RunView-Zf2WvuXX.js": {
+    "sha256": "8bccdbea6edb7a04af9e59382047bdb83a98673b97a5fc9d8bebce8021f76f4b",
+    "bytes": 33477
+  },
+  "frontend/dist/assets/index-BQqhmjTV.css": {
+    "sha256": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+    "bytes": 161207
+  },
+  "backend/agentteam/ui/index.html": {
+    "sha256": "ee3a64e4959313025a027bcde844887459cfb14cf7c774dfcfde54eb3a04df4b",
+    "bytes": 395
+  },
+  "backend/agentteam/ui/icons.svg": {
+    "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "bytes": 5031
+  },
+  "backend/agentteam/ui/favicon.svg": {
+    "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "bytes": 338
+  },
+  "backend/agentteam/ui/assets/index-CgSH_RBD.js": {
+    "sha256": "6c435e612612f49404ffdf7d2bd98715ad246fb00305c95dadb0634ef2520069",
+    "bytes": 397083
+  },
+  "backend/agentteam/ui/assets/RunView-Zf2WvuXX.js": {
+    "sha256": "8bccdbea6edb7a04af9e59382047bdb83a98673b97a5fc9d8bebce8021f76f4b",
+    "bytes": 33477
+  },
+  "backend/agentteam/ui/assets/index-BQqhmjTV.css": {
+    "sha256": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+    "bytes": 161207
+  }
+}

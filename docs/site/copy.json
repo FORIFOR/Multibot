@@ -1,0 +1,461 @@
+{
+  "ja": {
+    "lang": "ja",
+    "base": "../",
+    "self": "https://forifor.github.io/Multibot/ja/",
+    "other": "../",
+    "other_lang": "en",
+    "other_label": "EN",
+    "skip": "本文へ",
+    "nav_cta": "始める",
+    "gh_star": "GitHub",
+    "team_cards": [
+      [
+        "master",
+        "#e8ebff",
+        "まとめ役",
+        "進め方を決める",
+        "お願いを、成果物と完了条件に分けます。必要な仲間だけに仕事を頼みます。"
+      ],
+      [
+        "researcher",
+        "#dff6ed",
+        "調べる係",
+        "根拠を集める",
+        "渡した資料や公開ページを読み、出典つきでメモにします。"
+      ],
+      [
+        "builder",
+        "#fff0cf",
+        "つくる係",
+        "ファイルにする",
+        "コード、文書、表。指摘を受けたら、その版を直して出し直します。"
+      ],
+      [
+        "reviewer",
+        "#ffe7f0",
+        "確かめる係",
+        "通さないこともある",
+        "完了条件を一つずつ確かめます。確かめられなかったことは「未確認」と残します。"
+      ]
+    ],
+    "findings": [
+      [
+        "F-1",
+        "根拠引用の欠落",
+        "比較表の「backend / frontend 構成」に、原文の引用がない。"
+      ],
+      [
+        "F-2",
+        "関係性の未明示",
+        "あるリポジトリを「公式」とする根拠が、示されていない。"
+      ],
+      [
+        "F-3",
+        "言い換え",
+        "提供形態を「CLI」と書いているが、原文にない語。"
+      ]
+    ],
+    "proof_note": "最終レビューが予算の上限で終わったため、この実行は「未完了」のままです。原文との照合も、レビュー環境から取得できず「未確認」と記録されています。",
+    "proof_link": "記録の全文を見る",
+    "priv": [
+      [
+        "実行記録とファイルは、あなたのPCに保存します。",
+        ""
+      ],
+      [
+        "ローカルのAI（Ollama）なら、入力は外へ出ません。",
+        ""
+      ],
+      [
+        "クラウドのAIを選んだ場合は、入力がその接続先へ送られます。",
+        "どのAIを使うかは、設定で自分で決めます。"
+      ],
+      [
+        "外部への投稿や送信は、しません。",
+        "作るのは草案までです。権限を広げる操作は、承認を求めます。"
+      ]
+    ],
+    "conn": [
+      [
+        "Claude Code",
+        "キー不要"
+      ],
+      [
+        "OpenAI互換API",
+        ""
+      ],
+      [
+        "Ollama",
+        "ローカル"
+      ]
+    ],
+    "start_note": "利用料はかかりません。クラウドのAIを使う場合は、そのAIの利用料が別にかかります。",
+    "steps": [
+      [
+        "起動する",
+        "上のコマンドを実行すると、ブラウザで画面が開きます。"
+      ],
+      [
+        "AIにつなぐ",
+        "Claude Code、API、Ollamaから選んで、疎通を確認します。"
+      ],
+      [
+        "お願いする",
+        "やってほしいことを、いつもの言葉で書きます。"
+      ]
+    ],
+    "copy": "コピー",
+    "copied": "コピーしました",
+    "gh": "GitHubで見る",
+    "needs_label": "必要なもの",
+    "needs": "macOS / Linux / Windows と uv。uv が未導入なら <code>curl -LsSf https://astral.sh/uv/install.sh | sh</code>（Windows は <a href=\"https://docs.astral.sh/uv/getting-started/installation/\">公式の手順</a>）。Python の準備は要りません。",
+    "faq_h": "よくある質問",
+    "faq": [
+      [
+        "ChatGPTやClaudeと、何が違いますか？",
+        "一人のAIが答えて終わりではなく、作る係と確かめる係が分かれています。受け取るのは返事ではなくファイルで、何を確かめたか、何が未確認かの記録も残ります。"
+      ],
+      [
+        "必ず正しいものができますか？",
+        "いいえ。確かめる係が見逃すこともあります。だから、未完了や未確認をそのまま表示し、うまくいかなかった実行記録も公開しています。大事な成果物は、ご自身でも確認してください。"
+      ],
+      [
+        "料金はかかりますか？",
+        "アプリは無料のオープンソース（MIT）です。クラウドのAIにつなぐ場合は、そのAIの利用料がかかります。一回ごとの予算上限を設定でき、達すると止まります。"
+      ],
+      [
+        "登録してすぐ使えますか？",
+        "まだ一般公開サービスは提供していません。現在は自分の環境への導入・試用ができます。公開環境、自己登録、運用体制、業務品質の受入を進めています。"
+      ],
+      [
+        "データはどこに保存されますか？",
+        "実行環境に保存されます。自分のPCに導入すればそのPC、専用サーバーならそのサーバーです。クラウドのAIを選ぶ場合は、入力がその接続先へ送られます。"
+      ]
+    ],
+    "biz_eyebrow": "業務での利用",
+    "biz_h": "自分の仕事に使えるか、相談する。",
+    "biz_p": "対象の作業と合格条件を絞って、一緒に確かめます。顧客データでの有償PoC、本番SLA、SSO、組織分離は、提供済みとはしていません。",
+    "form": {
+      "name": "お名前",
+      "email": "返信先メール",
+      "org": "会社・団体名（任意）",
+      "msg": "相談したい内容",
+      "privacy": "入力内容は運営者への非公開の問い合わせとしてGoogle Cloudに保存し、返信のために利用します。AIの入力やアクセス解析には利用しません。90日後から順次削除します。公開Issueには投稿されません。送信による契約や課金はありません。",
+      "consent": "上記の取り扱いに同意して送信します。",
+      "send": "相談を送信"
+    },
+    "foot_other": "English",
+    "title": "Agent Team — 作る。確かめる。選ぶ。",
+    "desc": "資料を渡して、作成と確認をAIチームに。成果物と修正の記録を見比べて、使う版を自分で選ぶ。現在はセルフホストで試せるオープンソースです。",
+    "nav": [
+      [
+        "#proof",
+        "実際の修正"
+      ],
+      [
+        "#app",
+        "使い方"
+      ],
+      [
+        "#start",
+        "導入"
+      ]
+    ],
+    "eyebrow": "作成と確認を分担する AI チーム",
+    "h1": [
+      "作る。",
+      "確かめる。",
+      "選ぶ。"
+    ],
+    "lede": "資料を渡して、作成と確認をチームに。できたファイルと修正の記録を見比べて、使う版はあなたが選びます。",
+    "cta1": "実際の修正を見る",
+    "cta2": "自分のPCで試す",
+    "availability": "現在はセルフホストでの試用に対応。登録してすぐ使える公開サービスは準備中です。",
+    "hero_caption": "作成から確認、版の選択まで。",
+    "hero_note": "役割を表す図です。このページでAIは実行しません。",
+    "roles_short": [
+      "まとめる",
+      "調べる",
+      "作る",
+      "確かめる"
+    ],
+    "proof_eyebrow": "01 / 実記録をひらく",
+    "proof_h": "ひとつの指摘が、\nひとつの版を変える。",
+    "proof_p": "公開ページを比較した調査メモに、確認担当が出した3つの指摘。選ぶと、保存された変更前と変更後の原文を読めます。",
+    "record_label": "保存された実行記録 · 2026.09.13",
+    "record_status": "未完了 / partial",
+    "before": "変更前",
+    "after": "変更後",
+    "excerpt": "保存された日本語原文の抜粋",
+    "record_limit": "3件の指摘への修正は記録されていますが、出典との逐一照合は未確認。最終レビューが予算上限で終わったため、実行全体は未完了です。",
+    "record_model": "この記録は Claude Code 接続で実行。現在のローカルモデルの品質を示すものではありません。",
+    "source": "原文を開く",
+    "review": "レビューの原文を読む",
+    "app_eyebrow": "02 / あなたの作業台",
+    "app_h": "お願いから保存まで、\n迷わずたどれるように。",
+    "app_p": "資料を添え、依頼を書き、できたものを確かめる。管理用の設定と、日々の仕事を分けています。",
+    "app_caption": "実資料を添えた依頼の下書き（未送信）。狭い画面では入力欄までスクロールした実画面を掲載しています。",
+    "app_steps": [
+      [
+        "資料を添えて頼む",
+        "実ファイルの添付、または文章の貼り付けから始めます。"
+      ],
+      [
+        "内容と確認結果を見る",
+        "成果物とやりとりを同じ作業画面で。未確認の点も残ります。"
+      ],
+      [
+        "使う版を選んで保存",
+        "版の採用と、品質の保証は別のこと。内容を確かめてから保存します。"
+      ]
+    ],
+    "team_eyebrow": "03 / それぞれに、役割を",
+    "team_h": "作る係と、\n確かめる係。",
+    "team_p": "役割を分け、やりとりを残す。確認担当も見逃すことがあるため、大事な成果物はあなた自身でも確かめてください。",
+    "start_eyebrow": "04 / 始め方",
+    "start_h": "あなたの環境で、\n最初のお願いを。",
+    "start_p": "アプリは無料のオープンソース。利用には対応するAIへの接続が必要です。",
+    "command_label": "ターミナルで実行",
+    "data_h": "資料の行き先を、選べる。",
+    "data_p": "Ollamaならローカルのモデルへ。クラウドのモデルを選ぶと、その接続先に入力が送られます。記録と成果物は実行環境に保存します。",
+    "boundary": "公開サービス・一般業務の品質は、まだ受入を終えていません。",
+    "plan_label": "提供範囲と未完了の項目",
+    "foot_note": "Agent Team は FORIFOR/Multibot の製品名です。",
+    "copy_failed": "コピーできませんでした。上のコマンドを選択してコピーしてください。",
+    "view_full": "実画面を原寸で開く（別タブ）",
+    "form_no_js": "相談を送信するにはJavaScriptを有効にしてください。この状態では入力・送信できません。"
+  },
+  "en": {
+    "lang": "en",
+    "base": "",
+    "self": "https://forifor.github.io/Multibot/",
+    "other": "ja/",
+    "other_lang": "ja",
+    "other_label": "日本語",
+    "skip": "Skip to content",
+    "nav_cta": "Get started",
+    "gh_star": "GitHub",
+    "team_cards": [
+      [
+        "master",
+        "#e8ebff",
+        "Coordinator",
+        "Plans the work",
+        "Turns your request into deliverables and finish conditions, and asks only the teammates it needs."
+      ],
+      [
+        "researcher",
+        "#dff6ed",
+        "Researcher",
+        "Gathers evidence",
+        "Reads your files and public pages, and writes notes with sources."
+      ],
+      [
+        "builder",
+        "#fff0cf",
+        "Maker",
+        "Turns it into files",
+        "Code, documents, tables. When a finding comes back, it fixes that version and publishes again."
+      ],
+      [
+        "reviewer",
+        "#ffe7f0",
+        "Reviewer",
+        "Sometimes says no",
+        "Checks each finish condition. Whatever could not be checked stays marked unverified."
+      ]
+    ],
+    "findings": [
+      [
+        "F-1",
+        "Missing evidence",
+        "The comparison table says \"backend / frontend\" with no quoted source."
+      ],
+      [
+        "F-2",
+        "Unstated link",
+        "A repository is called \"official\" without evidence of that link."
+      ],
+      [
+        "F-3",
+        "Paraphrase",
+        "The delivery form is called a \"CLI\"; the source never uses that word."
+      ]
+    ],
+    "proof_note": "The final review stopped at the budget limit, so this run stays \"partial\". Matching quotes against the original pages is recorded as \"unverified\", because the review environment could not fetch them.",
+    "proof_link": "Open the full record",
+    "priv": [
+      [
+        "The work record and files are stored on your computer.",
+        ""
+      ],
+      [
+        "With a local model (Ollama), your input never leaves.",
+        ""
+      ],
+      [
+        "If you choose a cloud model, your input goes to that provider.",
+        "You decide which model to use in Settings."
+      ],
+      [
+        "Nothing is posted or sent externally.",
+        "It stops at drafts. Anything that widens permissions asks for your approval."
+      ]
+    ],
+    "conn": [
+      [
+        "Claude Code",
+        "no key needed"
+      ],
+      [
+        "OpenAI-compatible APIs",
+        ""
+      ],
+      [
+        "Ollama",
+        "local"
+      ]
+    ],
+    "start_note": "The app is free. If you connect a cloud model, that provider bills you for usage.",
+    "steps": [
+      [
+        "Start it",
+        "Run the command above. The app opens in your browser."
+      ],
+      [
+        "Connect a model",
+        "Pick Claude Code, an API or Ollama, and run the connection check."
+      ],
+      [
+        "Ask",
+        "Write what you need in your own words."
+      ]
+    ],
+    "copy": "Copy",
+    "copied": "Copied",
+    "gh": "View on GitHub",
+    "needs_label": "What you need",
+    "needs": "macOS, Linux or Windows, and uv. If you do not have uv: <code>curl -LsSf https://astral.sh/uv/install.sh | sh</code> (Windows: <a href=\"https://docs.astral.sh/uv/getting-started/installation/\">official steps</a>). No Python setup.",
+    "faq_h": "Questions",
+    "faq": [
+      [
+        "How is this different from ChatGPT or Claude?",
+        "It is not one AI answering once. Making and checking are separate jobs. You receive files, not a reply, along with a record of what was checked and what is still unverified."
+      ],
+      [
+        "Will the result always be right?",
+        "No. The reviewer can miss things. That is why partial and unverified results are shown as they are, and why we publish the runs that went badly. Check important work yourself."
+      ],
+      [
+        "What does it cost?",
+        "The app is free and open source (MIT). A cloud model bills you for usage. You can set a budget limit per request, and work stops when it is reached."
+      ],
+      [
+        "Can I sign up and start immediately?",
+        "A public service is not available yet. You can currently install and try it in your own environment. Public hosting, self-registration, operations and business-quality acceptance are still in progress."
+      ],
+      [
+        "Where is my data stored?",
+        "In the execution environment: your computer for a local installation, or the server for a dedicated installation. Choosing a cloud AI model sends input to that provider."
+      ]
+    ],
+    "biz_eyebrow": "Using it at work",
+    "biz_h": "Ask whether it fits your work.",
+    "biz_p": "We narrow it to one task and its pass conditions, and check together. Paid pilots on customer data, production SLAs, SSO and organisation isolation are not offered as available.",
+    "form": {
+      "name": "Name",
+      "email": "Reply email",
+      "org": "Organization (optional)",
+      "msg": "What would you like to discuss?",
+      "privacy": "Your inquiry is stored privately in Google Cloud for the operator to follow up. It is not used as AI input or analytics, and becomes eligible for deletion after 90 days. It is not posted to a public issue. Sending it creates no contract or charge.",
+      "consent": "I agree to this handling of my inquiry.",
+      "send": "Send inquiry"
+    },
+    "foot_other": "日本語",
+    "title": "Agent Team — Make. Check. Choose.",
+    "desc": "Give your source material to an AI team. Compare the files and their review history, then choose the version you use. Currently available for self-hosted trials.",
+    "nav": [
+      [
+        "#proof",
+        "Real changes"
+      ],
+      [
+        "#app",
+        "The workspace"
+      ],
+      [
+        "#start",
+        "Get started"
+      ]
+    ],
+    "eyebrow": "An AI team for making and checking",
+    "h1": [
+      "Make.",
+      "Check.",
+      "Choose."
+    ],
+    "lede": "Give the team your source material. See what it made, what changed, and what was checked. You choose the version to use.",
+    "cta1": "Explore a real revision",
+    "cta2": "Try it on your computer",
+    "availability": "Available for self-hosted trials. A public service with instant sign-up is still in preparation.",
+    "hero_caption": "From making to checking to choosing a version.",
+    "hero_note": "A diagram of the roles. No AI runs on this page.",
+    "roles_short": [
+      "Coordinate",
+      "Research",
+      "Make",
+      "Check"
+    ],
+    "proof_eyebrow": "01 / Open the record",
+    "proof_h": "One finding.\nA different version.",
+    "proof_p": "Three findings from a real review of a research memo comparing public pages. Select one to read the saved text before and after the change.",
+    "record_label": "Saved execution record · 13 Sep 2026",
+    "record_status": "Incomplete / partial",
+    "before": "Before",
+    "after": "After",
+    "excerpt": "Excerpt from the saved Japanese original",
+    "record_limit": "Changes for all three findings are recorded. Line-by-line verification against the sources remains unverified. The final review reached its budget limit, so the overall run is incomplete.",
+    "record_model": "This run used a Claude Code connection. It does not establish the quality of the current local model.",
+    "source": "Open the source",
+    "review": "Read the original review",
+    "app_eyebrow": "02 / Your workspace",
+    "app_h": "A clear path,\nfrom request to file.",
+    "app_p": "Attach the source, write the request, inspect the result. Everyday work has its own space, separate from administration.",
+    "app_caption": "A real request draft with an actual source document, before submission. The narrow-screen capture is scrolled to the input fields.",
+    "app_steps": [
+      [
+        "Start with your source",
+        "Attach actual files or paste your source text."
+      ],
+      [
+        "Read the work and its checks",
+        "The files and conversation share one workspace. Unverified points stay visible."
+      ],
+      [
+        "Choose a version and save it",
+        "Adopting a version is not a quality guarantee. Check the content before saving it."
+      ]
+    ],
+    "team_eyebrow": "03 / A role for everyone",
+    "team_h": "One makes.\nAnother checks.",
+    "team_p": "Separate roles, with their conversation preserved. A reviewer can still miss errors; check important work yourself.",
+    "start_eyebrow": "04 / Get started",
+    "start_h": "Your environment.\nYour first request.",
+    "start_p": "Free, open-source software. You will need a compatible AI connection.",
+    "command_label": "Run in your terminal",
+    "data_h": "Choose where your source goes.",
+    "data_p": "Ollama sends input to your local model. A cloud model sends it to that provider. Records and files are saved in the execution environment.",
+    "boundary": "Public service and general business quality have not completed acceptance.",
+    "plan_label": "Scope and remaining launch requirements",
+    "foot_note": "Agent Team is the product name of FORIFOR/Multibot.",
+    "copy_failed": "Could not copy. Select the command above and copy it manually.",
+    "view_full": "Open full-size screenshot (new tab)",
+    "form_no_js": "Enable JavaScript to send a private inquiry. This form cannot accept or submit input without it.",
+    "change_summaries": [
+      "The unsupported architecture description was removed. The internal layout remains unverified.",
+      "The revision qualifies the repository link: the extracted text does not establish its target URL.",
+      "The writer’s “CLI” shorthand was replaced by the source’s wording about a coding agent in the terminal."
+    ]
+  }
+}

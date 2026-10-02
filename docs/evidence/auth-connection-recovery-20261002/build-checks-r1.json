@@ -1,0 +1,10 @@
+{
+  "build": {
+    "exit_code": 0,
+    "log_sha256": "dab748a1a3a854abf960eca7a74028664503059d49fa4de3dead7a60559f7410"
+  },
+  "lint": {
+    "exit_code": 0,
+    "log_sha256": "52f019932749be5e7f95b72a7eee8af52c8996d93135b7408de89f890e57137f"
+  }
+}

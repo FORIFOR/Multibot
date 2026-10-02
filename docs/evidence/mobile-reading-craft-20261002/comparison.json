@@ -1,0 +1,206 @@
+{
+  "baseline_commit": "983be97291d1252b0873d200136dbd8eb9110eee",
+  "after_source_manifest": "after-r1-source.json",
+  "same_actual_records_and_unselected_state": true,
+  "viewport_height": 844,
+  "scroll_y": 0,
+  "conditions": [
+    {
+      "lang": "ja",
+      "width": 320,
+      "rep": 3,
+      "before_reader_y": 956.203125,
+      "after_reader_y": 717.015625,
+      "delta": -239.1875
+    },
+    {
+      "lang": "ja",
+      "width": 320,
+      "rep": 2,
+      "before_reader_y": 965.953125,
+      "after_reader_y": 778.765625,
+      "delta": -187.1875
+    },
+    {
+      "lang": "ja",
+      "width": 320,
+      "rep": 9,
+      "before_reader_y": 965.953125,
+      "after_reader_y": 778.765625,
+      "delta": -187.1875
+    },
+    {
+      "lang": "ja",
+      "width": 390,
+      "rep": 3,
+      "before_reader_y": 858.984375,
+      "after_reader_y": 693.390625,
+      "delta": -165.59375
+    },
+    {
+      "lang": "ja",
+      "width": 390,
+      "rep": 2,
+      "before_reader_y": 894.359375,
+      "after_reader_y": 728.765625,
+      "delta": -165.59375
+    },
+    {
+      "lang": "ja",
+      "width": 390,
+      "rep": 9,
+      "before_reader_y": 894.359375,
+      "after_reader_y": 728.765625,
+      "delta": -165.59375
+    },
+    {
+      "lang": "ja",
+      "width": 768,
+      "rep": 3,
+      "before_reader_y": 638.796875,
+      "after_reader_y": 471.203125,
+      "delta": -167.59375
+    },
+    {
+      "lang": "ja",
+      "width": 768,
+      "rep": 2,
+      "before_reader_y": 577.546875,
+      "after_reader_y": 461.953125,
+      "delta": -115.59375
+    },
+    {
+      "lang": "ja",
+      "width": 768,
+      "rep": 9,
+      "before_reader_y": 603.796875,
+      "after_reader_y": 488.203125,
+      "delta": -115.59375
+    },
+    {
+      "lang": "ja",
+      "width": 1440,
+      "rep": 3,
+      "before_reader_y": 605.171875,
+      "after_reader_y": 513.578125,
+      "delta": -91.59375
+    },
+    {
+      "lang": "ja",
+      "width": 1440,
+      "rep": 2,
+      "before_reader_y": 619.546875,
+      "after_reader_y": 527.953125,
+      "delta": -91.59375
+    },
+    {
+      "lang": "ja",
+      "width": 1440,
+      "rep": 9,
+      "before_reader_y": 619.546875,
+      "after_reader_y": 527.953125,
+      "delta": -91.59375
+    },
+    {
+      "lang": "en",
+      "width": 320,
+      "rep": 3,
+      "before_reader_y": 956.203125,
+      "after_reader_y": 717.015625,
+      "delta": -239.1875
+    },
+    {
+      "lang": "en",
+      "width": 320,
+      "rep": 2,
+      "before_reader_y": 1017.953125,
+      "after_reader_y": 778.765625,
+      "delta": -239.1875
+    },
+    {
+      "lang": "en",
+      "width": 320,
+      "rep": 9,
+      "before_reader_y": 1017.953125,
+      "after_reader_y": 778.765625,
+      "delta": -239.1875
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "rep": 3,
+      "before_reader_y": 926.203125,
+      "after_reader_y": 687.015625,
+      "delta": -239.1875
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "rep": 2,
+      "before_reader_y": 885.953125,
+      "after_reader_y": 698.765625,
+      "delta": -187.1875
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "rep": 9,
+      "before_reader_y": 885.953125,
+      "after_reader_y": 698.765625,
+      "delta": -187.1875
+    },
+    {
+      "lang": "en",
+      "width": 768,
+      "rep": 3,
+      "before_reader_y": 638.796875,
+      "after_reader_y": 471.203125,
+      "delta": -167.59375
+    },
+    {
+      "lang": "en",
+      "width": 768,
+      "rep": 2,
+      "before_reader_y": 603.796875,
+      "after_reader_y": 488.203125,
+      "delta": -115.59375
+    },
+    {
+      "lang": "en",
+      "width": 768,
+      "rep": 9,
+      "before_reader_y": 603.796875,
+      "after_reader_y": 488.203125,
+      "delta": -115.59375
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "rep": 3,
+      "before_reader_y": 605.171875,
+      "after_reader_y": 513.578125,
+      "delta": -91.59375
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "rep": 2,
+      "before_reader_y": 619.546875,
+      "after_reader_y": 527.953125,
+      "delta": -91.59375
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "rep": 9,
+      "before_reader_y": 619.546875,
+      "after_reader_y": 527.953125,
+      "delta": -91.59375
+    }
+  ],
+  "limits": [
+    "Original v62 source errors are preserved. These are UI observations, not new model output or business acceptance.",
+    "No real mobile device, Safari, screen-reader or human first-use evaluation.",
+    "Only actual single-file/single-revision settled records; no fabricated active or empty result cases."
+  ]
+}

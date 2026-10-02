@@ -1,0 +1,9 @@
+{
+  "status": "FAIL",
+  "error_type": "AssertionError",
+  "location": "finalize.py:46 raw row tuple comparison",
+  "owned_API_stop_and_port_closed_completed_before_failure": true,
+  "run_event_artifact_checks_completed_before_failure": true,
+  "original_records_modified": false,
+  "failure_stdout_retained": "Codex tool output; no private traceback file produced"
+}

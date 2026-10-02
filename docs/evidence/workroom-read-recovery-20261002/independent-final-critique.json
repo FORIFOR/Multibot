@@ -1,0 +1,246 @@
+{
+  "status": "REVIEW_COMPLETE_NO_NEW_BLOCKER",
+  "reviewed_at": "2026-10-02T01:55:41.580200+00:00",
+  "reviewer": "同モデルAIの別担当による既存実証レビュー。新試験・サービス起動なし。",
+  "scope": "修正後r2の必須4経路とr3のrouteのみ補完を別結果として照合。",
+  "evidence": {
+    "r2": {
+      "root": "workroom-read-recovery-independent-20261002-r2",
+      "original_status": "FAIL",
+      "browser_exit_code": 1,
+      "case_statuses": {
+        "ja390-manual": "PASS",
+        "ja320-deadline": "PASS",
+        "en768-loaded-deadline": "PASS",
+        "en-native200-manual": "PASS",
+        "ja390-route": "FAIL"
+      },
+      "safe_report_sha256": "36db7a72286f3d105013693d2e3bb73a13eb0b48bd295dccd6b3d6be7d0ccfc0",
+      "browser_report_sha256": "772ab01d3a4e9657232c66d574446e5a78e62b9b2a57a21dab0e03b838f30b1b",
+      "manifest_sha256": "1372012a53c19a8bc60e6c4a6cf8dce1dfa2ea9f3258574ab12132f9301a3d08",
+      "manifest_entries_verified": 30,
+      "source_files_compared_to_current": 54,
+      "source_matches": true,
+      "target_diff_sha256": "bcd97991246dc6c3886ef4c0b6112ee121c9aa50b1e8d191c0b7bd9a86165128",
+      "product_sha256": {
+        "frontend/src/pages/Workroom.tsx": "f3e8924f8e9bab8fe973f5b4f8b4ec920ddb8671ffbfd260eb072ab7a5230174",
+        "frontend/src/lib/api.ts": "fbad0a6cfe12d52329b70badf7580cde16d1f0d31a13eef05a7373487b7437ca"
+      },
+      "bundle_sha256": {
+        "assets/RunView-B84ZRFQg.js": "96705c91694caba39cb08ab664416473aa55b3857c00df532902c7559876caaa",
+        "assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+        "assets/index-NKax6_35.js": "209e168b0e024e065bc9440c175e5b1190e512e88afccdb11f71e9ac74c3f2b4",
+        "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+        "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+        "index.html": "582a4d54123477179dd70ff1db664ca2da8f63c2f65de2181a83a389b5c1caf0"
+      },
+      "served_assets": [
+        {
+          "path": "/assets/index-BQqhmjTV.css",
+          "status": 200,
+          "hash_matches": true
+        },
+        {
+          "path": "/assets/index-NKax6_35.js",
+          "status": 200,
+          "hash_matches": true
+        }
+      ],
+      "business_before_after_equal": true,
+      "original_model_events": 74,
+      "new_model_events": 0,
+      "jobs_before": 0,
+      "jobs_after": 0,
+      "business_write_requests": 0,
+      "api_cleanup": {
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      },
+      "chrome_cleanup": [
+        {
+          "program": "check.mjs",
+          "tracked_processes": 42,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    "r3": {
+      "root": "workroom-read-recovery-independent-20261002-r3",
+      "original_status": "PASS",
+      "browser_exit_code": 0,
+      "case_statuses": {
+        "ja390-route": "PASS"
+      },
+      "safe_report_sha256": "57f5743f6dcc2eb62d17d9c7471cd8316025564f9421f4341707ca35c13afb60",
+      "browser_report_sha256": "b20c10888c3267650b6467f815f6b1f01163410a37eb0e6b58e5c736db656e33",
+      "manifest_sha256": "f1be9b980d8831c549b44810d0f69dcac0054fddff6742137c4764adf5261623",
+      "manifest_entries_verified": 10,
+      "source_files_compared_to_current": 54,
+      "source_matches": true,
+      "target_diff_sha256": "bcd97991246dc6c3886ef4c0b6112ee121c9aa50b1e8d191c0b7bd9a86165128",
+      "product_sha256": {
+        "frontend/src/pages/Workroom.tsx": "f3e8924f8e9bab8fe973f5b4f8b4ec920ddb8671ffbfd260eb072ab7a5230174",
+        "frontend/src/lib/api.ts": "fbad0a6cfe12d52329b70badf7580cde16d1f0d31a13eef05a7373487b7437ca"
+      },
+      "bundle_sha256": {
+        "assets/RunView-B84ZRFQg.js": "96705c91694caba39cb08ab664416473aa55b3857c00df532902c7559876caaa",
+        "assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+        "assets/index-NKax6_35.js": "209e168b0e024e065bc9440c175e5b1190e512e88afccdb11f71e9ac74c3f2b4",
+        "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+        "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+        "index.html": "582a4d54123477179dd70ff1db664ca2da8f63c2f65de2181a83a389b5c1caf0"
+      },
+      "served_assets": [
+        {
+          "path": "/assets/index-BQqhmjTV.css",
+          "status": 200,
+          "hash_matches": true
+        },
+        {
+          "path": "/assets/index-NKax6_35.js",
+          "status": 200,
+          "hash_matches": true
+        }
+      ],
+      "business_before_after_equal": true,
+      "original_model_events": 74,
+      "new_model_events": 0,
+      "jobs_before": 0,
+      "jobs_after": 0,
+      "business_write_requests": 0,
+      "api_cleanup": {
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      },
+      "chrome_cleanup": [
+        {
+          "program": "check.mjs",
+          "tracked_processes": 11,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ]
+    }
+  },
+  "images_reviewed": [
+    {
+      "evidence_root": "workroom-read-recovery-independent-20261002-r2",
+      "path": "ja390-manual-focused-retry.png",
+      "sha256": "d68b74d759f3a6aa617f184c7b740ee5edd77fb28a6a4407683a4ddae8059179",
+      "visually_opened": true
+    },
+    {
+      "evidence_root": "workroom-read-recovery-independent-20261002-r2",
+      "path": "ja320-deadline-deadline-focus.png",
+      "sha256": "3ecf05c3f11521e3ee94e7e2133baad3ee58ac1ae0a4c12340e1d3830c908d5a",
+      "visually_opened": true
+    },
+    {
+      "evidence_root": "workroom-read-recovery-independent-20261002-r2",
+      "path": "ja320-deadline-recovered.png",
+      "sha256": "92f50dccd1928aef5d592877ef6d4ac10dc7cbd172674aeff760510ff2d09aa4",
+      "visually_opened": true
+    },
+    {
+      "evidence_root": "workroom-read-recovery-independent-20261002-r2",
+      "path": "en768-loaded-deadline-deadline-warning-focused.png",
+      "sha256": "4791f96fdeb2f875c68f88f67a9020191da0da350bdc22fb287957a7344eb54a",
+      "visually_opened": true
+    },
+    {
+      "evidence_root": "workroom-read-recovery-independent-20261002-r2",
+      "path": "en768-loaded-deadline-conversation-recovered.png",
+      "sha256": "ec84f1a4a11e20def5d7c043035717ef5e410483f3e071715ee56e8b75d417b3",
+      "visually_opened": true
+    },
+    {
+      "evidence_root": "workroom-read-recovery-independent-20261002-r2",
+      "path": "en-native200-manual-focused-retry.png",
+      "sha256": "7715827e79f3a1c724f9f020268ec1ec62e539af012e6df76f461ca6e96d719b",
+      "visually_opened": true
+    },
+    {
+      "evidence_root": "workroom-read-recovery-independent-20261002-r2",
+      "path": "en-native200-manual-recovered.png",
+      "sha256": "2654b6886576f8f6bc4f2af40e042bc12c2dcff1f1c04f7af9c2b3e32614055f",
+      "visually_opened": true
+    },
+    {
+      "evidence_root": "workroom-read-recovery-independent-20261002-r3",
+      "path": "ja390-route-new-route-after-old-release.png",
+      "sha256": "167cb213724cf792826d02d1e77586932ccbdffb5da4dbdfa2773c8ae79e512f",
+      "visually_opened": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "manual_retry",
+      "status": "PASS_EVIDENCE",
+      "method": "実GET件数・keyboard・記録・画像照合",
+      "observed": "JA390はTab5/Enter後、保留基準103ms→原bytes復帰175ms、主3 GET各1→2。native200は581ms→654ms。両者の時刻起点は最初のheld200であり、一般的な応答性能の測定ではない。",
+      "critique": "有効な再読込ボタンの見た目に、実際の新しい読取が対応するようになった。次の行動が見え、focus輪郭と44px高さを維持している。"
+    },
+    {
+      "id": "deadline_and_existing_input",
+      "status": "PASS_EVIDENCE",
+      "method": "12秒/期限後観測、原資料SHA、JA320/EN768画像",
+      "observed": "JA320は12.005秒の通常読込から15.020秒で接続エラー、明示操作で15.142秒に原bytes。EN768は15.312秒で最新未確認、15.573秒に回復し未送信の実資料抜粋・会話・failed/last_seq80を保持。",
+      "critique": "初回は接続確認と再読込、既表示時は古い可能性とRefreshを明示する。通信復旧によって仕事を完了に見せない。ENの警告とfocus付きRefreshを今回は実画像でも読める。"
+    },
+    {
+      "id": "r2_failure_boundary",
+      "status": "FAIL_HARNESS_PRECONDITION_PRESERVED",
+      "method": "原safe/browser/独立担当review照合",
+      "observed": "r2全体はexit1/FAILのまま。必須4caseがPASSした後、route移動のselectorがブランドと作業一覧の2要素に一致し、click前に失敗。r2でroute成功を主張しない。元private失敗画像/logは非公開のまま。"
+    },
+    {
+      "id": "route_supplement",
+      "status": "PASS_EVIDENCE_WITH_LIMIT",
+      "method": "r3のactual route・network cancellation・UI artifact href・run identity照合",
+      "observed": "r3はexact作業一覧から実rep2へ移動するrouteだけ実行。旧rep9のGETは実cancelされ、解放試行はERR_ABORTEDに対応するInvalidInterceptionId/requestIdで不可。目的run_id/status/last_seq/artifact tupleとhrefが不変。",
+      "limit": "遅延した成功本文がReactへ到達して拒否された実証ではない。そのidentity guardは静的確認。rep間の本文SHAが同一のため、SHA単独でrun同定していない。"
+    },
+    {
+      "id": "geometry_and_content",
+      "status": "PASS_VISUAL_SCOPE",
+      "method": "8PNG実目視とgeometry照合",
+      "observed": "JA320/390・EN768・実Chrome200%で主要Refreshが切れず、focusが判別できる。native200はinner720×456/outer1440×1000/DPR2、CSSzoom1。復帰後に元failed/interrupted・未完了・未採用候補が残る。",
+      "limits": "route画像は移動後のscroll位置で見出しの上部がviewport外。見出し全体と本文を同時に収めた証拠ではない。screen reader/実スマートフォン評価ではない。"
+    },
+    {
+      "id": "preservation_cleanup",
+      "status": "PASS_EVIDENCE",
+      "method": "2原manifest全entry・現在source・報告前後業務hash照合",
+      "observed": "r2/r3 sourceとbundleは同一。元modelイベント74を保持し追加0、jobs0、writeは各loginのみ。r2 Chrome42・r3 Chrome11の所有記録それぞれ残留0/信号0、各API task/port/lifespan終了正常。"
+    }
+  ],
+  "new_blocking_findings": [],
+  "limitations": [
+    "r2原FAILとr3の限定PASSを合成して1回の全体成功試験とはしない。",
+    "各記録の時間はheld-response起点であり製品SLAではない。",
+    "本文だけのstream停止、artifact GET故障、実行中SSE、保留中の主体切替は今回未実測。主体は静的レビューと別の既存認証suiteの範囲。",
+    "tasksを復元しない実記録importであり全旧runtimeを再現したものではない。",
+    "入力保持はDOM/hashの観測。今回表示した上部画像に未送信入力そのものが写っているとは主張しない。",
+    "本評価は同モデルAIであり、人間初見・業務品質・一般公開・受賞の受入ではない。"
+  ],
+  "human_acceptance": false,
+  "new_tests_by_reviewer": 0,
+  "product_changes_by_reviewer": 0
+}

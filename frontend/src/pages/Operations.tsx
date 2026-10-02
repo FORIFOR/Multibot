@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
 import { getLang } from '../lib/i18n'
 
-type Ready = { ready: boolean; disk_free_bytes: number; sandbox_backend: string; execution_dispatcher_ready: boolean; configuration_problems: string[] }
+type Ready = { ready: boolean; workflow: 'team' | 'document'; disk_free_bytes: number; sandbox_backend: string; execution_dispatcher_ready: boolean; configuration_problems: string[] }
 type Audit = { id: number; recorded_at: number; subject: string | null; method: string; route: string; outcome: string; status: number }
 
 // Plain names for the isolation backend reported by /api/admin/ready (runtime/sandbox.py).
 const SANDBOX: Record<string, [string, string]> = {
   docker: ['Docker コンテナで隔離', 'Isolated in a Docker container'],
-  seatbelt: ['macOS の seatbelt で隔離', 'Isolated with macOS seatbelt'],
+  'sandbox-exec': ['macOS の seatbelt を検出', 'macOS seatbelt detected'],
   subprocess: ['隔離なし（そのまま実行）', 'No isolation (runs directly)'],
   none: ['利用できる隔離環境がありません', 'No isolation backend available'],
-  not_required: ['不要（検査を使う Bot がいません）', 'Not required (no bot runs checks)'],
+  not_required: ['不要（この構成ではコマンド実行なし）', 'Not required (no command execution in this configuration)'],
 }
 
-export default function Operations() {
+export default function Operations({ secured }: { secured: boolean }) {
   const [ready, setReady] = useState<Ready | null>(null)
   const [records, setRecords] = useState<Audit[]>([])
   const [error, setError] = useState('')
@@ -45,15 +45,17 @@ export default function Operations() {
     {error && <p role="alert" className="err">{error}</p>}
     {ready ? <div className="card stack" aria-label={ja ? '稼働条件' : 'Readiness'}>
       <strong>{ready.ready ? (ja ? '実行に必要な条件を確認済み' : 'Execution prerequisites available') : (ja ? '実行条件の確認が必要' : 'Execution prerequisites need attention')}</strong>
+      <p className="muted">{ja ? `確認対象: 現在のチーム設定・${ready.workflow === 'document' ? '文書作業' : '通常の作業方式'}。依頼ごとの実行可否は、選択されたメンバーと作業方式で別に判定します。` : `Scope: current team configuration, ${ready.workflow === 'document' ? 'document' : 'standard'} workflow. Each request is checked separately using its selected members and workflow.`}</p>
       <dl className="kv"><dt>{ja ? '実行キュー' : 'Queue dispatcher'}</dt><dd>{ready.execution_dispatcher_ready ? 'OK' : (ja ? '停止' : 'Stopped')}</dd>
         <dt>{ja ? 'ディスク空き容量' : 'Free disk'}</dt><dd>{(ready.disk_free_bytes / 1024 ** 3).toFixed(1)} GiB</dd>
         <dt>{ja ? '実行環境' : 'Sandbox'}</dt><dd>{SANDBOX[ready.sandbox_backend]?.[ja ? 0 : 1] ?? ready.sandbox_backend}</dd></dl>
       {!ready.ready && (() => {
-        // The same conditions the server combines into "ready"; name each one that is not met.
+        // The server permits seatbelt locally, but secured command tools require Docker.
         const reasons: string[] = []
         if (!ready.execution_dispatcher_ready) reasons.push(ja ? '実行キューが止まっています。' : 'The queue dispatcher is stopped.')
         if (ready.disk_free_bytes < 500 * 1024 ** 2) reasons.push(ja ? 'ディスクの空きが 500 MiB 未満です。' : 'Less than 500 MiB of disk is free.')
-        if (['none', 'subprocess'].includes(ready.sandbox_backend)) reasons.push(ja ? '検査を隔離して実行する環境がありません。Docker を起動するか、macOS の seatbelt を使える状態にしてください。' : 'No isolated environment is available for checks. Start Docker or make macOS seatbelt available.')
+        if (secured && ['none', 'subprocess', 'sandbox-exec'].includes(ready.sandbox_backend)) reasons.push(ja ? 'このチーム設定にはコマンドを実行できるメンバーがいます。認証付きサービスのコマンド実行には Docker が必要です。Docker を利用する設定とサーバーからの接続を確認してください。' : 'This team configuration includes members that can execute commands. Command execution in an authenticated service requires Docker. Check that Docker is configured for use and reachable from the server.')
+        else if (['none', 'subprocess'].includes(ready.sandbox_backend)) reasons.push(ja ? 'コマンドを隔離して実行する環境がありません。Docker を利用する設定と接続、またはローカル実行用の macOS seatbelt を確認してください。' : 'No isolation is available for command execution. Check Docker configuration and connectivity, or macOS seatbelt for local execution.')
         for (const p of ready.configuration_problems) reasons.push(p === 'capability_check' ? (ja ? 'モデルの接続確認が未完了です。管理者による確認が必要です。' : 'The model connection has not been verified. An administrator needs to check it.') : p)
         if (!reasons.length) reasons.push(ja ? '原因を特定できませんでした。サーバーの記録を確認してください。' : 'The cause could not be identified. Check the server log.')
         return <ul className="err">{reasons.map(r => <li key={r}>{r}</li>)}</ul>

@@ -1,0 +1,88 @@
+{
+  "state": "APP_CANDIDATE_VERIFIED",
+  "revision": "32acf39072c4e43a15ea0ca9ae1ff476ec0d11bb",
+  "source_sha256": {
+    "frontend/src/pages/Home.tsx": "10ade0ccc3134aa2523e782afa67e1fcd595befd9746df4ea5aa3f4cd3101ce8",
+    "frontend/src/paper.css": "64aa1fa3e43861dd87d014ddc5a6269bf0f8ab4b7d53d632a42245ee42b3196e",
+    "docs/design/brief.md": "0ef75092b8587b9b65b2b517d46c50401567c6bdb0ecd624269b245c5765a3bb",
+    "docs/design/tokens.md": "f0aa45b65a46f34b2c6d4622c614fabbf7678a2ddf69d9d8dc170c006c015e94"
+  },
+  "source_file": "docs/quality/integration.md",
+  "source_file_sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+  "browser": "154.0.8037.58",
+  "ui_serving": "Vite preview of built frontend/dist proxying /api to an actual uvicorn AppService with fresh SQLite, real issued operator credentials and retained genuine provider configuration",
+  "capture_sizes": {
+    "desktop": [
+      1440,
+      900
+    ],
+    "mobile": [
+      390,
+      844
+    ]
+  },
+  "public_mobile_state": "Actual viewport scrolled to the request and action; top-of-page capture also retained privately",
+  "visual_review": "Implementation and independent AI quality_assessment opened final JA/EN desktop/mobile PNGs. No blocking visual defects or visible credentials found. Not human acceptance.",
+  "actual_200_percent": {
+    "preference": "partition.default_zoom_level.x = log(2)/log(1.2), in a dedicated fresh browser profile",
+    "reference": "https://raw.githubusercontent.com/chromium/chromium/main/chrome/browser/ui/zoom/chrome_zoom_level_prefs.cc",
+    "observed_inner_width": 720,
+    "observed_outer_width": 1440,
+    "observed_dpr": 2,
+    "css_zoom": 1,
+    "screenshot": "CDP Page.captureScreenshot fromSurface:false; ordinary Playwright screenshot produced invalid blank pixels and was not accepted"
+  },
+  "before_after_same_PRODUCTION_PLAN_source": {
+    "before_request_button_bottom": 1035.25,
+    "after_request_button_bottom": 820.890625,
+    "note": "baseline-r2 vs round-c; final only adds nowrap to Japanese phrase and preserves the same layout"
+  },
+  "actual_checks": [
+    "actual source attachment, deletion and persistence after reload",
+    "empty goal disables submit, explicit draft discard empties goal",
+    "goal Tab reaches next native details control",
+    "language switch retains attachment",
+    "actual frontend/package.json rejected by type guard while real existing attachment remains",
+    "axe WCAG2A/AA +2.1AA violations 0 at320px",
+    "fresh SQLite runs/jobs/model.called remain0",
+    "actual200% layout has no horizontal overflow and native button is reachable"
+  ],
+  "commands": [
+    "pnpm -C frontend build",
+    "pnpm -C frontend lint (exit0 with existing warnings)",
+    "git diff --check",
+    "private venv python run.py final-r4"
+  ],
+  "cleanup": [
+    {
+      "program": "browser.mjs",
+      "tracked_processes": 20,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "listeners_closed": [
+    true,
+    true
+  ],
+  "secrets_scan": {
+    "private_key_values_scanned": 16,
+    "matches_in_named_safe_files": 0
+  },
+  "limits": [
+    "No inference, generated-result quality or production-acceptance claim",
+    "Current provider health not rechecked",
+    "No physical mobile device, OS soft keyboard, screen reader or Japanese IME manual acceptance",
+    "No new output/error API behavior tested; attachment validation is actual client handler",
+    "Not an award evaluation or human first-use result"
+  ],
+  "prior_records_retained": [
+    "baseline account creation initially refused because admin required; fresh baseline-r2 succeeded",
+    "round-a narrow fullPage capture duplicated tiles and was rejected for visual evidence",
+    "round-b test locator used link for language button; kept FAILED and fixed runner only",
+    "round-c and final-export zoom preference shape was ineffective; not counted as200%",
+    "final-r2 actual200% DOM metrics succeeded but ordinary screenshot was blank; final-r3/r4 use actual browser view capture"
+  ],
+  "export_manifest": "export-manifest.json"
+}

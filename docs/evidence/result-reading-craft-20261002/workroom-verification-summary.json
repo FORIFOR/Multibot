@@ -1,0 +1,67 @@
+{
+  "repository_edit": [
+    "frontend/src/pages/WorkList.tsx"
+  ],
+  "head": "01b11f0bacd5a5a1c37af5ebd9cf724b3fe6efff",
+  "actual_after_source": "after-r1-source.json (uncommitted combined frontend changes)",
+  "before": "baseline/results.json",
+  "after": "after-r1/results.json",
+  "permissions": "boundary-before.json",
+  "adoption": "after-r1-adoption-r2/results.json",
+  "archive_bytes": "after-r1-adoption-r2/zip-verification.json",
+  "worklist_sha256": "edd1613327fb92a55e13011742c2cf6b8b7765b3b9d0fb3cc7e249a6cf358a3a",
+  "comparison": {
+    "before": {
+      "completed": "team",
+      "failed": "team",
+      "interrupted": "team"
+    },
+    "after": {
+      "completed": "results",
+      "failed": "results",
+      "interrupted": "results"
+    },
+    "filter_preserved": true
+  },
+  "unverified": [
+    "artifact-none: absent from actual v62 inventory",
+    "multiple artifact revisions: absent from actual v62 inventory",
+    "new model execution or business quality acceptance",
+    "human acceptance"
+  ],
+  "actor": "AI",
+  "human_acceptance": "not_performed",
+  "service": {
+    "pid": 644,
+    "argv": [
+      "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/serve.py",
+      "after-r2-dist"
+    ],
+    "python": "/Users/horioshuuhei/.cache/agentteam-bench/public-service-dependency-audit-20261002-r1/venv/bin/python",
+    "origin": "http://127.0.0.1:54271",
+    "dist": "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/after-r2-dist",
+    "data": "/Users/horioshuuhei/.cache/agentteam-bench/workroom-craft-20261002/data",
+    "model_execution": false
+  },
+  "private_scripts_sha256": {
+    "boundaries.py": "271fbaacf4e122d6491fb372d87a579c6ca8f25f871fa49e0f8bbd16def397b2",
+    "baseline-viewport.mjs": "6c098d0a6fec47d4cbbdac38a64e3314009e6ba50df2fad916148912bdd18130",
+    "serve.py": "f6737dca24935b27ef419383b4e0b86704219ae398b73e263beea3ffb347b99c",
+    "adoption-r2.mjs": "6f8b16ed959b7044a135990fb18e34e38acf067f9e1b96b2dede37ae886f77c7",
+    "baseline-scroll-top.mjs": "199dbfb4715a087be02e882c4a0540b513101baa55ab378d637a832dbcbf6c3b",
+    "adoption.mjs": "bfc84cea3b404665f8aa4cc3c6988abbf41c10313fb4c24afbaef7443a064b21",
+    "after-r1.mjs": "04dd958ff45e9768d72d2efd2abea9d9fc2552a3ddbe9aaa782a4633ae78eb27",
+    "zip-verify.py": "73866de6cd32c1cf3a4edc96a5e471dc3f6e06d1cd5d9a314c09662956e74009",
+    "baseline.mjs": "e77644211f8f16d240a04901746f70e0fb3a784c1c9e60d7c6c5b8c59d0b35b5",
+    "prepare.py": "9aa6134971b2102512ef786bccd13b84577e274a6f91abe70f46c6746517dfd4"
+  },
+  "source_unchanged": true,
+  "final_frontend": "after-r2-source.json",
+  "final_en_regression": "after-r2-en/results.json",
+  "final_invariants": "after-r2-invariants.json",
+  "adoption_attempts": {
+    "r1": "Focus asserted before requestAnimationFrame. Failed before sending adoption. Result retained.",
+    "r2": "Waited for actual focus, then performed exactly one rep1 UI adoption and ZIP download. No rollback or duplicate adoption.",
+    "after_r2": "Read-only reload of existing adopted state in new frontend build, no new adoption."
+  }
+}

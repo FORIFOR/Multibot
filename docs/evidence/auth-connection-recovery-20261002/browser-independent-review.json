@@ -1,0 +1,261 @@
+{
+  "status": "PASS",
+  "scope": "Independent AI inspection of initial connection reload UI and required auth negative boundaries only",
+  "reviewed_at": "2026-10-02T00:39:27.944427+00:00",
+  "revision": "c6e29407f64c11ec77f39d57f9da696b8385b0bf",
+  "authgate_sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+  "checks": [
+    {
+      "id": "ja390-status",
+      "method": "Actual installed Chrome / CDP transport block / real Tab+Enter / issued key login / HTTP identity read",
+      "expected": "Connection retry is reachable and rechecks the actual server, then login leads to empty request workspace",
+      "observed": {
+        "status": "PASS",
+        "overflow": 0,
+        "focused_control_fully_in_view": true,
+        "principal_matches_actual_login": true,
+        "empty_workspace_after_explicit_login": true
+      },
+      "status": "PASS",
+      "evidence": "browser-report.json",
+      "environment": {
+        "chrome": "154.0.8037.93",
+        "geometry": {
+          "inner": [
+            390,
+            844
+          ],
+          "outer": [
+            500,
+            965
+          ],
+          "dpr": 1,
+          "scroll": [
+            0,
+            0
+          ],
+          "root_css_zoom": "1",
+          "body_css_zoom": "1",
+          "overflow": 0,
+          "active_tag": "BODY",
+          "active_text": "\n    Multibotサーバーへ接続できません。再読込してください。再読込して接続を確認\n  \n\n",
+          "active_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844,
+            "top": 0,
+            "right": 390,
+            "bottom": 844,
+            "left": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "en768-me",
+      "method": "Actual installed Chrome / CDP transport block / real Tab+Enter / issued key login / HTTP identity read",
+      "expected": "Connection retry is reachable and rechecks the actual server, then login leads to empty request workspace",
+      "observed": {
+        "status": "PASS",
+        "overflow": 0,
+        "focused_control_fully_in_view": true,
+        "principal_matches_actual_login": true,
+        "empty_workspace_after_explicit_login": true
+      },
+      "status": "PASS",
+      "evidence": "browser-report.json",
+      "environment": {
+        "chrome": "154.0.8037.93",
+        "geometry": {
+          "inner": [
+            768,
+            844
+          ],
+          "outer": [
+            770,
+            967
+          ],
+          "dpr": 1,
+          "scroll": [
+            0,
+            0
+          ],
+          "root_css_zoom": "1",
+          "body_css_zoom": "1",
+          "overflow": 0,
+          "active_tag": "BODY",
+          "active_text": "\n    MultibotCannot connect to the server. Reload to retry.Reload and check connection\n  \n\n",
+          "active_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 844,
+            "top": 0,
+            "right": 768,
+            "bottom": 844,
+            "left": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "ja320-status",
+      "method": "Actual installed Chrome / CDP transport block / real Tab+Enter / issued key login / HTTP identity read",
+      "expected": "Connection retry is reachable and rechecks the actual server, then login leads to empty request workspace",
+      "observed": {
+        "status": "PASS",
+        "overflow": 0,
+        "focused_control_fully_in_view": true,
+        "principal_matches_actual_login": true,
+        "empty_workspace_after_explicit_login": true
+      },
+      "status": "PASS",
+      "evidence": "browser-report.json",
+      "environment": {
+        "chrome": "154.0.8037.93",
+        "geometry": {
+          "inner": [
+            320,
+            844
+          ],
+          "outer": [
+            500,
+            967
+          ],
+          "dpr": 1,
+          "scroll": [
+            0,
+            0
+          ],
+          "root_css_zoom": "1",
+          "body_css_zoom": "1",
+          "overflow": 0,
+          "active_tag": "BODY",
+          "active_text": "\n    Multibotサーバーへ接続できません。再読込してください。再読込して接続を確認\n  \n\n",
+          "active_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 844,
+            "top": 0,
+            "right": 320,
+            "bottom": 844,
+            "left": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "ja-native200-me",
+      "method": "Actual installed Chrome / CDP transport block / real Tab+Enter / issued key login / HTTP identity read",
+      "expected": "Connection retry is reachable and rechecks the actual server, then login leads to empty request workspace",
+      "observed": {
+        "status": "PASS",
+        "overflow": 0,
+        "focused_control_fully_in_view": true,
+        "principal_matches_actual_login": true,
+        "empty_workspace_after_explicit_login": true
+      },
+      "status": "PASS",
+      "evidence": "browser-report.json",
+      "environment": {
+        "chrome": "154.0.8037.93",
+        "geometry": {
+          "inner": [
+            720,
+            412
+          ],
+          "outer": [
+            1440,
+            967
+          ],
+          "dpr": 2,
+          "scroll": [
+            0,
+            0
+          ],
+          "root_css_zoom": "1",
+          "body_css_zoom": "1",
+          "overflow": 0,
+          "active_tag": "BODY",
+          "active_text": "\n    Multibotサーバーへ接続できません。再読込してください。再読込して接続を確認\n  \n\n",
+          "active_rect": {
+            "x": 0,
+            "y": 0,
+            "width": 720,
+            "height": 412,
+            "top": 0,
+            "right": 720,
+            "bottom": 412,
+            "left": 0
+          }
+        }
+      }
+    }
+  ],
+  "peer_negative_boundary": [
+    {
+      "id": "peer-close",
+      "status": "PASS",
+      "actual_login_status": 200,
+      "observed_ms": 20207,
+      "observer_clock_advanced_ms": 20090,
+      "empty_signin_after_ms": 20087,
+      "actual_completion_notification_observed": false,
+      "prior_workspace_closed": true,
+      "private_storage_cleared": true,
+      "initial_connection_reload_control_absent": true,
+      "subject_matches_actual_login_response": true,
+      "role_matches_actual_login_response": true,
+      "empty_workspace_after_explicit_signin": true
+    },
+    {
+      "id": "peer-reload",
+      "status": "PASS",
+      "actual_login_status": 200,
+      "observed_ms": 183,
+      "observer_clock_advanced_ms": 80,
+      "empty_signin_after_ms": 77,
+      "actual_completion_notification_observed": true,
+      "prior_workspace_closed": true,
+      "private_storage_cleared": true,
+      "initial_connection_reload_control_absent": true,
+      "subject_matches_actual_login_response": true,
+      "role_matches_actual_login_response": true,
+      "empty_workspace_after_explicit_signin": true
+    }
+  ],
+  "visual_review": {
+    "images_opened": [
+      "ja390-status-failed-focused.png",
+      "ja390-status-blocked-again.png",
+      "ja390-status-signin.png",
+      "ja390-revoked-key.png",
+      "en768-me-failed-focused.png",
+      "ja320-status-failed-focused.png",
+      "ja-native200-me-failed-focused.png",
+      "peer/close-empty-signin.png",
+      "peer/reload-empty-signin.png"
+    ],
+    "finding": "JA/EN、320幅と実200%で説明・接続再読込ボタン・フォーカス輪郭は欠けず、不要なアクセスキー欄を表示しない。通常401/実失効キー拒否/peer期限では空のキー入力フォームを示し、初回接続用の再読込は表示しない。",
+    "no_new_blocking_issue_observed": true
+  },
+  "limits": [
+    "AIによる既知実装の独立検証であり、人間初見・人間受入ではない。",
+    "読み上げ、Safari、外部IdP、TLS、MFA、公開環境の可用性は未検証。",
+    "認証済みタブのvisibility再取得はr1でhidden前提を得られず未実証。r1 FAILを保持し、回復失敗とは扱わない。",
+    "native200はprofileの実Chrome zoom、inner720×412/outer1440×967/DPR2、CSSzoom1。前回観察r2 .93と一致、前回r1 .58とは異なる。",
+    "既存peer試験は私有コピーへreloadなしassertのみ追加。既存業務受付の同key再送試験は今回重複実装していない。"
+  ],
+  "model_calls_requested": false,
+  "business_counts": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "source_unchanged": true,
+  "private_bundle_unchanged": true,
+  "all_owned_resources_closed": true
+}

@@ -1,0 +1,609 @@
+{
+  "browser": "154.0.8037.58",
+  "run_id": "run_1a0f8118bd3ccca713e",
+  "started_at": "2026-10-01T19:41:25.274Z",
+  "status": "PASS",
+  "phase": "finished",
+  "observations": [
+    {
+      "name": "ja1440",
+      "width": 1440,
+      "height": 1000,
+      "lang": "ja",
+      "html_sha256": "e56b169c5c46d1f8bfbae61047a44625543918102a4ab478f55e1bf8d9fccd49",
+      "bundle": "index-DkBnZueV.js",
+      "before": {
+        "status": "completed",
+        "last_seq": 56,
+        "model_events": 14
+      },
+      "structure": {
+        "viewport": 1440,
+        "scroll_width": 1440,
+        "identity": "01 読むreadiness.json版 1 · 採用した版",
+        "one_file_tab_count": 0,
+        "steps": [
+          "01 読む",
+          "02 確認の記録を読む",
+          "03 使う版を選ぶ"
+        ],
+        "reader": {
+          "top": 605.171875,
+          "bottom": 1255.171875,
+          "left": 297,
+          "right": 968.03125
+        },
+        "checks": {
+          "top": 1255.171875,
+          "bottom": 1461.765625,
+          "left": 297,
+          "right": 968.03125
+        },
+        "choice": {
+          "top": 1461.765625,
+          "bottom": 1721.703125,
+          "left": 297,
+          "right": 968.03125
+        },
+        "export": {
+          "top": 1630.859375,
+          "bottom": 1700.703125,
+          "left": 318,
+          "right": 947.03125
+        },
+        "latest": {
+          "top": 1805.703125,
+          "bottom": 1875.546875,
+          "left": 297,
+          "right": 968.03125
+        },
+        "guarantee_limit": "確認は表示中の版に対する記録です。内容の完全な正しさを保証するものではありません。",
+        "save_help": "採用した版と作業記録をZIPで取得します。",
+        "latest_help": "採用状況にかかわらず、各ファイルの最新版と作業記録をZIPで取得します。"
+      },
+      "keyboard_path": [
+        {
+          "tag": "H1",
+          "text": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作とし",
+          "class": "goal-clamp"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "全文を表示",
+          "class": "goal-toggle"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "会話",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "成果物 1",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "確認事項（16）",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "📋✓ぽん担当分は完了",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "🛠️✓むぎ担当分は完了",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "✅✓るる担当分は完了",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "資料と前提",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "最新を自動追従",
+          "class": "btn ghost"
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "会話を探す",
+          "class": ""
+        },
+        {
+          "tag": "DIV",
+          "text": "🛠️むぎ→ るる引き継ぎ00:29:24L3 未達。readiness.json (revision 1) をレビューに渡す。組織 IdP/MFA、分散・HA、監視・SLO/SL",
+          "class": "conversation-scroll"
+        },
+        {
+          "tag": "A",
+          "text": "readiness.json · 版 1 ↗",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "作業記録",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "指示を送る",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "新しくお願いする",
+          "class": "btn ghost"
+        },
+        {
+          "tag": "A",
+          "text": "別のタブで開く ↗",
+          "class": "btn ghost"
+        },
+        {
+          "tag": "DIV",
+          "text": "{\n  \"areas\": [\n    {\n      \"area\": \"Identity\",\n      \"evidence_quote\": \"Production IdP con",
+          "class": "result-reader"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "確認の記録を見る",
+          "class": "review-link"
+        }
+      ],
+      "record_focus": {
+        "tag": "SUMMARY",
+        "text": "版と確認の記録",
+        "record_open": true,
+        "rect": {
+          "top": 477.765625,
+          "bottom": 521.765625,
+          "left": 312,
+          "right": 953.03125
+        },
+        "outline": "rgb(138, 131, 120) solid 3px"
+      },
+      "next_focus": {
+        "tag": "A",
+        "text": "採用したファイルを保存 ↓"
+      },
+      "keyboard_download_completed": true,
+      "after": {
+        "status": "completed",
+        "last_seq": 56,
+        "model_events": 14
+      }
+    },
+    {
+      "name": "ja390",
+      "width": 390,
+      "height": 844,
+      "lang": "ja",
+      "html_sha256": "e56b169c5c46d1f8bfbae61047a44625543918102a4ab478f55e1bf8d9fccd49",
+      "bundle": "index-DkBnZueV.js",
+      "before": {
+        "status": "completed",
+        "last_seq": 56,
+        "model_events": 14
+      },
+      "structure": {
+        "viewport": 390,
+        "scroll_width": 390,
+        "identity": "01 読むreadiness.json版 1 · 採用した版",
+        "one_file_tab_count": 0,
+        "steps": [
+          "01 読む",
+          "02 確認の記録を読む",
+          "03 使う版を選ぶ"
+        ],
+        "reader": {
+          "top": 882.609375,
+          "bottom": 1473.40625,
+          "left": 33,
+          "right": 357
+        },
+        "checks": {
+          "top": 1473.40625,
+          "bottom": 1735.59375,
+          "left": 33,
+          "right": 357
+        },
+        "choice": {
+          "top": 1735.59375,
+          "bottom": 2065.125,
+          "left": 33,
+          "right": 357
+        },
+        "export": {
+          "top": 1922.28125,
+          "bottom": 2048.125,
+          "left": 50,
+          "right": 340
+        },
+        "latest": {
+          "top": 2149.125,
+          "bottom": 2296.5625,
+          "left": 33,
+          "right": 357
+        },
+        "guarantee_limit": "確認は表示中の版に対する記録です。内容の完全な正しさを保証するものではありません。",
+        "save_help": "採用した版と作業記録をZIPで取得します。",
+        "latest_help": "採用状況にかかわらず、各ファイルの最新版と作業記録をZIPで取得します。"
+      },
+      "keyboard_path": [
+        {
+          "tag": "H1",
+          "text": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作とし",
+          "class": "goal-clamp"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "全文を表示",
+          "class": "goal-toggle"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "会話",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "成果物 1",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "確認事項（16）",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "📋✓ぽん担当分は完了",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "🛠️✓むぎ担当分は完了",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "✅✓るる担当分は完了",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "資料と前提",
+          "class": ""
+        },
+        {
+          "tag": "A",
+          "text": "別のタブで開く ↗",
+          "class": "btn ghost"
+        },
+        {
+          "tag": "DIV",
+          "text": "{\n  \"areas\": [\n    {\n      \"area\": \"Identity\",\n      \"evidence_quote\": \"Production IdP con",
+          "class": "result-reader"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "確認の記録を見る",
+          "class": "review-link"
+        }
+      ],
+      "record_focus": {
+        "tag": "SUMMARY",
+        "text": "版と確認の記録",
+        "record_open": true,
+        "rect": {
+          "top": 399.59375,
+          "bottom": 443.59375,
+          "left": 48,
+          "right": 342
+        },
+        "outline": "rgb(138, 131, 120) solid 3px"
+      },
+      "next_focus": {
+        "tag": "A",
+        "text": "採用したファイルを保存 ↓"
+      },
+      "after": {
+        "status": "completed",
+        "last_seq": 56,
+        "model_events": 14
+      }
+    },
+    {
+      "name": "ja320",
+      "width": 320,
+      "height": 844,
+      "lang": "ja",
+      "html_sha256": "e56b169c5c46d1f8bfbae61047a44625543918102a4ab478f55e1bf8d9fccd49",
+      "bundle": "index-DkBnZueV.js",
+      "before": {
+        "status": "completed",
+        "last_seq": 56,
+        "model_events": 14
+      },
+      "structure": {
+        "viewport": 320,
+        "scroll_width": 320,
+        "identity": "01 読むreadiness.json版 1 · 採用した版",
+        "one_file_tab_count": 0,
+        "steps": [
+          "01 読む",
+          "02 確認の記録を読む",
+          "03 使う版を選ぶ"
+        ],
+        "reader": {
+          "top": 956.203125,
+          "bottom": 1547,
+          "left": 33,
+          "right": 287
+        },
+        "checks": {
+          "top": 1547,
+          "bottom": 1809.1875,
+          "left": 33,
+          "right": 287
+        },
+        "choice": {
+          "top": 1809.1875,
+          "bottom": 2160.3125,
+          "left": 33,
+          "right": 287
+        },
+        "export": {
+          "top": 1995.875,
+          "bottom": 2143.3125,
+          "left": 50,
+          "right": 270
+        },
+        "latest": {
+          "top": 2244.3125,
+          "bottom": 2391.75,
+          "left": 33,
+          "right": 287
+        },
+        "guarantee_limit": "確認は表示中の版に対する記録です。内容の完全な正しさを保証するものではありません。",
+        "save_help": "採用した版と作業記録をZIPで取得します。",
+        "latest_help": "採用状況にかかわらず、各ファイルの最新版と作業記録をZIPで取得します。"
+      },
+      "keyboard_path": [
+        {
+          "tag": "H1",
+          "text": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作とし",
+          "class": "goal-clamp"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "全文を表示",
+          "class": "goal-toggle"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "会話",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "成果物 1",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "確認事項（16）",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "📋✓ぽん担当分は完了",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "🛠️✓むぎ担当分は完了",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "✅✓るる担当分は完了",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "資料と前提",
+          "class": ""
+        },
+        {
+          "tag": "A",
+          "text": "別のタブで開く ↗",
+          "class": "btn ghost"
+        },
+        {
+          "tag": "DIV",
+          "text": "{\n  \"areas\": [\n    {\n      \"area\": \"Identity\",\n      \"evidence_quote\": \"Production IdP con",
+          "class": "result-reader"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "確認の記録を見る",
+          "class": "review-link"
+        }
+      ],
+      "record_focus": {
+        "tag": "SUMMARY",
+        "text": "版と確認の記録",
+        "record_open": true,
+        "rect": {
+          "top": 400.1875,
+          "bottom": 444.1875,
+          "left": 48,
+          "right": 272
+        },
+        "outline": "rgb(138, 131, 120) solid 3px"
+      },
+      "next_focus": {
+        "tag": "A",
+        "text": "採用したファイルを保存 ↓"
+      },
+      "after": {
+        "status": "completed",
+        "last_seq": 56,
+        "model_events": 14
+      }
+    },
+    {
+      "name": "en390",
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "html_sha256": "e56b169c5c46d1f8bfbae61047a44625543918102a4ab478f55e1bf8d9fccd49",
+      "bundle": "index-DkBnZueV.js",
+      "before": {
+        "status": "completed",
+        "last_seq": 56,
+        "model_events": 14
+      },
+      "structure": {
+        "viewport": 390,
+        "scroll_width": 390,
+        "identity": "01 Readreadiness.jsonVersion 1 · Selected version",
+        "one_file_tab_count": 0,
+        "steps": [
+          "01 Read",
+          "02 Read the check record",
+          "03 Choose a version"
+        ],
+        "reader": {
+          "top": 926.203125,
+          "bottom": 1517,
+          "left": 33,
+          "right": 357
+        },
+        "checks": {
+          "top": 1517,
+          "bottom": 1779.1875,
+          "left": 33,
+          "right": 357
+        },
+        "choice": {
+          "top": 1779.1875,
+          "bottom": 2130.3125,
+          "left": 33,
+          "right": 357
+        },
+        "export": {
+          "top": 1965.875,
+          "bottom": 2113.3125,
+          "left": 50,
+          "right": 340
+        },
+        "latest": {
+          "top": 2214.3125,
+          "bottom": 2361.75,
+          "left": 33,
+          "right": 357
+        },
+        "guarantee_limit": "These checks apply to the version shown. They do not guarantee that every statement is correct.",
+        "save_help": "Download the selected versions and work record as a ZIP.",
+        "latest_help": "Download each file’s latest version and the work record as a ZIP, regardless of your selections."
+      },
+      "keyboard_path": [
+        {
+          "tag": "H1",
+          "text": "企業の導入担当者に渡す、Multibotの本番化現状を整理してください。添付は実際のプロジェクト資料です。\n重要: 説明文や計画をチャットに返さず、資料を読んだら最初の生成操作とし",
+          "class": "goal-clamp"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Show all",
+          "class": "goal-toggle"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Conversation",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Results 1",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Needs attention（16）",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "📋✓ぽんAssigned work done",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "🛠️✓むぎAssigned work done",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "✅✓るるAssigned work done",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Materials & context",
+          "class": ""
+        },
+        {
+          "tag": "A",
+          "text": "Open in a new tab ↗",
+          "class": "btn ghost"
+        },
+        {
+          "tag": "DIV",
+          "text": "{\n  \"areas\": [\n    {\n      \"area\": \"Identity\",\n      \"evidence_quote\": \"Production IdP con",
+          "class": "result-reader"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "See the check record",
+          "class": "review-link"
+        }
+      ],
+      "record_focus": {
+        "tag": "SUMMARY",
+        "text": "Versions & check record",
+        "record_open": true,
+        "rect": {
+          "top": 400.1875,
+          "bottom": 444.1875,
+          "left": 48,
+          "right": 342
+        },
+        "outline": "rgb(138, 131, 120) solid 3px"
+      },
+      "next_focus": {
+        "tag": "A",
+        "text": "Save selected files ↓"
+      },
+      "after": {
+        "status": "completed",
+        "last_seq": 56,
+        "model_events": 14
+      }
+    }
+  ],
+  "model_execution": false,
+  "ai_review_not_human_acceptance": true,
+  "browser_closed": true,
+  "finished_at": "2026-10-01T19:41:29.033Z"
+}

@@ -1,0 +1,72 @@
+name: public-oidc
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  jwt-jwks-real-service:
+    # Actual disposable Keycloak + API + Chrome; no provider or fake business input.
+    # This does not certify OAuth2 Proxy, public TLS, MFA or user registration.
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      OIDC_ROOT: /tmp/multibot-public-oidc
+      OIDC_CONTAINER: multibot-public-oidc
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv venv backend/.venv --python 3.12 && uv pip install --python backend/.venv/bin/python -r backend/requirements.lock -e backend
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm, cache-dependency-path: frontend/pnpm-lock.yaml }
+      - run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - run: sudo apt-get update -qq && sudo apt-get install -y sqlite3
+      - name: Prepare actual technical accounts and repository source
+        run: backend/.venv/bin/python backend/scripts/provision_public_oidc.py --root "$OIDC_ROOT"
+      - name: Start the dedicated real identity service
+        run: |
+          umask 077
+          sudo chown -R 0:0 "$OIDC_ROOT/keycloak-import"
+          backend/.venv/bin/python backend/scripts/cleanup_public_oidc.py start-container --root "$OIDC_ROOT" --container-name "$OIDC_CONTAINER"
+          for i in $(seq 1 90); do
+            if curl -sf --max-time 2 http://127.0.0.1:8801/realms/agentteam-verification/.well-known/openid-configuration > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          docker logs "$OIDC_CONTAINER" > "$OIDC_ROOT/keycloak.private.log" 2>&1
+          exit 1
+      - name: Start the real secured API without queued work
+        run: |
+          umask 077
+          backend/.venv/bin/python backend/scripts/cleanup_public_oidc.py start-api --root "$OIDC_ROOT"
+          for i in $(seq 1 30); do
+            if curl -sf --max-time 2 http://127.0.0.1:8798/api/auth/status > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - name: Verify JWT and JWKS using actual issued tokens
+        # Node catches raw errors privately; the redirect additionally protects
+        # startup/import failures. Upload only the explicit safe JSON allowlist.
+        run: node scripts/public-oidc.mjs > "$OIDC_ROOT/check.private.log" 2>&1
+        working-directory: frontend
+      - name: Stop and verify only this job's owned services
+        if: always()
+        timeout-minutes: 3
+        # Stdlib-only cleanup also works if dependency installation failed.
+        # Failure is not swallowed; the following always-upload preserves it.
+        run: python3 backend/scripts/cleanup_public_oidc.py cleanup --root "$OIDC_ROOT"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-oidc-evidence
+          retention-days: 7
+          path: |
+            /tmp/multibot-public-oidc/provenance.json
+            /tmp/multibot-public-oidc/report.json
+            /tmp/multibot-public-oidc/cleanup-report.json
+            /tmp/multibot-public-oidc/start-api-failure.json
+            /tmp/multibot-public-oidc/start-container-failure.json
+          if-no-files-found: ignore

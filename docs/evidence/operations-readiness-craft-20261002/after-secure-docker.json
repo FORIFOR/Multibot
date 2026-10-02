@@ -1,0 +1,364 @@
+{
+  "started_at": "2026-10-01T23:47:16.428848+00:00",
+  "finished_at": "2026-10-01T23:47:19.545819+00:00",
+  "scope": "actual secured readiness GET and compiled Operations UI",
+  "head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+  "source_sha256": {
+    "backend/agentteam/api/app.py": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+    "backend/agentteam/runtime/sandbox.py": "201d945457279b7fbd2fc34894c19e414b52291090c48a4aedd3276b18f4d2d3",
+    "backend/agentteam/runtime/tool_capabilities.py": "a42b01c8e4700e6cca95c234264a445876d7f6d121302677b4b46836c5e4ee15",
+    "backend/agentteam/api/service.py": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+    "backend/scripts/check_public_service.py": "fa1c9f35d5f01debe5c3c053fb65d73c110004ddd12d4812f3c3e428f37babe2",
+    "frontend/src/pages/Operations.tsx": "89113218ebdf0a05a9da5dbe7fbb6704584807464d1981b76c233606fb132521",
+    "frontend/src/App.tsx": "e021310967703ea56602730f5fb6bc6b83c2e6e0c69ce321098f772b00fb2c61",
+    "backend/agentteam/ui/index.html": "68a492d293fa5c3c8d36a6b3c347bbd2fbc1286bc1a57a181113d4d195edc02a",
+    "backend/agentteam/ui/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "backend/agentteam/ui/favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "backend/agentteam/ui/assets/RunView-hMHd7ldx.js": "c1eccc78b0de720f7128ae9673105846b800929967c6514119c6bddb11f226b2",
+    "backend/agentteam/ui/assets/index-BFApKLIo.js": "542b52f1afe40af8b265382cd62f9dd19dabdd2f243aa3d61ed686ab283ba18e",
+    "backend/agentteam/ui/assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa"
+  },
+  "profile_source": {
+    "path": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+    "sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9"
+  },
+  "recorded_profile_sha256": "b64fc97824e643770d55e20bd8fca58ab43168be6ed045f68dcbd7e096c3f42d",
+  "effective_capabilities": {
+    "team": {
+      "requires_command_sandbox": true,
+      "agents": [
+        {
+          "id": "master",
+          "role": "master",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "create_task",
+            "update_task",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "workspace_read",
+            "workspace_write",
+            "publish_artifact",
+            "request_approval",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "researcher",
+          "role": "researcher",
+          "enabled": false,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "web_search",
+            "web_fetch",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "workspace_read",
+            "workspace_write",
+            "publish_artifact",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "builder",
+          "role": "builder",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "workspace_read",
+            "workspace_write",
+            "workspace_list",
+            "sandbox_run",
+            "run_check",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "publish_artifact",
+            "request_approval",
+            "report_blocker",
+            "workspace_write_json"
+          ]
+        },
+        {
+          "id": "reviewer",
+          "role": "reviewer",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "read_artifact",
+            "list_artifacts",
+            "run_check",
+            "sandbox_run",
+            "web_fetch",
+            "workspace_read",
+            "workspace_write",
+            "send_message",
+            "read_messages",
+            "publish_artifact",
+            "submit_review",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "reporter",
+          "role": "reporter",
+          "enabled": false,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "read_artifact",
+            "list_artifacts",
+            "read_events",
+            "publish_artifact"
+          ]
+        }
+      ]
+    },
+    "document": {
+      "requires_command_sandbox": true,
+      "agents": [
+        {
+          "id": "master",
+          "role": "master",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "create_task",
+            "update_task",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "workspace_read",
+            "workspace_write",
+            "publish_artifact",
+            "request_approval",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "researcher",
+          "role": "researcher",
+          "enabled": false,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "web_search",
+            "web_fetch",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "workspace_read",
+            "workspace_write",
+            "publish_artifact",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "builder",
+          "role": "builder",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "workspace_read",
+            "workspace_write",
+            "workspace_list",
+            "sandbox_run",
+            "run_check",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "publish_artifact",
+            "request_approval",
+            "report_blocker",
+            "workspace_write_json"
+          ]
+        },
+        {
+          "id": "reviewer",
+          "role": "reviewer",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "read_artifact",
+            "list_artifacts",
+            "run_check",
+            "send_message",
+            "read_messages",
+            "submit_review",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "reporter",
+          "role": "reporter",
+          "enabled": false,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "read_artifact",
+            "list_artifacts",
+            "read_events",
+            "publish_artifact"
+          ]
+        }
+      ]
+    }
+  },
+  "observations": [
+    {
+      "case": "default",
+      "http_status": 503,
+      "ready": false,
+      "workflow": "team",
+      "disk_free_bytes": 11114209280,
+      "sandbox_backend": "none",
+      "execution_dispatcher_ready": true,
+      "configuration_problems": []
+    },
+    {
+      "case": "team",
+      "http_status": 503,
+      "ready": false,
+      "workflow": "team",
+      "disk_free_bytes": 11113697280,
+      "sandbox_backend": "none",
+      "execution_dispatcher_ready": true,
+      "configuration_problems": []
+    },
+    {
+      "case": "document",
+      "http_status": 503,
+      "ready": false,
+      "workflow": "document",
+      "disk_free_bytes": 11113693184,
+      "sandbox_backend": "none",
+      "execution_dispatcher_ready": true,
+      "configuration_problems": []
+    }
+  ],
+  "browser": {
+    "status": "PASS",
+    "browser_version": "154.0.8037.93",
+    "cases": [
+      {
+        "lang": "ja",
+        "secure_docker_requirement_visible": true,
+        "raw_backend_visible": false,
+        "unknown_reason_visible": false,
+        "readiness_label": "実行条件の確認が必要"
+      },
+      {
+        "lang": "en",
+        "secure_docker_requirement_visible": true,
+        "raw_backend_visible": false,
+        "unknown_reason_visible": false,
+        "readiness_label": "Execution prerequisites need attention"
+      }
+    ],
+    "cleanup": true
+  },
+  "api_cleanup": {
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "process_cleanup": [
+    {
+      "program": "observe.mjs",
+      "tracked_processes": 12,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "db_before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0
+  },
+  "db_after": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0
+  },
+  "source_unchanged": true,
+  "model_execution_requested": false,
+  "business_acceptance": false,
+  "observation_status": "PASS",
+  "product_display_result": "PASS",
+  "settings": {
+    "secured": true,
+    "sandbox_mode": "docker"
+  },
+  "original_private_summary_sha256": "26f6341e88c0c53f36971ba771aaa169e77512b905c87296a5740a5f2b027000",
+  "original_http_responses": {
+    "default": {
+      "file": "http-default.private.json",
+      "sha256": "33d78ddac391b511ac628150ed49a3a153b8e9ac7748ab893fa7a7490a6a48a7",
+      "bytes": 303
+    },
+    "team": {
+      "file": "http-team.private.json",
+      "sha256": "4e84c089a4fe07a1e80d632ffa8e2a881071722dfe276d33753a33d43704de07",
+      "bytes": 317
+    },
+    "document": {
+      "file": "http-document.private.json",
+      "sha256": "46e7c17687b65d9441b84320689bf21cd04842ba8d5682a56b6889bf2ff1981b",
+      "bytes": 325
+    }
+  },
+  "harness_sha256": {
+    "observe.mjs": "2ac2a7b900ea713de903fab9d09e6ca9e23e68cdcc03213903c3846d0dbde776",
+    "observe.py": "de629fedf80f706858553cab95e9339ace139580c0bb5b14044472b2d3c7870b"
+  },
+  "process_exit_code": 0,
+  "static_bundle_matches_r2": true,
+  "private_runtime_log_diagnostics": {
+    "browser-api.private.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "traceback_count": 0,
+      "database_locked_count": 0
+    },
+    "browser-process.private.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "traceback_count": 0,
+      "database_locked_count": 0
+    }
+  },
+  "evidence_limit": "HTTP responses were collected with an authenticated client (or actual local mode). UI then fetched the same owned API; individual browser response bodies were not separately intercepted. No model execution or command execution was attempted."
+}

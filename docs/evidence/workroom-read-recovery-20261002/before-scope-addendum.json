@@ -1,0 +1,17 @@
+{
+  "status": "RECORDED",
+  "original_reports_modified": false,
+  "case": "en768-immediate-block",
+  "requested_fault": "CDP Network.setBlockedURLs using the exact detail URL string",
+  "actual_scope": "detail, chat and events GET transport failures occurred twice while the URL block was active; detail-only failure was not isolated",
+  "observed_failed_get_count": 6,
+  "original_expected_block_false_count": 4,
+  "classification": "Harness expected_block only classified exact detail path. Keep the original flags; do not treat the four other failures as established unrelated product failures. Recovery control applies to observed read-batch interruption.",
+  "screenshot_limit": "en768-blocked-warning.png was captured at scrollY424; it shows reconnecting conversation but not the top error/Refresh. The alert and focus-visible Refresh geometry were measured through real DOM and keyboard later; no focused EN warning screenshot was captured.",
+  "unmeasured": [
+    "No errorText captured for individual failed requests",
+    "No artifact GET transport fault",
+    "No live generation or ongoing SSE messages",
+    "No native200 or320 viewport in this original observation"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "status": "FAIL",
+  "phase": "ja390-completed-keyboard",
+  "started_at": "2026-10-01T21:37:25.442Z",
+  "actor": "AI independent reviewer",
+  "human_acceptance": false,
+  "model_execution": false,
+  "source_before": {
+    "frontend/src/pages/Workroom.tsx": "722d5907e211bc8f04ccd125c9e7139089283e0a0e44ca799f249ba75b4192bf",
+    "frontend/src/workroom-refinement.css": "2ec73a4dd35b0ee44a553115c1092a2ba816bacdb9c2338a77c5e50542f279fb",
+    "frontend/src/paper.css": "c0c3250b83d11b22d8c0c9bca741b92565d04deefe593bf6b19269749dbf5eb1"
+  },
+  "checks": [
+    {
+      "id": "frozen-after-r1-bundle",
+      "passed": true
+    },
+    {
+      "id": "ja390-default-closed",
+      "passed": true
+    },
+    {
+      "id": "ja390-native-tab-summary",
+      "passed": true,
+      "tab_steps": 6
+    },
+    {
+      "id": "ja390-enter-opens",
+      "passed": true
+    },
+    {
+      "id": "ja390-open-first-inner-focus",
+      "passed": true
+    },
+    {
+      "id": "ja390-back-to-summary",
+      "passed": true
+    },
+    {
+      "id": "ja390-space-closes",
+      "passed": true
+    },
+    {
+      "id": "ja390-closed-skips-inner-focus",
+      "passed": true
+    },
+    {
+      "id": "ja390-open-preserved-on-poll",
+      "passed": true
+    },
+    {
+      "id": "ja390-conversation-team-visible",
+      "passed": true
+    },
+    {
+      "id": "ja390-open-preserved-panel-roundtrip",
+      "passed": true
+    },
+    {
+      "id": "ja390-explicit-close",
+      "passed": true
+    },
+    {
+      "id": "ja390-closed-preserved-panel-roundtrip",
+      "passed": true
+    },
+    {
+      "id": "ja390-closed-preserved-on-poll",
+      "passed": true
+    },
+    {
+      "id": "ja390-single-h2-filename",
+      "passed": true
+    },
+    {
+      "id": "ja390-no-horizontal-overflow",
+      "passed": false
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "page_errors": [],
+  "http_errors": [
+    {
+      "status": 401,
+      "path": "/api/auth/me"
+    }
+  ],
+  "cleanup": {
+    "browser_connection_closed": true,
+    "owned_browser_exited": true
+  },
+  "limits": [
+    "Actual historical v62 records imported into private SQLite. No generated business input.",
+    "Direction and artifact copy edit use existing record text only; no send/resume/new request.",
+    "No real active/approval/artifact-none case exists in imported records; those states are not manufactured.",
+    "Browser local draft edits do not change original artifact bytes."
+  ],
+  "browser": "154.0.8037.58",
+  "owned_browser_pid": 20353,
+  "index_sha256": "23a2f69d51279a31d76803282438bc1c16d480b48ea180ae231d0513231005a4",
+  "error_name": "AssertionError",
+  "finished_at": "2026-10-01T21:37:36.508Z"
+}

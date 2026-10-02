@@ -1,0 +1,40 @@
+{
+  "started_at": "2026-10-01T18:05:31.590Z",
+  "status": "BUG_REPRODUCED",
+  "mode": "original-code-reproduction",
+  "source": "docs/PRODUCTION_PLAN.md",
+  "source_sha256": "e0dd46337a5d8240dd1016096d4d0cdac8bbe1f260523b97faa077adbff96f23",
+  "checks": [
+    {
+      "id": "peer-close",
+      "status": "BUG_REPRODUCED",
+      "actual_login_status": 200,
+      "observed_ms": 21528,
+      "empty_signin_after_ms": null,
+      "actual_completion_notification_observed": false,
+      "prior_workspace_closed": true,
+      "private_storage_cleared": true
+    },
+    {
+      "id": "peer-reload",
+      "status": "ACTUAL_COMPLETION_OBSERVED",
+      "actual_login_status": 200,
+      "observed_ms": 109,
+      "empty_signin_after_ms": 78,
+      "actual_completion_notification_observed": true,
+      "prior_workspace_closed": true,
+      "private_storage_cleared": true
+    }
+  ],
+  "model_execution": false,
+  "human_acceptance": false,
+  "limitations": [
+    "Local actual technical accounts; no external IdP/TLS acceptance",
+    "CDP holds actual HTTP 200 responses; it supplies no response bytes",
+    "A suspended browser cannot render until it resumes; the lease is checked when its JavaScript runs"
+  ],
+  "browser": "154.0.8037.58",
+  "additional_runs": 0,
+  "additional_jobs": 0,
+  "finished_at": "2026-10-01T18:05:54.479Z"
+}

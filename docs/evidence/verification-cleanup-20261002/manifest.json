@@ -1,0 +1,91 @@
+{
+  "basis_head": "a3258b52a3d8f6f2da0c14186b3491a2b5996f71",
+  "actor": "AI-operated technical verification",
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false,
+  "files": [
+    {
+      "file": "r1-start-import-failure.json",
+      "sha256": "bb914663843d96c22ffdf7e4802b4e349b6161a4a031da789030d105c366e583",
+      "bytes": 1707,
+      "original_root": "service-cleanup-20261002-r1",
+      "original_file": "safe-report.json"
+    },
+    {
+      "file": "r2-identity-refusal.json",
+      "sha256": "3ad1d57951c92cc1b61c01456946010a2d4c773d300d8dbd622973d26aef1911",
+      "bytes": 3568,
+      "original_root": "service-cleanup-20261002-r2",
+      "original_file": "safe-report.json"
+    },
+    {
+      "file": "r2-owned-api-recovery.json",
+      "sha256": "8df5de5e3601766246ed48e8262e42a62731c885bb98b4bd056b32b97c13d09c",
+      "bytes": 309,
+      "original_root": "service-cleanup-20261002-r2",
+      "original_file": "api-success/manual-owned-cleanup.json"
+    },
+    {
+      "file": "r3-initial-pass.json",
+      "sha256": "9426c946b65830ee839f4cc48d79aa0b10fe12551c5455209df507b22ed67a2a",
+      "bytes": 7219,
+      "original_root": "service-cleanup-20261002-r3",
+      "original_file": "safe-report.json"
+    },
+    {
+      "file": "r4-lifespan-negative.json",
+      "sha256": "e07775428c2ab394b2bb1fa941c04a7c9001693b75965c0749a7e1655deea4ae",
+      "bytes": 8344,
+      "original_root": "service-cleanup-20261002-r4",
+      "original_file": "safe-report.json"
+    },
+    {
+      "file": "r5-api-lifecycle.json",
+      "sha256": "30def857e91e8f9918e8a0d1c9296a9cbb217d7c5ab57df4c71fa7810bd389b0",
+      "bytes": 7465,
+      "original_root": "service-cleanup-20261002-r5",
+      "original_file": "safe-report.json"
+    },
+    {
+      "file": "six-stage.json",
+      "sha256": "f277bcbb3a761cea715a252cfdcaaf08114c7547da562292ad91383d499762cf",
+      "bytes": 2654,
+      "original_root": "service-cleanup-integration-20261002-r1",
+      "original_file": "report.json"
+    },
+    {
+      "file": "incompatible-source.json",
+      "sha256": "0b8bed41ca7d4c6910e5f8e23a5acfa6ba25a303395896fc0176f7a20f01173b",
+      "bytes": 380,
+      "derived_from": "r5 actual copied profile and current repository source"
+    },
+    {
+      "file": "independent-review.json",
+      "sha256": "6557eeed3915ab23d8b313f74874db2b866874215b045b8b62b3277edb1c5d90",
+      "bytes": 9210,
+      "original_root": "quality-cleanup-audit-20261002-r1",
+      "original_file": "final-static-and-r5-evidence-review.json"
+    },
+    {
+      "file": "r5-database-counts.json",
+      "sha256": "19fa273158510d5f459d153dd1cd18b8579f6f100e11bfdebd1ece9bd467410d",
+      "bytes": 997,
+      "derived_from": "read-only counts from four actual final r5 SQLite databases"
+    },
+    {
+      "file": "README.md",
+      "sha256": "85fdebf6875231788a49efd6f0a38315ba621101857d6ff40404fcfa489be2c2",
+      "bytes": 5552,
+      "derived_from": "allowlisted execution reports, database counts and same-model independent read-only review"
+    }
+  ],
+  "implementation_sha256": {
+    "backend/scripts/cleanup_public_oidc.py": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+    "backend/scripts/check_public_service.py": "fa1c9f35d5f01debe5c3c053fb65d73c110004ddd12d4812f3c3e428f37babe2",
+    ".github/workflows/public-oidc.yml": "bea892d03c241b70cec4d1bdc451c5847546f9bc606ebc2b0a4120176f9adc0a"
+  },
+  "limits": [
+    "These files are unchanged copies of allowlisted reports, not private runtime directories.",
+    "Original failure statuses are preserved. Container runtime cleanup awaits GitHub Actions."
+  ]
+}

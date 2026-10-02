@@ -1,0 +1,39 @@
+{
+  "started_at": "2026-10-01T19:53:07.044716+00:00",
+  "finished_at": "2026-10-01T19:53:07.989181+00:00",
+  "implementation_sha256": {
+    "backend/agentteam/store/db.py": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+    "backend/agentteam/store/job_store.py": "b1d709a9da46a872a3c0e291c1cc732773e1701176399c7af9791ab4d85d8497",
+    "backend/agentteam/store/usage_store.py": "83dc934e86dafb43a5b457d9fc0d745170d44e44b4dfc37d1ad1cd9b6095e24b",
+    "backend/agentteam/security/server.py": "29e30b467789a9eccc7cb17417b20b520827e30be364b7e68b5e839ccb76fc0a"
+  },
+  "python": "3.12.12 (main, Oct  9 2025, 11:07:00) [Clang 17.0.0 (clang-1700.6.3.2)]",
+  "sqlite": "3.53.4",
+  "model_execution": false,
+  "http_reproduction": false,
+  "source_unchanged": true,
+  "new_models": 0,
+  "new_jobs": 0,
+  "private_report_sha256": "9f63175f2f58dfcd0f2f11d1e2de4d5ae4081f69e03a973d9d53b30002bce51a",
+  "phases": [
+    {
+      "name": "parallel",
+      "calls": 640,
+      "failures": []
+    },
+    {
+      "name": "mechanism",
+      "calls": 2,
+      "failures": [
+        {
+          "kind": "audit",
+          "batch": "held-real-read-and-usage-transaction",
+          "sqlite_errorcode": 5,
+          "sqlite_errorname": "SQLITE_BUSY",
+          "elapsed_ms": 1.376
+        }
+      ]
+    }
+  ],
+  "interpretation": "通常DB操作の並行試験と、guardを迂回して実cursorを保持する負例を区別。原HTTP失敗の完全な原因確定ではない。原監査行の写しは私有診断DBだけに挿入し、原HTTP操作の再実行ではない。"
+}

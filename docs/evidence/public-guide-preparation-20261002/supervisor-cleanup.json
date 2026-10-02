@@ -1,0 +1,13 @@
+{
+  "started_at": "2026-10-01T17:27:38.577579+00:00",
+  "colima_owned_start_attempt": false,
+  "child": {
+    "attempted": false
+  },
+  "containers": {
+    "required": false,
+    "verified": true
+  },
+  "colima_stop_skipped": "not started by this supervisor",
+  "finished_at": "2026-10-01T17:27:38.577583+00:00"
+}

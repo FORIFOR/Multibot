@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "returned_exit_1": true,
+    "safe_stdout_is_status_only": true,
+    "stderr_empty": true,
+    "precondition_failed": true,
+    "service_not_attempted": true,
+    "refusal_was_changed_frozen_code": true,
+    "original_tree_unchanged": true,
+    "no_http_directory": true
+  },
+  "passed": true,
+  "source_kind": "existing real validation-only r5 series",
+  "scope": "actual early refusal before service startup; downstream completed-ten and HTTP operations not run",
+  "new_services_started": 0,
+  "new_model_calls": 0,
+  "business_quality_accepted": false
+}

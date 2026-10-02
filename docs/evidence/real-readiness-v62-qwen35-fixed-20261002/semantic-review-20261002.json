@@ -1,0 +1,1699 @@
+{
+  "reviewed_at": "2026-10-01T17:10:31.115067+00:00",
+  "reviewer_kind": "independent AI source/output/event comparison; not human acceptance",
+  "state": "FINAL",
+  "reviewed_finished_attempts": 10,
+  "target_attempts": 10,
+  "all_ten_semantic_review_complete": true,
+  "human_acceptance": false,
+  "general_business_acceptance": false,
+  "production_L3_acceptance": false,
+  "series_root": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002",
+  "fingerprint": {
+    "commit": "9eb798849cd8352ec645f6da2ed1e04d9729d63c",
+    "source_sha256": {
+      "PRODUCTION_PLAN.md": "b3dbc33a647b30f043364d6e60fbd9d91fdd1133014ffe46119ed25fc9c354bc",
+      "README.md": "fda3abfcdea7fc7c1e3d766f0f950d06103cd108ce8abd588ff22756d1dd42e1"
+    },
+    "goal_sha256": "f1fe1a2664d370ef6def182303a6807dfd7b157edb52814cd509a26d69c6091d",
+    "config_sha256": "220d3c86b2bffebd47f420cd204a4bd5937e7ebef333dd873c18aefce50c8ead",
+    "delivery_requirements_sha256": "dc1add8ba78f6e42cdfd93ea6e61a8ace322887e15f5c13f1f5a4657d5c88a31",
+    "model": "agentteam-qwen35-9b-16k",
+    "model_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+    "ollama_version": "0.33.3",
+    "target_runs": 10
+  },
+  "limits": [
+    "Independent AI source/output/event comparison only; no human acceptance.",
+    "All ten finished attempts are reviewed, including five failed and one interrupted runtime. Finishing the experiment is not ten successful workflows.",
+    "No LLM, service, mock, or substituted network response was started for this review.",
+    "Frozen v62 records, interim07/08/09 and v61 acceptance-zero source records are preserved without modification.",
+    "All 17 prose summary fields in every published readiness.json exactly match the supplied examples/const; limited input-retrieval wording regression is not evidence of freeform or general business quality.",
+    "Every published readiness.json has the same SHA-256. No output was edited to pass.",
+    "Model review covers readiness.json@r1 only. Later final-report narratives are separate unreviewed generations; rep9 has no generated final report.",
+    "The soft 40–120-character guideline is not satisfied by every supplied example (Contract / operation implemented is 14 characters); this originates in the supplied template and is not a new model defect.",
+    "Published readiness summaries compress implementation details while preserving full remaining-acceptance quotations; no full source restatement is claimed.",
+    "No customer environment, public TLS/IdP/MFA, SLA/SLO, independent security review, or support responsibility acceptance was performed."
+  ],
+  "records": [
+    {
+      "rep": 1,
+      "run_id": "run_1a0f7fbead33cd46066",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066",
+      "evidence_sha256": {
+        "artifact-000.bin": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+        "artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "23f597b41d6fa5a7a526985af4a859bc38ee8528d59057e425b3f0768c81be13",
+        "run.json": "6712dfa6685d1a280b3f40f9ee05ab3e457cb29f130fb003bb793d7626d679c8",
+        "artifacts.json": "1c4ebccf2050a48b22fd5b9127fcc4e5f01a421d48e662a9437b4925270389fc"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "PASS",
+        "observed_run_status": "completed",
+        "reviewer_handoffs": [
+          {
+            "seq": 43,
+            "task_id_argument": null,
+            "recipient": "master",
+            "ok": true
+          },
+          {
+            "seq": 48,
+            "task_id_argument": null,
+            "recipient": "builder",
+            "ok": true
+          }
+        ],
+        "failed_finish_sequences": [
+          45
+        ],
+        "wall_seconds": 673.49547587501,
+        "model_calls": 15
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T15:10:19.108Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_request",
+                "evidence": "run_check(json_schema, readiness.json@r1) passed with no problems.",
+                "note": "The artifact conforms to the requester-owned JSON schema.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "readiness.json@r1 contains production_ready=false and L3 unmet conditions as required by the readiness assessment series.",
+                "note": "The document correctly reflects the current status without inventing approvals or certifications.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "All prose in readiness.json@r1 is in Japanese, matching the team language and user request.",
+                "note": "No language drift or mid-sentence switches were found.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "The evidence_quote fields are exact English quotations from PRODUCTION_PLAN.md's Remaining acceptance work column; implemented/remaining summaries are Japanese. No contradictions between source and summary.",
+                "note": "Source citations, area descriptions, and status assessment are consistent.",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [
+          {
+            "seq": 57,
+            "recorded_at": "2026-10-01T15:12:30.655Z"
+          }
+        ],
+        "final_report_sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing model review of copied examples does not demonstrate ability to detect factual defects; final report is generated after the readiness-only review.",
+        "report_model_events": [
+          {
+            "seq": 56,
+            "recorded_at": "2026-10-01T15:12:30.651Z"
+          }
+        ]
+      },
+      "final_report_findings": [],
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "final-report.md",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+          "size": 43512
+        },
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-001.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "final_report_assessment": "NO_ADDITIONAL_UNSUPPORTED_CLAIM_OBSERVED"
+    },
+    {
+      "rep": 2,
+      "run_id": "run_1a0f80632e5c1220524",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524",
+      "evidence_sha256": {
+        "artifact-000.bin": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+        "artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+        "run.json": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+        "artifacts.json": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "FAIL",
+        "observed_run_status": "failed",
+        "reviewer_handoffs": [
+          {
+            "seq": 42,
+            "task_id_argument": "t1",
+            "recipient": "むぎ",
+            "ok": false
+          },
+          {
+            "seq": 45,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 50,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 55,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 62,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 67,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 71,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          }
+        ],
+        "failed_finish_sequences": [
+          47,
+          52,
+          57,
+          64,
+          69
+        ],
+        "wall_seconds": 743.5164180829888,
+        "model_calls": 25
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T15:20:18.946Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "json_schema check passed with no problems.",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "readiness.json is in Japanese as required by the team language.",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_request",
+                "evidence": "The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+                "note": "",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [
+          {
+            "seq": 79,
+            "recorded_at": "2026-10-01T15:24:54.488Z"
+          }
+        ],
+        "final_report_sha256": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing model review of copied examples does not demonstrate ability to detect factual defects; final report is generated after the readiness-only review.",
+        "report_model_events": [
+          {
+            "seq": 78,
+            "recorded_at": "2026-10-01T15:24:54.480Z"
+          }
+        ]
+      },
+      "final_report_findings": [
+        {
+          "id": "v62-next-step-waits-for-unproven-reset",
+          "status": "BLOCKED",
+          "section": "Next steps",
+          "observed": "メッセージ制限がリセットされるのを待ちます。",
+          "reason": "The observed tool errors state a per-task message cap. No event in this run establishes an automatic reset or its time; this next-step claim is ungrounded in supplied run evidence. Runtime implementation behavior not independently reviewed in this semantic task."
+        }
+      ],
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "final-report.md",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+          "size": 44511
+        },
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-001.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "final_report_assessment": "FINDINGS_RECORDED"
+    },
+    {
+      "rep": 3,
+      "run_id": "run_1a0f8118bd3ccca713e",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e",
+      "evidence_sha256": {
+        "artifact-000.bin": "536a9ebcacd4fd4d484c67859268ed550d18adf516d974208f8db3d8c3dd8546",
+        "artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "73297cf5fddaa85a2483f039e0e8ca081373fa7764a67c821196f2dfb7f067c3",
+        "run.json": "6cc9a5b0203a0b572b57e717f1c3d130e4f2aca97c73ce41ed521631ac1c33ab",
+        "artifacts.json": "6af8f4007a56ae6bfec70172786eda1932c0cfd3053ddc0fa9e667dc061b8bcd"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "PASS",
+        "observed_run_status": "completed",
+        "reviewer_handoffs": [
+          {
+            "seq": 42,
+            "task_id_argument": null,
+            "recipient": "むぎ",
+            "ok": false
+          },
+          {
+            "seq": 45,
+            "task_id_argument": null,
+            "recipient": "builder",
+            "ok": true
+          }
+        ],
+        "failed_finish_sequences": [],
+        "wall_seconds": 593.6660671669815,
+        "model_calls": 14
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T15:32:32.467Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "json_schema check passed on readiness.json@r1 with no problems.",
+                "note": "The artifact conforms to the requester-owned JSON schema.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "readiness.json@r1 contains Japanese prose for summaries and English evidence_quote cells as required.",
+                "note": "Language requirements are satisfied: Japanese for team communication, English for evidence_quote.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_request",
+                "evidence": "The artifact documents the current Multibot status with production_ready=false, L3未達, and remaining acceptance conditions as specified in the readiness request.",
+                "note": "The document accurately reflects the unverified/remaining conditions without inventing approvals.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "readiness.json@r1 lists areas with implemented/remaining summaries and English evidence_quote cells matching PRODUCTION_PLAN.md's Remaining acceptance work column.",
+                "note": "The summaries and quotes are consistent; no contradictions found between source and assessment.",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [
+          {
+            "seq": 54,
+            "recorded_at": "2026-10-01T15:34:48.305Z"
+          }
+        ],
+        "final_report_sha256": "536a9ebcacd4fd4d484c67859268ed550d18adf516d974208f8db3d8c3dd8546",
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing model review of copied examples does not demonstrate ability to detect factual defects; final report is generated after the readiness-only review.",
+        "report_model_events": [
+          {
+            "seq": 53,
+            "recorded_at": "2026-10-01T15:34:48.300Z"
+          }
+        ]
+      },
+      "final_report_findings": [],
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "final-report.md",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "536a9ebcacd4fd4d484c67859268ed550d18adf516d974208f8db3d8c3dd8546",
+          "size": 43487
+        },
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-001.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "final_report_assessment": "NO_ADDITIONAL_UNSUPPORTED_CLAIM_OBSERVED"
+    },
+    {
+      "rep": 4,
+      "run_id": "run_1a0f81a9b714c338a4d",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/04-run_1a0f81a9b714c338a4d",
+      "evidence_sha256": {
+        "artifact-000.bin": "9f59cb6ddd89b3f3f2b2a6d2783a049fc44d4a914af7bff5701a3ba7802c076a",
+        "artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "4df7c083f47ee3bf966c4e0f2fba9ceba4fb524e01f48d4e2afcc08cf908696a",
+        "run.json": "7bfb8eefd746faae4e3345da90437527072a079b4a744cf1299a85529e992350",
+        "artifacts.json": "b207732bb00a85beb71f149e38ce777c7c898272815806a1a1194c43e21a1bf9"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "PASS",
+        "observed_run_status": "completed",
+        "reviewer_handoffs": [
+          {
+            "seq": 43,
+            "task_id_argument": null,
+            "recipient": "master",
+            "ok": true
+          },
+          {
+            "seq": 48,
+            "task_id_argument": null,
+            "recipient": "builder",
+            "ok": true
+          }
+        ],
+        "failed_finish_sequences": [
+          45
+        ],
+        "wall_seconds": 607.967916374997,
+        "model_calls": 15
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T15:42:47.308Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_request",
+                "evidence": "run_check(json_schema, readiness.json@r1) passed with no problems.",
+                "note": "The artifact conforms to the requester-owned JSON schema.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "readiness.json@r1 contains production_ready=false and L3 unmet conditions as required by the readiness assessment series.",
+                "note": "The document correctly reflects the current status without inventing approvals or certifications.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "All prose in readiness.json@r1 is in Japanese, matching the team language and user request.",
+                "note": "No language drift or mid-sentence switches were found.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "The evidence_quote fields are exact English quotations from PRODUCTION_PLAN.md's Remaining acceptance work column; implemented/remaining summaries are Japanese. No contradictions between source and summary.",
+                "note": "Source citations, area descriptions, and status assessment are consistent.",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [
+          {
+            "seq": 57,
+            "recorded_at": "2026-10-01T15:44:56.391Z"
+          }
+        ],
+        "final_report_sha256": "9f59cb6ddd89b3f3f2b2a6d2783a049fc44d4a914af7bff5701a3ba7802c076a",
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing model review of copied examples does not demonstrate ability to detect factual defects; final report is generated after the readiness-only review.",
+        "report_model_events": [
+          {
+            "seq": 56,
+            "recorded_at": "2026-10-01T15:44:56.382Z"
+          }
+        ]
+      },
+      "final_report_findings": [],
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "final-report.md",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "9f59cb6ddd89b3f3f2b2a6d2783a049fc44d4a914af7bff5701a3ba7802c076a",
+          "size": 43512
+        },
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-001.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "final_report_assessment": "NO_ADDITIONAL_UNSUPPORTED_CLAIM_OBSERVED"
+    },
+    {
+      "rep": 5,
+      "run_id": "run_1a0f823e685a0a1a2f3",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/05-run_1a0f823e685a0a1a2f3",
+      "evidence_sha256": {
+        "artifact-000.bin": "4c13d16199da8c968a616d47fb14bc1e69e8e59bf70ee9b2c3c54d32cc6974cf",
+        "artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "e8fdb97f22edb42f4bde852d03c3db40f94a66d97a6f9eeb65529b3e299166ad",
+        "run.json": "e193804fcf41785ef3e4c49ba7a7e096a1ea5ed97ebe952f89408d3b65b1ff15",
+        "artifacts.json": "c35812c11d31f7afe022dd443d47877d86a0d4d0ffe092b13342bf5cdc543106"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "FAIL",
+        "observed_run_status": "failed",
+        "reviewer_handoffs": [
+          {
+            "seq": 43,
+            "task_id_argument": "t1",
+            "recipient": "master",
+            "ok": true
+          },
+          {
+            "seq": 48,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 55,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 62,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 69,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 75,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 77,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 79,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 81,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 83,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 85,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 87,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 89,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 91,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 93,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 95,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 97,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 99,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 101,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 103,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          },
+          {
+            "seq": 105,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          }
+        ],
+        "failed_finish_sequences": [
+          45,
+          50,
+          52,
+          57,
+          64,
+          71
+        ],
+        "wall_seconds": 947.6169456659991,
+        "model_calls": 40
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T15:52:50.505Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_request",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md の各 area と evidence_quote が一致し、production_ready=false、L3 未達、残条件の明記が要求通り。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "readiness.json@r1 の schema 検証がパス。契約形式（JSON Schema）に従い、production_ready=false、areas/evidence_quote/implemented/remaining の構造が正しく、日本語要約と英語原文の区別が守られている。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md は英語で記述され、evidence_quote は英語原文をそのまま引用。日本語要約は implemented/remaining に限定され、翻訳扱いになっていない。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md の各 area と evidence_quote が一致し、production_ready=false、L3 未達、残条件の明記が要求通り。",
+                "note": "",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [
+          {
+            "seq": 109,
+            "recorded_at": "2026-10-01T16:00:45.116Z"
+          }
+        ],
+        "final_report_sha256": "4c13d16199da8c968a616d47fb14bc1e69e8e59bf70ee9b2c3c54d32cc6974cf",
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing model review of copied examples does not demonstrate ability to detect factual defects; final report is generated after the readiness-only review.",
+        "report_model_events": []
+      },
+      "final_report_findings": [],
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "final-report.md",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "4c13d16199da8c968a616d47fb14bc1e69e8e59bf70ee9b2c3c54d32cc6974cf",
+          "size": 42858
+        },
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-001.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "final_report_assessment": "NO_ADDITIONAL_UNSUPPORTED_CLAIM_OBSERVED"
+    },
+    {
+      "rep": 6,
+      "run_id": "run_1a0f832606535338159",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/06-run_1a0f832606535338159",
+      "evidence_sha256": {
+        "artifact-000.bin": "ac3969af49d06c19f4d9ff8f309b06bf0362bb8a3a8e88126777dd842ab07878",
+        "artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "e80e841fa28e3513b3244ac8155ae17e23dcfe7ac2bb23b391d543e097288f44",
+        "run.json": "ee7759068aab7e71320ba3d1628b9130c80832bb32ec1084281d5e686de5b8b0",
+        "artifacts.json": "d6d44985fe1e9278117e7aebb352f5c6c1acec0945310142120c20d15e642a62"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "FAIL",
+        "observed_run_status": "failed",
+        "reviewer_handoffs": [
+          {
+            "seq": 43,
+            "task_id_argument": "t1",
+            "recipient": "master",
+            "ok": true
+          },
+          {
+            "seq": 48,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          }
+        ],
+        "failed_finish_sequences": [
+          45,
+          50,
+          54
+        ],
+        "wall_seconds": 628.0305044999986,
+        "model_calls": 18
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T16:07:59.970Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_request",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md の各 area と evidence_quote が一致し、production_ready=false、L3 未達、残条件の明記が要求通り。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "readiness.json@r1 の schema 検証がパス。契約形式（JSON Schema）に従い、production_ready=false、areas/evidence_quote/implemented/remaining の構造が正しく、日本語要約と英語原文の区別が守られている。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md は英語で記述され、evidence_quote は英語原文をそのまま引用。日本語要約は implemented/remaining に限定され、翻訳扱いになっていない。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md の各 area と evidence_quote が一致し、production_ready=false、L3 未達、残条件の明記が要求通り。",
+                "note": "",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [
+          {
+            "seq": 62,
+            "recorded_at": "2026-10-01T16:11:14.240Z"
+          }
+        ],
+        "final_report_sha256": "ac3969af49d06c19f4d9ff8f309b06bf0362bb8a3a8e88126777dd842ab07878",
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing model review of copied examples does not demonstrate ability to detect factual defects; final report is generated after the readiness-only review.",
+        "review_explanation_imprecision_observed": true,
+        "report_model_events": [
+          {
+            "seq": 61,
+            "recorded_at": "2026-10-01T16:11:14.238Z"
+          }
+        ]
+      },
+      "final_report_findings": [
+        {
+          "id": "v62-final-report-unverified-as-unimplemented",
+          "status": "FAIL",
+          "section": "Unresolved / pending",
+          "observed": "監視・SLO/SLA、運用責任の独立した WORM 保管とアラート配送が未実装。",
+          "source_file": "inputs/PRODUCTION_PLAN.md",
+          "source_area": "Audit / monitoring",
+          "source_remaining_quote": "Independent retained/WORM custody, actual alert delivery and escalation, collector supervision deployment, service objectives and incident acceptance",
+          "reason": "The source records pending acceptance and the supporting README describes off-site custody/actual alert routing as unverified. It does not establish their absence of implementation. The generated report strengthens uncertainty into an unsupported implementation claim.",
+          "model_review_miss": "Not within the submitted readiness.json review target; separately unchecked final-report generation."
+        },
+        {
+          "id": "v62-review-explanation-omits-top-level-japanese-summary",
+          "status": "OBSERVED_IMPRECISION",
+          "section": "Model interpretation / document_language review explanation",
+          "observed": "日本語要約は implemented/remaining に限定され、翻訳扱いになっていない。",
+          "reason": "The published JSON also has the required Japanese top-level summary. The literal scope assertion is inaccurate. This wording is already in the model review explanation and is repeated in the later narrative; it is not a new output defect in the otherwise identical readiness payload. Schema success alone does not establish language or factual quality.",
+          "review_sequences": [
+            39
+          ],
+          "readiness_verdict_changed": false
+        }
+      ],
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "final-report.md",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "ac3969af49d06c19f4d9ff8f309b06bf0362bb8a3a8e88126777dd842ab07878",
+          "size": 45818
+        },
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-001.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "final_report_assessment": "FINDINGS_RECORDED"
+    },
+    {
+      "rep": 7,
+      "run_id": "run_1a0f83bf9a504934987",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/07-run_1a0f83bf9a504934987",
+      "evidence_sha256": {
+        "artifact-000.bin": "7f898e45c6fbb63ea9b58f079f932b8495270c9c79256e18a03af5654cc70a98",
+        "artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "971b27a2cc42b708d76fa2e271368767af25f9c40591c15da24088e74a907e08",
+        "run.json": "bbc69ed4eecf79f8fdf7febd9b84583537b0a55a62315954c0dabc056f04c554",
+        "artifacts.json": "ca19332c6bbc1b87c43f04ef5386cce5dbd006589995113a074c15f625f7d4ef"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "FAIL",
+        "observed_run_status": "failed",
+        "reviewer_handoffs": [
+          {
+            "seq": 43,
+            "task_id_argument": "t1",
+            "recipient": "master",
+            "ok": true
+          },
+          {
+            "seq": 48,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          }
+        ],
+        "failed_finish_sequences": [
+          45,
+          50,
+          54
+        ],
+        "wall_seconds": 620.927734375,
+        "model_calls": 18
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T16:18:24.386Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_request",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md の各 area と evidence_quote が一致し、production_ready=false、L3 未達、残条件の明記が要求通り。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "readiness.json@r1 の schema 検証がパス。契約形式（JSON Schema）に従い、production_ready=false、areas/evidence_quote/implemented/remaining の構造が正しく、日本語要約と英語原文の区別が守られている。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md は英語で記述され、evidence_quote は英語原文をそのまま引用。日本語要約は implemented/remaining に限定され、翻訳扱いになっていない。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md の各 area と evidence_quote が一致し、production_ready=false、L3 未達、残条件の明記が要求通り。",
+                "note": "",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [
+          {
+            "seq": 62,
+            "recorded_at": "2026-10-01T16:21:36.181Z"
+          }
+        ],
+        "final_report_sha256": "7f898e45c6fbb63ea9b58f079f932b8495270c9c79256e18a03af5654cc70a98",
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing model review of copied examples does not demonstrate ability to detect factual defects; final report is generated after the readiness-only review.",
+        "review_explanation_imprecision_observed": true,
+        "report_model_events": [
+          {
+            "seq": 61,
+            "recorded_at": "2026-10-01T16:21:36.175Z"
+          }
+        ]
+      },
+      "final_report_findings": [
+        {
+          "id": "v62-review-explanation-omits-top-level-japanese-summary",
+          "status": "OBSERVED_IMPRECISION",
+          "section": "Model interpretation / document_language review explanation",
+          "observed": "日本語要約は implemented/remaining に限定され、翻訳扱いになっていない。",
+          "reason": "The published JSON also has the required Japanese top-level summary. The literal scope assertion is inaccurate. This wording is already in the model review explanation and is repeated in the later narrative; it is not a new output defect in the otherwise identical readiness payload. Schema success alone does not establish language or factual quality.",
+          "review_sequences": [
+            39
+          ],
+          "readiness_verdict_changed": false
+        }
+      ],
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "final-report.md",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "7f898e45c6fbb63ea9b58f079f932b8495270c9c79256e18a03af5654cc70a98",
+          "size": 45860
+        },
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-001.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "final_report_assessment": "FINDINGS_RECORDED"
+    },
+    {
+      "rep": 8,
+      "run_id": "run_1a0f845776047c95a1a",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/08-run_1a0f845776047c95a1a",
+      "evidence_sha256": {
+        "artifact-000.bin": "01195b3a04c8eb6442e7217cf3157937c8cd329a6759d3cff1e3e481db1bcf9d",
+        "artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "4a95928a5c785b4ecd3ffa726c64e9766445482db59d5ed46c28778792ea9c2f",
+        "run.json": "12ef4dac283029b1ea36519a69cb3f6d9ce48caa3fb424c47cf07bde02c519c8",
+        "artifacts.json": "85db9398327bcaf81c1e639b2bea70adc9881a09bd0bb8be4477cefe78868cb0"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "PASS",
+        "observed_run_status": "completed",
+        "reviewer_handoffs": [
+          {
+            "seq": 42,
+            "task_id_argument": null,
+            "recipient": "むぎ",
+            "ok": false
+          },
+          {
+            "seq": 45,
+            "task_id_argument": null,
+            "recipient": "builder",
+            "ok": true
+          }
+        ],
+        "failed_finish_sequences": [],
+        "wall_seconds": 588.9589832909987,
+        "model_calls": 14
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T16:29:11.184Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "json_schema check passed on readiness.json@r1 with no problems.",
+                "note": "The artifact conforms to the requester-owned JSON schema.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "readiness.json@r1 contains Japanese prose for summaries and English evidence_quote cells as required.",
+                "note": "Language requirements are satisfied: Japanese for team communication, English for evidence_quote.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_request",
+                "evidence": "The artifact documents the current Multibot status with production_ready=false, L3未達, and remaining acceptance conditions as specified in the readiness request.",
+                "note": "The document accurately reflects the unverified/remaining conditions without inventing approvals.",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "readiness.json@r1 lists areas with implemented/remaining summaries and English evidence_quote cells matching PRODUCTION_PLAN.md's Remaining acceptance work column.",
+                "note": "The summaries and quotes are consistent; no contradictions found between source and assessment.",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [
+          {
+            "seq": 54,
+            "recorded_at": "2026-10-01T16:31:26.229Z"
+          }
+        ],
+        "final_report_sha256": "01195b3a04c8eb6442e7217cf3157937c8cd329a6759d3cff1e3e481db1bcf9d",
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing model review of copied examples does not demonstrate ability to detect factual defects; final report is generated after the readiness-only review.",
+        "report_model_events": [
+          {
+            "seq": 53,
+            "recorded_at": "2026-10-01T16:31:26.222Z"
+          }
+        ]
+      },
+      "final_report_findings": [],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "final-report.md",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "01195b3a04c8eb6442e7217cf3157937c8cd329a6759d3cff1e3e481db1bcf9d",
+          "size": 43487
+        },
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-001.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ],
+      "final_report_assessment": "NO_ADDITIONAL_UNSUPPORTED_CLAIM_OBSERVED"
+    },
+    {
+      "rep": 9,
+      "run_id": "run_1a0f84e775a61f6bc86",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86",
+      "evidence_sha256": {
+        "artifact-000.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+        "run.json": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+        "artifacts.json": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "FAIL",
+        "observed_run_status": "interrupted",
+        "reviewer_handoffs": [
+          {
+            "seq": 42,
+            "task_id_argument": "t1",
+            "recipient": "むぎ",
+            "ok": false
+          },
+          {
+            "seq": 45,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 50,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 55,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          }
+        ],
+        "failed_finish_sequences": [
+          47,
+          52,
+          57,
+          59,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71,
+          73,
+          75,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87
+        ],
+        "termination_evidence": [
+          {
+            "seq": 91,
+            "type": "task.failed",
+            "recorded_at": "2026-10-01T16:51:27.070Z",
+            "reason": "timeout: run wall-clock limit reached during a model call"
+          },
+          {
+            "seq": 94,
+            "type": "run.interrupted",
+            "recorded_at": "2026-10-01T16:51:27.074Z",
+            "reason": "wall-clock limit reached"
+          }
+        ],
+        "finding": "Reviewer sent findings under t1 while its executing task was t2. Repeated finish_task rejection continued until the 1200-second run deadline; no final-report was generated.",
+        "wall_seconds": 1200.0129412909737,
+        "model_calls": 35
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T16:38:57.304Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "json_schema check passed with no problems.",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "readiness.json is in Japanese as required by the team language.",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_request",
+                "evidence": "The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+                "note": "",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [],
+        "final_report_sha256": null,
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing review targets readiness.json only. No final report was generated before the run was interrupted. Passing copied examples does not prove ability to detect factual defects.",
+        "final_report_present": false,
+        "report_model_events": []
+      },
+      "final_report_findings": [],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "final_report_assessment": "NOT_PRODUCED",
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ]
+    },
+    {
+      "rep": 10,
+      "run_id": "run_1a0f860c754dbe73da7",
+      "evidence_dir": "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/evidence/10-run_1a0f860c754dbe73da7",
+      "evidence_sha256": {
+        "artifact-000.bin": "78b88978266eeceb1ec8c75c5b423e8e23d3148f92ab1b6a966d8e22b258f9fe",
+        "artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "events.jsonl": "a43054a6d81ee1dfd411ac66f65ef63118fe6ab447e526dc14dfa0ecf84aea00",
+        "run.json": "10fcaeaf31871086364d48414620d4dba752c0321c128377bacec1c1d08bc4d3",
+        "artifacts.json": "d0906f5b0879cdd40cdee9502be0dd41948b458c0b7b16c86de4eee32e469492"
+      },
+      "readiness_regression": {
+        "status": "PASS",
+        "scope": "v61 input-retrieval translation correction in the supplied example; not general generation capability",
+        "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "input_retrieval_corrected": "元の失敗を保持して合成比較を停止し、実資料の入力取得と必須の出力検査を追加して、過去のローカルLLM試験の失敗を記録している。",
+        "quotes_match_all_eight_source_rows": true,
+        "production_ready": false,
+        "source_assertion_review": "No invented deadline, addressee, approval, certification or production-readiness claim found in this readiness.json. Short summaries omit some implementation details; exact remaining quotes retain the full acceptance conditions."
+      },
+      "example_copying": {
+        "exact_summary_fields": 17,
+        "total_summary_fields": 17,
+        "independent_freeform_summarization_proven": false
+      },
+      "runtime_completion": {
+        "status": "FAIL",
+        "observed_run_status": "failed",
+        "reviewer_handoffs": [
+          {
+            "seq": 43,
+            "task_id_argument": "t1",
+            "recipient": "master",
+            "ok": true
+          },
+          {
+            "seq": 48,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 55,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 62,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 69,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": true
+          },
+          {
+            "seq": 75,
+            "task_id_argument": "t1",
+            "recipient": "builder",
+            "ok": false
+          }
+        ],
+        "failed_finish_sequences": [
+          45,
+          50,
+          57,
+          64,
+          71,
+          79
+        ],
+        "explanation": "Reviewer submitted readiness@r1 review at seq39, but explicit target_task_id=t1 handoffs did not satisfy current reviewer task t2 completion. Repeated rejection led to message-cap denial seq75, task.blocked seq83 and run.failed seq88. This is runtime incompletion, separate from document regression.",
+        "wall_seconds": 803.963907583995,
+        "model_calls": 29
+      },
+      "model_review_scope": {
+        "submitted": 1,
+        "reviews": [
+          {
+            "seq": 39,
+            "recorded_at": "2026-10-01T16:59:04.915Z",
+            "targets": [
+              {
+                "artifact_id": "readiness.json",
+                "revision": 1,
+                "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+              }
+            ],
+            "results": [
+              {
+                "acceptance_id": "document_request",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md の各 area と evidence_quote が一致し、production_ready=false、L3 未達、残条件の明記が要求通り。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_contract",
+                "evidence": "readiness.json@r1 の schema 検証がパス。契約形式（JSON Schema）に従い、production_ready=false、areas/evidence_quote/implemented/remaining の構造が正しく、日本語要約と英語原文の区別が守られている。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_language",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md は英語で記述され、evidence_quote は英語原文をそのまま引用。日本語要約は implemented/remaining に限定され、翻訳扱いになっていない。",
+                "note": "",
+                "status": "pass"
+              },
+              {
+                "acceptance_id": "document_accuracy",
+                "evidence": "readiness.json@r1 の schema 検証がパス。PRODUCTION_PLAN.md の各 area と evidence_quote が一致し、production_ready=false、L3 未達、残条件の明記が要求通り。",
+                "note": "",
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "final_report_covered_by_model_review": false,
+        "report_events": [
+          {
+            "seq": 87,
+            "recorded_at": "2026-10-01T17:04:51.165Z"
+          }
+        ],
+        "final_report_sha256": "78b88978266eeceb1ec8c75c5b423e8e23d3148f92ab1b6a966d8e22b258f9fe",
+        "false_positive_document_failures_observed": false,
+        "limitation": "Passing model review of copied examples does not demonstrate ability to detect factual defects; final report is generated after the readiness-only review.",
+        "review_explanation_imprecision_observed": true,
+        "report_model_events": [
+          {
+            "seq": 86,
+            "recorded_at": "2026-10-01T17:04:51.159Z"
+          }
+        ]
+      },
+      "final_report_findings": [
+        {
+          "id": "v62-review-explanation-omits-top-level-japanese-summary",
+          "status": "OBSERVED_IMPRECISION",
+          "section": "Model interpretation / document_language review explanation",
+          "observed": "日本語要約は implemented/remaining に限定され、翻訳扱いになっていない。",
+          "reason": "The published JSON also has the required Japanese top-level summary. The literal scope assertion is inaccurate. This wording is already in the model review explanation and is repeated in the later narrative; it is not a new output defect in the otherwise identical readiness payload. Schema success alone does not establish language or factual quality.",
+          "review_sequences": [
+            39
+          ],
+          "readiness_verdict_changed": false
+        }
+      ],
+      "independent_verification": {
+        "json_schema": "PASS",
+        "source_hashes": "PASS",
+        "goal_hash": "PASS",
+        "canonical_delivery_hash": "PASS",
+        "artifact_metadata_hashes": "PASS",
+        "artifact_metadata_sizes": "PASS",
+        "supplied_example_fields_equal": 17,
+        "remaining_quotes_equal_source_rows": 8
+      },
+      "artifact_inventory_verification": [
+        {
+          "artifact_id": "final-report.md",
+          "revision": 1,
+          "evidence_file": "artifact-000.bin",
+          "sha256": "78b88978266eeceb1ec8c75c5b423e8e23d3148f92ab1b6a966d8e22b258f9fe",
+          "size": 46056
+        },
+        {
+          "artifact_id": "readiness.json",
+          "revision": 1,
+          "evidence_file": "artifact-001.bin",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ],
+      "final_report_assessment": "FINDINGS_RECORDED"
+    }
+  ],
+  "previous_interim": {
+    "path": "/Users/horioshuuhei/.cache/agentteam-bench/v62-independent-semantic-review-20261002/interim-09.json",
+    "sha256": "0248afff5e86aaaa0d766da88d517cda3dba22cbeb9d9422d2e232f6c36aac77",
+    "preserved_unchanged": true
+  },
+  "summary_counts": {
+    "reviewed": 10,
+    "target": 10,
+    "runtime_completed": 4,
+    "runtime_failed": 5,
+    "runtime_interrupted": 1,
+    "limited_regression_pass": 10,
+    "readiness_model_review_submissions": 10,
+    "final_reports_generated": 9,
+    "human_accepted": 0,
+    "general_business_accepted": 0,
+    "all_ten_semantic_review_complete": true
+  },
+  "conclusion": {
+    "limited_input_retrieval_wording_regression": "PASS_10_OF_10_PUBLISHED_OUTPUTS",
+    "workflow_completion": "4_completed_5_failed_1_interrupted",
+    "general_business_quality": "NOT_ESTABLISHED",
+    "human_acceptance": false,
+    "production_L3_acceptance": false,
+    "material_findings": [
+      "rep6 final-report introduces an unsupported unimplemented claim for WORM custody and alert delivery after readiness-only review.",
+      "rep2 final-report proposes waiting for an automatic message-cap reset not established by its run evidence.",
+      "reps2,5,6,7,9,10 do not complete the runtime after review/handoff failures; rep9 also hits the wall-clock interruption and has no final report.",
+      "reps6,7,10 repeat an imprecise model-review explanation that omits the Japanese top-level summary from its claimed language scope."
+    ]
+  },
+  "source_completion_records": {
+    "status.json": {
+      "sha256": "8bb54b7400ae5f813fab9b34e25f3294d3fcc5c9ccdf144e373f5263a2918c67",
+      "state": "completed_mechanical_trials"
+    },
+    "supervisor-status.json": {
+      "sha256": "b3386736ec6019820a7de83109a86cc097b4f73e7b38e36e3ee89910501f56fe",
+      "state": "completed"
+    },
+    "cleanup.json": {
+      "sha256": "27d8c75fa06a47dffe100b77dd28f740506d672414bc2367d3e1d9a9009732b1",
+      "state": null
+    }
+  },
+  "original_status_semantic_review": "pending (preserved; this separate review does not rewrite the original status)"
+}

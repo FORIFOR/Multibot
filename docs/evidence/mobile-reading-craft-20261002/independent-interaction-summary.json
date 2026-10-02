@@ -1,0 +1,44 @@
+{
+  "status": "PASS_WITH_LIMITS",
+  "target": "after-r1-dist/index-B4GKuT22.js",
+  "checks": {
+    "r2_ui_passed_before_harness_stop": 48,
+    "r2_harness_failed_count": 1,
+    "r4_readonly_passed": 12,
+    "zip_and_invariant_passed": 72
+  },
+  "adoption_operations": 1,
+  "adoption_event_seq": 56,
+  "additional_models": 0,
+  "additional_jobs": 0,
+  "source_unchanged": true,
+  "owner_chrome_closed": true,
+  "root_service_stopped": false,
+  "safe_secret_scan": {
+    "files": 6,
+    "key_files_compared": 4,
+    "key_hits": 0,
+    "jwt_hits": 0
+  },
+  "preserved_failures": [
+    {
+      "root": "quality-review-r1-retained",
+      "cause": "Harness assumed scrollWidth==innerWidth; actual 390/375/375, no overflow. No adoption performed. Original shared-root PNG excluded."
+    },
+    {
+      "root": "quality-review-r2",
+      "cause": "Harness expected HTTP200 for real adoption endpoint whose contract is HTTP202. One successful adoption seq56 retained."
+    },
+    {
+      "root": "quality-review-r3-readonly",
+      "cause": "Harness incorrectly expected selection DTO sha256. DTO seq/event_id references actual event carrying SHA. No adoption repeated."
+    }
+  ],
+  "limitations": [
+    "Focus immediately after adoption not measured because r2 halted on HTTP expectation. Reload-selected state and ZIP verified afterward.",
+    "Native200 sticky-header summary focus issue was separately found by browser reviewer; this round does not claim that fix complete.",
+    "Real active/approval/artifact-none/multiple-artifact records unavailable here; not fabricated.",
+    "Original HTTP202 body not saved; actual audit202 and DB/event/selection reconciled.",
+    "Same-model independent AI review, not human acceptance or business-quality approval."
+  ]
+}

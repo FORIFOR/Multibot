@@ -22,6 +22,7 @@ from .context import SessionContext
 from .policy import PolicyViolation
 from .review_targets import latest_task_refs, same_refs
 from .sandbox import run_command
+from .tool_capabilities import allowed_tools, is_document_reviewer
 from .webtools import FetchDenied, web_fetch, web_search
 
 PURPOSES = ["request", "question", "answer", "handoff", "finding", "decision"]
@@ -157,7 +158,10 @@ TOOL_SPECS: dict[str, ToolSpec] = {
                              "request queues an assignment for the recipient's scheduled work; it does not start a reply or transfer task ownership. "
                              "Use question for a specific answer needed now, not to delegate rewriting your own output. "
                              "artifact_refs are only for already published revisions (1 or later). "
-                             "Omit artifact_refs for original attachments and planned outputs; describe those inputs or outputs in text.",
+                             "Omit artifact_refs for original attachments and planned outputs; describe those inputs or outputs in text. "
+                             "task_id is the related task and message-budget scope; omit it to use your current task. "
+                             "The runtime records your originating task separately. A delivered handoff, finding or decision "
+                             "counts for that originating task's recipient, including when discussing another related task.",
                              _obj({"to": {"type": "string"}, "purpose": {"type": "string", "enum": PURPOSES},
                                    "text": {"type": "string"}, "task_id": {"type": "string"},
                                    "artifact_refs": {"type": "array", "items": _REF}, "reply_to": {"type": "string"}},
@@ -243,16 +247,12 @@ class ToolGateway:
 
     @property
     def document_reviewer(self) -> bool:
-        return self.rt.run.inputs.workflow == "document" and self.ctx.agent.role == "reviewer"
+        return is_document_reviewer(self.rt.run.inputs.workflow, self.ctx.agent.role)
 
     def allowed_tools(self) -> list[str]:
-        if not self.document_reviewer:
-            return self.ctx.tools
         # A document reviewer verifies immutable producer revisions. Corrections
         # must go through submit_review and the scheduler, not another writer.
-        read_review = {"read_skill", "read_input_file", "read_artifact", "list_artifacts", "run_check",
-                       "send_message", "read_messages", "read_events", "submit_review", "finish_task", "report_blocker"}
-        return [name for name in self.ctx.tools if name in read_review]
+        return allowed_tools(self.rt.run.inputs.workflow, self.ctx.agent.role, self.ctx.tools)
 
     def specs(self) -> list[ToolSpec]:
         from ..config.voice import conversation_voice, message_delivery_hint
@@ -669,15 +669,18 @@ class ToolGateway:
         # Every persisted peer delivery is charged to its task, including
         # short reply sessions. Resume reconstructs this same count from DB.
         rt.policy.count_peer_message(task_id)
+        source_task_id = (ctx.task_id if ctx.mode == 'task' and ctx.task is not None
+                          and ctx.task.spec.owner == ctx.agent.agent_id else None)
         m = await rt.bus.send(from_agent_id=ctx.agent.agent_id, to_agent_id=to, task_id=task_id, purpose=a["purpose"],
-                              text=a["text"], artifact_refs=refs, reply_to=a.get("reply_to"), causation_id=cid)
-        if task_id == ctx.task_id and a["purpose"] in {"handoff", "finding", "decision"}:
+                              text=a["text"], artifact_refs=refs, reply_to=a.get("reply_to"), causation_id=cid,
+                              source_task_id=source_task_id)
+        if m.source_task_id is not None and m.source_task_id == ctx.task_id and a["purpose"] in {"handoff", "finding", "decision"}:
             ctx.communicated_to.add(to)
         if a["purpose"] == "answer":
             ctx.replied = True
         if a["purpose"] == "question":
             ctx.awaiting_answer_from.add(to)
-        receipt = f"DELIVERED message_id={m.message_id} to={to} task={task_id}. "
+        receipt = f"DELIVERED message_id={m.message_id} to={to} task={task_id} source_task={m.source_task_id or 'none'}. "
         if a["purpose"] == "request":
             receipt += ("This request is queued for the recipient's scheduled work; it does not start a reply session "
                         "or transfer ownership of your task. Continue your own assigned outputs. "

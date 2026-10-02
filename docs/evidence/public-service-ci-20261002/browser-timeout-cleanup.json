@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "method": "Actual Chrome opens repository PRODUCTION_PLAN.md; only observed Node/Chrome descendant groups are SIGSTOPped, the real deadline expires, and runner TERM/KILL cleanup is observed.",
+  "browser": "154.0.8037.58",
+  "timeout_seconds": 5,
+  "cleanup_grace_seconds": 1,
+  "actual_observed_processes": 8,
+  "detached_owned_groups": 2,
+  "remaining_owned_processes": 0,
+  "cleanup": [
+    {
+      "program": "actual-chrome-timeout.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 4,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "model_execution": false,
+  "service_started": false,
+  "runner_sha256": "61b5dc21b2bdcf7accc56998de14d2caffb2b15604ca926589f51a1b54b1288c",
+  "recorded_at": "2026-10-01T16:04:58.346859+00:00",
+  "revision": "c3c8b4ea626645dafb6634de1b20a038ba54289e",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "termination_definition": "no observed owned non-zombie process remains; PID start time is rechecked before signalling"
+}

@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-01T19:14:03.121112+00:00",
+  "owned_browser": {
+    "pid": 88918,
+    "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "profile": "/var/folders/qy/086ttpq57jsd36jnc1jffst00000gn/T/playwright_chromiumdev_profile-yQ2mtb",
+    "started_at": "2026-10-01T19:10:14.895Z",
+    "exit_code": 0,
+    "exit_signal": null,
+    "still_running": false,
+    "profile_removed": true
+  },
+  "members_of_owned_process_group": [],
+  "cleanup_failed": [],
+  "observed_node_exit": 0
+}

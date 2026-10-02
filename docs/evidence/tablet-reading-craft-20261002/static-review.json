@@ -1,0 +1,52 @@
+{
+  "status": "STATIC_REVIEW_NO_NEW_BLOCKER",
+  "observed_at": "2026-10-01T23:34:00.487603+00:00",
+  "git_head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+  "reviewed_files_sha256": {
+    "frontend/src/workroom-refinement.css": "abee18fbdee2e107cc81a498dc13134c6987e75c871c18d75081c8df0512a4d7",
+    "frontend/src/pages/Workroom.tsx": "44b4cd579bb7e7cef90fe91b2aeea349a86f25a248bba8acf4e4447b360beb71",
+    "frontend/src/journey.css": "51d8cc3293bfcf00f7e4e99f62fb831217cfee273394321dd9552558dab030b4",
+    "frontend/src/obsidian.css": "7db3b45853a00de1795ef190e41360470f93772cd4c056192944ca4f372404f7",
+    "frontend/src/paper.css": "d344b5b11fe08b317af77d6a57593e7dc61412de2ed2067b26b6812db731608a",
+    "frontend/src/main.tsx": "d86f5bd9a12ff32dc95f5eeb85c879877e1fa7c7820120b7061f277b2703b87b"
+  },
+  "diff_sha256": "57238ab6c0822f9aa78a44337e1c3bc6c15799479dc3dda2d66b29b51e928838",
+  "browser_execution_by_reviewer": false,
+  "service_execution_by_reviewer": false,
+  "model_execution_requested": false,
+  "human_acceptance": "not_performed",
+  "blocking_findings": [],
+  "confirmed_by_code": [
+    "max-width:1100 の変更は room-head を縦flexにして goal/status/actions の視覚orderを維持する。旧grid-row/columnはflex itemではレイアウトを規定しない。",
+    "後段 desk/obsidian の同程度specificityは padding/gap/色を上書きするが display:flex/flex-direction:column/align-items:stretch を上書きしない。",
+    "701–1100では work-actions max-widthを解除、cost-summary flex-basis:auto/margin-right:auto/text-align:left とする。既存flex-wrapは保持。",
+    "700以下のh1 fontsize/会話padding/resume popup等は旧media内のまま。1100超のheader/gridとcost規則は変更しない。",
+    "role/state判定、警告、両パネルmount、採用/再開処理、draft/search/editor保持のTSXは差分対象外。CSSにはvisibility/display:none追加や権限変更はない。"
+  ],
+  "residual_risks_and_actual_checks_needed": [
+    {
+      "topic": "breakpoints",
+      "detail": "760/761 のsidebar切替と700/701、1100/1101のheader境界をJA/EN実画面で確認。特に768の残り本文幅が今回対象。"
+    },
+    {
+      "topic": "actions",
+      "detail": "停止状態のresume summaryとpopup、runningのStop、承認待ち状態、長い使用額/Reservedのwrapが読む領域やfocusを隠さないか。実状態が無いものを架空入力で作らない。"
+    },
+    {
+      "topic": "keyboard",
+      "detail": "DOMはstatus→actions→goal、視覚orderはgoal→status→actions。旧mobile/desktop由来の差を維持しており、今回Tab順を改善したとはしない。Show allとactionへのnative keyboard確認が必要。"
+    },
+    {
+      "topic": "zoom",
+      "detail": "native200%/拡大文字のaction折返しとsticky headerのfocus可視性は静的レビューだけでは確定しない。"
+    },
+    {
+      "topic": "body_panels",
+      "detail": "1001–1100の結果/会話2列は変更しない。headerの改善だけで本文全体の読取品質を達成としない。"
+    }
+  ],
+  "evidence_limits": [
+    "This is same-model independent static review only. Actual before/after pixels are owned by root/browser reviewer.",
+    "No award certification, human acceptance or business semantic correctness is inferred."
+  ]
+}

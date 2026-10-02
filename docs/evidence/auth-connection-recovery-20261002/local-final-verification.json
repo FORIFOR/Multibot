@@ -1,0 +1,160 @@
+{
+  "status": "PASS",
+  "scope": "Existing six actual service stages plus initial unauthenticated reload regression; not business or human acceptance",
+  "basis_head": "c6e29407f64c11ec77f39d57f9da696b8385b0bf",
+  "implementation_sha256": {
+    "frontend/scripts/auth-initial-recovery.mjs": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64",
+    "backend/scripts/check_public_service.py": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+    ".github/workflows/ci.yml": "2589406139bdabfad40b40814bad021245974134bee1a3e778a98474faf76420",
+    "docs/CI.md": "98b1f8cb9107dfb16af70d0f923412ab1dce86f777aad2c315c170408a002eed"
+  },
+  "observed_product_sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+  "seven_stage_status": "PASS",
+  "completed_stages": [
+    "actual HTTP/SQLite admission",
+    "actual-source response projection",
+    "auth-initial-recovery.mjs",
+    "auth-browser-isolation.mjs",
+    "auth-retry-reload.mjs",
+    "auth-parallel-login.mjs",
+    "auth-peer-tab-close.mjs"
+  ],
+  "elapsed_seconds": 39.095406,
+  "new_regression_cases": 2,
+  "new_regression_checks": 12,
+  "new_regression_case_statuses": {
+    "ja390-status": "PASS",
+    "en768-me": "PASS"
+  },
+  "new_regression_business_before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "new_regression_business_after": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "new_regression_source_unchanged": true,
+  "verification_source_hashes_still_match": true,
+  "profile_source_unchanged": true,
+  "new_regression_public_safe_report_sha256": "47fd9bd8158116b7a7656997e89573153dc1c1a535828e2932fc73fb37b4d2ec",
+  "wrapper_report_sha256": "94bb8ef4193a1ceb56a3db08d0d39c256c94523a61f518b475c3e58be05f758d",
+  "api_cleanup": {
+    "scope": "browser_verification_api",
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "browser_cleanup": [
+    {
+      "program": "auth-initial-recovery.mjs",
+      "tracked_processes": 13,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-browser-isolation.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-retry-reload.mjs",
+      "tracked_processes": 9,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-parallel-login.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-peer-tab-close.mjs",
+      "tracked_processes": 15,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "whole_suite_database_counts": {
+    "browser": {
+      "runs": 2,
+      "job_states": {},
+      "model_events": 0
+    },
+    "admission": {
+      "runs": 3,
+      "job_states": {
+        "cancelled": 1
+      },
+      "model_events": 0
+    },
+    "responses": {
+      "runs": 4,
+      "job_states": {},
+      "model_events": 20
+    }
+  },
+  "owned_browser_process_records": 57,
+  "owned_browser_remaining": 0,
+  "owned_browser_signals": 0,
+  "negative": {
+    "status": "PASS",
+    "scope": "Observed rejection of an existing non-credential repository file before Chrome/API work; not a product authentication test",
+    "process_exit_code": 1,
+    "negative_report_status": "FAIL",
+    "failure_check": "issued_key_file",
+    "source": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/cleanup.json",
+    "source_sha256": "27d8c75fa06a47dffe100b77dd28f740506d672414bc2367d3e1d9a9009732b1",
+    "source_unchanged": true,
+    "browser_cases_started": 0,
+    "new_database_created": false,
+    "business_counts_verified": false,
+    "safe_result_sha256": "ce5a570edb99878f3af7d143c2a35689be1601d77851a03fa9217b8d72f4b14e",
+    "runner_sha256": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64"
+  },
+  "private_log_markers": {
+    "console.private.log": {
+      "sha256": "fee6e227d27c5bb7be4ee754b865a6bd2f706ef1c617fee72c69b8582ef56e8b",
+      "bytes": 3006,
+      "traceback": 0,
+      "database_locked": 0
+    },
+    "browser-api.private.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "traceback": 0,
+      "database_locked": 0
+    },
+    "auth-initial-recovery.mjs.log": {
+      "sha256": "18f241f8e9a8d56dcce25d4916f07d521c8a6ea3672a8e7983280e20ca58cefd",
+      "bytes": 38,
+      "traceback": 0,
+      "database_locked": 0
+    }
+  },
+  "limits": [
+    "No new model/VM/provider probe; historical response-projection model records are not new model execution.",
+    "New initial-recovery stage adds no runs, jobs, artifacts or model events. Other existing stages intentionally exercise start:false admissions and a cancelled technical queue job.",
+    "API cleanup scope is browser_verification_api only; not a new lifecycle claim for every inner API.",
+    "Initial-failure test uses real CDP transport blocking. No response substitutes or invented business data.",
+    "Negative case uses the existing actual v62 cleanup JSON as an incompatible key file; source was not changed, and rejection is a harness precondition, not a product login rejection.",
+    "Static independent review is separate from these implementation-owner executed results. Human acceptance not performed."
+  ]
+}

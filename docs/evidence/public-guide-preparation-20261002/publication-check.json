@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "exact_operator_admin_credential_values_checked": 2,
+  "exact_matches": 0,
+  "credential_pattern_matches": 0,
+  "patterns": [
+    "JWT",
+    "PEM private key",
+    "GitHub token",
+    "Authorization value"
+  ],
+  "excluded": [
+    "issued credential values/files",
+    "access configuration contents",
+    "runtime/profile configuration contents",
+    "SQLite and WAL/SHM",
+    "raw command logs",
+    "private supervisor script"
+  ],
+  "access_configuration_sha256_only": true,
+  "limitations": "Exact known-value and pattern scan of the published allowlist; not a general secret-detection guarantee."
+}

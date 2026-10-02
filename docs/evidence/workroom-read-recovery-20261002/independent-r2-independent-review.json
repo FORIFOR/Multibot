@@ -1,0 +1,119 @@
+{
+  "actor": "実装情報を参照した別担当AIによる実Chrome照合。初見の人間・顧客受入ではない。",
+  "scope": "Workroom3GETの保留中再読込・15秒期限・未送信入力保持・route破棄",
+  "head": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "target_diff_sha256": "bcd97991246dc6c3886ef4c0b6112ee121c9aa50b1e8d191c0b7bd9a86165128",
+  "source_and_bundle_equal_across_r2_r3": true,
+  "limits": [
+    "実v62の停止済み記録。live進行や新しいモデル応答は観察していない。",
+    "実CDP Response-stage保留であり、headers受信後のbodyだけを止めた試験ではない。body期限は実装のAbortSignal接続を静的確認した範囲。",
+    "取消後の旧200は対応するNetwork.loadingFailed(canceled=true,net::ERR_ABORTED)と既知InvalidInterceptionId/requestIdで解除不能となった。取消済み応答の再注入はしていない。late成功応答へのidentityガードは静的確認。",
+    "rep2/rep9のreadiness.jsonは元から同じbytes。読取先の区別はURL/runID/status/last_seqとartifact tuple/hrefを併用。",
+    "主体切替は今回未実行。既存認証suiteと静的guardの範囲。",
+    "screen reader・Safari・実スマートフォン・一般公開本番品質は未検証。",
+    "資料取込みはRun/event/artifact原bytesを維持するがtask rowsは再構成していない。"
+  ],
+  "new_model_execution": false,
+  "human_acceptance": false,
+  "status": "FAIL",
+  "original_harness_status": "FAIL",
+  "passed_required_cases": 4,
+  "additional_route_case": "FAIL before click: .top.side a[href=/runs] matched brand and Work links. Harness selector ambiguity; original failure/private screenshot retained. Product route behavior not tested in r2.",
+  "checks": [
+    {
+      "id": "ja390-manual",
+      "method": "Actual Chrome/HTTP/SQLite, held original200 and keyboard",
+      "status": "PASS",
+      "error_at_ms": null,
+      "manual_enter_at_ms": 103,
+      "artifact_restored_at_ms": 175,
+      "time_origin": "first held actual detail200 response, not user Enter",
+      "evidence": "browser-report.json"
+    },
+    {
+      "id": "ja320-deadline",
+      "method": "Actual Chrome/HTTP/SQLite, held original200 and keyboard",
+      "status": "PASS",
+      "error_at_ms": 15020,
+      "manual_enter_at_ms": null,
+      "artifact_restored_at_ms": 15142,
+      "time_origin": "first held actual detail200 response, not user Enter",
+      "evidence": "browser-report.json"
+    },
+    {
+      "id": "en768-loaded-deadline",
+      "method": "Actual Chrome/HTTP/SQLite, held original200 and keyboard",
+      "status": "PASS",
+      "error_at_ms": 15312,
+      "manual_enter_at_ms": null,
+      "artifact_restored_at_ms": 15573,
+      "time_origin": "first held actual detail200 response, not user Enter",
+      "evidence": "browser-report.json"
+    },
+    {
+      "id": "en-native200-manual",
+      "method": "Actual Chrome/HTTP/SQLite, held original200 and keyboard",
+      "status": "PASS",
+      "error_at_ms": null,
+      "manual_enter_at_ms": 581,
+      "artifact_restored_at_ms": 654,
+      "time_origin": "first held actual detail200 response, not user Enter",
+      "evidence": "browser-report.json"
+    },
+    {
+      "id": "ja390-route",
+      "method": "Actual Chrome/HTTP/SQLite, held original200 and keyboard",
+      "status": "FAIL",
+      "error_at_ms": null,
+      "manual_enter_at_ms": null,
+      "artifact_restored_at_ms": null,
+      "time_origin": "first held actual detail200 response, not user Enter",
+      "evidence": "browser-report.json"
+    }
+  ],
+  "images_opened": [
+    "ja390-manual-recovered.png",
+    "ja320-deadline-before-deadline.png",
+    "ja320-deadline-deadline-focus.png",
+    "en768-loaded-deadline-deadline-warning-focused.png",
+    "en-native200-manual-focused-retry.png",
+    "en-native200-manual-recovered.png"
+  ],
+  "visual_findings": [
+    "320pxは12秒時通常読込、期限後は接続確認と再読込を同じ位置で提示。実Tabのfocus輪郭と44px操作領域が可視。",
+    "EN768は古い表示かもしれない警告とRefreshを判読でき、既存failed状態/会話が保持。",
+    "native200はouter1440/inner720・DPR2・HTML/body zoom1を実測、実Chromeprofilezoom使用。Try againのfocusを含む画面全体が収まり、復帰後もinterrupted表示を保持。"
+  ],
+  "invariants": {
+    "business_unchanged": true,
+    "model_event_delta": 0,
+    "jobs_after": 0,
+    "original_source_unchanged": true,
+    "implementation_unchanged": true,
+    "bundle_unchanged": true,
+    "target_diff_unchanged": true
+  },
+  "cleanup": {
+    "api": {
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "browser": [
+      {
+        "program": "check.mjs",
+        "tracked_processes": 42,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "supplemental_route_evidence": "../workroom-read-recovery-independent-20261002-r3/independent-review.json"
+}

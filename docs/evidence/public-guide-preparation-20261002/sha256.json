@@ -1,0 +1,10 @@
+{
+  "README.md": "9d6a11ba9d1470d30879801ef6930e29f292114177e88fa66590cd3a5bad5702",
+  "fingerprint-summary.json": "c3a86ad5563fa98184b8c7a420cd733b233261d18591d75820fb6a7c05da1f2f",
+  "publication-check.json": "0344594cfa66fab7e14f208456baf4746e85c134856c3844e6b91d84f2e1dfeb",
+  "read-only-inspection.json": "4afd70bf297d0eb6a7e25274eef98768501fc5076eeddadf0f103bfe0b29d7ec",
+  "resource-policy-observation.json": "c3553640aec34be531e1ceaf0f8f5de92b8116ea9f05b03e0a2b33cc8380389a",
+  "source-sha256.json": "e4b128fa6348dc875fb434a835509aebd0b09f85cdfb315abb02204d7c5d7f37",
+  "supervisor-cleanup.json": "0447aa4ca311b4c61287f0953f9b97208427066870f9d83fd1751c4b05002680",
+  "supervisor-refusal.json": "b34fa1a3d4fb45eb053943b43057afe99a82331eccd498256910d6a9d1248d93"
+}

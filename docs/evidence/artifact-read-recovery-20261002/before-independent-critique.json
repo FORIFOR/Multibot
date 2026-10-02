@@ -1,0 +1,98 @@
+{
+  "status": "REVIEW_COMPLETE_PRODUCT_FINDINGS_CONFIRMED",
+  "reviewed_at": "2026-10-02T02:46:30.715711+00:00",
+  "new_local_test_executed": false,
+  "product_source_changed_by_reviewer": false,
+  "before_head": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "basis_root_name": "workroom-artifact-observation-20261002-r1",
+  "artifact_hashes": {
+    "safe-report.json": "bca4e54e3fd68baadb0c955e8a578b1e1f5fabcb2b3d6558c6401eb2b99ac38e",
+    "browser-report.json": "5727ee97352cc45ba4d495e8a48fddd31d6318f5d1f64dd771e37d08b022402b",
+    "independent-review.json": "c45519f2d31c6957098d17f085386c698c5424c7e5548a61235658e67b611557",
+    "observation-scope-addendum.json": "be17c21088a76d4b52dff0d130e023b7d669e34d69a077c138da0479bb3c064d",
+    "manifest.json": "c0f7b453eed1714065f4c7dae48ae3566f9e9fad7be9b5647450080dea6d2b5c",
+    "ja390-held-artifact-pending-checks-expanded.png": "bb7204d2556dc94548db94354752ab2f891621fb1204d7db16f88c843f61f91b",
+    "ja390-held-artifact-at35s.png": "cf55ee3fb403cb5be826536a777e6bbe04d809b1a22496f961b0f3094837035d",
+    "en768-failed-artifact-failed-checks-expanded.png": "b916c86b9dc0f55643591acb35c7eab3c8d4254b3586df9cf6d940611a358227",
+    "en768-failed-artifact-recovered-original.png": "c2fedd51c7029cdc2bc78c19ed9020940021069a061b70e6e9930bb1bf1491a0"
+  },
+  "manifest_entries_verified": 24,
+  "head_implementation_files_verified": 54,
+  "head_dist_files_verified": 6,
+  "classification": {
+    "observation_execution_status": "PASS",
+    "product_behavior": "FAIL",
+    "findings": 2,
+    "explanation": "観察と不変検査が完了したPASSを製品の合格へ読み替えない。"
+  },
+  "findings": [
+    {
+      "id": "in_page_pending_recovery",
+      "priority": "P2",
+      "confirmed": "JA390の実artifact200を35,004ms保留中、同seq24参照の自然再選択を行ってもartifact GETは1件、画面内retryは0。親3GETは各8件成功しており、別effectの行き止まりを確認。",
+      "user_impact": "利用者は本文を待つ理由と再読取方法を画面内で解決できず、成果物の確認へ進めない。",
+      "limit": "別タブrawリンクは表示されているが未操作。全取得経路の使用不能や無限待機を意味しない。"
+    },
+    {
+      "id": "unavailable_not_absent",
+      "priority": "P2",
+      "confirmed": "原同版にはチェック3件・レビュー1件が存在。JA pendingでは概要が読込中なのに展開は記録なし、EN取得失敗では概要/展開とも記録なし、本文はLoadingと表示。4枚の実画像を目視し確認。",
+      "user_impact": "通信未取得をAIの確認記録が存在しないという事実に見せる。読み込み状態、通信失敗、実際の空記録を分ける必要がある。"
+    }
+  ],
+  "visual_review": {
+    "opened_images": [
+      "ja390-held-artifact-pending-checks-expanded.png",
+      "ja390-held-artifact-at35s.png",
+      "en768-failed-artifact-failed-checks-expanded.png",
+      "en768-failed-artifact-recovered-original.png"
+    ],
+    "observed": [
+      "JAの記録summaryへ自然操作でfocusが届き、輪郭は視認可能。その内部に読込中との矛盾が読める。",
+      "JA35秒画像には元の依頼全体未完了警告とLoading本文、読込中の確認概要、記録なし展開が同時に見える。",
+      "EN失敗画像はCould not load/Refresh、Loading、No check record/No checks、disabled採用が共存。通信と記録状態の矛盾が読み取れる。",
+      "EN復帰画像には元の依頼未完了警告と原JSON本文がある。原文の意味的正しさを再評価・承認したものではない。"
+    ],
+    "no_new_visual_blocker_outside_observed_fault_claimed": true,
+    "visible_credentials_observed": false
+  },
+  "secondary_observation": {
+    "focus_after_failed_retry": "EN blocked retry後と成功復帰後のsnapshot active_tag=BODY。既存retryがsetErrorクリアで消失する経路と整合。今回は独立の全focus試験とはしない。",
+    "proposal_implication": "同一DOMの常設read retryは操作focusを残し、この消失focus対策を簡単にできる。afterで実測する。"
+  },
+  "invariants": {
+    "original_target_checks": 3,
+    "original_target_reviews": 1,
+    "run_event_artifact_before_after_hashes_equal": true,
+    "source_and_bundle_unchanged": true,
+    "model_called_before": 73,
+    "model_called_after": 73,
+    "additional_model_events": 0,
+    "jobs_after": 0,
+    "business_writes": 0,
+    "task_rows_reconstructed": false,
+    "chrome_tracked": 19,
+    "chrome_remaining": 0,
+    "chrome_signals": 0,
+    "api_task_stopped_and_port_closed": true
+  },
+  "proposal_review": {
+    "updated_parent_proposal": "本文後の確認概要内へ常設『本文と確認を再読み込み / Reload file and checks』。全read状態で同一DOM、artifact optional signal、15秒期限、fulltupleガード、cached同版本文/editor保持、pending/error新採用disabled。",
+    "assessment": "妥当な最小境界。成功画面の本文前toolbarを増やさず、対象を明確にし自然操作で同版再取得とcopy保持を検証できる。",
+    "must_verify_after": [
+      "pendingでもread retryを有効にし旧GETcancel＋新GETを起こす。POST/adoptは発行しない。",
+      "loading/error/readyでretry要素focusを保持し、幅320/390や200%でSee check recordとwrapし操作が隠れない。",
+      "実同版の本文・編集copyを再取得中/失敗後も保持し、確認statusだけ取得中/取得不能とし採用不可。",
+      "初回detailなしのsummary/expandedが記録なしにならず、成功して0件の時だけemptyとする。",
+      "旧success/catch/finallyが現在requestを上書きせず、run変更/unmountで取消。現主体generation/版SHAチェックを維持。"
+    ],
+    "unmodified_separate_limit": "adoption errorの既存Refreshが親採用状況を照会しない制約は残す。読取fixで採用応答喪失や409回復が修正されたとは言わない。"
+  },
+  "limits": [
+    "原run_warning_visible=falseは存在しないselector由来。原JSONを保持し、警告保持は名前指定画像の目視に限る。",
+    "実JSON1ファイル1版、停止済みrep2の観察。複数版/複数ファイル/進行中連続last_seq更新/別主体保留は未検証。",
+    "Response-stage保留はpartial body単独停止の証拠ではない。",
+    "読み上げ、物理端末、Safari、実200%、公開ネットワークの受入はこのbeforeでは未実施。",
+    "同モデルAIの独立批評であり、人間受入・業務品質・一般公開完成・L3・受賞品質の認定ではない。"
+  ]
+}

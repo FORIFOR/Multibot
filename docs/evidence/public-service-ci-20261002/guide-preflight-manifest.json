@@ -1,0 +1,328 @@
+{
+  "source_root": "/Users/horioshuuhei/.cache/agentteam-bench/public-guide-runner-preflight-20261002-r4",
+  "code": {
+    "commit": "fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b",
+    "diff_sha256": "9230dcb7a5084bc1cc7c485aea782e70c28813496e0fecd6cd77b1acdd94d320",
+    "runner_sha256": "85f659a85f8cc72824da4f5bdebea27bf1eeee030f6d351b2352bc64e27b20ca",
+    "status": " M docs/quality/integration.md\n?? backend/scripts/public_service_workflow.py\n?? docs/quality/public-service-workflow.md\n"
+  },
+  "runtime": {
+    "executable": "/Users/horioshuuhei/Projects/multibot/backend/.venv/bin/python",
+    "implementation": "cpython",
+    "installed_distributions": [
+      {
+        "name": "agentteam",
+        "version": "0.2.1"
+      },
+      {
+        "name": "aiosqlite",
+        "version": "0.22.1"
+      },
+      {
+        "name": "annotated-doc",
+        "version": "0.0.5"
+      },
+      {
+        "name": "annotated-types",
+        "version": "0.8.0"
+      },
+      {
+        "name": "anthropic",
+        "version": "1.5.0"
+      },
+      {
+        "name": "anyio",
+        "version": "4.15.1"
+      },
+      {
+        "name": "attrs",
+        "version": "26.1.0"
+      },
+      {
+        "name": "beautifulsoup4",
+        "version": "4.15.0"
+      },
+      {
+        "name": "certifi",
+        "version": "2026.7.22"
+      },
+      {
+        "name": "cffi",
+        "version": "2.1.1"
+      },
+      {
+        "name": "charset-normalizer",
+        "version": "3.5.1"
+      },
+      {
+        "name": "click",
+        "version": "8.5.0"
+      },
+      {
+        "name": "cryptography",
+        "version": "50.0.1"
+      },
+      {
+        "name": "docstring_parser",
+        "version": "0.18.0"
+      },
+      {
+        "name": "fastapi",
+        "version": "0.141.1"
+      },
+      {
+        "name": "h11",
+        "version": "0.16.0"
+      },
+      {
+        "name": "httpcore",
+        "version": "1.0.9"
+      },
+      {
+        "name": "httpcore2",
+        "version": "2.12.0"
+      },
+      {
+        "name": "httptools",
+        "version": "0.8.0"
+      },
+      {
+        "name": "httpx",
+        "version": "0.28.1"
+      },
+      {
+        "name": "httpx2",
+        "version": "2.12.0"
+      },
+      {
+        "name": "idna",
+        "version": "3.19"
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.0"
+      },
+      {
+        "name": "jiter",
+        "version": "0.17.0"
+      },
+      {
+        "name": "jsonschema",
+        "version": "4.26.0"
+      },
+      {
+        "name": "jsonschema-specifications",
+        "version": "2025.9.1"
+      },
+      {
+        "name": "mcp",
+        "version": "2.2.0"
+      },
+      {
+        "name": "mcp-types",
+        "version": "2.2.0"
+      },
+      {
+        "name": "oauthlib",
+        "version": "3.3.1"
+      },
+      {
+        "name": "opentelemetry-api",
+        "version": "1.45.0"
+      },
+      {
+        "name": "packaging",
+        "version": "26.3"
+      },
+      {
+        "name": "pluggy",
+        "version": "1.6.0"
+      },
+      {
+        "name": "pycparser",
+        "version": "3.0"
+      },
+      {
+        "name": "pydantic",
+        "version": "2.13.5"
+      },
+      {
+        "name": "pydantic_core",
+        "version": "2.46.5"
+      },
+      {
+        "name": "Pygments",
+        "version": "2.21.0"
+      },
+      {
+        "name": "PyJWT",
+        "version": "2.14.0"
+      },
+      {
+        "name": "pytest",
+        "version": "9.1.1"
+      },
+      {
+        "name": "pytest-asyncio",
+        "version": "1.4.0"
+      },
+      {
+        "name": "pytest-timeout",
+        "version": "2.4.0"
+      },
+      {
+        "name": "python-dotenv",
+        "version": "1.2.3"
+      },
+      {
+        "name": "python-multipart",
+        "version": "0.0.32"
+      },
+      {
+        "name": "PyYAML",
+        "version": "6.0.3"
+      },
+      {
+        "name": "referencing",
+        "version": "0.37.0"
+      },
+      {
+        "name": "requests",
+        "version": "2.34.2"
+      },
+      {
+        "name": "requests-oauthlib",
+        "version": "2.0.0"
+      },
+      {
+        "name": "rpds-py",
+        "version": "2026.6.3"
+      },
+      {
+        "name": "ruff",
+        "version": "0.13.3"
+      },
+      {
+        "name": "sniffio",
+        "version": "1.3.1"
+      },
+      {
+        "name": "soupsieve",
+        "version": "2.9.2"
+      },
+      {
+        "name": "sse-starlette",
+        "version": "3.4.11"
+      },
+      {
+        "name": "starlette",
+        "version": "1.6.0"
+      },
+      {
+        "name": "truststore",
+        "version": "0.10.4"
+      },
+      {
+        "name": "typing-inspection",
+        "version": "0.4.4"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      },
+      {
+        "name": "urllib3",
+        "version": "2.8.0"
+      },
+      {
+        "name": "uvicorn",
+        "version": "0.52.4"
+      },
+      {
+        "name": "uvloop",
+        "version": "0.22.1"
+      },
+      {
+        "name": "watchfiles",
+        "version": "1.2.0"
+      },
+      {
+        "name": "websockets",
+        "version": "17.1"
+      }
+    ],
+    "prefix": "/Users/horioshuuhei/Projects/multibot/backend/.venv",
+    "python_version": "3.12.12 (main, Oct  9 2025, 11:07:00) [Clang 17.0.0 (clang-1700.6.3.2)]"
+  },
+  "files_sha256": {
+    "delivery-requirements.json": "f51a12e792c00695b342a2f1863e39eeb05419737e056004b0c8dfdaf0bdc84e",
+    "effective-config.json": "34397fff7f98ae231ae6e194ef51963988a2692a794da56e4137e8fe05270ac2",
+    "goal.txt": "9c5c52a9328b92ea49a5243800668de0a44cffb07ae6183279d0cf7172d991de",
+    "inputs/integration.md": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+    "profile.yaml": "e4828091c26d017674fb60f92cba207c900387d37b8216d9685452ad80c48a48",
+    "request.json": "162774a969cb500c7da25e9c4bae2a13a64174c0f333ae867a84fe002c0ad0d4"
+  },
+  "model": "agentteam-qwen35-9b-16k",
+  "model_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+  "validation_only": true,
+  "model_execution": false,
+  "business_quality_accepted": false,
+  "commands": [
+    {
+      "command": [
+        "backend/scripts/public_service_workflow.py",
+        "prepare",
+        "--root",
+        "/Users/horioshuuhei/.cache/agentteam-bench/public-guide-runner-preflight-20261002-r4",
+        "--profile",
+        "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v61-qwen35-fixed-20260925/probed-agents.yaml",
+        "--prior-series",
+        "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002",
+        "--validation-only"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.0577471256256104
+    },
+    {
+      "command": [
+        "backend/scripts/public_service_workflow.py",
+        "preflight",
+        "--root",
+        "/Users/horioshuuhei/.cache/agentteam-bench/public-guide-runner-preflight-20261002-r4"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.9560668468475342
+    },
+    {
+      "command": [
+        "backend/scripts/public_service_workflow.py",
+        "preflight",
+        "--root",
+        "/Users/horioshuuhei/.cache/agentteam-bench/public-guide-runner-preflight-20261002-r4"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.9558577537536621
+    },
+    {
+      "command": [
+        "backend/scripts/public_service_workflow.py",
+        "run",
+        "--root",
+        "/Users/horioshuuhei/.cache/agentteam-bench/public-guide-runner-preflight-20261002-r4"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.6273431777954102
+    },
+    {
+      "command": [
+        "backend/scripts/public_service_workflow.py",
+        "run",
+        "--root",
+        "/Users/horioshuuhei/.cache/agentteam-bench/public-guide-runner-preflight-20261002-r4",
+        "--allow-model-execution"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.621086835861206
+    }
+  ]
+}

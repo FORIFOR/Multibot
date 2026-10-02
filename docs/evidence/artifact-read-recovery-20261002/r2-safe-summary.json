@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "scope": "Six artifact-read recovery/focus cases",
+  "revision": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "diff_sha256": "9b4666f9143ace1657fbb951732f8295af8fe62bc8e8e0929bc68bf3d9573735",
+  "cases": [
+    {
+      "id": "ja390-manual",
+      "status": "PASS",
+      "deadline_observed_at_ms": null,
+      "retry_at_ms": 292,
+      "recovered_at_ms": 368,
+      "role": "operator"
+    },
+    {
+      "id": "ja320-deadline",
+      "status": "PASS",
+      "deadline_observed_at_ms": 15036,
+      "retry_at_ms": 15140,
+      "recovered_at_ms": 15217,
+      "role": "operator"
+    },
+    {
+      "id": "en768-transport",
+      "status": "PASS",
+      "deadline_observed_at_ms": null,
+      "retry_at_ms": 393,
+      "recovered_at_ms": 466,
+      "role": "operator"
+    },
+    {
+      "id": "en-native200-loaded",
+      "status": "PASS",
+      "deadline_observed_at_ms": 15013,
+      "retry_at_ms": 15381,
+      "recovered_at_ms": 15439,
+      "role": "operator"
+    },
+    {
+      "id": "en390-viewer",
+      "status": "PASS",
+      "deadline_observed_at_ms": null,
+      "retry_at_ms": null,
+      "recovered_at_ms": null,
+      "role": "viewer"
+    },
+    {
+      "id": "ja390-other-focus",
+      "status": "PASS",
+      "deadline_observed_at_ms": null,
+      "retry_at_ms": null,
+      "recovered_at_ms": null,
+      "role": "operator"
+    }
+  ],
+  "prior_r1_fail_preserved": true,
+  "new_business_writes": 0,
+  "additional_model_calls": 0,
+  "new_jobs": 0,
+  "source_files_unchanged": 109,
+  "original_record_files_unchanged": 14,
+  "private_bundle_files_unchanged": 6,
+  "api_stopped": true,
+  "port_closed": true,
+  "chrome_processes_tracked": 52,
+  "chrome_remaining": 0,
+  "other_control_visibility_limit": true
+}

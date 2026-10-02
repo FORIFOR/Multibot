@@ -1,0 +1,39 @@
+{
+  "checked_at": "2026-10-01T15:42:04.546383+00:00",
+  "revision": "7354ea94ae5011e40c6953a8434e62b7ded9d8fe",
+  "branch": "codex/public-service",
+  "tracked_diff_sha256": "b03cb28d2186cc787746db0ff63e3b8f51d7e581d84f3a41da57b3276dd2263b",
+  "scope_file_sha256": {
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+    "frontend/src/lib/request-draft.ts": "e44a0e22f8b46f814e09353bc054c55132de52e818b09606c95c4af6c02fd3ca",
+    "frontend/src/lib/api.ts": "004ef6d39892f37f5f580797746f0b36a9a8af0c3911723d7b863117099b294b",
+    "frontend/src/components/AuthGate.tsx": "fef29f674db02fc0a9fb193e774ccd517502d4712d84be44ddc120d809d838fc",
+    "frontend/src/App.tsx": "4ee3a61e7795a1aa4e542a62cea6634d0d52712919605a3fae6b02d007e5b79e",
+    "frontend/src/pages/Home.tsx": "1169e4a0dbc9ec3cfaab492daed56ffc0c64c5baa7ef8a7442c93dff5a41d3aa",
+    "frontend/src/pages/Welcome.tsx": "06cfc80f5c4660191bee19fef41cb91514b5173ecb6792f578206a6ee85e61e2",
+    "frontend/src/paper.css": "936fff7faab671dd1b6d452839a2ef917de57b0cea3b385936b4e24c43350fed",
+    "frontend/scripts/auth-browser-isolation.mjs": "5e0094862ecc721498e86a19051f7b35ab23ac83336ac3837d5a749dddeb2c58",
+    "frontend/scripts/auth-retry-reload.mjs": "3d865b0bdc1ef929fc6d4839bc55b90a200b392ee8ac280e17d497ba74145218",
+    "frontend/scripts/auth-parallel-login.mjs": "5be4eacaed6a199280c3891c9f113b7b2424578b07d162d83529a26b1c3322f7",
+    "backend/agentteam/security/server.py": "29e30b467789a9eccc7cb17417b20b520827e30be364b7e68b5e839ccb76fc0a"
+  },
+  "evidence_file_sha256": {
+    "home-form-window-native-200.png": "14c46289f28474c8fe375418106da1d0774002658638825ff0f2c1926f362b99",
+    "initial-retry-409.json": "f1a268c11873eeac4fe08de9a406cfa6bc0c810d91d718464473bf2d402dfa7c",
+    "viewport-checks.json": "5b3f3fee460f5a88e336992827f6e9ae6338a16fbbc5ef4369376d18216b5e6b",
+    "results.json": "1d0e0c95065aa496be24856224bc60ac412b97656d0d95050edd388ad3203d11",
+    "initial-results.json": "8a2954a0f2b2d23c04978009b8a43c0ba2381cebcc8fd7fbecfe853a2e17c858",
+    "parallel-login.json": "b502a9f500e2464de851730dcdf6b01548db627106d3552cc95ccfe2ab645869",
+    "native-window-200.json": "3314096a06a8caebf78767e538344c147d78583af606ec638c03e4043520d7d4",
+    "home-390-initial.png": "84f696e4a4701af0e3f4e940b1e614ec504c51ddc63e46e0b3f33ebb78bd771b",
+    "retry-reload.json": "cd94164251a93ba601cc5618172fc89d6d73be913527b3855e5110c49bfb73a8",
+    "welcome-window-native-200.png": "c1d20c406df786dbd2ebdaccb0b3c72c7e278550f1f54169f92e2ada67d0ff11",
+    "home-1440-source.png": "2472a7f16b47cbd0dcc3f9c10880c352d517f72590270d1e05edb932cc645184"
+  },
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "node": "v25.2.1",
+  "build": "npm --prefix frontend run build: exit 0; latest production bundle served from the worktree",
+  "service": "actual loopback HTTP 127.0.0.1:8896; real issued high-entropy keys, hashed sessions and isolated SQLite; actual recorded v62 agents.yaml copied into capture-data; no fake provider; no model call",
+  "visual_capture_scope": "Home/Welcome/paper CSS captured at 1440,768,390 CSS pixels. Native Chrome 200% full-window captures use the same UI source hashes. Playwright fullPage captures at native 200% had a coordinate crop and are not acceptance evidence.",
+  "interim_failure_evidence": "artifacts/product-quality/browser-isolation/failure.json and failure.png retained; final/parallel-failure-* retained (verification client Origin omission caused real CSRF403); neither relabeled as success."
+}

@@ -1,0 +1,66 @@
+{
+  "actor": "AI-operated private verification; not human acceptance",
+  "checks": [
+    {
+      "name": "operator-list",
+      "expected_status": 200,
+      "actual_status": 200,
+      "run_count": 10
+    },
+    {
+      "name": "viewer-list",
+      "expected_status": 200,
+      "actual_status": 200,
+      "run_count": 10
+    },
+    {
+      "name": "other-list",
+      "expected_status": 200,
+      "actual_status": 200,
+      "run_count": 0
+    },
+    {
+      "name": "anonymous-detail",
+      "expected_status": 401,
+      "actual_status": 401
+    },
+    {
+      "name": "other-denied-/api/runs/run_1a0f7fbead33cd46066",
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "other-denied-/api/runs/run_1a0f7fbead33cd46066/events",
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "other-denied-/api/runs/run_1a0f7fbead33cd46066/export?fmt=zip",
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "other-denied-/api/artifacts/run_1a0f7fbead33cd46066/readiness.json/versions/1/raw",
+      "expected_status": 404,
+      "actual_status": 404
+    },
+    {
+      "name": "viewer-detail",
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "name": "viewer-adopt-denied",
+      "expected_status": 403,
+      "actual_status": 403
+    },
+    {
+      "name": "unselected-adopted-zip",
+      "expected_status": 409,
+      "actual_status": 409
+    }
+  ],
+  "new_jobs": 0,
+  "model_events": 223,
+  "status": "PASS"
+}

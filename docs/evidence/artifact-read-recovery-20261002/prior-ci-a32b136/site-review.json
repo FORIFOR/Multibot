@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "run_id": 36954449965,
+  "head": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "merge": "28ecbbadf0c213e2cdedec1226bc8a1b550ef10e",
+  "artifact_id": 11204944374,
+  "zip_sha256": "9fd17c850b32b93d83340e39b72a53c7bd2808cdd9256651552aebef99adf5b7",
+  "zip_bytes": 15295954,
+  "entries": 58,
+  "extracted_jsons": 19,
+  "source_files": 7,
+  "resources": 10,
+  "actual_home_images": 4,
+  "case_count": 18,
+  "checks": {
+    "PASS": 185
+  },
+  "axe_executed": 10,
+  "axe_incomplete_cases": 10,
+  "axe_incomplete_targets": {
+    ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]": [
+      "ja-normal-1440",
+      "ja-normal-390",
+      "ja-reflow-720-720",
+      "ja-reflow-html-720",
+      "ja-reflow-text-720",
+      "en-normal-1440",
+      "en-normal-390",
+      "en-reflow-720-720",
+      "en-reflow-html-720",
+      "en-reflow-text-720"
+    ],
+    ".hero-footer > span[aria-hidden=\"true\"]": [
+      "ja-normal-1440",
+      "ja-normal-390",
+      "ja-reflow-720-720",
+      "ja-reflow-html-720",
+      "ja-reflow-text-720",
+      "en-normal-1440",
+      "en-normal-390",
+      "en-reflow-720-720",
+      "en-reflow-html-720",
+      "en-reflow-text-720"
+    ],
+    "textarea": [
+      "ja-reflow-html-720",
+      "en-reflow-html-720"
+    ]
+  },
+  "cleanup": {
+    "PASS": 38
+  },
+  "owned_browser_stopped": true,
+  "profile_removed": true,
+  "runner_sha256": "41f92c4f5035ebe58d463b64beb2afcdcfc2acadd116d24b3f95c6c7482d9652",
+  "chrome": "154.0.8037.57",
+  "limits": [
+    "Actual GitHub Linux localhost/headless-Chrome static-site measurements; no public Internet field-performance or award claim.",
+    "720 viewport/CSS scaling stress cases are not native browser-menu zoom.",
+    "Axe incomplete remains; no human, screen-reader, Safari, physical-phone or WCAG acceptance.",
+    "Home PNGs are preserved earlier actual app captures; no new submitted request or new app runtime capture in this site job.",
+    "Static server exit is workflow trap intent; artifact records owned Chrome/profile cleanup rather than all OS descendants/HTTP listener closure.",
+    "Production/L3/general-business acceptance and pending fixed-guide resource requirements remain unresolved.",
+    "No local browser/service/model/code edits/raw log downloads were performed by this evidence review."
+  ]
+}

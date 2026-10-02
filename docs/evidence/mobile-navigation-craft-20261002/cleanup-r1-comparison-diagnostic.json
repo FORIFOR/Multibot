@@ -1,0 +1,544 @@
+[
+  {
+    "table": "tasks",
+    "old_columns": [
+      "run_id",
+      "task_id",
+      "state_json",
+      "status",
+      "owner",
+      "updated_at"
+    ],
+    "new_columns": [
+      "run_id",
+      "task_id",
+      "state_json",
+      "status",
+      "owner",
+      "updated_at"
+    ],
+    "differences": []
+  },
+  {
+    "table": "messages",
+    "old_columns": [
+      "message_id",
+      "run_id",
+      "seq",
+      "from_agent_id",
+      "to_agent_id",
+      "task_id",
+      "purpose",
+      "text",
+      "artifact_refs_json",
+      "reply_to",
+      "recorded_at",
+      "read_at"
+    ],
+    "new_columns": [
+      "message_id",
+      "run_id",
+      "seq",
+      "from_agent_id",
+      "to_agent_id",
+      "task_id",
+      "source_task_id",
+      "purpose",
+      "text",
+      "artifact_refs_json",
+      "reply_to",
+      "recorded_at",
+      "read_at"
+    ],
+    "differences": [
+      {
+        "rep": 1,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "task_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 1,
+        "row": 2,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "task_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 2,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "purpose",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 2,
+        "row": 1,
+        "fields": [
+          "message_id",
+          "seq",
+          "purpose",
+          "text",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 2,
+        "row": 2,
+        "fields": [
+          "message_id",
+          "seq",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 2,
+        "row": 3,
+        "fields": [
+          "message_id",
+          "seq",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 2,
+        "row": 4,
+        "fields": [
+          "message_id",
+          "seq",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 2,
+        "row": 5,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 3,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "task_id",
+          "purpose",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 3,
+        "row": 1,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "task_id",
+          "purpose",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 4,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "task_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 4,
+        "row": 2,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "task_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 5,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 5,
+        "row": 1,
+        "fields": [
+          "message_id",
+          "seq",
+          "to_agent_id",
+          "text",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 5,
+        "row": 2,
+        "fields": [
+          "message_id",
+          "seq",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 5,
+        "row": 3,
+        "fields": [
+          "message_id",
+          "seq",
+          "purpose",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 5,
+        "row": 4,
+        "fields": [
+          "message_id",
+          "seq",
+          "to_agent_id",
+          "purpose",
+          "text",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 5,
+        "row": 5,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 6,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 6,
+        "row": 2,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 7,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 7,
+        "row": 2,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 8,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "task_id",
+          "purpose",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 8,
+        "row": 1,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "task_id",
+          "purpose",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 9,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "purpose",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 9,
+        "row": 1,
+        "fields": [
+          "message_id",
+          "seq",
+          "purpose",
+          "text",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 9,
+        "row": 2,
+        "fields": [
+          "message_id",
+          "seq",
+          "text",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 9,
+        "row": 3,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 10,
+        "row": 0,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      },
+      {
+        "rep": 10,
+        "row": 1,
+        "fields": [
+          "message_id",
+          "seq",
+          "to_agent_id",
+          "text",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 10,
+        "row": 2,
+        "fields": [
+          "message_id",
+          "seq",
+          "purpose",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 10,
+        "row": 3,
+        "fields": [
+          "message_id",
+          "seq",
+          "purpose",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 10,
+        "row": 4,
+        "fields": [
+          "message_id",
+          "seq",
+          "to_agent_id",
+          "purpose",
+          "text",
+          "recorded_at"
+        ]
+      },
+      {
+        "rep": 10,
+        "row": 5,
+        "fields": [
+          "message_id",
+          "seq",
+          "from_agent_id",
+          "to_agent_id",
+          "text",
+          "artifact_refs_json",
+          "recorded_at",
+          "read_at"
+        ]
+      }
+    ]
+  },
+  {
+    "table": "checkpoints",
+    "old_columns": [
+      "run_id",
+      "seq",
+      "created_at",
+      "snapshot_json"
+    ],
+    "new_columns": [
+      "run_id",
+      "seq",
+      "created_at",
+      "snapshot_json"
+    ],
+    "differences": []
+  },
+  {
+    "table": "approvals",
+    "old_columns": [
+      "approval_id",
+      "run_id",
+      "task_id",
+      "agent_id",
+      "action",
+      "payload_json",
+      "payload_hash",
+      "nonce",
+      "status",
+      "created_at",
+      "expires_at",
+      "resolved_at",
+      "resolution_json"
+    ],
+    "new_columns": [
+      "approval_id",
+      "run_id",
+      "task_id",
+      "agent_id",
+      "action",
+      "payload_json",
+      "payload_hash",
+      "nonce",
+      "status",
+      "created_at",
+      "expires_at",
+      "resolved_at",
+      "resolution_json"
+    ],
+    "differences": []
+  }
+]

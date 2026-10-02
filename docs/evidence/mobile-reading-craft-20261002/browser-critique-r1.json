@@ -1,0 +1,373 @@
+{
+  "status": "FAILED",
+  "started_at": "2026-10-01T21:38:15.538Z",
+  "actor": "independent AI; prior design knowledge",
+  "human_acceptance": false,
+  "business_acceptance": false,
+  "observations": [
+    {
+      "check": "expanded-team-keyboard",
+      "status": "PASS",
+      "active": {
+        "tag": "SUMMARY",
+        "inMember": true,
+        "rect": {
+          "x": 16,
+          "y": 552.25,
+          "width": 161,
+          "height": 44,
+          "top": 552.25,
+          "right": 177,
+          "bottom": 596.25,
+          "left": 16
+        },
+        "outline": "rgb(27, 26, 23) solid 2px"
+      }
+    },
+    {
+      "check": "closed-team-skips-members",
+      "status": "PASS"
+    },
+    {
+      "check": "record-focus",
+      "status": "PASS",
+      "active": {
+        "tag": "SUMMARY",
+        "rect": {
+          "x": 48,
+          "y": 400.375,
+          "width": 294,
+          "height": 44,
+          "top": 400.375,
+          "right": 342,
+          "bottom": 444.375,
+          "left": 48
+        },
+        "outline": "rgb(138, 131, 120) solid 3px"
+      }
+    },
+    {
+      "check": "reader-pagedown",
+      "status": "PASS",
+      "scrollTop": 20
+    },
+    {
+      "check": "closed-preference-restored-after-conversation",
+      "status": "PASS"
+    },
+    {
+      "check": "real-document-unsent-draft-retained-across-panels",
+      "status": "PASS",
+      "source_sha256": "f9f7afb90857066e87f5109d41c56aa93e166b7a204cd8b038d2cfb2d1849019",
+      "no_send": true
+    },
+    {
+      "check": "ja-width-320",
+      "status": "PASS",
+      "innerWidth": 320,
+      "outerWidth": 500,
+      "dpr": 1,
+      "scrollWidth": 320,
+      "scrollY": 0,
+      "rootZoom": "1",
+      "bodyZoom": "1",
+      "reader": {
+        "x": 33,
+        "y": 717.015625,
+        "width": 254,
+        "height": 590.796875,
+        "top": 717.015625,
+        "right": 287,
+        "bottom": 1307.8125,
+        "left": 33
+      },
+      "teamOpen": false,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補"
+    },
+    {
+      "check": "ja-width-768",
+      "status": "PASS",
+      "innerWidth": 768,
+      "outerWidth": 768,
+      "dpr": 1,
+      "scrollWidth": 768,
+      "scrollY": 0,
+      "rootZoom": "1",
+      "bodyZoom": "1",
+      "reader": {
+        "x": 297,
+        "y": 471.203125,
+        "width": 422,
+        "height": 590.796875,
+        "top": 471.203125,
+        "right": 719,
+        "bottom": 1062,
+        "left": 297
+      },
+      "teamOpen": false,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補"
+    },
+    {
+      "check": "native200",
+      "status": "PASS",
+      "innerWidth": 720,
+      "outerWidth": 1440,
+      "dpr": 2,
+      "scrollWidth": 720,
+      "scrollY": 0,
+      "rootZoom": "1",
+      "bodyZoom": "1",
+      "reader": {
+        "x": 49,
+        "y": 554.4609375,
+        "width": 622,
+        "height": 284.546875,
+        "top": 554.4609375,
+        "right": 671,
+        "bottom": 839.0078125,
+        "left": 49
+      },
+      "teamOpen": false,
+      "identity": "01 読むreadiness.json版 1 · 未採用の候補"
+    }
+  ],
+  "api_responses": [
+    {
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/events",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e",
+      "status": 200
+    },
+    {
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/versions/1",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f84e775a61f6bc86",
+      "status": 200
+    },
+    {
+      "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/events",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e",
+      "status": 200
+    },
+    {
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/versions/1",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/events",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e",
+      "status": 200
+    },
+    {
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/versions/1",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/events",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e",
+      "status": 200
+    },
+    {
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/versions/1",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/events",
+      "status": 200
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e",
+      "status": 200
+    },
+    {
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/versions/1",
+      "status": 200
+    }
+  ],
+  "request_failures": [],
+  "page_errors": [],
+  "writes": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "phase": "native200",
+  "model_execution": false,
+  "html_sha256": "23a2f69d51279a31d76803282438bc1c16d480b48ea180ae231d0513231005a4",
+  "bundle_sha256": "2d0bc22ba1b0d3da229a4d1d5d1ff6e50303a6014a44f139a5388ee71bdf7c35",
+  "browser": "154.0.8037.58",
+  "run_before_sha256": "68f228b5fd448e4b052df632cfd0de98d5d9e93304a506e0948e6a1d53a9f638",
+  "run_after_sha256": "68f228b5fd448e4b052df632cfd0de98d5d9e93304a506e0948e6a1d53a9f638",
+  "error_name": "AssertionError",
+  "finished_at": "2026-10-01T21:38:19.074Z"
+}

@@ -1,0 +1,8 @@
+{
+  "status": "FAIL",
+  "phase": "response_loss_submit_both_forms",
+  "error_name": "Error",
+  "passed_check_ids": [
+    "parallel-real-signin"
+  ]
+}
