@@ -1,0 +1,27 @@
+実在パス: `docs/media`。39ファイル。
+
+- `docs/media/app-ask-en.webp`
+- `docs/media/app-ask-ja.webp`
+- `docs/media/app-results-en.webp`
+- `docs/media/app-results-ja.webp`
+- `docs/media/app-team-en.webp`
+- `docs/media/app-team-ja.webp`
+- `docs/media/demo-poster-ja.jpg`
+- `docs/media/demo-poster.jpg`
+- `docs/media/demo-site-en.vtt`
+- `docs/media/demo-site-ja.mp4`
+- `docs/media/demo-site-ja.vtt`
+- `docs/media/demo-site.mp4`
+- `docs/media/demo.gif`
+- `docs/media/demo.mp4`
+- `docs/media/hero-poster.jpg`
+- `docs/media/hero.mp4`
+- `docs/media/home.png`
+- `docs/media/intro-en.mp4`
+- `docs/media/intro.mp4`
+- `docs/media/og-ja.png`
+- `docs/media/og.png`
+- `docs/media/poster-intro-en.jpg`
+- `docs/media/poster-intro.jpg`
+- `docs/media/poster.jpg`
+- `docs/media/real-long-site.png`

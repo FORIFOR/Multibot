@@ -1,0 +1,63 @@
+# overall-architecture/n-docs-71ab8b
+
+[解析トップへ戻る](../../README.md)
+
+確認したパス: `docs`。配下の登録ファイルは955件。
+
+- `docs/DATA_OPERATIONS.md`（一覧のみ）
+- `docs/DELIVERY_REQUIREMENTS.md`（一覧のみ）
+- `docs/DURABLE_EXECUTION.md`（一覧のみ）
+- `docs/ENTERPRISE_READINESS.md`（一覧のみ）
+- `docs/IMPLEMENTATION_PLAN.md`（一覧のみ）
+- `docs/OPERATIONS.md`（一覧のみ）
+- `docs/PRODUCTION.md`（一覧のみ）
+- `docs/PRODUCTION_PLAN.md`（一覧のみ）
+- `docs/REACHMADE_MIGRATION.md`（一覧のみ）
+- `docs/REAL_WORKFLOW_ACCEPTANCE.md`（一覧のみ）
+- `docs/RELEASE_OPERATIONS.md`（一覧のみ）
+- `docs/SSO.md`（一覧のみ）
+- `docs/STATUS.md`（一覧のみ）
+- `docs/WORKPLACE_BENCHMARK.md`（一覧のみ）
+- `docs/blueprint/IMPLEMENTATION_BRIEF.md`（一覧のみ）
+- `docs/blueprint/PRODUCT_SPEC.md`（一覧のみ）
+- `docs/blueprint/README.md`（一覧のみ）
+- `docs/blueprint/REFERENCES.md`（一覧のみ）
+- `docs/blueprint/SECURITY.md`（一覧のみ）
+- `docs/blueprint/reference-registry.json`（一覧のみ）
+- `docs/config/Modelfile.qwen35-9b`（一覧のみ）
+- `docs/config/cost-optimized.yaml`（一覧のみ）
+- `docs/config/local-qwen25-7b-single.yaml`（一覧のみ）
+- `docs/config/local-qwen25-7b-team.yaml`（一覧のみ）
+- `docs/config/local-qwen35-9b-single.yaml`（一覧のみ）
+- `docs/config/local-qwen35-9b-team.yaml`（一覧のみ）
+- `docs/config/local-qwen35-9b-thinking-single.yaml`（一覧のみ）
+- `docs/config/local-qwen35-9b-thinking-team.yaml`（一覧のみ）
+- `docs/config/single-agent.yaml`（一覧のみ）
+- `docs/design/acceptance.md`（一覧のみ）
+- `docs/design/brief.md`（一覧のみ）
+- `docs/design/references/README.md`（一覧のみ）
+- `docs/design/report-template.md`（一覧のみ）
+- `docs/design/tokens.md`（一覧のみ）
+- `docs/evidence/adaptive-team-2026-09-20/architecture-r1.md`（一覧のみ）
+
+
+```mermaid
+graph TD
+    group-1["要素 1–8\n一覧"]
+    group-2["要素 9–13\n一覧"]
+```
+
+## 要素の説明
+
+### group-1
+
+このグループは表示用の区切りです。独立した実行モジュールではありません。
+
+[詳細な図と説明を見る](group-1/README.md)
+
+### group-2
+
+このグループは表示用の区切りです。独立した実行モジュールではありません。
+
+[詳細な図と説明を見る](group-2/README.md)
+

@@ -1,0 +1,18 @@
+graph TD
+    source["ソース\nfrontend/src/main.tsx"]
+    n-react-6b810c["react\n外部・別名・未解決"]
+    source -->|"字句抽出: import／export"| n-react-6b810c
+    n-react-dom-client-bcbcc9["react-dom/client\n外部・別名・未解決"]
+    source -->|"字句抽出: import／export"| n-react-dom-client-bcbcc9
+    n-styles-css-df4e47["./styles.css\nfrontend/src/styles.css"]
+    source -->|"字句抽出: import／export"| n-styles-css-df4e47
+    n-workroom-css-f05ae5["./workroom.css\nfrontend/src/workroom.css"]
+    source -->|"字句抽出: import／export"| n-workroom-css-f05ae5
+    n-quiet-cinema-css-117f7f["./quiet-cinema.css\nfrontend/src/quiet-cinema.css"]
+    source -->|"字句抽出: import／export"| n-quiet-cinema-css-117f7f
+    n-ui-polish-css-8985f6["./ui-polish.css\nfrontend/src/ui-polish.css"]
+    source -->|"字句抽出: import／export"| n-ui-polish-css-8985f6
+    n-bot-polish-css-854a32["./bot-polish.css\nfrontend/src/bot-polish.css"]
+    source -->|"字句抽出: import／export"| n-bot-polish-css-854a32
+    n-app-4c727b["./App\nfrontend/src/App.tsx"]
+    source -->|"字句抽出: import／export"| n-app-4c727b

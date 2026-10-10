@@ -1,0 +1,27 @@
+実在パス: `backend/agentteam`。80ファイル。
+
+- `backend/agentteam/__init__.py`
+- `backend/agentteam/api/__init__.py`
+- `backend/agentteam/api/app.py`
+- `backend/agentteam/api/service.py`
+- `backend/agentteam/cli.py`
+- `backend/agentteam/config/__init__.py`
+- `backend/agentteam/config/loader.py`
+- `backend/agentteam/config/models.py`
+- `backend/agentteam/config/secrets.py`
+- `backend/agentteam/config/voice.py`
+- `backend/agentteam/contracts.py`
+- `backend/agentteam/demo.py`
+- `backend/agentteam/demo_command.py`
+- `backend/agentteam/ids.py`
+- `backend/agentteam/operations/__init__.py`
+- `backend/agentteam/operations/backup.py`
+- `backend/agentteam/operations/encrypted_backup.py`
+- `backend/agentteam/operations/observer.py`
+- `backend/agentteam/operations/retention.py`
+- `backend/agentteam/projections/__init__.py`
+- `backend/agentteam/projections/views.py`
+- `backend/agentteam/prompts/builder.md`
+- `backend/agentteam/prompts/master.md`
+- `backend/agentteam/prompts/platform-policy.md`
+- `backend/agentteam/prompts/readiness-series.md`

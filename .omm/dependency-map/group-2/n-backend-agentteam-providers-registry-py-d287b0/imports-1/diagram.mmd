@@ -1,0 +1,18 @@
+graph TD
+    source["ソース\nbackend/agentteam/providers/registry.py"]
+    n-future-05a733["__future__\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-future-05a733
+    n-os-999a34["os\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-os-999a34
+    n-typing-02d7d3["typing\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-typing-02d7d3
+    n-config-models-3c5fce["config.models\nbackend/agentteam/config/models.py"]
+    source -->|"Python AST: import／export"| n-config-models-3c5fce
+    n-config-secrets-076797["config.secrets\nbackend/agentteam/config/secrets.py"]
+    source -->|"Python AST: import／export"| n-config-secrets-076797
+    n-anthropic-driver-2c483f["anthropic_driver\nbackend/agentteam/providers/anthropic_driver.py"]
+    source -->|"Python AST: import／export"| n-anthropic-driver-2c483f
+    n-base-1405df["base\nbackend/agentteam/providers/base.py"]
+    source -->|"Python AST: import／export"| n-base-1405df
+    n-claude-cli-driver-f123a6["claude_cli_driver\nbackend/agentteam/providers/claude_cli_driver.py"]
+    source -->|"Python AST: import／export"| n-claude-cli-driver-f123a6

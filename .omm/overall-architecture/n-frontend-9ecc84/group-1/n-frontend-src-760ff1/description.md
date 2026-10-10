@@ -1,0 +1,27 @@
+実在パス: `frontend/src`。52ファイル。
+
+- `frontend/src/App.tsx`
+- `frontend/src/assets/bots/builder.svg`
+- `frontend/src/assets/bots/helper.svg`
+- `frontend/src/assets/bots/master.svg`
+- `frontend/src/assets/bots/reporter.svg`
+- `frontend/src/assets/bots/researcher.svg`
+- `frontend/src/assets/bots/reviewer.svg`
+- `frontend/src/assets/orb-params.txt`
+- `frontend/src/assets/orb.LICENSE`
+- `frontend/src/assets/orb.html`
+- `frontend/src/bot-polish.css`
+- `frontend/src/components/ArtifactWorkbench.tsx`
+- `frontend/src/components/AuthGate.tsx`
+- `frontend/src/components/BotAvatar.tsx`
+- `frontend/src/components/BotSettingsCard.tsx`
+- `frontend/src/components/ConversationActivity.tsx`
+- `frontend/src/components/CustomBotCreator.tsx`
+- `frontend/src/components/ElapsedTime.tsx`
+- `frontend/src/components/Journey.tsx`
+- `frontend/src/components/Markdown.tsx`
+- `frontend/src/components/Orb.tsx`
+- `frontend/src/components/TeamConversation.tsx`
+- `frontend/src/components/WorkProgress.tsx`
+- `frontend/src/journey.css`
+- `frontend/src/lib/api.ts`

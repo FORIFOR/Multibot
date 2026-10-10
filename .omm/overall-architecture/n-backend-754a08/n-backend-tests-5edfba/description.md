@@ -1,0 +1,27 @@
+実在パス: `backend/tests`。38ファイル。
+
+- `backend/tests/__init__.py`
+- `backend/tests/conftest.py`
+- `backend/tests/test_adaptive_team.py`
+- `backend/tests/test_api.py`
+- `backend/tests/test_benchmark_protocol.py`
+- `backend/tests/test_benchmark_resume.py`
+- `backend/tests/test_benchmark_summary.py`
+- `backend/tests/test_claude_cli.py`
+- `backend/tests/test_conversation_voice.py`
+- `backend/tests/test_custom_bots.py`
+- `backend/tests/test_delivery_requirements.py`
+- `backend/tests/test_document_guidance.py`
+- `backend/tests/test_durable_execution.py`
+- `backend/tests/test_e2e_fake.py`
+- `backend/tests/test_encrypted_backup.py`
+- `backend/tests/test_event_schema.py`
+- `backend/tests/test_execution_boundaries.py`
+- `backend/tests/test_local_runtime_regressions.py`
+- `backend/tests/test_milestone.py`
+- `backend/tests/test_model_json_shapes.py`
+- `backend/tests/test_observer.py`
+- `backend/tests/test_offline_demo.py`
+- `backend/tests/test_ollama_probe.py`
+- `backend/tests/test_peer_communication.py`
+- `backend/tests/test_policy_and_contracts.py`

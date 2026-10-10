@@ -1,0 +1,16 @@
+graph TD
+    source["ソース\nbackend/agentteam/api/app.py"]
+    n-projections-views-b2bb96["projections.views\nbackend/agentteam/projections/views.py"]
+    source -->|"Python AST: import／export"| n-projections-views-b2bb96
+    n-providers-registry-8a1917["providers.registry\nbackend/agentteam/providers/registry.py"]
+    source -->|"Python AST: import／export"| n-providers-registry-8a1917
+    n-service-4cf5bc["service\nbackend/agentteam/api/service.py"]
+    source -->|"Python AST: import／export"| n-service-4cf5bc
+    n-security-accounts-f5c7f9["security.accounts\nbackend/agentteam/security/accounts.py"]
+    source -->|"Python AST: import／export"| n-security-accounts-f5c7f9
+    n-security-server-a6fd06["security.server\nbackend/agentteam/security/server.py"]
+    source -->|"Python AST: import／export"| n-security-server-a6fd06
+    n-store-job-store-45f489["store.job_store\nbackend/agentteam/store/job_store.py"]
+    source -->|"Python AST: import／export"| n-store-job-store-45f489
+    n-runtime-sandbox-f908a1["runtime.sandbox\nbackend/agentteam/runtime/sandbox.py"]
+    source -->|"Python AST: import／export"| n-runtime-sandbox-f908a1

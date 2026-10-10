@@ -1,0 +1,21 @@
+実在パス: `backend/scripts`。19ファイル。
+
+- `backend/scripts/benchmark.py`
+- `backend/scripts/check_durable_local.py`
+- `backend/scripts/check_oidc_restore.py`
+- `backend/scripts/check_release_upgrade.py`
+- `backend/scripts/check_research_fetch.py`
+- `backend/scripts/check_secure_server.py`
+- `backend/scripts/demo_fake_server.py`
+- `backend/scripts/eval_scenarios.py`
+- `backend/scripts/local_benchmark_campaign.py`
+- `backend/scripts/production_workflow.py`
+- `backend/scripts/provision_oidc_staging.py`
+- `backend/scripts/provision_secure_smoke.py`
+- `backend/scripts/reviewer_catch_rate.py`
+- `backend/scripts/serve_recorded_quality.py`
+- `backend/scripts/smoke_real_llm.py`
+- `backend/scripts/summarize_benchmark.py`
+- `backend/scripts/summarize_evals.py`
+- `backend/scripts/verify_product_exports.py`
+- `backend/scripts/verify_trading_export.py`

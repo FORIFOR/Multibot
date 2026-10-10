@@ -1,0 +1,27 @@
+実在パス: `frontend/scripts`。54ファイル。
+
+- `frontend/scripts/a11y-smoke.mjs`
+- `frontend/scripts/adaptive-team-start.mjs`
+- `frontend/scripts/ask-capture.mjs`
+- `frontend/scripts/capture-ui-references.mjs`
+- `frontend/scripts/comparative-ui-check.mjs`
+- `frontend/scripts/completion-conditions-check.mjs`
+- `frontend/scripts/completion-download.mjs`
+- `frontend/scripts/completion-final-request.mjs`
+- `frontend/scripts/completion-original-request.mjs`
+- `frontend/scripts/completion-request.mjs`
+- `frontend/scripts/completion-start.mjs`
+- `frontend/scripts/completion-storage-check.mjs`
+- `frontend/scripts/completion-storage-volume-check.mjs`
+- `frontend/scripts/conversation-processing-check.mjs`
+- `frontend/scripts/creation-studio-check.mjs`
+- `frontend/scripts/demo-source.md`
+- `frontend/scripts/durable-browser-smoke.mjs`
+- `frontend/scripts/edit-demo.mjs`
+- `frontend/scripts/elapsed-check.mjs`
+- `frontend/scripts/emoji-icons-check.mjs`
+- `frontend/scripts/journey-capture.mjs`
+- `frontend/scripts/make-captions.mjs`
+- `frontend/scripts/make-og.mjs`
+- `frontend/scripts/motion-check.mjs`
+- `frontend/scripts/oidc-smoke.mjs`

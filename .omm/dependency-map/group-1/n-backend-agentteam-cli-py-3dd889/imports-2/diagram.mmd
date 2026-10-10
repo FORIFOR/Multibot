@@ -1,0 +1,18 @@
+graph TD
+    source["ソース\nbackend/agentteam/cli.py"]
+    n-contracts-80cff8["contracts\nbackend/agentteam/contracts.py"]
+    source -->|"Python AST: import／export"| n-contracts-80cff8
+    n-providers-registry-8a1917["providers.registry\nbackend/agentteam/providers/registry.py"]
+    source -->|"Python AST: import／export"| n-providers-registry-8a1917
+    n-shutil-748708["shutil\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-shutil-748708
+    n-threading-c3015a["threading\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-threading-c3015a
+    n-webbrowser-decbbb["webbrowser\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-webbrowser-decbbb
+    n-uvicorn-c0aa57["uvicorn\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-uvicorn-c0aa57
+    n-api-app-6de14d["api.app\nbackend/agentteam/api/app.py"]
+    source -->|"Python AST: import／export"| n-api-app-6de14d
+    n-time-714eea["time\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-time-714eea

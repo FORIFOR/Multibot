@@ -1,0 +1,27 @@
+実在パス: `docs/evidence`。815ファイル。
+
+- `docs/evidence/adaptive-team-2026-09-20/architecture-r1.md`
+- `docs/evidence/adaptive-team-2026-09-20/communication-budget.json`
+- `docs/evidence/adaptive-team-2026-09-20/communication-runtime.json`
+- `docs/evidence/adaptive-team-2026-09-20/coordination-finish.json`
+- `docs/evidence/adaptive-team-2026-09-20/decisions-r1.md`
+- `docs/evidence/adaptive-team-2026-09-20/explicit-voice-recommendation.json`
+- `docs/evidence/adaptive-team-2026-09-20/peer-reservation.json`
+- `docs/evidence/adaptive-team-2026-09-20/real-recommendation.json`
+- `docs/evidence/adaptive-team-2026-09-20/same-owner-output.json`
+- `docs/evidence/benchmark-2026-09-13/README.md`
+- `docs/evidence/benchmark-2026-09-13/manifest.json`
+- `docs/evidence/benchmark-2026-09-13/single-results.jsonl`
+- `docs/evidence/benchmark-2026-09-13/single-results.regraded.jsonl`
+- `docs/evidence/benchmark-2026-09-13/team-pilot-results.jsonl`
+- `docs/evidence/benchmark-2026-09-13/team-results.jsonl`
+- `docs/evidence/data-operations-2026-09-14/README.md`
+- `docs/evidence/data-operations-2026-09-14/backend-tests.xml`
+- `docs/evidence/durable-execution-2026-09-14/README.md`
+- `docs/evidence/durable-execution-2026-09-14/actual-queued-request.png`
+- `docs/evidence/durable-execution-2026-09-14/cancelled-real-run.json`
+- `docs/evidence/durable-execution-2026-09-14/durable-browser.json`
+- `docs/evidence/durable-execution-2026-09-14/durable-local.json`
+- `docs/evidence/execution-boundaries-2026-09-14/README.md`
+- `docs/evidence/execution-boundaries-2026-09-14/backend-tests.xml`
+- `docs/evidence/execution-boundaries-2026-09-14/public-fetch.json`

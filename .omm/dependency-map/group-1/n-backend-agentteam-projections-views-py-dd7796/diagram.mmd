@@ -1,0 +1,8 @@
+graph TD
+    source["ソース\nbackend/agentteam/projections/views.py"]
+    n-future-05a733["__future__\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-future-05a733
+    n-typing-02d7d3["typing\n外部・別名・未解決"]
+    source -->|"Python AST: import／export"| n-typing-02d7d3
+    n-contracts-80cff8["contracts\nbackend/agentteam/contracts.py"]
+    source -->|"Python AST: import／export"| n-contracts-80cff8

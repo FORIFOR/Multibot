@@ -1,0 +1,86 @@
+{
+  "repo": "FORIFOR/Multibot",
+  "branch": "main",
+  "tree_sha": "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+  "tree_files": 1287,
+  "read_files": [
+    {
+      "path": "README.md",
+      "sha": "d5c341271ac9394b38127bbbd09503831aba4292"
+    },
+    {
+      "path": "backend/pyproject.toml",
+      "sha": "75c92563d8d8380c66b07111b6a17fc0ce11e7a3"
+    },
+    {
+      "path": "frontend/package.json",
+      "sha": "86709a691d3bd079825aea126595ab62dc61743a"
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "sha": "f1472ecef0b91726bc24b612dd11b0481ac64a47"
+    },
+    {
+      "path": "backend/agentteam/api/app.py",
+      "sha": "695a68b8ebcb880917a47915db46eed24f1c1901"
+    },
+    {
+      "path": "backend/agentteam/security/server.py",
+      "sha": "33305b2ba0d4f5d8c3dc759342a6bc5db2b5b77d"
+    },
+    {
+      "path": "backend/agentteam/cli.py",
+      "sha": "83b7f341b7e82abf35fcfbd9db93d0f7a1d305df"
+    },
+    {
+      "path": "frontend/src/styles.css",
+      "sha": "de50bf540183207e471916d113cbc649266acb83"
+    },
+    {
+      "path": "frontend/src/workroom.css",
+      "sha": "d25ef70949092739f1606f44036eb2c6a835de3b"
+    },
+    {
+      "path": "frontend/src/quiet-cinema.css",
+      "sha": "4a6294619fa8bbc703fe20fe6bf593d879162b3d"
+    },
+    {
+      "path": "frontend/src/ui-polish.css",
+      "sha": "30a350981116378aab69884d4b1974882a7c6655"
+    },
+    {
+      "path": "frontend/src/bot-polish.css",
+      "sha": "f01ddc7cd30d59c55ccb4419f4808ad48e2f3d7f"
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "sha": "e300996f138085489f7bca01898236adb8b0acab"
+    },
+    {
+      "path": "frontend/src/obsidian.css",
+      "sha": "44101021f98bc9850ea1e453ec4ff73cf51d772e"
+    },
+    {
+      "path": "frontend/src/paper.css",
+      "sha": "efc9b9a3e77e0a94f1f1f2630f75c8146f510dfb"
+    },
+    {
+      "path": "backend/agentteam/contracts.py",
+      "sha": "e6e4bd3f198a50809e912d5fff25a2ba97afffe4"
+    },
+    {
+      "path": "backend/agentteam/ids.py",
+      "sha": "98e888dc717dacf5121720de7eeb4d1743e602de"
+    },
+    {
+      "path": "backend/agentteam/projections/views.py",
+      "sha": "862d4e5661d111c909f99bcb44ad977b3a1297da"
+    },
+    {
+      "path": "backend/agentteam/providers/registry.py",
+      "sha": "d523979477bc84542a901c2883caa73f2833dd77"
+    }
+  ],
+  "not_read_count": 1268,
+  "scope": "initial entry-point and direct-import analysis; not exhaustive semantic scan"
+}
