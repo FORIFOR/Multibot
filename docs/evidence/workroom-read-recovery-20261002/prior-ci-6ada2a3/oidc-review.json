@@ -1,0 +1,244 @@
+{
+  "status": "PASS",
+  "reviewed_at": "2026-10-02T01:24:12.890382+00:00",
+  "review_type": "保存された実GitHub OIDC原artifactの独立読取照合",
+  "run_id": 36950319772,
+  "run_url": "https://github.com/FORIFOR/Multibot/actions/runs/36950319772",
+  "head_sha": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "actual_checkout_merge": "88ffec3af0303922fbe33fdaee215a1ec900f7a0",
+  "merge_parents": [
+    "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+    "6ada2a36e7c8269e07e3a063b0319f67a1ce2534"
+  ],
+  "artifact_id": 11204151224,
+  "original_zip_sha256": "208ecc22431f893a244042cf1e17373a5f2ca76563b55ebc28f3161b3abe0209",
+  "checks": [
+    {
+      "id": "exact_requested_head",
+      "passed": true
+    },
+    {
+      "id": "run_complete_success",
+      "passed": true
+    },
+    {
+      "id": "reported_merge_parent_head",
+      "passed": true
+    },
+    {
+      "id": "head_and_merge_tree_difference_empty",
+      "passed": true
+    },
+    {
+      "id": "zip_server_digest",
+      "passed": true
+    },
+    {
+      "id": "exact_safe_artifact_entries",
+      "passed": true
+    },
+    {
+      "id": "recorded_source_hash_matches_exact_head",
+      "passed": true
+    },
+    {
+      "id": "derived_profile_matches_exact_preserved_source",
+      "passed": true
+    },
+    {
+      "id": "report_keeps_provenance",
+      "passed": true
+    },
+    {
+      "id": "thirteen_actual_checks_from_exact_script",
+      "passed": true
+    },
+    {
+      "id": "twentytwo_http_match_expected_status",
+      "passed": true
+    },
+    {
+      "id": "http_fields_are_allowlisted",
+      "passed": true
+    },
+    {
+      "id": "real_jwks_cold_cache_unknownkid_refresh",
+      "passed": true
+    },
+    {
+      "id": "rotation_within_original_cache_ttl",
+      "passed": true
+    },
+    {
+      "id": "actual_start_false_and_receipt_replay",
+      "passed": true
+    },
+    {
+      "id": "database_0_jobs_0_models_1_run_1_admission_assertion",
+      "passed": true
+    },
+    {
+      "id": "browser_and_callback_close",
+      "passed": true
+    },
+    {
+      "id": "owned_api_identity_exit_group_port",
+      "passed": true
+    },
+    {
+      "id": "owned_keycloak_removed_and_port_closed",
+      "passed": true
+    },
+    {
+      "id": "cleanup_pass",
+      "passed": true
+    },
+    {
+      "id": "cleanup_before_upload_and_failure_not_swallowed",
+      "passed": true
+    },
+    {
+      "id": "pyjwt_215_and_no_model_requested",
+      "passed": true
+    },
+    {
+      "id": "safe_pattern_scan",
+      "passed": true
+    }
+  ],
+  "source_comparison": [
+    {
+      "path": "backend/scripts/provision_public_oidc.py",
+      "recorded_sha256": "a38ec2f4eb297ec7832a8178cceb517984900f05874de8fe65cd3c4ec0fd2c0d",
+      "actual_head_sha256": "a38ec2f4eb297ec7832a8178cceb517984900f05874de8fe65cd3c4ec0fd2c0d",
+      "match": true
+    },
+    {
+      "path": "frontend/scripts/public-oidc.mjs",
+      "recorded_sha256": "b3500675d47e50f608a3a1e4b018c081aa93ca184075a2a04d9ca8c0fddb5d23",
+      "actual_head_sha256": "b3500675d47e50f608a3a1e4b018c081aa93ca184075a2a04d9ca8c0fddb5d23",
+      "match": true
+    },
+    {
+      "path": ".github/workflows/public-oidc.yml",
+      "recorded_sha256": "bea892d03c241b70cec4d1bdc451c5847546f9bc606ebc2b0a4120176f9adc0a",
+      "actual_head_sha256": "bea892d03c241b70cec4d1bdc451c5847546f9bc606ebc2b0a4120176f9adc0a",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+      "recorded_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "actual_head_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "match": true
+    },
+    {
+      "path": "docs/PRODUCTION_PLAN.md",
+      "recorded_sha256": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+      "actual_head_sha256": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+      "match": true
+    },
+    {
+      "path": "backend/scripts/cleanup_public_oidc.py",
+      "recorded_sha256": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+      "actual_head_sha256": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+      "match": true
+    }
+  ],
+  "committed_ui_files": 6,
+  "ui_scope": "headの追跡配布UI6fileを記録、headとmerge tree差分0。OIDC jobはアプリUIをbuildせず、アプリUI応答byte/画面検証を本artifactは提供しない。実ChromeはKeycloakログインとcallbackを利用。",
+  "oidc_checks": 13,
+  "http_responses": 22,
+  "pyjwt_version": "2.15.0",
+  "jwks_observations": [
+    {
+      "label": "before_first_api_token",
+      "successful_certs_gets": 0
+    },
+    {
+      "label": "first_valid_token",
+      "successful_certs_gets": 1
+    },
+    {
+      "label": "three_cached_requests",
+      "successful_certs_gets": 1
+    },
+    {
+      "label": "new_real_signing_key",
+      "successful_certs_gets": 2
+    },
+    {
+      "label": "retained_previous_key",
+      "successful_certs_gets": 2
+    },
+    {
+      "label": "after_real_idp_recovery",
+      "successful_certs_gets": 4
+    },
+    {
+      "label": "final",
+      "successful_certs_gets": 4
+    }
+  ],
+  "jwks_timing": {
+    "cache_ttl_seconds": 60,
+    "first_api_started_at": "2026-10-02T01:19:59.585Z",
+    "rotation_api_started_at": "2026-10-02T01:20:01.166Z",
+    "elapsed_before_rotation_ms": 1581,
+    "elapsed_after_rotation_ms": 1625
+  },
+  "start_false_database_contract": {
+    "requests_post": 2,
+    "same_run_receipt_replay": true,
+    "runs": 1,
+    "subject_admissions": 1,
+    "execution_jobs": 0,
+    "model_events": 0,
+    "basis": "実runnerのSQLite assertion成功と保存/再送check。生SQLiteは非公開で本reviewが再取得したものではない。"
+  },
+  "api_cleanup": {
+    "status": "PASS",
+    "started": true,
+    "signals_sent": 1,
+    "identity_matches": true,
+    "process_absent": true,
+    "group_empty": true,
+    "port_closed": true,
+    "ready_observed": true,
+    "runtime_error_markers": 0
+  },
+  "container_cleanup": {
+    "status": "PASS",
+    "started": true,
+    "owned_count": 1,
+    "removed_count": 1,
+    "remaining_owned_count": 0,
+    "port_closed": true,
+    "creation_outcome_verified": true
+  },
+  "browser_callback_cleanup": [
+    {
+      "name": "browser-close",
+      "status": "PASS"
+    },
+    {
+      "name": "callback-close",
+      "status": "PASS"
+    }
+  ],
+  "safe_pattern_scan": {
+    "jwt": 0,
+    "private_key": 0,
+    "bearer_value": 0
+  },
+  "limits": [
+    "原safeZIP・metadataのみ取得。rawlogs・秘密鍵・owner PID/argv・DBは取得しない。",
+    "owned判定は実cleanup safe項目と固定sourceによる確認。終了stepがsuccessだけの推測ではない。",
+    "CIで発行した秘密実値は安全artifactにないため本reviewの実値バイトscanは不可。runnerのissued credentials/code除外checkとpatternscanを区別。",
+    "UIはGit tree/source同一性だけ。今回のOIDCをアプリ全画面・初回回復・自然並行操作の受入へ拡張しない。",
+    "13checksは本GitHub jobの1回実行。reviewerによる再実行/ローカルサービス/Keycloak/LLM/VM開始なし。",
+    "新署名key強制refreshは元cache TTL未満の実測1581/1625msの条件に限定。",
+    "OAuth2 Proxy/public TLS/MFA/自己登録/アカウント回復/業務品質/人間受入は未検証。",
+    "元CI36947671100のparallel失敗原因は未確定のまま。このOIDC成功は別suiteの成功。"
+  ],
+  "human_acceptance": "not_performed"
+}

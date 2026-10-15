@@ -1,0 +1,28 @@
+{
+  "started_at": "2026-10-01T18:03:58.500Z",
+  "status": "FAILED",
+  "mode": "original-code-reproduction",
+  "source": "docs/PRODUCTION_PLAN.md",
+  "source_sha256": "e0dd46337a5d8240dd1016096d4d0cdac8bbe1f260523b97faa077adbff96f23",
+  "checks": [
+    {
+      "id": "peer-close",
+      "status": "BUG_REPRODUCED",
+      "actual_login_status": 200,
+      "observed_ms": 21637,
+      "empty_signin_after_ms": null,
+      "prior_workspace_closed": true,
+      "private_storage_cleared": true
+    }
+  ],
+  "model_execution": false,
+  "human_acceptance": false,
+  "limitations": [
+    "Local actual technical accounts; no external IdP/TLS acceptance",
+    "CDP holds actual HTTP 200 responses; it supplies no response bytes",
+    "A suspended browser cannot render until it resumes; the lease is checked when its JavaScript runs"
+  ],
+  "browser": "154.0.8037.58",
+  "error_name": "AssertionError",
+  "finished_at": "2026-10-01T18:04:21.442Z"
+}

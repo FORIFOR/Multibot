@@ -137,6 +137,11 @@
                 "type": "string",
                 "minLength": 1
               },
+              "source_task_id": {
+                "type": ["string", "null"],
+                "minLength": 1,
+                "description": "Originating task session assigned by the runtime; absent or null for legacy deliveries and sessions without an owned task."
+              },
               "purpose": {
                 "enum": [
                   "request",

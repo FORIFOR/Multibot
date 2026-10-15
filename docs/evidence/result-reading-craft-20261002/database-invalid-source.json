@@ -1,0 +1,53 @@
+{
+  "status": "FAIL",
+  "started_at": "2026-10-01T19:59:26.633037+00:00",
+  "finished_at": "2026-10-01T19:59:26.645327+00:00",
+  "revision": "01b11f0bacd5a5a1c37af5ebd9cf724b3fe6efff",
+  "implementation_sha256": {
+    "backend/agentteam/store/db.py": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+    "backend/agentteam/store/job_store.py": "b1d709a9da46a872a3c0e291c1cc732773e1701176399c7af9791ab4d85d8497",
+    "backend/agentteam/store/usage_store.py": "83dc934e86dafb43a5b457d9fc0d745170d44e44b4dfc37d1ad1cd9b6095e24b",
+    "backend/agentteam/security/server.py": "29e30b467789a9eccc7cb17417b20b520827e30be364b7e68b5e839ccb76fc0a",
+    "backend/scripts/check_database_concurrency.py": "9af4df8e75307c4c74db3c781715757dba3457783074d10dba84b17cb44a949d"
+  },
+  "source_sha256": {},
+  "source_unchanged": null,
+  "python": "3.12.12 (main, Oct  9 2025, 11:07:00) [Clang 17.0.0 (clang-1700.6.3.2)]",
+  "sqlite": "3.53.4",
+  "model_execution": false,
+  "business_quality_accepted": false,
+  "human_acceptance": "not_performed",
+  "http": {
+    "planned": 480,
+    "attempted": 0,
+    "passed": 0,
+    "failed": 0,
+    "unattempted": 480,
+    "status_counts": {},
+    "exception_types": {},
+    "missing_or_incomplete_terminal_audit": null,
+    "audit_check_completed": false
+  },
+  "direct_parallel": {
+    "planned": 640,
+    "attempted": 0,
+    "passed": 0,
+    "failed": 0,
+    "unattempted": 640,
+    "errors": []
+  },
+  "error_type": "AssertionError",
+  "runtime_log_error": null,
+  "new_model_events": null,
+  "jobs": null,
+  "cleanup": {
+    "service_stopped": false,
+    "port_closed": true,
+    "browser_started": false
+  },
+  "limits": [
+    "This is an implementation regression, not a model-quality or human acceptance result.",
+    "Direct audit row insertions are storage replays, not repeats of the original HTTP/business operation.",
+    "This does not prove that the earlier incompletely logged HTTP error had the identical cause."
+  ]
+}

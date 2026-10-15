@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-01T20:31:13.912906+00:00",
+  "model": "agentteam-qwen35-9b-16k",
+  "digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+  "ollama_version": "0.33.3",
+  "resident": false,
+  "pages": {
+    "Pages free": 5050,
+    "Pages inactive": 285355,
+    "Pages speculative": 592
+  },
+  "page_size": 16384,
+  "reclaimable_estimate_bytes": 4767694848,
+  "required_bytes": 8741958113,
+  "pressure_level": 1,
+  "disk_free_bytes": 18396794880,
+  "locks": {
+    ".production-llm.lock": "unlocked_for_shared_check",
+    "real-readiness-v62-qwen35-fixed-20261002/workflow.lock": "unlocked_for_shared_check",
+    "public-guide-qwen35-fixed-20261002/workflow.lock": "unlocked_for_shared_check"
+  },
+  "workflow_processes": [],
+  "legacy_stop_exists": true,
+  "legacy_stop_sha256": "c1f6341aa4778bca7de349a56103d80899f4fa8787f01a6d864d8068d1f12605",
+  "meets_memory_policy": false,
+  "model_execution_started": false,
+  "colima_started": false,
+  "no_process_or_model_stopped": true,
+  "limitation": "own conservative resource guard; not evidence of model allocation failure or quality failure"
+}

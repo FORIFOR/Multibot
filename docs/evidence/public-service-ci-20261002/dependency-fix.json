@@ -1,0 +1,66 @@
+{
+  "recorded_at": "2026-10-01T16:13:04.319348+00:00",
+  "source_revision": "fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b",
+  "scope": "private candidate runtime, no LLM or real IdP execution",
+  "before": [
+    {
+      "name": "pyjwt",
+      "version": "2.14.0",
+      "ids": [
+        "CVE-2026-101918"
+      ]
+    }
+  ],
+  "after": {
+    "dependency_count": 46,
+    "vulnerability_count": 0,
+    "pyjwt": "2.15.0"
+  },
+  "official_advisory": "https://github.com/jpadilla/pyjwt/security/advisories/GHSA-42vr-xj54-vc7v",
+  "runtime_files_sha256": {
+    "backend/pyproject.toml": "d17660b14045d5332bb4e8af42fb12328a74ba675db6f4730e1177de1418b2f2",
+    "backend/requirements.lock": "a4c606970a1c2c14ea48daeefb23934d41a06e8689cef70e756a030f0cd07a8a"
+  },
+  "dependency_patch_sha256": "80a848a80dd5cdbcf32cac11c636da0b69426e753e7cd163a58f942c2633fc85",
+  "real_sso_jwks_regression": "not performed; v62 resources preserved",
+  "integration": {
+    "report": "/Users/horioshuuhei/.cache/agentteam-bench/public-service-pyjwt215-integration-20261002-r1/report.json",
+    "report_sha256": "10d330611ed3f48a05904f880c535f2ef2cb304f6072508411691357acdf7bbb",
+    "status": "PASS",
+    "started_at": "2026-10-01T16:12:44.380096+00:00",
+    "finished_at": "2026-10-01T16:12:54.946601+00:00",
+    "revision": "fea6fa39cd7a254795fe9ad5d3ba42aec5dc918b",
+    "checks": [
+      "actual HTTP/SQLite admission",
+      "actual-source response projection",
+      "auth-browser-isolation.mjs",
+      "auth-retry-reload.mjs",
+      "auth-parallel-login.mjs"
+    ],
+    "process_cleanup": [
+      {
+        "program": "auth-browser-isolation.mjs",
+        "tracked_processes": 11,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-retry-reload.mjs",
+        "tracked_processes": 10,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-parallel-login.mjs",
+        "tracked_processes": 10,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ],
+    "model_execution": false,
+    "business_acceptance": false
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "revision": "d63aca6a8107e0ef188b1a92fdaa4dc6bce71a53",
+  "pyjwt_version": "2.15.0",
+  "origin": "http://127.0.0.1:8798",
+  "issuer": "http://127.0.0.1:8801/realms/agentteam-verification",
+  "client_id": "agentteam-verification-login",
+  "profile_source": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+  "profile_source_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+  "profile_sha256": "b64fc97824e643770d55e20bd8fca58ab43168be6ed045f68dcbd7e096c3f42d",
+  "document_source": "docs/PRODUCTION_PLAN.md",
+  "document_sha256": "2dba680a3a985543939f31f9112f8ec22f85bea01255e0c6d900e7b139da6f28",
+  "verification_files_sha256": {
+    "backend/scripts/provision_public_oidc.py": "0d1984198d788da811811d990c816741136f2ea6747c681bc85a6b08f0661be7",
+    "frontend/scripts/public-oidc.mjs": "c6e92600224e2d45a9118ae4347044f883784cab4e27cfd8b33f31c82842f30d",
+    ".github/workflows/public-oidc.yml": "5c36e3a6c6ced839612a779605dd4ef7f2b2ed087cd1e08dcb50611431cdf531"
+  },
+  "historical_probe_is_not_current_model_verification": true,
+  "model_execution": false,
+  "scope": "real authorization-code/PKCE token acquisition and API JWT/JWKS verification",
+  "not_verified": [
+    "OAuth2 Proxy",
+    "public TLS",
+    "MFA",
+    "registration",
+    "account recovery",
+    "business quality",
+    "human acceptance"
+  ],
+  "started_at": "2026-10-01T16:39:00.300Z",
+  "status": "FAILED",
+  "checks": [
+    "real_technical_accounts_without_fabricated_person_or_email"
+  ],
+  "http": [
+    {
+      "stage": "initial_jwks_fetch",
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 401,
+      "expected": 200
+    }
+  ],
+  "jwks_observations": [
+    {
+      "label": "before_first_api_token",
+      "successful_certs_gets": 0
+    }
+  ],
+  "chrome_version": "154.0.8037.57",
+  "jwks_timing": {
+    "cache_ttl_seconds": 60,
+    "first_api_started_at": "2026-10-01T16:39:15.721Z"
+  },
+  "failure_stage": "initial_jwks_fetch",
+  "cleanup": [
+    {
+      "name": "browser-close",
+      "status": "PASS"
+    },
+    {
+      "name": "callback-close",
+      "status": "PASS"
+    }
+  ],
+  "finished_at": "2026-10-01T16:39:15.872Z"
+}

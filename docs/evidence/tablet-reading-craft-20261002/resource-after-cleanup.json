@@ -1,0 +1,171 @@
+{
+  "recorded_at": "2026-10-01T23:56:24.300887+00:00",
+  "observer": "quality_assessment",
+  "action": "read-only launch-gate observation",
+  "model_execution_started": false,
+  "model_probe_performed": false,
+  "vm_service_supervisor_started": false,
+  "processes_signalled": false,
+  "checks": {
+    "fixed_commit": true,
+    "fixed_clean": true,
+    "fingerprint_matches_preparation": true,
+    "supervisor_matches_preparation": true,
+    "frozen_files": true,
+    "actual_frozen_readonly_validator": true,
+    "still_prepared_no_generation": true,
+    "no_models_jobs_artifacts": true,
+    "locks_available": true,
+    "stop_contract": true,
+    "preceding_supervisor_child_pid_absent": true,
+    "no_other_workflow": true,
+    "normal_pressure": true,
+    "disk_over_10gib": false,
+    "model_metadata_identity": true,
+    "threshold_unchanged": true,
+    "memory_meets_unchanged_gate": false,
+    "prior_ten_complete": true,
+    "prior_cleanup": true,
+    "prior_semantic_review_completed": true,
+    "frozen_files_unchanged_during_observation": true,
+    "supervisor_unchanged": true
+  },
+  "errors": [],
+  "limits": [
+    "Point-in-time observation, not launch authorization or a guarantee of future memory allocation.",
+    "Operational memory threshold is unchanged; a gate failure does not prove the model cannot start or that business quality failed.",
+    "Ollama GET version/tags/ps only; no generate, load, unload, run, capability probe, or service start.",
+    "PID command arguments are inspected in memory; only whitelisted roles/names and command hashes are retained."
+  ],
+  "fingerprint_sha256": "7127ff366a9ff26b54650f33690219b872f062a1d2c4a3db6428b88c91ac24f3",
+  "supervisor_sha256": "1f15a64d94c3c94d920ba644083d70332fe593e2d605ad16d08f4f28f8a0c7da",
+  "fixed_commit": "983be97291d1252b0873d200136dbd8eb9110eee",
+  "fixed_checkout_clean": true,
+  "effective_boundary": {
+    "requires_docker": false,
+    "workflow": "document",
+    "runtime_matches": true
+  },
+  "series": {
+    "state": "prepared",
+    "model_execution_started": false,
+    "attempts": 0,
+    "preflight_start": false,
+    "preflight_runtime_status": "created",
+    "preflight_model_calls": 0,
+    "database_counts": {
+      "runs": 1,
+      "execution_jobs": 0,
+      "artifacts": 0,
+      "subject_admissions": 1,
+      "request_receipts": 1,
+      "model_events": 0,
+      "pending_jobs": 0
+    }
+  },
+  "locks": {
+    "global": "available_at_observation",
+    "new_workflow": "available_at_observation",
+    "new_service": "available_at_observation",
+    "prior_v62_workflow": "available_at_observation",
+    "old_4fc_workflow": "available_at_observation"
+  },
+  "stops": {
+    "legacy_campaign": {
+      "exists": true,
+      "sha256": "c1f6341aa4778bca7de349a56103d80899f4fa8787f01a6d864d8068d1f12605"
+    },
+    "new_series": {
+      "exists": false,
+      "sha256": null
+    },
+    "new_supervisor": {
+      "exists": false,
+      "sha256": null
+    },
+    "old_4fc_series": {
+      "exists": false,
+      "sha256": null
+    },
+    "old_4fc_supervisor": {
+      "exists": false,
+      "sha256": null
+    }
+  },
+  "prior_process_identity": {
+    "pids": [
+      22051,
+      22055
+    ],
+    "current_matches": 0
+  },
+  "processes": {
+    "other_workflows": [],
+    "ollama": [
+      {
+        "pid": 1824,
+        "ppid": 1,
+        "pgid": 1824,
+        "started": "Wed Sep 30 07:01:04 2026",
+        "argv_sha256": "23390c6d9e8228830e00889b6f4c6b9fc8000d953d4a915e43f234b421b315bc",
+        "executable": "ollama",
+        "role": "serve"
+      }
+    ],
+    "vm_related": [],
+    "raw_argv_retained": false
+  },
+  "memory": {
+    "page_bytes": 16384,
+    "pages": {
+      "Pages free": 9059,
+      "Pages inactive": 299791,
+      "Pages speculative": 2463
+    },
+    "reclaimable_estimate_bytes": 5100552192,
+    "reclaimable_estimate_gib": 4.75,
+    "pressure_level": 1,
+    "normal_pressure": true,
+    "memory_pressure_free_percent": 60,
+    "method": "free+inactive+speculative pages; estimate, not allocation guarantee"
+  },
+  "disk": {
+    "free_bytes": 10281390080,
+    "free_gib": 9.575,
+    "required_exclusive_minimum_bytes": 10737418240
+  },
+  "model": {
+    "name": "agentteam-qwen35-9b-16k",
+    "installed_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+    "expected_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+    "installed_digest_matches": true,
+    "ollama_version": "0.33.3",
+    "expected_version": "0.33.3",
+    "model_file_bytes": 6594474465,
+    "same_digest_resident": false,
+    "resident_model_count": 0,
+    "resident_metadata": [],
+    "residency_is_not_active_inference": true,
+    "metadata_GET_only": true
+  },
+  "memory_policy": {
+    "unchanged_required_bytes": 8741958113,
+    "computed_unloaded_minimum_bytes": 8741958113,
+    "formula": "max(8 GiB, model file size + 2 GiB)",
+    "meets_unchanged_gate": false,
+    "is_operational_policy": true
+  },
+  "predecessor": {
+    "fingerprint_matches": true,
+    "semantic_review_sha256": "47e298eb6d248dd4b216c94becb3ca0c5b4028e1d04878caaabf5123ff822e2a",
+    "semantic_review_complete": true,
+    "business_quality_acceptance_inferred": false
+  },
+  "blocking_conditions": [
+    "disk_over_10gib",
+    "memory_meets_unchanged_gate"
+  ],
+  "status": "RECORDED",
+  "launch_gate_assessment": "BLOCKED_BY_RECORDED_CONDITIONS",
+  "finished_at": "2026-10-01T23:56:25.572855+00:00"
+}

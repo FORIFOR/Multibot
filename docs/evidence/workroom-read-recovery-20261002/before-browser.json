@@ -1,0 +1,722 @@
+{
+  "status": "OBSERVATION_COMPLETE",
+  "started_at": "2026-10-02T01:39:31.998Z",
+  "cases": [
+    {
+      "id": "ja390-held200",
+      "status": "OBSERVATION_COMPLETE",
+      "phase": "closing",
+      "original_status": "interrupted",
+      "http": [
+        {
+          "phase": "before_login",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "before_login",
+          "path": "/api/auth/me",
+          "status": 401,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "before_login",
+          "path": "/api/auth/login",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/auth/me",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/health",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/auth/me",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/health",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": 4991
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": 9992
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": 14992
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": 20010
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": 24991
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": 29995
+        },
+        {
+          "phase": "hold_initial_read",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": 34995
+        },
+        {
+          "phase": "release_original_response",
+          "path": "/api/runs/run_1a0f84e775a61f6bc86",
+          "status": 200,
+          "ms_from_hold": 35040
+        },
+        {
+          "phase": "release_original_response",
+          "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+          "status": 200,
+          "ms_from_hold": 35059
+        }
+      ],
+      "requests": [
+        {
+          "phase": "baseline",
+          "kind": "detail",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "kind": "chat",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "kind": "events",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "kind": "detail",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "kind": "chat",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "hold_initial_read",
+          "kind": "events",
+          "method": "GET",
+          "ms_from_hold": null
+        }
+      ],
+      "network_failures": [],
+      "page_error_types": [],
+      "keyboard": [
+        {
+          "phase": "held-explicit-refresh",
+          "tabs": 5,
+          "geometry": {
+            "inner": [
+              390,
+              844
+            ],
+            "dpr": 1,
+            "scroll": [
+              0,
+              0
+            ],
+            "overflow": 0,
+            "active_tag": "BUTTON",
+            "active_id": null,
+            "active_button_text": "もう一度読み込む",
+            "active_rect": {
+              "x": 40,
+              "y": 242.1875,
+              "width": 150,
+              "height": 44,
+              "top": 242.1875,
+              "right": 190,
+              "bottom": 286.1875,
+              "left": 40
+            }
+          }
+        }
+      ],
+      "screenshots": [
+        "ja390-held200-before.png",
+        "ja390-held-opening.png",
+        "ja390-held-refresh-focused.png",
+        "ja390-held-at35s.png",
+        "ja390-after-release.png"
+      ],
+      "observations": [
+        {
+          "at": "initial-held",
+          "ms": 62,
+          "request_counts": {
+            "detail": 1,
+            "chat": 1,
+            "events": 1
+          },
+          "opening_visible": true
+        },
+        {
+          "at": "after-real-enter",
+          "ms": 1152,
+          "request_counts": {
+            "detail": 1,
+            "chat": 1,
+            "events": 1
+          },
+          "opening_visible": true
+        },
+        {
+          "at": "held-17500ms",
+          "ms": 17502,
+          "request_counts": {
+            "detail": 1,
+            "chat": 1,
+            "events": 1
+          },
+          "opening_visible": true,
+          "refresh_enabled": true,
+          "error_alert_count": 0,
+          "browser_clock": 17556
+        },
+        {
+          "at": "held-35000ms",
+          "ms": 35000,
+          "request_counts": {
+            "detail": 1,
+            "chat": 1,
+            "events": 1
+          },
+          "opening_visible": true,
+          "refresh_enabled": true,
+          "error_alert_count": 0,
+          "browser_clock": 35054
+        }
+      ],
+      "chrome_version": "154.0.8037.93",
+      "initial_home_inputs_empty": true,
+      "original_artifact": {
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches_original": true
+      },
+      "principal_matches_login_before": true,
+      "held_actual_responses": [
+        {
+          "status": 200,
+          "method": "GET",
+          "kind": "detail",
+          "ms_from_hold": 0
+        }
+      ],
+      "requests_before_enter": {
+        "detail": 1,
+        "chat": 1,
+        "events": 1
+      },
+      "observed_no_read_retry_during_hold": true,
+      "read_recovery_criterion": {
+        "status": "FAIL",
+        "expected": "An enabled explicit retry can perform a new read or reach a recoverable error while the prior read is stalled.",
+        "actual": "35 seconds retained opening UI, enabled retry and unchanged request counts after actual Enter."
+      },
+      "recovered_artifact": {
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches_original": true
+      },
+      "restored_without_new_request_or_resume": true,
+      "principal_matches_after": true,
+      "original_status_preserved": true
+    },
+    {
+      "id": "en768-immediate-block",
+      "status": "OBSERVATION_COMPLETE",
+      "phase": "closing",
+      "original_status": "failed",
+      "http": [
+        {
+          "phase": "before_login",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "before_login",
+          "path": "/api/auth/me",
+          "status": 401,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "before_login",
+          "path": "/api/auth/login",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/auth/status",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/auth/me",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/health",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/runs/run_1a0f80632e5c1220524/events",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/runs/run_1a0f80632e5c1220524",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "blocked_transport",
+          "path": "/api/approvals",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "restored_explicit_refresh",
+          "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "restored_explicit_refresh",
+          "path": "/api/runs/run_1a0f80632e5c1220524/events",
+          "status": 200,
+          "ms_from_hold": null
+        },
+        {
+          "phase": "restored_explicit_refresh",
+          "path": "/api/runs/run_1a0f80632e5c1220524",
+          "status": 200,
+          "ms_from_hold": null
+        }
+      ],
+      "requests": [
+        {
+          "phase": "baseline",
+          "kind": "detail",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "kind": "chat",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "baseline",
+          "kind": "events",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "detail",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "chat",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "events",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "detail",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "chat",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "events",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "restored_explicit_refresh",
+          "kind": "detail",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "restored_explicit_refresh",
+          "kind": "chat",
+          "method": "GET",
+          "ms_from_hold": null
+        },
+        {
+          "phase": "restored_explicit_refresh",
+          "kind": "events",
+          "method": "GET",
+          "ms_from_hold": null
+        }
+      ],
+      "network_failures": [
+        {
+          "phase": "blocked_transport",
+          "kind": "detail",
+          "path": "/api/runs/run_1a0f80632e5c1220524",
+          "expected_block": true,
+          "closing": false
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "chat",
+          "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+          "expected_block": false,
+          "closing": false
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "events",
+          "path": "/api/runs/run_1a0f80632e5c1220524/events",
+          "expected_block": false,
+          "closing": false
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "detail",
+          "path": "/api/runs/run_1a0f80632e5c1220524",
+          "expected_block": true,
+          "closing": false
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "chat",
+          "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+          "expected_block": false,
+          "closing": false
+        },
+        {
+          "phase": "blocked_transport",
+          "kind": "events",
+          "path": "/api/runs/run_1a0f80632e5c1220524/events",
+          "expected_block": false,
+          "closing": false
+        }
+      ],
+      "page_error_types": [],
+      "keyboard": [
+        {
+          "phase": "blocked-explicit-refresh",
+          "tabs": 22,
+          "geometry": {
+            "inner": [
+              768,
+              844
+            ],
+            "dpr": 1,
+            "scroll": [
+              0,
+              0
+            ],
+            "overflow": 0,
+            "active_tag": "BUTTON",
+            "active_id": null,
+            "active_button_text": "Refresh",
+            "active_rect": {
+              "x": 444.171875,
+              "y": 303.0625,
+              "width": 95.78125,
+              "height": 44,
+              "top": 303.0625,
+              "right": 539.953125,
+              "bottom": 347.0625,
+              "left": 444.171875
+            }
+          }
+        },
+        {
+          "phase": "restored_explicit_refresh",
+          "tabs": 0,
+          "geometry": {
+            "inner": [
+              768,
+              844
+            ],
+            "dpr": 1,
+            "scroll": [
+              0,
+              0
+            ],
+            "overflow": 0,
+            "active_tag": "BUTTON",
+            "active_id": null,
+            "active_button_text": "Refresh",
+            "active_rect": {
+              "x": 444.171875,
+              "y": 303.0625,
+              "width": 95.78125,
+              "height": 44,
+              "top": 303.0625,
+              "right": 539.953125,
+              "bottom": 347.0625,
+              "left": 444.171875
+            }
+          }
+        }
+      ],
+      "screenshots": [
+        "en768-immediate-block-before.png",
+        "en768-blocked-warning.png",
+        "en768-after-refresh.png",
+        "en768-after-refresh-result.png"
+      ],
+      "observations": [],
+      "chrome_version": "154.0.8037.93",
+      "initial_home_inputs_empty": true,
+      "original_artifact": {
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches_original": true
+      },
+      "principal_matches_login_before": true,
+      "unsent_text_sha256": "3b870f2f990cff5569a56379da8c4fb558fcc074ad07cec81d0d263db65cc528",
+      "error_state": {
+        "warning_visible": true,
+        "input_unchanged": true,
+        "geometry": {
+          "inner": [
+            768,
+            844
+          ],
+          "dpr": 1,
+          "scroll": [
+            0,
+            424
+          ],
+          "overflow": 0,
+          "active_tag": "DIV",
+          "active_id": "work-conversation",
+          "active_button_text": null,
+          "active_rect": {
+            "x": 273,
+            "y": 90.0625,
+            "width": 455,
+            "height": 1072.671875,
+            "top": 90.0625,
+            "right": 728,
+            "bottom": 1162.734375,
+            "left": 273
+          }
+        }
+      },
+      "blocked_retry_remains_error": true,
+      "input_preserved_after_refresh": true,
+      "recovered_artifact": {
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "matches_original": true
+      },
+      "read_recovery_criterion": {
+        "status": "PASS",
+        "expected": "Immediate read failure retains input/status, actual explicit retry recovers after unblock.",
+        "actual": "Observed real blocked GET, warning, repeat failure,200recovery, retained unsent input and original bytes."
+      },
+      "principal_matches_after": true,
+      "original_status_preserved": true
+    }
+  ],
+  "writes": [
+    {
+      "case": "ja390-held200",
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "case": "en768-immediate-block",
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "cleanup": [
+    {
+      "case": "ja390-held200",
+      "id": "release-held-responses",
+      "status": "PASS"
+    },
+    {
+      "case": "ja390-held200",
+      "id": "unblock-network",
+      "status": "PASS"
+    },
+    {
+      "case": "ja390-held200",
+      "id": "disable-fetch",
+      "status": "PASS"
+    },
+    {
+      "case": "ja390-held200",
+      "id": "close-owned-context",
+      "status": "PASS"
+    },
+    {
+      "case": "en768-immediate-block",
+      "id": "release-held-responses",
+      "status": "PASS"
+    },
+    {
+      "case": "en768-immediate-block",
+      "id": "unblock-network",
+      "status": "PASS"
+    },
+    {
+      "case": "en768-immediate-block",
+      "id": "disable-fetch",
+      "status": "PASS"
+    },
+    {
+      "case": "en768-immediate-block",
+      "id": "close-owned-context",
+      "status": "PASS"
+    }
+  ],
+  "method": "Actual service responses only. JA390 CDP Response-stage200 hold; EN768 CDP blocked transport. No replacement response, status rewrite or business POST.",
+  "human_acceptance": false,
+  "model_execution_requested": false,
+  "business_writes_observed": 0,
+  "finished_at": "2026-10-02T01:40:15.233Z"
+}

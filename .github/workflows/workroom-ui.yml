@@ -1,7 +1,7 @@
-name: Workroom UI
+# Retained fixture checks. Manual dispatch is not exception approval; see docs/CI.md.
+name: Legacy Workroom UI (fixtures)
 on:
-  pull_request:
-    paths: ['frontend/src/**','frontend/scripts/workroom-smoke.mjs','backend/agentteam/ui/**','.github/workflows/workroom-ui.yml']
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:

@@ -1,0 +1,215 @@
+{
+  "reviewed_at": "2026-10-02T01:11:48.735941+00:00",
+  "review_type": "最終runnerの静的独立レビューと別担当の保存済み実証拠の照合",
+  "status": "PASS_WITH_LIMITS",
+  "blocking_findings": [],
+  "source_and_evidence_sha256": {
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/frontend/scripts/auth-parallel-login.mjs": "89872cd7dca1ab9f6977b7df3e22cda5c1342966006ce4e99f0e3ae831e8159e",
+    "/Users/horioshuuhei/.cache/agentteam-bench/auth-parallel-observation-20261002-r1/safe-report.json": "eb4841a785764e4dd114472e4736ef02b6e37fd337e07cf194e58a654f98a3f2",
+    "/Users/horioshuuhei/.cache/agentteam-bench/auth-parallel-observation-20261002-r1/browser/parallel-diagnostic.json": "90308f74c891db35f69bac7b0c26178f1c95ab2823f53f79f3aa9f4d0fedb5ea",
+    "/Users/horioshuuhei/.cache/agentteam-bench/auth-parallel-observation-20261002-r2/safe-report.json": "702ebba76ebacb5cbe02cc79e6ede69374b3180dd8521110ab4984218cde421a",
+    "/Users/horioshuuhei/.cache/agentteam-bench/auth-parallel-observation-20261002-r2/browser/parallel-diagnostic.json": "4a9b24fc829e440d0bfaad3a6eba293121a507e634cebf0a5a70cf6ae3eecded",
+    "/Users/horioshuuhei/.cache/agentteam-bench/auth-parallel-submit-barrier-20261002-r1/safe-report.json": "9d17509ab6d30b4e71a346e98c30aec308d0a87b17ab199d75a7ccd8980594f0",
+    "/Users/horioshuuhei/.cache/agentteam-bench/auth-parallel-submit-barrier-20261002-r1/browser/parallel-diagnostic.json": "ba1b753edf97079953983b2ccdf15de7e69fc0fdaf2d67b2d2637fb189e4e5c4",
+    "/Users/horioshuuhei/.cache/agentteam-bench/auth-parallel-submit-barrier-20261002-r1/barrier-observation.mjs": "d469f53798d3d2dda9c9ccceaa2e0dc87044cabdc1093887c4158d6b0202527f",
+    "/Users/horioshuuhei/.cache/agentteam-bench/auth-parallel-submit-barrier-20261002-r1/observation-scope-addendum.json": "46dd57a51c62ebdacd81170159f447b8c1fd0c0855395f4aae303d4d3264152f",
+    "/Users/horioshuuhei/.cache/agentteam-bench/auth-parallel-submit-barrier-20261002-r1/safe-summary.json": "2c37ced962174097873b125989347160d91bdc90ae5444628377ff752a5277ef"
+  },
+  "new_execution": false,
+  "source_edited": false,
+  "original_ci": {
+    "run": 36947671100,
+    "head": "330c18c874fb34c13b5f75f404244f6d57ca63b4",
+    "phase": "response_loss_submit_both_forms",
+    "error_name": "Error",
+    "status": "FAIL retained",
+    "cause": "UNCONFIRMED",
+    "missing_raw_exception": "安全artifactには元exception本文やDOM状態がない。timerの同期保証なしは静的に確認できるが、この失敗の原因がform消失だったとは確定しない。"
+  },
+  "read_actual_observations": [
+    {
+      "root": "auth-parallel-observation-20261002-r1",
+      "status": "PASS",
+      "old_checks": [
+        "parallel-real-signin",
+        "parallel-signin-response-loss",
+        "cookie-subject-mismatch"
+      ],
+      "original_form_missing_reproduced": false,
+      "business_final": {
+        "runs": 0,
+        "jobs": 0,
+        "model_events": 0,
+        "artifacts": 0
+      },
+      "api_cleanup": {
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      },
+      "chrome_cleanup": [
+        {
+          "program": "auth-parallel-login.mjs",
+          "tracked_processes": 11,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ],
+      "source_unchanged": true,
+      "private_bundle_unchanged": true,
+      "response_loss_final_login_request_counts": {
+        "A": 2,
+        "B": 1
+      },
+      "response_loss_held_200_counts": {
+        "A": 1,
+        "B": 1
+      }
+    },
+    {
+      "root": "auth-parallel-observation-20261002-r2",
+      "status": "PASS",
+      "old_checks": [
+        "parallel-real-signin",
+        "parallel-signin-response-loss",
+        "cookie-subject-mismatch"
+      ],
+      "original_form_missing_reproduced": false,
+      "business_final": {
+        "runs": 0,
+        "jobs": 0,
+        "model_events": 0,
+        "artifacts": 0
+      },
+      "api_cleanup": {
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      },
+      "chrome_cleanup": [
+        {
+          "program": "throttled-observation.mjs",
+          "tracked_processes": 12,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ],
+      "source_unchanged": true,
+      "private_bundle_unchanged": true,
+      "response_loss_final_login_request_counts": {
+        "A": 2,
+        "B": 1
+      },
+      "response_loss_held_200_counts": {
+        "A": 1,
+        "B": 1
+      }
+    },
+    {
+      "root": "auth-parallel-submit-barrier-20261002-r1",
+      "status": "PASS",
+      "old_checks": [
+        "parallel-real-signin",
+        "parallel-signin-response-loss",
+        "cookie-subject-mismatch"
+      ],
+      "original_form_missing_reproduced": false,
+      "business_final": {
+        "runs": 0,
+        "jobs": 0,
+        "model_events": 0,
+        "artifacts": 0
+      },
+      "api_cleanup": {
+        "status": "PASS",
+        "startup_attempted": true,
+        "started": true,
+        "service_stopped": true,
+        "server_task_done": true,
+        "port_closed": true,
+        "lifespan_shutdown_failed": false,
+        "lifespan_error_occurred": false,
+        "error_types": []
+      },
+      "chrome_cleanup": [
+        {
+          "program": "barrier-observation.mjs",
+          "tracked_processes": 10,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ],
+      "source_unchanged": true,
+      "private_bundle_unchanged": true,
+      "response_loss_final_login_request_counts": {
+        "A": 2,
+        "B": 1
+      },
+      "response_loss_held_200_counts": {
+        "A": 1,
+        "B": 1
+      }
+    }
+  ],
+  "history_interpretation": [
+    "instrumentのみ1回とB-renderer CPU rate6の1回はともにPASSしform消失を再現しなかった。原CIを取り消す根拠ではない。",
+    "prototype1回は実submit taskのCDP制御。両round各page1pause、到達差195/185ms、resume前login開始0、各page実held200が1件ずつ、旧3checks PASS。自然な人間同時操作の再現とは呼ばない。",
+    "3実観測の最終response_loss.login_requestsにはA2/B1がある。後段admin明示loginまでactiveRoundが生存していた診断範囲の混入。原JSONを修正せずaddendumを保全。",
+    "各round内の両200/assertは後段loginの前に行われるため、混入は既存raceの成否を反転させない。ただし最終requests配列をround内2件の証明へ使わない。"
+  ],
+  "prototype_to_final_diff": [
+    "私有Playwright絶対importをrepo package importへ",
+    "実PRODUCTION_PLANの絶対URLをrepo相対参照へ",
+    "roundの旧checks push後にactiveRound=nullを追加し、後続明示loginを記録対象から外す",
+    "見出し/limitsへCDP制御・元CI原因未確定を明示"
+  ],
+  "not_weakened_checks": [
+    {
+      "lines": "94-113",
+      "rule": "双方の本物submit pauseを最大5秒で要求。到達前のlogin_requests=0を要求。未到達をskipせずassert失敗。"
+    },
+    {
+      "lines": "115-123",
+      "rule": "breakpoint解除後に各paused targetをresume。各操作3秒、submit完了5秒の上限。解除/再開失敗でFAIL。"
+    },
+    {
+      "lines": "128-133",
+      "rule": "既存実200×2に加え、匿名A/Bそれぞれ実held200×1を必須。"
+    },
+    {
+      "lines": "134-145",
+      "rule": "片方応答後workspace非表示、2番目の本物200の通常解放/ConnectionReset、明示loginとworkspace閉鎖を維持。"
+    },
+    {
+      "lines": "152-172",
+      "rule": "後段の実adminlogin・実Cookie主体置換・旧主体request401・新run0/job0を維持。activeRound=nullはこれら操作/assertを削除しない。"
+    },
+    {
+      "lines": "19-46,176-184",
+      "rule": "safe固定診断をcatch冒頭で先に保存。debug解除は各操作有界、ownedbrowser close15秒、cleanupFAILはexit非0。秘密本文はprivate側のみ。"
+    }
+  ],
+  "limits": [
+    "最終repo版の実全7stageは別担当がこれから行う。prototype成功を最終hashの成功へ読み替えない。",
+    "同期barrierで自然な偶然の順序を置換するが、通知/fetch/実応答bytes/共有Cookie/実Reacthandlerの実装を代替しない。",
+    "debug pauseの影響があるため15秒/20秒の実時間契約は既存専用試験を参照し、この試験だけで認定しない。",
+    "Debugger.pausedのcallframes/locals/body/headers/生例外はsafe JSONへ出していない。",
+    "観測droppedや回収不能は原因推定の根拠にしない。",
+    "同モデルAIによる独立静的審査であり第三者人間の認証/サービス受入ではない。"
+  ]
+}

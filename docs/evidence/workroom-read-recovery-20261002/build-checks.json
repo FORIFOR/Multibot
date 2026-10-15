@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-02T01:44:20.456427+00:00",
+  "basis": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "checks": [
+    {
+      "name": "build",
+      "exit_code": 0,
+      "log_sha256": "7dbf80bc7e0812ba1d227107a94adf514596fa365d2d38ce60bc6b670aec6490"
+    },
+    {
+      "name": "lint",
+      "exit_code": 0,
+      "log_sha256": "d558675f8d2b8cce85db9d120995158b80dbf20440b1d5f3741f3b055c82bd49"
+    }
+  ],
+  "packaged_ui_matches_build": true,
+  "source_sha256": {
+    "frontend/src/pages/Workroom.tsx": "f3e8924f8e9bab8fe973f5b4f8b4ec920ddb8671ffbfd260eb072ab7a5230174",
+    "frontend/src/lib/api.ts": "fbad0a6cfe12d52329b70badf7580cde16d1f0d31a13eef05a7373487b7437ca",
+    "frontend/src/components/AuthGate.tsx": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+    "backend/agentteam/ui/assets/RunView-B84ZRFQg.js": "96705c91694caba39cb08ab664416473aa55b3857c00df532902c7559876caaa",
+    "backend/agentteam/ui/assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+    "backend/agentteam/ui/assets/index-NKax6_35.js": "209e168b0e024e065bc9440c175e5b1190e512e88afccdb11f71e9ac74c3f2b4",
+    "backend/agentteam/ui/favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "backend/agentteam/ui/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "backend/agentteam/ui/index.html": "582a4d54123477179dd70ff1db664ca2da8f63c2f65de2181a83a389b5c1caf0"
+  },
+  "claim": "Build/typecheck/lint and exact distribution only; not browser or business acceptance."
+}

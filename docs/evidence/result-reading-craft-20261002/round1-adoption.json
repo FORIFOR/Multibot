@@ -1,0 +1,72 @@
+{
+  "actor": "AI",
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false,
+  "run_id": "run_1a0f7fbead33cd46066",
+  "checks": [
+    {
+      "id": "check-record",
+      "status": "PASS",
+      "observed": "Opens actual recorded checks and focuses summary"
+    },
+    {
+      "id": "actual-ui-adoption",
+      "status": "PASS",
+      "http": 202,
+      "revision": 1,
+      "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+    },
+    {
+      "id": "reload-selection",
+      "status": "PASS",
+      "revision": 1
+    },
+    {
+      "id": "actual-ui-zip-download",
+      "status": "PASS",
+      "file": "selected.zip"
+    },
+    {
+      "id": "overflow-1440",
+      "status": "PASS",
+      "observed": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "id": "overflow-390",
+      "status": "PASS",
+      "observed": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    {
+      "id": "viewer-ui",
+      "status": "PASS",
+      "observed": "No adopt control; read-only explanation present"
+    }
+  ],
+  "shots": [
+    "1440-check-record-viewport.png",
+    "1440-before-adopt-viewport.png",
+    "1440-adopted-full.png",
+    "1440-adopted-top-viewport.png",
+    "1440-adopted-action-viewport.png",
+    "390-adopted-full.png",
+    "390-adopted-top-viewport.png",
+    "390-adopted-action-viewport.png",
+    "390-viewer-action-viewport.png"
+  ],
+  "limitations": [
+    "Original v62 statements are unchanged and not re-evaluated as passed",
+    "All source artifacts have revision 1; multiple-version select not exercised",
+    "API actor_kind human labels authenticated user actions; actual operator is AI"
+  ],
+  "chrome": "154.0.8037.58",
+  "chrome_pid": 99012,
+  "status": "PASS"
+}

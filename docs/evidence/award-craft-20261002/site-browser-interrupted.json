@@ -1,0 +1,277 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-10-01T19:09:40.197Z",
+  "base_url": "http://127.0.0.1:8897/",
+  "output": "/Users/horioshuuhei/.cache/agentteam-bench/award-craft-20261002/site-browser-interrupted-r1",
+  "purpose": "Real static-site layout, keyboard, progressive enhancement, motion and accessibility regression evidence",
+  "environment": {
+    "platform": "darwin",
+    "architecture": "arm64",
+    "os_release": "27.0.0",
+    "node": "v25.2.1",
+    "playwright": "1.63.0",
+    "axe": "4.13.0",
+    "headless": true,
+    "device_scale_factor": 1,
+    "hardware_concurrency": 10,
+    "network_throttling": "none",
+    "cpu_throttling": "none",
+    "cache": "fresh context + Chrome Network.setCacheDisabled",
+    "initial_observation_ms_after_load": 1500,
+    "chrome": "154.0.8037.58"
+  },
+  "script_sha256": "41f92c4f5035ebe58d463b64beb2afcdcfc2acadd116d24b3f95c6c7482d9652",
+  "source_before": {
+    "commit": "32acf39072c4e43a15ea0ca9ae1ff476ec0d11bb",
+    "status": "M .github/workflows/ci.yml\n D backend/agentteam/ui/assets/RunView-B4iaAOD4.js\n D backend/agentteam/ui/assets/index-DHtBhIL6.css\n D backend/agentteam/ui/assets/index-DuZg0itW.js\n M backend/agentteam/ui/index.html\n M docs/PRODUCTION_PLAN.md\n M docs/design/acceptance.md\n M docs/design/brief.md\n M docs/design/tokens.md\n M docs/home.css\n M docs/home.js\n M docs/index.html\n M docs/ja/index.html\n M docs/portfolio.js\n M docs/site/CONTENT.md\n M docs/site/DESIGN.md\n M docs/site/PRODUCT.md\n M docs/site/build_site.py\n M frontend/src/pages/Home.tsx\n M frontend/src/paper.css\n?? backend/agentteam/ui/assets/RunView-sRLJ21_I.js\n?? backend/agentteam/ui/assets/index-8TmGFvyz.css\n?? backend/agentteam/ui/assets/index-DzUkODI4.js\n?? docs/design/AWARD_QUALITY.md\n?? docs/evidence/award-craft-20261002/\n?? docs/media/award-request-en.png\n?? docs/media/award-request-ja.png\n?? docs/media/award-request-mobile-en.png\n?? docs/media/award-request-mobile-ja.png\n?? docs/site/copy.json\n?? frontend/scripts/site-quality-audit.mjs",
+    "files": {
+      "docs/index.html": "ef78dd4d521a6ab487f3627fef65ea9bf868f67b5b9579d63bcb64841e488c47",
+      "docs/ja/index.html": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22",
+      "docs/home.css": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6",
+      "docs/home.js": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6",
+      "docs/portfolio.js": "175da1843e1897ed20cae2a33cc419e0927a6d3c88240968f0e09ed79cdb9dc9",
+      "docs/site/build_site.py": "53e3b325792677e2020d439b921724ded3423329e537d8a13b138955d050254d",
+      "docs/site/copy.json": "f563fb98d4368dec0d8cade0829f54d7c582ae5f71a4e87b791f4c2363868735"
+    }
+  },
+  "checks": [
+    {
+      "scope": "ja-normal-1440",
+      "id": "http-document",
+      "status": "PASS",
+      "expected": "Real document responds HTTP 200",
+      "observed": 200
+    },
+    {
+      "scope": "ja-normal-1440",
+      "id": "intentional-browser-termination",
+      "status": "FAIL",
+      "expected": "Acceptance runs keep the real browser available",
+      "observed": {
+        "case_after_load": 1,
+        "performed": true,
+        "owned_pid": 88673,
+        "at": "2026-10-01T19:09:40.640Z",
+        "mechanism": "BrowserServer.kill: real forced termination of the owned Chrome process tree"
+      }
+    },
+    {
+      "scope": "ja-normal-1440",
+      "id": "case-completed",
+      "status": "FAIL",
+      "expected": "All scheduled checks complete",
+      "observed": "Intentional real Chrome termination; remaining checks are not executed."
+    },
+    {
+      "scope": "ja-normal-1440",
+      "id": "console-network",
+      "status": "PASS",
+      "expected": "No console, page, failed-request or HTTP error observed",
+      "observed": {
+        "console": [],
+        "page": [],
+        "requests": [],
+        "http": []
+      }
+    },
+    {
+      "scope": "ja-normal-1440",
+      "id": "no-write-requests",
+      "status": "PASS",
+      "expected": "No non-read HTTP request observed during inspection",
+      "observed": []
+    },
+    {
+      "scope": "ja-normal-1440",
+      "id": "source-capture",
+      "status": "FAIL",
+      "expected": "All fetched local HTML/CSS/JS/image/font bytes are retained with SHA-256; media is not played",
+      "observed": [
+        {
+          "url": "http://127.0.0.1:8897/portfolio.js",
+          "error": "response.body: Browser closed"
+        }
+      ]
+    },
+    {
+      "scope": "audit",
+      "id": "runner-completed",
+      "status": "FAIL",
+      "expected": "Installed real Chrome completes the audit",
+      "observed": "browser.newContext: page.screenshot: response.body: Browser closed"
+    },
+    {
+      "scope": "audit",
+      "id": "owned-browser-stopped",
+      "status": "PASS",
+      "expected": "The owned Chrome exited and its temporary profile was cleaned up",
+      "observed": {
+        "pid": 88673,
+        "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "profile": "/var/folders/qy/086ttpq57jsd36jnc1jffst00000gn/T/playwright_chromiumdev_profile-vFlrBB",
+        "started_at": "2026-10-01T19:09:40.404Z",
+        "exit_code": null,
+        "exit_signal": "SIGKILL",
+        "still_running": false,
+        "profile_removed": true
+      }
+    },
+    {
+      "scope": "audit",
+      "id": "all-cases-completed",
+      "status": "FAIL",
+      "expected": "All 18 scheduled cases completed; an injected interruption remains a failure",
+      "observed": {
+        "completed": 1,
+        "scheduled": 18,
+        "injection": true
+      }
+    },
+    {
+      "scope": "audit",
+      "id": "stable-source",
+      "status": "PASS",
+      "expected": "One consistent code/page revision throughout; edited sources invalidate comparisons",
+      "observed": {
+        "changed_files": [],
+        "multiple_byte_versions": [],
+        "commit_changed": false
+      }
+    }
+  ],
+  "cases": [
+    {
+      "scope": "ja-normal-1440",
+      "url": "http://127.0.0.1:8897/ja/",
+      "mode": "normal",
+      "width": 1440,
+      "height": 1000,
+      "javascript": true,
+      "console_errors": [],
+      "page_errors": [],
+      "failed_requests": [],
+      "http_errors": [],
+      "non_read_requests": [],
+      "screenshots": [],
+      "requests": 5,
+      "resource_hash_failures": [
+        {
+          "url": "http://127.0.0.1:8897/portfolio.js",
+          "error": "response.body: Browser closed"
+        }
+      ],
+      "error": "Intentional real Chrome termination; remaining checks are not executed."
+    }
+  ],
+  "resources": [
+    {
+      "url": "http://127.0.0.1:8897/ja/",
+      "type": "document",
+      "sha256": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22",
+      "bytes": 23840,
+      "scopes": [
+        "ja-normal-1440"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8897/home.css",
+      "type": "stylesheet",
+      "sha256": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6",
+      "bytes": 21617,
+      "scopes": [
+        "ja-normal-1440"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8897/favicon.svg",
+      "type": "image",
+      "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+      "bytes": 338,
+      "scopes": [
+        "ja-normal-1440"
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:8897/home.js",
+      "type": "script",
+      "sha256": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6",
+      "bytes": 1195,
+      "scopes": [
+        "ja-normal-1440"
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "scope": "ja-normal-1440",
+      "label": "pending-response-drain",
+      "status": "PASS"
+    },
+    {
+      "scope": "ja-normal-1440",
+      "label": "context-close",
+      "status": "PASS"
+    },
+    {
+      "scope": "audit",
+      "label": "browser-connection-close",
+      "status": "PASS"
+    },
+    {
+      "scope": "audit",
+      "label": "owned-browser-server-close",
+      "status": "PASS"
+    }
+  ],
+  "fault_injection": {
+    "case_after_load": 1,
+    "performed": true,
+    "owned_pid": 88673,
+    "at": "2026-10-01T19:09:40.640Z",
+    "mechanism": "BrowserServer.kill: real forced termination of the owned Chrome process tree"
+  },
+  "human_acceptance": false,
+  "award_certification": false,
+  "limitations": [
+    "Localhost, one installed desktop Chrome and unthrottled host; narrow viewports are not physical mobile-device tests.",
+    "One initial navigation sample per case; LCP/CLS are bounded lab observations, not field p75, INP, or a performance guarantee.",
+    "720 CSS-pixel viewport represents the reflow width of 1440 at 200%; CSS html zoom and precomputed element-font scaling are additional stress conditions, not browser-menu or OS zoom.",
+    "Axe does not establish WCAG conformance. Focus styling is recorded, not judged perceptually; screen-reader and human first-use assessment remain unperformed.",
+    "No external link availability, form delivery, installation command, backend workflow, LLM quality, or award submission is tested.",
+    "Clipboard comparison covers the copied public command only. No prior clipboard contents are read or saved.",
+    "Rendered DOM, computed styles, screenshots and content hashes do not prove the truth of marketing claims or provenance of the published records."
+  ],
+  "owned_browser": {
+    "pid": 88673,
+    "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "profile": "/var/folders/qy/086ttpq57jsd36jnc1jffst00000gn/T/playwright_chromiumdev_profile-vFlrBB",
+    "started_at": "2026-10-01T19:09:40.404Z",
+    "exit_code": null,
+    "exit_signal": "SIGKILL",
+    "still_running": false,
+    "profile_removed": true
+  },
+  "source_after": {
+    "commit": "32acf39072c4e43a15ea0ca9ae1ff476ec0d11bb",
+    "status": "M .github/workflows/ci.yml\n D backend/agentteam/ui/assets/RunView-B4iaAOD4.js\n D backend/agentteam/ui/assets/index-DHtBhIL6.css\n D backend/agentteam/ui/assets/index-DuZg0itW.js\n M backend/agentteam/ui/index.html\n M docs/PRODUCTION_PLAN.md\n M docs/design/acceptance.md\n M docs/design/brief.md\n M docs/design/tokens.md\n M docs/home.css\n M docs/home.js\n M docs/index.html\n M docs/ja/index.html\n M docs/portfolio.js\n M docs/site/CONTENT.md\n M docs/site/DESIGN.md\n M docs/site/PRODUCT.md\n M docs/site/build_site.py\n M frontend/src/pages/Home.tsx\n M frontend/src/paper.css\n?? backend/agentteam/ui/assets/RunView-sRLJ21_I.js\n?? backend/agentteam/ui/assets/index-8TmGFvyz.css\n?? backend/agentteam/ui/assets/index-DzUkODI4.js\n?? docs/design/AWARD_QUALITY.md\n?? docs/evidence/award-craft-20261002/\n?? docs/media/award-request-en.png\n?? docs/media/award-request-ja.png\n?? docs/media/award-request-mobile-en.png\n?? docs/media/award-request-mobile-ja.png\n?? docs/site/copy.json\n?? frontend/scripts/site-quality-audit.mjs",
+    "files": {
+      "docs/index.html": "ef78dd4d521a6ab487f3627fef65ea9bf868f67b5b9579d63bcb64841e488c47",
+      "docs/ja/index.html": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22",
+      "docs/home.css": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6",
+      "docs/home.js": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6",
+      "docs/portfolio.js": "175da1843e1897ed20cae2a33cc419e0927a6d3c88240968f0e09ed79cdb9dc9",
+      "docs/site/build_site.py": "53e3b325792677e2020d439b921724ded3423329e537d8a13b138955d050254d",
+      "docs/site/copy.json": "f563fb98d4368dec0d8cade0829f54d7c582ae5f71a4e87b791f4c2363868735"
+    }
+  },
+  "finished_at": "2026-10-01T19:09:40.678Z",
+  "summary": {
+    "cases": 1,
+    "passed": 5,
+    "failed": 5,
+    "unverified": 0,
+    "stable_source": true,
+    "human_acceptance": false,
+    "award_certification": false
+  }
+}

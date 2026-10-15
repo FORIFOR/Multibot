@@ -1,0 +1,265 @@
+{
+  "status": "FAIL",
+  "actor": "Independent AI browser reviewer, not human acceptance",
+  "revision": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "target_diff_sha256": "db345c8e63fadb9de94a38feeec9693a5bae20ec4111e1b6353b0e05058759f1",
+  "source_scope": "Product frontend source and backend Python only, plus dependency manifest/lock. Concurrent CI scripts are not part of the unchanged product assertion.",
+  "findings": [
+    {
+      "id": "restored_first_file_moves_focused_retry_below_viewport",
+      "priority": "P2",
+      "method": "Real original artifact GET initially held/failed, natural Tab+Enter retry, actual original body restoration, activeElement and same DOM retained but viewport geometry fails.",
+      "expected": "The keyboard-operated retry remains perceptible after recovery without moving focus to an unrelated element.",
+      "observed": [
+        {
+          "case": "ja390-manual",
+          "at_ms": 357,
+          "restored_original": true,
+          "same_retry_dom": true,
+          "active_is_retry": true,
+          "geometry": {
+            "inner": [
+              390,
+              844
+            ],
+            "outer": [
+              500,
+              970
+            ],
+            "dpr": 1,
+            "root_zoom": "1",
+            "body_zoom": "1",
+            "scroll": [
+              0,
+              225
+            ],
+            "active_tag": "BUTTON",
+            "active_text": "本文と確認を再読み込み",
+            "active_rect": {
+              "x": 184,
+              "y": 1141.5625,
+              "width": 158,
+              "height": 44,
+              "top": 1141.5625,
+              "right": 342,
+              "bottom": 1185.5625,
+              "left": 184
+            },
+            "nav": {
+              "x": 0,
+              "y": 0,
+              "width": 375,
+              "height": 107,
+              "top": 0,
+              "right": 375,
+              "bottom": 107,
+              "left": 0
+            },
+            "overflow": 0,
+            "active_visible": false
+          },
+          "evidence": "ja390-manual-restored-focus-outside.png"
+        },
+        {
+          "case": "ja320-deadline",
+          "at_ms": 15185,
+          "restored_original": true,
+          "same_retry_dom": true,
+          "active_is_retry": true,
+          "geometry": {
+            "inner": [
+              320,
+              844
+            ],
+            "outer": [
+              500,
+              970
+            ],
+            "dpr": 1,
+            "root_zoom": "1",
+            "body_zoom": "1",
+            "scroll": [
+              0,
+              296
+            ],
+            "active_tag": "BUTTON",
+            "active_text": "本文と確認を再読み込み",
+            "active_rect": {
+              "x": 33,
+              "y": 1172.5625,
+              "width": 158,
+              "height": 44,
+              "top": 1172.5625,
+              "right": 191,
+              "bottom": 1216.5625,
+              "left": 33
+            },
+            "nav": {
+              "x": 0,
+              "y": 0,
+              "width": 305,
+              "height": 107,
+              "top": 0,
+              "right": 305,
+              "bottom": 107,
+              "left": 0
+            },
+            "overflow": 0,
+            "active_visible": false
+          },
+          "evidence": "ja320-deadline-restored-focus-outside.png"
+        },
+        {
+          "case": "en768-transport",
+          "at_ms": 463,
+          "restored_original": true,
+          "same_retry_dom": true,
+          "active_is_retry": true,
+          "geometry": {
+            "inner": [
+              768,
+              844
+            ],
+            "outer": [
+              770,
+              970
+            ],
+            "dpr": 1,
+            "root_zoom": "1",
+            "body_zoom": "1",
+            "scroll": [
+              0,
+              36
+            ],
+            "active_tag": "BUTTON",
+            "active_text": "Reload file and checks",
+            "active_rect": {
+              "x": 530.109375,
+              "y": 1165.75,
+              "width": 173.890625,
+              "height": 44,
+              "top": 1165.75,
+              "right": 704,
+              "bottom": 1209.75,
+              "left": 530.109375
+            },
+            "nav": {
+              "x": 0,
+              "y": 0,
+              "width": 248,
+              "height": 844,
+              "top": 0,
+              "right": 248,
+              "bottom": 844,
+              "left": 0
+            },
+            "overflow": 0,
+            "active_visible": false
+          },
+          "evidence": "en768-transport-restored-focus-outside.png"
+        }
+      ],
+      "scope": "The original initial-content recovery three cases; not the already-loaded native200 case.",
+      "suggestion": "After response changes layout, reveal retry only if it still owns focus and is outside the visible region; preserve unrelated focus/scroll decisions."
+    }
+  ],
+  "case_results": [
+    {
+      "id": "ja390-manual",
+      "status": "FAIL",
+      "error_name": "AssertionError",
+      "deadline_at_ms": null,
+      "recovered_at_ms": 355,
+      "final_principal_check_performed": false,
+      "final_record_check_performed": false
+    },
+    {
+      "id": "ja320-deadline",
+      "status": "FAIL",
+      "error_name": "AssertionError",
+      "deadline_at_ms": 15016,
+      "recovered_at_ms": 15183,
+      "final_principal_check_performed": false,
+      "final_record_check_performed": false
+    },
+    {
+      "id": "en768-transport",
+      "status": "FAIL",
+      "error_name": "AssertionError",
+      "deadline_at_ms": null,
+      "recovered_at_ms": 461,
+      "final_principal_check_performed": false,
+      "final_record_check_performed": false
+    },
+    {
+      "id": "en-native200-loaded",
+      "status": "PASS",
+      "error_name": null,
+      "deadline_at_ms": 15009,
+      "recovered_at_ms": 15418,
+      "final_principal_check_performed": true,
+      "final_record_check_performed": true
+    },
+    {
+      "id": "en390-viewer",
+      "status": "PASS",
+      "error_name": null,
+      "deadline_at_ms": null,
+      "recovered_at_ms": null,
+      "final_principal_check_performed": true,
+      "final_record_check_performed": true
+    }
+  ],
+  "observed_improvements": [
+    "All four fault paths reached ready with exact original artifact bytes. Initial manual recovery was357ms and before15s.",
+    "JA320 deadline observed15019ms; native200 already-loaded deadline15012ms.",
+    "Pending/error overview and expanded records no longer assert absence. Adoption stays disabled pending/error.",
+    "Native200 actual outer1440/inner720/DPR2/CSS1 restored with same retry focus visible; actual original text excerpt in local editor and unsent integration.md direction retained.",
+    "Viewer actual identity cannot adopt; permanent read retry works by natural Space and focus stays visible."
+  ],
+  "failure_preservation": "r1 overallFAIL and three original failure logs/images remain. Assertions were not weakened or rerun. Later final identity/late-response/disclosure assertions after the first-case focus check were not reached in those three cases.",
+  "visual_review": {
+    "opened_images": [
+      "ja390-manual-restored-focus-outside.png",
+      "en768-transport-restored-focus-outside.png",
+      "en-native200-loaded-recovered-focus.png"
+    ],
+    "observation": "JA390 and EN768 failed pixels show restored JSON while the active retry is below the visible viewport; native200 focus outline is visibly retained."
+  },
+  "invariants": {
+    "business_unchanged": true,
+    "model_event_delta": 0,
+    "model_called_before": 73,
+    "model_called_after": 73,
+    "jobs_after": 0,
+    "original_source_unchanged": true,
+    "implementation_unchanged": true,
+    "bundle_unchanged": true,
+    "api_cleanup": {
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "browser_cleanup": [
+      {
+        "program": "check.mjs",
+        "tracked_processes": 44,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "limits": [
+    "Pending and error are actual CDP transport conditions, not fake responses. Response-stage hold does not isolate a body-only stall.",
+    "Actual archived v62 records with no reconstructed task rows or new inference.",
+    "No actual multi-version or route-transition exercise in this round; not fabricated.",
+    "No Safari, physical mobile, screen reader, first-time human, public deployment, business-quality or L3 acceptance."
+  ]
+}

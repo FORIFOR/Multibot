@@ -1,0 +1,178 @@
+{
+  "revision": "01b11f0bacd5a5a1c37af5ebd9cf724b3fe6efff",
+  "origin": "http://127.0.0.1:54271",
+  "checks": [
+    {
+      "width": 1440,
+      "rep": 1,
+      "status": "completed",
+      "stage": "list-default",
+      "href": "/runs/run_1a0f7fbead33cd46066?view=conversation&from=completed",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f7fbead33cd46066?view=conversation&from=completed",
+      "panel": "team",
+      "can_write": true
+    },
+    {
+      "width": 1440,
+      "rep": 1,
+      "stage": "results",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f7fbead33cd46066?view=results&from=completed",
+      "panel": "results",
+      "readerVisible": true
+    },
+    {
+      "width": 1440,
+      "rep": 1,
+      "stage": "back",
+      "url": "http://127.0.0.1:54271/runs?filter=completed",
+      "filterRetained": true
+    },
+    {
+      "width": 1440,
+      "rep": 2,
+      "status": "failed",
+      "stage": "list-default",
+      "href": "/runs/run_1a0f80632e5c1220524?view=conversation&from=stopped",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f80632e5c1220524?view=conversation&from=stopped",
+      "panel": "team",
+      "can_write": true
+    },
+    {
+      "width": 1440,
+      "rep": 2,
+      "stage": "results",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f80632e5c1220524?view=results&from=stopped",
+      "panel": "results",
+      "readerVisible": true
+    },
+    {
+      "width": 1440,
+      "rep": 2,
+      "stage": "back",
+      "url": "http://127.0.0.1:54271/runs?filter=stopped",
+      "filterRetained": true
+    },
+    {
+      "width": 1440,
+      "rep": 9,
+      "status": "interrupted",
+      "stage": "list-default",
+      "href": "/runs/run_1a0f84e775a61f6bc86?view=conversation&from=stopped",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f84e775a61f6bc86?view=conversation&from=stopped",
+      "panel": "team",
+      "can_write": true
+    },
+    {
+      "width": 1440,
+      "rep": 9,
+      "stage": "results",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f84e775a61f6bc86?view=results&from=stopped",
+      "panel": "results",
+      "readerVisible": true
+    },
+    {
+      "width": 1440,
+      "rep": 9,
+      "stage": "back",
+      "url": "http://127.0.0.1:54271/runs?filter=stopped",
+      "filterRetained": true
+    },
+    {
+      "width": 390,
+      "rep": 1,
+      "status": "completed",
+      "stage": "list-default",
+      "href": "/runs/run_1a0f7fbead33cd46066?view=conversation&from=completed",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f7fbead33cd46066?view=conversation&from=completed",
+      "panel": "team",
+      "can_write": true
+    },
+    {
+      "width": 390,
+      "rep": 1,
+      "stage": "results",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f7fbead33cd46066?view=results&from=completed",
+      "panel": "results",
+      "readerVisible": true
+    },
+    {
+      "width": 390,
+      "rep": 1,
+      "stage": "back",
+      "url": "http://127.0.0.1:54271/runs?filter=completed",
+      "filterRetained": true
+    },
+    {
+      "width": 390,
+      "rep": 2,
+      "status": "failed",
+      "stage": "list-default",
+      "href": "/runs/run_1a0f80632e5c1220524?view=conversation&from=stopped",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f80632e5c1220524?view=conversation&from=stopped",
+      "panel": "team",
+      "can_write": true
+    },
+    {
+      "width": 390,
+      "rep": 2,
+      "stage": "results",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f80632e5c1220524?view=results&from=stopped",
+      "panel": "results",
+      "readerVisible": true
+    },
+    {
+      "width": 390,
+      "rep": 2,
+      "stage": "back",
+      "url": "http://127.0.0.1:54271/runs?filter=stopped",
+      "filterRetained": true
+    },
+    {
+      "width": 390,
+      "rep": 9,
+      "status": "interrupted",
+      "stage": "list-default",
+      "href": "/runs/run_1a0f84e775a61f6bc86?view=conversation&from=stopped",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f84e775a61f6bc86?view=conversation&from=stopped",
+      "panel": "team",
+      "can_write": true
+    },
+    {
+      "width": 390,
+      "rep": 9,
+      "stage": "results",
+      "url": "http://127.0.0.1:54271/runs/run_1a0f84e775a61f6bc86?view=results&from=stopped",
+      "panel": "results",
+      "readerVisible": true
+    },
+    {
+      "width": 390,
+      "rep": 9,
+      "stage": "back",
+      "url": "http://127.0.0.1:54271/runs?filter=stopped",
+      "filterRetained": true
+    }
+  ],
+  "shots": [
+    "rep1-completed-1440-conversation.png",
+    "rep1-completed-1440-results.png",
+    "rep2-failed-1440-conversation.png",
+    "rep2-failed-1440-results.png",
+    "rep9-interrupted-1440-conversation.png",
+    "rep9-interrupted-1440-results.png",
+    "rep1-completed-390-conversation.png",
+    "rep1-completed-390-results.png",
+    "rep2-failed-390-conversation.png",
+    "rep2-failed-390-results.png",
+    "rep9-interrupted-390-conversation.png",
+    "rep9-interrupted-390-results.png"
+  ],
+  "limitations": [
+    "v62 contains no artifact-none record; not fabricated",
+    "No adoption or model execution in baseline",
+    "Recorded original AI interpretations are preserved, not endorsed"
+  ],
+  "browser": "154.0.8037.58",
+  "ownedChromePid": 95117,
+  "status": "PASS"
+}

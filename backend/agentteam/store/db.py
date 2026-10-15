@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS messages (
   from_agent_id TEXT NOT NULL,
   to_agent_id TEXT NOT NULL,
   task_id TEXT NOT NULL,
+  source_task_id TEXT,
   purpose TEXT NOT NULL,
   text TEXT NOT NULL,
   artifact_refs_json TEXT NOT NULL,
@@ -164,6 +165,13 @@ CREATE TABLE IF NOT EXISTS deleted_request_receipts (
   request_hash TEXT NOT NULL,
   deleted_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS subject_admissions (
+  admission_id TEXT PRIMARY KEY,
+  subject TEXT NOT NULL,
+  run_id TEXT,
+  recorded_at REAL NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_subject_admissions ON subject_admissions(subject,recorded_at);
 CREATE TABLE IF NOT EXISTS audit_log (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   recorded_at REAL NOT NULL,
@@ -186,6 +194,12 @@ class Database:
         self.path = str(path)
         self._conn: aiosqlite.Connection | None = None
         self.write_lock = asyncio.Lock()
+        # Keep a shared-connection read cursor out of another request's write.
+        # aiosqlite serializes individual worker calls, not execute/fetch/close.
+        # A separate writer can otherwise make that write fail with SQLITE_BUSY
+        # while our own read cursor is still open. Store-level write_lock owners
+        # call these methods, so reusing that lock would deadlock.
+        self._operation_lock = asyncio.Lock()
 
     async def connect(self) -> "Database":
         self._conn = await aiosqlite.connect(self.path, isolation_level=None)
@@ -194,12 +208,17 @@ class Database:
         columns = {r['name'] for r in await self.fetchall('PRAGMA table_info(audit_log)')}
         if 'details_json' not in columns:
             await self.execute("ALTER TABLE audit_log ADD COLUMN details_json TEXT NOT NULL DEFAULT '{}'")
+        message_columns = {r['name'] for r in await self.fetchall('PRAGMA table_info(messages)')}
+        if 'source_task_id' not in message_columns:
+            # Do not infer origins for old related-task deliveries.
+            await self.execute('ALTER TABLE messages ADD COLUMN source_task_id TEXT')
         return self
 
     async def close(self) -> None:
-        if self._conn is not None:
-            await self._conn.close()
-            self._conn = None
+        async with self._operation_lock:
+            if self._conn is not None:
+                await self._conn.close()
+                self._conn = None
 
     @property
     def conn(self) -> aiosqlite.Connection:
@@ -207,19 +226,19 @@ class Database:
         return self._conn
 
     async def execute(self, sql: str, params: Iterable[Any] = ()) -> None:
-        await self.conn.execute(sql, tuple(params))
+        async with self._operation_lock:
+            async with self.conn.execute(sql, tuple(params)):
+                pass
 
     async def fetchone(self, sql: str, params: Iterable[Any] = ()) -> aiosqlite.Row | None:
-        cur = await self.conn.execute(sql, tuple(params))
-        row = await cur.fetchone()
-        await cur.close()
-        return row
+        async with self._operation_lock:
+            async with self.conn.execute(sql, tuple(params)) as cur:
+                return await cur.fetchone()
 
     async def fetchall(self, sql: str, params: Iterable[Any] = ()) -> list[aiosqlite.Row]:
-        cur = await self.conn.execute(sql, tuple(params))
-        rows = await cur.fetchall()
-        await cur.close()
-        return list(rows)
+        async with self._operation_lock:
+            async with self.conn.execute(sql, tuple(params)) as cur:
+                return list(await cur.fetchall())
 
 
 def dumps(obj: Any) -> str:

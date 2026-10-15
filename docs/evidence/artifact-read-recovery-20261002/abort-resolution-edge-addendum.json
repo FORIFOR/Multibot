@@ -1,0 +1,14 @@
+{
+  "status": "CONDITIONAL_STATIC_EDGE_NOT_REPRODUCED",
+  "reviewed_at": "2026-10-02T02:49:40.230779+00:00",
+  "source": "frontend/src/pages/Workroom.tsx:385-393",
+  "reviewed_workroom_sha256": "4420f039855a3e3251004575586b25417175c1234bf58b931088f8b1a7d45b59",
+  "condition": "同じalive effectでdeadlineがabortした後、api.artifact promiseがrejectせず成功解決した場合",
+  "current_outcome": "thenのsignal.aborted早期returnでready/errorどちらにもsetReadせず、finallyがtimerを解除する。pendingのまま残る。",
+  "normal_path": "fetch/response.textのabortがrejectする通常経路はcatchでerrorになる。同期JS処理へtimerが割り込むという説明はしない。",
+  "reachability": "今回実ブラウザーではこの特殊順序は未観測。現在の正常abort経路試験の失敗や確定した製品不具合として扱わない。ブラウザー内部完了とabortの全順序をこの静的レビューで証明していない。",
+  "minimal_defensive_option": "if(!alive)return; if(controller.signal.aborted)throw new Error(...); とし、同effectのtimeoutは既存catch/timedOut文言へ収束。cleanup済み旧effectはalive=falseで無効のまま。",
+  "blocking_current_observation": false,
+  "source_or_test_changed_by_reviewer": false,
+  "freeze_guidance": "進行中afterのsourceは変えず原証拠を保全。変更を採用する場合は新source hashとその実測範囲を分離する。"
+}

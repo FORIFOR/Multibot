@@ -6,8 +6,8 @@ import { friendlyProblem, roleLabel, statusLabel } from '../lib/journey'
 import { takeDraftGoal, welcomed } from '../lib/welcome'
 import '../journey.css'
 import '../welcome.css'
-import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
-import { api, ApiError, fmtDate, money, type Config, type Run } from '../lib/api'
+import { useCallback, useEffect, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
+import { api, ApiError, fmtDate, money, type Config, type Run, type UsageAllowance } from '../lib/api'
 import { readRequestDraft, saveRequestDraft, clearRequestDraft } from '../lib/request-draft'
 import { Link } from '../lib/router'
 import { textDeliverySchema } from '../lib/text-delivery'
@@ -26,6 +26,9 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
   const en = getLang() === 'en'
   const [draft] = useState(readRequestDraft)
   const [adaptiveTeam,setAdaptiveTeam] = useState(draft.adaptiveTeam !== false)
+  // Managed users use the configured service, including when an older draft
+  // contains administrator-only team choices.
+  const useAdaptiveTeam = !canConfigure || adaptiveTeam
   const [selectedAgentIds, setSelectedAgentIds] = useState<string[] | undefined>(draft.selectedAgentIds)
   const [draftSaved, setDraftSaved] = useState(true)
   const [goal, setGoal] = useState(draft.goal)
@@ -36,6 +39,7 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
   const [budget, setBudget] = useState(draft.budget)
   const [outputPath,setOutputPath] = useState(draft.outputPath || '')
   const [documentWorkflow,setDocumentWorkflow] = useState(draft.documentWorkflow === true)
+  const useDocumentWorkflow = canConfigure && documentWorkflow
   const [minChars,setMinChars] = useState(draft.minChars || '')
   const [maxChars,setMaxChars] = useState(draft.maxChars || '')
   const [excludedPhrases,setExcludedPhrases] = useState(draft.excludedPhrases || '')
@@ -48,42 +52,60 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
   const [problems, setProblems] = useState<{ code: string; message: string }[]>([])
+  const [receivedRunId, setReceivedRunId] = useState<string | null>(null)
+  const [allowance, setAllowance] = useState<UsageAllowance | null>(null)
   // A request that got no answer may or may not have been created. Until the list has been checked, do not offer
   // to send it again from here.
   const [ambiguous, setAmbiguous] = useState(false)
 
-  useEffect(() => { api.config().then(setCfg).catch(() => { setCfgFailed(true); setErr(en ? 'Could not load the team. Reload to try again.' : 'チームを読み込めませんでした。再読み込みしてください。') }); api.runs().then(r => { setRuns(r); setLoaded(true) }).catch(() => setRunsFailed(true))
+  const reloadConfig = useCallback(async () => {
+    try { setCfg(await api.config()); setCfgFailed(false) }
+    catch { setCfgFailed(true) }
+  }, [])
+  const reloadAllowance = useCallback(() => { if (!canConfigure) void api.usage().then(setAllowance).catch(() => setAllowance(null)) }, [canConfigure])
+  useEffect(() => { api.config().then(setCfg).catch(() => setCfgFailed(true)); api.runs().then(r => { setRuns(r); setLoaded(true) }).catch(() => setRunsFailed(true))
+    if (!canConfigure) void api.usage().then(setAllowance).catch(() => setAllowance(null))
     // A request chosen on the welcome page arrives as a draft; it is never started automatically.
-    const draft = takeDraftGoal(); if (draft) setGoal(draft) }, [])
+    const draft = takeDraftGoal(); if (draft) setGoal(draft) }, [canConfigure])
 
   useEffect(() => { setDraftSaved(saveRequestDraft({ goal, text, urls, files, budget, outputPath, minChars, maxChars, excludedPhrases, documentWorkflow, adaptiveTeam, selectedAgentIds })) }, [goal, text, urls, files, budget, outputPath, minChars, maxChars, excludedPhrases, documentWorkflow, adaptiveTeam, selectedAgentIds])
 
   const start = async (event: FormEvent) => {
     event.preventDefault()
-    if (busyRef.current || readOnly || !goal.trim() || !cfg || (adaptiveTeam && cfg.problems.length)) return
-    if (!adaptiveTeam && selectedAgentIds?.length === 0) { setErr(en ? 'Choose at least one teammate.' : '参加する仲間を選んでください。'); return }
+    if (busyRef.current || readOnly || !goal.trim() || !cfg || cfgFailed || (useAdaptiveTeam && cfg.problems.length)) return
+    if (!useAdaptiveTeam && selectedAgentIds?.length === 0) { setErr(en ? 'Choose at least one teammate.' : '参加する仲間を選んでください。'); return }
     const cap = budget ? Number(budget) : null
     if (cap !== null && (!Number.isFinite(cap) || cap <= 0)) { setErr(en ? 'Choose a positive budget.' : '予算は0より大きい金額を入力してください。'); return }
+    if (!canConfigure && cap !== null && cap > cfg.limits.budget_usd) { setErr(en ? `Choose a budget of ${money(cfg.limits.budget_usd)} or less, the service limit per request.` : `予算は、サービスの1回あたりの上限${money(cfg.limits.budget_usd)}以下にしてください。`); return }
     const min = minChars === '' ? undefined : Number(minChars), max = maxChars === '' ? undefined : Number(maxChars)
     if ((min !== undefined && (!Number.isInteger(min) || min < 0)) || (max !== undefined && (!Number.isInteger(max) || max < 1)) || (min !== undefined && max !== undefined && min > max) || ((min !== undefined || max !== undefined || excludedPhrases.trim()) && !outputPath.trim())) {
       setErr(en ? 'Choose an output filename and a valid character range.' : '保存するファイル名と正しい文字数の範囲を入力してください。'); return
     }
     const delivery = outputPath.trim() ? [{logical_path:outputPath.trim(),input_format:'text',json_schema:textDeliverySchema(min, max, excludedPhrases)}] : []
-    if (documentWorkflow && (!delivery.length || urls.trim() || !(text.trim() || files.some(f => f.content.trim())))) {
+    if (useDocumentWorkflow && (!delivery.length || urls.trim() || !(text.trim() || files.some(f => f.content.trim())))) {
       setErr(en ? 'For the document workflow, attach or paste source text, specify an output filename, and remove URL inputs.' : '文書作成では、資料を添付または貼り付け、ファイル名を指定してください。URL入力には通常の進め方を使ってください。'); return
     }
     busyRef.current = true
-    setBusy(true); setErr(null); setProblems([]); setAmbiguous(false)
+    setBusy(true); setErr(null); setProblems([]); setReceivedRunId(null); setAmbiguous(false)
     try {
       const run = await api.createRun({
-        goal, inputs: { team_selection: adaptiveTeam && !documentWorkflow && cfg.defaults.team_mode !== 'single' ? 'adaptive' : 'fixed', ...(!adaptiveTeam && cfg.defaults.team_mode !== 'single' ? {selected_agent_ids: selectedAgentIds ?? cfg.agents.filter(a => a.enabled && !['master', 'reporter'].includes(a.role)).map(a => a.id)} : {}), text, urls: urls.split(/\s+/).filter(Boolean), files, delivery_requirements: delivery, ...(documentWorkflow ? {workflow: 'document' as const}: {}) },
+        goal, inputs: { team_selection: useAdaptiveTeam && !useDocumentWorkflow && cfg.defaults.team_mode !== 'single' ? 'adaptive' : 'fixed', ...(!useAdaptiveTeam && cfg.defaults.team_mode !== 'single' ? {selected_agent_ids: selectedAgentIds ?? cfg.agents.filter(a => a.enabled && !['master', 'reporter'].includes(a.role)).map(a => a.id)} : {}), text, urls: urls.split(/\s+/).filter(Boolean), files, delivery_requirements: delivery, ...(useDocumentWorkflow ? {workflow: 'document' as const}: {}) },
         budget_usd: budget ? Number(budget) : null,
       })
       clearRequestDraft()
       nav(`/runs/${run.run_id}`)
     } catch (e) {
-      if (e instanceof ApiError && e.status === 409 && e.body?.problems) setProblems(e.body.problems)
-      else if (e instanceof ApiError && e.status === 503 && e.message === 'insufficient storage space') setErr(en ? 'Work has not started because the server has less than 500 MB of free storage. Your request and attachments are kept. Free storage, then try again.' : '保存先の空き容量が500MB未満のため、作業を開始できません。依頼と添付資料は残しています。空き容量を確保してから、もう一度お試しください。')
+      if (e instanceof ApiError && e.status === 409 && e.body?.problems) { setProblems(e.body.problems); setReceivedRunId(e.body.run_id || null) }
+      else if (e instanceof ApiError && e.status === 429) {
+        const code = e.body?.detail?.code
+        setErr(code === 'subject_daily_limit'
+          ? (en ? 'You have reached the request limit for the last 24 hours. Your request and material are kept. Try again when a slot becomes available.' : '過去24時間の受付上限に達しました。依頼と資料は残しています。利用枠が空いてから、もう一度お試しください。')
+          : code === 'subject_pending_limit'
+            ? (en ? 'Your queued and active requests have reached the limit. Check your work, then try again after a request finishes.' : '実行待ち・実行中の依頼が上限に達しています。作業一覧を確認し、依頼が終了してからお試しください。')
+            : (en ? 'The service is busy. Your request and material are kept. Please try again later.' : '現在、受付が混み合っています。依頼と資料は残しています。時間をおいてお試しください。'))
+        reloadAllowance()
+      }
+      else if (e instanceof ApiError && e.status === 503) setErr(canConfigure ? (en ? 'The service cannot start work right now. Your request and attachments are kept. Check the service status before trying again.' : '現在、作業を開始できません。依頼と添付資料は残しています。運用状況を確認してから、もう一度お試しください。') : (en ? 'The service cannot accept work right now. Your request and attachments are kept. Try again later or contact the service administrator.' : '現在、サービスで作業を開始できません。依頼と添付資料は残しています。時間をおいて再試行するか、運営者にお問い合わせください。'))
       else { if (!(e instanceof ApiError)) setAmbiguous(true); setErr(e instanceof ApiError ? String(e) : (en ? 'The response did not arrive. Your request may have been received. Check recent requests before explicitly retrying the unchanged request. Do not create a new request while the outcome is unknown.' : '応答を受け取れませんでした。依頼が届いている可能性があります。これまでのお願いを確認し、必要なら同じ内容で再試行してください。結果が分かるまで新しい依頼を作らないでください。')) }
       api.runs().then(setRuns).catch(() => {})
     } finally { busyRef.current = false; setBusy(false) }
@@ -116,8 +138,8 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
     }
     setFileError(errors.length ? errors.join(' ') : null)
   }
-  const ready = cfg ? !adaptiveTeam || cfg.problems.length === 0 : false
-  const teammates = cfg ? cfg.agents.filter(a => a.enabled && (!adaptiveTeam || a.role === 'master')) : []
+  const ready = cfg && !cfgFailed ? !useAdaptiveTeam || cfg.problems.length === 0 : false
+  const teammates = cfg ? cfg.agents.filter(a => a.enabled && (!useAdaptiveTeam || a.role === 'master')) : []
   const companion = teammates.find(a => a.role === 'master') || teammates[0]
   // Offer the introduction until it has been seen or the first request exists. Never block the input with it.
   const firstVisit = loaded && runs.length === 0 && !welcomed()
@@ -126,13 +148,13 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
       <Journey current="request" />
       <section className="hero">
         <div className="home-intro">
-          <h1>{en ? <>What shall we make{' '}<wbr />together?</> : <>今日は、何を<br />一緒につくろう？</>}</h1>
+          <h1>{en ? 'What shall we make together?' : <>今日は、何を<span className="home-phrase">一緒に</span>つくろう？</>}</h1>
           <p className="lede">{en ? 'Tell your team what you need. Attach your material to receive a file with its check record.' : 'やりたいことを教えてください。資料を添えて依頼すると、確認の記録が付いたファイルを受け取れます。'}</p>
         </div>
         <form className="ask" onSubmit={start}>
           {/* The coordinator is the one you talk to; the rest of the team stands behind it. */}
           <div className="home-companion">
-            {companion && <BotAvatar id={companion.id} role={companion.role} emoji={companion.emoji} name={companion.display_name || botName(companion.role, getLang())} state="idle" size="stage" />}
+            {companion && <BotAvatar id={companion.id} role={companion.role} emoji={companion.emoji} name={companion.display_name || botName(companion.role, getLang())} state="idle" size="card" />}
             <div className="home-team" role="group" aria-label={en ? 'Your team' : 'あなたのチーム'}>{teammates.filter(a => a.id !== companion?.id).map(a => <BotAvatar key={a.id} id={a.id} role={a.role} emoji={a.emoji} name={a.display_name || botName(a.role, getLang())} state="idle" />)}</div>
             <div className="companion-says">
               <strong className="companion-name">{companion?.display_name || botName(companion?.role || 'master', getLang())}<span>{roleLabel(companion?.role || 'master', getLang())}</span></strong>
@@ -141,26 +163,42 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
             </div>
           </div>
           <div className="ask-tray"><div className="ask-field">
-            <label className="ask-label" htmlFor="request-goal">{en ? 'What would you like your team to do?' : 'チームにお願いしたいこと'}</label>
+            <section className="request-materials" aria-labelledby="request-materials-title">
+              <div className="request-materials-heading"><h2 id="request-materials-title">{en ? 'Add your material' : '資料を添える'}</h2><span>{en ? 'Optional' : '必要なときに'}</span></div>
+              <p>{en ? 'Attach the source you want the team to use, or paste it below.' : 'チームに読んでほしい資料を選ぶか、本文を貼り付けてください。'}</p>
+              <div className="request-materials-inputs"><div className="attachment-picker">
+                <div className="attachment-add-row">
+                  <label className="attachment-add" htmlFor="run-attachments">
+                    <input id="run-attachments" className="attachment-native" type="file" accept=".txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv" multiple disabled={busy || readOnly} onChange={onFiles} aria-describedby="attachment-help attachment-status" />
+                    <span aria-hidden="true">＋</span><span>{en ? 'Add files' : '資料を追加'}</span>
+                  </label>
+                  <span id="attachment-help">{t('txt / md / csv、1ファイル512KBまで')}</span>
+                </div>
+                <p id="attachment-status" className="attachment-status" role="status">{files.length > 0 ? (en ? `Attached to this request · ${files.length} ${files.length === 1 ? 'file' : 'files'}` : `依頼に添付済み · ${files.length}件`) : (en ? 'No files attached yet' : 'まだ資料は添付されていません')}</p>
+                {files.length > 0 && <div className="attachment-list" aria-label={t('添付済み資料')}>
+                  {files.map(file => <div className="attachment-item" key={file.name}>
+                    <span className="mono">{file.name}</span><span className="muted small">{file.content.length.toLocaleString()} {t('文字')}</span>
+                    <button type="button" className="btn sm ghost" disabled={busy || readOnly} aria-label={en ? `Remove ${file.name}` : `${file.name}を削除`} onClick={() => setFiles(prev => prev.filter(item => item.name !== file.name))}>{t('削除')}</button>
+                  </div>)}
+                </div>}
+                {fileError && <p className="err small" role="alert">{fileError}</p>}
+              </div>
+              <div className="request-source-field"><label htmlFor="request-source">{en ? 'Or paste the source text' : '本文を貼り付ける'}</label>
+              <textarea id="request-source" className="input" rows={3} placeholder={en ? 'Paste the material to summarize, compare or review.' : '要約・比較・確認してほしい本文を貼り付けてください。'} value={text} onChange={e => setText(e.target.value)} disabled={busy || readOnly} />
+              </div></div>
+            </section>
+            <label className="ask-label" htmlFor="request-goal">{en ? 'What would you like to make?' : 'どんなものを作りますか？'}</label>
             <textarea id="request-goal" ref={goalRef} className="input" required placeholder={en ? 'For example: turn these notes into a clear comparison report.' : '例：この資料をもとに、分かりやすい比較レポートをつくって。'} value={goal} onChange={e => setGoal(e.target.value)} disabled={busy || readOnly} />
+            <div className="request-send-summary">
+              <span><strong>{en ? 'Send to' : '送信先'}</strong>{cfg?.execution_summary?.length ? [...new Set(cfg.execution_summary.map(item => `${item.destination} · ${item.model}`))].join(' / ') : (en ? 'Not confirmed yet' : 'まだ確認できていません')}</span>
+              {cfg && <span><strong>{en ? 'Estimated limit' : '見積り上限'}</strong>{money(budget && Number.isFinite(Number(budget)) && Number(budget)>0 ? Number(budget) : cfg.limits.budget_usd)}{en ? ' per request' : '／1回'}</span>}
+            </div>
             <div className="ask-foot">
               <details className="more">
-                <summary>{en ? "Add materials or set a budget" : "資料を添える・予算を決める"}</summary>
+                <summary>{en ? 'Links and budget (optional)' : '参照URL・予算（任意）'}</summary>
                 <div className="stack" style={{ marginTop: 8 }}>
-                  <textarea className="input" aria-label={en ? "Source text" : "資料の本文"} placeholder={t("製品説明などのテキスト（任意）")} value={text} onChange={(e) => setText(e.target.value)} />
-                  <input className="input" aria-label={en ? "Source URLs" : "参照URL"} placeholder={t("参照URL（空白区切り、任意）")} value={urls} onChange={(e) => setUrls(e.target.value)} />
-                  <div className="attachment-picker">
-                    <label className="attachment-label" htmlFor="run-attachments">{t('依頼に含める資料')} <span className="muted">{t('txt / md / csv、1ファイル512KBまで')}</span></label>
-                    <input id="run-attachments" className="input" type="file" accept=".txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv" multiple onChange={onFiles} />
-                    {files.length > 0 && <div className="attachment-list" aria-label={t('添付済み資料')}>
-                      {files.map((file) => <div className="attachment-item" key={file.name}>
-                        <span className="mono">{file.name}</span><span className="muted small">{file.content.length.toLocaleString()} {t('文字')}</span>
-                        <button type="button" className="btn sm ghost" onClick={() => setFiles((prev) => prev.filter((item) => item.name !== file.name))}>{t('削除')}</button>
-                      </div>)}
-                    </div>}
-                    {fileError && <p className="err small" role="alert">{fileError}</p>}
-                  </div>
-                  <input className="input" type="number" min="0.01" step="0.01" aria-label={en ? "Budget limit in USD" : "予算上限（米ドル）"} placeholder={en ? "Budget limit in USD" : "予算上限（米ドル）"} value={budget} onChange={(e) => setBudget(e.target.value)} />
+                  <input className="input" aria-label={en ? "Source URLs" : "参照URL"} placeholder={t("参照URL（空白区切り、任意）")} value={urls} onChange={(e) => setUrls(e.target.value)} disabled={busy || readOnly} />
+                  <input className="input" type="number" min="0.01" max={canConfigure ? undefined : cfg?.limits.budget_usd} step="0.01" aria-label={en ? "Budget limit in USD" : "予算上限（米ドル）"} placeholder={en ? "Budget limit in USD" : "予算上限（米ドル）"} value={budget} onChange={(e) => setBudget(e.target.value)} disabled={busy || readOnly} />
                 </div>
               </details>
               <details className="more"><summary>{en ? 'Check the output file (optional)' : '成果物の条件を指定する（任意）'}</summary>
@@ -171,10 +209,10 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
                 <label htmlFor="excluded-phrases">{en ? 'Phrases to exclude' : '使わない表現'}</label>
                 <textarea id="excluded-phrases" className="input" rows={2} maxLength={2000} value={excludedPhrases} onChange={e=>setExcludedPhrases(e.target.value)} aria-describedby="excluded-phrases-help" />
                 <p id="excluded-phrases-help">{en ? 'Optional, one phrase per line. Rejects these exact phrases anywhere in the file, including quotations. Letter case matters; paraphrases need a separate review.' : '任意・1行に1つ。引用を含む全文から、この表現を含むファイルを除外します。英字の大小は区別します。言い換えや内容の判断は別途確認します。'}</p>
-                <label><input type="checkbox" checked={documentWorkflow} onChange={e=>setDocumentWorkflow(e.target.checked)} />{en ? 'Create one document from supplied material' : '添えた資料から1つの文書を作る'}</label>
-                <p>{en ? 'A writer creates the file, then a separate reviewer checks it. Skips automatic task planning. Requires pasted text or attachments and an output filename; URL research uses the usual team workflow.' : '作成担当がファイルを作り、別の確認担当が照合します。作業計画の自動生成を省く進め方です。資料とファイル名が必要です。URLの調査は通常の進め方を使います。'}</p>
+                {canConfigure && <><label><input type="checkbox" checked={documentWorkflow} onChange={e=>setDocumentWorkflow(e.target.checked)} />{en ? 'Create one document from supplied material' : '添えた資料から1つの文書を作る'}</label>
+                <p>{en ? 'A writer creates the file, then a separate reviewer checks it. Skips automatic task planning. Requires pasted text or attachments and an output filename; URL research uses the usual team workflow.' : '作成担当がファイルを作り、別の確認担当が照合します。作業計画の自動生成を省く進め方です。資料とファイル名が必要です。URLの調査は通常の進め方を使います。'}</p></>}
               </details>
-              {cfg?.defaults.team_mode !== 'single' && <fieldset className={'request-team-picker' + (adaptiveTeam ? '' : ' is-choosing')} disabled={busy || readOnly}>
+              {canConfigure && cfg?.defaults.team_mode !== 'single' && <fieldset className={'request-team-picker' + (adaptiveTeam ? '' : ' is-choosing')} disabled={busy || readOnly}>
                 <legend>{en ? 'Who will join?' : '一緒に取り組む仲間'}</legend>
                 <div className="team-selection-mode">
                   <label><input type="radio" name="team-mode" checked={adaptiveTeam} disabled={documentWorkflow} onChange={() => setAdaptiveTeam(true)} />{en ? 'Recommend for me' : 'おまかせ'}</label>
@@ -200,18 +238,20 @@ export default function Home({ nav, readOnly = false, canConfigure = true }: { n
             </div>
           </div></div>
           <p className="ask-hint">{readOnly ? '閲覧権限でログインしています。' : (en ? 'Review the result before selecting a version.' : 'できたものを確認してから、使う版を選べます。')}</p>
-          {!ready && <div className="setup-help">{cfg ? (en ? 'One-time setup is needed before your first request.' : '最初のお仕事の前に、接続の準備が必要です。') : cfgFailed ? (en ? 'The team could not be loaded, so requests cannot be sent yet. Reload to try again.' : 'チームを読み込めなかったため、まだお願いを送れません。再読み込みしてください。') : (en ? 'Checking the team…' : 'チームを確認しています…')}{canConfigure && cfg && <Link to="/settings" nav={nav}>{en ? 'Prepare my team' : 'チームを準備する'} →</Link>}{cfg?.problems.length ? <details><summary>{en ? 'Setup details' : '設定の詳細'}</summary>{cfg.problems.map((p,i)=><p key={i}>{p.message}</p>)}</details>:null}</div>}
+          {!ready && <div className="setup-help" role="status">{cfgFailed ? (en ? 'Could not check whether requests are available. Your draft is kept.' : '受付状況を確認できませんでした。入力した内容は残しています。') : cfg ? canConfigure ? (en ? 'One-time setup is needed before your first request.' : '最初のお仕事の前に、接続の準備が必要です。') : (en ? 'Requests are not available yet. The service administrator needs to complete preparation.' : '現在、お願いを受け付ける準備が整っていません。運営者による確認が必要です。') : (en ? 'Checking availability…' : '受付状況を確認しています…')}{canConfigure && cfg && <Link to="/settings" nav={nav}>{en ? 'Prepare my team' : 'チームを準備する'} →</Link>}{(cfg || cfgFailed) && <button type="button" className="btn ghost" onClick={reloadConfig}>{en ? 'Check again' : '受付状況を再確認'}</button>}{canConfigure && cfg?.problems.length ? <details><summary>{en ? 'Setup details' : '設定の詳細'}</summary>{cfg.problems.map((p,i)=><p key={i}>{p.message}</p>)}</details>:null}</div>}
           {err && <p className="err" role="alert">{err}{ambiguous && <> <Link to="/runs" nav={nav} className="btn ghost">{en ? 'Check your requests' : 'これまでのお願いを確認する'}</Link></>}</p>}
-          {problems.length > 0 && <div className="banner">{problems.map((p) => <div key={p.code} title={p.message}>{p.code === 'team_selection' ? p.message : friendlyProblem(p, getLang())}</div>)} {canConfigure && <Link to="/settings" nav={nav}>{t("設定へ")}</Link>}</div>}
+          {problems.length > 0 && <div className="banner" role="alert">{canConfigure ? problems.map((p) => <div key={p.code} title={p.message}>{p.code === 'team_selection' ? p.message : friendlyProblem(p, getLang())}</div>) : <p>{en ? 'The request was recorded, but work could not start. The service administrator needs to check the configuration. Your material is kept.' : '依頼は記録されましたが、作業を開始できませんでした。運営者による確認が必要です。資料は残しています。'}</p>} {receivedRunId && <Link to={`/runs/${receivedRunId}`} nav={nav} className="btn ghost">{en ? 'Open the recorded request' : '記録された依頼を確認する'}</Link>} {canConfigure && <Link to="/settings" nav={nav}>{t("設定へ")}</Link>}</div>}
           <div className="request-examples" aria-label={en ? 'Request ideas' : 'お願いの例'}>{(en ? ['Summarize my notes', 'Make a comparison table', 'Review my writing'] : ['資料を分かりやすくまとめて', '比較表をつくって', '文章をチェックして']).map((example, i) => <button type="button" key={example} disabled={busy || readOnly} onClick={() => { setGoal((en ? ['Use only the attached material to create guide.md: a short onboarding guide with prerequisites, first steps and limitations. Cite the source sections; mark anything unverified.', 'Use only the attached material to create comparison.md with a comparison table. Include source references and mark missing facts as unverified.', 'Review the attached writing and create review.md with suggested edits, reasons and unresolved questions.'] : ['添付した資料だけを使い、前提条件・最初の手順・制約をまとめた短い導入ガイド guide.md を作ってください。根拠の節を示し、確かめられない点は未確認と明記してください。', '添付した資料だけを使い、比較表 comparison.md を作ってください。根拠を添え、資料にない内容は未確認と明記してください。', '添付した文章を確認し、修正案・理由・未解決の疑問を review.md にまとめてください。'])[i]); goalRef.current?.focus() }}><span aria-hidden="true">{['📝','🔎','✏️'][i]}</span><span className="example-label">{example}</span></button>)}</div>
           <div className="request-disclosure" aria-label={en ? 'Before you start' : '実行前の確認'}>
             <strong>{en ? 'Where your material goes' : '依頼・資料の送信先'}</strong>
-            {cfg?.execution_summary?.length ? <ul>{[...new Set(cfg.execution_summary.map(item => `${item.destination} · ${item.model}`))].map(item => <li key={item}>{item}</li>)}</ul> : <p>{en ? 'Destination is not available yet. Check the team settings before starting.' : '送信先はまだ取得できていません。実行前にチーム設定を確認してください。'}</p>}
+            {cfg?.execution_summary?.length ? <ul>{[...new Set(cfg.execution_summary.map(item => `${item.destination} · ${item.model}`))].map(item => <li key={item}>{item}</li>)}</ul> : <p>{canConfigure ? (en ? 'Destination is not available yet. Check the team settings before starting.' : '送信先はまだ取得できていません。実行前にチーム設定を確認してください。') : (en ? 'The destination is not available yet. Check service availability before sending material.' : '送信先をまだ確認できていません。受付状況を再確認してから資料を送信してください。')}</p>}
             <p>{en ? 'The configured AI receives your request and material. Configured tools may read sources, write workspace files and run sandboxed checks. External changes require approval. Stopping cannot recall material already sent.' : '設定したAIに依頼と資料を送ります。許可されたツールは資料の参照、作業用ファイルの作成、隔離環境での検査を行います。外部の変更には承認が必要です。停止しても送信済みの資料は取り消せません。'}</p>
             <details><summary>{en ? 'Configured tool permissions' : '許可されているツール'}</summary><p>{[...new Set(cfg?.execution_summary?.flatMap(s => s.tools) || [])].join(' · ') || (en ? 'Not available' : '未取得')}</p></details>
           </div>
           <p className="muted small ask-draft"><span>{draftSaved ? (en ? 'Draft and attachments stay in this browser tab until sent or discarded.' : '下書きと添付資料は送信・破棄まで、このブラウザーのタブに保存します。') : (en ? 'Browser storage is unavailable. Navigation keeps the draft, but reloading will lose it.' : 'ブラウザーに保存できません。画面移動中は保持しますが、再読み込みすると失われます。')}</span> <button type="button" className="btn ghost" disabled={busy} onClick={() => { clearRequestDraft(); setGoal(''); setText(''); setUrls(''); setFiles([]); setBudget(''); setOutputPath(''); setDocumentWorkflow(false); setMinChars(''); setMaxChars(''); setExcludedPhrases(''); setAdaptiveTeam(true); setSelectedAgentIds(undefined) }}>{en ? 'Discard draft' : '下書きを破棄'}</button></p>
+          {!canConfigure && <p className="muted small">{en ? 'Signing out or ending your session clears the draft and attachments from this browser.' : 'ログアウトやセッション終了時に、このブラウザーの下書きと添付資料を消去します。'}</p>}
           {cfg && <p className="request-budget">{en ? 'Budget limit' : '予算上限'}: {money(budget && Number.isFinite(Number(budget)) && Number(budget)>0 ? Number(budget) : cfg.limits.budget_usd)} {en ? 'per request, estimated from configured prices; not a provider billing cap.' : '／1回。設定価格に基づく見積り上限です。提供元の請求上限ではありません。'}</p>}
+          {allowance?.limited && <div className="request-allowance"><p>{en ? `Request slots: ${allowance.requests_remaining} of ${allowance.max_requests_per_24h} available in the rolling 24-hour period. Queued or active: ${allowance.pending_runs} / ${allowance.max_pending_runs}.` : `受付枠：過去24時間の上限${allowance.max_requests_per_24h}回のうち、あと${allowance.requests_remaining}回。実行待ち・実行中は${allowance.pending_runs}／${allowance.max_pending_runs}件。`}</p>{allowance.next_request_at && <p>{en ? 'Next slot from: ' : '次の受付枠：'}{fmtDate(allowance.next_request_at)}</p>}<small>{en ? 'This counts acceptance attempts, including resume and fork. It is not a count of completed files or a price.' : '再開・分岐を含む受付試行の回数です。完成したファイル数や料金を示すものではありません。'}</small><button type="button" className="btn ghost" onClick={reloadAllowance}>{en ? 'Refresh slots' : '利用枠を再確認'}</button></div>}
         </form>
       </section>
       <section className="runs-list">

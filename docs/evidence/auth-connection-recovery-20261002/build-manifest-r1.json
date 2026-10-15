@@ -1,0 +1,14 @@
+{
+  "source": {
+    "frontend/src/components/AuthGate.tsx": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c"
+  },
+  "ui": {
+    "index.html": "c923204c069737c51c7b6a67e0ce752f06462c866c33c23dc148be4f0ec33475",
+    "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "assets/index-CBOtEBKu.js": "736ff6c4465d137d5b4c4770a80860bb0432ba7f900aa1cd1298ca72fea595ed",
+    "assets/RunView-HReUiUhg.js": "67909ecf4841b044d94a1e5ae9510d867840d5c0ac836fbd32a50a0fd56b96fd",
+    "assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa"
+  },
+  "frontend_dist_matches_distribution": true
+}

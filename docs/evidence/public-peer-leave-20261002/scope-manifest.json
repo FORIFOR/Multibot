@@ -1,0 +1,23 @@
+{
+  "original_revision": "85630f1efae4e9c13e09a1c246153f3c6c43056d",
+  "original": {
+    "backend/agentteam/ui/assets/RunView-BMf8N36n.js": "37925b84a9d64f5fcb8860b8150074ce2a6fd4905c62867815b521b78763ff6d",
+    "backend/agentteam/ui/assets/index-ClAoYoI8.js": "cf90faaffa9139b0b5e485994e2bc6fd22fc3ddf20cf8d49fc097249f48e14ae",
+    "backend/agentteam/ui/assets/index-DHtBhIL6.css": "724df2d71b9a0af7e42d5acfc46be9f8cff40a375775be048ec9220851973d0b",
+    "backend/agentteam/ui/favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "backend/agentteam/ui/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "backend/agentteam/ui/index.html": "0edc21c89a96219111d808c0e20912f8978d5bf67b9c3593e2712cf7302dbfed",
+    "frontend/src/components/AuthGate.tsx": "fef29f674db02fc0a9fb193e774ccd517502d4712d84be44ddc120d809d838fc"
+  },
+  "fixed": {
+    "frontend/src/components/AuthGate.tsx": "743b1bb57b5552a7ea7e15be18674db2fc0ee52fb7e2a0fb6e48a89f02678fe8",
+    "frontend/scripts/auth-peer-tab-close.mjs": "69f666b392d9b2615ca05ac13115172541cd9477521efad3918ff8be0a2762f7",
+    "backend/agentteam/ui/index.html": "0534e5dbfa365027a7c034b3126e5027a1176cc2c41ce9e3c0ef0c6da06f63a7",
+    "backend/agentteam/ui/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "backend/agentteam/ui/favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "backend/agentteam/ui/assets/index-DHtBhIL6.css": "724df2d71b9a0af7e42d5acfc46be9f8cff40a375775be048ec9220851973d0b",
+    "backend/agentteam/ui/assets/RunView-B4iaAOD4.js": "041366b0f3e95893d44d11141361fa832cfa78b19450bc67b3adfb8c3063b08e",
+    "backend/agentteam/ui/assets/index-DuZg0itW.js": "717361cce260062b3c58f7ca75d4bcd3aaffab4e173f0a3e3bc9a081b71a9726"
+  },
+  "baseline_script_snapshots": "Earlier script revisions are identified by the original run source hashes; their complete source snapshots were not taken. The final script is saved separately."
+}

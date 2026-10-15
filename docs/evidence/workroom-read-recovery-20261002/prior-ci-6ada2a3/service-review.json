@@ -1,0 +1,409 @@
+{
+  "status": "PASS",
+  "review_kind": "same-model AI independent read-only verification of this exact GitHub safe artifact",
+  "checked_at": "2026-10-02T01:30:36.459213+00:00",
+  "run_id": 36950319697,
+  "service_job_id": 110661602617,
+  "head": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "actual_checkout_merge": "88ffec3af0303922fbe33fdaee215a1ec900f7a0",
+  "merge_parents": [
+    "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+    "6ada2a36e7c8269e07e3a063b0319f67a1ce2534"
+  ],
+  "head_and_merge_tree": "0f7e1ee82dc6d0790a6ade99d6ccffa7bde5dd06",
+  "artifact_id": 11203721563,
+  "original_zip_sha256": "66b75d72985fd4bbe20360621d6dc9e263cbfc42efc7b465590388351734a11b",
+  "artifact_entry_count": 15,
+  "safe_json_count": 12,
+  "source_sha_comparisons": 139,
+  "unique_source_paths": 103,
+  "service_completed_stages": [
+    "actual HTTP/SQLite admission",
+    "actual-source response projection",
+    "auth-initial-recovery.mjs",
+    "auth-browser-isolation.mjs",
+    "auth-retry-reload.mjs",
+    "auth-parallel-login.mjs",
+    "auth-peer-tab-close.mjs"
+  ],
+  "parallel_rounds": [
+    {
+      "id": "parallel",
+      "genuine_pause_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "post_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "held_200_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "both_paused_before_post": true,
+      "breakpoints_removed_resumed": true
+    },
+    {
+      "id": "response_loss",
+      "genuine_pause_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "post_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "held_200_by_page": {
+        "A": 1,
+        "B": 1
+      },
+      "both_paused_before_post": true,
+      "breakpoints_removed_resumed": true
+    }
+  ],
+  "parallel_original_checks": [
+    "parallel-real-signin",
+    "parallel-signin-response-loss",
+    "cookie-subject-mismatch"
+  ],
+  "initial_recovery": {
+    "cases": 2,
+    "checks": 12,
+    "only_explicit_login_writes": 2,
+    "business_before": {
+      "runs": 0,
+      "jobs": 0,
+      "model_events": 0,
+      "artifacts": 0
+    },
+    "business_after": {
+      "runs": 0,
+      "jobs": 0,
+      "model_events": 0,
+      "artifacts": 0
+    }
+  },
+  "database": {
+    "http": 480,
+    "direct": 640,
+    "audit_missing": 0,
+    "new_model_events": 0,
+    "jobs": 0,
+    "cleanup": {
+      "service_stopped": true,
+      "port_closed": true,
+      "browser_started": false
+    }
+  },
+  "sandbox": {
+    "checks": 79,
+    "http": 30,
+    "model_event_delta": 0,
+    "job_state_counts": {
+      "cancelled": 8
+    },
+    "cleanup": {
+      "service_stopped": true,
+      "port_closed": true,
+      "pending_jobs": 0
+    }
+  },
+  "reading": {
+    "cases": 12,
+    "checks": 192,
+    "actual_body_sha_observations": 24,
+    "model_event_delta": 0,
+    "jobs": 0,
+    "business_unchanged": true,
+    "network_summary": {
+      "http_errors": 0,
+      "expected_auth_401": 4,
+      "failed_requests": 0,
+      "navigation_aborts": 0,
+      "unexpected_console_errors": 0,
+      "unauthorized_write_requests": 0
+    },
+    "cleanup": {
+      "api_started": true,
+      "api_stopped": true,
+      "port_closed": true,
+      "browser_processes": [
+        {
+          "program": "result-reading.mjs",
+          "tracked_processes": 19,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ],
+      "runtime_error_markers": 0
+    }
+  },
+  "browser_version": "154.0.8037.57",
+  "service_owned_cleanup": {
+    "browser_api": {
+      "scope": "browser_verification_api",
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "chrome": [
+      {
+        "program": "auth-initial-recovery.mjs",
+        "tracked_processes": 13,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-browser-isolation.mjs",
+        "tracked_processes": 11,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-retry-reload.mjs",
+        "tracked_processes": 10,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-parallel-login.mjs",
+        "tracked_processes": 11,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-peer-tab-close.mjs",
+        "tracked_processes": 15,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "original_ci_failure": {
+    "run_id": 36947671100,
+    "status": "failure",
+    "phase": "response_loss_submit_both_forms",
+    "cause": "UNCONFIRMED",
+    "preserved_separately": true
+  },
+  "cleanup_failure_injection_performed": false,
+  "local_service_or_browser_execution": false,
+  "raw_CI_logs_downloaded": false,
+  "CI_secret_values_downloaded": false,
+  "actual_CI_key_byte_scan": "not_performed; CI keys are not included in the allowlisted artifact",
+  "human_acceptance": false,
+  "checks": [
+    {
+      "id": "exact_head_and_run_success",
+      "status": "PASS"
+    },
+    {
+      "id": "exact_service_job_success",
+      "status": "PASS"
+    },
+    {
+      "id": "artifact_exact_run_head",
+      "status": "PASS"
+    },
+    {
+      "id": "original_zip_digest_and_size",
+      "status": "PASS"
+    },
+    {
+      "id": "merge_contains_exact_head",
+      "status": "PASS"
+    },
+    {
+      "id": "merge_tree_matches_head",
+      "status": "PASS"
+    },
+    {
+      "id": "head_api_tree_matches_local",
+      "status": "PASS"
+    },
+    {
+      "id": "all_report_revisions_match_actual_merge",
+      "status": "PASS"
+    },
+    {
+      "id": "product_unchanged_from_330c",
+      "status": "PASS"
+    },
+    {
+      "id": "all_reported_source_code_ui_sha_match_head",
+      "status": "PASS"
+    },
+    {
+      "id": "actual_profile_matches_source",
+      "status": "PASS"
+    },
+    {
+      "id": "target_parallel_script_89872",
+      "status": "PASS"
+    },
+    {
+      "id": "bundled_ui_ci_step_success",
+      "status": "PASS"
+    },
+    {
+      "id": "served_reading_ui_exact",
+      "status": "PASS"
+    },
+    {
+      "id": "seven_service_stages_passed",
+      "status": "PASS"
+    },
+    {
+      "id": "admission_eight_checks",
+      "status": "PASS"
+    },
+    {
+      "id": "response_nine_checks",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_recovery_two_cases_twelve_checks",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_real_block_reload_login",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_only_explicit_login_writes",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_source_business_no_change",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_owned_context_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_original_three_assertions",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_real_barrier_each_page_200",
+      "status": "PASS"
+    },
+    {
+      "id": "response_loss_real_barrier_each_page_200",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_two_expected_rounds",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_debug_cleanup_passed",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_no_runs_or_jobs",
+      "status": "PASS"
+    },
+    {
+      "id": "isolation_seven_assertions",
+      "status": "PASS"
+    },
+    {
+      "id": "retry_true_202_replay_no_duplicate",
+      "status": "PASS"
+    },
+    {
+      "id": "peer_real_recovery_two_assertions",
+      "status": "PASS"
+    },
+    {
+      "id": "peer_no_added_runs_jobs_models",
+      "status": "PASS"
+    },
+    {
+      "id": "service_browser_api_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "five_owned_browser_cleanups",
+      "status": "PASS"
+    },
+    {
+      "id": "database_480_http_640_direct",
+      "status": "PASS"
+    },
+    {
+      "id": "database_audit_and_no_runtime_errors",
+      "status": "PASS"
+    },
+    {
+      "id": "database_source_model_job_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "sandbox_79_checks_30_http",
+      "status": "PASS"
+    },
+    {
+      "id": "sandbox_source_no_models_all_jobs_cancelled",
+      "status": "PASS"
+    },
+    {
+      "id": "sandbox_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "reading_12_cases_192_checks",
+      "status": "PASS"
+    },
+    {
+      "id": "reading_actual_body_bytes",
+      "status": "PASS"
+    },
+    {
+      "id": "reading_source_business_model_job_invariants",
+      "status": "PASS"
+    },
+    {
+      "id": "reading_http_browser_boundaries",
+      "status": "PASS"
+    },
+    {
+      "id": "reading_owned_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "safe_json_no_jwt_or_private_key_pattern",
+      "status": "PASS"
+    },
+    {
+      "id": "zip_entries_match_preserved_bytes",
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "This successful exact-head run does not establish the root cause of the earlier CI failure.",
+    "Submit task scheduling is deliberately controlled by DOMDebugger; it is not natural simultaneous-user timing or exhaustive interleaving coverage.",
+    "Checks verify the preserved safe reports and exact Git source/UI hashes; no remote CI database or raw private log was retrieved.",
+    "api_cleanup.scope remains browser_verification_api and does not imply equivalent shutdown instrumentation for the admission/response stages.",
+    "The retry stage deliberately saves two start:false request records; no zero-runs claim is made for the complete service suite.",
+    "Response projection uses historical v18 model events. Database, sandbox, reading and browser records report no new model execution within their stated scopes.",
+    "Reading artifact hashes are shared by three source reps; source-byte identity alone cannot distinguish those run IDs.",
+    "Site/OIDC artifacts are assigned to other reviewers and are not evaluated here.",
+    "The separate corrected commit publication scan is a procedure record, not an application or CI failure."
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "tsc_and_vite_build": true,
+  "lint_exit_code": 0,
+  "lint_warning_lines": 20,
+  "lint_error_lines": 0,
+  "distribution_byte_equal": true,
+  "source_and_build": {
+    "frontend/src/pages/Workroom.tsx": {
+      "sha256": "e8c07d67306d10cb47a016fb92ef86ba015ca3f26e836f65a30f4373e15d4a7d",
+      "bytes": 55831
+    },
+    "frontend/src/lib/api.ts": {
+      "sha256": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6",
+      "bytes": 15374
+    },
+    "frontend/src/components/AuthGate.tsx": {
+      "sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+      "bytes": 11122
+    },
+    "frontend/dist/index.html": {
+      "sha256": "13c9ef0965f52433099957bf97ef8a9183b0b97eb82b753fb0f1328cdf9b39b2",
+      "bytes": 395
+    },
+    "frontend/dist/icons.svg": {
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+      "bytes": 5031
+    },
+    "frontend/dist/favicon.svg": {
+      "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+      "bytes": 338
+    },
+    "frontend/dist/assets/RunView-tb1ltHPq.js": {
+      "sha256": "73e520c90b79c7fd69673af5e2c85bc4f2e2ee70171f35f42e33b35a10cda798",
+      "bytes": 33477
+    },
+    "frontend/dist/assets/index-BQqhmjTV.css": {
+      "sha256": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+      "bytes": 161207
+    },
+    "frontend/dist/assets/index-BtMUEHfg.js": {
+      "sha256": "182e7eac3f81fb5b6ed995439fd857d9e890f3ceb89e6ec2604fa17b96ccdf2a",
+      "bytes": 397537
+    },
+    "backend/agentteam/ui/index.html": {
+      "sha256": "13c9ef0965f52433099957bf97ef8a9183b0b97eb82b753fb0f1328cdf9b39b2",
+      "bytes": 395
+    },
+    "backend/agentteam/ui/icons.svg": {
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+      "bytes": 5031
+    },
+    "backend/agentteam/ui/favicon.svg": {
+      "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+      "bytes": 338
+    },
+    "backend/agentteam/ui/assets/RunView-tb1ltHPq.js": {
+      "sha256": "73e520c90b79c7fd69673af5e2c85bc4f2e2ee70171f35f42e33b35a10cda798",
+      "bytes": 33477
+    },
+    "backend/agentteam/ui/assets/index-BQqhmjTV.css": {
+      "sha256": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+      "bytes": 161207
+    },
+    "backend/agentteam/ui/assets/index-BtMUEHfg.js": {
+      "sha256": "182e7eac3f81fb5b6ed995439fd857d9e890f3ceb89e6ec2604fa17b96ccdf2a",
+      "bytes": 397537
+    }
+  },
+  "scope": "compile/lint/build consistency only; runtime evidence is separate",
+  "final_lint_warning_lines": 20,
+  "ci_runner_syntax_check": true,
+  "ci_wrapper_ruff_check": true,
+  "ci_runners": {
+    "backend/scripts/check_artifact_recovery.py": "11b6f0ca762201461c6aa5ae1cfe3950a3daa4da2aa6899c06fa3bd7d660b76f",
+    "frontend/scripts/artifact-load-recovery.mjs": "39d30a8605c71111e94279d9a0e7f05fddc4482683fd9ed1a91a6570d723311c"
+  }
+}

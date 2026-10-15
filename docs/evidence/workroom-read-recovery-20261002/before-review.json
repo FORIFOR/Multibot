@@ -1,0 +1,71 @@
+{
+  "status": "FAIL",
+  "actor": "Implementation-aware separate AI verifier; not human acceptance",
+  "head": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "harness_status": "OBSERVATION_COMPLETE",
+  "finding": {
+    "priority": "P2",
+    "id": "pending-read-explicit-retry",
+    "observed": "JA390 actual detail HTTP200 held at CDP Response stage. Natural Tab5 then Enter on enabled retry did not start a second read or show an error in 35seconds; detail/chat/events request counts remained1/1/1. Original response release restored original interrupted/livefalse record and artifact bytes.",
+    "static_cause": "Original Workroom refresh exits while inFlight; retry and automatic poll share this function. Original api req applies timeout only to idempotent mutations, not these GETs.",
+    "observation_not_infinite_wait_or_sla": true
+  },
+  "control": {
+    "status": "PASS",
+    "scope": "EN768 observed detail/chat/events read-batch transport interruption, actual warning, natural Tab22/Enter while blocked, repeated failure, unblock/Enter200 recovery, original failed record and unsent actual repository material preserved",
+    "addendum": "observation-scope-addendum.json"
+  },
+  "images_opened": [
+    "ja390-held200-before.png",
+    "ja390-held-at35s.png",
+    "ja390-after-release.png",
+    "en768-blocked-warning.png",
+    "en768-after-refresh.png",
+    "en768-after-refresh-result.png"
+  ],
+  "visual_notes": [
+    "JA loading/retry/focus remain visibly readable but operation has no recovery effect during35s hold.",
+    "JA restored interrupted/partial-result warnings remain.",
+    "EN captured blocked conversation at scrollY424; top alert is outside captured viewport.",
+    "EN final Results retains incomplete-request warning and original JSON candidate."
+  ],
+  "invariants": {
+    "business_unchanged": true,
+    "model_event_delta": 0,
+    "jobs_after": 0,
+    "original_source_unchanged": true,
+    "implementation_unchanged": true,
+    "bundle_unchanged": true
+  },
+  "cleanup": {
+    "api": {
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "browser": [
+      {
+        "program": "check.mjs",
+        "tracked_processes": 19,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "limits": [
+    "Real frozen v62 records, no running model/task recreated",
+    "Response-stage hold is not a demonstration of a response-body-only stall",
+    "35seconds is an observation window, not SLA",
+    "Existing records did not reconstruct task rows",
+    "Screen reader, Safari, actual live SSE, native200 and320 not exercised",
+    "No product edits or new model/business jobs; only2 actual login POSTs"
+  ],
+  "human_acceptance": false
+}

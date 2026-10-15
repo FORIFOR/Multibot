@@ -2,6 +2,8 @@
 
 These operations support a dedicated, single-host installation. They do not establish a retention contract, erase a provider's copies, or prove an off-site recovery objective. Stop the service before deleting data or taking a snapshot. No automatic deletion policy is enabled.
 
+Per-user admission metadata is an exception to run-content retention: `subject_admissions` stores only a principal ID, optional run ID and timestamp, never document contents. It is included in the SQLite backup. Deleting a run or changing its grants does not reset its 24-hour admission count. Rows older than 24 hours are removed on service startup, admission or usage lookup, except while their execution is queued/leased. An idle service can retain expired rows until one of those operations occurs; historical backups keep their own retention policy. This metadata is a throttle, not a billing ledger. See [public-service limits](PUBLIC_SERVICE.md#利用者別の受付制限).
+
 ## Preview and delete
 
 Set `AGENTTEAM_INSTALL_DIR` to the installation and `AGENTTEAM_RUN_ID` to the actual run approved for deletion. Preview is the default:

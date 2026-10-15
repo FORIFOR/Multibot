@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "language": "ja",
+      "check": "RunView source narrative preserved and separated from recorded checks/reviews",
+      "narrative_list_sha256": "efd0a9eeed219461351851702c7de03ed92d6f90fe31f8226464bd0da1de0ad2",
+      "recorded_evidence_rows": 4,
+      "status": "PASS"
+    },
+    {
+      "language": "ja",
+      "check": "Workroom narrative unresolved uses source label and unchanged text",
+      "unresolved_sha256": "2e784085a1fe114a480cabfdd2afa4ac821b977e4b0e24102e31a271bd88c4dd",
+      "status": "PASS"
+    },
+    {
+      "language": "en",
+      "check": "RunView source narrative preserved and separated from recorded checks/reviews",
+      "narrative_list_sha256": "efd0a9eeed219461351851702c7de03ed92d6f90fe31f8226464bd0da1de0ad2",
+      "recorded_evidence_rows": 4,
+      "status": "PASS"
+    },
+    {
+      "language": "en",
+      "check": "Workroom narrative unresolved uses source label and unchanged text",
+      "unresolved_sha256": "2e784085a1fe114a480cabfdd2afa4ac821b977e4b0e24102e31a271bd88c4dd",
+      "status": "PASS"
+    }
+  ],
+  "screenshots": [
+    "ja-report-evidence.png",
+    "ja-report-interpretation.png",
+    "ja-workroom-notes.png",
+    "en-report-evidence.png",
+    "en-report-interpretation.png",
+    "en-workroom-notes.png"
+  ],
+  "page_errors": [],
+  "mutations": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "cleanup": {
+    "browser_closed": true
+  }
+}

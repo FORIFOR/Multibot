@@ -1,0 +1,141 @@
+{
+  "basis_commit": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "files": {
+    "README.md": {
+      "sha256": "2c9b75e0107a9d23c286d3ac5a6c5eaec07f60d4a94cdffa846681592ee4071d",
+      "bytes": 9522
+    },
+    "auth-regression-review.json": {
+      "sha256": "a1e5311ed61b5dca7543e0b3b46f7f388477c371fe12c366f55f09526cd2cd31",
+      "bytes": 12224
+    },
+    "before-browser.json": {
+      "sha256": "cc643b9fbcc2d06cda066e388fc547a991bc129eb1a0bbfbdd6fc3cd48a2011b",
+      "bytes": 19155
+    },
+    "before-critique.json": {
+      "sha256": "44d705ee6f41ade43d287e5b405335c2dd31f604f83117bd70e345ff1a524d70",
+      "bytes": 4827
+    },
+    "before-held-at35s.png": {
+      "sha256": "d68b74d759f3a6aa617f184c7b740ee5edd77fb28a6a4407683a4ddae8059179",
+      "bytes": 24090
+    },
+    "before-held-focused.png": {
+      "sha256": "d68b74d759f3a6aa617f184c7b740ee5edd77fb28a6a4407683a4ddae8059179",
+      "bytes": 24090
+    },
+    "before-observation.json": {
+      "sha256": "230dca6d3d8c46eb2e365cc1279131fc59e9791e63a444aeb2fff84aac99e636",
+      "bytes": 33315
+    },
+    "before-review.json": {
+      "sha256": "43c516202293b24b24867c1a463ecdfae37bb18472126abc359e56277c4b7629",
+      "bytes": 2949
+    },
+    "before-scope-addendum.json": {
+      "sha256": "33078c85bfe569fa6715b20128d554be5b5e7fa030308e6f4ce4ec666c49fb48",
+      "bytes": 1186
+    },
+    "build-checks.json": {
+      "sha256": "915da9f8d70807d905c1355b3c7864c4e31d195ed0560c549e3ff0448f9bd7b8",
+      "bytes": 1576
+    },
+    "dedicated-ci-review.json": {
+      "sha256": "7bff50ef918a7210d8cff9c4af9a531a9874c27b49404ff0f0f377689ab2996e",
+      "bytes": 20470
+    },
+    "en-native200-manual-focused-retry.png": {
+      "sha256": "7715827e79f3a1c724f9f020268ec1ec62e539af012e6df76f461ca6e96d719b",
+      "bytes": 42522
+    },
+    "en768-loaded-deadline-deadline-warning-focused.png": {
+      "sha256": "4791f96fdeb2f875c68f88f67a9020191da0da350bdc22fb287957a7344eb54a",
+      "bytes": 116286
+    },
+    "independent-acceptance-summary.json": {
+      "sha256": "681f13cefa9e28b1b2aed655a407a35472b2101057f0dd6778485bbdedf62372",
+      "bytes": 2732
+    },
+    "independent-final-critique.json": {
+      "sha256": "79635a741e9a13b0a64f854b3acb8c8f084ea4a18399b43497f6b9ac4714d16a",
+      "bytes": 11986
+    },
+    "independent-r2-browser-report.json": {
+      "sha256": "772ab01d3a4e9657232c66d574446e5a78e62b9b2a57a21dab0e03b838f30b1b",
+      "bytes": 49193
+    },
+    "independent-r2-independent-review.json": {
+      "sha256": "db41f244b65a9c5c093098135bdb05c6a629c0ece373036fc95eda4d0fc5d7d3",
+      "bytes": 5256
+    },
+    "independent-r2-safe-report.json": {
+      "sha256": "36db7a72286f3d105013693d2e3bb73a13eb0b48bd295dccd6b3d6be7d0ccfc0",
+      "bytes": 66087
+    },
+    "independent-r3-browser-report.json": {
+      "sha256": "b20c10888c3267650b6467f815f6b1f01163410a37eb0e6b58e5c736db656e33",
+      "bytes": 10333
+    },
+    "independent-r3-independent-review.json": {
+      "sha256": "dcd86f0e5182b5316fbcc1c5d381a3066c562665da6cdccdcdba940c12c60562",
+      "bytes": 4352
+    },
+    "independent-r3-safe-report.json": {
+      "sha256": "57f5743f6dcc2eb62d17d9c7471cd8316025564f9421f4341707ca35c13afb60",
+      "bytes": 23957
+    },
+    "ja320-deadline-deadline-focus.png": {
+      "sha256": "3ecf05c3f11521e3ee94e7e2133baad3ee58ac1ae0a4c12340e1d3830c908d5a",
+      "bytes": 36046
+    },
+    "ja390-manual-recovered.png": {
+      "sha256": "228ce83d559360f5dcb52e5ef3b4b344857e4c91df3f88da9a273a29f3d0437f",
+      "bytes": 68696
+    },
+    "local-recovery-invalid-source.json": {
+      "sha256": "059d7e6fc2db152ec54c07adde8ea1809508086752a9d3ca5823f74ef2371160",
+      "bytes": 9167
+    },
+    "local-recovery-r1-failed.json": {
+      "sha256": "d934b0862f884102cf912c2476c10c0b34955b052eb7b866ae17167e22f1f8a0",
+      "bytes": 21232
+    },
+    "local-recovery-r2.json": {
+      "sha256": "d0a7979aa08c5d2fdd165523059feac90574ccdfe5ff15bf9f7314c865d37058",
+      "bytes": 22556
+    },
+    "local-service-regression.json": {
+      "sha256": "5f31900f3f73190d184af7f570cb21cbcd5dba15860496dc67c1e05409a9633f",
+      "bytes": 2975
+    },
+    "prior-ci-6ada2a3/oidc-review.json": {
+      "sha256": "6823241483a225c0bf04e82e79ec54094258f18098bda338aa071a303630a11b",
+      "bytes": 7590
+    },
+    "prior-ci-6ada2a3/service-review.json": {
+      "sha256": "67ceb7bf89dfa7b58e91e825c7dc5f031429117c24bb305921e0cb4231207b4e",
+      "bytes": 10307
+    },
+    "prior-ci-6ada2a3/site-review.json": {
+      "sha256": "f615d0a2563b61562d5ec7452ba08a504dc8fd1bb00e3b8677e540d25179414a",
+      "bytes": 3189
+    },
+    "prior-ci-6ada2a3/summary.json": {
+      "sha256": "15a939f37fd5b51c6f00d911049ce7431ca660cfbce3781110998987cf559dd7",
+      "bytes": 16261
+    },
+    "resource-gate.json": {
+      "sha256": "4718cc5c1a9a75b8ee86dfaf27ddc9542048eef014740e22f86217b90d28aac5",
+      "bytes": 3518
+    },
+    "root-visual-review.json": {
+      "sha256": "74a4be5a295eff91b74dd433c55cec28823ee7701668c06ca5185ad1e31d9c7b",
+      "bytes": 1591
+    },
+    "static-review.json": {
+      "sha256": "cc41b06edaacfa92d8570a7e5c3abc07d6d00b1e206fd5ddb3a4d40254d50deb",
+      "bytes": 5664
+    }
+  }
+}

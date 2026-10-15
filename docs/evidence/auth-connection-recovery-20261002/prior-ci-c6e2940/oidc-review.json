@@ -1,0 +1,184 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-02T00:06:19.390901+00:00",
+  "run_id": 36943859613,
+  "run_url": "https://github.com/FORIFOR/Multibot/actions/runs/36943859613",
+  "head_sha": "c6e29407f64c11ec77f39d57f9da696b8385b0bf",
+  "actual_checkout_merge": "70b310e63a4918aa859d124591b2c24b49c5e628",
+  "merge_parents": [
+    "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+    "c6e29407f64c11ec77f39d57f9da696b8385b0bf"
+  ],
+  "checks": [
+    {
+      "id": "exact_requested_run_head",
+      "passed": true
+    },
+    {
+      "id": "completed_success",
+      "passed": true
+    },
+    {
+      "id": "actual_merge_is_reported_revision",
+      "passed": true
+    },
+    {
+      "id": "actual_merge_has_requested_head_parent",
+      "passed": true
+    },
+    {
+      "id": "merge_tree_matches_head_tree",
+      "passed": true
+    },
+    {
+      "id": "original_zip_matches_server_digest",
+      "passed": true
+    },
+    {
+      "id": "artifact_metadata_bound_to_run_and_head",
+      "passed": true
+    },
+    {
+      "id": "actual_artifact_exact_three_safe_files",
+      "passed": true
+    },
+    {
+      "id": "source_sha_backend/scripts/provision_public_oidc.py",
+      "passed": true
+    },
+    {
+      "id": "source_sha_frontend/scripts/public-oidc.mjs",
+      "passed": true
+    },
+    {
+      "id": "source_sha_.github/workflows/public-oidc.yml",
+      "passed": true
+    },
+    {
+      "id": "original_profile_source_sha",
+      "passed": true
+    },
+    {
+      "id": "actual_document_source_sha",
+      "passed": true
+    },
+    {
+      "id": "exact_derived_profile_sha",
+      "passed": true
+    },
+    {
+      "id": "cleanup_frozen_script_sha",
+      "passed": true
+    },
+    {
+      "id": "report_preserves_provenance",
+      "passed": true
+    },
+    {
+      "id": "thirteen_actual_checks_exact_source_ids",
+      "passed": true
+    },
+    {
+      "id": "twentytwo_http_expectations",
+      "passed": true
+    },
+    {
+      "id": "http_safe_fields_only",
+      "passed": true
+    },
+    {
+      "id": "actual_jwks_first_cache_rotation",
+      "passed": true
+    },
+    {
+      "id": "actual_rotation_before_cache_expiry",
+      "passed": true
+    },
+    {
+      "id": "browser_callback_close",
+      "passed": true
+    },
+    {
+      "id": "api_owned_exit_actual_fields",
+      "passed": true
+    },
+    {
+      "id": "container_owned_removal_actual_fields",
+      "passed": true
+    },
+    {
+      "id": "new_cleanup_report_pass",
+      "passed": true
+    },
+    {
+      "id": "cleanup_before_upload",
+      "passed": true
+    },
+    {
+      "id": "pyjwt_215_no_model_requested",
+      "passed": true
+    },
+    {
+      "id": "business_scope_not_overclaimed",
+      "passed": true
+    },
+    {
+      "id": "no_jwt_shape_in_safe_artifact",
+      "passed": true
+    }
+  ],
+  "oidc_checks": 13,
+  "http_responses": 22,
+  "artifact_id": 11201297273,
+  "server_reported_archive_digest": "sha256:5baa5bbc49f498f3d3d4c77390a84a3b6bc5d0c970d24f1453766912b267a12e",
+  "downloaded_files_sha256": {
+    "report.json": "568e1b88889fd80b0f2f53611dd59370cda58005d2d762eeb5bcdf1d04f703c5",
+    "provenance.json": "83a90416cab2ca623ac0f5e419907fbe7b83c733500d25066a9a0a8919167c34",
+    "cleanup-report.json": "38dc69ec436d304e770f6b5191752be69667b352a7d28f9dfb698e5ccf8c6c7c"
+  },
+  "source_sha256": {
+    "backend/scripts/provision_public_oidc.py": "a38ec2f4eb297ec7832a8178cceb517984900f05874de8fe65cd3c4ec0fd2c0d",
+    "frontend/scripts/public-oidc.mjs": "b3500675d47e50f608a3a1e4b018c081aa93ca184075a2a04d9ca8c0fddb5d23",
+    ".github/workflows/public-oidc.yml": "bea892d03c241b70cec4d1bdc451c5847546f9bc606ebc2b0a4120176f9adc0a",
+    "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+    "docs/PRODUCTION_PLAN.md": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+    "backend/scripts/cleanup_public_oidc.py": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584"
+  },
+  "api_cleanup": {
+    "status": "PASS",
+    "started": true,
+    "signals_sent": 1,
+    "identity_matches": true,
+    "process_absent": true,
+    "group_empty": true,
+    "port_closed": true,
+    "ready_observed": true,
+    "runtime_error_markers": 0
+  },
+  "container_cleanup": {
+    "status": "PASS",
+    "started": true,
+    "owned_count": 1,
+    "removed_count": 1,
+    "remaining_owned_count": 0,
+    "port_closed": true,
+    "creation_outcome_verified": true
+  },
+  "jwks_timing": {
+    "cache_ttl_seconds": 60,
+    "first_api_started_at": "2026-10-02T00:02:34.521Z",
+    "rotation_api_started_at": "2026-10-02T00:02:36.074Z",
+    "elapsed_before_rotation_ms": 1554,
+    "elapsed_after_rotation_ms": 1590
+  },
+  "limits": [
+    "Read-only independent inspection of actual GitHub evidence, not a second execution of the 13 checks.",
+    "Docker cleanup is now recorded by this exact GitHub job; local Docker was not started by this reviewer.",
+    "Safe artifacts omit actual owner IDs, tokens, keys, private logs and database. Ownership conclusion combines measured safe fields with the exact cleanup source hash.",
+    "Runner verified issued credential/code exclusion before publishing. Reviewer only inspected safe JSON and JWT shape, not unavailable CI private key bytes.",
+    "No claim of business quality, public TLS, MFA, registration, physical device quality or human acceptance.",
+    "Raw GitHub logs were not downloaded. Executed merge identity is based on the actual report/provenance git revision, GitHub commit parents and matching source tree."
+  ],
+  "model_execution_requested_by_reviewer": false,
+  "human_acceptance": "not_performed"
+}

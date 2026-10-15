@@ -1,0 +1,71 @@
+{
+  "status": "EVIDENCE_REVIEW_COMPLETE",
+  "reviewed_at": "2026-10-02T01:45:49.435222+00:00",
+  "type": "既存実観察JSONの照合と実画像4枚の独立目視。同モデルAIによるレビュー。",
+  "original_revision": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "original_evidence_root": "workroom-read-recovery-observation-20261002-r1",
+  "source_record_matches_committed_baseline": {
+    "frontend/src/pages/Workroom.tsx": true,
+    "frontend/src/lib/api.ts": true,
+    "frontend/src/components/AuthGate.tsx": true,
+    "frontend/src/lib/browser-session.ts": true
+  },
+  "evidence_sha256": {
+    "safe-report.json": "230dca6d3d8c46eb2e365cc1279131fc59e9791e63a444aeb2fff84aac99e636",
+    "browser-report.json": "cc643b9fbcc2d06cda066e388fc547a991bc129eb1a0bbfbdd6fc3cd48a2011b",
+    "observation-scope-addendum.json": "33078c85bfe569fa6715b20128d554be5b5e7fa030308e6f4ce4ec666c49fb48",
+    "ja390-held-at35s.png": "d68b74d759f3a6aa617f184c7b740ee5edd77fb28a6a4407683a4ddae8059179",
+    "ja390-after-release.png": "228ce83d559360f5dcb52e5ef3b4b344857e4c91df3f88da9a273a29f3d0437f",
+    "en768-blocked-warning.png": "570dc653d09fef70dda9c01dd31d35e9bc35b0659749557b9efb023521ae7fac",
+    "en768-after-refresh.png": "f89af14eb2375dc3462844563fe8219cae731e0fb7142b55bfd22849359cd811"
+  },
+  "actual_tests_executed_by_this_reviewer": 0,
+  "checks": [
+    {
+      "id": "held_get_failure",
+      "status": "PASS",
+      "meaning": "元製品の回復不能を示す証拠が整合。製品合格ではない。",
+      "method": "元safe/browser reportとJA画像を照合",
+      "observed": "実200 detail Response保留中にTab5/Enter。1152ms後も3 GET件数1/1/1。17502ms/35000msでもopening、有効な再読込、errorなし。別のapprovals pollは継続するが主3 GETは増えない。JA画像でfocus輪郭と押せる再読込ボタンを確認した。",
+      "product_criterion": "FAIL",
+      "critique": "利用者へ実行可能と示す再読込が追加読取を発行せず、待つ以外の復帰手段がない。表示操作と実際の回復が一致しない。35秒は観察窓であり当時の既定SLAではない。"
+    },
+    {
+      "id": "release_preserves_record",
+      "status": "PASS",
+      "method": "元レポートとja390-after-release画像",
+      "observed": "原200解放後に追加実行をせず原artifact SHAとinterrupted状態へ復帰。画像は中断・依頼全体未完了・未採用の候補と記す。通信回復を依頼完了へ読み替えていない。"
+    },
+    {
+      "id": "immediate_transport_contrast",
+      "status": "PASS",
+      "method": "EN元JSON、addendum、警告/復帰画像",
+      "observed": "detail URLのみ指定したCDPblockでdetail/chat/events各2回の失敗を実観測。未送信入力保持、Refresh中の失敗、解除後200と原artifact/statusを保持。静的保留経路と即時拒否の対照として有効。",
+      "limits": "実detail単独失敗を隔離できていない。errorText未採取なので他4件の原因を断定しない。"
+    },
+    {
+      "id": "en_image_boundary",
+      "status": "PASS",
+      "method": "en768-blocked-warning.pngの実目視とaddendum照合",
+      "observed": "scrollY424の画像で会話とReconnecting表示は読める。上部warning/Refreshはviewport外で、この画像はその視認性の証明ではない。Refreshの自然Tab22・focus geometryはDOM記録だけ。en768-after-refreshではRecorded conversationと元未完了状態が読める。",
+      "limits": "新検証で上部警告とfocus画像が必要。元画像を撮り直して原証拠へ置き換えない。"
+    },
+    {
+      "id": "business_and_owned_cleanup",
+      "status": "PASS",
+      "method": "safe report前後hashとbrowser report整合",
+      "observed": "業務run/event/artifact bytes/hashの前後一致、既存model74から差分0、jobs0、書込は2回の実loginだけ。所有API task/port終了、Chrome19残留0/信号0。",
+      "limits": "独立再実行はしていない。importはtasksを復元しないので全元SQLiteの再現ではない。"
+    }
+  ],
+  "new_blocking_findings": [],
+  "document_corrections": [],
+  "addendum_assessment": "実失敗6件/4件の分類漏れとENスクリーンショット範囲の訂正は元JSON・画像に一致。元flags/FAILを保持している。",
+  "limits": [
+    "実修正後の成功はこの原観察レビューに含めない。",
+    "artifact GET故障、live SSE、新LLM、native200/320、画面読上げは原観察で未実施。",
+    "主体実値・鍵・rawerror・DB・設定・privateログをこのレビューへコピーしない。",
+    "AIレビューは人間受入/業務品質/本番復旧SLAを代替しない。"
+  ],
+  "human_acceptance": false
+}

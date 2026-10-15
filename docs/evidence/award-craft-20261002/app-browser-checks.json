@@ -1,0 +1,426 @@
+{
+  "started_at": "2026-10-01T18:53:33.341Z",
+  "status": "PASS",
+  "before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "captures": [
+    {
+      "name": "home-1440-empty",
+      "width": 1440,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "goal": {
+          "x": 415,
+          "y": 576.515625,
+          "width": 858,
+          "height": 132,
+          "top": 576.515625,
+          "right": 1273,
+          "bottom": 708.515625,
+          "left": 415
+        },
+        "submit": {
+          "x": 1094.109375,
+          "y": 750.203125,
+          "width": 166.890625,
+          "height": 44,
+          "top": 750.203125,
+          "right": 1261,
+          "bottom": 794.203125,
+          "left": 1094.109375
+        },
+        "label": {
+          "x": 415,
+          "y": 533.015625,
+          "width": 858,
+          "height": 43.5,
+          "top": 533.015625,
+          "right": 1273,
+          "bottom": 576.515625,
+          "left": 415
+        },
+        "labelClip": "auto",
+        "sourceVisible": true,
+        "attachmentVisible": true
+      }
+    },
+    {
+      "name": "home-1440-source",
+      "width": 1440,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "goal": {
+          "x": 415,
+          "y": 603.203125,
+          "width": 858,
+          "height": 132,
+          "top": 603.203125,
+          "right": 1273,
+          "bottom": 735.203125,
+          "left": 415
+        },
+        "submit": {
+          "x": 1094.109375,
+          "y": 776.890625,
+          "width": 166.890625,
+          "height": 44,
+          "top": 776.890625,
+          "right": 1261,
+          "bottom": 820.890625,
+          "left": 1094.109375
+        },
+        "label": {
+          "x": 415,
+          "y": 559.703125,
+          "width": 858,
+          "height": 43.5,
+          "top": 559.703125,
+          "right": 1273,
+          "bottom": 603.203125,
+          "left": 415
+        },
+        "labelClip": "auto",
+        "sourceVisible": true,
+        "attachmentVisible": true
+      }
+    },
+    {
+      "name": "home-768-source",
+      "width": 768,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 768,
+        "scrollWidth": 768,
+        "goal": {
+          "x": 273,
+          "y": 758.28125,
+          "width": 470,
+          "height": 132,
+          "top": 758.28125,
+          "right": 743,
+          "bottom": 890.28125,
+          "left": 273
+        },
+        "submit": {
+          "x": 564.109375,
+          "y": 1002.65625,
+          "width": 166.890625,
+          "height": 44,
+          "top": 1002.65625,
+          "right": 731,
+          "bottom": 1046.65625,
+          "left": 564.109375
+        },
+        "label": {
+          "x": 273,
+          "y": 714.78125,
+          "width": 470,
+          "height": 43.5,
+          "top": 714.78125,
+          "right": 743,
+          "bottom": 758.28125,
+          "left": 273
+        },
+        "labelClip": "auto",
+        "sourceVisible": true,
+        "attachmentVisible": true
+      }
+    },
+    {
+      "name": "home-390-source",
+      "width": 390,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "goal": {
+          "x": 17,
+          "y": 899.78125,
+          "width": 356,
+          "height": 113.5625,
+          "top": 899.78125,
+          "right": 373,
+          "bottom": 1013.34375,
+          "left": 17
+        },
+        "submit": {
+          "x": 27,
+          "y": 1183.71875,
+          "width": 336,
+          "height": 44,
+          "top": 1183.71875,
+          "right": 363,
+          "bottom": 1227.71875,
+          "left": 27
+        },
+        "label": {
+          "x": 17,
+          "y": 859.984375,
+          "width": 356,
+          "height": 39.796875,
+          "top": 859.984375,
+          "right": 373,
+          "bottom": 899.78125,
+          "left": 17
+        },
+        "labelClip": "auto",
+        "sourceVisible": true,
+        "attachmentVisible": true
+      }
+    },
+    {
+      "name": "home-320-source",
+      "width": 320,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "goal": {
+          "x": 17,
+          "y": 1031.609375,
+          "width": 286,
+          "height": 140.75,
+          "top": 1031.609375,
+          "right": 303,
+          "bottom": 1172.359375,
+          "left": 17
+        },
+        "submit": {
+          "x": 27,
+          "y": 1361.421875,
+          "width": 266,
+          "height": 44,
+          "top": 1361.421875,
+          "right": 293,
+          "bottom": 1405.421875,
+          "left": 27
+        },
+        "label": {
+          "x": 17,
+          "y": 991.8125,
+          "width": 286,
+          "height": 39.796875,
+          "top": 991.8125,
+          "right": 303,
+          "bottom": 1031.609375,
+          "left": 17
+        },
+        "labelClip": "auto",
+        "sourceVisible": true,
+        "attachmentVisible": true
+      }
+    },
+    {
+      "name": "award-request-ja",
+      "width": 1440,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "goal": {
+          "x": 415,
+          "y": 603.203125,
+          "width": 858,
+          "height": 132,
+          "top": 603.203125,
+          "right": 1273,
+          "bottom": 735.203125,
+          "left": 415
+        },
+        "submit": {
+          "x": 1094.109375,
+          "y": 776.890625,
+          "width": 166.890625,
+          "height": 44,
+          "top": 776.890625,
+          "right": 1261,
+          "bottom": 820.890625,
+          "left": 1094.109375
+        },
+        "label": {
+          "x": 415,
+          "y": 559.703125,
+          "width": 858,
+          "height": 43.5,
+          "top": 559.703125,
+          "right": 1273,
+          "bottom": 603.203125,
+          "left": 415
+        },
+        "labelClip": "auto",
+        "sourceVisible": true,
+        "attachmentVisible": true
+      }
+    },
+    {
+      "name": "award-request-mobile-ja",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "goal": {
+          "x": 17,
+          "y": 899.78125,
+          "width": 356,
+          "height": 113.5625,
+          "top": 899.78125,
+          "right": 373,
+          "bottom": 1013.34375,
+          "left": 17
+        },
+        "submit": {
+          "x": 27,
+          "y": 1183.71875,
+          "width": 336,
+          "height": 44,
+          "top": 1183.71875,
+          "right": 363,
+          "bottom": 1227.71875,
+          "left": 27
+        },
+        "label": {
+          "x": 17,
+          "y": 859.984375,
+          "width": 356,
+          "height": 39.796875,
+          "top": 859.984375,
+          "right": 373,
+          "bottom": 899.78125,
+          "left": 17
+        },
+        "labelClip": "auto",
+        "sourceVisible": true,
+        "attachmentVisible": true
+      }
+    },
+    {
+      "name": "award-request-en",
+      "width": 1440,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "goal": {
+          "x": 415,
+          "y": 603.203125,
+          "width": 858,
+          "height": 132,
+          "top": 603.203125,
+          "right": 1273,
+          "bottom": 735.203125,
+          "left": 415
+        },
+        "submit": {
+          "x": 1121.71875,
+          "y": 776.890625,
+          "width": 139.28125,
+          "height": 44,
+          "top": 776.890625,
+          "right": 1261,
+          "bottom": 820.890625,
+          "left": 1121.71875
+        },
+        "label": {
+          "x": 415,
+          "y": 559.703125,
+          "width": 858,
+          "height": 43.5,
+          "top": 559.703125,
+          "right": 1273,
+          "bottom": 603.203125,
+          "left": 415
+        },
+        "labelClip": "auto",
+        "sourceVisible": true,
+        "attachmentVisible": true
+      }
+    },
+    {
+      "name": "award-request-mobile-en",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "goal": {
+          "x": 17,
+          "y": 907.46875,
+          "width": 356,
+          "height": 140.75,
+          "top": 907.46875,
+          "right": 373,
+          "bottom": 1048.21875,
+          "left": 17
+        },
+        "submit": {
+          "x": 27,
+          "y": 1237.28125,
+          "width": 336,
+          "height": 44,
+          "top": 1237.28125,
+          "right": 363,
+          "bottom": 1281.28125,
+          "left": 27
+        },
+        "label": {
+          "x": 17,
+          "y": 867.671875,
+          "width": 356,
+          "height": 39.796875,
+          "top": 867.671875,
+          "right": 373,
+          "bottom": 907.46875,
+          "left": 17
+        },
+        "labelClip": "auto",
+        "sourceVisible": true,
+        "attachmentVisible": true
+      }
+    }
+  ],
+  "checks": {
+    "real_material_and_draft_reload": true,
+    "attachment_remove": true,
+    "keyboard_next": "参照URL・予算（任意）",
+    "discard_and_disabled_empty": true,
+    "language_switch_retains_attachment": true,
+    "actual_invalid_source_rejected_and_existing_attachment_kept": true
+  },
+  "limits": [
+    "Technical operator account and retained actual provider configuration; current provider health not tested",
+    "No request submitted; no inference or business-quality acceptance",
+    "Implemented by the reviewer; AI visual review is not human first-use acceptance"
+  ],
+  "browser": "154.0.8037.58",
+  "axe": [],
+  "zoom": {
+    "innerWidth": 720,
+    "outerWidth": 1440,
+    "innerHeight": 406,
+    "outerHeight": 900,
+    "dpr": 2,
+    "scrollWidth": 720,
+    "bodyZoom": "1",
+    "rootZoom": "1",
+    "button": {
+      "x": 516.1171875,
+      "y": 310.8125,
+      "width": 166.8828125,
+      "height": 44
+    }
+  },
+  "after": {
+    "runs": 0,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "finished_at": "2026-10-01T18:53:37.702Z"
+}

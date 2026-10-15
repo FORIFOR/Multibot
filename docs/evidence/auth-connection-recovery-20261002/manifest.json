@@ -1,0 +1,154 @@
+{
+  "basis_commit": "c6e29407f64c11ec77f39d57f9da696b8385b0bf",
+  "scope": "Measured working-tree source and generated UI, not basis commit alone",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "2589406139bdabfad40b40814bad021245974134bee1a3e778a98474faf76420"
+    },
+    {
+      "path": "backend/agentteam/ui/assets/RunView-HReUiUhg.js",
+      "sha256": "67909ecf4841b044d94a1e5ae9510d867840d5c0ac836fbd32a50a0fd56b96fd"
+    },
+    {
+      "path": "backend/agentteam/ui/assets/index-BQqhmjTV.css",
+      "sha256": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa"
+    },
+    {
+      "path": "backend/agentteam/ui/assets/index-CBOtEBKu.js",
+      "sha256": "736ff6c4465d137d5b4c4770a80860bb0432ba7f900aa1cd1298ca72fea595ed"
+    },
+    {
+      "path": "backend/agentteam/ui/favicon.svg",
+      "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d"
+    },
+    {
+      "path": "backend/agentteam/ui/icons.svg",
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a"
+    },
+    {
+      "path": "backend/agentteam/ui/index.html",
+      "sha256": "c923204c069737c51c7b6a67e0ce752f06462c866c33c23dc148be4f0ec33475"
+    },
+    {
+      "path": "backend/scripts/check_public_service.py",
+      "sha256": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6"
+    },
+    {
+      "path": "docs/CI.md",
+      "sha256": "98b1f8cb9107dfb16af70d0f923412ab1dce86f777aad2c315c170408a002eed"
+    },
+    {
+      "path": "docs/PUBLIC_SERVICE.md",
+      "sha256": "611a4498dbe88e85f2d06aa73ba9f6c8d90395de10557494e8e097103c289f60"
+    },
+    {
+      "path": "docs/design/AWARD_QUALITY.md",
+      "sha256": "d33fdd5f9838c53ebd82f8a8a1b297322c41be6c57c41fb6b4d41d08fd24145a"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/README.md",
+      "sha256": "6561f99bc09da894fbeb7c4af16b008d24299d9353cb39d6f4ede5c8bcd1300e"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/browser-evidence-critique.json",
+      "sha256": "6b8b6a2d39c11e81cab8648ef1fc9771d0c774dbafac03566d460070e9e344e5"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/browser-independent-review.json",
+      "sha256": "9341e1620915c8db3e7acf575ea1b2f8621ead8fab35ebaaabfff3f47782e69c"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/build-checks-r1.json",
+      "sha256": "b9a83b6d8bc3bd00f9c1804823765a18383b72e4fa145628760a4193afde027e"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/build-manifest-r1.json",
+      "sha256": "52d697a719cce2ad4b91f730f0f93c89a26c94e0d3ed3377883ec170af2105b8"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/ci-candidate-evidence-review.json",
+      "sha256": "c12dc5b61edc16f7c88aad31fb89287ce29ad81c862ce91716df2135145b4f5d"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/en768-me-failed-focused.png",
+      "sha256": "38ee7e47f3a7d580859660aa4c15c8f009130b3ae30e5bdc219efd3f9300d581"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/independent-r1-failed.json",
+      "sha256": "1daa6430663c03f68bae26fb148aa6028372917b79fd3c598df318cca19f6ce2"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/independent-r2.json",
+      "sha256": "bcbbde9309029ec3ef9a1ffe9661c2658a8c378bb262eff2fba4432f6dc72515"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/ja-native200-me-failed-focused.png",
+      "sha256": "6d080b2aca8a4f9364232ad0aabdb3999cc9d608d77cb83d50cc0b4a798d7ba6"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/ja320-status-failed-focused.png",
+      "sha256": "ea04a37f0e47516a16ba347a47ca2b3391a6d6716bb6fa0e64b85a64c7ea9a5a"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/ja390-status-failed-focused.png",
+      "sha256": "21acadfc1ba2910d501417045bf0f8149868a1febef3a7746dcd2a89e46491a0"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/ja390-status-signin.png",
+      "sha256": "85022605011787a05723668af75451491fc7d89e1fbc7eeaa08a4b05a36e5fbe"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/local-final-verification.json",
+      "sha256": "7d80a37a98f34c07be4000bb5700eaf363942ffd1d96c712eab803d76dd9c7dd"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/local-initial-recovery.json",
+      "sha256": "47fd9bd8158116b7a7656997e89573153dc1c1a535828e2932fc73fb37b4d2ec"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/local-service-report.json",
+      "sha256": "94bb8ef4193a1ceb56a3db08d0d39c256c94523a61f518b475c3e58be05f758d"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/negative-reference-result.json",
+      "sha256": "ce5a570edb99878f3af7d143c2a35689be1601d77851a03fa9217b8d72f4b14e"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/negative-reference-verification.json",
+      "sha256": "500765cadcfc23ada5ca416100d0e175e9d1a978c1f9ab8fbbfe0aa173e03490"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/prior-ci-c6e2940/oidc-review.json",
+      "sha256": "b45de58d7c8d9af35a86b3a4fa0aa007c08bebaafb6f4b35f8abd29047ce481f"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/prior-ci-c6e2940/service-review.json",
+      "sha256": "afd94a5a21e7921369c6e400ce4d28e7eaa87f54749fb7122110411299b4e110"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/prior-ci-c6e2940/site-review.json",
+      "sha256": "d732179e1d37f6a879aca3eeafe1e05cf2ba314acb4329c2438ec026eedf5c1f"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/prior-ci-c6e2940/summary.json",
+      "sha256": "654fef6322ba4ce5b56d4a1193ed9f28b57ac06c69ffa78be34ec44249600ad6"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/static-review.json",
+      "sha256": "64731c2998ec3a03a054c6b52cd9af79a9f59dfa9a24bb95fba1ac725d3459b2"
+    },
+    {
+      "path": "docs/evidence/auth-connection-recovery-20261002/supplemental-failure-classification.json",
+      "sha256": "68bf44f8e23a9c851fd82656b196932f51f1538e0a387bf60cb7d029cd633de4"
+    },
+    {
+      "path": "frontend/scripts/auth-initial-recovery.mjs",
+      "sha256": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64"
+    },
+    {
+      "path": "frontend/src/components/AuthGate.tsx",
+      "sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c"
+    }
+  ]
+}

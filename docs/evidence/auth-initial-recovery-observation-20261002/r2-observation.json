@@ -1,0 +1,302 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-01T23:45:21.203525+00:00",
+  "source_sha256": {
+    "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+    "frontend/src/components/AuthGate.tsx": "743b1bb57b5552a7ea7e15be18674db2fc0ee52fb7e2a0fb6e48a89f02678fe8",
+    "backend/scripts/check_public_service.py": "fa1c9f35d5f01debe5c3c053fb65d73c110004ddd12d4812f3c3e428f37babe2"
+  },
+  "model_execution_requested": false,
+  "human_acceptance": "not_performed",
+  "api_cleanup": {
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "browser_cleanup": [
+    {
+      "program": "observe.mjs",
+      "tracked_processes": 14,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "business_before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "business_after": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "served_dist_sha256": {
+    "index.html": "478fcd7a72f9756e1f9a1b048b717fde0ab247a6c383c21753bda4c87fb3a840",
+    "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "assets/RunView-CHFn8786.js": "26d7d02c411e98d6c3b184a7de1986f7ad620290ec935016d7c0e85febd5a50f",
+    "assets/index-mB2PRA55.css": "0feb7786305b3a270bc2243d48954cecf8579d12d22092606acf6795d164cc41",
+    "assets/index-DBHK9OYD.js": "f9f60bf584f94a918e4eff3600aa57e0b2dd17c8e0bea2ba0d63531fcc5f2e37"
+  },
+  "browser": {
+    "status": "PASS",
+    "method": "Actual browser Network.setBlockedURLs transport failure; no response substitution",
+    "cases": [
+      {
+        "id": "ja390-status",
+        "blocked_path": "/api/auth/status",
+        "phase": "real_issued_key_login",
+        "http": [
+          {
+            "phase": "browser_reload",
+            "path": "/api/auth/status",
+            "status": 200
+          },
+          {
+            "phase": "browser_reload",
+            "path": "/api/auth/me",
+            "status": 401
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/auth/login",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/config",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/runs",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/health",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/approvals",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/usage",
+            "status": 200
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "initial_failure",
+            "path": "/api/auth/status",
+            "error": "inspector"
+          }
+        ],
+        "observations": [
+          {
+            "stage": "initial_request_failed",
+            "error_visible": true,
+            "error_text": "サーバーへ接続できません。再読込してください。",
+            "key_input_present": true,
+            "key_input_empty": true,
+            "login_disabled": true,
+            "retry_or_reload_controls": 0,
+            "workspace_visible": false
+          },
+          {
+            "stage": "network_restored_after_5000ms",
+            "error_visible": true,
+            "error_text": "サーバーへ接続できません。再読込してください。",
+            "key_input_present": true,
+            "key_input_empty": true,
+            "login_disabled": true,
+            "retry_or_reload_controls": 0,
+            "workspace_visible": false,
+            "new_api_response_count": 0,
+            "wait_ms": 5000
+          },
+          {
+            "stage": "after_browser_reload",
+            "error_visible": false,
+            "error_text": null,
+            "key_input_present": true,
+            "key_input_empty": true,
+            "login_disabled": false,
+            "retry_or_reload_controls": 0,
+            "workspace_visible": false
+          },
+          {
+            "stage": "real_login_recovered",
+            "workspace_visible": true,
+            "key_input_absent": true,
+            "subject_and_role_match": true
+          }
+        ],
+        "screenshots": [
+          "ja390-status-failed.png",
+          "ja390-status-restored-without-reload.png",
+          "ja390-status-reload-recovered.png",
+          "ja390-status-login-recovered.png"
+        ],
+        "identity_matches_issued_operator": true,
+        "status": "PASS"
+      },
+      {
+        "id": "en768-me",
+        "blocked_path": "/api/auth/me",
+        "phase": "real_issued_key_login",
+        "http": [
+          {
+            "phase": "initial_failure",
+            "path": "/api/auth/status",
+            "status": 200
+          },
+          {
+            "phase": "browser_reload",
+            "path": "/api/auth/status",
+            "status": 200
+          },
+          {
+            "phase": "browser_reload",
+            "path": "/api/auth/me",
+            "status": 401
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/auth/login",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/config",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/usage",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/runs",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/health",
+            "status": 200
+          },
+          {
+            "phase": "real_issued_key_login",
+            "path": "/api/approvals",
+            "status": 200
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "initial_failure",
+            "path": "/api/auth/me",
+            "error": "inspector"
+          }
+        ],
+        "observations": [
+          {
+            "stage": "initial_request_failed",
+            "error_visible": true,
+            "error_text": "Cannot connect to the server. Reload to retry.",
+            "key_input_present": true,
+            "key_input_empty": true,
+            "login_disabled": true,
+            "retry_or_reload_controls": 0,
+            "workspace_visible": false
+          },
+          {
+            "stage": "network_restored_after_5000ms",
+            "error_visible": true,
+            "error_text": "Cannot connect to the server. Reload to retry.",
+            "key_input_present": true,
+            "key_input_empty": true,
+            "login_disabled": true,
+            "retry_or_reload_controls": 0,
+            "workspace_visible": false,
+            "new_api_response_count": 0,
+            "wait_ms": 5000
+          },
+          {
+            "stage": "after_browser_reload",
+            "error_visible": false,
+            "error_text": null,
+            "key_input_present": true,
+            "key_input_empty": true,
+            "login_disabled": false,
+            "retry_or_reload_controls": 0,
+            "workspace_visible": false
+          },
+          {
+            "stage": "real_login_recovered",
+            "workspace_visible": true,
+            "key_input_absent": true,
+            "subject_and_role_match": true
+          }
+        ],
+        "screenshots": [
+          "en768-me-failed.png",
+          "en768-me-restored-without-reload.png",
+          "en768-me-reload-recovered.png",
+          "en768-me-login-recovered.png"
+        ],
+        "identity_matches_issued_operator": true,
+        "status": "PASS"
+      }
+    ],
+    "writes": [
+      {
+        "case": "ja390-status",
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "case": "en768-me",
+        "method": "POST",
+        "path": "/api/auth/login"
+      }
+    ],
+    "cleanup": [
+      {
+        "case": "ja390-status",
+        "context_closed": true
+      },
+      {
+        "case": "en768-me",
+        "context_closed": true
+      },
+      {
+        "browser_closed": true
+      }
+    ],
+    "model_execution_requested": false,
+    "human_acceptance": "not_performed",
+    "chrome_version": "154.0.8037.93"
+  },
+  "source_unchanged": true,
+  "business_final": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "finished_at": "2026-10-01T23:45:34.238322+00:00"
+}

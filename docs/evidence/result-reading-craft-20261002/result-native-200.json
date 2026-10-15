@@ -1,0 +1,33 @@
+{
+  "started_at": "2026-10-01T19:42:15.448Z",
+  "status": "PASS",
+  "run_id": "run_1a0f8118bd3ccca713e",
+  "captures": [
+    "read",
+    "checks",
+    "save"
+  ],
+  "limits": [
+    "Read-only view of actual rep3 copied evidence, already selected by earlier validation",
+    "No new generation or acceptance; service owned by deployment agent"
+  ],
+  "index_sha256": "e56b169c5c46d1f8bfbae61047a44625543918102a4ab478f55e1bf8d9fccd49",
+  "bundle_sha256": "365ff080ab8312e813d689aa1e07b3c39f01d22819847e5e0ed40fc23cfdc999",
+  "run_sha256_before": "683ca415d786c9173f5cc81b3f3f34f201059d15cefaa64f8632aea57e8ae06f",
+  "zoom": {
+    "innerWidth": 720,
+    "outerWidth": 1440,
+    "dpr": 2,
+    "scrollWidth": 720,
+    "rootZoom": "1",
+    "bodyZoom": "1"
+  },
+  "run_sha256_after": "683ca415d786c9173f5cc81b3f3f34f201059d15cefaa64f8632aea57e8ae06f",
+  "observed_writes": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "finished_at": "2026-10-01T19:42:17.306Z"
+}

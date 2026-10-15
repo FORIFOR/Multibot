@@ -1,0 +1,66 @@
+{
+  "reviewed_at": "2026-10-02T03:06:33.084257+00:00",
+  "status": "STATIC_REVIEW_COMPLETE_NO_BLOCKER",
+  "source_sha256": {
+    "frontend/scripts/artifact-load-recovery.mjs": "39d30a8605c71111e94279d9a0e7f05fddc4482683fd9ed1a91a6570d723311c",
+    "backend/scripts/check_artifact_recovery.py": "11b6f0ca762201461c6aa5ae1cfe3950a3daa4da2aa6899c06fa3bd7d660b76f"
+  },
+  "method": "既存原r1保存脚本とのdiff、現2file全文、元safe失敗/補足の読取のみ。新実行なし。",
+  "findings": [
+    {
+      "location": "frontend/scripts/artifact-load-recovery.mjs:26",
+      "result": "untilは期限を持つ同一async関数内で反復し、毎predicateを残時間で待機。元の外側Promise.race後も偽predicateでtimerを再発行し続けるloopを除去。",
+      "limit": "deadline一般は実RPCを取消すものではない。期限を超えた単一predicateの残存は既存context/process所有cleanupで処理し、あらゆる非同期処理の取消を証明しない。"
+    },
+    {
+      "location": "frontend/scripts/artifact-load-recovery.mjs:90",
+      "result": "cutの許可は当該case・exact artifact path・発行phase blocked_initial・既知Playwright inspector/ERR_BLOCKED_BY_CLIENT・実CDP blockedReason inspectorが同じpath/phaseで揃う場合のみ。一般transportエラーを許可しない。",
+      "limit": "Playwright/CDPの二面はpath/phaseで対応付け、同一request IDの一対一照合ではない。原r1未保存CDP値を事後推定しない。"
+    },
+    {
+      "location": "frontend/scripts/artifact-load-recovery.mjs:124",
+      "result": "全artifact Network.loadingFailedの実network ID/path/phase/errorText/blockedReason/canceledをprivate reportへ保存。応答body/header/通知の生成や差替えなし。"
+    },
+    {
+      "location": "backend/scripts/check_artifact_recovery.py:52",
+      "result": "safe投影は変更なし。raw network/HTTP原文/error/query/鍵を含めず、固定case/check/status、数値、bool、SHA、固定geometryのみ。safe-reportのみ公開対象。"
+    },
+    {
+      "location": "frontend/scripts/artifact-load-recovery.mjs:166",
+      "result": "元40項目の基準、原本文SHA、確認件数、pending/error採用不可、自然Tab/Enterと復帰後focus幾何、同版の未送信コピー、取消と旧CDP解除、原run/revision/SHAを維持。"
+    },
+    {
+      "location": "backend/scripts/check_artifact_recovery.py:196",
+      "result": "原資料/業務snapshot/実source+dist hash不変とmodel delta/job0を要求。所有API/process終了・privateログerror検査に失敗すれば全体FAIL。"
+    }
+  ],
+  "original_r1": {
+    "safe_sha256": "f413b31d8db5b35bf5267dd3e481e8566c2bfb4ecb76815ab3e8f58ff32e546a",
+    "addendum_sha256": "0860a1a730e77a483e28201e929e0ba94c950b0928dbf4047c93b1bc625df7de",
+    "status": "FAIL",
+    "error_type": "TimeoutError",
+    "three_completed_cases_checks": 30,
+    "failed_cut_setup_checks_passed": 2,
+    "cut_remaining_unverified": 7,
+    "network_raw_fields_not_saved": true,
+    "source_business_unchanged": true,
+    "model_event_delta": 0,
+    "jobs": 0,
+    "owned_processes_remaining": 0,
+    "owned_process_signals": 1,
+    "note": "170秒親期限で残存Node終了。cleanup PASSを全体PASSにしない。"
+  },
+  "negative_source": {
+    "safe_sha256": "a01850a22cd4d04c977793ea367561e9c391382dbc63e0e075d0f425cbeb0120",
+    "status": "FAIL",
+    "api": "NOT_STARTED",
+    "model_source_business_observed": null
+  },
+  "blocking_findings": [],
+  "execution_decision": "rootが既に許可した新exclusive r2一回を技術上開始可能。実測の合格・人間承認ではない。",
+  "limits": [
+    "ここではr2実行をしていない。実結果は別postflight reviewに保存する。",
+    "raw診断はprivate。旧原結果の書換え・製品sourceの変更は行わない。",
+    "元実資料の先頭1024 Unicode codepointsコピーを未送信で保持する試験。全文編集保存・採用・ZIP品質・人間受入の保証ではない。"
+  ]
+}

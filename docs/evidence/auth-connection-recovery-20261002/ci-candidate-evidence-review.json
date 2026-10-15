@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "kind": "independent_read_only_evidence_review",
+  "status": "NO_BLOCKING_FINDINGS_IN_REVIEWED_EVIDENCE",
+  "basis_head": "c6e29407f64c11ec77f39d57f9da696b8385b0bf",
+  "provenance_note": "Local candidate execution of the GitHub CI scripts with exact source hashes; these uncommitted changes are not yet a new successful GitHub run.",
+  "report_sha256": "94bb8ef4193a1ceb56a3db08d0d39c256c94523a61f518b475c3e58be05f758d",
+  "initial_recovery_sha256": "47fd9bd8158116b7a7656997e89573153dc1c1a535828e2932fc73fb37b4d2ec",
+  "verification_files_match": {
+    "backend/scripts/check_public_service.py": true,
+    "backend/scripts/check_subject_admission.py": true,
+    "backend/scripts/check_public_responses.py": true,
+    "frontend/scripts/auth-initial-recovery.mjs": true,
+    "frontend/scripts/auth-browser-isolation.mjs": true,
+    "frontend/scripts/auth-retry-reload.mjs": true,
+    "frontend/scripts/auth-parallel-login.mjs": true,
+    "frontend/scripts/auth-peer-tab-close.mjs": true
+  },
+  "initial_stage_source_match": {
+    "frontend/scripts/auth-initial-recovery.mjs": true,
+    "frontend/src/components/AuthGate.tsx": true,
+    "frontend/src/lib/browser-session.ts": true,
+    "backend/scripts/check_public_service.py": true,
+    "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json": true
+  },
+  "actual_completed_stages": [
+    "actual HTTP/SQLite admission",
+    "actual-source response projection",
+    "auth-initial-recovery.mjs",
+    "auth-browser-isolation.mjs",
+    "auth-retry-reload.mjs",
+    "auth-parallel-login.mjs",
+    "auth-peer-tab-close.mjs"
+  ],
+  "new_stage": {
+    "cases": 2,
+    "checks_per_case": 6,
+    "before": {
+      "runs": 0,
+      "jobs": 0,
+      "model_events": 0,
+      "artifacts": 0
+    },
+    "after": {
+      "runs": 0,
+      "jobs": 0,
+      "model_events": 0,
+      "artifacts": 0
+    },
+    "writes": "Only two explicit real operator logins",
+    "source_unchanged": true,
+    "five_second_no_auto_recovery_observation": true
+  },
+  "whole_browser_suite_db_observed": {
+    "runs": 2,
+    "execution_jobs": 0,
+    "artifacts": 0,
+    "model_events": 0,
+    "pending_jobs": 0
+  },
+  "whole_suite_history_limit": "Other admission stages intentionally create start:false runs and a cancelled technical job; response projection contains retained historical model events. They are not new model calls.",
+  "owned_cleanup": {
+    "api": {
+      "scope": "browser_verification_api",
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "chrome_process_records": 57,
+    "remaining": 0,
+    "signals_sent": 0
+  },
+  "negative_precondition": {
+    "source_report_sha256": "ce5a570edb99878f3af7d143c2a35689be1601d77851a03fa9217b8d72f4b14e",
+    "status": "FAIL retained",
+    "failure_check": "issued_key_file",
+    "cases_started": 0,
+    "business_counts": null,
+    "interpretation": "Harness rejected an existing noncredential file before browser work; not a product login test."
+  },
+  "safe_output_review": "Current initial-recovery top-level fields match the explicit expected set. Nested route/phase/check identifiers and counts/hashes contain no bodies, query strings, credentials or raw exception text. CI upload adds this JSON alone; private raw log is excluded.",
+  "secret_scan": {
+    "actual_issued_key_files_checked": 5,
+    "actual_key_matches": 0,
+    "jwt_shape_matches": 0,
+    "binary_scan_is_not_ocr": true,
+    "images_visually_reviewed": 10
+  },
+  "human_acceptance": false,
+  "new_services_or_tests_by_reviewer": false
+}

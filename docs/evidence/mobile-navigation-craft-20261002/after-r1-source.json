@@ -1,0 +1,8 @@
+{
+  "basis": "a3258b52a3d8f6f2da0c14186b3491a2b5996f71",
+  "modified_files": {
+    "frontend/src/App.tsx": "3ce8e50bf0d1e83ca47badfc34ddf7a2fe65fcf5ee085eab3e557ad6f3a3e2b4",
+    "frontend/src/lib/router.tsx": "42135605d4d362ea3aca63efd5711debe746a75577e1931fd425889c89db0fa7",
+    "frontend/src/paper.css": "d344b5b11fe08b317af77d6a57593e7dc61412de2ed2067b26b6812db731608a"
+  }
+}

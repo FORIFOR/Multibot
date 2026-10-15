@@ -1,0 +1,361 @@
+{
+  "started_at": "2026-10-01T23:34:31.362169+00:00",
+  "finished_at": "2026-10-01T23:34:33.946237+00:00",
+  "scope": "actual secured readiness GET and compiled Operations UI",
+  "head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+  "source_sha256": {
+    "backend/agentteam/api/app.py": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+    "backend/agentteam/runtime/sandbox.py": "201d945457279b7fbd2fc34894c19e414b52291090c48a4aedd3276b18f4d2d3",
+    "backend/agentteam/runtime/tool_capabilities.py": "a42b01c8e4700e6cca95c234264a445876d7f6d121302677b4b46836c5e4ee15",
+    "backend/agentteam/api/service.py": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+    "backend/scripts/check_public_service.py": "fa1c9f35d5f01debe5c3c053fb65d73c110004ddd12d4812f3c3e428f37babe2",
+    "frontend/src/pages/Operations.tsx": "9f169dfafae367acc7343e7f974adb0d7760a8d8b8095d887285cd920b6a90dc",
+    "backend/agentteam/ui/index.html": "478fcd7a72f9756e1f9a1b048b717fde0ab247a6c383c21753bda4c87fb3a840",
+    "backend/agentteam/ui/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "backend/agentteam/ui/favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "backend/agentteam/ui/assets/RunView-CHFn8786.js": "26d7d02c411e98d6c3b184a7de1986f7ad620290ec935016d7c0e85febd5a50f",
+    "backend/agentteam/ui/assets/index-mB2PRA55.css": "0feb7786305b3a270bc2243d48954cecf8579d12d22092606acf6795d164cc41",
+    "backend/agentteam/ui/assets/index-DBHK9OYD.js": "f9f60bf584f94a918e4eff3600aa57e0b2dd17c8e0bea2ba0d63531fcc5f2e37"
+  },
+  "profile_source": {
+    "path": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+    "sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9"
+  },
+  "recorded_profile_sha256": "b64fc97824e643770d55e20bd8fca58ab43168be6ed045f68dcbd7e096c3f42d",
+  "effective_capabilities": {
+    "team": {
+      "requires_command_sandbox": true,
+      "agents": [
+        {
+          "id": "master",
+          "role": "master",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "create_task",
+            "update_task",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "workspace_read",
+            "workspace_write",
+            "publish_artifact",
+            "request_approval",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "researcher",
+          "role": "researcher",
+          "enabled": false,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "web_search",
+            "web_fetch",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "workspace_read",
+            "workspace_write",
+            "publish_artifact",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "builder",
+          "role": "builder",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "workspace_read",
+            "workspace_write",
+            "workspace_list",
+            "sandbox_run",
+            "run_check",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "publish_artifact",
+            "request_approval",
+            "report_blocker",
+            "workspace_write_json"
+          ]
+        },
+        {
+          "id": "reviewer",
+          "role": "reviewer",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "read_artifact",
+            "list_artifacts",
+            "run_check",
+            "sandbox_run",
+            "web_fetch",
+            "workspace_read",
+            "workspace_write",
+            "send_message",
+            "read_messages",
+            "publish_artifact",
+            "submit_review",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "reporter",
+          "role": "reporter",
+          "enabled": false,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "read_artifact",
+            "list_artifacts",
+            "read_events",
+            "publish_artifact"
+          ]
+        }
+      ]
+    },
+    "document": {
+      "requires_command_sandbox": true,
+      "agents": [
+        {
+          "id": "master",
+          "role": "master",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "create_task",
+            "update_task",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "workspace_read",
+            "workspace_write",
+            "publish_artifact",
+            "request_approval",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "researcher",
+          "role": "researcher",
+          "enabled": false,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "web_search",
+            "web_fetch",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "workspace_read",
+            "workspace_write",
+            "publish_artifact",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "builder",
+          "role": "builder",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "workspace_read",
+            "workspace_write",
+            "workspace_list",
+            "sandbox_run",
+            "run_check",
+            "send_message",
+            "read_messages",
+            "read_artifact",
+            "list_artifacts",
+            "publish_artifact",
+            "request_approval",
+            "report_blocker",
+            "workspace_write_json"
+          ]
+        },
+        {
+          "id": "reviewer",
+          "role": "reviewer",
+          "enabled": true,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "read_artifact",
+            "list_artifacts",
+            "run_check",
+            "send_message",
+            "read_messages",
+            "submit_review",
+            "report_blocker"
+          ]
+        },
+        {
+          "id": "reporter",
+          "role": "reporter",
+          "enabled": false,
+          "tools": [
+            "read_skill",
+            "finish_task",
+            "read_input_file",
+            "read_artifact",
+            "list_artifacts",
+            "read_events",
+            "publish_artifact"
+          ]
+        }
+      ]
+    }
+  },
+  "observations": [
+    {
+      "case": "default",
+      "http_status": 503,
+      "ready": false,
+      "workflow": "team",
+      "disk_free_bytes": 12396503040,
+      "sandbox_backend": "sandbox-exec",
+      "execution_dispatcher_ready": true,
+      "configuration_problems": []
+    },
+    {
+      "case": "team",
+      "http_status": 503,
+      "ready": false,
+      "workflow": "team",
+      "disk_free_bytes": 12396408832,
+      "sandbox_backend": "sandbox-exec",
+      "execution_dispatcher_ready": true,
+      "configuration_problems": []
+    },
+    {
+      "case": "document",
+      "http_status": 503,
+      "ready": false,
+      "workflow": "document",
+      "disk_free_bytes": 12396445696,
+      "sandbox_backend": "sandbox-exec",
+      "execution_dispatcher_ready": true,
+      "configuration_problems": []
+    }
+  ],
+  "browser": {
+    "status": "PASS",
+    "browser_version": "154.0.8037.58",
+    "cases": [
+      {
+        "lang": "ja",
+        "raw_backend_visible": true,
+        "unknown_reason_visible": true,
+        "readiness_label": "実行条件の確認が必要"
+      },
+      {
+        "lang": "en",
+        "raw_backend_visible": true,
+        "unknown_reason_visible": true,
+        "readiness_label": "Execution prerequisites need attention"
+      }
+    ],
+    "cleanup": true
+  },
+  "api_cleanup": {
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "process_cleanup": [
+    {
+      "program": "observe.mjs",
+      "tracked_processes": 13,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "db_before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0
+  },
+  "db_after": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0
+  },
+  "source_unchanged": true,
+  "model_execution_requested": false,
+  "business_acceptance": false,
+  "observation_status": "PASS",
+  "product_display_result": "FAIL",
+  "settings": {
+    "secured": true,
+    "sandbox_mode": "inherited default; runtime observed sandbox-exec"
+  },
+  "original_private_summary_sha256": "326001b7e4a122a6081a9b2a33fa65c2f8890d8eead701926377b3a248352433",
+  "original_http_responses": {
+    "default": {
+      "file": "http-default.private.json",
+      "sha256": "d7824528ab1fd8b9ac1115e4f09a311f891c0242552db74518ce8562819b9975",
+      "bytes": 311
+    },
+    "team": {
+      "file": "http-team.private.json",
+      "sha256": "771c005a7b058832aba51ed2855b2696d107aea823748892075a89ce01104ccc",
+      "bytes": 325
+    },
+    "document": {
+      "file": "http-document.private.json",
+      "sha256": "1bf94eb2394780ecaf46182a30b71b55b3cd076dd866a4990ccab68526e5d9dd",
+      "bytes": 333
+    }
+  },
+  "harness_sha256": {
+    "observe.mjs": "61729d3c851e1336595d2357b9ebe91d9fce3af4ad002d28f831a4fa782b76ec",
+    "observe-r2.py": "643b02ac22a031521dbf79e707016961f3123619df29dfe049ef863e65939b6b"
+  },
+  "process_exit_code": 0,
+  "static_bundle_matches_r2": null,
+  "private_runtime_log_diagnostics": {
+    "browser-api.private.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "traceback_count": 0,
+      "database_locked_count": 0
+    },
+    "browser-process.private.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "traceback_count": 0,
+      "database_locked_count": 0
+    }
+  },
+  "evidence_limit": "HTTP responses were collected with an authenticated client (or actual local mode). UI then fetched the same owned API; individual browser response bodies were not separately intercepted. No model execution or command execution was attempted. Initial helper import failure and original raw log are preserved separately. Original summary hashed its console before final stdout; that console hash is not a final-byte integrity claim."
+}

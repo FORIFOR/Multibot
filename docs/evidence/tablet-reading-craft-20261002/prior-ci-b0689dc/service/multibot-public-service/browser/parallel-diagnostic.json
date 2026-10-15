@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "phase": "completed",
+  "error_name": null,
+  "passed_check_ids": [
+    "parallel-real-signin",
+    "parallel-signin-response-loss",
+    "cookie-subject-mismatch"
+  ]
+}

@@ -1,0 +1,284 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-01T22:46:41.860580+00:00",
+  "scope": "Independent static and retained actual-evidence consistency review; no service/model/container execution",
+  "checks": [
+    {
+      "id": "three_frozen_hashes_match_current",
+      "passed": true
+    },
+    {
+      "id": "all_recorded_source_hashes_match_current",
+      "passed": true
+    },
+    {
+      "id": "r5_report_19_unique_passes",
+      "passed": true
+    },
+    {
+      "id": "r5_case_exact_api-success",
+      "passed": true
+    },
+    {
+      "id": "r5_case_frozen_helper_api-success",
+      "passed": true
+    },
+    {
+      "id": "r5_case_exact_not-started",
+      "passed": true
+    },
+    {
+      "id": "r5_case_frozen_helper_not-started",
+      "passed": true
+    },
+    {
+      "id": "r5_case_exact_wrong-root-record",
+      "passed": true
+    },
+    {
+      "id": "r5_case_frozen_helper_wrong-root-record",
+      "passed": true
+    },
+    {
+      "id": "r5_case_exact_missing-prepared-input",
+      "passed": true
+    },
+    {
+      "id": "r5_case_frozen_helper_missing-prepared-input",
+      "passed": true
+    },
+    {
+      "id": "r5_case_exact_invalid-real-document-as-profile",
+      "passed": true
+    },
+    {
+      "id": "r5_case_frozen_helper_invalid-real-document-as-profile",
+      "passed": true
+    },
+    {
+      "id": "actual_sqlite_zero_api-success",
+      "passed": true
+    },
+    {
+      "id": "actual_sqlite_zero_inprocess-normal",
+      "passed": true
+    },
+    {
+      "id": "r5_sqlite_record_inprocess-normal",
+      "passed": true
+    },
+    {
+      "id": "actual_sqlite_zero_inprocess-caller-failure",
+      "passed": true
+    },
+    {
+      "id": "r5_sqlite_record_inprocess-caller-failure",
+      "passed": true
+    },
+    {
+      "id": "recorded_api_absent_now_api-success",
+      "passed": true
+    },
+    {
+      "id": "recorded_api_absent_now_invalid-real-document-as-profile",
+      "passed": true
+    },
+    {
+      "id": "r5_console_has_no_traceback",
+      "passed": true
+    },
+    {
+      "id": "normal_subprocess_runtime_error_zero",
+      "passed": true
+    },
+    {
+      "id": "normal_inprocess_runtime_error_zero",
+      "passed": true
+    },
+    {
+      "id": "caller_failure_inprocess_runtime_error_zero",
+      "passed": true
+    },
+    {
+      "id": "safe_report_actual_key_bytes_absent",
+      "passed": true
+    },
+    {
+      "id": "safe_report_no_jwt_shape",
+      "passed": true
+    },
+    {
+      "id": "container_explicitly_unexecuted",
+      "passed": true
+    }
+  ],
+  "frozen_files_sha256": {
+    "backend/scripts/cleanup_public_oidc.py": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584",
+    "backend/scripts/check_public_service.py": "fa1c9f35d5f01debe5c3c053fb65d73c110004ddd12d4812f3c3e428f37babe2",
+    ".github/workflows/public-oidc.yml": "bea892d03c241b70cec4d1bdc451c5847546f9bc606ebc2b0a4120176f9adc0a"
+  },
+  "r5_safe_report_sha256": "30def857e91e8f9918e8a0d1c9296a9cbb217d7c5ab57df4c71fa7810bd389b0",
+  "r5_runner_sha256": "055192869231f65abcad5f2a6ca81392a3850b5b8d356b5195c629b0418f6477",
+  "case_report_sha256": {
+    "api-success/cleanup-report.json": "1c4a881caf0de757786a29a15b82158e046d623e41efe9dabb7c9c71b58da693",
+    "not-started/cleanup-report.json": "f26d0ee3bcefcc41281775d2a654e5c4616ff67bb1b7ff5fa7ba6654f865bade",
+    "wrong-root-record/cleanup-report.json": "4987d9e326287f0343340e6e050bfe3a72f4acdbb470d14d8b58de9ef28a67e7",
+    "missing-prepared-input/cleanup-report.json": "93d3f7dbbb7b7a8e198a05ab8b58366066086dd9d9be32113c7d35fd6d736138",
+    "invalid-real-document-as-profile/cleanup-report.json": "79c8f980ecb64df8ad773d9d840835d56e947d55cdf3568c03073dbf92c033f6"
+  },
+  "actual_sqlite_counts": {
+    "api-success": {
+      "runs": 0,
+      "jobs": 0,
+      "models": 0
+    },
+    "inprocess-normal": {
+      "runs": 0,
+      "jobs": 0,
+      "models": 0
+    },
+    "inprocess-caller-failure": {
+      "runs": 0,
+      "jobs": 0,
+      "models": 0
+    }
+  },
+  "current_exit_observations": [
+    {
+      "case": "api-success",
+      "recorded_pid_currently_non_zombie": false,
+      "recorded_port_closed_now": true
+    },
+    {
+      "case": "invalid-real-document-as-profile",
+      "recorded_pid_currently_non_zombie": false,
+      "recorded_port_closed_now": true
+    }
+  ],
+  "private_log_marker_summary": {
+    "console.private.log": {
+      "sha256": "5b084abef73bd04d101bc105304c547990f739d141ce0ebaee068e949eb7fa77",
+      "bytes": 47,
+      "traceback_markers": 0,
+      "error_markers": 0
+    },
+    "inprocess-normal/browser-api.private.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "traceback_markers": 0,
+      "error_markers": 0
+    },
+    "not-started/invocations.private.log": {
+      "sha256": "6a524af31953d093b0f37815d450288deb2963c066bd13c45235b207712a5a19",
+      "bytes": 40,
+      "traceback_markers": 0,
+      "error_markers": 0
+    },
+    "wrong-root-record/api-cleanup.private.log": {
+      "sha256": "4b4c245c091aaeaaef3f60a97656443cba6b174c7679cbd84723e1e461faac47",
+      "bytes": 501,
+      "traceback_markers": 1,
+      "error_markers": 0
+    },
+    "wrong-root-record/invocations.private.log": {
+      "sha256": "3f019209d9be3abf319323c90ad1630e562a79989fddca5810a5fbf83c37fb12",
+      "bytes": 40,
+      "traceback_markers": 0,
+      "error_markers": 0
+    },
+    "missing-prepared-input/invocations.private.log": {
+      "sha256": "4f127f86189c49899f86a270973bb92c5ffd04f4ae3a5fb6250485b3cdcf3fc4",
+      "bytes": 110,
+      "traceback_markers": 0,
+      "error_markers": 0
+    },
+    "missing-prepared-input/start-api-failure.private.log": {
+      "sha256": "cf90de08e381e512fd335cd55795b5c82094d7fe7bfd7fa0f60e5d47784f2aa6",
+      "bytes": 526,
+      "traceback_markers": 1,
+      "error_markers": 0
+    },
+    "invalid-real-document-as-profile/server.private.log": {
+      "sha256": "b9e96a6c4480ded2746fb17f603729742420ec4529afbac9746fc5cd55d6f016",
+      "bytes": 3087,
+      "traceback_markers": 1,
+      "error_markers": 2
+    },
+    "invalid-real-document-as-profile/invocations.private.log": {
+      "sha256": "cd4781d920d0cf4d1ed25e1e198692220e08745222689e391d9da0087cfb7f31",
+      "bytes": 112,
+      "traceback_markers": 0,
+      "error_markers": 0
+    },
+    "invalid-real-document-as-profile/start-api-failure.private.log": {
+      "sha256": "eb687f30bd4e11a7185cf3396e66d4058b5b0e0041e452cd436ddbca223c8287",
+      "bytes": 457,
+      "traceback_markers": 1,
+      "error_markers": 0
+    },
+    "inprocess-caller-failure/browser-api.private.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "traceback_markers": 0,
+      "error_markers": 0
+    },
+    "api-success/server.private.log": {
+      "sha256": "cc99378e31d8a0c8b3cbecd4e5598c4eae7c188210ae2b4927870b547abe8bff",
+      "bytes": 911,
+      "traceback_markers": 0,
+      "error_markers": 0
+    },
+    "api-success/invocations.private.log": {
+      "sha256": "41fb655cb8f1cefc9a6dbdf0825f44cee576e0413ac2a467d3cf183c6e0fbefb",
+      "bytes": 82,
+      "traceback_markers": 0,
+      "error_markers": 0
+    }
+  },
+  "secret_scan": {
+    "actual_key_files_checked": 4,
+    "key_byte_matches": 0,
+    "jwt_shape_matches": 0
+  },
+  "static_review": {
+    "prior_p2_resolved": true,
+    "new_blocking_findings": [],
+    "last_change": "container creation_outcome_verified now prevents empty inventory with unknown docker-run outcome and no observed ID from passing"
+  },
+  "limitations": [
+    "These 19 passes are the implementer r5 run, not 19 new executions by this reviewer.",
+    "Caller KeyError checks cleanup on caller failure; it is not an actual lifespan shutdown failure. Separate retained r4 records cover the invalid-profile lifespan error.",
+    "Docker/Keycloak cleanup was not executed here; GitHub CI remains required.",
+    "PID absence and ports were observed again without sending signals. This is point-in-time evidence, not an atomic ownership guarantee.",
+    "Same-model AI independent review is not human acceptance or business-quality acceptance.",
+    "The r4 observed error was startup/lifespan failure with started=false. Shutdown-failure flag handling was statically reviewed; no claim of a new actual shutdown exception is made."
+  ],
+  "human_acceptance": "not_performed",
+  "source_mutations": false,
+  "models_started": false,
+  "retained_r4_failure": {
+    "safe_report_sha256": "e07775428c2ab394b2bb1fa941c04a7c9001693b75965c0749a7e1655deea4ae",
+    "overall_status": "FAIL",
+    "case": "inprocess-real-invalid-config",
+    "cleanup": {
+      "status": "FAILED",
+      "startup_attempted": true,
+      "started": false,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": true,
+      "error_types": [
+        "SystemExit"
+      ]
+    },
+    "counts": {
+      "runs": 0,
+      "jobs": 0,
+      "models": 0
+    },
+    "console_traceback_markers": 0,
+    "classification": "actual invalid-profile startup/lifespan failure, not a shutdown exception or a new r5 execution; original overall FAIL retained"
+  }
+}

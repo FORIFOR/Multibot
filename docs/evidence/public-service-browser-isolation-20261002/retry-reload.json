@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-10-01T15:40:02.762Z",
+  "browser": "154.0.8037.58",
+  "status": "PASS",
+  "method": "Chrome response-stage TCP reset after real API response; same built api.ts; start:false",
+  "lost_response_http_status": 202,
+  "retry_http_status": 202,
+  "duplicate_run_count": 0,
+  "deliberate_new_run_count": 1,
+  "execution_jobs": 0,
+  "stored_fields": [
+    "signature",
+    "key"
+  ],
+  "limits": [
+    "409 configuration-blocked receipts are valid delivery receipts; this is not an LLM success or business acceptance",
+    "Changed request content after unknown outcome still requires manual outcome review",
+    "Storage disabled/unreadable fails before sending rather than silently creating a fresh key"
+  ]
+}

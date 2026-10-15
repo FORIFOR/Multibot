@@ -1,0 +1,549 @@
+{
+  "schema_version": 1,
+  "reviewer": "quality_assessment",
+  "reviewed_at": "2026-10-02T00:14:17.939558+00:00",
+  "status": "PASS",
+  "scope": "Read-only independent verification of the already downloaded real GitHub site artifact; no new site execution or image quality acceptance",
+  "run_id": 36943859645,
+  "artifact_id": 11201760436,
+  "head": "c6e29407f64c11ec77f39d57f9da696b8385b0bf",
+  "executed_merge": "70b310e63a4918aa859d124591b2c24b49c5e628",
+  "merge_parent_provenance": {
+    "source": "Read-only GitHub git/commits API during this review",
+    "data": {
+      "sha": "70b310e63a4918aa859d124591b2c24b49c5e628",
+      "parents": [
+        "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+        "c6e29407f64c11ec77f39d57f9da696b8385b0bf"
+      ]
+    }
+  },
+  "job_status_provenance": {
+    "source": "Read-only GitHub actions/runs/36943859645/jobs API",
+    "jobs": [
+      {
+        "id": 110641312356,
+        "name": "public-service",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 110641312513,
+        "name": "dependency-audit",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 110641312625,
+        "name": "backend",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 110641312893,
+        "name": "frontend",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "original_zip_sha256": "642e86193963f3e5004fa33fb4dae62fe024b55f1af089d4ecdbbea9fbeb0947",
+  "metadata_sha256": "8a5753cc520cbd51e32e8150fb739e2f9b84237a8d248c5cf07cfd091c2e8fdd",
+  "all_entry_manifest_sha256": "e3329cfb37d1eb7ef3ac15718103d97adffb82e4ab1844fa04bb72d38186c126",
+  "checks": [
+    {
+      "id": "artifact_identity",
+      "status": "PASS",
+      "observed": null
+    },
+    {
+      "id": "original_zip_digest",
+      "status": "PASS",
+      "observed": "642e86193963f3e5004fa33fb4dae62fe024b55f1af089d4ecdbbea9fbeb0947"
+    },
+    {
+      "id": "zip_names_unique",
+      "status": "PASS",
+      "observed": null
+    },
+    {
+      "id": "all_entries_sha_match_manifest",
+      "status": "PASS",
+      "observed": {
+        "entries": 58,
+        "png_entries": 38,
+        "json_entries": 19
+      }
+    },
+    {
+      "id": "extracted_json_matches_zip",
+      "status": "PASS",
+      "observed": {
+        "en-reflow-720-720.json": true,
+        "en-normal-390.json": true,
+        "audit.json": true,
+        "ja-reflow-html-720.json": true,
+        "ja-normal-390.json": true,
+        "ja-normal-1440.json": true,
+        "en-normal-768.json": true,
+        "ja-reflow-text-720.json": true,
+        "ja-reflow-720-720.json": true,
+        "ja-normal-768.json": true,
+        "en-reduced-motion-390.json": true,
+        "en-normal-320.json": true,
+        "ja-normal-320.json": true,
+        "en-reflow-text-720.json": true,
+        "en-reflow-html-720.json": true,
+        "ja-no-js-390.json": true,
+        "en-no-js-390.json": true,
+        "ja-reduced-motion-390.json": true,
+        "en-normal-1440.json": true
+      }
+    },
+    {
+      "id": "source_before_after_equal",
+      "status": "PASS",
+      "observed": null
+    },
+    {
+      "id": "executed_merge_recorded_clean",
+      "status": "PASS",
+      "observed": null
+    },
+    {
+      "id": "merge_parent_matches_head",
+      "status": "PASS",
+      "observed": {
+        "sha": "70b310e63a4918aa859d124591b2c24b49c5e628",
+        "parents": [
+          "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+          "c6e29407f64c11ec77f39d57f9da696b8385b0bf"
+        ]
+      }
+    },
+    {
+      "id": "all_source_hashes_match_head",
+      "status": "PASS",
+      "observed": {
+        "docs/index.html": {
+          "observed_sha256": "ef78dd4d521a6ab487f3627fef65ea9bf868f67b5b9579d63bcb64841e488c47",
+          "head_sha256": "ef78dd4d521a6ab487f3627fef65ea9bf868f67b5b9579d63bcb64841e488c47"
+        },
+        "docs/ja/index.html": {
+          "observed_sha256": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22",
+          "head_sha256": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22"
+        },
+        "docs/home.css": {
+          "observed_sha256": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6",
+          "head_sha256": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6"
+        },
+        "docs/home.js": {
+          "observed_sha256": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6",
+          "head_sha256": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6"
+        },
+        "docs/portfolio.js": {
+          "observed_sha256": "175da1843e1897ed20cae2a33cc419e0927a6d3c88240968f0e09ed79cdb9dc9",
+          "head_sha256": "175da1843e1897ed20cae2a33cc419e0927a6d3c88240968f0e09ed79cdb9dc9"
+        },
+        "docs/site/build_site.py": {
+          "observed_sha256": "53e3b325792677e2020d439b921724ded3423329e537d8a13b138955d050254d",
+          "head_sha256": "53e3b325792677e2020d439b921724ded3423329e537d8a13b138955d050254d"
+        },
+        "docs/site/copy.json": {
+          "observed_sha256": "f563fb98d4368dec0d8cade0829f54d7c582ae5f71a4e87b791f4c2363868735",
+          "head_sha256": "f563fb98d4368dec0d8cade0829f54d7c582ae5f71a4e87b791f4c2363868735"
+        }
+      }
+    },
+    {
+      "id": "audit_script_hash_matches_head",
+      "status": "PASS",
+      "observed": {
+        "path": "frontend/scripts/site-quality-audit.mjs",
+        "sha256": "41f92c4f5035ebe58d463b64beb2afcdcfc2acadd116d24b3f95c6c7482d9652"
+      }
+    },
+    {
+      "id": "served_resource_hashes_match_head",
+      "status": "PASS",
+      "observed": [
+        {
+          "path": "docs/ja/index.html",
+          "sha256": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22",
+          "head_match": true,
+          "byte_length_match": true
+        },
+        {
+          "path": "docs/home.css",
+          "sha256": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6",
+          "head_match": true,
+          "byte_length_match": true
+        },
+        {
+          "path": "docs/favicon.svg",
+          "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+          "head_match": true,
+          "byte_length_match": true
+        },
+        {
+          "path": "docs/home.js",
+          "sha256": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6",
+          "head_match": true,
+          "byte_length_match": true
+        },
+        {
+          "path": "docs/portfolio.js",
+          "sha256": "175da1843e1897ed20cae2a33cc419e0927a6d3c88240968f0e09ed79cdb9dc9",
+          "head_match": true,
+          "byte_length_match": true
+        },
+        {
+          "path": "docs/media/award-request-ja.png",
+          "sha256": "5f748852575f8dea65b6cb40283f76d98fc1041c81118b5dbee5b9b35d2f9adc",
+          "head_match": true,
+          "byte_length_match": true
+        },
+        {
+          "path": "docs/media/award-request-mobile-ja.png",
+          "sha256": "9e637f2629a744f98c7c24d2fda9b667af9386cccac35075a4389c2dbb20cb6d",
+          "head_match": true,
+          "byte_length_match": true
+        },
+        {
+          "path": "docs/index.html",
+          "sha256": "ef78dd4d521a6ab487f3627fef65ea9bf868f67b5b9579d63bcb64841e488c47",
+          "head_match": true,
+          "byte_length_match": true
+        },
+        {
+          "path": "docs/media/award-request-en.png",
+          "sha256": "f23ef09e373ecc5a7b69b625f10db03c606274544919db0e41ede0123a0af26f",
+          "head_match": true,
+          "byte_length_match": true
+        },
+        {
+          "path": "docs/media/award-request-mobile-en.png",
+          "sha256": "3e7970c2789322d8fe42fe40d7a1193ac2e6545622a88a889da57c8de78b66eb",
+          "head_match": true,
+          "byte_length_match": true
+        }
+      ]
+    },
+    {
+      "id": "audit_totals_recomputed",
+      "status": "PASS",
+      "observed": {
+        "PASS": 185
+      }
+    },
+    {
+      "id": "all_case_json_matches_audit",
+      "status": "PASS",
+      "observed": {
+        "ja-normal-1440": true,
+        "ja-normal-390": true,
+        "ja-normal-320": true,
+        "ja-normal-768": true,
+        "ja-reflow-720-720": true,
+        "ja-reflow-html-720": true,
+        "ja-reflow-text-720": true,
+        "ja-no-js-390": true,
+        "ja-reduced-motion-390": true,
+        "en-normal-1440": true,
+        "en-normal-390": true,
+        "en-normal-320": true,
+        "en-normal-768": true,
+        "en-reflow-720-720": true,
+        "en-reflow-html-720": true,
+        "en-reflow-text-720": true,
+        "en-no-js-390": true,
+        "en-reduced-motion-390": true
+      }
+    },
+    {
+      "id": "no_case_transport_console_or_write_errors",
+      "status": "PASS",
+      "observed": null
+    },
+    {
+      "id": "all_cleanup_steps_pass",
+      "status": "PASS",
+      "observed": {
+        "steps": 38
+      }
+    },
+    {
+      "id": "ci_owned_chrome_exit_and_profile_removed",
+      "status": "PASS",
+      "observed": {
+        "pid": 5498,
+        "exit_code": 0,
+        "exit_signal": null,
+        "still_running": false,
+        "profile_removed": true
+      }
+    },
+    {
+      "id": "axe_zero_violations_only_for_executed_conditions",
+      "status": "PASS",
+      "observed": {
+        "axe_conditions": 10,
+        "not_executed_conditions": 8
+      }
+    },
+    {
+      "id": "human_award_not_claimed",
+      "status": "PASS",
+      "observed": null
+    },
+    {
+      "id": "archived_runner_source_equals_executed_and_head_hash",
+      "status": "PASS",
+      "observed": {
+        "runner_source_sha256": "41f92c4f5035ebe58d463b64beb2afcdcfc2acadd116d24b3f95c6c7482d9652",
+        "archive_counts": {
+          "json": 19,
+          "png": 38,
+          "runner_source": 1
+        }
+      }
+    }
+  ],
+  "axe_scope": [
+    {
+      "scope": "ja-normal-1440",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "ja-normal-390",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "ja-reflow-720-720",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "ja-reflow-html-720",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "textarea"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "ja-reflow-text-720",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "en-normal-1440",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "en-normal-390",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "en-reflow-720-720",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "en-reflow-html-720",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "textarea"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "en-reflow-text-720",
+      "version": "4.13.0",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "targets": [
+            [
+              ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".hero-footer > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "axe_interpretation": {
+    "executed_conditions": 10,
+    "all_violations_zero": true,
+    "incomplete_rule": "color-contrast",
+    "common_unresolved_selectors": [
+      ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]",
+      ".hero-footer > span[aria-hidden=\"true\"]"
+    ],
+    "additional_textarea_scopes": [
+      "ja-reflow-html-720",
+      "en-reflow-html-720"
+    ],
+    "recorded_reason": "Elements must meet minimum color contrast ratio thresholds; impact serious, incomplete rather than an automated violation verdict.",
+    "computed_foreground_background_for_unresolved_targets_recorded": false,
+    "contrast_ratio_independently_measured": false,
+    "wcag_conformance_established": false
+  },
+  "limits": [
+    "No local service, Chrome, model, VM, or provider probe started. No re-download or full ZIP extraction.",
+    "All PNG entry bytes were hashed in the existing ZIP; pixels were not re-reviewed in this artifact-integrity pass.",
+    "The CI source audit records the actual merge; its recorded source and all ten served-resource bytes match the PR head. No claim that the whole merge tree equals the head.",
+    "The 720 CSS viewport / html zoom / element text scaling stress cases are not native browser-menu 200% or a physical mobile device.",
+    "The CI artifact omits detailed computed colors/backgrounds for the incomplete textarea and arrow targets; actual contrast remains unverified in this review.",
+    "No external form submission, human first-use acceptance, field performance, business model quality or award acceptance inferred.",
+    "These 18 site cases are separate from the other successful job checks; counts are not combined."
+  ],
+  "human_acceptance": false,
+  "award_certification": false,
+  "source_artifact_files_unchanged": true
+}

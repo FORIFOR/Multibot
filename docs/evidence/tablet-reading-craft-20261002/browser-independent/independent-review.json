@@ -1,0 +1,143 @@
+{
+  "status": "PASS",
+  "scope": "Limited tablet header identification and resume-warning regression contract only",
+  "general_product_acceptance": false,
+  "human_acceptance": false,
+  "awards_or_public_performance_claim": false,
+  "actor": "別担当AIによる独立操作・画像照合。既知のアプリであり初見の人間評価ではない。",
+  "basis_head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+  "final_build_source": {
+    "created_at": "2026-10-01T23:45:20.327404+00:00",
+    "basis_head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+    "source_sha256": {
+      "frontend/src/App.tsx": "e021310967703ea56602730f5fb6bc6b83c2e6e0c69ce321098f772b00fb2c61",
+      "frontend/src/pages/Operations.tsx": "89113218ebdf0a05a9da5dbe7fbb6704584807464d1981b76c233606fb132521",
+      "frontend/src/pages/Workroom.tsx": "0fc2ba14a62c8686c611ab8273e75069f66b9514da9a31ff0ec521f9b9343f66",
+      "frontend/src/workroom-refinement.css": "60e0d541df6148a6a72c2ca271173b943e8bfa1726837be329521c25b5dc190f"
+    },
+    "bundle_sha256": {
+      "assets/RunView-hMHd7ldx.js": "c1eccc78b0de720f7128ae9673105846b800929967c6514119c6bddb11f226b2",
+      "assets/index-BFApKLIo.js": "542b52f1afe40af8b265382cd62f9dd19dabdd2f243aa3d61ed686ab283ba18e",
+      "assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+      "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+      "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+      "index.html": "68a492d293fa5c3c8d36a6b3c347bbd2fbc1286bc1a57a181113d4d195edc02a"
+    },
+    "build_exit": 0,
+    "lint_exit": 0,
+    "lint_limit": "Existing warnings are retained in full private log."
+  },
+  "environment": {
+    "os": "macOS",
+    "browser": "154.0.8037.93",
+    "services": "Real loopback HTTP, actual key-cookie auth and isolated SQLite containing preserved v62 records",
+    "data": "Unselected rep3 completed, rep2 failed, rep9 interrupted; no new work",
+    "native200": "Actual Chrome zoom preference2, outer/inner width2, devicePixelRatio2, CSSroot/body zoom1; CDP fromSurface:false images"
+  },
+  "checks": [
+    {
+      "id": "tablet-title",
+      "method": "Real Chrome geometry and selected actual image review",
+      "expected": "Full-width title before actions at 768/820/1024",
+      "observed": "JA failed title 118.02/170.02/374.02 → 472/524/728px; failure/interruption state retained",
+      "status": "PASS",
+      "evidence": "r2-comparison.json",
+      "environment": "Top-level environment"
+    },
+    {
+      "id": "responsive-regression",
+      "method": "52 same-record JA/EN comparisons, widths320/390/768/820/1024/1100/1101/1440 and native720/820",
+      "expected": "No horizontal overflow; legacy small/desktop layout preserved",
+      "observed": "All 52 overflow0; 320/390/1101/1440 title/status/actions rectangles identical to baseline",
+      "status": "PASS",
+      "evidence": "r2-comparison.json",
+      "environment": "Top-level environment"
+    },
+    {
+      "id": "warning-native200",
+      "method": "Actual Chrome profile zoom2; outer1440 inner720 DPR2 CSSzoom1; open actual details",
+      "expected": "Warning, confirmation and focused summary visible",
+      "observed": "r1 popup bottom510.94>456; r2 bottom440.44, confirm bottom423.44; sticky bottom107 and summary top230.19",
+      "status": "PASS",
+      "evidence": "r2-focus.json",
+      "environment": "Top-level environment"
+    },
+    {
+      "id": "keyboard-poll",
+      "method": "Real Tab/ShiftTab/Enter/PageDown/PageUp and next actual run GET200",
+      "expected": "Focus visible and no unsolicited movement on closing/reopening/poll",
+      "observed": "Native720 focus rectangle visible; close/reopen/poll keeps scroll70.5. PageDown moves to507, PageUp returns70.5. Confirmation never activated",
+      "status": "PASS",
+      "evidence": "r2-focus.json",
+      "environment": "Top-level environment"
+    },
+    {
+      "id": "unneeded-scroll",
+      "method": "18 real resume disclosure open/close observations",
+      "expected": "Only clipped disclosure scrolls",
+      "observed": "Native720 open0→70.5; remaining17 keep0. Every close preserves current scroll",
+      "status": "PASS",
+      "evidence": "r2-comparison.json",
+      "environment": "Top-level environment"
+    },
+    {
+      "id": "artifact-warnings",
+      "method": "Compare actual authenticated raw artifact HTTP bytes with rendered pre and baseline hashes",
+      "expected": "Original bytes and incomplete-state warnings retained",
+      "observed": "52 raw hashes and corresponding warning texts equal baseline",
+      "status": "PASS",
+      "evidence": "r2-comparison.json",
+      "environment": "Top-level environment"
+    },
+    {
+      "id": "business-invariants",
+      "method": "Read-only SQLite and49 original source SHA comparison",
+      "expected": "No new job/model/adoption or source mutation",
+      "observed": "model.called222 unchanged; execution_jobs0; artifact.adopted0; original DB/source hashes unchanged",
+      "status": "PASS",
+      "evidence": "invariants.json",
+      "environment": "Top-level environment"
+    },
+    {
+      "id": "fixed-source",
+      "method": "Compare full frontend/src/package/build-source hashes before and after both r2 runs",
+      "expected": "Same fixed source and private dist",
+      "observed": "All source and dist hashes stable; served index/bundle matches parent build-r2",
+      "status": "PASS",
+      "evidence": "r2-cleanup.json",
+      "environment": "Top-level environment"
+    },
+    {
+      "id": "cleanup",
+      "method": "Owned process identities and closed loopback listener",
+      "expected": "No owned browser/API left",
+      "observed": "All tracked browser descendants remaining0; owned API PID51271 absent; port64048 closed",
+      "status": "PASS",
+      "evidence": "cleanup.json",
+      "environment": "Top-level environment"
+    }
+  ],
+  "remaining_findings": [
+    {
+      "id": "extreme-goal-expanded-focus",
+      "status": "FAIL",
+      "classification": "Observed residual; not established as newly introduced",
+      "observed": "Real v62 goal is very long. Show all expands successfully but the focused Collapse button is pushed far below viewport. A second Enter collapses successfully. Baseline expanded headings were also very tall; baseline focused-button position was not separately measured.",
+      "evidence": [
+        "before.json",
+        "after-r2.json"
+      ],
+      "next_action": "Separate future review of long-goal reading and return control; do not claim visible focus throughout full expansion."
+    }
+  ],
+  "limits": [
+    "When the native720 warning scrolls into view, upper title text moves partly behind the sticky menu. Title, warning and all page content are not simultaneously visible.",
+    "r1 PageDown immediate geometry preceded scroll completion; only separately retained settled r1-focus-settled.json is used for that comparison.",
+    "No actual resume/submit/adoption, model, VM or external action was run.",
+    "No screenreader, IME, touch hardware, non-Chrome compatibility, human usability or WCAG certification was measured.",
+    "PNG byte secret scanning is not OCR. Named exported images were visually reviewed.",
+    "Static image inspection cannot prove motion quality.",
+    "The runner uses state OBSERVED for collection; scoped PASS/FAIL is independently assigned in comparison/review records.",
+    "Initial r2 preparation metadata field mismatch stopped before service change; retained privately and is not a product failure."
+  ]
+}

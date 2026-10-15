@@ -1,0 +1,27 @@
+{
+  "session": "20261001T172737Z-293a8fc37fe24111bae6d105bb1597e3",
+  "created_at": "2026-10-01T17:27:37.890888+00:00",
+  "updated_at": "2026-10-01T17:27:38.577692+00:00",
+  "state": "failed",
+  "supervisor_exit_code": 1,
+  "supervisor_sha256": "16e5255361d67629776ad9dd5fdb304ad2263445a2c739a6eb73a7bc7269f2f2",
+  "fingerprint_sha256": "6e42d1045dc4288910119e438a068c30ae593d7ef8629efc965c0833c543e0e5",
+  "fixed_commit": "4fc43b4472c67776d2df3bdfdd972f41db45fac1",
+  "classification": "operator_resource_policy_refusal_before_child_start",
+  "recorded_error_type": "RuntimeError",
+  "recorded_reason": "insufficient recorded headroom for the observed model residency",
+  "child_started": false,
+  "child_exit_code": null,
+  "colima_start_attempted": false,
+  "automatic_retry_performed": false,
+  "target_runs": 10,
+  "generation_attempts": 0,
+  "business_quality_accepted": false,
+  "human_acceptance": "not_performed",
+  "does_not_establish": [
+    "physical machine cannot start the model",
+    "model inference failure",
+    "output quality failure",
+    "completion of ten trials"
+  ]
+}

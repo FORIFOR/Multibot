@@ -1,0 +1,42 @@
+{
+  "state": "BLOCKED",
+  "evidence_state": "NOT_RUN_NO_ARTIFACT",
+  "actor": "Independent AI evidence verifier",
+  "reviewed_at": "2026-10-02T00:50:13.660533+00:00",
+  "workflow_url": "https://github.com/FORIFOR/Multibot/actions/runs/36947671100",
+  "requested_head": "330c18c874fb34c13b5f75f404244f6d57ca63b4",
+  "workflow_head": "330c18c874fb34c13b5f75f404244f6d57ca63b4",
+  "workflow_status": "completed",
+  "workflow_conclusion": "failure",
+  "failed_step": "Verify actual service boundaries without model execution",
+  "site_step": {
+    "completedAt": "2026-10-02T00:48:17Z",
+    "conclusion": "skipped",
+    "name": "Verify generated public pages and real browser behavior",
+    "number": 14,
+    "startedAt": "2026-10-02T00:48:17Z",
+    "status": "completed"
+  },
+  "artifact_name": "public-site-quality-evidence",
+  "artifact_present": false,
+  "original_zip_preserved": false,
+  "zip_absence_reason": "The preceding real service verification failed; site step was skipped and its artifact was never produced.",
+  "json_extracted": 0,
+  "all_zip_entries": 0,
+  "source_comparison": {
+    "expected_exact_head_local_file_count": 24,
+    "expected_local_bytes_match_head": true,
+    "ci_served_source_resource_runner_comparison": "NOT_RUN"
+  },
+  "site_cases": "NOT_RUN",
+  "site_checks": "NOT_RUN",
+  "site_cleanup": "NOT_RUN / no site artifact available",
+  "axe_violations": "NOT_RUN",
+  "axe_incomplete": "NOT_RUN; no current result exists to compare with previous arrow/CSS stress textarea findings",
+  "limitations": [
+    "Previous successful site artifacts are not used as evidence for this run.",
+    "This preserves the actual failure/skip state only; the service failure cause is outside this review.",
+    "No local service, Chrome, model or VM was started.",
+    "No award, WCAG, public field performance or production acceptance claim."
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "reviewed_at": "2026-10-02T01:18:03.459049+00:00",
+  "review_type": "最終suite追記済READMEと別担当の実測safe証拠の独立読取照合",
+  "status": "PASS",
+  "findings": [],
+  "readme_sha256": "6e3af2f11e168ea196f7cdd672785548c968c4f9e01e3449744a090094af5d08",
+  "evidence_sha256": {
+    "final-suite-summary.json": "1c8c8cf0bcb1c159eb598885bd8ba8cd1330a6bf1fca3fd4d729cea210ef2e71",
+    "final-suite-report.json": "9a25905b80b0bb36ac8eacd5a6ec06b626a478380b60fc62883d3526cae6074d",
+    "final-diagnostic.json": "40d119c654bbceb408157e57749fe2d2902c9f3475030ce4222983e5c3a3e28b",
+    "final-result.json": "c038654c1f2a5e902c9b50373cb6a9a070d08ea1401c223ec7459d9d44ea7208"
+  },
+  "public_copies_byte_identical_to_private_originals": {
+    "final-suite-summary.json": true,
+    "final-suite-report.json": true,
+    "final-diagnostic.json": true,
+    "final-result.json": true
+  },
+  "confirmed": {
+    "suite_attempts": 1,
+    "elapsed_seconds": 39.69156816700706,
+    "stages": 7,
+    "post_checks": 37,
+    "code_files": 229,
+    "source_inputs": 4,
+    "ui_files": 6,
+    "recorded_before_after_unchanged": true,
+    "runtime_verification_hashes_match_current": true,
+    "final_runner_hash": "89872cd7dca1ab9f6977b7df3e22cda5c1342966006ce4e99f0e3ae831e8159e",
+    "round_request_contamination_absent": true,
+    "chrome_groups": 5,
+    "chrome_tracked": 57,
+    "chrome_remaining": 0,
+    "chrome_signals": 0,
+    "browser_api_cleanup": {
+      "scope": "browser_verification_api",
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "admission_responses_port_scope": "事後閉鎖でありbrowser APIと同じlifespan計測とは記していない",
+    "browser_database_runs": 2,
+    "response_historical_model_events": 20,
+    "additional_model_events": 0
+  },
+  "limits": [
+    "保存safe結果の読取照合であり、本レビュー自身による再実行/新サービス/Chrome/LLMはない",
+    "229code/4input/6UI前後不変と過去20model全field一致の原実測は担当による事後37照合の証拠に基づく",
+    "新GitHub CI成功とは記さず、元CI失敗原因未確定を維持",
+    "prototype1回・観測2回・最終suite1回の別条件と原失敗を保全",
+    "最終suite全DB0ではなくbrowser run2/admission run3/responses run4の範囲を区別",
+    "検証scriptの制御スケジュールであり自然同時利用の再現率や人間受入ではない"
+  ],
+  "new_execution": false
+}

@@ -1,0 +1,345 @@
+{
+  "reviewed_at": "2026-10-02T03:03:44.019247+00:00",
+  "status": "PASS_WITH_SCOPE_LIMITS",
+  "reviewer": "同モデルの独立AIが原JSON・コードhash・実画像10枚を読取照合。新規実行なし。",
+  "source_evidence_sha256": {
+    "safe-report.json": "7ac1fdd29b3780404a66f95613cfbf4f255281564cb900541d14652f38552963",
+    "browser-report.json": "d35683b9352e9a3995caae5a239ddbbecc51089e2ebc47ef12dfbc77390159d5",
+    "independent-review.json": "b43b70764612827c677534d9d7ecde60c5508470683ae992976bbb18ec232086",
+    "manifest.json": "9ecaa6798864997dfafa71f09a3013c92047ffe64ccbb685fcf319233517cb20",
+    "safe-scan.json": "b50985ca8928cf8140dc465c182cd21e8f57366d9bd9119af244dd6c145e7ccc"
+  },
+  "manifest": {
+    "entries": 32,
+    "all_bytes_and_sha_match": true,
+    "mismatches": [],
+    "note": "manifestは私有script/importも含む。全32fileの公開承認を意味しない。"
+  },
+  "product_sha256": {
+    "frontend/src/lib/api.ts": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6",
+    "frontend/src/pages/Workroom.tsx": "e8c07d67306d10cb47a016fb92ef86ba015ca3f26e836f65a30f4373e15d4a7d"
+  },
+  "implementation": {
+    "count": 109,
+    "matched": true,
+    "mismatches": []
+  },
+  "implementation_scope": "Product frontend source and backend Python only, plus dependency manifest/lock. Concurrent CI scripts are not part of the unchanged product assertion.",
+  "helper_hashes": {
+    "count": 3,
+    "matched": true,
+    "mismatches": []
+  },
+  "private_dist": {
+    "count": 6,
+    "matched": true,
+    "mismatches": []
+  },
+  "current_frontend_dist": {
+    "count": 6,
+    "matched": true,
+    "mismatches": []
+  },
+  "current_packaged_dist": {
+    "count": 6,
+    "matched": true,
+    "mismatches": []
+  },
+  "source": {
+    "count": 14,
+    "matched": true,
+    "mismatches": []
+  },
+  "material_sha_matches": true,
+  "embedded_browser_report_equals_original": true,
+  "cases": [
+    {
+      "id": "ja390-manual",
+      "status": "PASS",
+      "role": "operator",
+      "body_sha_matches_original": true,
+      "record_before_equals_after": true,
+      "principal_unchanged": true,
+      "identifier_preserved": true,
+      "pending_error_adopt_disabled": true,
+      "false_empty_record_claim_observed": false,
+      "pending_error_samples": 2,
+      "deadline_ms": null,
+      "retry_ms": 292,
+      "recovered_ms": 368
+    },
+    {
+      "id": "ja320-deadline",
+      "status": "PASS",
+      "role": "operator",
+      "body_sha_matches_original": true,
+      "record_before_equals_after": true,
+      "principal_unchanged": true,
+      "identifier_preserved": true,
+      "pending_error_adopt_disabled": true,
+      "false_empty_record_claim_observed": false,
+      "pending_error_samples": 4,
+      "deadline_ms": 15036,
+      "retry_ms": 15140,
+      "recovered_ms": 15217
+    },
+    {
+      "id": "en768-transport",
+      "status": "PASS",
+      "role": "operator",
+      "body_sha_matches_original": true,
+      "record_before_equals_after": true,
+      "principal_unchanged": true,
+      "identifier_preserved": true,
+      "pending_error_adopt_disabled": true,
+      "false_empty_record_claim_observed": false,
+      "pending_error_samples": 3,
+      "deadline_ms": null,
+      "retry_ms": 393,
+      "recovered_ms": 466
+    },
+    {
+      "id": "en-native200-loaded",
+      "status": "PASS",
+      "role": "operator",
+      "body_sha_matches_original": true,
+      "record_before_equals_after": true,
+      "principal_unchanged": true,
+      "identifier_preserved": true,
+      "pending_error_adopt_disabled": true,
+      "false_empty_record_claim_observed": false,
+      "pending_error_samples": 4,
+      "deadline_ms": 15013,
+      "retry_ms": 15381,
+      "recovered_ms": 15439
+    },
+    {
+      "id": "en390-viewer",
+      "status": "PASS",
+      "role": "viewer",
+      "body_sha_matches_original": true,
+      "record_before_equals_after": true,
+      "principal_unchanged": true,
+      "identifier_preserved": true,
+      "pending_error_adopt_disabled": true,
+      "false_empty_record_claim_observed": false,
+      "pending_error_samples": 0,
+      "deadline_ms": null,
+      "retry_ms": null,
+      "recovered_ms": null
+    },
+    {
+      "id": "ja390-other-focus",
+      "status": "PASS",
+      "role": "operator",
+      "body_sha_matches_original": true,
+      "record_before_equals_after": true,
+      "principal_unchanged": true,
+      "identifier_preserved": true,
+      "pending_error_adopt_disabled": true,
+      "false_empty_record_claim_observed": false,
+      "pending_error_samples": 2,
+      "deadline_ms": null,
+      "retry_ms": null,
+      "recovered_ms": null
+    }
+  ],
+  "counts": {
+    "cases": 6,
+    "passed": 6,
+    "images_opened_by_this_reviewer": 10
+  },
+  "images_opened": [
+    {
+      "path": "ja390-manual-recovered-focus.png",
+      "sha256": "25a5a78beb32f9063541675d085627c4fdef74219359929bd74316d67f3c69bf"
+    },
+    {
+      "path": "ja320-deadline-retry-focus.png",
+      "sha256": "7a81f3c3c6175d6e9b6f76376d4c06cb622ad4043d09058fadb810a7a06c5a43"
+    },
+    {
+      "path": "ja320-deadline-recovered-focus.png",
+      "sha256": "7f7e2705b5fe4d6b8f3b29345ad1892503fc87cdf4fad4950e4a055bb3f4be6d"
+    },
+    {
+      "path": "en768-transport-fault-check-record-open.png",
+      "sha256": "1febc34ee0cf9ac8c9f4ee191ae43850140126f3dc11b15b0f873849b664dbb3"
+    },
+    {
+      "path": "en768-transport-recovered-focus.png",
+      "sha256": "60ee3e87f77ac5fba251f258a26d326eac597498fc86a30ecaa6bf7ecd0a182d"
+    },
+    {
+      "path": "en-native200-loaded-retry-focus.png",
+      "sha256": "49b4c1af332d3c486cfae8112b7da4966efc121397c95fc5aae3941d7950c517"
+    },
+    {
+      "path": "en-native200-loaded-recovered-focus.png",
+      "sha256": "a901e2c04c5c9e0dc12930caba3bdef5f502bd5fd7e3de37938c4bf66c942516"
+    },
+    {
+      "path": "en390-viewer-viewer-reload-focus.png",
+      "sha256": "8990857d0550e5622399492850085d8504901e7e758e2af714b0cf209409b87e"
+    },
+    {
+      "path": "ja390-other-focus-other-control-before-original-release.png",
+      "sha256": "cb1c7f01ce56ebc274d6c23dce9f36ab128b0ca1e2ea5eb55f523bed257758e7"
+    },
+    {
+      "path": "ja390-other-focus-other-control-after-original-release.png",
+      "sha256": "cd3bb5de0133a95ed6de6822e36df6a95222b6b5af828255e74054d4857b2e87"
+    }
+  ],
+  "visual_findings": [
+    "JA390/320・EN768の初回復旧後は再読込ボタンのフォーカス枠が画面内にあり、旧r1の本文増高後に画面外へ消える欠点はこの3条件で解消。",
+    "ENの失敗時は概要と展開記録の双方が未取得と説明し、採用ボタンは無効。記録なしとの混同を避けている。",
+    "native200では実幅720・高さ456で再読込の枠と本文/確認状態が判読できる。",
+    "viewerは再読込可能、採用操作は表示されず読取専用の説明がある。",
+    "320の期限後・自然Tab直後は外側フォーカス枠下端が画面端に接する。復帰後は中央に収まり、この試験から全面的なfocus appearance適合を主張しない。",
+    "別controlではfocusとscrollを保持し、本文増高後そのcontrol自身は画面外となる。全controlの可視性保持とは呼ばない。",
+    "原生成JSONの内容/記録済みPASSは保持される。表示の改善はその意味内容の正しさを保証しない。"
+  ],
+  "input_retention": {
+    "direction_policy": "実integration.md先頭900 JS文字列unit、未送信。",
+    "direction_sha_matches_source_prefix": true,
+    "editor_policy": "First640 JS string units of the actual matching artifact; unsent local copy only.",
+    "editor_sha_matches_source_prefix": true,
+    "editor_copy_preserved": true,
+    "direction_preserved": true,
+    "whole_editor_image_not_available": true,
+    "whole_artifact_copy_retention_not_claimed": true
+  },
+  "native200": {
+    "inner": [
+      720,
+      456
+    ],
+    "outer": [
+      1440,
+      1000
+    ],
+    "dpr": 2,
+    "root_zoom": "1",
+    "body_zoom": "1",
+    "scroll": [
+      0,
+      0
+    ],
+    "active_tag": "H1",
+    "active_text": null,
+    "active_rect": {
+      "x": 24,
+      "y": 161.25,
+      "width": 672,
+      "height": 67.1875,
+      "top": 161.25,
+      "right": 696,
+      "bottom": 228.4375,
+      "left": 24
+    },
+    "nav": {
+      "x": 0,
+      "y": 0,
+      "width": 720,
+      "height": 107,
+      "top": 0,
+      "right": 720,
+      "bottom": 107,
+      "left": 0
+    },
+    "overflow": 0,
+    "active_visible": true
+  },
+  "other_focus": {
+    "natural_actions": "Tab to retry, Shift+Tab to See check record, then continue the original held200 without an added request.",
+    "focus_retained": true,
+    "scroll_before": [
+      0,
+      225
+    ],
+    "scroll_after": [
+      0,
+      225
+    ],
+    "scroll_unchanged": true,
+    "file_gets_before": 1,
+    "file_gets_after": 1,
+    "focus_target_visible_before": true,
+    "focus_target_visible_after": false,
+    "limitation": "No focus or scroll was stolen. The other control itself moved below the viewport as the first body grew; this is intentionally not claimed as all-controls visibility preservation."
+  },
+  "original_r1": {
+    "safe_report_sha256": "4d81983d4b186aa3072c14a695ca2a95032360fed2731d464526b7ba376f10cb",
+    "browser_report_sha256": "4d974118b0a8c14122106bfda1d908d9841facf92509a0c9a325f19bb5790fc2",
+    "overall_status": "FAIL",
+    "cases": [
+      {
+        "id": "ja390-manual",
+        "status": "FAIL"
+      },
+      {
+        "id": "ja320-deadline",
+        "status": "FAIL"
+      },
+      {
+        "id": "en768-transport",
+        "status": "FAIL"
+      },
+      {
+        "id": "en-native200-loaded",
+        "status": "PASS"
+      },
+      {
+        "id": "en390-viewer",
+        "status": "PASS"
+      }
+    ],
+    "preserved_as_original_failure": true
+  },
+  "business_hash_before_equals_after": true,
+  "model_called_before": 73,
+  "model_called_after": 73,
+  "prior_all_model_events": 74,
+  "model_event_delta": 0,
+  "jobs_before": 0,
+  "jobs_after": 0,
+  "task_rows_before": 0,
+  "task_rows_after": 0,
+  "write_routes": [
+    "POST /api/auth/login"
+  ],
+  "business_writes_observed": 0,
+  "api_cleanup": {
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "browser_cleanup": [
+    {
+      "program": "check.mjs",
+      "tracked_processes": 52,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "blocking_findings": [],
+  "limits": [
+    "全6ケースの実行完了と各PASSを確認。一時phase成功を全体成功へ変更していない。",
+    "原r1の3focus失敗は保存、別root r2の成功で上書きしない。",
+    "専用artifact CI r1のcut分類失敗/残存ループは別試験。独立browser成功をそのCI成功として扱わない。",
+    "実200保留・実通信遮断のみ。bodyだけの停止、複数版、主体切替、route破棄、読上げ、Safari/iPhone/仮想キーボードは今回未実測。",
+    "取消された旧応答はNetwork取消とCDPInvalid対応を観測。Reactへlate成功が到達したとは主張しない。",
+    "採用失敗の既存Refresh範囲は未修正。採用実行やZIPの新検証ではない。",
+    "原run/events/artifact bytesの保存でありSQLite全体hashは認証/監査により変化。task行は再構成なし。",
+    "画像には原資料と技術アカウントラベルがある。値の秘密キー表示は目視範囲で見当たらない。バイト検査は作成者safe-scanで8実key参照0hit、本レビューは新たな秘密読取を行わない。",
+    "人間受入、一般業務品質、公開開始、WCAG全面適合、受賞認定を行わない。"
+  ]
+}

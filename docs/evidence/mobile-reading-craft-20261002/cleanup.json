@@ -1,0 +1,29 @@
+{
+  "actor": "AI",
+  "human_acceptance": false,
+  "service_identity": {
+    "pid": 22709,
+    "command": "/opt/homebrew/Cellar/python@3.12/3.12.12_1/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python /Users/horioshuuhei/.cache/agentteam-bench/mobile-reading-craft-20261002/serve.py after-r2-dist"
+  },
+  "source_files_verified": 49,
+  "finished_at": "2026-10-01T21:53:31.014976+00:00",
+  "source_unchanged": true,
+  "original_database_sha256": "b09f02479d1c60111fff52525fc465e2ac7bbac434acd91354f8a834659f2cf3",
+  "state": {
+    "original_events_unchanged": true,
+    "all_run_statuses_unchanged": true,
+    "new_model_events": 0,
+    "execution_jobs": 0,
+    "adoptions": [
+      [
+        "run_1a0f8118bd3ccca713e",
+        56
+      ]
+    ]
+  },
+  "status": "PASS",
+  "owned_service_exited": true,
+  "port_closed": true,
+  "root_capture_chrome_remaining": 0,
+  "private_service_stderr_bytes": 0
+}

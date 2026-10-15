@@ -1,0 +1,58 @@
+{
+  "basis_commit": "0f2d377724bc2ec8c5a8469a663d991227bbd7f6",
+  "scope": "Preserved CI Chrome launch failure and safe diagnostic observation; original cause remains unknown.",
+  "files": {
+    "README.md": {
+      "sha256": "16553551866a973e65b8614e83cde0c9aab2edf2e0d5fd5215af6072c01edf17",
+      "bytes": 4497
+    },
+    "ci-original-database-report.json": {
+      "sha256": "c58a72281a851a7a5d6c343e4b40c61c49365ce8b92acc61ed4aacae1e63e031",
+      "bytes": 3708
+    },
+    "ci-original-initial-recovery.json": {
+      "sha256": "927e620dd14a19b32edc4b36ff74cff4b8011cde8d9279abbf63e008ae4e6803",
+      "bytes": 1599
+    },
+    "ci-original-oidc-review.json": {
+      "sha256": "26af12bb70cae69d71c90a0e87794165f4cd7d37578ad814eae44682ce199cb5",
+      "bytes": 7895
+    },
+    "ci-original-sandbox-report.json": {
+      "sha256": "63245d8b4e57d19953a952b85e44d22676d2c5f1841f311979926109d277b380",
+      "bytes": 15940
+    },
+    "ci-original-service-report.json": {
+      "sha256": "6743a6d03d271c69996a607d73efa8dfc42b7f1b1ff92d23beef7ac04f1181f3",
+      "bytes": 2178
+    },
+    "ci-original-service-review.json": {
+      "sha256": "b78e5ff46bf88944a4994719f08ce3e50e6dbc85cb4d0bc6815c4d57075b6935",
+      "bytes": 8710
+    },
+    "ci-original-site-not-run.json": {
+      "sha256": "404c909d2f7f6c1d615a82bbdc7cc9330d6d40de2486eb55c9cf8c722dd62935",
+      "bytes": 2011
+    },
+    "local-independent-review.json": {
+      "sha256": "e2bbf825ddd99056c10429435d325b905e5339750748ce5ca1b478a8710f3104",
+      "bytes": 5498
+    },
+    "local-initial-recovery.json": {
+      "sha256": "64268aea1c506ed05091acbf2931976191ad5e1bb11ac5aaf7e5782ddffb00e0",
+      "bytes": 5885
+    },
+    "local-postcheck-summary.json": {
+      "sha256": "8c7d7d23966b085a45c6a5679abe5f39c51d6689fce89c8d9061e612cb02adf3",
+      "bytes": 11569
+    },
+    "local-suite.json": {
+      "sha256": "9e121471c5b8c694e349b5eb009cc88669691c6ce8b1a9b6e6c35c9547b05e3b",
+      "bytes": 2975
+    },
+    "static-review.json": {
+      "sha256": "8e11d0bb996f1ca74a40a9970a598fe88981058ec4305a343cabbd1ddcf8f430",
+      "bytes": 2661
+    }
+  }
+}

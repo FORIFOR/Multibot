@@ -1,0 +1,234 @@
+{
+  "status": "FAILED_CI_EVIDENCE_VERIFIED",
+  "review_type": "新GitHub原safe artifactの独立読取照合。新規試験・再実行なし。",
+  "checked_at": "2026-10-02T03:27:06.818975+00:00",
+  "run_id": 36959652900,
+  "run_attempt": 1,
+  "head": "0f2d377724bc2ec8c5a8469a663d991227bbd7f6",
+  "execution_merge": "b10fe724735d74af9b3e34b0db57e3ac7d79f369",
+  "merge_parents": [
+    "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+    "0f2d377724bc2ec8c5a8469a663d991227bbd7f6"
+  ],
+  "head_tree": "d4f61c8fd5e9a4644fff28bcf0273438a5c5143a",
+  "merge_tree": "d4f61c8fd5e9a4644fff28bcf0273438a5c5143a",
+  "exact_head_merge_tree_verified": true,
+  "job_results": [
+    {
+      "name": "dependency-audit",
+      "conclusion": "success"
+    },
+    {
+      "name": "public-service",
+      "conclusion": "failure"
+    },
+    {
+      "name": "frontend",
+      "conclusion": "success"
+    },
+    {
+      "name": "backend",
+      "conclusion": "success"
+    }
+  ],
+  "artifact": {
+    "id": 11207547166,
+    "name": "public-service-evidence",
+    "sha256": "a53b3d7b69110dce79d3abe2406ec3ee2febe969fb1208e2e8b2fe82e8fc7e2c",
+    "github_digest_matches": true,
+    "original_zip_preserved": true,
+    "entries": 6,
+    "workflow_allowlist_entries": 17,
+    "all_present_entries_allowlisted": true,
+    "missing_not_counted_as_pass": [
+      "multibot-artifact-recovery/safe-report.json",
+      "multibot-public-service/browser/close-empty-signin.png",
+      "multibot-public-service/browser/next-principal-empty.png",
+      "multibot-public-service/browser/parallel-diagnostic.json",
+      "multibot-public-service/browser/parallel-login.json",
+      "multibot-public-service/browser/peer-tab-close.json",
+      "multibot-public-service/browser/reload-empty-signin.png",
+      "multibot-public-service/browser/results.json",
+      "multibot-public-service/browser/retry-reload.json",
+      "multibot-result-reading/safe-report.json",
+      "multibot-workroom-recovery/safe-report.json"
+    ]
+  },
+  "failure": {
+    "stage": "existing service / initial browser recovery",
+    "failure_check": "chrome_launch",
+    "error_type": "Error",
+    "parent_error_type": "RuntimeError",
+    "completed_existing_service_stages": [
+      "actual HTTP/SQLite admission",
+      "actual-source response projection"
+    ],
+    "initial_cases_attempted": 0,
+    "initial_browser_writes": 0,
+    "initial_before_after_counts": {
+      "runs": 0,
+      "jobs": 0,
+      "model_events": 0,
+      "artifacts": 0
+    },
+    "observed_browser_version": null,
+    "classification": "Chrome launch did not return a Browser. Product pages and new artifact case were not reached. Exact launch failure cause is unknown.",
+    "code_location": "frontend/scripts/auth-initial-recovery.mjs:73",
+    "launch_settings": {
+      "channel": "chrome",
+      "playwright_timeout_ms": 15000,
+      "outer_deadline_ms": 15000
+    },
+    "safe_diagnostic_gap": [
+      "Error alone cannot distinguish outer deadline firing from a concrete Chromium launch error.",
+      "Safe artifact lacks launch elapsed/deadline-fired, known launch-error category, observed Chrome/Playwright version, binary identity/existence.",
+      "Raw private exception is deliberately not uploaded, and was not downloaded in this review."
+    ],
+    "minimal_next_diagnostic_proposal": "Add fixed stage timestamps/elapsed, outer-deadline-fired boolean, allowlisted launch outcome categories and version/binary metadata; keep raw exception/argv/environment private. Do not blind-rerun or relax assertions."
+  },
+  "source_verification": {
+    "sha256": "457c382dca88686f334da62df0a9c48a31b75207600d99d44649fd5247bac4cf",
+    "map_entries": 64,
+    "unique_paths": 45,
+    "mismatches": 0,
+    "existing_launch_script_and_wrapper_unchanged_from_a32b": true,
+    "new_product_and_runner_exact_head_sha256": {
+      "frontend/scripts/artifact-load-recovery.mjs": "39d30a8605c71111e94279d9a0e7f05fddc4482683fd9ed1a91a6570d723311c",
+      "backend/scripts/check_artifact_recovery.py": "11b6f0ca762201461c6aa5ae1cfe3950a3daa4da2aa6899c06fa3bd7d660b76f",
+      "frontend/src/pages/Workroom.tsx": "e8c07d67306d10cb47a016fb92ef86ba015ca3f26e836f65a30f4373e15d4a7d",
+      "frontend/src/lib/api.ts": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6"
+    },
+    "new_artifact_runner_executed": false
+  },
+  "completed_scopes": {
+    "db": {
+      "http": {
+        "planned": 480,
+        "attempted": 480,
+        "passed": 480,
+        "failed": 0,
+        "unattempted": 0,
+        "status_counts": {
+          "200": 480
+        },
+        "exception_types": {},
+        "missing_or_incomplete_terminal_audit": 0,
+        "audit_check_completed": true
+      },
+      "direct": {
+        "planned": 640,
+        "attempted": 640,
+        "passed": 640,
+        "failed": 0,
+        "unattempted": 0,
+        "errors": []
+      },
+      "model_event_delta": 0,
+      "jobs": 0,
+      "source_unchanged": true,
+      "cleanup": {
+        "service_stopped": true,
+        "port_closed": true,
+        "browser_started": false
+      }
+    },
+    "sandbox": {
+      "checks": 79,
+      "http": 30,
+      "model_event_delta": 0,
+      "cancelled_jobs": 8,
+      "pending_jobs": 0,
+      "source_unchanged": true,
+      "cleanup": {
+        "service_stopped": true,
+        "port_closed": true,
+        "pending_jobs": 0
+      }
+    },
+    "admission": {
+      "check_count": 8,
+      "status": "completed",
+      "source_hash_matches": true
+    },
+    "responses": {
+      "check_count": 9,
+      "status": "completed",
+      "source_hash_matches": true
+    }
+  },
+  "not_executed": [
+    "initial auth recovery cases",
+    "remaining four existing browser scripts",
+    "result reading 12/192",
+    "parent Workroom 5/45",
+    "artifact recovery 4/40",
+    "public-site browser audit"
+  ],
+  "build_consistency": {
+    "frontend_job_source_bundle_check": "success",
+    "public_service_prebrowser_exact_bundle_check": "success",
+    "dist_bytes_not_in_failure_artifact": true
+  },
+  "cleanup": {
+    "scope": "browser_verification_api",
+    "api": {
+      "scope": "browser_verification_api",
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "owned_processes": [
+      {
+        "program": "auth-initial-recovery.mjs",
+        "tracked_processes": 9,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ],
+    "tracked_count": 9,
+    "remaining": 0,
+    "signals": 0,
+    "limit": "Browser variable was never assigned so initial script cleanup array is empty; parent tracked and drained9 descendants. API measurement covers browser_verification_api only."
+  },
+  "original_local_failures_preserved": [
+    {
+      "path": "docs/evidence/artifact-read-recovery-20261002/local-ci-r1-failed.json",
+      "sha256": "f413b31d8db5b35bf5267dd3e481e8566c2bfb4ecb76815ab3e8f58ff32e546a",
+      "original_bytes_unchanged": true,
+      "status": "FAIL",
+      "same_attempt_as_github": false
+    },
+    {
+      "path": "docs/evidence/artifact-read-recovery-20261002/local-ci-invalid-source.json",
+      "sha256": "a01850a22cd4d04c977793ea367561e9c391382dbc63e0e075d0f425cbeb0120",
+      "original_bytes_unchanged": true,
+      "status": "FAIL",
+      "same_attempt_as_github": false
+    }
+  ],
+  "privacy": {
+    "exact_allowlist_subset": true,
+    "rawlogs_keys_db_not_requested": true,
+    "pem_jwt_github_token_pattern_hits": 0,
+    "exact_ci_key_value_scan": "not possible; CI key values intentionally unavailable",
+    "screenshots_present": 0
+  },
+  "limits": [
+    "CI全体をFAILのまま保持。DB/sandbox/build/2 API段階の成功と新成果物回復未到達を区別する。",
+    "今回変更したUIやartifact scriptはChrome launch前の失敗原因として実行されていない。環境障害や製品故障の原因はこのsafe情報だけでは確定できない。",
+    "新artifact4/40と親3GET5/45のローカル成功はGitHubでの未実施を補完しない。",
+    "実行時source不変/model差分/終了はheadと一致するrunnerのsafe記録に依拠し、private DBや原HTTPを取得して再試験していない。",
+    "既存原モデル履歴0を意味しない。sandbox cancelled8は意図した記録でpending0。",
+    "人間受入・意味品質・一般公開/受賞品質の合格ではない。"
+  ],
+  "blocking_findings": [
+    "GitHub CI failed before browser product exercise; new artifact regression remains unexecuted on GitHub."
+  ]
+}

@@ -1,0 +1,381 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-10-01T21:44:42.745451+00:00",
+  "actor": "AI independent review",
+  "human_acceptance": false,
+  "business_quality_accepted": false,
+  "model_execution": false,
+  "checks": [
+    {
+      "id": "zip-selected-exact-manifest",
+      "passed": true
+    },
+    {
+      "id": "zip-complete-unique-paths",
+      "passed": true
+    },
+    {
+      "id": "zip-artifact-bytes-readiness.json",
+      "passed": true
+    },
+    {
+      "id": "zip-events-actual-http-match",
+      "passed": true
+    },
+    {
+      "id": "zip-final-report-actual-http-match",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-runs",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-tasks",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-messages",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-artifacts",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-approvals",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-checkpoints",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-run_access",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-execution_jobs",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-request_receipts",
+      "passed": true
+    },
+    {
+      "id": "database-table-unchanged-subject_admissions",
+      "passed": true
+    },
+    {
+      "id": "exactly-one-actual-adoption",
+      "passed": true
+    },
+    {
+      "id": "model-events-unchanged",
+      "passed": true,
+      "before": 222,
+      "after": 222
+    },
+    {
+      "id": "no-job-or-admission",
+      "passed": true
+    },
+    {
+      "id": "original-adoption-response-audit202",
+      "passed": true
+    },
+    {
+      "id": "source-sha-01-run_1a0f7fbead33cd46066-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-01-run_1a0f7fbead33cd46066-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-01-run_1a0f7fbead33cd46066-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-01-run_1a0f7fbead33cd46066-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-01-run_1a0f7fbead33cd46066-artifact-001.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-02-run_1a0f80632e5c1220524-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-02-run_1a0f80632e5c1220524-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-02-run_1a0f80632e5c1220524-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-02-run_1a0f80632e5c1220524-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-02-run_1a0f80632e5c1220524-artifact-001.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-03-run_1a0f8118bd3ccca713e-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-03-run_1a0f8118bd3ccca713e-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-03-run_1a0f8118bd3ccca713e-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-03-run_1a0f8118bd3ccca713e-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-03-run_1a0f8118bd3ccca713e-artifact-001.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-04-run_1a0f81a9b714c338a4d-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-04-run_1a0f81a9b714c338a4d-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-04-run_1a0f81a9b714c338a4d-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-04-run_1a0f81a9b714c338a4d-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-04-run_1a0f81a9b714c338a4d-artifact-001.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-05-run_1a0f823e685a0a1a2f3-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-05-run_1a0f823e685a0a1a2f3-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-05-run_1a0f823e685a0a1a2f3-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-05-run_1a0f823e685a0a1a2f3-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-05-run_1a0f823e685a0a1a2f3-artifact-001.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-06-run_1a0f832606535338159-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-06-run_1a0f832606535338159-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-06-run_1a0f832606535338159-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-06-run_1a0f832606535338159-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-06-run_1a0f832606535338159-artifact-001.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-07-run_1a0f83bf9a504934987-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-07-run_1a0f83bf9a504934987-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-07-run_1a0f83bf9a504934987-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-07-run_1a0f83bf9a504934987-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-07-run_1a0f83bf9a504934987-artifact-001.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-08-run_1a0f845776047c95a1a-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-08-run_1a0f845776047c95a1a-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-08-run_1a0f845776047c95a1a-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-08-run_1a0f845776047c95a1a-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-08-run_1a0f845776047c95a1a-artifact-001.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-09-run_1a0f84e775a61f6bc86-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-09-run_1a0f84e775a61f6bc86-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-09-run_1a0f84e775a61f6bc86-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-09-run_1a0f84e775a61f6bc86-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-10-run_1a0f860c754dbe73da7-run.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-10-run_1a0f860c754dbe73da7-events.jsonl",
+      "passed": true
+    },
+    {
+      "id": "source-sha-10-run_1a0f860c754dbe73da7-artifacts.json",
+      "passed": true
+    },
+    {
+      "id": "source-sha-10-run_1a0f860c754dbe73da7-artifact-000.bin",
+      "passed": true
+    },
+    {
+      "id": "source-sha-10-run_1a0f860c754dbe73da7-artifact-001.bin",
+      "passed": true
+    },
+    {
+      "id": "original-recorded-events-intact",
+      "passed": true,
+      "count": 724
+    },
+    {
+      "id": "all-original-artifact-bytes-intact",
+      "passed": true,
+      "files": 19
+    },
+    {
+      "id": "original-v62-database-sha-intact",
+      "passed": true
+    },
+    {
+      "id": "served-dist-still-fixed",
+      "passed": true
+    }
+  ],
+  "manifest": {
+    "schema_version": 1,
+    "run_id": "run_1a0f8118bd3ccca713e",
+    "selection": "adopted",
+    "artifacts": [
+      {
+        "artifact_id": "readiness.json",
+        "revision": 1,
+        "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "path": "artifacts/readiness.json"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "path": "final-report.md",
+      "sha256": "536a9ebcacd4fd4d484c67859268ed550d18adf516d974208f8db3d8c3dd8546",
+      "bytes": 43487
+    },
+    {
+      "path": "manifest.json",
+      "sha256": "116fac218e4260b80c36eb1d5cc6224e73b3558bb531a0b0909fddd9ed6546f4",
+      "bytes": 309
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "64bcd27fb01062f80006da988cb0d83d95ef1264884aa916ae4ef0377ab68bb7",
+      "bytes": 101224
+    },
+    {
+      "path": "artifacts/readiness.json",
+      "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "bytes": 5152
+    }
+  ],
+  "adoption_response_audit": [
+    {
+      "method": "POST",
+      "route": "/api/artifacts/{run_id}/{artifact_id}/adopt",
+      "status": 202,
+      "outcome": "response"
+    }
+  ],
+  "new_events": [
+    {
+      "type": "artifact.adopted",
+      "seq": 56
+    }
+  ],
+  "before_counts": {
+    "runs": 10,
+    "tasks": 20,
+    "messages": 38,
+    "artifacts": 19,
+    "approvals": 0,
+    "checkpoints": 30,
+    "run_access": 20,
+    "events": 724,
+    "execution_jobs": 0,
+    "request_receipts": 0,
+    "subject_admissions": 0
+  },
+  "after_counts": {
+    "runs": 10,
+    "tasks": 20,
+    "messages": 38,
+    "artifacts": 19,
+    "approvals": 0,
+    "checkpoints": 30,
+    "run_access": 20,
+    "events": 725,
+    "execution_jobs": 0,
+    "request_receipts": 0,
+    "subject_admissions": 0
+  },
+  "limits": [
+    "Original adoption HTTP202 body was not retained; audit202, event56, current selection and ZIP were independently reconciled.",
+    "No original event or artifact bytes were altered. New event56 reflects AI selection only."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "recorded_at": "2026-10-01T17:27:38.577146+00:00",
+  "disk_free_bytes": 20151574528,
+  "memory_available_bytes": 6675136512,
+  "memory_method": "vm_stat free + inactive + speculative pages; reclaimable-memory estimate",
+  "pressure": {
+    "level": 1,
+    "normal": true,
+    "free_percent": 77
+  },
+  "model": {
+    "model": "agentteam-qwen35-9b-16k",
+    "digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+    "model_file_bytes": 6594474465,
+    "same_digest_resident": false,
+    "resident_metadata": [],
+    "resident_sizes_are_observations_not_incremental_loads": true
+  },
+  "disk_required_exclusive_minimum_bytes": 10737418240,
+  "memory_required_minimum_bytes": 8741958113,
+  "policy": "normal pressure and 1 GiB headroom for already resident same digest; otherwise max(8 GiB, model file + 2 GiB)",
+  "rationale": "Do not count already resident weights twice; unloaded estimates reserve file weights plus cache/runtime allowance.",
+  "guarantees_future_allocation": false,
+  "available_gib": 6.217,
+  "required_gib": 8.142,
+  "policy_owner": "private task supervisor operational launch policy; not model vendor minimum requirements",
+  "actual_allocation_attempted": false,
+  "quality_evaluated": false
+}

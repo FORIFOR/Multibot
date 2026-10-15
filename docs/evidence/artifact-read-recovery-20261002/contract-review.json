@@ -1,0 +1,143 @@
+{
+  "status": "STATIC_REVIEW_COMPLETE_RUNTIME_OBSERVATION_PENDING",
+  "reviewed_at": "2026-10-02T02:40:11.003157+00:00",
+  "head": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "reviewer": "quality_assessment",
+  "new_product_execution": false,
+  "new_model_execution": false,
+  "source_changes": false,
+  "human_acceptance": "not_performed",
+  "scope": "成果物本文とその確認記録を取得するDeliverables effectの契約。実Chrome故障観察は別担当の専用rootで実施予定・進行中。ここでは新サービスやブラウザーを起動しない。",
+  "source_evidence": "source-verification.json",
+  "confirmed_static_findings": [
+    {
+      "id": "artifact_read_has_no_deadline",
+      "source": "frontend/src/pages/Workroom.tsx:370; frontend/src/lib/api.ts:131",
+      "finding": "artifact GETはaliveによる旧結果無効化だけを持ち、AbortSignal・期限・cleanup時の通信取消を持たない。run/chat/eventsの15秒batchとは別effect。",
+      "runtime": "保留時間・復帰可否は別担当の原実測待ち。無限待機を実測したとは言わない。"
+    },
+    {
+      "id": "same_tuple_reference_does_not_restart_effect",
+      "source": "frontend/src/pages/Workroom.tsx:276; frontend/src/pages/Workroom.tsx:359; frontend/src/pages/Workroom.tsx:370",
+      "finding": "会話の同じ参照を選び直しても最終的なartifact_id/revisionの依存値は同じ。両パネルはmount維持のため、会話/成果物切替だけで読取effectは再開始しない。",
+      "runtime": "実リンク操作とGET件数は未観測。"
+    },
+    {
+      "id": "unknown_is_rendered_as_no_record",
+      "source": "frontend/src/pages/Workroom.tsx:375; frontend/src/pages/Workroom.tsx:381; frontend/src/pages/Workroom.tsx:398; frontend/src/pages/Workroom.tsx:408",
+      "finding": "初回取得errorではloadingRecord=falseかつdetailなしから確認概要が記録なしになり、expanded空listもpending/errorに記録なしを出し得る。未取得と真の記録0件の区別が必要。",
+      "runtime": "実DOM/画像の観察を依頼済み。"
+    },
+    {
+      "id": "same_tuple_cache_and_adoption",
+      "source": "frontend/src/pages/Workroom.tsx:370; frontend/src/pages/Workroom.tsx:414",
+      "finding": "同一id/revision再取得ではdetailを保持するが、現在採用disabledはbusy||!detailのみ。既表示のまま再取得pending/errorなら旧確認記録で採用操作が有効な構造。",
+      "recommendation": "元本文・編集コピーを保持し、現在読取loading/error中の新採用をdisabled。既存選択と採用ZIPは別の永続状態として保持。"
+    },
+    {
+      "id": "shared_error_has_two_meanings",
+      "source": "frontend/src/pages/Workroom.tsx:368; frontend/src/pages/Workroom.tsx:384; frontend/src/pages/Workroom.tsx:394",
+      "finding": "採用保存失敗とartifact読取失敗が同じerrorを共有し、共通RefreshはreadAttemptだけを増やす。採用結果の照会は親run refreshが必要。",
+      "recommendation": "読取状態/エラーを分離。今回採用応答喪失の実試験を行わないなら採用通信/再送動作を変更せず、既存全体再読込で状態確認する制約を残す。"
+    },
+    {
+      "id": "active_run_sequence_can_restart_deadline",
+      "source": "frontend/src/pages/Workroom.tsx:370",
+      "finding": "run.last_seqがartifact effectの依存にある。期限だけ追加すると連続イベントで再開始され、期限到達が先延ばしになる可能性。",
+      "runtime": "停止済み実記録ではlast_seq固定。進行runを作って実測しない。今回の停止済みケースから全進行状態へ一般化しない。"
+    }
+  ],
+  "must_preserve": [
+    {
+      "boundary": "exact_identity",
+      "source": "frontend/src/pages/Workroom.tsx:372; frontend/src/pages/Workroom.tsx:374",
+      "rule": "新detailはrun_id/artifact_id/revision/SHAが表示中metadataと一致する場合だけ受け入れる。版変更では旧本文/確認を別版へ流用しない。参照SHA不一致・不存在は既存拒否を維持。"
+    },
+    {
+      "boundary": "check_provenance",
+      "source": "frontend/src/pages/Workroom.tsx:28; frontend/src/pages/Workroom.tsx:374",
+      "rule": "対象id/revision/SHA一致と同kind/taskの最新seqによる結果を維持。未取得・errorをpassやno-recordへ変換しない。確認記録passは内容全体の品質保証ではない。"
+    },
+    {
+      "boundary": "auth",
+      "source": "frontend/src/lib/api.ts:75; frontend/src/lib/api.ts:89; frontend/src/lib/api.ts:96; frontend/src/lib/browser-session.ts:31",
+      "rule": "既存session active/generationとX-AgentTeam-Subject・401失効を維持。raw/SSE/ZIPのbrowser_subjectとbackend ACLも維持。abort追加をPOST/mutationや同キー永続化へ広げない。"
+    },
+    {
+      "boundary": "adoption",
+      "source": "frontend/src/pages/Workroom.tsx:384; backend/agentteam/api/app.py:915",
+      "rule": "UIのviewer非表示、write ACL、expected_selected_revisionによる比較追記と409、202＝版選択記録を維持。採用を品質合格・人間受入にしない。read retryからPOSTを呼ばない。"
+    },
+    {
+      "boundary": "copy_preview_and_download",
+      "source": "frontend/src/pages/Workroom.tsx:395; frontend/src/pages/Workroom.tsx:418; frontend/src/components/ArtifactWorkbench.tsx:7; backend/agentteam/api/app.py:821",
+      "rule": "同tupleの本文/編集copy/draft/会話状態を保持。コピーは原成果物を更新しない。iframeのsandboxとraw CSPを維持。採用ZIPとlatest ZIPを混同せず、未選択409・manifest/revision/SHA/全bytesを保存契約として維持。"
+    },
+    {
+      "boundary": "request_lifetime",
+      "rule": "deadlineはfetch headers/body全体、effect cleanupでabortとtimer解除。旧requestのsuccess/catch/finallyはaliveとrequest identityで現在状態を上書きしない。親3GET batchとは別controllerにする。明示retryだけreplaceし、通常の5秒pollだけで同じ版を無条件に毎回取得し直さない。"
+    }
+  ],
+  "minimum_fix_hypothesis": {
+    "not_implemented_or_accepted_here": true,
+    "files": [
+      "frontend/src/lib/api.ts artifact optional AbortSignal only",
+      "frontend/src/pages/Workroom.tsx Deliverables read effect/state/UI"
+    ],
+    "state": [
+      "loading",
+      "ready",
+      "error"
+    ],
+    "deadline_candidate_ms": 15000,
+    "same_tuple_cache": "元本文と編集コピーを保持する。read状態とdetail保存の有無を別に扱う。",
+    "focus": "pending/error内retryが成功で消える場合、明示操作を開始したcontrolにfocusが残っているときだけ安定したreaderへ移す。passive再取得でfocusを奪わない。",
+    "separate_scopes": [
+      "Workroom親3GET/SSE",
+      "ArtifactWorkbench差分GET",
+      "raw iframe/別タブ/ZIP",
+      "adoption POST response-loss handling",
+      "AuthGate peer/auth初期reload"
+    ]
+  },
+  "minimum_acceptance_plan": [
+    {
+      "id": "before_actual_pending",
+      "actor": "browser_isolation",
+      "input": "実rep2 readiness.json版1、会話seq24参照",
+      "method": "実artifact200のみResponse段階保留。12/17.5/35秒のpending/error/採用disabled/record表示と同参照の自然再選択・実GET数を記録。",
+      "no_claim": "35秒観測≠無限待機/SLA。HTMLプレビューの実証ではない。"
+    },
+    {
+      "id": "before_actual_error",
+      "actor": "browser_isolation",
+      "method": "artifact pathのみ実通信遮断、他3GET成功を記録。取得不能と記録なしの誤表示、実retryと原200解除後bytesを確認。"
+    },
+    {
+      "id": "after_manual_and_deadline",
+      "method": "初回保留中、表示された明示retryを自然Tab/Enterで操作し、新規実artifact200が旧応答解除前に成立すること。別caseで12秒pending→製品15秒期限後に未確認errorへ移ることを確認。"
+    },
+    {
+      "id": "after_loaded_copy_preserved",
+      "method": "同じ実版の原本文と未送信編集copyを表示したまま実再読取保留/失敗/明示復帰。same tupleの本文/編集copy不変、pending/error新採用disabled、復帰時のみ旧権限どおり採用可能、原bytesとreview対象SHA一致を確認。コピーには実資料抜粋を使用、生成文/架空版を作らない。"
+    },
+    {
+      "id": "after_unmount_old_request",
+      "method": "許可された場合のみ既存別runへ移動し旧読取取消と旧画面state非復活を確認。実CDP取消応答Invalidならlate-success到達の証拠にしない。"
+    },
+    {
+      "id": "invariants_and_cleanup",
+      "method": "source/code/UI固定、実run/event/artifact bytes、adoption/status/seq、model event/jobの前後不変。login/audit以外write0、owned API/Chrome終了。実測しなかったrole/複数版/別主体条件は未確認のまま。"
+    }
+  ],
+  "record_constraints": {
+    "original_files_matched": 14,
+    "actual_visible_files_per_selected_run": 1,
+    "actual_revisions_per_file": 1,
+    "synthetic_alternative_versions_forbidden": true,
+    "multiple_versions_files": "未検証。ソース条件がないため捏造しない。",
+    "partial_body_stall": "Response-stage保留だけでは未検証。",
+    "same_model_review": "AIによる独立レビュー。人間初見・公開運用・意味品質・受賞評価ではない。"
+  },
+  "next_runtime_evidence": "workroom-artifact-observation-20261002-r1 is another agent exclusive root; pending and not copied here"
+}

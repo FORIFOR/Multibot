@@ -1,0 +1,180 @@
+{
+  "started_at": "2026-10-01T19:33:42.953Z",
+  "status": "FAILED",
+  "before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_calls": 0
+  },
+  "source_sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+  "captures": [
+    {
+      "name": "attachment-1440-empty",
+      "width": 1440,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "add": {
+          "x": 435,
+          "y": 381.921875,
+          "width": 113,
+          "height": 44,
+          "top": 381.921875,
+          "right": 548,
+          "bottom": 425.921875,
+          "left": 435
+        },
+        "status": "まだ資料は添付されていません"
+      }
+    },
+    {
+      "name": "attachment-1440-source",
+      "width": 1440,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "add": {
+          "x": 435,
+          "y": 381.921875,
+          "width": 113,
+          "height": 44,
+          "top": 381.921875,
+          "right": 548,
+          "bottom": 425.921875,
+          "left": 435
+        },
+        "status": "依頼に添付済み · 1件"
+      }
+    },
+    {
+      "name": "attachment-768-source",
+      "width": 768,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 768,
+        "scrollWidth": 768,
+        "add": {
+          "x": 293,
+          "y": 390.90625,
+          "width": 113,
+          "height": 44,
+          "top": 390.90625,
+          "right": 406,
+          "bottom": 434.90625,
+          "left": 293
+        },
+        "status": "依頼に添付済み · 1件"
+      }
+    },
+    {
+      "name": "attachment-390-source",
+      "width": 390,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "add": {
+          "x": 31,
+          "y": 538.546875,
+          "width": 113,
+          "height": 44,
+          "top": 538.546875,
+          "right": 144,
+          "bottom": 582.546875,
+          "left": 31
+        },
+        "status": "依頼に添付済み · 1件"
+      }
+    },
+    {
+      "name": "attachment-320-source",
+      "width": 320,
+      "height": 900,
+      "metrics": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "add": {
+          "x": 31,
+          "y": 643.625,
+          "width": 113,
+          "height": 44,
+          "top": 643.625,
+          "right": 144,
+          "bottom": 687.625,
+          "left": 31
+        },
+        "status": "依頼に添付済み · 1件"
+      }
+    },
+    {
+      "name": "attachment-390-english",
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "add": {
+          "x": 31,
+          "y": 546.234375,
+          "width": 107.828125,
+          "height": 44,
+          "top": 546.234375,
+          "right": 138.828125,
+          "bottom": 590.234375,
+          "left": 31
+        },
+        "status": "Attached to this request · 1 file"
+      }
+    }
+  ],
+  "checks": {
+    "label_opens_real_input_and_source_read_exactly": true,
+    "keyboard_same_file_reselect_no_duplicate": true,
+    "reload_keeps_draft_and_marks_attached": true,
+    "language_preserves_source_and_localizes_status": true,
+    "remove_and_reload_does_not_resurrect_file": true,
+    "real_browser_200_percent": true
+  },
+  "limits": [
+    "Actual technical operator account, repository material and SQLite; no business data fabricated",
+    "No request submitted, provider health or inference quality not tested",
+    "Implementation-author verification; separate review requested; not human first-use acceptance"
+  ],
+  "browser": "154.0.8037.58",
+  "keyboard": {
+    "focused": "run-attachments",
+    "outline": "solid",
+    "outlineWidth": "3px"
+  },
+  "axe": [],
+  "file_accessibility": [
+    {
+      "role": "button",
+      "name": "資料を追加",
+      "description": "txt / md / csv、1ファイル512KBまで 依頼に添付済み · 1件",
+      "ignored": false
+    },
+    {
+      "role": "StaticText",
+      "name": "資料を追加",
+      "ignored": false
+    },
+    {
+      "role": "InlineTextBox",
+      "name": "資料を追加",
+      "ignored": false
+    }
+  ],
+  "zoom": {
+    "innerWidth": 720,
+    "outerWidth": 1440,
+    "dpr": 2,
+    "scrollWidth": 720,
+    "bodyZoom": "1",
+    "rootZoom": "1"
+  },
+  "error_name": "TimeoutError",
+  "finished_at": "2026-10-01T19:37:47.961Z"
+}

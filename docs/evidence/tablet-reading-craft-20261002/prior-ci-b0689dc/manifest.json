@@ -1,0 +1,104 @@
+{
+  "head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+  "merge": "fc7d41995a25ea958735a5e205d3f153e2c28ffd",
+  "files": [
+    {
+      "path": "service/multibot-result-reading/safe-report.json",
+      "sha256": "e81976b28346f1922e38ba42c2d98c7325085ccd66892f3e05f798c538785e07",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-document-sandbox/safe-report.json",
+      "sha256": "9ca07ccadf3f71a8dc66fe820a791386f1a8a4b3aa052e71c325e67653cc1dcc",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-database-concurrency/safe-report.json",
+      "sha256": "e94fc1b08f5d4061251263499eed1877812b0a38ac70c12d0909ebe02cbe4074",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-public-service/report.json",
+      "sha256": "4e825fe4516f12335da3baedff833c1ca5fcfa313d066c1482416daab15ee69a",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-public-service/admission/verification.json",
+      "sha256": "87bbb8110bc34c5007e5e3bbb2fd3ed0bb9f96f74b6619cb0524298a1f4f8b3d",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-public-service/responses/response-check.json",
+      "sha256": "c7470530d9791f4cb62ed8fb3dff958cc7139b65997860d0cbf1a412f166e371",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-public-service/browser/parallel-diagnostic.json",
+      "sha256": "80898da497aa3bf1b0bc412960c8edcdedb10409385fb17b80fbfc72130e4165",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-public-service/browser/results.json",
+      "sha256": "386aa92a6b886a927214e9811f4569e2ca09e32ad90ca670c89107f43be2a431",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-public-service/browser/parallel-login.json",
+      "sha256": "1b93fe0a9b7d834c99c434bec74d7650397cbe5991826b859911637618fd98b4",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-public-service/browser/peer-tab-close.json",
+      "sha256": "1eb6c32e7c2cb62db16cdfa01601de53d452cf623dfb8b38732aca1a417764ac",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "service/multibot-public-service/browser/retry-reload.json",
+      "sha256": "65ee8d4de6d73d656c26838d53bbe0c47a20d0dc2ec112a4e0b4a204071a41d4",
+      "source_scope": "CI36937881229 / service / original allowlisted JSON"
+    },
+    {
+      "path": "oidc/provenance.json",
+      "sha256": "c793dc63221fc30d79f9ed87d8071b752ff7afc082664ae6a8f54a69665d306c",
+      "source_scope": "CI36937881117 / OIDC / independently verified safe JSON"
+    },
+    {
+      "path": "oidc/report.json",
+      "sha256": "4ce45bb4e4ef46245b053cdffded779c35dc9ba5b0bab30187558e398cc8ecac",
+      "source_scope": "CI36937881117 / OIDC / independently verified safe JSON"
+    },
+    {
+      "path": "oidc/cleanup-report.json",
+      "sha256": "156d8ca0c86771f6c548372b8b779b2a6ea3c9ab7f83db223d9c93ed7b881d2e",
+      "source_scope": "CI36937881117 / OIDC / independently verified safe JSON"
+    },
+    {
+      "path": "site/audit.json",
+      "sha256": "62c4c3d4cb511ad7ccc8c6b55fd4c904a0b5495ec631080af605faecadd2fda8",
+      "source_scope": "CI36937881229 / site / public page audit original JSON"
+    },
+    {
+      "path": "service-review.json",
+      "sha256": "358c57c38c3df4eab5de01c95cca4713835245f1bc13534f607a036ee10c1eea",
+      "source_scope": "Independent AI read-only verification of prior CI"
+    },
+    {
+      "path": "site-review.json",
+      "sha256": "585e2ea8df04140568070fb6eacacef630fc148d328453dbb556c0d9cbac7d0c",
+      "source_scope": "Independent AI read-only verification of prior CI"
+    },
+    {
+      "path": "oidc-review.json",
+      "sha256": "75f3413752362508eb4835eafefce0dd2a23c3e1563c625cb81010460284cf8d",
+      "source_scope": "Independent AI read-only verification of prior CI"
+    }
+  ],
+  "limits": [
+    "These artifacts predate the uncommitted tablet CSS change; do not cite them as validation of that change.",
+    "Use original JSON bytes or explicitly label any derived summary. SHA and exact head/merge belong alongside copies.",
+    "No raw logs, DB, ownership manifests, access configuration, credentials, browser raw failures or private scripts are recommended for copying.",
+    "PNG copies are outside this recommendation; prior screenshot checks do not imply every image is reviewed.",
+    "CI private keys are unavailable to this reviewer. This checks selected safe JSON fields/JWT shape and previously verified upload allowlists, not a fresh exact CI secret-byte comparison.",
+    "No current services/models/VMs were started for this review."
+  ]
+}

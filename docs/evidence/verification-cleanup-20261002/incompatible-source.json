@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "source": "docs/quality/integration.md",
+  "source_sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+  "actual_incompatible_profile_sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+  "scope": "Unchanged real repository document used as incompatible configuration input, not invented business data."
+}

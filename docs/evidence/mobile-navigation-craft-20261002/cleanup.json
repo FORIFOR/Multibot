@@ -1,0 +1,28 @@
+{
+  "actor": "AI",
+  "human_acceptance": false,
+  "source_files_verified": 49,
+  "finished_at": "2026-10-01T22:48:45.979340+00:00",
+  "cleanup_continuation": "Read-only verification after r1 intentionally stopped the owned API; no restart.",
+  "state": {
+    "run_fields_unchanged": 10,
+    "original_events_unchanged": 724,
+    "artifact_metadata_and_bytes_unchanged": 19,
+    "tasks_messages_checkpoints_approvals_unchanged": true,
+    "new_model_events": 0,
+    "execution_jobs": 0,
+    "adoption_requests": 0,
+    "new_source_task_id_column_all_null": true
+  },
+  "status": "PASS",
+  "source_unchanged": true,
+  "original_database_sha256": "b09f02479d1c60111fff52525fc465e2ac7bbac434acd91354f8a834659f2cf3",
+  "owned_service_exited": true,
+  "port_closed": true,
+  "root_capture_chrome_remaining": 0,
+  "private_service_log_bytes": {
+    "baseline-service.private.log": 0,
+    "after-r1-service.private.log": 0
+  },
+  "private_runtime_error_markers": 0
+}

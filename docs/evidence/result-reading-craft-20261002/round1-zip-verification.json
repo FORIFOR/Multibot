@@ -1,0 +1,114 @@
+{
+  "actor": "AI",
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false,
+  "run_id": "run_1a0f7fbead33cd46066",
+  "checks": [
+    {
+      "id": "stale-selection-denied",
+      "status": "PASS",
+      "http": 409,
+      "selection_unchanged": true
+    },
+    {
+      "id": "adopted-zip-all-entries",
+      "status": "PASS",
+      "zip_sha256": "6230a4b6a4d547c0f748b5084bb7d71da00e45e6ca603d038dcb450b6767fc7c",
+      "manifest": {
+        "schema_version": 1,
+        "run_id": "run_1a0f7fbead33cd46066",
+        "selection": "adopted",
+        "artifacts": [
+          {
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "path": "artifacts/readiness.json"
+          }
+        ]
+      },
+      "entries": [
+        {
+          "path": "final-report.md",
+          "sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+          "size": 43512
+        },
+        {
+          "path": "manifest.json",
+          "sha256": "f73b910ffb9d1e2025c4c056c12d757f35e8f02b6f493116b079869c81c397d3",
+          "size": 309
+        },
+        {
+          "path": "events.jsonl",
+          "sha256": "83f9567c10809af05c950a2ef66b988d30c5b8af097d76895aad6bb67efff158",
+          "size": 103092
+        },
+        {
+          "path": "artifacts/readiness.json",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ]
+    },
+    {
+      "id": "latest-zip-all-entries",
+      "status": "PASS",
+      "zip_sha256": "771241621e3b1c5f3e6fa07eefc9ad37668f756a80bbfbb0831b494b297657d4",
+      "manifest": {
+        "schema_version": 1,
+        "run_id": "run_1a0f7fbead33cd46066",
+        "selection": "latest",
+        "artifacts": [
+          {
+            "artifact_id": "final-report.md",
+            "revision": 1,
+            "sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+            "path": "artifacts/final-report.md"
+          },
+          {
+            "artifact_id": "readiness.json",
+            "revision": 1,
+            "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "path": "artifacts/readiness.json"
+          }
+        ]
+      },
+      "entries": [
+        {
+          "path": "final-report.md",
+          "sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+          "size": 43512
+        },
+        {
+          "path": "manifest.json",
+          "sha256": "e32aad7546eae1f91cb988ac4456f0f600ca7d97879a209eaa32d7f1c2b6edd8",
+          "size": 508
+        },
+        {
+          "path": "events.jsonl",
+          "sha256": "83f9567c10809af05c950a2ef66b988d30c5b8af097d76895aad6bb67efff158",
+          "size": 103092
+        },
+        {
+          "path": "artifacts/final-report.md",
+          "sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+          "size": 43512
+        },
+        {
+          "path": "artifacts/readiness.json",
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "size": 5152
+        }
+      ]
+    },
+    {
+      "id": "original-events-unchanged",
+      "status": "PASS",
+      "count": 724,
+      "new_jobs": 0,
+      "new_model_events": 0
+    }
+  ],
+  "source_unchanged": true,
+  "status": "PASS"
+}

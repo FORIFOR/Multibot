@@ -1,0 +1,52 @@
+{
+  "state": "original HTTP runtime error observed; full timestamped raw stderr unavailable",
+  "error_type": "sqlite3.OperationalError",
+  "message": "database is locked",
+  "tool_chunk": "589469",
+  "captured_output_truncated": true,
+  "reported_original_lines": 181,
+  "reported_original_tokens": 4432,
+  "tool_output_budget": 1000,
+  "known_failure_stack": "authorize -> audit -> Database.execute -> aiosqlite worker",
+  "associated_audit_observation": {
+    "interval_start_utc": "2026-10-01T19:39:53.650418+00:00",
+    "authorized_without_response": [
+      {
+        "start": 1790883736.099526,
+        "end": 1790883736.099526,
+        "method": "GET",
+        "route": "/api/config",
+        "outcomes": "authorized",
+        "statuses": "0",
+        "start_utc": "2026-10-01T19:42:16.099526+00:00",
+        "end_utc": "2026-10-01T19:42:16.099526+00:00"
+      }
+    ],
+    "usage_requests": [
+      {
+        "recorded_at": 1790883736.110044,
+        "method": "GET",
+        "route": "/api/usage",
+        "outcome": "authorized",
+        "status": 0,
+        "at_utc": "2026-10-01T19:42:16.110044+00:00"
+      },
+      {
+        "recorded_at": 1790883736.140878,
+        "method": "GET",
+        "route": "/api/usage",
+        "outcome": "response",
+        "status": 200,
+        "at_utc": "2026-10-01T19:42:16.140878+00:00"
+      }
+    ],
+    "limitations": [
+      "authorize audit INSERT failures leave no own row; absence of 500 is not absence of error",
+      "missing response can also be client cancellation; this alone cannot identify the failure"
+    ]
+  },
+  "limitation": "The audit gap aligns with native200 capture. Failed authorization audit inserts leave no row, so counts and exact failing requests are unknown.",
+  "service_stopped": true,
+  "original_source_unchanged": true,
+  "self_checks_are_not_human_acceptance": true
+}

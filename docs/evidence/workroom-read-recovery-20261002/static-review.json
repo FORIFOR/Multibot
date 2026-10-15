@@ -1,0 +1,107 @@
+{
+  "status": "PASS_STATIC_WITH_RUNTIME_PENDING",
+  "reviewed_at": "2026-10-02T01:44:26.289316+00:00",
+  "reviewer": "同モデルAI別セッション・実装者から独立した読取レビュー",
+  "base_revision": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "source_sha256": {
+    "frontend/src/lib/api.ts": "fbad0a6cfe12d52329b70badf7580cde16d1f0d31a13eef05a7373487b7437ca",
+    "frontend/src/pages/Workroom.tsx": "f3e8924f8e9bab8fe973f5b4f8b4ec920ddb8671ffbfd260eb072ab7a5230174"
+  },
+  "diff_sha256": "c7bcde2eac185ecd5287addec17808ef09c3a2dc9b6c1c2abdc423f5c49a2d07",
+  "unchanged_boundary_sources": {
+    "frontend/src/components/AuthGate.tsx": {
+      "sha256": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+      "equals_base": true
+    },
+    "frontend/src/lib/browser-session.ts": {
+      "sha256": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+      "equals_base": true
+    },
+    "frontend/src/App.tsx": {
+      "sha256": "e021310967703ea56602730f5fb6bc6b83c2e6e0c69ce321098f772b00fb2c61",
+      "equals_base": true
+    },
+    "backend/agentteam/security/server.py": {
+      "sha256": "29e30b467789a9eccc7cb17417b20b520827e30be364b7e68b5e839ccb76fc0a",
+      "equals_base": true
+    },
+    "backend/agentteam/api/app.py": {
+      "sha256": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+      "equals_base": true
+    }
+  },
+  "checks": [
+    {
+      "id": "signal_scope",
+      "status": "PASS",
+      "method": "静的差分/データフロー確認",
+      "evidence": "frontend/src/lib/api.ts:74-120",
+      "observed": "reqの任意AbortSignalを公開run/chat/eventsの3 GETだけから渡す。idempotent分岐は従来の30秒signalを維持し、本文消費もfetchと同signalに従う。"
+    },
+    {
+      "id": "batch_deadline",
+      "status": "PASS",
+      "method": "静的差分/データフロー確認",
+      "evidence": "frontend/src/pages/Workroom.tsx:81-102",
+      "observed": "batch開始時の15秒timerをPromise.all解決/失敗まで保持する。各finallyで自身のtimerを解除し、read.abortで未完了の兄弟GETを終了する。"
+    },
+    {
+      "id": "stale_identity",
+      "status": "PASS",
+      "method": "静的差分/データフロー確認",
+      "evidence": "frontend/src/pages/Workroom.tsx:82-102",
+      "observed": "古い成功とdetail返却はalive/currentRead一致の後だけ。古いcatchはerrorを変更せず、古いfinallyは新currentReadをnullにしない。manual置換のabortとnewcurrent設定の間にawaitがない。"
+    },
+    {
+      "id": "unmount",
+      "status": "PASS",
+      "method": "静的差分/データフロー確認",
+      "evidence": "frontend/src/pages/Workroom.tsx:132",
+      "observed": "effect cleanupでalive=false後にcurrentRead.abort。旧stream、poll、debounce、イベントlistener終了は維持する。"
+    },
+    {
+      "id": "refresh_policy",
+      "status": "PASS",
+      "method": "静的差分/データフロー確認",
+      "evidence": "frontend/src/pages/Workroom.tsx:124-129",
+      "observed": "通常poll/SSE/foregroundは非置換。refreshRefを経由する明示読取とDirection/Approval/採用後refreshは置換あり。後者は従来から共有する明示操作後読取であり、自動mutation再実行はない。"
+    },
+    {
+      "id": "authentication_unchanged",
+      "status": "PASS",
+      "method": "静的差分/データフロー確認",
+      "evidence": "frontend/src/lib/api.ts:75-100; frontend/src/components/AuthGate.tsx; frontend/src/lib/browser-session.ts",
+      "observed": "主体header、generation照合、401通知、pendingCommands保持/破棄条件は無変更。AuthGateとbrowser-sessionはHEADからbyte不変。timeoutによる合成401やCookie主体の再採用は追加しない。"
+    },
+    {
+      "id": "data_and_display_unchanged",
+      "status": "PASS",
+      "method": "静的差分/データフロー確認",
+      "evidence": "frontend/src/pages/Workroom.tsx",
+      "observed": "失敗catchはloadErrorのみ。既表示run/chat/events、direction、各パネルmountは維持。run切替開始時だけloadErrorを消去。run.statusやartifact採用を書き換えない。"
+    },
+    {
+      "id": "sse_and_mutations_unchanged",
+      "status": "PASS",
+      "method": "静的差分/データフロー確認",
+      "evidence": "frontend/src/pages/Workroom.tsx:103-129; frontend/src/lib/api.ts:105-143",
+      "observed": "EventSource browser_subjectとcursor開始/1stream制御、create/resume/forkのsignature/key・408/429/5xx保持は無変更。GET refreshからmutationを再送しない。"
+    }
+  ],
+  "blocking_findings": [],
+  "scope_notes": [
+    "明示Refreshだけでなく、共有refreshRefを使うDirection/Approval/採用成功後の読取も旧batchを置換する。通常poll/SSEは重複をskipする。",
+    "artifact GETは別effectで期限/abort追加なし。全GET回復を保証したと表現しない。",
+    "15秒setTimeoutは製品側待機上限の設計。ブラウザー停止・背景throttling込みの厳密なwallclock SLAではない。",
+    "元runが同じ本文SHAでも別runは識別不能なので実検証ではrun_id/status/last_seqと原artifact tupleも確認する。"
+  ],
+  "runtime_acceptance": "別担当が実Chromeで次に検証。修正版の実表示・deadline・破棄・主体切替を本レビューでPASSにしない。",
+  "actions_by_reviewer": {
+    "product_edits": 0,
+    "services_started": 0,
+    "browsers_started": 0,
+    "new_model_calls": 0,
+    "tests_run": 0
+  },
+  "human_acceptance": false
+}

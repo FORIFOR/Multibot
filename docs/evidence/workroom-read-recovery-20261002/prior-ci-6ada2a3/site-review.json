@@ -1,0 +1,90 @@
+{
+  "state": "PASS",
+  "checked_at": "2026-10-02T01:29:53.592073+00:00",
+  "run_id": 36950319697,
+  "head": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "actual_merge_checkout": "88ffec3af0303922fbe33fdaee215a1ec900f7a0",
+  "artifact_id": 11203946310,
+  "original_zip_sha256": "004d2be1d968d8f0b2c800158edc07df36598d77f95930f089fb75114969a26e",
+  "original_zip_github_digest_match": true,
+  "entries_preserved": 58,
+  "artifact_json_extracted": 19,
+  "png_kept_only_in_zip": 38,
+  "runner_kept_only_in_zip": true,
+  "scope": {
+    "local_static_site_conditions": 18,
+    "automated_checks_pass": 185,
+    "automated_checks_fail": 0,
+    "site_source_files_sha_matches_head": 7,
+    "served_resources_sha_matches_head": 10,
+    "runner_sha_matches_head_and_zip": true,
+    "four_product_png_match_preserved_capture_and_head": true,
+    "preserved_record_files_local_match_head": 7,
+    "real_original_excerpts_exact_in_each_language": 6
+  },
+  "accessibility": {
+    "axe_executed_cases": 10,
+    "reported_violations": 0,
+    "incomplete_case_count": 10,
+    "incomplete_targets_with_scopes": {
+      ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]": [
+        "ja-normal-1440",
+        "ja-normal-390",
+        "ja-reflow-720-720",
+        "ja-reflow-html-720",
+        "ja-reflow-text-720",
+        "en-normal-1440",
+        "en-normal-390",
+        "en-reflow-720-720",
+        "en-reflow-html-720",
+        "en-reflow-text-720"
+      ],
+      ".hero-footer > span[aria-hidden=\"true\"]": [
+        "ja-normal-1440",
+        "ja-normal-390",
+        "ja-reflow-720-720",
+        "ja-reflow-html-720",
+        "ja-reflow-text-720",
+        "en-normal-1440",
+        "en-normal-390",
+        "en-reflow-720-720",
+        "en-reflow-html-720",
+        "en-reflow-text-720"
+      ],
+      "textarea": [
+        "ja-reflow-html-720",
+        "en-reflow-html-720"
+      ]
+    },
+    "unassessed_cases": [
+      "ja-normal-320",
+      "ja-normal-768",
+      "ja-no-js-390",
+      "ja-reduced-motion-390",
+      "en-normal-320",
+      "en-normal-768",
+      "en-no-js-390",
+      "en-reduced-motion-390"
+    ],
+    "wcag_or_contrast_pass_claim": false
+  },
+  "cleanup": {
+    "records_pass": 38,
+    "owned_chrome_exit_code": 0,
+    "still_running": false,
+    "profile_removed": true,
+    "http_listener_independently_verified": false,
+    "all_os_descendants_independently_enumerated": false,
+    "workflow_static_server_exit_trap": true
+  },
+  "new_local_service_browser_model_execution": false,
+  "prior_failed_ci_36947671100_overwritten": false,
+  "limits": [
+    "Actual static-site GitHub localhost/browser evidence only.",
+    "720 viewport and CSS scaling are stress conditions, not native browser-menu zoom.",
+    "Axe incomplete remains unresolved; no human/read-aloud/Safari/WCAG acceptance.",
+    "Published product PNGs are preserved earlier actual app captures, not recaptured app UI at this head.",
+    "CI source snapshot records seven site files; original evidence input bytes separately compared locally to exact head and six generated excerpts matched.",
+    "Public Internet field performance, awards, production/L3/general business quality remain unverified."
+  ]
+}

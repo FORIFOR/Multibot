@@ -1,0 +1,156 @@
+{
+  "checked_at": "2026-10-01T18:13:31.622021+00:00",
+  "actual_private_keys_compared": 10,
+  "safe_json_files": [
+    {
+      "file": "original-r1/report.json",
+      "sha256": "0152598fb94d96fa24ab67cd56e115a3bab149f1dd76efa644f034ded3c881e0",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "original-r1/browser/peer-tab-close.json",
+      "sha256": "d51939f67326e06d324b493bdb0675e773a63a2b7dbcd6f4eb591d9916c98bd0",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "original-r2/report.json",
+      "sha256": "81380611c35b5d13900f4eb4115ff0a583be36cae1614375fe71d41ebbc784c3",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "original-r2/browser/peer-tab-close.json",
+      "sha256": "19c4a5bd0d4611e8851f7cab6b50103eea5578388e85453a7022c44c7757f129",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r1/report.json",
+      "sha256": "42bb6fa0adee061c15b85598699472d68f66653da8013c1aa652132849e6cc10",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r1/browser/peer-tab-close.json",
+      "sha256": "fa2c56bc3a9e7b8f71c504944f448db1b0341706415c20daa7be661d08c428bd",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r1/browser/parallel-login.json",
+      "sha256": "9a69d49e0a7fe889385e34a33a7f3da6c11bb3e6d75fffe8327142df982813c0",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r1/browser/parallel-diagnostic.json",
+      "sha256": "80898da497aa3bf1b0bc412960c8edcdedb10409385fb17b80fbfc72130e4165",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r1/browser/results.json",
+      "sha256": "4ca06620254b0301f25870ae59b9c1c2f2e16d65c9316c0fde2f8097e588618f",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r2/report.json",
+      "sha256": "6deb234e224889395f970e5c70845a0d40952cbed8b518eb598daa4ed7315cc7",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r2/browser/peer-tab-close.json",
+      "sha256": "5d4323c7111c393258c1276988af5eb96394c2951d96bc3970b3f4ae38f94abd",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r2/browser/parallel-login.json",
+      "sha256": "2a0c5acf35e61cbc48af492f3dc922aad989e9e12334ce65a816caa96e52c624",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r2/browser/parallel-diagnostic.json",
+      "sha256": "80898da497aa3bf1b0bc412960c8edcdedb10409385fb17b80fbfc72130e4165",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r2/browser/results.json",
+      "sha256": "3e19b4be3ff0c4baa58de2464e52c7f36e6fac79055e0c36e34b65bfc7640ea7",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r3/report.json",
+      "sha256": "ccb97cf69696d0a14a41f8c54784f204719045feba256218703f996a2b1fe8b3",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r3/browser/peer-tab-close.json",
+      "sha256": "4e540c21d3e3d44dfd45f266c4a7d7a574780bed7a7413ad5e1b77413b63bea6",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r3/browser/parallel-login.json",
+      "sha256": "5c37bf25b0a142a103783bb0aa56e857c17cddc68cc33ad08f0df8a75560f27e",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r3/browser/parallel-diagnostic.json",
+      "sha256": "80898da497aa3bf1b0bc412960c8edcdedb10409385fb17b80fbfc72130e4165",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    },
+    {
+      "file": "fixed-r3/browser/results.json",
+      "sha256": "f38c23d0054c8758218f40428ab653522757665cff3e419a7d77332cce937930",
+      "actual_key_matches": 0,
+      "jwt_pem_authorization_matches": 0
+    }
+  ],
+  "plaintext_actual_key_matches": 0,
+  "other_secret_pattern_matches": 0,
+  "actual_sql_counts_after_services_stopped": {
+    "original-r1": {
+      "runs": 0,
+      "jobs": 0,
+      "model_called": 0
+    },
+    "original-r2": {
+      "runs": 0,
+      "jobs": 0,
+      "model_called": 0
+    },
+    "fixed-r1": {
+      "runs": 0,
+      "jobs": 0,
+      "model_called": 0
+    },
+    "fixed-r2": {
+      "runs": 0,
+      "jobs": 0,
+      "model_called": 0
+    },
+    "fixed-r3": {
+      "runs": 0,
+      "jobs": 0,
+      "model_called": 0
+    }
+  },
+  "manually_viewed_images": [
+    "original-r2/browser/close-original-stuck.png",
+    "fixed-r3/browser/close-empty-signin.png"
+  ],
+  "image_observation": "Original connecting screen and recovered empty-key sign-in screen; no credential text visible.",
+  "excluded_from_publication": "All *.key, access.json, data/, *.log, peer-private-failure*.json/png and other private raw failures.",
+  "verification_scope": "fixed-r3 uses 21.5-second observation limit; later root change to 30 seconds requires its separate verification."
+}

@@ -1,14 +1,11 @@
-name: current-ui
+# Retained fixture checks. Manual dispatch is not exception approval; see docs/CI.md.
+name: legacy-current-ui
 on:
-  pull_request:
-    paths:
-      - 'frontend/**'
-      - 'backend/**'
-      - '.github/workflows/current-ui.yml'
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: current-ui-${{ github.event.pull_request.number }}
+  group: legacy-current-ui-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   current-ui:

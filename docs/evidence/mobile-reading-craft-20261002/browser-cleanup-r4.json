@@ -1,0 +1,13 @@
+{
+  "owned_browser": [
+    {
+      "program": "browser-critique-r4-check.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "business_tables_unchanged": true,
+  "service_owned_by_root_not_stopped": true
+}

@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "scope": "real rep6 UI interpretation boundary only",
+  "model_calls_added": 0,
+  "queued_or_leased_jobs": 0,
+  "cleanup": {
+    "service_stopped": true,
+    "port_closed": true,
+    "owned_chrome_processes_remaining": false,
+    "browser_closed": true
+  },
+  "business_quality_accepted": false,
+  "human_acceptance": "not_performed",
+  "imported_rows": {
+    "runs": 1,
+    "tasks": 2,
+    "messages": 3,
+    "events": 63,
+    "artifacts": 2,
+    "approvals": 0,
+    "checkpoints": 3
+  },
+  "browser_exit_code": 0,
+  "provider_adapter_calls": 0,
+  "events_unchanged": true,
+  "report_and_artifact_bytes_unchanged": true,
+  "source_bytes_unchanged": true,
+  "source_series": "real-readiness-v62-qwen35-fixed-20261002",
+  "source_rep": 6,
+  "source_run_id": "run_1a0f832606535338159",
+  "retained_private_attempt": "public-service-report-ui-20261002-r2",
+  "transport": "actual loopback AppService, SQLite, issued operator credential file, read grant, actual Chrome",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "previous_attempt": "ui-r1-failure.json",
+  "limitations": [
+    "Recorded old rep6 content is preserved, including unsupported model claims.",
+    "This verifies presentation boundaries, not correction or business acceptance of the old output.",
+    "Only JA/EN at 1440x1000 was observed; no new task, inference, probe, or full production journey was executed."
+  ]
+}

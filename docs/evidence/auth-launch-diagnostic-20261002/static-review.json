@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "recorded_at": "2026-10-02T03:27:25.240709+00:00",
+  "method": "independent static diff and preserved-tail byte comparison, no mocked errors and no browser execution",
+  "head": "0f2d377724bc2ec8c5a8469a663d991227bbd7f6",
+  "source": "frontend/scripts/auth-initial-recovery.mjs",
+  "source_sha256": "c03e2b0a0dcf03dde2b909ed78719d41ec1a26d98a53c66347f5745cf5fb9378",
+  "previous_source_sha256": "4ee4b5f2944272ddbe5b7d0260a453d3d49d80747d771dd64d8930496a007c64",
+  "diff_sha256": "7f9ebfb0e6ae7ccbd7bc5ebf2942a003a61e8766282b1dacbe814199da518c7a",
+  "checks": {
+    "existing_two_cases_all_assertions_and_final_cleanup_byte_identical": true,
+    "playwright_launch_options_timeout15000_unchanged": true,
+    "overall_90000_and_bounded_remaining_formula_unchanged": true,
+    "launch_failure_serialized_as_fixed_booleans_only": true,
+    "no_raw_error_message_stack_path_args_added_to_safe_report": true,
+    "exact_error_name_allowlist_unchanged": true,
+    "wrapper_timer_fired_is_direct_observation": true,
+    "sandbox_markers_do_not_match_flag_alone": true,
+    "no_app_AuthGate_or_bundle_change_in_this_diff": true,
+    "no_retry_or_fallback_added": true,
+    "failure_saved_before_private_log_and_cleanup": true
+  },
+  "blocking_findings": [],
+  "observations": [
+    "New browser_launch markers are fixed boolean observations. All false is unclassified, not evidence that no launch problem occurred. No category precedence invents a root cause.",
+    "Actual timer callback records wrapper_deadline_fired independently of error-string equality. Playwright15000ms and overall90000ms are unchanged.",
+    "STARTED diagnostic saved before launch; finally saves elapsed/state/markers before outer catch private log/cleanup. Existing parent process drainage remains authoritative.",
+    "The actual elapsed starts before the synchronous prelaunch save, so it includes that one save plus launch/race time. Treat it as instrumented launch-section duration, not pure Chrome internal startup time. This is a nonblocking measurement-scope note.",
+    "No success means original CI failure was fixed. Actual next launch may succeed without identifying previous cause."
+  ],
+  "limits": [
+    "Static review only; marker-failure branches have not been exercised with actual Chrome failures.",
+    "Error.message is inspected transiently, but only booleans are output. Actual safe-output/key byte scan belongs to next real run.",
+    "Original CI chrome_launch/Error cause remains unknown; no raw original message has been reconstructed.",
+    "No code edits, services, Chrome, model, VM, retries or fake error inputs used by reviewer."
+  ]
+}

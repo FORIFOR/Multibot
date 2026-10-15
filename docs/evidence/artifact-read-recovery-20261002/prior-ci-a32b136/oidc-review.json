@@ -1,0 +1,205 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-02T02:16:21.078259+00:00",
+  "run_id": 36954449967,
+  "run_url": "https://github.com/FORIFOR/Multibot/actions/runs/36954449967",
+  "head_sha": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "actual_checkout_merge": "28ecbbadf0c213e2cdedec1226bc8a1b550ef10e",
+  "merge_parents": [
+    "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+    "a32b136749b1e17100f3228c753a31b0810b4df7"
+  ],
+  "checks": [
+    {
+      "id": "exact_requested_run_head",
+      "passed": true
+    },
+    {
+      "id": "completed_success",
+      "passed": true
+    },
+    {
+      "id": "actual_merge_is_reported_revision",
+      "passed": true
+    },
+    {
+      "id": "actual_merge_has_requested_head_parent",
+      "passed": true
+    },
+    {
+      "id": "merge_tree_matches_head_tree",
+      "passed": true
+    },
+    {
+      "id": "original_zip_matches_server_digest",
+      "passed": true
+    },
+    {
+      "id": "artifact_metadata_bound_to_run_and_head",
+      "passed": true
+    },
+    {
+      "id": "actual_artifact_exact_three_safe_files",
+      "passed": true
+    },
+    {
+      "id": "source_sha_backend/scripts/provision_public_oidc.py",
+      "passed": true
+    },
+    {
+      "id": "source_sha_frontend/scripts/public-oidc.mjs",
+      "passed": true
+    },
+    {
+      "id": "source_sha_.github/workflows/public-oidc.yml",
+      "passed": true
+    },
+    {
+      "id": "original_profile_source_sha",
+      "passed": true
+    },
+    {
+      "id": "actual_document_source_sha",
+      "passed": true
+    },
+    {
+      "id": "exact_derived_profile_sha",
+      "passed": true
+    },
+    {
+      "id": "cleanup_frozen_script_sha",
+      "passed": true
+    },
+    {
+      "id": "report_preserves_provenance",
+      "passed": true
+    },
+    {
+      "id": "thirteen_actual_checks_exact_source_ids",
+      "passed": true
+    },
+    {
+      "id": "exact_same_receipt_and_source_guards_in_hashed_runner",
+      "passed": true
+    },
+    {
+      "id": "exact_owner_identity_guards_in_hashed_cleanup",
+      "passed": true
+    },
+    {
+      "id": "twentytwo_http_expectations",
+      "passed": true
+    },
+    {
+      "id": "http_safe_fields_only",
+      "passed": true
+    },
+    {
+      "id": "actual_jwks_first_cache_rotation",
+      "passed": true
+    },
+    {
+      "id": "actual_rotation_before_cache_expiry",
+      "passed": true
+    },
+    {
+      "id": "browser_callback_close",
+      "passed": true
+    },
+    {
+      "id": "api_owned_exit_actual_fields",
+      "passed": true
+    },
+    {
+      "id": "container_owned_removal_actual_fields",
+      "passed": true
+    },
+    {
+      "id": "new_cleanup_report_pass",
+      "passed": true
+    },
+    {
+      "id": "cleanup_before_upload",
+      "passed": true
+    },
+    {
+      "id": "pyjwt_215_no_model_requested",
+      "passed": true
+    },
+    {
+      "id": "business_scope_not_overclaimed",
+      "passed": true
+    },
+    {
+      "id": "no_jwt_shape_in_safe_artifact",
+      "passed": true
+    }
+  ],
+  "oidc_checks": 13,
+  "http_responses": 22,
+  "artifact_id": 11205546184,
+  "server_reported_archive_digest": "sha256:6801c076a6d6943b44a0a6607e19b3c9b8144da46f389a95d65037d0840451e7",
+  "downloaded_files_sha256": {
+    "report.json": "f411e8796bacefe5970fbf97b839a9945bfdb42cca85ef410870668443003c5b",
+    "provenance.json": "bbae7cc8532289547d7f75995be9e402dca7916282e0b311080c17652ba7e89d",
+    "cleanup-report.json": "38471a756995f091e2e301ea47cae2a203aec0654707847b7b0cce910d12ab71"
+  },
+  "source_sha256": {
+    "backend/scripts/provision_public_oidc.py": "a38ec2f4eb297ec7832a8178cceb517984900f05874de8fe65cd3c4ec0fd2c0d",
+    "frontend/scripts/public-oidc.mjs": "b3500675d47e50f608a3a1e4b018c081aa93ca184075a2a04d9ca8c0fddb5d23",
+    ".github/workflows/public-oidc.yml": "bea892d03c241b70cec4d1bdc451c5847546f9bc606ebc2b0a4120176f9adc0a",
+    "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+    "docs/PRODUCTION_PLAN.md": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+    "backend/scripts/cleanup_public_oidc.py": "62c54823ee29cf049e439e9dfa4f66208c170cafff73885f3b7a573968e36584"
+  },
+  "assertion_receipt_and_database_scope": {
+    "basis": "Exact hashed executed runner guards plus this run PASS markers; raw receipts/DB are intentionally unavailable",
+    "same_run_id_on_replay": true,
+    "stored_source_exact": true,
+    "created_status": true,
+    "saved_model_calls": 0,
+    "sqlite_execution_jobs": 0,
+    "sqlite_model_called_or_failed_events": 0,
+    "sqlite_runs": 1,
+    "sqlite_subject_admissions": 1
+  },
+  "api_cleanup": {
+    "status": "PASS",
+    "started": true,
+    "signals_sent": 1,
+    "identity_matches": true,
+    "process_absent": true,
+    "group_empty": true,
+    "port_closed": true,
+    "ready_observed": true,
+    "runtime_error_markers": 0
+  },
+  "container_cleanup": {
+    "status": "PASS",
+    "started": true,
+    "owned_count": 1,
+    "removed_count": 1,
+    "remaining_owned_count": 0,
+    "port_closed": true,
+    "creation_outcome_verified": true
+  },
+  "jwks_timing": {
+    "cache_ttl_seconds": 60,
+    "first_api_started_at": "2026-10-02T02:12:52.180Z",
+    "rotation_api_started_at": "2026-10-02T02:12:53.808Z",
+    "elapsed_before_rotation_ms": 1628,
+    "elapsed_after_rotation_ms": 1672
+  },
+  "limits": [
+    "Read-only independent inspection of actual GitHub evidence, not a second execution of the 13 checks.",
+    "Docker cleanup is now recorded by this exact GitHub job; local Docker was not started by this reviewer.",
+    "Safe artifacts omit actual owner IDs, tokens, keys, private logs and database. Ownership conclusion combines measured safe fields with the exact cleanup source hash.",
+    "Runner verified issued credential/code exclusion before publishing. Reviewer only inspected safe JSON and JWT shape, not unavailable CI private key bytes.",
+    "No claim of business quality, public TLS, MFA, registration, physical device quality or human acceptance.",
+    "Old successful CI evidence was not used to prove this run. No new service or model was started by the reviewer.",
+    "No visual result is certified by this OIDC token/API check.",
+    "Raw GitHub logs were not downloaded. Executed merge identity is based on the actual report/provenance git revision, GitHub commit parents and matching source tree."
+  ],
+  "model_execution_requested_by_reviewer": false,
+  "human_acceptance": "not_performed"
+}

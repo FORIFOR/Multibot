@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-01T20:37:28.886227+00:00",
+  "reviewer": "independent AI read-only review by browser_isolation",
+  "state": "STATIC_DIFF_REVIEW_COMPLETE_HELPER_PENDING",
+  "scope": "private supervisor replacement only; execution is not authorized by this review",
+  "sources": {
+    "basis": {
+      "path": "/Users/horioshuuhei/.cache/agentteam-bench/public-guide-supervisor-20261002/supervisor.py",
+      "sha256": "16e5255361d67629776ad9dd5fdb304ad2263445a2c739a6eb73a7bc7269f2f2",
+      "size": 35998
+    },
+    "candidate": {
+      "path": "/Users/horioshuuhei/.cache/agentteam-bench/public-guide-filechecks-supervisor-20261002/supervisor.py",
+      "sha256": "1f15a64d94c3c94d920ba644083d70332fe593e2d605ad16d08f4f28f8a0c7da",
+      "size": 36156
+    }
+  },
+  "diff": {
+    "changed_functions": [
+      "Supervisor.frozen_gate"
+    ],
+    "added_functions": [],
+    "removed_functions": [],
+    "function_count": 24,
+    "unchanged_function_count": 23,
+    "unified_diff_sha256": "178c4558fb849afdb5282eb951a75f0174d9269e778437bc1eaadfe28f42a736",
+    "unified_diff": "--- /Users/horioshuuhei/.cache/agentteam-bench/public-guide-supervisor-20261002/supervisor.py\n+++ /Users/horioshuuhei/.cache/agentteam-bench/public-guide-filechecks-supervisor-20261002/supervisor.py\n@@ -330,8 +330,10 @@\n             's=importlib.util.spec_from_file_location(\"public_workflow_guard\",p); '\n             'm=importlib.util.module_from_spec(s); s.loader.exec_module(m); '\n             'manifest,cfg=m.frozen(pathlib.Path(sys.argv[2])); '\n-            'print(json.dumps({\"requires_docker\":any(a.enabled and bool(set(a.tools)&{\"sandbox_run\",\"run_check\"}) '\n-            'for a in cfg.agents),\"timeout_seconds\":cfg.limits.timeout_seconds,\"runtime\":m.runtime_state()}))'\n+            'from agentteam.runtime.tool_capabilities import requires_command_sandbox; '\n+            'workflow=m.read(pathlib.Path(sys.argv[2])/\"request.json\")[\"inputs\"][\"workflow\"]; '\n+            'print(json.dumps({\"requires_docker\":requires_command_sandbox(cfg,workflow),'\n+            '\"workflow\":workflow,\"timeout_seconds\":cfg.limits.timeout_seconds,\"runtime\":m.runtime_state()}))'\n         )\n         checked = self.command([str(self.args.python), '-c', checker, str(checkout / RUNNER), str(root)], cwd=checkout)\n         effective = json.loads(checked.stdout)\n"
+  },
+  "requested_invariants": [
+    {
+      "id": "memory_and_disk",
+      "result": "UNCHANGED_SOURCE",
+      "methods": [
+        "Supervisor.resources",
+        "Supervisor.ollama_metadata"
+      ],
+      "detail": "macOS pressure normal必須。resident same digest時1GiB、未常駐max(8GiB,model file+2GiB)、disk>10GiB、既存推定方法を維持。実資源充足は今回未測定。"
+    },
+    {
+      "id": "lock",
+      "result": "UNCHANGED_SOURCE",
+      "methods": [
+        "Supervisor.run",
+        "Supervisor.prior_gate"
+      ],
+      "detail": "既存global exclusive nonblocking lockと前系列shared workflow lockをcleanup完了まで保持。"
+    },
+    {
+      "id": "stop",
+      "result": "UNCHANGED_SOURCE",
+      "methods": [
+        "Supervisor.check_stop",
+        "Supervisor.run"
+      ],
+      "detail": "旧合成比較STOPの存在必須、新supervisor root/新series root STOPとsignalを確認。HEREは新private directoryを参照する設計上の差。旧STOPを削除/再開しない。"
+    },
+    {
+      "id": "model_identity",
+      "result": "UNCHANGED_SOURCE",
+      "methods": [
+        "Supervisor.ollama_metadata"
+      ],
+      "detail": "tagsのtarget model digestを固定manifestと照合。psは常駐観測のみ、推論中判定には使わない。"
+    },
+    {
+      "id": "predecessor_all_evidence",
+      "result": "UNCHANGED_SOURCE",
+      "methods": [
+        "Supervisor.prior_gate"
+      ],
+      "detail": "v62全10完了、前supervisor exit/owned cleanup、FINAL意味審査/完全fingerprint/10distinct records、events/run/artifacts/inventory全SHA/sizeを要求。今回それらgateを実行した証拠とは扱わない。",
+      "preserved_running_record_sha256": "74d6f83c10298c9876fa785573a0ab0240d656ef0eeca179b25f61e1d79f11be",
+      "same_as_basis_reference": true
+    },
+    {
+      "id": "owned_cleanup",
+      "result": "UNCHANGED_SOURCE",
+      "methods": [
+        "Supervisor.observe_descendants",
+        "Supervisor.terminate_child",
+        "Supervisor.verify_container_cleanup",
+        "Supervisor.cleanup",
+        "Supervisor.run"
+      ],
+      "detail": "PID birth identity付き所有子孫/groupのみ停止、未知root参照/残留ownedcontainersは失敗。所有Colima起動時かつrunning containersなしで停止。cleanup失敗を成功へ変えない。"
+    },
+    {
+      "id": "no_automatic_retry",
+      "result": "UNCHANGED_SOURCE",
+      "methods": [
+        "Supervisor.run"
+      ],
+      "detail": "child Popenは1箇所、失敗時automatic_retry_performed=false。自動再試行/再起動を追加していない。外部による再起動全般を禁じた新機構とは主張しない。"
+    }
+  ],
+  "changed_boundary_review": {
+    "finding": "supervisor差分によるblocking不具合なし。helperの意味契約は未審査。",
+    "flow": [
+      "clean fixed checkout/commit/runner SHA確認",
+      "selected real interpreterでfrozen runnerをimport",
+      "m.frozenでcode/runtime/固定files/effective config確認",
+      "固定request.json inputs.workflow取得",
+      "そのcheckout backendからshared requires_command_sandbox(cfg,workflow)をimportして算定"
+    ],
+    "runner_import_path_evidence": "public_service_workflow.py:31-33 inserts its own fixed BACKEND at sys.path[0]",
+    "request_integrity_evidence": "public_service_workflow.py:169-178 prepares request.json in files_sha256; frozen():196-198 checks every fixed file before new read",
+    "additional_output": "checker JSONにworkflowを記録（private stdout）。秘密キー値は追加していない。",
+    "helper_path": "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/backend/agentteam/runtime/tool_capabilities.py",
+    "helper_existed_at_review": false,
+    "helper_ready_required": "helper確定を新commit/clean checkoutとfingerprintへ固定し、実AppService/orchestratorとの同一workflow判定を別途検証すること。旧固定checkoutを編集してhelperを後足ししない。",
+    "failure_behavior_if_missing": "ImportError -> checked command fails -> no child/model/Colima launch. この経路の実行はしていない。"
+  },
+  "execution": {
+    "supervisor_executed": false,
+    "gate_executed": false,
+    "helper_imported": false,
+    "service_started": false,
+    "model_called": false,
+    "vm_started": false,
+    "old_frozen_checkout_modified": false,
+    "source_code_modified": false,
+    "only_created_output": "/Users/horioshuuhei/.cache/agentteam-bench/public-guide-filechecks-supervisor-20261002/independent-review.json"
+  },
+  "limits": [
+    "静的差分/構文AST確認でありruntime PASSではない。",
+    "安全閾値の妥当性再承認、現在資源充足、helper挙動、一般業務品質、人間受入は今回の対象外。",
+    "preparation.jsonのindependent_review=pendingは編集せず保持。"
+  ],
+  "human_acceptance": false,
+  "business_quality_accepted": false,
+  "launch_authorized_by_review": false
+}

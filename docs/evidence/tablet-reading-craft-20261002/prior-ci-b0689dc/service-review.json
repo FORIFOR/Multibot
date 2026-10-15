@@ -1,0 +1,332 @@
+{
+  "status": "PASS",
+  "verified_at": "2026-10-01T23:04:18.837175+00:00",
+  "run_id": 36937881229,
+  "head_sha": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+  "actual_checkout_revision": "fc7d41995a25ea958735a5e205d3f153e2c28ffd",
+  "merge_parents": [
+    "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+    "b0689dcfbd29a2a6d778166dc7280946048e1e10"
+  ],
+  "checks": [
+    {
+      "id": "workflow_exact_head_completed_success",
+      "passed": true
+    },
+    {
+      "id": "four_ci_jobs_success",
+      "passed": true
+    },
+    {
+      "id": "merge_has_exact_head_parent",
+      "passed": true
+    },
+    {
+      "id": "merge_tree_equals_head_tree",
+      "passed": true
+    },
+    {
+      "id": "runtime_reports_use_actual_merge",
+      "passed": true
+    },
+    {
+      "id": "reading_implementation_hashes_match_head",
+      "passed": true,
+      "hash_count": 54
+    },
+    {
+      "id": "reading_v62_source_hashes_match_head",
+      "passed": true,
+      "hash_count": 14
+    },
+    {
+      "id": "reading_source_unchanged",
+      "passed": true
+    },
+    {
+      "id": "database_implementation_hashes_match_head",
+      "passed": true,
+      "hash_count": 5
+    },
+    {
+      "id": "database_v62_source_hashes_match_head",
+      "passed": true,
+      "hash_count": 14
+    },
+    {
+      "id": "database_source_unchanged",
+      "passed": true
+    },
+    {
+      "id": "sandbox_implementation_hashes_match_head",
+      "passed": true,
+      "hash_count": 13
+    },
+    {
+      "id": "sandbox_v62_source_hashes_match_head",
+      "passed": true,
+      "hash_count": 14
+    },
+    {
+      "id": "sandbox_source_unchanged",
+      "passed": true
+    },
+    {
+      "id": "reading_12_cases_192_exact_checks",
+      "passed": true
+    },
+    {
+      "id": "reading_new_navigation_contract_present",
+      "passed": true
+    },
+    {
+      "id": "reading_committed_bundle_matches",
+      "passed": true
+    },
+    {
+      "id": "reading_unchanged_business_no_model_or_job",
+      "passed": true
+    },
+    {
+      "id": "reading_network_no_unexpected_failure",
+      "passed": true
+    },
+    {
+      "id": "reading_api_port_and_owned_chrome_drained",
+      "passed": true
+    },
+    {
+      "id": "database_480_http_640_direct_and_complete_audit",
+      "passed": true
+    },
+    {
+      "id": "database_no_model_job_runtime_error",
+      "passed": true
+    },
+    {
+      "id": "database_service_port_closed",
+      "passed": true
+    },
+    {
+      "id": "sandbox_79_checks_30_http",
+      "passed": true
+    },
+    {
+      "id": "sandbox_8_cancelled_no_pending_or_model",
+      "passed": true
+    },
+    {
+      "id": "sandbox_service_port_closed",
+      "passed": true
+    },
+    {
+      "id": "service_six_stages_pass",
+      "passed": true
+    },
+    {
+      "id": "service_implementation_hashes_match_head",
+      "passed": true,
+      "hash_count": 7
+    },
+    {
+      "id": "service_actual_profile_matches_head",
+      "passed": true
+    },
+    {
+      "id": "service_new_browser_api_lifecycle_pass",
+      "passed": true
+    },
+    {
+      "id": "service_four_chrome_groups_drained",
+      "passed": true
+    },
+    {
+      "id": "document_source_matches_verification.json",
+      "passed": true
+    },
+    {
+      "id": "document_source_matches_results.json",
+      "passed": true
+    },
+    {
+      "id": "document_source_matches_peer-tab-close.json",
+      "passed": true
+    },
+    {
+      "id": "projection_actual_sources_match_head",
+      "passed": true
+    },
+    {
+      "id": "projection_saved_records_no_new_inference",
+      "passed": true
+    },
+    {
+      "id": "browser_checks_results.json",
+      "passed": true
+    },
+    {
+      "id": "browser_checks_parallel-login.json",
+      "passed": true
+    },
+    {
+      "id": "browser_checks_peer-tab-close.json",
+      "passed": true
+    },
+    {
+      "id": "retry_reload_pass_no_jobs",
+      "passed": true
+    },
+    {
+      "id": "parallel_login_no_jobs",
+      "passed": true
+    },
+    {
+      "id": "peer_tab_no_added_model_or_job",
+      "passed": true
+    },
+    {
+      "id": "prior_failures_preserved_as_fail",
+      "passed": true
+    }
+  ],
+  "summary": {
+    "reading_cases": 12,
+    "reading_checks": 192,
+    "reading_seconds": 87.092375,
+    "reading_network": {
+      "http_errors": 0,
+      "expected_auth_401": 4,
+      "failed_requests": 0,
+      "navigation_aborts": 0,
+      "unexpected_console_errors": 0,
+      "unauthorized_write_requests": 0
+    },
+    "reading_cleanup": {
+      "api_started": true,
+      "api_stopped": true,
+      "port_closed": true,
+      "browser_processes": [
+        {
+          "program": "result-reading.mjs",
+          "tracked_processes": 19,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ],
+      "runtime_error_markers": 0
+    },
+    "database_http": 480,
+    "database_direct": 640,
+    "database_missing_audit": 0,
+    "database_cleanup": {
+      "service_stopped": true,
+      "port_closed": true,
+      "browser_started": false
+    },
+    "sandbox_checks": 79,
+    "sandbox_http": 30,
+    "sandbox_job_states": {
+      "cancelled": 8
+    },
+    "sandbox_cleanup": {
+      "service_stopped": true,
+      "port_closed": true,
+      "pending_jobs": 0
+    },
+    "service_stages": 6,
+    "service_new_api_cleanup": {
+      "scope": "browser_verification_api",
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "service_browser_cleanup": [
+      {
+        "program": "auth-browser-isolation.mjs",
+        "tracked_processes": 11,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-retry-reload.mjs",
+        "tracked_processes": 10,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-parallel-login.mjs",
+        "tracked_processes": 11,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      },
+      {
+        "program": "auth-peer-tab-close.mjs",
+        "tracked_processes": 15,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ],
+    "reading_model_delta": 0,
+    "database_model_delta": 0,
+    "sandbox_model_delta": 0,
+    "reading_jobs": 0,
+    "database_jobs": 0
+  },
+  "prior_failure_evidence": [
+    {
+      "source": "docs/evidence/verification-cleanup-20261002/r1-start-import-failure.json",
+      "sha256": "bb914663843d96c22ffdf7e4802b4e349b6161a4a031da789030d105c366e583",
+      "status": "FAIL"
+    },
+    {
+      "source": "docs/evidence/verification-cleanup-20261002/r2-identity-refusal.json",
+      "sha256": "3ad1d57951c92cc1b61c01456946010a2d4c773d300d8dbd622973d26aef1911",
+      "status": "FAIL"
+    },
+    {
+      "source": "docs/evidence/verification-cleanup-20261002/r4-lifespan-negative.json",
+      "sha256": "e07775428c2ab394b2bb1fa941c04a7c9001693b75965c0749a7e1655deea4ae",
+      "status": "FAIL"
+    }
+  ],
+  "artifact_sha256": {
+    "artifact/multibot-result-reading/safe-report.json": "e81976b28346f1922e38ba42c2d98c7325085ccd66892f3e05f798c538785e07",
+    "artifact/multibot-document-sandbox/safe-report.json": "9ca07ccadf3f71a8dc66fe820a791386f1a8a4b3aa052e71c325e67653cc1dcc",
+    "artifact/multibot-database-concurrency/safe-report.json": "e94fc1b08f5d4061251263499eed1877812b0a38ac70c12d0909ebe02cbe4074",
+    "artifact/multibot-public-service/report.json": "4e825fe4516f12335da3baedff833c1ca5fcfa313d066c1482416daab15ee69a",
+    "artifact/multibot-public-service/admission/verification.json": "87bbb8110bc34c5007e5e3bbb2fd3ed0bb9f96f74b6619cb0524298a1f4f8b3d",
+    "artifact/multibot-public-service/responses/response-check.json": "c7470530d9791f4cb62ed8fb3dff958cc7139b65997860d0cbf1a412f166e371",
+    "artifact/multibot-public-service/browser/reload-empty-signin.png": "f8a9d0198265408a1a868f121a9cbcd4f975d2616f19b14013c322ded4e34205",
+    "artifact/multibot-public-service/browser/parallel-diagnostic.json": "80898da497aa3bf1b0bc412960c8edcdedb10409385fb17b80fbfc72130e4165",
+    "artifact/multibot-public-service/browser/results.json": "386aa92a6b886a927214e9811f4569e2ca09e32ad90ca670c89107f43be2a431",
+    "artifact/multibot-public-service/browser/parallel-login.json": "1b93fe0a9b7d834c99c434bec74d7650397cbe5991826b859911637618fd98b4",
+    "artifact/multibot-public-service/browser/peer-tab-close.json": "1eb6c32e7c2cb62db16cdfa01601de53d452cf623dfb8b38732aca1a417764ac",
+    "artifact/multibot-public-service/browser/retry-reload.json": "65ee8d4de6d73d656c26838d53bbe0c47a20d0dc2ec112a4e0b4a204071a41d4",
+    "artifact/multibot-public-service/browser/close-empty-signin.png": "6b1b2e2f2c0fa6047137813ab9c511307361ad362fc603f44f13a1911aee0c74",
+    "artifact/multibot-public-service/browser/next-principal-empty.png": "f31a6f529557ea2d98e8b5436548261c63357c7f33f606dadc22c094533dd140"
+  },
+  "zip_sha256": "e71b6dad0baa2575ae365ad36894c4ed7b9258274c7b3764d666f3eaa3356326",
+  "limits": [
+    "Only original allowlisted public-service artifact and GitHub metadata were downloaded; private GitHub logs were not downloaded. No local services/models/VMs or verification workflows were started.",
+    "New API lifecycle measurements apply to browser_verification_api; admission/responses internal APIs are not claimed to have the same measured port/lifespan cleanup.",
+    "Sandbox uses 8 real queued technical jobs that were cancelled; pending jobs and added model events are zero. Admission retains a cancelled technical job.",
+    "Response projection reuses saved actual model records; historical model events are not new inference.",
+    "Reading preserves original run/events/artifact bytes, does not reconstruct original task rows; all three source deliverables have identical bytes, limiting prior-run-content identification.",
+    "Prior local FAIL evidence remains unchanged. Current success does not retroactively turn those failures into passes.",
+    "OIDC/container and site artifacts are independently assessed by other agents, not included here.",
+    "No business semantic quality, general production availability or human acceptance is established."
+  ],
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false
+}

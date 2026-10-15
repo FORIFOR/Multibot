@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "file_count": 8,
+  "actual_key_file_count": 5,
+  "secret_value_or_PEM_JWT_hits": 0,
+  "pngs_directly_viewed": 2,
+  "scan_is_ocr": false,
+  "excluded": "No DB, key, profile, private logs or raw original records copied"
+}

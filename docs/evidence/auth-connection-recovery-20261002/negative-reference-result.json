@@ -1,0 +1,22 @@
+{
+  "status": "FAIL",
+  "method": "Actual CDP Network.setBlockedURLs, real API, issued key and SQLite",
+  "planned_cases": 2,
+  "cases": [],
+  "writes": [],
+  "cleanup": [],
+  "source_sha256": null,
+  "source_unchanged": null,
+  "business_before": null,
+  "business_after": null,
+  "model_execution_requested": false,
+  "human_acceptance": "not_performed",
+  "limits": [
+    "Initial unauthenticated JA390 status / EN768 me failures only; no SSO or existing-session acceptance.",
+    "Five seconds without automatic recovery is an observation window, not an indefinite guarantee.",
+    "No screenshots, raw API bodies, credentials, database, or exception messages are public.",
+    "Browser process drainage is measured by the parent check_public_service runner."
+  ],
+  "failure_check": "issued_key_file",
+  "error_type": "Error"
+}

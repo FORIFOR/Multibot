@@ -1,0 +1,2174 @@
+{
+  "status": "FAIL",
+  "started_at": "2026-10-02T01:48:42.824247+00:00",
+  "new_model_requested": false,
+  "human_acceptance": false,
+  "api_cleanup": {
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "browser_cleanup": [
+    {
+      "program": "check.mjs",
+      "tracked_processes": 42,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "Read-only preserved v62 records, not live generation.",
+    "The import helper preserves Run/events/artifact bytes; it intentionally does not reconstruct task rows.",
+    "Real CDP Response-stage hold does not isolate a body-only stall. Only real auth/session/audit writes permitted."
+  ],
+  "head": "6ada2a36e7c8269e07e3a063b0319f67a1ce2534",
+  "target_diff_sha256": "bcd97991246dc6c3886ef4c0b6112ee121c9aa50b1e8d191c0b7bd9a86165128",
+  "implementation_sha256": {
+    "backend/scripts/check_result_reading.py": "3fcc5950669ff40afe5980814cd9cfe36e8a4d71f03427916c41e65343e2d439",
+    "frontend/scripts/result-reading.mjs": "e7cbf66f98959dd3ad767c1ff203b625a8b0f65ae36628a336c866fd22013c35",
+    "backend/scripts/check_public_service.py": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+    "backend/scripts/check_message_handoff.py": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff",
+    "backend/agentteam/api/app.py": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+    "backend/agentteam/api/service.py": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+    "backend/agentteam/api/responses.py": "786d9f2a16dc6d7ba4d8163d931721a1fded10f8f7736b79ef7b214987396a48",
+    "backend/agentteam/store/db.py": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+    "frontend/src/App.tsx": "e021310967703ea56602730f5fb6bc6b83c2e6e0c69ce321098f772b00fb2c61",
+    "frontend/src/workroom.css": "87122f28a23b94e8a7fcd6cf968b931db244b0a67c0adbd35760402afe5d5086",
+    "frontend/src/main.tsx": "d86f5bd9a12ff32dc95f5eeb85c879877e1fa7c7820120b7061f277b2703b87b",
+    "frontend/src/quiet-cinema.css": "cc5b2823e6bf49866ad9a6a03c3d4ebc4e1873591a272b136ab735874fd9e9c5",
+    "frontend/src/ui-polish.css": "64fae4f662c4492a7918cde764d26dd7fff6727404faddfeb14beff41cd8d847",
+    "frontend/src/styles.css": "3738efc79cb6249e5689cb3e15515381a7f163900c75afd12ed0e3d1f0f532a3",
+    "frontend/src/journey.css": "51d8cc3293bfcf00f7e4e99f62fb831217cfee273394321dd9552558dab030b4",
+    "frontend/src/paper.css": "d344b5b11fe08b317af77d6a57593e7dc61412de2ed2067b26b6812db731608a",
+    "frontend/src/obsidian.css": "7db3b45853a00de1795ef190e41360470f93772cd4c056192944ca4f372404f7",
+    "frontend/src/welcome.css": "89ced29d15bb2b708289324dc2b8cf2a082e93a4eb5bd3f48233de8efa725167",
+    "frontend/src/workroom-refinement.css": "60e0d541df6148a6a72c2ca271173b943e8bfa1726837be329521c25b5dc190f",
+    "frontend/src/bot-polish.css": "4f1f20b37d4bf5eee5f3ba60ca6a303d9a6d5b28ec42bac45f4b1a191aabc597",
+    "frontend/src/components/Orb.tsx": "cfc66cdb7ab2d5f06fb8bd9701ad9c94596a30a4c38707ff000ffe122d2f9867",
+    "frontend/src/components/Journey.tsx": "6aeaa2454f69bdbe11f18746ec03aa9244690f4fddcbd5708e3288ef00e9af0a",
+    "frontend/src/components/Markdown.tsx": "2e247aae584beda90e72c5e9f398ba25a98657d27102f9a49e73f4ff41b59f49",
+    "frontend/src/components/ElapsedTime.tsx": "8e61850cdcb18ceba4ce4b76694d2b7b15730cba515d7ff6da86f40a03b644e8",
+    "frontend/src/components/WorkProgress.tsx": "0a84fecf3e7cda1324bdef4ec04161892bacf59acfbbed347e5a406d6efbdeaa",
+    "frontend/src/components/AuthGate.tsx": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+    "frontend/src/components/CustomBotCreator.tsx": "7632360fc333784d6cace39c85c6e314cb453c5af54a7e1fafe8aae8d7e59a90",
+    "frontend/src/components/BotSettingsCard.tsx": "77fdf8e145f1cc05f600defdc2843c649fca495b30642405edb9668314d4f511",
+    "frontend/src/components/ConversationActivity.tsx": "f45c38114758f8169ac1e136bd30788cd4467beb9fabe4d7b6c1545550e85743",
+    "frontend/src/components/ArtifactWorkbench.tsx": "6d5c615660b8c974354e17d87f3b6ba0841cd8534aab9782695a1b35a3cd1e34",
+    "frontend/src/components/TeamConversation.tsx": "3d65e94a225cbe846a5ffecf2543abc45a05946b80bd72c9b79100a77aff02d9",
+    "frontend/src/components/BotAvatar.tsx": "f42b97467f50bd579cee05fb9e57fd2df2062d9a918d157d5304ef453ed4ee53",
+    "frontend/src/lib/text-delivery.ts": "19be72cfa747fc4499573e8311863db4ed1d5e5b96839a52264fed34bc7a83cb",
+    "frontend/src/lib/bot-presentation.ts": "e6555364f6cc65824da80d7ab7c9ec07f21a09d5d0c07484fb915e4a66ccdbe8",
+    "frontend/src/lib/request-draft.ts": "e44a0e22f8b46f814e09353bc054c55132de52e818b09606c95c4af6c02fd3ca",
+    "frontend/src/lib/welcome.ts": "0955e881084f03aed147b5a634eacc92f13b4376f4293a98ed40d6869ace28f5",
+    "frontend/src/lib/i18n.ts": "7c5d0b0e80b2e04d0d775685bac67786b7832b02774bbba80f9ea9287a161d30",
+    "frontend/src/lib/markdown.ts": "93baf3981ea7391742549c51b6506020a1ce35863b7311643d8e7ba3cbe622b2",
+    "frontend/src/lib/journey.ts": "a4da9b538370e8c5f98f24ba09027e5094b9d41db0aa4ea996cb22260815347e",
+    "frontend/src/lib/bot-shapes.ts": "bff03e56344a7698909ddff567c8a07c5e4ee1124cdb643b39525d19ae8688bd",
+    "frontend/src/lib/api.ts": "fbad0a6cfe12d52329b70badf7580cde16d1f0d31a13eef05a7373487b7437ca",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+    "frontend/src/lib/router.tsx": "42135605d4d362ea3aca63efd5711debe746a75577e1931fd425889c89db0fa7",
+    "frontend/src/lib/bot-characters.ts": "49e323c068b96542fdeac67dd84946aad39aeaa02eca071c11b1bb4105e919e8",
+    "frontend/src/lib/bot-identity.ts": "2a7526ebf34383aea6186c553079d9e14c9da7488cd37b7ddc9ad0c2dd4754ba",
+    "frontend/src/pages/Settings.tsx": "69ef7b07e0903e28c6d91cdd6b926122198ba91cc1e171de8f69689ff2559729",
+    "frontend/src/pages/Home.tsx": "2007851a0987fc5c82b6d21f0b778ad0dc7b5babb1f91fafb61978995e230cff",
+    "frontend/src/pages/WorkList.tsx": "edd1613327fb92a55e13011742c2cf6b8b7765b3b9d0fb3cc7e249a6cf358a3a",
+    "frontend/src/pages/Workroom.tsx": "f3e8924f8e9bab8fe973f5b4f8b4ec920ddb8671ffbfd260eb072ab7a5230174",
+    "frontend/src/pages/Operations.tsx": "89113218ebdf0a05a9da5dbe7fbb6704584807464d1981b76c233606fb132521",
+    "frontend/src/pages/RunView.tsx": "58cd97d169db263a72580d4cc7ba5655c84ca28e23ddde7e00e242f863dba9db",
+    "frontend/src/pages/Welcome.tsx": "06cfc80f5c4660191bee19fef41cb91514b5173ecb6792f578206a6ee85e61e2",
+    "frontend/package.json": "5f43cbf4820bd547386870684243701c727c133f02f8a074f2e5828004aa518f",
+    "frontend/pnpm-lock.yaml": "2ab11685dc0173d2a5f3da0ac912f0263aacee34cdbd6e4d440fe2ce081265ac"
+  },
+  "script_sha256": {
+    "check.py": "2ebac71e51312414c47265df0cf4c6c868f4268125ff246daf5d599cb5526818",
+    "check.mjs": "1451dd0a93c222f79a19a0eb2aa7aa453f35e6f9d6a6424337e0f4bd09638fd6"
+  },
+  "material_sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+  "business_before_sha256": {
+    "runs": "89082a42aec810aabd36064cc7f80d1847bf3db103430dfe6585e0a9ffe4f248",
+    "events": "54349ac30689d1d003f7cfbcc26feaf57128a8a0b36ba06b1d72def225eeec19",
+    "artifacts": "ab20f2ea61e2d009c0282408208c386a57462cbeced8726b3bcc5de0157af0df",
+    "model_events": "eb624dbe56eb6620ae62080c10a273cab73ae8eca98ab17b731446a31c79393a",
+    "jobs": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "artifact_bytes": "4bef4fc2281ecb6857c302794689ae70ed281b13cf6d536b93af3e341a49bcd8"
+  },
+  "model_events_before": 74,
+  "jobs_before": 0,
+  "private_bundle_sha256": {
+    "assets/RunView-B84ZRFQg.js": "96705c91694caba39cb08ab664416473aa55b3857c00df532902c7559876caaa",
+    "assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+    "assets/index-NKax6_35.js": "209e168b0e024e065bc9440c175e5b1190e512e88afccdb11f71e9ac74c3f2b4",
+    "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "index.html": "582a4d54123477179dd70ff1db664ca2da8f63c2f65de2181a83a389b5c1caf0"
+  },
+  "served_assets": [
+    {
+      "path": "/assets/index-BQqhmjTV.css",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "/assets/index-NKax6_35.js",
+      "status": 200,
+      "hash_matches": true
+    }
+  ],
+  "browser_exit_code": 1,
+  "browser": {
+    "status": "FAIL",
+    "started_at": "2026-10-02T01:48:43.184Z",
+    "cases": [
+      {
+        "id": "ja390-manual",
+        "status": "PASS",
+        "phase": "cleanup",
+        "source_run_id": "run_1a0f84e775a61f6bc86",
+        "original_status": "interrupted",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "status": 401,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/config",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "status": 200,
+            "ms": null,
+            "record": {
+              "run_id": "run_1a0f84e775a61f6bc86",
+              "status": "interrupted",
+              "live": false,
+              "last_seq": 94
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/auth/me",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/health",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": 114
+          },
+          {
+            "phase": "manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": 114
+          },
+          {
+            "phase": "manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "status": 200,
+            "ms": 117,
+            "record": {
+              "run_id": "run_1a0f84e775a61f6bc86",
+              "status": "interrupted",
+              "live": false,
+              "last_seq": 94
+            }
+          },
+          {
+            "phase": "manual-replace",
+            "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+            "status": 200,
+            "ms": 130
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 0
+          },
+          {
+            "phase": "held_initial",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 0
+          },
+          {
+            "phase": "manual-replace",
+            "kind": "detail",
+            "method": "GET",
+            "ms": 105,
+            "after_seq": null
+          },
+          {
+            "phase": "manual-replace",
+            "kind": "chat",
+            "method": "GET",
+            "ms": 105,
+            "after_seq": null
+          },
+          {
+            "phase": "manual-replace",
+            "kind": "events",
+            "method": "GET",
+            "ms": 105,
+            "after_seq": 0
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "kind": "detail",
+            "ms": 114,
+            "closing": false
+          }
+        ],
+        "page_error_types": [],
+        "screenshots": [
+          "ja390-manual-before.png",
+          "ja390-manual-held.png",
+          "ja390-manual-focused-retry.png",
+          "ja390-manual-recovered.png",
+          "ja390-manual-after-old-release.png"
+        ],
+        "keyboard": [
+          {
+            "phase": "manual-held",
+            "tabs": 5,
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                965
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "overflow": 0,
+              "active_tag": "BUTTON",
+              "active_button_text": "もう一度読み込む",
+              "active_rect": {
+                "x": 40,
+                "y": 242.1875,
+                "width": 150,
+                "height": 44,
+                "top": 242.1875,
+                "right": 190,
+                "bottom": 286.1875,
+                "left": 40
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "initial-held",
+            "ms": 29,
+            "requests": {
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "opening": true
+          },
+          {
+            "tag": "manual-recovered-before-deadline",
+            "ms": 181,
+            "requests": {
+              "detail": 2,
+              "chat": 2,
+              "events": 2
+            },
+            "opening": false
+          }
+        ],
+        "held_actual_responses": [
+          {
+            "status": 200,
+            "kind": "detail",
+            "ms": 0
+          }
+        ],
+        "released_original": [
+          {
+            "status": 200,
+            "command": "unavailable_after_abort",
+            "matched_real_cancel": true,
+            "expected_protocol_after_cancel": true,
+            "error_name": "Error",
+            "at_ms": 207
+          }
+        ],
+        "chrome_version": "154.0.8037.93",
+        "original_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "record_before": {
+          "run_id": "run_1a0f84e775a61f6bc86",
+          "status": "interrupted",
+          "live": false,
+          "last_seq": 94
+        },
+        "baseline_geometry": {
+          "inner": [
+            390,
+            844
+          ],
+          "outer": [
+            500,
+            965
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "overflow": 0,
+          "active_tag": "H1",
+          "active_button_text": null,
+          "active_rect": {
+            "x": 16,
+            "y": 161.375,
+            "width": 343,
+            "height": 56,
+            "top": 161.375,
+            "right": 359,
+            "bottom": 217.375,
+            "left": 16
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 107,
+            "top": 0,
+            "right": 375,
+            "bottom": 107,
+            "left": 0
+          },
+          "active_visible": true
+        },
+        "enter_at_ms": 103,
+        "recovered_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "recovered_at_ms": 175,
+        "record_after_manual": {
+          "run_id": "run_1a0f84e775a61f6bc86",
+          "status": "interrupted",
+          "live": false,
+          "last_seq": 94
+        },
+        "final_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "record_final": {
+          "run_id": "run_1a0f84e775a61f6bc86",
+          "status": "interrupted",
+          "live": false,
+          "last_seq": 94
+        },
+        "principal_unchanged": true,
+        "protocol_error_types": [],
+        "final_requests": {
+          "detail": 2,
+          "chat": 2,
+          "events": 2
+        }
+      },
+      {
+        "id": "ja320-deadline",
+        "status": "PASS",
+        "phase": "cleanup",
+        "source_run_id": "run_1a0f84e775a61f6bc86",
+        "original_status": "interrupted",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "status": 401,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "status": 200,
+            "ms": null,
+            "record": {
+              "run_id": "run_1a0f84e775a61f6bc86",
+              "status": "interrupted",
+              "live": false,
+              "last_seq": 94
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/auth/me",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/health",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": 4997
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": 10024
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": 15007
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": 15007
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": 15008
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": 15123
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": 15123
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "status": 200,
+            "ms": 15126,
+            "record": {
+              "run_id": "run_1a0f84e775a61f6bc86",
+              "status": "interrupted",
+              "live": false,
+              "last_seq": 94
+            }
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+            "status": 200,
+            "ms": 15140
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 0
+          },
+          {
+            "phase": "held_initial",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 0
+          },
+          {
+            "phase": "held_initial",
+            "kind": "detail",
+            "method": "GET",
+            "ms": 14990,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "chat",
+            "method": "GET",
+            "ms": 14990,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "events",
+            "method": "GET",
+            "ms": 14990,
+            "after_seq": 0
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "kind": "detail",
+            "method": "GET",
+            "ms": 15112,
+            "after_seq": null
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "kind": "chat",
+            "method": "GET",
+            "ms": 15112,
+            "after_seq": null
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "kind": "events",
+            "method": "GET",
+            "ms": 15112,
+            "after_seq": 0
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "kind": "detail",
+            "ms": 14990,
+            "closing": false
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "kind": "detail",
+            "ms": 15118,
+            "closing": false
+          }
+        ],
+        "page_error_types": [],
+        "screenshots": [
+          "ja320-deadline-before.png",
+          "ja320-deadline-held.png",
+          "ja320-deadline-before-deadline.png",
+          "ja320-deadline-deadline-error.png",
+          "ja320-deadline-deadline-focus.png",
+          "ja320-deadline-recovered.png",
+          "ja320-deadline-after-old-release.png"
+        ],
+        "keyboard": [
+          {
+            "phase": "deadline-retry",
+            "tabs": 5,
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                965
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "overflow": 0,
+              "active_tag": "BUTTON",
+              "active_button_text": "もう一度読み込む",
+              "active_rect": {
+                "x": 40,
+                "y": 309.375,
+                "width": 150,
+                "height": 44,
+                "top": 309.375,
+                "right": 190,
+                "bottom": 353.375,
+                "left": 40
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "initial-held",
+            "ms": 30,
+            "requests": {
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "opening": true
+          },
+          {
+            "tag": "pre-deadline",
+            "ms": 12005,
+            "requests": {
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "opening": true,
+            "error": false
+          },
+          {
+            "tag": "deadline-error",
+            "ms": 15020,
+            "requests": {
+              "detail": 2,
+              "chat": 2,
+              "events": 2
+            },
+            "opening": true,
+            "error": true
+          }
+        ],
+        "held_actual_responses": [
+          {
+            "status": 200,
+            "kind": "detail",
+            "ms": 0
+          },
+          {
+            "status": 200,
+            "kind": "detail",
+            "ms": 15010
+          }
+        ],
+        "released_original": [
+          {
+            "status": 200,
+            "command": "unavailable_after_abort",
+            "matched_real_cancel": true,
+            "expected_protocol_after_cancel": true,
+            "error_name": "Error",
+            "at_ms": 15164
+          },
+          {
+            "status": 200,
+            "command": "unavailable_after_abort",
+            "matched_real_cancel": true,
+            "expected_protocol_after_cancel": true,
+            "error_name": "Error",
+            "at_ms": 15164
+          }
+        ],
+        "chrome_version": "154.0.8037.93",
+        "original_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "record_before": {
+          "run_id": "run_1a0f84e775a61f6bc86",
+          "status": "interrupted",
+          "live": false,
+          "last_seq": 94
+        },
+        "baseline_geometry": {
+          "inner": [
+            320,
+            844
+          ],
+          "outer": [
+            500,
+            965
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "overflow": 0,
+          "active_tag": "H1",
+          "active_button_text": null,
+          "active_rect": {
+            "x": 16,
+            "y": 161.375,
+            "width": 273,
+            "height": 56,
+            "top": 161.375,
+            "right": 289,
+            "bottom": 217.375,
+            "left": 16
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 305,
+            "height": 107,
+            "top": 0,
+            "right": 305,
+            "bottom": 107,
+            "left": 0
+          },
+          "active_visible": true
+        },
+        "error_at_ms": 15020,
+        "recovered_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "recovered_at_ms": 15142,
+        "final_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "record_final": {
+          "run_id": "run_1a0f84e775a61f6bc86",
+          "status": "interrupted",
+          "live": false,
+          "last_seq": 94
+        },
+        "principal_unchanged": true,
+        "protocol_error_types": [],
+        "final_requests": {
+          "detail": 3,
+          "chat": 3,
+          "events": 3
+        }
+      },
+      {
+        "id": "en768-loaded-deadline",
+        "status": "PASS",
+        "phase": "cleanup",
+        "source_run_id": "run_1a0f80632e5c1220524",
+        "original_status": "failed",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "status": 401,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "status": 200,
+            "ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_poll",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_poll",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_poll",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_poll",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": 4954
+          },
+          {
+            "phase": "held_poll",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": 9953
+          },
+          {
+            "phase": "held_poll",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": 14957
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "status": 200,
+            "ms": 15488
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "status": 200,
+            "ms": 15488
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "status": 200,
+            "ms": 15491,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 0
+          },
+          {
+            "phase": "held_poll",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_poll",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_poll",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 80
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "kind": "detail",
+            "method": "GET",
+            "ms": 15482,
+            "after_seq": null
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "kind": "chat",
+            "method": "GET",
+            "ms": 15482,
+            "after_seq": null
+          },
+          {
+            "phase": "deadline-manual-replace",
+            "kind": "events",
+            "method": "GET",
+            "ms": 15482,
+            "after_seq": 80
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "held_poll",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "ms": 14950,
+            "closing": false
+          }
+        ],
+        "page_error_types": [],
+        "screenshots": [
+          "en768-loaded-deadline-before.png",
+          "en768-loaded-deadline-held.png",
+          "en768-loaded-deadline-deadline-warning-focused.png",
+          "en768-loaded-deadline-conversation-recovered.png",
+          "en768-loaded-deadline-recovered.png",
+          "en768-loaded-deadline-after-old-release.png"
+        ],
+        "keyboard": [
+          {
+            "phase": "loaded-deadline-refresh",
+            "tabs": 22,
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                965
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "overflow": 0,
+              "active_tag": "BUTTON",
+              "active_button_text": "Refresh",
+              "active_rect": {
+                "x": 444.171875,
+                "y": 303.0625,
+                "width": 95.78125,
+                "height": 44,
+                "top": 303.0625,
+                "right": 539.953125,
+                "bottom": 347.0625,
+                "left": 444.171875
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "initial-held",
+            "ms": 14,
+            "requests": {
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "opening": false
+          },
+          {
+            "tag": "pre-deadline",
+            "ms": 12006,
+            "requests": {
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "warning": false,
+            "draft_preserved": true,
+            "conversation_preserved": true
+          }
+        ],
+        "held_actual_responses": [
+          {
+            "status": 200,
+            "kind": "detail",
+            "ms": 0
+          }
+        ],
+        "released_original": [
+          {
+            "status": 200,
+            "command": "unavailable_after_abort",
+            "matched_real_cancel": true,
+            "expected_protocol_after_cancel": true,
+            "error_name": "Error",
+            "at_ms": 15595
+          }
+        ],
+        "chrome_version": "154.0.8037.93",
+        "original_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "record_before": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80
+        },
+        "baseline_geometry": {
+          "inner": [
+            768,
+            844
+          ],
+          "outer": [
+            770,
+            965
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "overflow": 0,
+          "active_tag": "H1",
+          "active_button_text": null,
+          "active_rect": {
+            "x": 272,
+            "y": 54.375,
+            "width": 457,
+            "height": 67.1875,
+            "top": 54.375,
+            "right": 729,
+            "bottom": 121.5625,
+            "left": 272
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 248,
+            "height": 844,
+            "top": 0,
+            "right": 248,
+            "bottom": 844,
+            "left": 0
+          },
+          "active_visible": true
+        },
+        "unsent_text_sha256": "3b870f2f990cff5569a56379da8c4fb558fcc074ad07cec81d0d263db65cc528",
+        "conversation_sha256_before": "600fc7904eacde5d11c9e1abc8e510a5afae1ddc710da29046198ca3b3a673b0",
+        "error_at_ms": 15312,
+        "draft_and_conversation_preserved": true,
+        "record_after_manual": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80
+        },
+        "recovered_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "recovered_at_ms": 15573,
+        "draft_and_conversation_after_old_release": true,
+        "final_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "record_final": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80
+        },
+        "principal_unchanged": true,
+        "protocol_error_types": [],
+        "final_requests": {
+          "detail": 2,
+          "chat": 2,
+          "events": 2
+        }
+      },
+      {
+        "id": "en-native200-manual",
+        "status": "PASS",
+        "phase": "cleanup",
+        "source_run_id": "run_1a0f84e775a61f6bc86",
+        "original_status": "interrupted",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "status": 401,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "status": 200,
+            "ms": null,
+            "record": {
+              "run_id": "run_1a0f84e775a61f6bc86",
+              "status": "interrupted",
+              "live": false,
+              "last_seq": 94
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/auth/me",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/health",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": 593
+          },
+          {
+            "phase": "manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": 593
+          },
+          {
+            "phase": "manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "status": 200,
+            "ms": 596,
+            "record": {
+              "run_id": "run_1a0f84e775a61f6bc86",
+              "status": "interrupted",
+              "live": false,
+              "last_seq": 94
+            }
+          },
+          {
+            "phase": "manual-replace",
+            "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+            "status": 200,
+            "ms": 609
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 0
+          },
+          {
+            "phase": "held_initial",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 0
+          },
+          {
+            "phase": "manual-replace",
+            "kind": "detail",
+            "method": "GET",
+            "ms": 583,
+            "after_seq": null
+          },
+          {
+            "phase": "manual-replace",
+            "kind": "chat",
+            "method": "GET",
+            "ms": 583,
+            "after_seq": null
+          },
+          {
+            "phase": "manual-replace",
+            "kind": "events",
+            "method": "GET",
+            "ms": 583,
+            "after_seq": 0
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "manual-replace",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "kind": "detail",
+            "ms": 583,
+            "closing": false
+          }
+        ],
+        "page_error_types": [],
+        "screenshots": [
+          "en-native200-manual-before.png",
+          "en-native200-manual-held.png",
+          "en-native200-manual-focused-retry.png",
+          "en-native200-manual-recovered.png",
+          "en-native200-manual-after-old-release.png"
+        ],
+        "keyboard": [
+          {
+            "phase": "manual-held",
+            "tabs": 5,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "overflow": 0,
+              "active_tag": "BUTTON",
+              "active_button_text": "Try again",
+              "active_rect": {
+                "x": 64,
+                "y": 224.59375,
+                "width": 105.203125,
+                "height": 44,
+                "top": 224.59375,
+                "right": 169.203125,
+                "bottom": 268.59375,
+                "left": 64
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "initial-held",
+            "ms": 29,
+            "requests": {
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "opening": true
+          },
+          {
+            "tag": "manual-recovered-before-deadline",
+            "ms": 675,
+            "requests": {
+              "detail": 2,
+              "chat": 2,
+              "events": 2
+            },
+            "opening": false
+          }
+        ],
+        "held_actual_responses": [
+          {
+            "status": 200,
+            "kind": "detail",
+            "ms": 0
+          }
+        ],
+        "released_original": [
+          {
+            "status": 200,
+            "command": "unavailable_after_abort",
+            "matched_real_cancel": true,
+            "expected_protocol_after_cancel": true,
+            "error_name": "Error",
+            "at_ms": 924
+          }
+        ],
+        "chrome_version": "154.0.8037.93",
+        "original_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "record_before": {
+          "run_id": "run_1a0f84e775a61f6bc86",
+          "status": "interrupted",
+          "live": false,
+          "last_seq": 94
+        },
+        "baseline_geometry": {
+          "inner": [
+            720,
+            456
+          ],
+          "outer": [
+            1440,
+            1000
+          ],
+          "dpr": 2,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "overflow": 0,
+          "active_tag": "H1",
+          "active_button_text": null,
+          "active_rect": {
+            "x": 24,
+            "y": 161.25,
+            "width": 672,
+            "height": 67.1875,
+            "top": 161.25,
+            "right": 696,
+            "bottom": 228.4375,
+            "left": 24
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 720,
+            "height": 107,
+            "top": 0,
+            "right": 720,
+            "bottom": 107,
+            "left": 0
+          },
+          "active_visible": true
+        },
+        "real_native200_verified": true,
+        "enter_at_ms": 581,
+        "recovered_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "recovered_at_ms": 654,
+        "record_after_manual": {
+          "run_id": "run_1a0f84e775a61f6bc86",
+          "status": "interrupted",
+          "live": false,
+          "last_seq": 94
+        },
+        "final_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "record_final": {
+          "run_id": "run_1a0f84e775a61f6bc86",
+          "status": "interrupted",
+          "live": false,
+          "last_seq": 94
+        },
+        "principal_unchanged": true,
+        "protocol_error_types": [],
+        "final_requests": {
+          "detail": 2,
+          "chat": 2,
+          "events": 2
+        }
+      },
+      {
+        "id": "ja390-route",
+        "status": "FAIL",
+        "phase": "cleanup",
+        "source_run_id": "run_1a0f84e775a61f6bc86",
+        "original_status": "interrupted",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "status": 401,
+            "ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "status": 200,
+            "ms": null,
+            "record": {
+              "run_id": "run_1a0f84e775a61f6bc86",
+              "status": "interrupted",
+              "live": false,
+              "last_seq": 94
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f84e775a61f6bc86/readiness.json/versions/1",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/auth/status",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/auth/me",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/health",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/approvals",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/chat",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "held_initial",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86/events",
+            "status": 200,
+            "ms": null
+          },
+          {
+            "phase": "cleanup",
+            "path": "/api/runs/run_1a0f84e775a61f6bc86",
+            "status": 200,
+            "ms": 99,
+            "body_unavailable": "Error"
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 0
+          },
+          {
+            "phase": "held_initial",
+            "kind": "detail",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "chat",
+            "method": "GET",
+            "ms": null,
+            "after_seq": null
+          },
+          {
+            "phase": "held_initial",
+            "kind": "events",
+            "method": "GET",
+            "ms": null,
+            "after_seq": 0
+          }
+        ],
+        "network_failures": [],
+        "page_error_types": [],
+        "screenshots": [
+          "ja390-route-before.png",
+          "ja390-route-held.png",
+          "ja390-route-failure.private.png"
+        ],
+        "keyboard": [],
+        "observations": [
+          {
+            "tag": "initial-held",
+            "ms": 30,
+            "requests": {
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "opening": true
+          }
+        ],
+        "held_actual_responses": [
+          {
+            "status": 200,
+            "kind": "detail",
+            "ms": 0
+          }
+        ],
+        "released_original": [
+          {
+            "status": 200,
+            "command": "continued",
+            "at_ms": 99
+          }
+        ],
+        "chrome_version": "154.0.8037.93",
+        "original_artifact": {
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "matches_original": true
+        },
+        "record_before": {
+          "run_id": "run_1a0f84e775a61f6bc86",
+          "status": "interrupted",
+          "live": false,
+          "last_seq": 94
+        },
+        "baseline_geometry": {
+          "inner": [
+            390,
+            844
+          ],
+          "outer": [
+            500,
+            965
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "overflow": 0,
+          "active_tag": "H1",
+          "active_button_text": null,
+          "active_rect": {
+            "x": 16,
+            "y": 161.375,
+            "width": 343,
+            "height": 56,
+            "top": 161.375,
+            "right": 359,
+            "bottom": 217.375,
+            "left": 16
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 107,
+            "top": 0,
+            "right": 375,
+            "bottom": 107,
+            "left": 0
+          },
+          "active_visible": true
+        },
+        "error_name": "Error"
+      }
+    ],
+    "writes": [
+      {
+        "case": "ja390-manual",
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "case": "ja320-deadline",
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "case": "en768-loaded-deadline",
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "case": "en-native200-manual",
+        "method": "POST",
+        "path": "/api/auth/login"
+      },
+      {
+        "case": "ja390-route",
+        "method": "POST",
+        "path": "/api/auth/login"
+      }
+    ],
+    "cleanup": [
+      {
+        "case": "ja390-manual",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "ja390-manual",
+        "id": "close-owned-context",
+        "status": "PASS"
+      },
+      {
+        "case": "ja320-deadline",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "ja320-deadline",
+        "id": "close-owned-context",
+        "status": "PASS"
+      },
+      {
+        "case": "en768-loaded-deadline",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "en768-loaded-deadline",
+        "id": "close-owned-context",
+        "status": "PASS"
+      },
+      {
+        "case": "en-native200-manual",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "en-native200-manual",
+        "id": "close-owned-context",
+        "status": "PASS"
+      },
+      {
+        "case": "ja390-route",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "ja390-route",
+        "id": "close-owned-context",
+        "status": "PASS"
+      }
+    ],
+    "human_acceptance": false,
+    "model_execution_requested": false,
+    "method": "Real Chrome, actual keyed AppService and preserved v62. CDP holds original HTTP200 at Response stage; no response replacement, no business mutation. Native200 uses real Chrome profile default zoom, not CSS zoom.",
+    "business_writes_observed": 0,
+    "finished_at": "2026-10-02T01:49:29.540Z"
+  },
+  "error_type": "AssertionError",
+  "business_after_sha256": {
+    "runs": "89082a42aec810aabd36064cc7f80d1847bf3db103430dfe6585e0a9ffe4f248",
+    "events": "54349ac30689d1d003f7cfbcc26feaf57128a8a0b36ba06b1d72def225eeec19",
+    "artifacts": "ab20f2ea61e2d009c0282408208c386a57462cbeced8726b3bcc5de0157af0df",
+    "model_events": "eb624dbe56eb6620ae62080c10a273cab73ae8eca98ab17b731446a31c79393a",
+    "jobs": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "artifact_bytes": "4bef4fc2281ecb6857c302794689ae70ed281b13cf6d536b93af3e341a49bcd8"
+  },
+  "business_unchanged": true,
+  "model_event_delta": 0,
+  "jobs_after": 0,
+  "original_source_unchanged": true,
+  "source_sha256": {
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/run.json": "6cc9a5b0203a0b572b57e717f1c3d130e4f2aca97c73ce41ed521631ac1c33ab",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/events.jsonl": "73297cf5fddaa85a2483f039e0e8ca081373fa7764a67c821196f2dfb7f067c3",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/artifacts.json": "6af8f4007a56ae6bfec70172786eda1932c0cfd3053ddc0fa9e667dc061b8bcd",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/artifact-000.bin": "536a9ebcacd4fd4d484c67859268ed550d18adf516d974208f8db3d8c3dd8546",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/run.json": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/events.jsonl": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifacts.json": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifact-000.bin": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/run.json": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/events.jsonl": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/artifacts.json": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/artifact-000.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+  },
+  "target_diff_unchanged": true,
+  "implementation_unchanged": true,
+  "bundle_unchanged": true,
+  "finished_at": "2026-10-02T01:49:29.786528+00:00"
+}

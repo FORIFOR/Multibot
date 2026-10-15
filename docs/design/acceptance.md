@@ -1,6 +1,7 @@
 # Agent Team アプリ — 受け入れ基準
 
 数値はこのプロジェクトで合意する基準で、他社との比較結果ではない。
+2026-10-02: [賞を目標とする反復基準](AWARD_QUALITY.md)を追加。以下で名前を挙げる旧 `*-smoke.mjs` / `journey-capture.mjs` には模擬API使用が残るため、新しい受入では実行しない。現行の実HTTP/SQLite/Chrome検証は `backend/scripts/check_public_service.py`、静的サイトの実Chrome検証は `frontend/scripts/site-quality-audit.mjs`。旧検査を未実行のままPASSへ置き換えない。
 「壊れていない」「見た目が整っている」「他社より優れている」は別々に扱い、別々に報告する。
 
 ## 1. 主タスク

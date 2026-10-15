@@ -1,0 +1,15 @@
+{
+  "time": "2026-10-01T23:31:35.801688+00:00",
+  "basis": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+  "npm_build_exit_code": 0,
+  "source_sha256": "abee18fbdee2e107cc81a498dc13134c6987e75c871c18d75081c8df0512a4d7",
+  "bundle": {
+    "index.html": "478fcd7a72f9756e1f9a1b048b717fde0ab247a6c383c21753bda4c87fb3a840",
+    "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "assets/RunView-CHFn8786.js": "26d7d02c411e98d6c3b184a7de1986f7ad620290ec935016d7c0e85febd5a50f",
+    "assets/index-mB2PRA55.css": "0feb7786305b3a270bc2243d48954cecf8579d12d22092606acf6795d164cc41",
+    "assets/index-DBHK9OYD.js": "f9f60bf584f94a918e4eff3600aa57e0b2dd17c8e0bea2ba0d63531fcc5f2e37"
+  },
+  "packaged_ui_matches": true
+}

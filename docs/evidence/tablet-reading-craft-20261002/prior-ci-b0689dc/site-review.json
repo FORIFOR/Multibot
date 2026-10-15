@@ -1,0 +1,482 @@
+{
+  "state": "PASS",
+  "actor": "Independent AI evidence reviewer, no local browser/service/model started",
+  "head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+  "workflow_url": "https://github.com/FORIFOR/Multibot/actions/runs/36937881229",
+  "artifact_id": 11199036575,
+  "checks": [
+    {
+      "id": "workflow-head",
+      "status": "PASS",
+      "detail": {
+        "head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+        "conclusion": "success"
+      }
+    },
+    {
+      "id": "artifact-provenance",
+      "status": "PASS",
+      "detail": {
+        "id": 11199036575,
+        "name": "public-site-quality-evidence",
+        "workflow_head": "b0689dcfbd29a2a6d778166dc7280946048e1e10",
+        "digest": "sha256:edf41f972e1b4e3623b4dc071a0cfb64d27709be7f482388644b27e15407ab7f"
+      }
+    },
+    {
+      "id": "source-before-after",
+      "status": "PASS",
+      "detail": {
+        "commit": "fc7d41995a25ea958735a5e205d3f153e2c28ffd",
+        "before_status": "",
+        "after_status": ""
+      }
+    },
+    {
+      "id": "pr-merge-checkout-provenance",
+      "status": "PASS",
+      "detail": {
+        "actual_checkout": "fc7d41995a25ea958735a5e205d3f153e2c28ffd",
+        "parents": [
+          "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+          "b0689dcfbd29a2a6d778166dc7280946048e1e10"
+        ],
+        "event": "pull_request"
+      }
+    },
+    {
+      "id": "site-source-commit-bytes",
+      "status": "PASS",
+      "detail": [
+        {
+          "path": "docs/index.html",
+          "sha256": "ef78dd4d521a6ab487f3627fef65ea9bf868f67b5b9579d63bcb64841e488c47",
+          "matches_commit": true
+        },
+        {
+          "path": "docs/ja/index.html",
+          "sha256": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22",
+          "matches_commit": true
+        },
+        {
+          "path": "docs/home.css",
+          "sha256": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6",
+          "matches_commit": true
+        },
+        {
+          "path": "docs/home.js",
+          "sha256": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6",
+          "matches_commit": true
+        },
+        {
+          "path": "docs/portfolio.js",
+          "sha256": "175da1843e1897ed20cae2a33cc419e0927a6d3c88240968f0e09ed79cdb9dc9",
+          "matches_commit": true
+        },
+        {
+          "path": "docs/site/build_site.py",
+          "sha256": "53e3b325792677e2020d439b921724ded3423329e537d8a13b138955d050254d",
+          "matches_commit": true
+        },
+        {
+          "path": "docs/site/copy.json",
+          "sha256": "f563fb98d4368dec0d8cade0829f54d7c582ae5f71a4e87b791f4c2363868735",
+          "matches_commit": true
+        }
+      ]
+    },
+    {
+      "id": "runner-source-commit",
+      "status": "PASS",
+      "detail": {
+        "sha256": "41f92c4f5035ebe58d463b64beb2afcdcfc2acadd116d24b3f95c6c7482d9652"
+      }
+    },
+    {
+      "id": "served-resource-commit-bytes",
+      "status": "PASS",
+      "detail": {
+        "count": 10,
+        "mismatches": []
+      }
+    },
+    {
+      "id": "four-new-real-app-images",
+      "status": "PASS",
+      "detail": [
+        {
+          "path": "docs/media/award-request-ja.png",
+          "sha256": "5f748852575f8dea65b6cb40283f76d98fc1041c81118b5dbee5b9b35d2f9adc",
+          "observed_exact_ci_resource": true,
+          "matches_independent_app_capture": true,
+          "scopes": [
+            "ja-normal-1440",
+            "ja-normal-768"
+          ]
+        },
+        {
+          "path": "docs/media/award-request-en.png",
+          "sha256": "f23ef09e373ecc5a7b69b625f10db03c606274544919db0e41ede0123a0af26f",
+          "observed_exact_ci_resource": true,
+          "matches_independent_app_capture": true,
+          "scopes": [
+            "en-normal-1440",
+            "en-normal-768"
+          ]
+        },
+        {
+          "path": "docs/media/award-request-mobile-ja.png",
+          "sha256": "9e637f2629a744f98c7c24d2fda9b667af9386cccac35075a4389c2dbb20cb6d",
+          "observed_exact_ci_resource": true,
+          "matches_independent_app_capture": true,
+          "scopes": [
+            "ja-normal-390",
+            "ja-normal-320",
+            "ja-reflow-720-720",
+            "ja-reflow-html-720",
+            "ja-reflow-text-720",
+            "ja-no-js-390",
+            "ja-reduced-motion-390"
+          ]
+        },
+        {
+          "path": "docs/media/award-request-mobile-en.png",
+          "sha256": "3e7970c2789322d8fe42fe40d7a1193ac2e6545622a88a889da57c8de78b66eb",
+          "observed_exact_ci_resource": true,
+          "matches_independent_app_capture": true,
+          "scopes": [
+            "en-normal-390",
+            "en-normal-320",
+            "en-reflow-720-720",
+            "en-reflow-html-720",
+            "en-reflow-text-720",
+            "en-no-js-390",
+            "en-reduced-motion-390"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "depicted-app-bundle",
+      "status": "PASS",
+      "detail": {
+        "path": "backend/agentteam/ui/assets/index-D1jqh6O4.js",
+        "sha256": "dd148d804fc2a1f4fa078324a3b61bbe0a799e48fe43748aa4f44f2e96ece4e5",
+        "meaning": "Screenshot provenance ties actual app capture to committed bundle. Static-site CI does not execute this app bundle."
+      }
+    },
+    {
+      "id": "18-cases-185-checks",
+      "status": "PASS",
+      "detail": {
+        "scopes": [
+          "ja-normal-1440",
+          "ja-normal-390",
+          "ja-normal-320",
+          "ja-normal-768",
+          "ja-reflow-720-720",
+          "ja-reflow-html-720",
+          "ja-reflow-text-720",
+          "ja-no-js-390",
+          "ja-reduced-motion-390",
+          "en-normal-1440",
+          "en-normal-390",
+          "en-normal-320",
+          "en-normal-768",
+          "en-reflow-720-720",
+          "en-reflow-html-720",
+          "en-reflow-text-720",
+          "en-no-js-390",
+          "en-reduced-motion-390"
+        ],
+        "counts": {
+          "PASS": 185,
+          "FAIL": 0,
+          "UNVERIFIED": 0
+        },
+        "summary": {
+          "cases": 18,
+          "passed": 185,
+          "failed": 0,
+          "unverified": 0,
+          "stable_source": true,
+          "human_acceptance": false,
+          "award_certification": false
+        }
+      }
+    },
+    {
+      "id": "no-write-no-network-console-errors",
+      "status": "PASS",
+      "detail": {
+        "cases": 18
+      }
+    },
+    {
+      "id": "bounded-cleanup",
+      "status": "PASS",
+      "detail": {
+        "cleanup_count": 38,
+        "owned_browser": {
+          "pid": 5520,
+          "executable": "/opt/google/chrome/chrome",
+          "profile": "/tmp/playwright_chromiumdev_profile-id1S1O",
+          "started_at": "2026-10-01T22:58:22.455Z",
+          "exit_code": 0,
+          "exit_signal": null,
+          "still_running": false,
+          "profile_removed": true
+        },
+        "limits": "Runner observes owned Chrome exit and profile removal; does not independently enumerate all operating-system descendants or confirm static HTTP listener closure. Workflow has an EXIT trap for its owned static server."
+      }
+    },
+    {
+      "id": "retained-source-records",
+      "status": "PASS",
+      "detail": {
+        "local_preserved_record_count": 96,
+        "rendered_six_original_excerpts_both_languages": true,
+        "meaning": "Source files match pushed commit locally and emitted HTML is the same CI-served bytes; not a semantic acceptance of generated business evidence."
+      }
+    }
+  ],
+  "resources": [
+    {
+      "path": "docs/home.css",
+      "sha256": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "ja-normal-1440",
+        "ja-normal-390",
+        "ja-normal-320",
+        "ja-normal-768",
+        "ja-reflow-720-720",
+        "ja-reflow-html-720",
+        "ja-reflow-text-720",
+        "ja-no-js-390",
+        "ja-reduced-motion-390",
+        "en-normal-1440",
+        "en-normal-390",
+        "en-normal-320",
+        "en-normal-768",
+        "en-reflow-720-720",
+        "en-reflow-html-720",
+        "en-reflow-text-720",
+        "en-no-js-390",
+        "en-reduced-motion-390"
+      ]
+    },
+    {
+      "path": "docs/ja/index.html",
+      "sha256": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "ja-normal-1440",
+        "ja-normal-390",
+        "ja-normal-320",
+        "ja-normal-768",
+        "ja-reflow-720-720",
+        "ja-reflow-html-720",
+        "ja-reflow-text-720",
+        "ja-no-js-390",
+        "ja-reduced-motion-390"
+      ]
+    },
+    {
+      "path": "docs/favicon.svg",
+      "sha256": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "ja-normal-1440",
+        "ja-normal-390",
+        "ja-normal-320",
+        "ja-normal-768",
+        "ja-reflow-720-720",
+        "ja-reflow-html-720",
+        "ja-reflow-text-720",
+        "ja-no-js-390",
+        "ja-reduced-motion-390",
+        "en-normal-1440",
+        "en-normal-390",
+        "en-normal-320",
+        "en-normal-768",
+        "en-reflow-720-720",
+        "en-reflow-html-720",
+        "en-reflow-text-720",
+        "en-no-js-390",
+        "en-reduced-motion-390"
+      ]
+    },
+    {
+      "path": "docs/home.js",
+      "sha256": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "ja-normal-1440",
+        "ja-normal-390",
+        "ja-normal-320",
+        "ja-normal-768",
+        "ja-reflow-720-720",
+        "ja-reflow-html-720",
+        "ja-reflow-text-720",
+        "ja-reduced-motion-390",
+        "en-normal-1440",
+        "en-normal-390",
+        "en-normal-320",
+        "en-normal-768",
+        "en-reflow-720-720",
+        "en-reflow-html-720",
+        "en-reflow-text-720",
+        "en-reduced-motion-390"
+      ]
+    },
+    {
+      "path": "docs/portfolio.js",
+      "sha256": "175da1843e1897ed20cae2a33cc419e0927a6d3c88240968f0e09ed79cdb9dc9",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "ja-normal-1440",
+        "ja-normal-390",
+        "ja-normal-320",
+        "ja-normal-768",
+        "ja-reflow-720-720",
+        "ja-reflow-html-720",
+        "ja-reflow-text-720",
+        "ja-reduced-motion-390",
+        "en-normal-1440",
+        "en-normal-390",
+        "en-normal-320",
+        "en-normal-768",
+        "en-reflow-720-720",
+        "en-reflow-html-720",
+        "en-reflow-text-720",
+        "en-reduced-motion-390"
+      ]
+    },
+    {
+      "path": "docs/media/award-request-ja.png",
+      "sha256": "5f748852575f8dea65b6cb40283f76d98fc1041c81118b5dbee5b9b35d2f9adc",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "ja-normal-1440",
+        "ja-normal-768"
+      ]
+    },
+    {
+      "path": "docs/media/award-request-mobile-ja.png",
+      "sha256": "9e637f2629a744f98c7c24d2fda9b667af9386cccac35075a4389c2dbb20cb6d",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "ja-normal-390",
+        "ja-normal-320",
+        "ja-reflow-720-720",
+        "ja-reflow-html-720",
+        "ja-reflow-text-720",
+        "ja-no-js-390",
+        "ja-reduced-motion-390"
+      ]
+    },
+    {
+      "path": "docs/index.html",
+      "sha256": "ef78dd4d521a6ab487f3627fef65ea9bf868f67b5b9579d63bcb64841e488c47",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "en-normal-1440",
+        "en-normal-390",
+        "en-normal-320",
+        "en-normal-768",
+        "en-reflow-720-720",
+        "en-reflow-html-720",
+        "en-reflow-text-720",
+        "en-no-js-390",
+        "en-reduced-motion-390"
+      ]
+    },
+    {
+      "path": "docs/media/award-request-en.png",
+      "sha256": "f23ef09e373ecc5a7b69b625f10db03c606274544919db0e41ede0123a0af26f",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "en-normal-1440",
+        "en-normal-768"
+      ]
+    },
+    {
+      "path": "docs/media/award-request-mobile-en.png",
+      "sha256": "3e7970c2789322d8fe42fe40d7a1193ac2e6545622a88a889da57c8de78b66eb",
+      "matches_commit": true,
+      "size_matches": true,
+      "scopes": [
+        "en-normal-390",
+        "en-normal-320",
+        "en-reflow-720-720",
+        "en-reflow-html-720",
+        "en-reflow-text-720",
+        "en-no-js-390",
+        "en-reduced-motion-390"
+      ]
+    }
+  ],
+  "environment": {
+    "platform": "linux",
+    "architecture": "x64",
+    "os_release": "6.17.0-1022-azure",
+    "node": "v22.23.3",
+    "playwright": "1.63.0",
+    "axe": "4.13.0",
+    "headless": true,
+    "device_scale_factor": 1,
+    "hardware_concurrency": 4,
+    "network_throttling": "none",
+    "cpu_throttling": "none",
+    "cache": "fresh context + Chrome Network.setCacheDisabled",
+    "initial_observation_ms_after_load": 1500,
+    "chrome": "154.0.8037.57"
+  },
+  "evidence_summary": {
+    "cases": 18,
+    "passed": 185,
+    "failed": 0,
+    "unverified": 0,
+    "stable_source": true,
+    "human_acceptance": false,
+    "award_certification": false
+  },
+  "limitations": [
+    "Localhost, one installed desktop Chrome and unthrottled host; narrow viewports are not physical mobile-device tests.",
+    "One initial navigation sample per case; LCP/CLS are bounded lab observations, not field p75, INP, or a performance guarantee.",
+    "720 CSS-pixel viewport represents the reflow width of 1440 at 200%; CSS html zoom and precomputed element-font scaling are additional stress conditions, not browser-menu or OS zoom.",
+    "Axe does not establish WCAG conformance. Focus styling is recorded, not judged perceptually; screen-reader and human first-use assessment remain unperformed.",
+    "No external link availability, form delivery, installation command, backend workflow, LLM quality, or award submission is tested.",
+    "Clipboard comparison covers the copied public command only. No prior clipboard contents are read or saved.",
+    "Rendered DOM, computed styles, screenshots and content hashes do not prove the truth of marketing claims or provenance of the published records.",
+    "This review verifies hashes and preserved evidence. It does not constitute award certification, first-time human acceptance, production availability, published-site field performance or LLM business quality.",
+    "CI upload includes JSON/PNG/runner source, but excludes raw response .bin/.html/.css/.js copies. Resource SHA-256 reported by actual browser is independently compared to commit bytes."
+  ],
+  "raw_artifact_preserved": true,
+  "visual_review": {
+    "viewed": [
+      "artifact/ja-normal-390-fold.png",
+      "artifact/en-normal-1440-fold.png"
+    ],
+    "observation": "Actual CI screenshots show readable primary headings/actions and explicit self-hosted-trial/public-service-not-ready disclosure. These are two sampled frames, not a perceptual review of every screenshot."
+  },
+  "automated_accessibility_limits": {
+    "axe_cases": 10,
+    "violation_count": 0,
+    "incomplete_cases": 10,
+    "incomplete_rule_ids": [
+      "color-contrast"
+    ],
+    "wcag_acceptance": false
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "multibot-document-sandbox/safe-report.json": {
+    "sha256": "82f30d6659399142f5842879c023cac65a99d9f6157d97317b62b0ab890155d5",
+    "bytes": 15940
+  },
+  "multibot-public-service/report.json": {
+    "sha256": "f423a6b4b5c83eb63c8deb60830c69ae754e78803a86c7cb801e675a53e3d13a",
+    "bytes": 2780
+  },
+  "multibot-database-concurrency/safe-report.json": {
+    "sha256": "1ae2375996a5db11c23b3c3c784f6825f3c273dae03c6fb27d77aa40c097a16a",
+    "bytes": 3708
+  },
+  "multibot-public-service/admission/verification.json": {
+    "sha256": "303d29d8676eee341067f9fba48871e8a30ae768a13a3400238130b541733b68",
+    "bytes": 1082
+  },
+  "multibot-public-service/responses/response-check.json": {
+    "sha256": "3d55db2763b05634d9708fb6aa06645f3f4cf8606eb1c0d04a2e25bc9f795e85",
+    "bytes": 1882
+  },
+  "multibot-public-service/browser/results.json": {
+    "sha256": "b3ffb6faa7b6c8a886ad58b4340433541327d3693fa657daa89bad934f9227f5",
+    "bytes": 2919
+  },
+  "multibot-public-service/browser/initial-recovery.json": {
+    "sha256": "c18484d15738e9c9a59adabd37976cacea06461eafd1640a752babd9207ba4ab",
+    "bytes": 6120
+  },
+  "multibot-public-service/browser/retry-reload.json": {
+    "sha256": "c9a6a7f9f9b8744ff6061e1595b14c2d5c1db2cfe51d0bd2c35fa856beb2e8a8",
+    "bytes": 728
+  },
+  "multibot-public-service/browser/parallel-diagnostic.json": {
+    "sha256": "a2b118b62f79511b42e28a56a569f0fb2bc1022eec3444253fc4d0bbc3ce6484",
+    "bytes": 150
+  },
+  "multibot-public-service/browser/next-principal-empty.png": {
+    "sha256": "49e0ae24859485559992efc9a711a84ba300ef9208d98145b1061ab488ebd532",
+    "bytes": 237421
+  }
+}

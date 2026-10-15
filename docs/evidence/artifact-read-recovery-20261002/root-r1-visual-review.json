@@ -1,0 +1,20 @@
+{
+  "status": "FAIL_r1_focus",
+  "viewed": [
+    "before-ja390-pending-record.png",
+    "before-en768-failed-record.png",
+    "r1-ja390-manual-restored-focus-outside.png",
+    "r1-en-native200-loaded-recovered-focus.png"
+  ],
+  "findings": [
+    "修正前は未取得の記録を不存在と断定し、概要と展開欄が矛盾。",
+    "r1は初回復帰で本文が伸び、retry focusが画面外になった。元FAILを保持しr2の矩形補正へ。",
+    "既表示native200は原本文を保持しているため同じ高さ変動がなくfocusを確認。新規初回の成功とは別条件。"
+  ],
+  "not_acceptance": [
+    "human",
+    "awards",
+    "public-service",
+    "business-quality"
+  ]
+}

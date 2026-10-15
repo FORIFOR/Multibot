@@ -1,0 +1,49 @@
+{
+  "code_revision": "7354ea94ae5011e40c6953a8434e62b7ded9d8fe",
+  "base_revision": "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+  "code_files_sha256": {
+    "backend/agentteam/api/app.py": "f65751d2a748cf942dd179cf144a0854ae74d8c2fb2a599611bc2cdae0049b92",
+    "backend/agentteam/api/responses.py": "786d9f2a16dc6d7ba4d8163d931721a1fded10f8f7736b79ef7b214987396a48",
+    "backend/agentteam/api/service.py": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+    "backend/agentteam/security/accounts.py": "7016850824b8ae532fe622f19f28fdebce5098055a2f46db78cfcf36be18eb84",
+    "backend/agentteam/security/server.py": "29e30b467789a9eccc7cb17417b20b520827e30be364b7e68b5e839ccb76fc0a",
+    "backend/agentteam/store/db.py": "40392dec38d30dc22efa30788e5ecf77ad56b07d558cf65a3d4cf5862bc9ac0a",
+    "backend/agentteam/store/usage_store.py": "83dc934e86dafb43a5b457d9fc0d745170d44e44b4dfc37d1ad1cd9b6095e24b",
+    "backend/agentteam/ui/assets/RunView-BjBL4qM0.js": "525313c804aa695831169eaa8a95384e20157e068a8ce6f331f65aa925e6cd34",
+    "backend/agentteam/ui/assets/RunView-sNy-UU4A.js": null,
+    "backend/agentteam/ui/assets/index-BksisWOQ.js": null,
+    "backend/agentteam/ui/assets/index-DHtBhIL6.css": "724df2d71b9a0af7e42d5acfc46be9f8cff40a375775be048ec9220851973d0b",
+    "backend/agentteam/ui/assets/index-DRJh-uZI.js": "1997f0972a684d2578bcfeb4ba74134c1bc1c56823dd5ad4528ee06f19b155a7",
+    "backend/agentteam/ui/index.html": "a3b390a41c855f5072cd131b4ab3aac4f1fce6b06e211e5fdbd5cc8c183ce118",
+    "backend/scripts/check_public_responses.py": "2a429ec29178db481d5a229dac1792816c0da2881b5792ed961197cb886d2bfe",
+    "backend/scripts/check_subject_admission.py": "019501e0bccee5b59e11c052263238b297d64326719b1a6081b13ba73350c504",
+    "docs/DATA_OPERATIONS.md": "84d88cfb248c1d9475d863ae77ce3cd0ad3375cd36b2f29b51d4f1b894d52104",
+    "docs/PRODUCTION_PLAN.md": "2dba680a3a985543939f31f9112f8ec22f85bea01255e0c6d900e7b139da6f28",
+    "docs/PUBLIC_SERVICE.md": "57f9ef57b29431d49da32cf9039b861d9969255ac53d71715cc83a39aa0b67e7",
+    "docs/design/brief.md": "92d942b4ed8df3c77ee42ec05186018b8547e692dba5889b212315c483d2fea3",
+    "frontend/scripts/auth-browser-isolation.mjs": "5e0094862ecc721498e86a19051f7b35ab23ac83336ac3837d5a749dddeb2c58",
+    "frontend/scripts/auth-parallel-login.mjs": "5be4eacaed6a199280c3891c9f113b7b2424578b07d162d83529a26b1c3322f7",
+    "frontend/scripts/auth-retry-reload.mjs": "3d865b0bdc1ef929fc6d4839bc55b90a200b392ee8ac280e17d497ba74145218",
+    "frontend/src/App.tsx": "4ee3a61e7795a1aa4e542a62cea6634d0d52712919605a3fae6b02d007e5b79e",
+    "frontend/src/components/AuthGate.tsx": "fef29f674db02fc0a9fb193e774ccd517502d4712d84be44ddc120d809d838fc",
+    "frontend/src/lib/api.ts": "004ef6d39892f37f5f580797746f0b36a9a8af0c3911723d7b863117099b294b",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+    "frontend/src/lib/request-draft.ts": "e44a0e22f8b46f814e09353bc054c55132de52e818b09606c95c4af6c02fd3ca",
+    "frontend/src/pages/Home.tsx": "1169e4a0dbc9ec3cfaab492daed56ffc0c64c5baa7ef8a7442c93dff5a41d3aa",
+    "frontend/src/pages/RunView.tsx": "0f048b1111e6b1acf76624b29b5e64e49b7a67963683d9233ab15943b9a135fa",
+    "frontend/src/pages/Welcome.tsx": "06cfc80f5c4660191bee19fef41cb91514b5173ecb6792f578206a6ee85e61e2",
+    "frontend/src/pages/Workroom.tsx": "8936bfd9cef2fc5fc9a33477595a019820464af45609f46b16a47f71802c5f6c",
+    "frontend/src/paper.css": "936fff7faab671dd1b6d452839a2ef917de57b0cea3b385936b4e24c43350fed"
+  },
+  "checks": {
+    "frontend_build": "npm --prefix frontend run build: exit 0",
+    "bundled_ui": "frontend/dist copied into backend/agentteam/ui; diff -r checked",
+    "backend_static": "ruff check backend/agentteam and both new verification scripts: exit 0",
+    "frontend_lint": "npm --prefix frontend run lint: exit 0; pre-existing warnings remain"
+  },
+  "evidence_sha256": {
+    "responses.json": "20fa7e8b37016058c3d48331e9d5b40aee13c5eb8cb9ff9c5a5296751adb9501",
+    "admission.json": "1b5814327208fc900952b0c01721624a2b74b02a80793b20e719203fbd7a0be1"
+  },
+  "github_ci": "not run: legacy workflows include fake-provider tests; explicit skip ci for draft PR, not a CI pass or merge bypass"
+}

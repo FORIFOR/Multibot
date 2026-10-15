@@ -1,0 +1,5292 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-02T02:54:42.116685+00:00",
+  "new_model_requested": false,
+  "human_acceptance": false,
+  "api_cleanup": {
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "browser_cleanup": [
+    {
+      "program": "check.mjs",
+      "tracked_processes": 52,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "Read-only preserved v62 records, not live generation.",
+    "The import helper preserves Run/events/artifact bytes; it intentionally does not reconstruct task rows.",
+    "Real CDP Response-stage hold does not isolate a body-only stall. Only real auth/session/audit writes permitted."
+  ],
+  "head": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "target_diff_sha256": "9b4666f9143ace1657fbb951732f8295af8fe62bc8e8e0929bc68bf3d9573735",
+  "implementation_sha256": {
+    "backend/agentteam/__init__.py": "5ecd7fb359c6e71842a142a29ad43cb1d3db95da5b6eb4c7339521d20d70c9fa",
+    "backend/agentteam/api/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/agentteam/api/app.py": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+    "backend/agentteam/api/responses.py": "786d9f2a16dc6d7ba4d8163d931721a1fded10f8f7736b79ef7b214987396a48",
+    "backend/agentteam/api/service.py": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+    "backend/agentteam/cli.py": "0d8666fdfc8923b2884609a9d88335d54a8f1ce38fb98b66176c97d8e61132f2",
+    "backend/agentteam/config/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/agentteam/config/loader.py": "f23d48286ec50644a1084239567900758932164a785dd367890724900f85bab8",
+    "backend/agentteam/config/models.py": "e1e80fb25616dc83df2cff64283f7ccd57e1dd9edbb5a78742648d89e3a2e442",
+    "backend/agentteam/config/secrets.py": "4e4cc93139fcc0c06e1843945d7d0e7fa2de83b87a963db439f7121312667adb",
+    "backend/agentteam/config/voice.py": "42b57079c18e5f764537fb6b7930bdbd19089bec47f28b22c575e8bd8bf90f28",
+    "backend/agentteam/contracts.py": "4c0d2682f3a7a18263157661f03e9fd86805d128c95e8444caee5b6f049bd4c6",
+    "backend/agentteam/demo.py": "e72b17aeebf51358b2ee34a26387a392d58876a67418fe696b472d1cd051800d",
+    "backend/agentteam/demo_command.py": "f0a52300177f8fc88839d3817f2c7aed3c78558a055cb8b45dbf5fd96e9b123d",
+    "backend/agentteam/ids.py": "9bbcd1b32c2d7c71e2bda5f8f667f8e37632eea4f07f8a0e298ea8f9059cfe5b",
+    "backend/agentteam/operations/__init__.py": "0b6fed8f361992b5ed65d3856d691148376b0c346dd20d4865c288e6367aa0e1",
+    "backend/agentteam/operations/backup.py": "a03a2e65b0ba7e8c7eb3e3b9bfa0cc9181240455937bb2fa719c19d128fc582c",
+    "backend/agentteam/operations/encrypted_backup.py": "6bf4ffb897b7b76a3c2c37e202a015951480d7711f1d7749f75c500e5d05c833",
+    "backend/agentteam/operations/observer.py": "1c8ea3a5a656943268a9b244213a9cfb4de4819f710709516b0f6053ac70e5ad",
+    "backend/agentteam/operations/retention.py": "0120a1cdfe5e903fda7ab869e9e73295a56395bd5597e2d2670c4bd69d9b624d",
+    "backend/agentteam/projections/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/agentteam/projections/views.py": "7d7d58600f5cb236f5d4c17c6c0177c6800f5b3448f26827f19e96b9e213ff09",
+    "backend/agentteam/providers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/agentteam/providers/anthropic_driver.py": "1076b0858fc51338b982252654233356cd298260f5e12700c0631328b5fba8b2",
+    "backend/agentteam/providers/base.py": "a7992529f905b9448165132af9f07a057a3879517d7084bf03cae02fc027be4b",
+    "backend/agentteam/providers/claude_cli_driver.py": "f44770ef69f031f333676584d9b4c1ea4fb58f6599f549cc658f3ee87cbb4a7d",
+    "backend/agentteam/providers/claude_cli_mcp.py": "66cfb6297f08c50f53015475e7ea7509f77123271ea8ab14c8afc610f0a5c06b",
+    "backend/agentteam/providers/fake_driver.py": "125fd03e79024a9c487ad68ab73b30b1ede8bbec0656a4df3e62a4063c89b653",
+    "backend/agentteam/providers/openai_compat_driver.py": "d6d0e03a638cc521c3e1ad45bd50494e2d4267577aaae6d91830615fde814c97",
+    "backend/agentteam/providers/pricing.py": "6632f084cff3dd2f37a3eb70eeae143efe38ccc4fab5e284fc991a0265d7e37c",
+    "backend/agentteam/providers/registry.py": "cf99a45909839a1c746773829a478c96136ebf8a8ff0037028701bf0b3f6277a",
+    "backend/agentteam/runtime/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/agentteam/runtime/check_worker.py": "a761507ddb74ae18114657d274bd50f66c564ad9f76b6bef65834f6d1b0e6af2",
+    "backend/agentteam/runtime/checks.py": "cc535751848aafb9d29de736f3e0d75aceb7da3c6872f47a6b929c766610177e",
+    "backend/agentteam/runtime/communication.py": "13fc4d597dae6efcd75b70d2c656cd3594f1581e272040cda03f1d4787b6c4d3",
+    "backend/agentteam/runtime/context.py": "fd03c8afb3c7ab20863f58c95dc35b99699f8e25c9f7d31d05117b4344449040",
+    "backend/agentteam/runtime/delivery.py": "77b4af079cf6be46fb51cfc5d3e1f6516c73e9f6cf3588cf7a168d8f932af47a",
+    "backend/agentteam/runtime/mailbox.py": "72fcaf5d428f0cf08dc2f5459b80b1ab65d7d332b47098a798bdb0f2239802f9",
+    "backend/agentteam/runtime/orchestrator.py": "5f8696a9c57ea6277774bd5b68229ebaa4ca5de7ef69b375bf235ef710b490ed",
+    "backend/agentteam/runtime/planner.py": "48554fa9dd8f3667252913dedfbde73878e0efe61bf87df598f129dae3b9b4f1",
+    "backend/agentteam/runtime/policy.py": "3457267dcfd462c9b698b5c1ac1deaab5a6cd270cef0deb5438a134186fad6e0",
+    "backend/agentteam/runtime/redaction.py": "215e1d3ef67c2e323e06a7ba9c88393b7b7e0455936fae8393097ea95c5e898b",
+    "backend/agentteam/runtime/review_targets.py": "d02979a2b5b6f11f19d0adfe1e447792a35dadb7dd82e300a8cb9390f8a8775c",
+    "backend/agentteam/runtime/sandbox.py": "201d945457279b7fbd2fc34894c19e414b52291090c48a4aedd3276b18f4d2d3",
+    "backend/agentteam/runtime/scheduler.py": "e58e70654394fe3355961226bf69dbb410082a894fdbcf4949c5e403cacb0d0e",
+    "backend/agentteam/runtime/session_broker.py": "c4a3feefc4713abc2be5a08aa573531f3310cf36b9dd1e102541ab7ed3cb64ad",
+    "backend/agentteam/runtime/team_selection.py": "90e0078a19a3fa1af53f3224028fffdace33e1479b935821e067bc149381a215",
+    "backend/agentteam/runtime/tool_capabilities.py": "a42b01c8e4700e6cca95c234264a445876d7f6d121302677b4b46836c5e4ee15",
+    "backend/agentteam/runtime/tools.py": "403a1eab90d928f85cc358425b41de7a107ca212845043581fbef1e64be9ad66",
+    "backend/agentteam/runtime/webtools.py": "d9535220f5e5effcb8359e7aa04bacc6daaffa45820dd0f81a6273652dab37bd",
+    "backend/agentteam/runtime/worker.py": "83e5415e8582d044d0399e66e490b485834b80609991f547d219b6b09abbb85b",
+    "backend/agentteam/security/__init__.py": "f023b675a41bd8a8d3981c623c7f8a3c7f68dd744cdca5ddd6fcdb6ecba76d0c",
+    "backend/agentteam/security/accounts.py": "7016850824b8ae532fe622f19f28fdebce5098055a2f46db78cfcf36be18eb84",
+    "backend/agentteam/security/oidc.py": "16f0840044c1a45cbc729d6129270aec1ab0f74e78f6d4594736d4e2bf0b65c8",
+    "backend/agentteam/security/server.py": "29e30b467789a9eccc7cb17417b20b520827e30be364b7e68b5e839ccb76fc0a",
+    "backend/agentteam/store/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/agentteam/store/artifact_store.py": "995e198656b4d154bb2f7d630abfb0dc4b1f913073cecd904c4b7c3ed9bd2557",
+    "backend/agentteam/store/db.py": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+    "backend/agentteam/store/event_store.py": "1125d3b36a273942c3ecd21d81780602b3760498fe98de38d4f75ef97ada1b4a",
+    "backend/agentteam/store/job_store.py": "b1d709a9da46a872a3c0e291c1cc732773e1701176399c7af9791ab4d85d8497",
+    "backend/agentteam/store/run_store.py": "17b22cb1a966636130595340446f06f6028d4acaa66d8ce3a3cb96bbb1db5936",
+    "backend/agentteam/store/usage_store.py": "83dc934e86dafb43a5b457d9fc0d745170d44e44b4dfc37d1ad1cd9b6095e24b",
+    "backend/pyproject.toml": "d17660b14045d5332bb4e8af42fb12328a74ba675db6f4730e1177de1418b2f2",
+    "backend/requirements.lock": "a4c606970a1c2c14ea48daeefb23934d41a06e8689cef70e756a030f0cd07a8a",
+    "frontend/package.json": "5f43cbf4820bd547386870684243701c727c133f02f8a074f2e5828004aa518f",
+    "frontend/src/App.tsx": "e021310967703ea56602730f5fb6bc6b83c2e6e0c69ce321098f772b00fb2c61",
+    "frontend/src/bot-polish.css": "4f1f20b37d4bf5eee5f3ba60ca6a303d9a6d5b28ec42bac45f4b1a191aabc597",
+    "frontend/src/components/ArtifactWorkbench.tsx": "6d5c615660b8c974354e17d87f3b6ba0841cd8534aab9782695a1b35a3cd1e34",
+    "frontend/src/components/AuthGate.tsx": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+    "frontend/src/components/BotAvatar.tsx": "f42b97467f50bd579cee05fb9e57fd2df2062d9a918d157d5304ef453ed4ee53",
+    "frontend/src/components/BotSettingsCard.tsx": "77fdf8e145f1cc05f600defdc2843c649fca495b30642405edb9668314d4f511",
+    "frontend/src/components/ConversationActivity.tsx": "f45c38114758f8169ac1e136bd30788cd4467beb9fabe4d7b6c1545550e85743",
+    "frontend/src/components/CustomBotCreator.tsx": "7632360fc333784d6cace39c85c6e314cb453c5af54a7e1fafe8aae8d7e59a90",
+    "frontend/src/components/ElapsedTime.tsx": "8e61850cdcb18ceba4ce4b76694d2b7b15730cba515d7ff6da86f40a03b644e8",
+    "frontend/src/components/Journey.tsx": "6aeaa2454f69bdbe11f18746ec03aa9244690f4fddcbd5708e3288ef00e9af0a",
+    "frontend/src/components/Markdown.tsx": "2e247aae584beda90e72c5e9f398ba25a98657d27102f9a49e73f4ff41b59f49",
+    "frontend/src/components/Orb.tsx": "cfc66cdb7ab2d5f06fb8bd9701ad9c94596a30a4c38707ff000ffe122d2f9867",
+    "frontend/src/components/TeamConversation.tsx": "3d65e94a225cbe846a5ffecf2543abc45a05946b80bd72c9b79100a77aff02d9",
+    "frontend/src/components/WorkProgress.tsx": "0a84fecf3e7cda1324bdef4ec04161892bacf59acfbbed347e5a406d6efbdeaa",
+    "frontend/src/journey.css": "51d8cc3293bfcf00f7e4e99f62fb831217cfee273394321dd9552558dab030b4",
+    "frontend/src/lib/api.ts": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6",
+    "frontend/src/lib/bot-characters.ts": "49e323c068b96542fdeac67dd84946aad39aeaa02eca071c11b1bb4105e919e8",
+    "frontend/src/lib/bot-identity.ts": "2a7526ebf34383aea6186c553079d9e14c9da7488cd37b7ddc9ad0c2dd4754ba",
+    "frontend/src/lib/bot-presentation.ts": "e6555364f6cc65824da80d7ab7c9ec07f21a09d5d0c07484fb915e4a66ccdbe8",
+    "frontend/src/lib/bot-shapes.ts": "bff03e56344a7698909ddff567c8a07c5e4ee1124cdb643b39525d19ae8688bd",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+    "frontend/src/lib/i18n.ts": "7c5d0b0e80b2e04d0d775685bac67786b7832b02774bbba80f9ea9287a161d30",
+    "frontend/src/lib/journey.ts": "a4da9b538370e8c5f98f24ba09027e5094b9d41db0aa4ea996cb22260815347e",
+    "frontend/src/lib/markdown.ts": "93baf3981ea7391742549c51b6506020a1ce35863b7311643d8e7ba3cbe622b2",
+    "frontend/src/lib/request-draft.ts": "e44a0e22f8b46f814e09353bc054c55132de52e818b09606c95c4af6c02fd3ca",
+    "frontend/src/lib/router.tsx": "42135605d4d362ea3aca63efd5711debe746a75577e1931fd425889c89db0fa7",
+    "frontend/src/lib/text-delivery.ts": "19be72cfa747fc4499573e8311863db4ed1d5e5b96839a52264fed34bc7a83cb",
+    "frontend/src/lib/welcome.ts": "0955e881084f03aed147b5a634eacc92f13b4376f4293a98ed40d6869ace28f5",
+    "frontend/src/main.tsx": "d86f5bd9a12ff32dc95f5eeb85c879877e1fa7c7820120b7061f277b2703b87b",
+    "frontend/src/obsidian.css": "7db3b45853a00de1795ef190e41360470f93772cd4c056192944ca4f372404f7",
+    "frontend/src/pages/Home.tsx": "2007851a0987fc5c82b6d21f0b778ad0dc7b5babb1f91fafb61978995e230cff",
+    "frontend/src/pages/Operations.tsx": "89113218ebdf0a05a9da5dbe7fbb6704584807464d1981b76c233606fb132521",
+    "frontend/src/pages/RunView.tsx": "58cd97d169db263a72580d4cc7ba5655c84ca28e23ddde7e00e242f863dba9db",
+    "frontend/src/pages/Settings.tsx": "69ef7b07e0903e28c6d91cdd6b926122198ba91cc1e171de8f69689ff2559729",
+    "frontend/src/pages/Welcome.tsx": "06cfc80f5c4660191bee19fef41cb91514b5173ecb6792f578206a6ee85e61e2",
+    "frontend/src/pages/WorkList.tsx": "edd1613327fb92a55e13011742c2cf6b8b7765b3b9d0fb3cc7e249a6cf358a3a",
+    "frontend/src/pages/Workroom.tsx": "e8c07d67306d10cb47a016fb92ef86ba015ca3f26e836f65a30f4373e15d4a7d",
+    "frontend/src/paper.css": "d344b5b11fe08b317af77d6a57593e7dc61412de2ed2067b26b6812db731608a",
+    "frontend/src/quiet-cinema.css": "cc5b2823e6bf49866ad9a6a03c3d4ebc4e1873591a272b136ab735874fd9e9c5",
+    "frontend/src/styles.css": "3738efc79cb6249e5689cb3e15515381a7f163900c75afd12ed0e3d1f0f532a3",
+    "frontend/src/ui-polish.css": "64fae4f662c4492a7918cde764d26dd7fff6727404faddfeb14beff41cd8d847",
+    "frontend/src/welcome.css": "89ced29d15bb2b708289324dc2b8cf2a082e93a4eb5bd3f48233de8efa725167",
+    "frontend/src/workroom-refinement.css": "60e0d541df6148a6a72c2ca271173b943e8bfa1726837be329521c25b5dc190f",
+    "frontend/src/workroom.css": "87122f28a23b94e8a7fcd6cf968b931db244b0a67c0adbd35760402afe5d5086"
+  },
+  "implementation_scope": "Product frontend source and backend Python only, plus dependency manifest/lock. Concurrent CI scripts are not part of the unchanged product assertion.",
+  "import_cleanup_helpers_sha256_at_start": {
+    "backend/scripts/check_result_reading.py": "3fcc5950669ff40afe5980814cd9cfe36e8a4d71f03427916c41e65343e2d439",
+    "backend/scripts/check_public_service.py": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+    "backend/scripts/check_message_handoff.py": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff"
+  },
+  "script_sha256": {
+    "check.py": "2c758d2bf20b34f24c62a46d4bcb4700c1708a234574b654fb80b1f611582228",
+    "check.mjs": "e7fba9ceaeb89ef78123314e899fcb4fe8ff7cb68565609288a45a53ef7c6832"
+  },
+  "material_sha256": "cf0cc15b812d919867d6af47db72648c5643c65f3d1b6e6c2fc105a97be7fe06",
+  "resource_before": {
+    "pressure_level": 1,
+    "memory_pressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 65%\n",
+    "disk_free_bytes": 9969582080,
+    "policy": "No LLM/VM; six sequential Chrome contexts. Fixed LLM threshold unchanged."
+  },
+  "runtime_python": "3.12.12 (main, Oct  9 2025, 11:07:00) [Clang 17.0.0 (clang-1700.6.3.2)]",
+  "business_before_sha256": {
+    "runs": "89082a42aec810aabd36064cc7f80d1847bf3db103430dfe6585e0a9ffe4f248",
+    "events": "54349ac30689d1d003f7cfbcc26feaf57128a8a0b36ba06b1d72def225eeec19",
+    "artifacts": "ab20f2ea61e2d009c0282408208c386a57462cbeced8726b3bcc5de0157af0df",
+    "model_events": "eb624dbe56eb6620ae62080c10a273cab73ae8eca98ab17b731446a31c79393a",
+    "jobs": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "artifact_bytes": "4bef4fc2281ecb6857c302794689ae70ed281b13cf6d536b93af3e341a49bcd8"
+  },
+  "sqlite_before_sha256": "cea03e15f551e387ab04e0178235c6a12782cb24060b383859b3872bcd81c55a",
+  "model_called_before": 73,
+  "task_rows_before": 0,
+  "model_events_before": 74,
+  "jobs_before": 0,
+  "private_bundle_sha256": {
+    "assets/RunView-tb1ltHPq.js": "73e520c90b79c7fd69673af5e2c85bc4f2e2ee70171f35f42e33b35a10cda798",
+    "assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+    "assets/index-BtMUEHfg.js": "182e7eac3f81fb5b6ed995439fd857d9e890f3ceb89e6ec2604fa17b96ccdf2a",
+    "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "index.html": "13c9ef0965f52433099957bf97ef8a9183b0b97eb82b753fb0f1328cdf9b39b2"
+  },
+  "served_assets": [
+    {
+      "path": "/assets/index-BQqhmjTV.css",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "/assets/index-BtMUEHfg.js",
+      "status": 200,
+      "hash_matches": true
+    }
+  ],
+  "browser_exit_code": 0,
+  "browser": {
+    "status": "PASS",
+    "started_at": "2026-10-02T02:54:42.510Z",
+    "cases": [
+      {
+        "id": "ja390-manual",
+        "status": "PASS",
+        "phase": "cleanup",
+        "role": "operator",
+        "source_run_id": "run_1a0f80632e5c1220524",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 401,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "manual-recover",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": 299
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "artifact",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "artifact",
+            "at_ms": null
+          },
+          {
+            "phase": "manual-recover",
+            "kind": "artifact",
+            "at_ms": 293
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "manual-recover",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "at_ms": 299,
+            "cleanup": false
+          }
+        ],
+        "network_cancellations": [
+          {
+            "network_id": "87125.42",
+            "canceled": true,
+            "error": "net::ERR_ABORTED",
+            "at_ms": 299
+          }
+        ],
+        "page_error_types": [],
+        "screenshots": [
+          "ja390-manual-before.png",
+          "ja390-manual-fault-check-record-open.png",
+          "ja390-manual-retry-focus.png",
+          "ja390-manual-recovered-focus.png"
+        ],
+        "keyboard": [
+          {
+            "label": "open-check-record-during-fault",
+            "key": "Enter",
+            "at_ms": 105,
+            "tabs": 9,
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                225
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "確認の記録を見る",
+              "active_rect": {
+                "x": 33,
+                "y": 609.453125,
+                "width": 116,
+                "height": 44,
+                "top": 609.453125,
+                "right": 149,
+                "bottom": 653.453125,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "restoring-reload",
+            "at_ms": 272,
+            "tabs": 21,
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                225
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "本文と確認を再読み込み",
+              "active_rect": {
+                "x": 184,
+                "y": 609.453125,
+                "width": 158,
+                "height": 44,
+                "top": 609.453125,
+                "right": 342,
+                "bottom": 653.453125,
+                "left": 184
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "close-record",
+            "key": "Space",
+            "at_ms": 513,
+            "tabs": 1,
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                967
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 48,
+                "y": 507.75,
+                "width": 279,
+                "height": 44,
+                "top": 507.75,
+                "right": 327,
+                "bottom": 551.75,
+                "left": 48
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "fault-start",
+            "at_ms": 53,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "…確認の記録を読み込んでいます…",
+            "expanded_record": "確認の記録を読み込んでいます…",
+            "record_open": false,
+            "body_sha256": "6dc96d99ab72b3b3dfee70333b25b3609086fe7f0dbb3e96cd4be1582b9e11f5",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "active_tag": "H1",
+              "active_text": null,
+              "active_rect": {
+                "x": 16,
+                "y": 161.375,
+                "width": 343,
+                "height": 56,
+                "top": 161.375,
+                "right": 359,
+                "bottom": 217.375,
+                "left": 16
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "fault-check-record-open",
+            "at_ms": 111,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "…確認の記録を読み込んでいます…",
+            "expanded_record": "確認の記録を読み込んでいます…",
+            "record_open": true,
+            "body_sha256": "6dc96d99ab72b3b3dfee70333b25b3609086fe7f0dbb3e96cd4be1582b9e11f5",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                225
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "確認の記録を見る",
+              "active_rect": {
+                "x": 33,
+                "y": 609.453125,
+                "width": 116,
+                "height": 44,
+                "top": 609.453125,
+                "right": 149,
+                "bottom": 653.453125,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "ready-after-retry",
+            "at_ms": 370,
+            "state": "ready",
+            "requests": {
+              "artifact": 2,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "✓この版の記録された確認は通過",
+            "expanded_record": "通過依頼した必須条件 通過依頼した必須条件 通過自動チェック json_schema通過るるの確認 document_contract — json_schema check passed with no problems.通過るるの確認 document_language — readiness.json is in Japanese as required by the team language.通過るるの確認 document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.通過るるの確認 document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": false,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                967
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "本文と確認を再読み込み",
+              "active_rect": {
+                "x": 184,
+                "y": 399.5625,
+                "width": 158,
+                "height": 44,
+                "top": 399.5625,
+                "right": 342,
+                "bottom": 443.5625,
+                "left": 184
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": null
+          },
+          {
+            "tag": "after-old-release",
+            "at_ms": 504,
+            "state": "ready",
+            "requests": {
+              "artifact": 2,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "✓この版の記録された確認は通過",
+            "expanded_record": "通過依頼した必須条件 通過依頼した必須条件 通過自動チェック json_schema通過るるの確認 document_contract — json_schema check passed with no problems.通過るるの確認 document_language — readiness.json is in Japanese as required by the team language.通過るるの確認 document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.通過るるの確認 document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": false,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                967
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "本文と確認を再読み込み",
+              "active_rect": {
+                "x": 184,
+                "y": 399.5625,
+                "width": 158,
+                "height": 44,
+                "top": 399.5625,
+                "right": 342,
+                "bottom": 443.5625,
+                "left": 184
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": null
+          }
+        ],
+        "injections": [
+          {
+            "method": "Response-stage hold",
+            "status": 200,
+            "exact_artifact": true,
+            "at_ms": 0
+          }
+        ],
+        "releases": [
+          {
+            "status": 200,
+            "command": "unavailable_after_abort",
+            "matched_actual_cancel": true,
+            "expected_protocol_after_cancel": true,
+            "error_name": "Error",
+            "at_ms": 392
+          }
+        ],
+        "chrome_version": "154.0.8037.93",
+        "record_before": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "original_record": {
+          "checks": 3,
+          "reviews": 1,
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "revision": 1,
+          "run_id": "run_1a0f80632e5c1220524"
+        },
+        "baseline_geometry": {
+          "inner": [
+            390,
+            844
+          ],
+          "outer": [
+            500,
+            970
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "active_tag": "H1",
+          "active_text": null,
+          "active_rect": {
+            "x": 16,
+            "y": 161.375,
+            "width": 343,
+            "height": 56,
+            "top": 161.375,
+            "right": 359,
+            "bottom": 217.375,
+            "left": 16
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 107,
+            "top": 0,
+            "right": 375,
+            "bottom": 107,
+            "left": 0
+          },
+          "overflow": 0,
+          "active_visible": true
+        },
+        "retry_at_ms": 292,
+        "recovered_at_ms": 368,
+        "check_record_toggle_preserved_ready": true,
+        "record_after": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "principal_unchanged": true,
+        "original_identifier_preserved": true,
+        "final_body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "protocol_error_types": [],
+        "other_get_failures": 0
+      },
+      {
+        "id": "ja320-deadline",
+        "status": "PASS",
+        "phase": "cleanup",
+        "role": "operator",
+        "source_run_id": "run_1a0f80632e5c1220524",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 401,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": 5013
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": 5015
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": 5015
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": 5017,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": 9984
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": 9986
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": 9986
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": 9988,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": 14987
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": 14989
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": 14989
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": 14993,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "manual-recover",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": 15148
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "artifact",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "artifact",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "detail",
+            "at_ms": 4977
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "chat",
+            "at_ms": 4977
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "events",
+            "at_ms": 4977
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "detail",
+            "at_ms": 9976
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "chat",
+            "at_ms": 9976
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "events",
+            "at_ms": 9976
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "detail",
+            "at_ms": 14975
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "chat",
+            "at_ms": 14975
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "events",
+            "at_ms": 14976
+          },
+          {
+            "phase": "manual-recover",
+            "kind": "artifact",
+            "at_ms": 15141
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "at_ms": 15003,
+            "cleanup": false
+          }
+        ],
+        "network_cancellations": [
+          {
+            "network_id": "87154.42",
+            "canceled": true,
+            "error": "net::ERR_ABORTED",
+            "at_ms": 15003
+          }
+        ],
+        "page_error_types": [],
+        "screenshots": [
+          "ja320-deadline-before.png",
+          "ja320-deadline-fault-check-record-open.png",
+          "ja320-deadline-retry-focus.png",
+          "ja320-deadline-recovered-focus.png"
+        ],
+        "keyboard": [
+          {
+            "label": "open-check-record-during-fault",
+            "key": "Enter",
+            "at_ms": 68,
+            "tabs": 9,
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                275
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "確認の記録を見る",
+              "active_rect": {
+                "x": 33,
+                "y": 609.453125,
+                "width": 116,
+                "height": 44,
+                "top": 609.453125,
+                "right": 149,
+                "bottom": 653.453125,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "restoring-reload",
+            "at_ms": 15113,
+            "tabs": 21,
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                296
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "本文と確認を再読み込み",
+              "active_rect": {
+                "x": 33,
+                "y": 799.734375,
+                "width": 158,
+                "height": 44,
+                "top": 799.734375,
+                "right": 191,
+                "bottom": 843.734375,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "close-record",
+            "key": "Space",
+            "at_ms": 15370,
+            "tabs": 1,
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                1069
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 48,
+                "y": 529.34375,
+                "width": 209,
+                "height": 44,
+                "top": 529.34375,
+                "right": 257,
+                "bottom": 573.34375,
+                "left": 48
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "fault-start",
+            "at_ms": 24,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "…確認の記録を読み込んでいます…",
+            "expanded_record": "確認の記録を読み込んでいます…",
+            "record_open": false,
+            "body_sha256": "6dc96d99ab72b3b3dfee70333b25b3609086fe7f0dbb3e96cd4be1582b9e11f5",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "active_tag": "H1",
+              "active_text": null,
+              "active_rect": {
+                "x": 16,
+                "y": 161.375,
+                "width": 273,
+                "height": 56,
+                "top": 161.375,
+                "right": 289,
+                "bottom": 217.375,
+                "left": 16
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "fault-check-record-open",
+            "at_ms": 74,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "…確認の記録を読み込んでいます…",
+            "expanded_record": "確認の記録を読み込んでいます…",
+            "record_open": true,
+            "body_sha256": "6dc96d99ab72b3b3dfee70333b25b3609086fe7f0dbb3e96cd4be1582b9e11f5",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                275
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "確認の記録を見る",
+              "active_rect": {
+                "x": 33,
+                "y": 609.453125,
+                "width": 116,
+                "height": 44,
+                "top": 609.453125,
+                "right": 149,
+                "bottom": 653.453125,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "at12s-before-deadline",
+            "at_ms": 12006,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 3,
+              "chat": 3,
+              "events": 3
+            },
+            "summary": "…確認の記録を読み込んでいます…",
+            "expanded_record": "確認の記録を読み込んでいます…",
+            "record_open": true,
+            "body_sha256": "6dc96d99ab72b3b3dfee70333b25b3609086fe7f0dbb3e96cd4be1582b9e11f5",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                666
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 48,
+                "y": 400.234375,
+                "width": 209,
+                "height": 44,
+                "top": 400.234375,
+                "right": 257,
+                "bottom": 444.234375,
+                "left": 48
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "deadline-error",
+            "at_ms": 15039,
+            "state": "error",
+            "requests": {
+              "artifact": 1,
+              "detail": 4,
+              "chat": 4,
+              "events": 4
+            },
+            "summary": "?確認の記録を取得できません。再読み込みしてください。",
+            "expanded_record": "確認の記録を取得できません。再読み込みしてください。",
+            "record_open": true,
+            "body_sha256": "0d7795447e84192f57f9f683d1424725f200127cc8e8f5fc982ede10d1da4307",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                666
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 48,
+                "y": 559.515625,
+                "width": 209,
+                "height": 44,
+                "top": 559.515625,
+                "right": 257,
+                "bottom": 603.515625,
+                "left": 48
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "ready-after-retry",
+            "at_ms": 15219,
+            "state": "ready",
+            "requests": {
+              "artifact": 2,
+              "detail": 4,
+              "chat": 4,
+              "events": 4
+            },
+            "summary": "✓この版の記録された確認は通過",
+            "expanded_record": "通過依頼した必須条件 通過依頼した必須条件 通過自動チェック json_schema通過るるの確認 document_contract — json_schema check passed with no problems.通過るるの確認 document_language — readiness.json is in Japanese as required by the team language.通過るるの確認 document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.通過るるの確認 document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": false,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                1069
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "本文と確認を再読み込み",
+              "active_rect": {
+                "x": 33,
+                "y": 399.5625,
+                "width": 158,
+                "height": 44,
+                "top": 399.5625,
+                "right": 191,
+                "bottom": 443.5625,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": null
+          },
+          {
+            "tag": "after-old-release",
+            "at_ms": 15355,
+            "state": "ready",
+            "requests": {
+              "artifact": 2,
+              "detail": 4,
+              "chat": 4,
+              "events": 4
+            },
+            "summary": "✓この版の記録された確認は通過",
+            "expanded_record": "通過依頼した必須条件 通過依頼した必須条件 通過自動チェック json_schema通過るるの確認 document_contract — json_schema check passed with no problems.通過るるの確認 document_language — readiness.json is in Japanese as required by the team language.通過るるの確認 document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.通過るるの確認 document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": false,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                320,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                1069
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "本文と確認を再読み込み",
+              "active_rect": {
+                "x": 33,
+                "y": 399.5625,
+                "width": 158,
+                "height": 44,
+                "top": 399.5625,
+                "right": 191,
+                "bottom": 443.5625,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 305,
+                "height": 107,
+                "top": 0,
+                "right": 305,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": null
+          }
+        ],
+        "injections": [
+          {
+            "method": "Response-stage hold",
+            "status": 200,
+            "exact_artifact": true,
+            "at_ms": 0
+          }
+        ],
+        "releases": [
+          {
+            "status": 200,
+            "command": "unavailable_after_abort",
+            "matched_actual_cancel": true,
+            "expected_protocol_after_cancel": true,
+            "error_name": "Error",
+            "at_ms": 15242
+          }
+        ],
+        "chrome_version": "154.0.8037.93",
+        "record_before": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "original_record": {
+          "checks": 3,
+          "reviews": 1,
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "revision": 1,
+          "run_id": "run_1a0f80632e5c1220524"
+        },
+        "baseline_geometry": {
+          "inner": [
+            320,
+            844
+          ],
+          "outer": [
+            500,
+            970
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "active_tag": "H1",
+          "active_text": null,
+          "active_rect": {
+            "x": 16,
+            "y": 161.375,
+            "width": 273,
+            "height": 56,
+            "top": 161.375,
+            "right": 289,
+            "bottom": 217.375,
+            "left": 16
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 305,
+            "height": 107,
+            "top": 0,
+            "right": 305,
+            "bottom": 107,
+            "left": 0
+          },
+          "overflow": 0,
+          "active_visible": true
+        },
+        "deadline_observed_at_ms": 15036,
+        "retry_at_ms": 15140,
+        "recovered_at_ms": 15217,
+        "check_record_toggle_preserved_ready": true,
+        "record_after": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "principal_unchanged": true,
+        "original_identifier_preserved": true,
+        "final_body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "protocol_error_types": [],
+        "other_get_failures": 0
+      },
+      {
+        "id": "en768-transport",
+        "status": "PASS",
+        "phase": "cleanup",
+        "role": "operator",
+        "source_run_id": "run_1a0f80632e5c1220524",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 401,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "manual-recover",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": 408
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "artifact",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "artifact",
+            "at_ms": 0
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "artifact",
+            "at_ms": 287
+          },
+          {
+            "phase": "manual-recover",
+            "kind": "artifact",
+            "at_ms": 395
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "at_ms": 2,
+            "cleanup": false
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "at_ms": 298,
+            "cleanup": false
+          }
+        ],
+        "network_cancellations": [],
+        "page_error_types": [],
+        "screenshots": [
+          "en768-transport-before.png",
+          "en768-transport-fault-check-record-open.png",
+          "en768-transport-blocked-again-focus.png",
+          "en768-transport-retry-focus.png",
+          "en768-transport-recovered-focus.png"
+        ],
+        "keyboard": [
+          {
+            "label": "open-check-record-during-fault",
+            "key": "Enter",
+            "at_ms": 76,
+            "tabs": 9,
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                36
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "See the check record",
+              "active_rect": {
+                "x": 297,
+                "y": 792.640625,
+                "width": 165.953125,
+                "height": 44,
+                "top": 792.640625,
+                "right": 462.953125,
+                "bottom": 836.640625,
+                "left": 297
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "retry-while-blocked",
+            "key": "Space",
+            "at_ms": 285,
+            "tabs": 23,
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                36
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 530.109375,
+                "y": 792.640625,
+                "width": 173.890625,
+                "height": 44,
+                "top": 792.640625,
+                "right": 704,
+                "bottom": 836.640625,
+                "left": 530.109375
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "restoring-reload",
+            "at_ms": 363,
+            "tabs": 0,
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                36
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 530.109375,
+                "y": 792.640625,
+                "width": 173.890625,
+                "height": 44,
+                "top": 792.640625,
+                "right": 704,
+                "bottom": 836.640625,
+                "left": 530.109375
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "close-record",
+            "key": "Space",
+            "at_ms": 627,
+            "tabs": 1,
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                802
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 312,
+                "y": 507.9375,
+                "width": 377,
+                "height": 44,
+                "top": 507.9375,
+                "right": 689,
+                "bottom": 551.9375,
+                "left": 312
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "fault-start",
+            "at_ms": 27,
+            "state": "error",
+            "requests": {
+              "artifact": 1,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "?The check record is unavailable. Please reload it.",
+            "expanded_record": "The check record is unavailable. Please reload it.",
+            "record_open": false,
+            "body_sha256": "119d4d8be54e2266a7fc5d809983653257a04550b7a008d173e979b63134586e",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "active_tag": "H1",
+              "active_text": null,
+              "active_rect": {
+                "x": 272,
+                "y": 54.375,
+                "width": 457,
+                "height": 67.1875,
+                "top": 54.375,
+                "right": 729,
+                "bottom": 121.5625,
+                "left": 272
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "fault-check-record-open",
+            "at_ms": 83,
+            "state": "error",
+            "requests": {
+              "artifact": 1,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "?The check record is unavailable. Please reload it.",
+            "expanded_record": "The check record is unavailable. Please reload it.",
+            "record_open": true,
+            "body_sha256": "119d4d8be54e2266a7fc5d809983653257a04550b7a008d173e979b63134586e",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                537
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 312,
+                "y": 399.828125,
+                "width": 377,
+                "height": 44,
+                "top": 399.828125,
+                "right": 689,
+                "bottom": 443.828125,
+                "left": 312
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "blocked-again",
+            "at_ms": 331,
+            "state": "error",
+            "requests": {
+              "artifact": 2,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "?The check record is unavailable. Please reload it.",
+            "expanded_record": "The check record is unavailable. Please reload it.",
+            "record_open": true,
+            "body_sha256": "119d4d8be54e2266a7fc5d809983653257a04550b7a008d173e979b63134586e",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                36
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 530.109375,
+                "y": 792.640625,
+                "width": 173.890625,
+                "height": 44,
+                "top": 792.640625,
+                "right": 704,
+                "bottom": 836.640625,
+                "left": 530.109375
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": null
+          },
+          {
+            "tag": "ready-after-retry",
+            "at_ms": 468,
+            "state": "ready",
+            "requests": {
+              "artifact": 3,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "✓Recorded checks passed for this version",
+            "expanded_record": "PassedRequired delivery conditions PassedRequired delivery conditions PassedAutomatic check json_schemaPassedReview by るる document_contract — json_schema check passed with no problems.PassedReview by るる document_language — readiness.json is in Japanese as required by the team language.PassedReview by るる document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.PassedReview by るる document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": false,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                802
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 530.109375,
+                "y": 399.75,
+                "width": 173.890625,
+                "height": 44,
+                "top": 399.75,
+                "right": 704,
+                "bottom": 443.75,
+                "left": 530.109375
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": null
+          },
+          {
+            "tag": "after-old-release",
+            "at_ms": 618,
+            "state": "ready",
+            "requests": {
+              "artifact": 3,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "✓Recorded checks passed for this version",
+            "expanded_record": "PassedRequired delivery conditions PassedRequired delivery conditions PassedAutomatic check json_schemaPassedReview by るる document_contract — json_schema check passed with no problems.PassedReview by るる document_language — readiness.json is in Japanese as required by the team language.PassedReview by るる document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.PassedReview by るる document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": false,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                768,
+                844
+              ],
+              "outer": [
+                770,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                802
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 530.109375,
+                "y": 399.75,
+                "width": 173.890625,
+                "height": 44,
+                "top": 399.75,
+                "right": 704,
+                "bottom": 443.75,
+                "left": 530.109375
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 248,
+                "height": 844,
+                "top": 0,
+                "right": 248,
+                "bottom": 844,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": null
+          }
+        ],
+        "injections": [
+          {
+            "method": "Request-stage Failed",
+            "exact_artifact": true,
+            "at_ms": 0
+          },
+          {
+            "method": "Request-stage Failed",
+            "exact_artifact": true,
+            "at_ms": 287
+          }
+        ],
+        "releases": [],
+        "chrome_version": "154.0.8037.93",
+        "record_before": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "original_record": {
+          "checks": 3,
+          "reviews": 1,
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "revision": 1,
+          "run_id": "run_1a0f80632e5c1220524"
+        },
+        "baseline_geometry": {
+          "inner": [
+            768,
+            844
+          ],
+          "outer": [
+            770,
+            970
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "active_tag": "H1",
+          "active_text": null,
+          "active_rect": {
+            "x": 272,
+            "y": 54.375,
+            "width": 457,
+            "height": 67.1875,
+            "top": 54.375,
+            "right": 729,
+            "bottom": 121.5625,
+            "left": 272
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 248,
+            "height": 844,
+            "top": 0,
+            "right": 248,
+            "bottom": 844,
+            "left": 0
+          },
+          "overflow": 0,
+          "active_visible": true
+        },
+        "retry_at_ms": 393,
+        "recovered_at_ms": 466,
+        "check_record_toggle_preserved_ready": true,
+        "record_after": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "principal_unchanged": true,
+        "original_identifier_preserved": true,
+        "final_body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "protocol_error_types": [],
+        "other_get_failures": 0
+      },
+      {
+        "id": "en-native200-loaded",
+        "status": "PASS",
+        "phase": "cleanup",
+        "role": "operator",
+        "source_run_id": "run_1a0f80632e5c1220524",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 401,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": 4280
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": 4281
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": 4281
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": 4284,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": 9258
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": 9260
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": 9260
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": 9262,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": 14261
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": 14263
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": 14263
+          },
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": 14287,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "manual-recover",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": 15387
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "artifact",
+            "at_ms": null
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "artifact",
+            "at_ms": null
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "detail",
+            "at_ms": 4249
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "chat",
+            "at_ms": 4250
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "events",
+            "at_ms": 4250
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "detail",
+            "at_ms": 9248
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "chat",
+            "at_ms": 9248
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "events",
+            "at_ms": 9249
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "detail",
+            "at_ms": 14248
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "chat",
+            "at_ms": 14249
+          },
+          {
+            "phase": "loaded-reload-held",
+            "kind": "events",
+            "at_ms": 14249
+          },
+          {
+            "phase": "manual-recover",
+            "kind": "artifact",
+            "at_ms": 15383
+          }
+        ],
+        "network_failures": [
+          {
+            "phase": "loaded-reload-held",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "at_ms": 14984,
+            "cleanup": false
+          }
+        ],
+        "network_cancellations": [
+          {
+            "network_id": "87412.31",
+            "canceled": true,
+            "error": "net::ERR_ABORTED",
+            "at_ms": 14984
+          }
+        ],
+        "page_error_types": [],
+        "screenshots": [
+          "en-native200-loaded-before.png",
+          "en-native200-loaded-fault-check-record-open.png",
+          "en-native200-loaded-retry-focus.png",
+          "en-native200-loaded-recovered-focus.png"
+        ],
+        "keyboard": [
+          {
+            "label": "open-direction",
+            "key": "Enter",
+            "at_ms": null,
+            "tabs": 2,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                15
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Conversation",
+              "active_rect": {
+                "x": 24,
+                "y": 349.6875,
+                "width": 100.71875,
+                "height": 46,
+                "top": 349.6875,
+                "right": 124.71875,
+                "bottom": 395.6875,
+                "left": 24
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "back-to-results",
+            "key": "Enter",
+            "at_ms": null,
+            "tabs": 21,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Results 1",
+              "active_rect": {
+                "x": 146.71875,
+                "y": 364.6875,
+                "width": 85.9375,
+                "height": 46,
+                "top": 364.6875,
+                "right": 232.65625,
+                "bottom": 410.6875,
+                "left": 146.71875
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "open-copy-options",
+            "key": "Enter",
+            "at_ms": null,
+            "tabs": 9,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                1110
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 49,
+                "y": 295.0703125,
+                "width": 622,
+                "height": 44,
+                "top": 295.0703125,
+                "right": 671,
+                "bottom": 339.0703125,
+                "left": 49
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "open-editor",
+            "key": "Enter",
+            "at_ms": null,
+            "tabs": 1,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                1110
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Edit a copy",
+              "active_rect": {
+                "x": 49,
+                "y": 351.0703125,
+                "width": 108.0859375,
+                "height": 44,
+                "top": 351.0703125,
+                "right": 157.0859375,
+                "bottom": 395.0703125,
+                "left": 49
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "same-version-reload-from-loaded",
+            "key": "Space",
+            "at_ms": null,
+            "tabs": 23,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                789
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 49,
+                "y": 258.3828125,
+                "width": 173.8828125,
+                "height": 44,
+                "top": 258.3828125,
+                "right": 222.8828125,
+                "bottom": 302.3828125,
+                "left": 49
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "open-check-record-during-fault",
+            "key": "Enter",
+            "at_ms": 126,
+            "tabs": 27,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                789
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "See the check record",
+              "active_rect": {
+                "x": 305.296875,
+                "y": 206.3828125,
+                "width": 165.9453125,
+                "height": 44,
+                "top": 206.3828125,
+                "right": 471.2421875,
+                "bottom": 250.3828125,
+                "left": 305.296875
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "restoring-reload",
+            "at_ms": 15128,
+            "tabs": 27,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                903.5
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 49,
+                "y": 258.3828125,
+                "width": 173.8828125,
+                "height": 44,
+                "top": 258.3828125,
+                "right": 222.8828125,
+                "bottom": 302.3828125,
+                "left": 49
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "close-record",
+            "key": "Space",
+            "at_ms": 15816,
+            "tabs": 1,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                789
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 64,
+                "y": 344.9765625,
+                "width": 592,
+                "height": 44,
+                "top": 344.9765625,
+                "right": 656,
+                "bottom": 388.9765625,
+                "left": 64
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "check-direction-after-reload",
+            "key": "Enter",
+            "at_ms": 15873,
+            "tabs": 20,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Conversation",
+              "active_rect": {
+                "x": 24,
+                "y": 364.6875,
+                "width": 100.71875,
+                "height": 46,
+                "top": 364.6875,
+                "right": 124.71875,
+                "bottom": 410.6875,
+                "left": 24
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "back-to-original-result",
+            "key": "Enter",
+            "at_ms": 15883,
+            "tabs": 1,
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Results 1",
+              "active_rect": {
+                "x": 146.71875,
+                "y": 364.6875,
+                "width": 85.9375,
+                "height": 46,
+                "top": 364.6875,
+                "right": 232.65625,
+                "bottom": 410.6875,
+                "left": 146.71875
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "fault-start",
+            "at_ms": 30,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 0,
+              "chat": 0,
+              "events": 0
+            },
+            "summary": "…Loading the check record…",
+            "expanded_record": "Loading the check record…",
+            "record_open": false,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                789
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 497.1171875,
+                "y": 206.3828125,
+                "width": 173.8828125,
+                "height": 44,
+                "top": 206.3828125,
+                "right": 671,
+                "bottom": 250.3828125,
+                "left": 497.1171875
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": true
+          },
+          {
+            "tag": "fault-check-record-open",
+            "at_ms": 131,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 0,
+              "chat": 0,
+              "events": 0
+            },
+            "summary": "…Loading the check record…",
+            "expanded_record": "Loading the check record…",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                789
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "See the check record",
+              "active_rect": {
+                "x": 305.296875,
+                "y": 206.3828125,
+                "width": 165.9453125,
+                "height": 44,
+                "top": 206.3828125,
+                "right": 471.2421875,
+                "bottom": 250.3828125,
+                "left": 305.296875
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": true
+          },
+          {
+            "tag": "at12s-before-deadline",
+            "at_ms": 12006,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 2,
+              "chat": 2,
+              "events": 2
+            },
+            "summary": "…Loading the check record…",
+            "expanded_record": "Loading the check record…",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                875.5
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 64,
+                "y": 206.4765625,
+                "width": 592,
+                "height": 44,
+                "top": 206.4765625,
+                "right": 656,
+                "bottom": 250.4765625,
+                "left": 64
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": true
+          },
+          {
+            "tag": "deadline-error",
+            "at_ms": 15017,
+            "state": "error",
+            "requests": {
+              "artifact": 1,
+              "detail": 3,
+              "chat": 3,
+              "events": 3
+            },
+            "summary": "?The check record is unavailable. Please reload it.",
+            "expanded_record": "The check record is unavailable. Please reload it.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                990
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 64,
+                "y": 258.4765625,
+                "width": 592,
+                "height": 44,
+                "top": 258.4765625,
+                "right": 656,
+                "bottom": 302.4765625,
+                "left": 64
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": true
+          },
+          {
+            "tag": "ready-after-retry",
+            "at_ms": 15441,
+            "state": "ready",
+            "requests": {
+              "artifact": 2,
+              "detail": 3,
+              "chat": 3,
+              "events": 3
+            },
+            "summary": "✓Recorded checks passed for this version",
+            "expanded_record": "PassedRequired delivery conditions PassedRequired delivery conditions PassedAutomatic check json_schemaPassedReview by るる document_contract — json_schema check passed with no problems.PassedReview by るる document_language — readiness.json is in Japanese as required by the team language.PassedReview by るる document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.PassedReview by るる document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": false,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                789
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 49,
+                "y": 258.3828125,
+                "width": 173.8828125,
+                "height": 44,
+                "top": 258.3828125,
+                "right": 222.8828125,
+                "bottom": 302.3828125,
+                "left": 49
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": true
+          },
+          {
+            "tag": "after-old-release",
+            "at_ms": 15807,
+            "state": "ready",
+            "requests": {
+              "artifact": 2,
+              "detail": 3,
+              "chat": 3,
+              "events": 3
+            },
+            "summary": "✓Recorded checks passed for this version",
+            "expanded_record": "PassedRequired delivery conditions PassedRequired delivery conditions PassedAutomatic check json_schemaPassedReview by るる document_contract — json_schema check passed with no problems.PassedReview by るる document_language — readiness.json is in Japanese as required by the team language.PassedReview by るる document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.PassedReview by るる document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": false,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                720,
+                456
+              ],
+              "outer": [
+                1440,
+                1000
+              ],
+              "dpr": 2,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                789
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 49,
+                "y": 258.3828125,
+                "width": 173.8828125,
+                "height": 44,
+                "top": 258.3828125,
+                "right": 222.8828125,
+                "bottom": 302.3828125,
+                "left": 49
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 720,
+                "height": 107,
+                "top": 0,
+                "right": 720,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": true
+          }
+        ],
+        "injections": [
+          {
+            "method": "Response-stage hold",
+            "status": 200,
+            "exact_artifact": true,
+            "at_ms": 0
+          }
+        ],
+        "releases": [
+          {
+            "status": 200,
+            "command": "unavailable_after_abort",
+            "matched_actual_cancel": true,
+            "expected_protocol_after_cancel": true,
+            "error_name": "Error",
+            "at_ms": 15693
+          }
+        ],
+        "chrome_version": "154.0.8037.93",
+        "record_before": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "original_record": {
+          "checks": 3,
+          "reviews": 1,
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "revision": 1,
+          "run_id": "run_1a0f80632e5c1220524"
+        },
+        "baseline_geometry": {
+          "inner": [
+            720,
+            456
+          ],
+          "outer": [
+            1440,
+            1000
+          ],
+          "dpr": 2,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "active_tag": "H1",
+          "active_text": null,
+          "active_rect": {
+            "x": 24,
+            "y": 161.25,
+            "width": 672,
+            "height": 67.1875,
+            "top": 161.25,
+            "right": 696,
+            "bottom": 228.4375,
+            "left": 24
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 720,
+            "height": 107,
+            "top": 0,
+            "right": 720,
+            "bottom": 107,
+            "left": 0
+          },
+          "overflow": 0,
+          "active_visible": true
+        },
+        "native200_verified": true,
+        "direction_excerpt_sha256": "3b870f2f990cff5569a56379da8c4fb558fcc074ad07cec81d0d263db65cc528",
+        "editor_excerpt_sha256": "17e45c7fb86b80b39f0721e7329434a30d74a33d290150a6790df9a0024bebf4",
+        "editor_excerpt_policy": "First640 JS string units of the actual matching artifact; unsent local copy only.",
+        "deadline_observed_at_ms": 15013,
+        "retry_at_ms": 15381,
+        "recovered_at_ms": 15439,
+        "check_record_toggle_preserved_ready": true,
+        "direction_preserved": true,
+        "editor_copy_preserved": true,
+        "record_after": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "principal_unchanged": true,
+        "original_identifier_preserved": true,
+        "final_body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "protocol_error_types": [],
+        "other_get_failures": 0
+      },
+      {
+        "id": "en390-viewer",
+        "status": "PASS",
+        "phase": "cleanup",
+        "role": "viewer",
+        "source_run_id": "run_1a0f80632e5c1220524",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 401,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": null
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "artifact",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "artifact",
+            "at_ms": null
+          }
+        ],
+        "network_failures": [],
+        "network_cancellations": [],
+        "page_error_types": [],
+        "screenshots": [
+          "en390-viewer-before.png",
+          "en390-viewer-viewer-reload-focus.png"
+        ],
+        "keyboard": [
+          {
+            "label": "viewer-keyboard-reload",
+            "key": "Space",
+            "at_ms": null,
+            "tabs": 10,
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                984
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 33,
+                "y": 452.15625,
+                "width": 173.890625,
+                "height": 44,
+                "top": 452.15625,
+                "right": 206.890625,
+                "bottom": 496.15625,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "viewer-recovered",
+            "at_ms": null,
+            "state": "ready",
+            "requests": {
+              "artifact": 0,
+              "detail": 0,
+              "chat": 0,
+              "events": 0
+            },
+            "summary": "✓Recorded checks passed for this version",
+            "expanded_record": "PassedRequired delivery conditions PassedRequired delivery conditions PassedAutomatic check json_schemaPassedReview by るる document_contract — json_schema check passed with no problems.PassedReview by るる document_language — readiness.json is in Japanese as required by the team language.PassedReview by るる document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.PassedReview by るる document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": false,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 0,
+            "adopt_disabled": null,
+            "warning_text": "The request is not complete. These are the available partial results.",
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                984
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "Reload file and checks",
+              "active_rect": {
+                "x": 33,
+                "y": 452.15625,
+                "width": 173.890625,
+                "height": 44,
+                "top": 452.15625,
+                "right": 206.890625,
+                "bottom": 496.15625,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": true,
+            "editor_preserved": null
+          }
+        ],
+        "injections": [],
+        "releases": [],
+        "chrome_version": "154.0.8037.93",
+        "record_before": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": false
+        },
+        "original_record": {
+          "checks": 3,
+          "reviews": 1,
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "revision": 1,
+          "run_id": "run_1a0f80632e5c1220524"
+        },
+        "baseline_geometry": {
+          "inner": [
+            390,
+            844
+          ],
+          "outer": [
+            500,
+            970
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "active_tag": "H1",
+          "active_text": null,
+          "active_rect": {
+            "x": 16,
+            "y": 161.375,
+            "width": 343,
+            "height": 56,
+            "top": 161.375,
+            "right": 359,
+            "bottom": 217.375,
+            "left": 16
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 107,
+            "top": 0,
+            "right": 375,
+            "bottom": 107,
+            "left": 0
+          },
+          "overflow": 0,
+          "active_visible": true
+        },
+        "record_after": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": false
+        },
+        "principal_unchanged": true,
+        "original_identifier_preserved": true,
+        "final_body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "protocol_error_types": [],
+        "other_get_failures": 0
+      },
+      {
+        "id": "ja390-other-focus",
+        "status": "PASS",
+        "phase": "cleanup",
+        "role": "operator",
+        "source_run_id": "run_1a0f80632e5c1220524",
+        "http": [
+          {
+            "phase": "login",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 401,
+            "at_ms": null
+          },
+          {
+            "phase": "login",
+            "path": "/api/auth/login",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "baseline",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/auth/status",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/auth/me",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/health",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/approvals",
+            "kind": "other",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/chat",
+            "kind": "chat",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524/events",
+            "kind": "events",
+            "status": 200,
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "path": "/api/runs/run_1a0f80632e5c1220524",
+            "kind": "detail",
+            "status": 200,
+            "at_ms": null,
+            "record": {
+              "run_id": "run_1a0f80632e5c1220524",
+              "status": "failed",
+              "live": false,
+              "last_seq": 80
+            }
+          },
+          {
+            "phase": "original-response-other-focus",
+            "path": "/api/artifacts/run_1a0f80632e5c1220524/readiness.json/versions/1",
+            "kind": "artifact",
+            "status": 200,
+            "at_ms": 205
+          }
+        ],
+        "requests": [
+          {
+            "phase": "baseline",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "baseline",
+            "kind": "artifact",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "detail",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "chat",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "events",
+            "at_ms": null
+          },
+          {
+            "phase": "initial-artifact-fault",
+            "kind": "artifact",
+            "at_ms": null
+          }
+        ],
+        "network_failures": [],
+        "network_cancellations": [],
+        "page_error_types": [],
+        "screenshots": [
+          "ja390-other-focus-before.png",
+          "ja390-other-focus-fault-check-record-open.png",
+          "ja390-other-focus-other-control-before-original-release.png",
+          "ja390-other-focus-other-control-after-original-release.png"
+        ],
+        "keyboard": [
+          {
+            "label": "open-check-record-during-fault",
+            "key": "Enter",
+            "at_ms": 87,
+            "tabs": 9,
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                225
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "確認の記録を見る",
+              "active_rect": {
+                "x": 33,
+                "y": 609.453125,
+                "width": 116,
+                "height": 44,
+                "top": 609.453125,
+                "right": 149,
+                "bottom": 653.453125,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "retry-before-focus-leaves",
+            "at_ms": 188,
+            "tabs": 21,
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                225
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "本文と確認を再読み込み",
+              "active_rect": {
+                "x": 184,
+                "y": 609.453125,
+                "width": 158,
+                "height": 44,
+                "top": 609.453125,
+                "right": 342,
+                "bottom": 653.453125,
+                "left": 184
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          },
+          {
+            "label": "close-record",
+            "key": "Space",
+            "at_ms": 259,
+            "tabs": 2,
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                967
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 48,
+                "y": 507.75,
+                "width": 279,
+                "height": 44,
+                "top": 507.75,
+                "right": 327,
+                "bottom": 551.75,
+                "left": 48
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            }
+          }
+        ],
+        "observations": [
+          {
+            "tag": "fault-start",
+            "at_ms": 44,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "…確認の記録を読み込んでいます…",
+            "expanded_record": "確認の記録を読み込んでいます…",
+            "record_open": false,
+            "body_sha256": "6dc96d99ab72b3b3dfee70333b25b3609086fe7f0dbb3e96cd4be1582b9e11f5",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                0
+              ],
+              "active_tag": "H1",
+              "active_text": null,
+              "active_rect": {
+                "x": 16,
+                "y": 161.375,
+                "width": 343,
+                "height": 56,
+                "top": 161.375,
+                "right": 359,
+                "bottom": 217.375,
+                "left": 16
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "fault-check-record-open",
+            "at_ms": 92,
+            "state": "pending",
+            "requests": {
+              "artifact": 1,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "…確認の記録を読み込んでいます…",
+            "expanded_record": "確認の記録を読み込んでいます…",
+            "record_open": true,
+            "body_sha256": "6dc96d99ab72b3b3dfee70333b25b3609086fe7f0dbb3e96cd4be1582b9e11f5",
+            "body_matches_original": false,
+            "adopt_count": 1,
+            "adopt_disabled": true,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                543
+              ],
+              "active_tag": "SUMMARY",
+              "active_text": null,
+              "active_rect": {
+                "x": 48,
+                "y": 399.640625,
+                "width": 279,
+                "height": 44,
+                "top": 399.640625,
+                "right": 327,
+                "bottom": 443.640625,
+                "left": 48
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": true
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          },
+          {
+            "tag": "ready-other-control",
+            "at_ms": 232,
+            "state": "ready",
+            "requests": {
+              "artifact": 1,
+              "detail": 1,
+              "chat": 1,
+              "events": 1
+            },
+            "summary": "✓この版の記録された確認は通過",
+            "expanded_record": "通過依頼した必須条件 通過依頼した必須条件 通過自動チェック json_schema通過るるの確認 document_contract — json_schema check passed with no problems.通過るるの確認 document_language — readiness.json is in Japanese as required by the team language.通過るるの確認 document_request — The artifact contains a readiness assessment with production_ready=false and L3 unmet conditions, matching the requester's contract for an evidence-based status report.通過るるの確認 document_accuracy — The areas array lists implemented and remaining conditions with exact English quotes from PRODUCTION_PLAN.md. No contradictions or missing required fields were found.",
+            "record_open": true,
+            "body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+            "body_matches_original": true,
+            "adopt_count": 1,
+            "adopt_disabled": false,
+            "warning_text": "依頼全体は完了していません。使える途中成果を確認できます。",
+            "geometry": {
+              "inner": [
+                390,
+                844
+              ],
+              "outer": [
+                500,
+                970
+              ],
+              "dpr": 1,
+              "root_zoom": "1",
+              "body_zoom": "1",
+              "scroll": [
+                0,
+                225
+              ],
+              "active_tag": "BUTTON",
+              "active_text": "確認の記録を見る",
+              "active_rect": {
+                "x": 33,
+                "y": 1141.5625,
+                "width": 116,
+                "height": 44,
+                "top": 1141.5625,
+                "right": 149,
+                "bottom": 1185.5625,
+                "left": 33
+              },
+              "nav": {
+                "x": 0,
+                "y": 0,
+                "width": 375,
+                "height": 107,
+                "top": 0,
+                "right": 375,
+                "bottom": 107,
+                "left": 0
+              },
+              "overflow": 0,
+              "active_visible": false
+            },
+            "retry_same_dom": true,
+            "retry_focused": false,
+            "editor_preserved": null
+          }
+        ],
+        "injections": [
+          {
+            "method": "Response-stage hold",
+            "status": 200,
+            "exact_artifact": true,
+            "at_ms": 0
+          }
+        ],
+        "releases": [
+          {
+            "status": 200,
+            "command": "continued_original",
+            "at_ms": 204
+          }
+        ],
+        "chrome_version": "154.0.8037.93",
+        "record_before": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "original_record": {
+          "checks": 3,
+          "reviews": 1,
+          "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "revision": 1,
+          "run_id": "run_1a0f80632e5c1220524"
+        },
+        "baseline_geometry": {
+          "inner": [
+            390,
+            844
+          ],
+          "outer": [
+            500,
+            970
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            0
+          ],
+          "active_tag": "H1",
+          "active_text": null,
+          "active_rect": {
+            "x": 16,
+            "y": 161.375,
+            "width": 343,
+            "height": 56,
+            "top": 161.375,
+            "right": 359,
+            "bottom": 217.375,
+            "left": 16
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 107,
+            "top": 0,
+            "right": 375,
+            "bottom": 107,
+            "left": 0
+          },
+          "overflow": 0,
+          "active_visible": true
+        },
+        "other_focus_before": {
+          "inner": [
+            390,
+            844
+          ],
+          "outer": [
+            500,
+            970
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            225
+          ],
+          "active_tag": "BUTTON",
+          "active_text": "確認の記録を見る",
+          "active_rect": {
+            "x": 33,
+            "y": 609.453125,
+            "width": 116,
+            "height": 44,
+            "top": 609.453125,
+            "right": 149,
+            "bottom": 653.453125,
+            "left": 33
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 107,
+            "top": 0,
+            "right": 375,
+            "bottom": 107,
+            "left": 0
+          },
+          "overflow": 0,
+          "active_visible": true
+        },
+        "requests_before_release": {
+          "artifact": 1,
+          "detail": 1,
+          "chat": 1,
+          "events": 1
+        },
+        "other_focus_after": {
+          "inner": [
+            390,
+            844
+          ],
+          "outer": [
+            500,
+            970
+          ],
+          "dpr": 1,
+          "root_zoom": "1",
+          "body_zoom": "1",
+          "scroll": [
+            0,
+            225
+          ],
+          "active_tag": "BUTTON",
+          "active_text": "確認の記録を見る",
+          "active_rect": {
+            "x": 33,
+            "y": 1141.5625,
+            "width": 116,
+            "height": 44,
+            "top": 1141.5625,
+            "right": 149,
+            "bottom": 1185.5625,
+            "left": 33
+          },
+          "nav": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 107,
+            "top": 0,
+            "right": 375,
+            "bottom": 107,
+            "left": 0
+          },
+          "overflow": 0,
+          "active_visible": false
+        },
+        "other_control_retained": true,
+        "page_scroll_unchanged": true,
+        "requests_after_release": {
+          "artifact": 1,
+          "detail": 1,
+          "chat": 1,
+          "events": 1
+        },
+        "check_record_toggle_preserved_ready": true,
+        "record_after": {
+          "run_id": "run_1a0f80632e5c1220524",
+          "status": "failed",
+          "live": false,
+          "last_seq": 80,
+          "artifacts": [
+            [
+              "final-report.md",
+              1,
+              "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe"
+            ],
+            [
+              "readiness.json",
+              1,
+              "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+            ]
+          ],
+          "selection": {},
+          "can_write": true
+        },
+        "principal_unchanged": true,
+        "original_identifier_preserved": true,
+        "final_body_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+        "protocol_error_types": [],
+        "other_get_failures": 0
+      }
+    ],
+    "writes": [
+      {
+        "case": "ja390-manual",
+        "path": "/api/auth/login",
+        "method": "POST"
+      },
+      {
+        "case": "ja320-deadline",
+        "path": "/api/auth/login",
+        "method": "POST"
+      },
+      {
+        "case": "en768-transport",
+        "path": "/api/auth/login",
+        "method": "POST"
+      },
+      {
+        "case": "en-native200-loaded",
+        "path": "/api/auth/login",
+        "method": "POST"
+      },
+      {
+        "case": "en390-viewer",
+        "path": "/api/auth/login",
+        "method": "POST"
+      },
+      {
+        "case": "ja390-other-focus",
+        "path": "/api/auth/login",
+        "method": "POST"
+      }
+    ],
+    "cleanup": [
+      {
+        "case": "ja390-manual",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "ja390-manual",
+        "id": "close-owned-context",
+        "status": "PASS"
+      },
+      {
+        "case": "ja320-deadline",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "ja320-deadline",
+        "id": "close-owned-context",
+        "status": "PASS"
+      },
+      {
+        "case": "en768-transport",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "en768-transport",
+        "id": "close-owned-context",
+        "status": "PASS"
+      },
+      {
+        "case": "en-native200-loaded",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "en-native200-loaded",
+        "id": "close-owned-context",
+        "status": "PASS"
+      },
+      {
+        "case": "en390-viewer",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "en390-viewer",
+        "id": "close-owned-context",
+        "status": "PASS"
+      },
+      {
+        "case": "ja390-other-focus",
+        "id": "release-original",
+        "status": "PASS"
+      },
+      {
+        "case": "ja390-other-focus",
+        "id": "close-owned-context",
+        "status": "PASS"
+      }
+    ],
+    "human_acceptance": false,
+    "model_execution_requested": false,
+    "method": "Actual archived v62, keyed AppService/SQLite/Chrome. Only exact artifact GET is faulted by CDP. No replacement response, no business POST. Native200 is a Chrome profile zoom setting, CSS zoom stays1. Ready geometry is measured after two actual animation frames to include post-layout focus visibility handling.",
+    "business_writes_observed": 0,
+    "finished_at": "2026-10-02T02:55:23.066Z"
+  },
+  "business_after_sha256": {
+    "runs": "89082a42aec810aabd36064cc7f80d1847bf3db103430dfe6585e0a9ffe4f248",
+    "events": "54349ac30689d1d003f7cfbcc26feaf57128a8a0b36ba06b1d72def225eeec19",
+    "artifacts": "ab20f2ea61e2d009c0282408208c386a57462cbeced8726b3bcc5de0157af0df",
+    "model_events": "eb624dbe56eb6620ae62080c10a273cab73ae8eca98ab17b731446a31c79393a",
+    "jobs": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "artifact_bytes": "4bef4fc2281ecb6857c302794689ae70ed281b13cf6d536b93af3e341a49bcd8"
+  },
+  "business_unchanged": true,
+  "sqlite_after_sha256": "eb2f86048db9fe3e39c644de6be1352505b8f59d94e26d1517f7f997c06fc508",
+  "sqlite_hash_limit": "Auth/session/audit writes legitimately change whole SQLite bytes. Original run/event/artifact row hashes and artifact bytes, not whole DB bytes, must remain equal.",
+  "model_called_after": 73,
+  "task_rows_after": 0,
+  "model_event_delta": 0,
+  "jobs_after": 0,
+  "original_source_unchanged": true,
+  "source_sha256": {
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/run.json": "6cc9a5b0203a0b572b57e717f1c3d130e4f2aca97c73ce41ed521631ac1c33ab",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/events.jsonl": "73297cf5fddaa85a2483f039e0e8ca081373fa7764a67c821196f2dfb7f067c3",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/artifacts.json": "6af8f4007a56ae6bfec70172786eda1932c0cfd3053ddc0fa9e667dc061b8bcd",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/artifact-000.bin": "536a9ebcacd4fd4d484c67859268ed550d18adf516d974208f8db3d8c3dd8546",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/03-run_1a0f8118bd3ccca713e/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/run.json": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/events.jsonl": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifacts.json": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifact-000.bin": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/run.json": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/events.jsonl": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/artifacts.json": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+    "/Users/horioshuuhei/.codex/worktrees/public-service/multibot/docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/artifact-000.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+  },
+  "target_diff_unchanged": true,
+  "implementation_unchanged": true,
+  "bundle_unchanged": true,
+  "finished_at": "2026-10-02T02:55:23.317720+00:00"
+}

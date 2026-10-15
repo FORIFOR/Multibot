@@ -1,0 +1,89 @@
+{
+  "status": "OBSERVATION_COMPLETE",
+  "recorded_at": "2026-10-02T01:36:56.539622+00:00",
+  "launch_gate_assessment": "BLOCKED_BY_RECORDED_CONDITIONS",
+  "blocking_conditions": [
+    "disk_over_10gib",
+    "memory_meets_unchanged_gate"
+  ],
+  "resource": {
+    "reclaimable_estimate_bytes": 6097715200,
+    "required_memory_bytes": 8741958113,
+    "memory_deficit_bytes": 2644242913,
+    "pressure_level": 1,
+    "memory_pressure_free_percent": 72,
+    "disk_free_bytes": 10161999872,
+    "disk_minimum_exclusive_bytes": 10737418240,
+    "same_digest_resident": false,
+    "resident_model_count": 0
+  },
+  "series": {
+    "state": "prepared",
+    "model_execution_started": false,
+    "attempts": 0,
+    "preflight_start": false,
+    "preflight_runtime_status": "created",
+    "preflight_model_calls": 0,
+    "database_counts": {
+      "runs": 1,
+      "execution_jobs": 0,
+      "artifacts": 0,
+      "subject_admissions": 1,
+      "request_receipts": 1,
+      "model_events": 0,
+      "pending_jobs": 0
+    }
+  },
+  "checks": {
+    "observer_only_permitted_changes": true,
+    "threshold_bytes_unchanged": true,
+    "disk_exclusive_minimum_unchanged": true,
+    "fixed_983_clean": true,
+    "fingerprint_matches_preparation": true,
+    "supervisor_matches_preparation": true,
+    "frozen_actual_validator": true,
+    "runtime_matches": true,
+    "workflow_document": true,
+    "requires_docker_false": true,
+    "model_digest_and_version_match": true,
+    "still_prepared_attempts_zero_no_generation": true,
+    "no_models_jobs_artifacts": true,
+    "locks_available": true,
+    "old_stop_contract_preserved": true,
+    "prior_processes_absent": true,
+    "no_other_model_workflow": true,
+    "prior_10_complete_and_cleanup": true,
+    "prior_semantic_complete_and_fingerprint_match": true,
+    "frozen_files_and_supervisor_unchanged": true,
+    "main_head_status_content_unchanged": true
+  },
+  "main_checkout_guard": {
+    "file_count_before": 1338,
+    "file_count_after": 1338,
+    "changed_file_count": 0,
+    "head_unchanged": true,
+    "status_unchanged": true,
+    "content_unchanged": true,
+    "before_snapshot_sha256": "ac8691c147f590d412b74e9d968c03b14e76d4aefc12c183107fb9153bde01ce",
+    "after_snapshot_sha256": "dbabf10b883212a87f33b9496e439522e3b8ff4455c06715bad35e5508a7f23e",
+    "filenames_status_and_content_not_disclosed": true
+  },
+  "actual_process_classification": {
+    "model_workflow_matches": 0,
+    "ollama_process_count": 1,
+    "vm_related_count": 0,
+    "prior_pid_matches": 0,
+    "browser_api_chrome_are_not_classified_as_model_workflows": true
+  },
+  "model_vm_probe_supervisor_execution_started": false,
+  "processes_stopped": false,
+  "limits": [
+    "The previous observer was copied with only OUT and observer changed. Existing thresholds were not lowered.",
+    "This point-in-time resource policy failure does not prove that model allocation is impossible.",
+    "Memory-pressure percentage and free+inactive+speculative estimate measure different quantities.",
+    "Ollama metadata GET and a read-only frozen validator only. No inference, model load/unload, VM/service/supervisor start, or external process stop.",
+    "Unrelated owned API/Chrome work by another agent is not treated as a model workflow conflict.",
+    "All tracked and nonignored untracked main checkout content/status hashes were preserved privately; ignored files are outside this snapshot.",
+    "Any launch decision remains with the root/user even if a future observation satisfies the gates."
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "databaseId": 36899313497,
+  "headSha": "4fc43b4472c67776d2df3bdfdd972f41db45fac1",
+  "status": "completed",
+  "conclusion": "cancelled",
+  "url": "https://github.com/FORIFOR/Multibot/actions/runs/36899313497",
+  "jobs": [
+    {
+      "name": "frontend",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-01T17:25:53Z",
+      "completedAt": "2026-10-01T17:26:10Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36899313497/job/110494188398"
+    },
+    {
+      "name": "public-service",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "startedAt": "2026-10-01T17:25:53Z",
+      "completedAt": "2026-10-01T17:36:09Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36899313497/job/110494188406"
+    },
+    {
+      "name": "dependency-audit",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-01T17:25:54Z",
+      "completedAt": "2026-10-01T17:26:14Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36899313497/job/110494188425"
+    },
+    {
+      "name": "backend",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-01T17:25:53Z",
+      "completedAt": "2026-10-01T17:26:04Z",
+      "url": "https://github.com/FORIFOR/Multibot/actions/runs/36899313497/job/110494188617"
+    }
+  ],
+  "failure": {
+    "job": "public-service",
+    "annotation": "The job has exceeded the maximum execution time of 10m0s",
+    "last_active_step": "sudo apt-get update -qq && sudo apt-get install -y sqlite3 fonts-noto-cjk fonts-noto-color-emoji",
+    "observation": "APT completed update and selected a 61.2 MB fonts-noto-cjk download from the configured Ubuntu mirror; the job limit expired before installation and before the service verification step. The underlying network cause is not established."
+  },
+  "public_service_verification": "not_started",
+  "model_execution": false,
+  "private_log_sha256": "b006b5c6f5b90fff139665e0a6bbebd336ceba99d3ef530d79e893aa059404e6"
+}

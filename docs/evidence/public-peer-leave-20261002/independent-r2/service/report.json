@@ -1,0 +1,58 @@
+{
+  "started_at": "2026-10-01T18:13:46.878627+00:00",
+  "revision": "85630f1efae4e9c13e09a1c246153f3c6c43056d",
+  "recorded_profile_source": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+  "recorded_profile_source_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+  "profile_sha256": "b64fc97824e643770d55e20bd8fca58ab43168be6ed045f68dcbd7e096c3f42d",
+  "verification_files_sha256": {
+    "backend/scripts/check_public_service.py": "969239ec468ee084b8d22e11226841940fd33f990e2a8bd11c1bff86877aa9b4",
+    "backend/scripts/check_subject_admission.py": "019501e0bccee5b59e11c052263238b297d64326719b1a6081b13ba73350c504",
+    "backend/scripts/check_public_responses.py": "2a429ec29178db481d5a229dac1792816c0da2881b5792ed961197cb886d2bfe",
+    "frontend/scripts/auth-browser-isolation.mjs": "5e0094862ecc721498e86a19051f7b35ab23ac83336ac3837d5a749dddeb2c58",
+    "frontend/scripts/auth-retry-reload.mjs": "3d865b0bdc1ef929fc6d4839bc55b90a200b392ee8ac280e17d497ba74145218",
+    "frontend/scripts/auth-parallel-login.mjs": "e6e3f43f4a40633cc9915cda2f319c08e24332828c0af8396711dba40ee2570e",
+    "frontend/scripts/auth-peer-tab-close.mjs": "4abe3473ff5401014cbe6d9cc95fa3baecd0b741aab8df055f9ac0a249b2be7d"
+  },
+  "model_execution": false,
+  "business_acceptance": false,
+  "checks": [
+    "actual HTTP/SQLite admission",
+    "actual-source response projection",
+    "auth-browser-isolation.mjs",
+    "auth-retry-reload.mjs",
+    "auth-parallel-login.mjs",
+    "auth-peer-tab-close.mjs"
+  ],
+  "process_cleanup": [
+    {
+      "program": "auth-browser-isolation.mjs",
+      "tracked_processes": 11,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-retry-reload.mjs",
+      "tracked_processes": 9,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-parallel-login.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-peer-tab-close.mjs",
+      "tracked_processes": 15,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "finished_at": "2026-10-01T18:14:14.478859+00:00"
+}

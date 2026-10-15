@@ -1,0 +1,28 @@
+{
+  "source_series": "real-readiness-v62-qwen35-fixed-20261002",
+  "source_sha256": {
+    "status.json": "8bb54b7400ae5f813fab9b34e25f3294d3fcc5c9ccdf144e373f5263a2918c67",
+    "evidence/06-run_1a0f832606535338159/run.json": "ee7759068aab7e71320ba3d1628b9130c80832bb32ec1084281d5e686de5b8b0",
+    "evidence/06-run_1a0f832606535338159/events.jsonl": "e80e841fa28e3513b3244ac8155ae17e23dcfe7ac2bb23b391d543e097288f44",
+    "evidence/06-run_1a0f832606535338159/artifacts.json": "d6d44985fe1e9278117e7aebb352f5c6c1acec0945310142120c20d15e642a62",
+    "data/agentteam.sqlite": "b09f02479d1c60111fff52525fc465e2ac7bbac434acd91354f8a834659f2cf3",
+    "evidence/06-run_1a0f832606535338159/artifact-000.bin": "ac3969af49d06c19f4d9ff8f309b06bf0362bb8a3a8e88126777dd842ab07878",
+    "evidence/06-run_1a0f832606535338159/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+  },
+  "implementation_sha256": {
+    "frontend/src/pages/RunView.tsx": "58cd97d169db263a72580d4cc7ba5655c84ca28e23ddde7e00e242f863dba9db",
+    "frontend/src/pages/Workroom.tsx": "677482624ffe850c0fe8c2532b7ca400a2b42e689d8311c0cfac355dcfeb0f7d",
+    "backend/agentteam/ui/index.html": "0edc21c89a96219111d808c0e20912f8978d5bf67b9c3593e2712cf7302dbfed"
+  },
+  "screenshot_sha256": {
+    "ja-report-evidence.png": "f498de0ae284a14bbed4b4a68d272d103a5cc108bec5705649e98936806f15c7",
+    "ja-report-interpretation.png": "2f84be18f0d1516493abc2a9daeaee2ebbf05952dd3153d1503b718f655840d7",
+    "en-workroom-notes.png": "d2c7bc44bfc85fe763083dbef154600d223dd6ab63fa629cb03cec7a761eb648",
+    "en-report-evidence.png": "4092f4935fba8663c33dc26840f5b052826b9836eb9c710b6c4fb7d0c179810e",
+    "en-report-interpretation.png": "30280b43fdc3f7f86f0011bf5c4ced3d12a3d331318186bbdcf30c9044efe38f",
+    "ja-workroom-notes.png": "f3aa538b3b0abac5f1a1e3068c16404d5b0fcd66a32df45ef88c60faf729654f"
+  },
+  "visual_review": "AI static image inspection: all six images opened; labels and original text visible; not human acceptance",
+  "source_database_published": false,
+  "private_logs_configuration_scripts_credentials_published": false
+}

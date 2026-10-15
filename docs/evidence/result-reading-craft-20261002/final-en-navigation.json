@@ -1,0 +1,174 @@
+{
+  "actor": "AI",
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false,
+  "source": "../after-r2-source.json",
+  "checks": [
+    {
+      "id": "320-rep1-default-results-and-single-file",
+      "status": "PASS",
+      "href": "/runs/run_1a0f7fbead33cd46066?from=completed",
+      "dimensions": {
+        "width": 320,
+        "document": 320
+      }
+    },
+    {
+      "id": "320-selected-reload",
+      "status": "PASS",
+      "revision": 1
+    },
+    {
+      "id": "320-rep1-conversation-back",
+      "status": "PASS",
+      "filter": "completed"
+    },
+    {
+      "id": "320-rep2-default-results-and-single-file",
+      "status": "PASS",
+      "href": "/runs/run_1a0f80632e5c1220524?from=stopped",
+      "dimensions": {
+        "width": 320,
+        "document": 320
+      }
+    },
+    {
+      "id": "320-rep2-conversation-back",
+      "status": "PASS",
+      "filter": "stopped"
+    },
+    {
+      "id": "320-rep9-default-results-and-single-file",
+      "status": "PASS",
+      "href": "/runs/run_1a0f84e775a61f6bc86?from=stopped",
+      "dimensions": {
+        "width": 320,
+        "document": 320
+      }
+    },
+    {
+      "id": "320-rep9-conversation-back",
+      "status": "PASS",
+      "filter": "stopped"
+    },
+    {
+      "id": "390-rep1-default-results-and-single-file",
+      "status": "PASS",
+      "href": "/runs/run_1a0f7fbead33cd46066?from=completed",
+      "dimensions": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "390-selected-reload",
+      "status": "PASS",
+      "revision": 1
+    },
+    {
+      "id": "390-rep1-conversation-back",
+      "status": "PASS",
+      "filter": "completed"
+    },
+    {
+      "id": "390-rep2-default-results-and-single-file",
+      "status": "PASS",
+      "href": "/runs/run_1a0f80632e5c1220524?from=stopped",
+      "dimensions": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "390-rep2-conversation-back",
+      "status": "PASS",
+      "filter": "stopped"
+    },
+    {
+      "id": "390-rep9-default-results-and-single-file",
+      "status": "PASS",
+      "href": "/runs/run_1a0f84e775a61f6bc86?from=stopped",
+      "dimensions": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "id": "390-rep9-conversation-back",
+      "status": "PASS",
+      "filter": "stopped"
+    },
+    {
+      "id": "1440-rep1-default-results-and-single-file",
+      "status": "PASS",
+      "href": "/runs/run_1a0f7fbead33cd46066?from=completed",
+      "dimensions": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "1440-selected-reload",
+      "status": "PASS",
+      "revision": 1
+    },
+    {
+      "id": "1440-rep1-conversation-back",
+      "status": "PASS",
+      "filter": "completed"
+    },
+    {
+      "id": "1440-rep2-default-results-and-single-file",
+      "status": "PASS",
+      "href": "/runs/run_1a0f80632e5c1220524?from=stopped",
+      "dimensions": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "1440-rep2-conversation-back",
+      "status": "PASS",
+      "filter": "stopped"
+    },
+    {
+      "id": "1440-rep9-default-results-and-single-file",
+      "status": "PASS",
+      "href": "/runs/run_1a0f84e775a61f6bc86?from=stopped",
+      "dimensions": {
+        "width": 1440,
+        "document": 1440
+      }
+    },
+    {
+      "id": "1440-rep9-conversation-back",
+      "status": "PASS",
+      "filter": "stopped"
+    }
+  ],
+  "shots": [
+    "320-rep1-default-full.png",
+    "320-rep1-top-viewport.png",
+    "320-rep1-selected-action-viewport.png",
+    "320-rep2-default-full.png",
+    "320-rep9-default-full.png",
+    "390-rep1-default-full.png",
+    "390-rep1-top-viewport.png",
+    "390-rep1-selected-action-viewport.png",
+    "390-rep2-default-full.png",
+    "390-rep9-default-full.png",
+    "1440-rep1-default-full.png",
+    "1440-rep1-top-viewport.png",
+    "1440-rep1-selected-action-viewport.png",
+    "1440-rep2-default-full.png",
+    "1440-rep9-default-full.png"
+  ],
+  "page_errors": [],
+  "limitations": [
+    "No artifact-none/multiple deliverable/multiple revision record exists in v62",
+    "Read-only browser regression after earlier rep1 real adoption; no rollback/re-adoption or new inference"
+  ],
+  "chrome": "154.0.8037.58",
+  "chrome_pid": 1504,
+  "status": "PASS"
+}

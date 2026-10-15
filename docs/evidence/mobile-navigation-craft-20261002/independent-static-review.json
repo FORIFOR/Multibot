@@ -1,0 +1,126 @@
+{
+  "observed_at": "2026-10-01T22:37:19.252812+00:00",
+  "reviewer": "same-model independent AI reviewer",
+  "human_acceptance": "not_performed",
+  "mode": "existing real screenshot inspection and static code review only",
+  "new_browser_started": false,
+  "new_service_started": false,
+  "model_execution_requested": false,
+  "baseline": {
+    "evidence_file": "/Users/horioshuuhei/.cache/agentteam-bench/mobile-reading-craft-20261002/browser-critique-r6/browser/report.json",
+    "evidence_sha256": "402bef7e84e55d7ae1a8c35b3c72075c29a4b3362fa30510c540fb40ef581560",
+    "served_bundle_sha256": "79b6a5332d8a43ecb7209a20111ad397dd46cca8821bea44011937ca7fc14e64",
+    "measurements": [
+      {
+        "case": "native200-exact-r5-programmatic",
+        "stage": "initial_top",
+        "width": 720,
+        "client_width": 720,
+        "scroll_width": 720,
+        "outer_width": 1440,
+        "dpr": 2,
+        "sticky_css_height": 107
+      },
+      {
+        "case": "native200-raw-link-ShiftTab-Enter",
+        "stage": "before_shift_tab",
+        "width": 720,
+        "client_width": 720,
+        "scroll_width": 720,
+        "outer_width": 1440,
+        "dpr": 2,
+        "sticky_css_height": 107
+      },
+      {
+        "case": "ja390-forward-Tab-Enter",
+        "stage": "route_initial_focus",
+        "width": 390,
+        "client_width": 390,
+        "scroll_width": 390,
+        "outer_width": 500,
+        "dpr": 1,
+        "sticky_css_height": 153
+      },
+      {
+        "case": "ja320-forward-Tab-Enter",
+        "stage": "route_initial_focus",
+        "width": 320,
+        "client_width": 320,
+        "scroll_width": 320,
+        "outer_width": 500,
+        "dpr": 1,
+        "sticky_css_height": 153
+      }
+    ],
+    "viewed_images": [
+      {
+        "path": "/Users/horioshuuhei/.cache/agentteam-bench/mobile-reading-craft-20261002/browser-critique-r6/browser/ja390-tab-focus.png",
+        "sha256": "ac848d884984bc18a6b966449cf9cbe951b175d92cda5f054e64213a33a18ae2"
+      },
+      {
+        "path": "/Users/horioshuuhei/.cache/agentteam-bench/mobile-reading-craft-20261002/browser-critique-r6/browser/native200-top.png",
+        "sha256": "59960f9793cf133eebc0d84d05fde6f18bb053b258ee297d8c3ca37dcb6d4c15"
+      },
+      {
+        "path": "/Users/horioshuuhei/.cache/agentteam-bench/mobile-reading-craft-20261002/quality-review-r2/en320-reading-top.png",
+        "sha256": "7b6a12366cc30e5ce046d1e8294bb6315d0b8e9ea496c9f98e619f2e4647130a"
+      }
+    ]
+  },
+  "baseline_findings": [
+    {
+      "id": "persistent_navigation_height",
+      "observation": "JA 390/320 は nav 153 CSS px の3行。native Chrome 200% 内幅720は107 CSS pxの2行。読む画面で言語・ログアウトと主導線が同じ常設領域を使う。",
+      "classification": "observed layout cost, not new functional failure"
+    },
+    {
+      "id": "duplicate_new_request",
+      "observation": "グローバルの新規依頼と Workroom ヘッダの新規依頼が重複。依頼内容と本文より前に複数の移動操作が目に入る。",
+      "classification": "observed information hierarchy"
+    },
+    {
+      "id": "prior_focus_fix",
+      "observation": "既存 r6 では team summary のフォーカス位置を sticky header 下へ調整済み。今回これを未解消と扱わない。",
+      "classification": "prior recorded result"
+    }
+  ],
+  "new_candidate_static_review": {
+    "git_head": "a3258b52a3d8f6f2da0c14186b3491a2b5996f71",
+    "files_sha256": {
+      "frontend/src/App.tsx": "3ce8e50bf0d1e83ca47badfc34ddf7a2fe65fcf5ee085eab3e557ad6f3a3e2b4",
+      "frontend/src/lib/router.tsx": "42135605d4d362ea3aca63efd5711debe746a75577e1931fd425889c89db0fa7",
+      "frontend/src/paper.css": "d344b5b11fe08b317af77d6a57593e7dc61412de2ed2067b26b6812db731608a",
+      "frontend/scripts/result-reading.mjs": "e7cbf66f98959dd3ad767c1ff203b625a8b0f65ae36628a336c866fd22013c35",
+      "backend/scripts/check_result_reading.py": "3fcc5950669ff40afe5980814cd9cfe36e8a4d71f03427916c41e65343e2d439",
+      "frontend/src/components/AuthGate.tsx": "743b1bb57b5552a7ea7e15be18674db2fc0ee52fb7e2a0fb6e48a89f02678fe8",
+      "frontend/src/pages/Workroom.tsx": "44b4cd579bb7e7cef90fe91b2aeea349a86f25a248bba8acf4e4447b360beb71"
+    },
+    "blocking_findings": [],
+    "confirmed_by_code": [
+      "閉じた options は display:none、開くと同一DOMを表示。メニューだけの state 更新は route や Workroom key を変えない。",
+      "Escape は表示中の menu toggle へ focus を戻す。外側 pointerdown、nav wrapper、popstate は menu を閉じる。",
+      "主体切替は既存 AuthGate principal key と破棄処理、logout は既存 signOut のまま。",
+      "operator/viewer は新規とWork、auditor は Operations、admin の設定/運用は secondary。承認 badge と first pending へのリンクを保持。",
+      "Link の aria-current は current が true の場合のみ page。通常 Workroom では Work 1件。",
+      "CI の4追加項目は JS/Python 合致、12 case×16項目=192。失敗時 FAIL、未実施は UNVERIFIED として残る。既存 HTTP/業務不変/cleanup 条件は維持。"
+    ],
+    "runtime_not_claimed": [
+      "新候補の実pixelとnav高さ",
+      "admin/auditor・実承認待ちの全導線",
+      "メニュー中のWorkroom draft/検索/編集コピー保持の実確認",
+      "route/back/popstate後のfocusと開閉の実確認",
+      "native200%・文字拡大で全menu項目の視認/操作",
+      "物理端末・スクリーンリーダー適合"
+    ],
+    "test_scope_limits": [
+      "追加CIは operator/JA と viewer/EN、幅390/320のみ。役割と言語の全組合せではない。",
+      "同じSHAのrep本文では別runの本文を識別できない従来限界を保持。",
+      "追加4項目のPASSだけでdraft保持、主体切替やadmin/auditor検証済みとはしない。"
+    ]
+  },
+  "resource_report": {
+    "path": "/Users/horioshuuhei/.cache/agentteam-bench/quality-launch-nav-audit-20261002-r1/resource-check.json",
+    "sha256": "f1fe574861118fb8dcf525265c6f751cfdd7fc88c321b62beef3d4a56578f65a"
+  },
+  "source_mutations": false
+}

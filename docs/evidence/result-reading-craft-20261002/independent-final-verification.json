@@ -1,0 +1,69 @@
+{
+  "status": "PASS_WITH_SCOPE_LIMITS",
+  "frozen_bundle": "index-DkBnZueV.js",
+  "bundle_sha256": "365ff080ab8312e813d689aa1e07b3c39f01d22819847e5e0ed40fc23cfdc999",
+  "independent_chrome_conditions": [
+    "JA1440",
+    "JA390",
+    "JA320",
+    "EN390"
+  ],
+  "record_keyboard_focus_fixed": true,
+  "rep4_keyboard_adoption_and_export_passed": true,
+  "rep4_new_event_types": [
+    "artifact.adopted"
+  ],
+  "rep3_model_event_delta": 0,
+  "rep4_model_event_delta": 0,
+  "zip_checks": [
+    {
+      "rep": 3,
+      "selection": "adopted",
+      "exact_entry_set": true,
+      "artifact_revision_and_sha_match_original": true,
+      "artifact_bytes_match_original": true,
+      "final_report_bytes_match_original": true
+    },
+    {
+      "rep": 4,
+      "selection": "adopted",
+      "exact_entry_set": true,
+      "artifact_revision_and_sha_match_original": true,
+      "artifact_bytes_match_original": true,
+      "final_report_bytes_match_original": true
+    }
+  ],
+  "original_source_files_checked": 49,
+  "original_source_files_changed": [],
+  "execution_jobs": {},
+  "queued_leased_zero": true,
+  "own_chrome_closed": true,
+  "native_200": {
+    "captured_by": "browser_isolation",
+    "independently_viewed_images": 3,
+    "claimed_measurement_source": "browser_isolation actual capture report: inner720/outer1440/DPR2/CSSzoom1",
+    "independent_visual_blocker": false
+  },
+  "secrets_check": {
+    "exact_real_key_values_checked": 4,
+    "candidate_files_checked": 16,
+    "exact_key_byte_hits": [],
+    "json_token_or_private_key_pattern_hits": [],
+    "image_visual_review_performed": true,
+    "not_complete_general_secret_detection": true
+  },
+  "limitations": [
+    "Actual v62 records contain one requested artifact and one revision, so multi-file/multi-revision UI paths not exercised.",
+    "No artifacts-none record exists in this actual source series; none was fabricated.",
+    "AI operation on copied records is not human acceptance or a semantic quality pass.",
+    "Home OS file chooser cancellation remains unverified; Home review was code/pixels only.",
+    "Native200 capture performed by another agent; this reviewer inspected the pixels but did not separately operate browser zoom.",
+    "No real iPhone, screen-reader or all-browser conformance claim."
+  ],
+  "service_diagnostic_pending": {
+    "reported_by": "deployment_assessment",
+    "issue": "audit_log INSERT database is locked in private service stderr",
+    "not_assessed_as_absent_by_this_review": true,
+    "all_http_responses_monitored": false
+  }
+}

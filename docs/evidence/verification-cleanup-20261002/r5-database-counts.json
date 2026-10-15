@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "recorded_at": "2026-10-01T22:53:10.004101+00:00",
+  "method": "Read-only SQLite counts after the final r5 services stopped; no new service or model execution.",
+  "actor": "implementation agent read-only follow-up",
+  "source_root_label": "service-cleanup-20261002-r5",
+  "databases": [
+    {
+      "case": "api-success",
+      "runs": 0,
+      "execution_jobs": 0,
+      "model_events": 0
+    },
+    {
+      "case": "inprocess-normal",
+      "runs": 0,
+      "execution_jobs": 0,
+      "model_events": 0
+    },
+    {
+      "case": "inprocess-caller-failure",
+      "runs": 0,
+      "execution_jobs": 0,
+      "model_events": 0
+    },
+    {
+      "case": "invalid-real-document-as-profile",
+      "runs": 0,
+      "execution_jobs": 0,
+      "model_events": 0
+    }
+  ],
+  "independent_review_scope": "Independent reviewer separately checked three DBs; this follow-up includes the DB created before invalid profile startup failed.",
+  "human_acceptance": "not_performed"
+}

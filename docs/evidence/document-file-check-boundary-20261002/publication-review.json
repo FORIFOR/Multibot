@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-01T20:53:11.772414+00:00",
+  "reviewer": "Independent AI static publication review; no product or service execution",
+  "status": "PASS_STATIC_PUBLICATION_REVIEW",
+  "readme_sha256": "c61d82a5dddaadc5aa385fee1ef4d9363b4004f0825091c3e1c4110592553631",
+  "docs_ci_sha256": "87c65889d7118a1cd8b9ca6140f8fe21663c4f61e8d25724d1f78ddee419b5de",
+  "final_record_consistency": [
+    {
+      "file": "boundary-final.json",
+      "sha256": "a159592a4dd5994b0170c178fd10498b2d340de1030f04d96f3a2a5a09998516",
+      "status": "PASS",
+      "all_recorded_checks_pass": true,
+      "check_count": 79,
+      "http_count": 30,
+      "job_state_counts": {
+        "cancelled": 8
+      },
+      "model_event_delta": 0,
+      "source_unchanged": true,
+      "all_13_implementation_hashes_match_current_source": true,
+      "cleanup": {
+        "service_stopped": true,
+        "port_closed": true,
+        "pending_jobs": 0
+      }
+    },
+    {
+      "file": "boundary-independent.json",
+      "sha256": "3c3bbb105c38e39ce53dfd26f8c82d5b3eba1432414b30003f72fe5b401d46de",
+      "status": "PASS",
+      "all_recorded_checks_pass": true,
+      "check_count": 79,
+      "http_count": 30,
+      "job_state_counts": {
+        "cancelled": 8
+      },
+      "model_event_delta": 0,
+      "source_unchanged": true,
+      "all_13_implementation_hashes_match_current_source": true,
+      "cleanup": {
+        "service_stopped": true,
+        "port_closed": true,
+        "pending_jobs": 0
+      }
+    }
+  ],
+  "other_records": {
+    "independent_verification_232_prior_events_and_75_unchanged_model_events": true,
+    "configuration_snapshot_checks_all_true": true,
+    "invalid_source_failure_and_unmeasured_nulls_preserved": true,
+    "initial_two_failures_preserved": true,
+    "report_replay_two_records": true,
+    "service_regression_six_stages_kept_with_source_timing_limit": true,
+    "supervisor_static_and_helper_reviews_separate": true
+  },
+  "resolved_documentation_issue": "docs/CI.md now limits start:false to existing admission/response checks and separately explains start:true under held real execution slots, actual API cancellation, then slot release.",
+  "claims_checked": [
+    "README counts agree with named records.",
+    "Final and independent record implementation hashes agree with current 13 source files.",
+    "Original failures, incomplete measurements and older-source regression are separated from final boundary evidence.",
+    "No inference completion, general business quality, human acceptance or award quality claimed."
+  ],
+  "limits": [
+    "This is evidence consistency and source hash inspection, not rerun of the product checks.",
+    "Secret scanning and inventory will be recorded separately in safe-scan.json and manifest.json.",
+    "The prior r3 source hash differs only at the runner; it is preserved as prior evidence."
+  ],
+  "human_acceptance": false,
+  "business_quality_accepted": false
+}

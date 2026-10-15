@@ -1,0 +1,49 @@
+{
+  "status": "FAIL",
+  "source_sha256": {
+    "backend/scripts/cleanup_public_oidc.py": "8f520d5fb0e8f99b5114cb062f5d21935cd0210cb799f4c3275347548621178a",
+    "backend/scripts/check_public_service.py": "45fe0a79aea4847e781754db027a6f29f82de6a9a2cb23db83014ab2233c4013",
+    ".github/workflows/public-oidc.yml": "bea892d03c241b70cec4d1bdc451c5847546f9bc606ebc2b0a4120176f9adc0a",
+    "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9"
+  },
+  "checks": [
+    {
+      "id": "real_subprocess_api_started",
+      "passed": false
+    }
+  ],
+  "cases": {
+    "api-success": {
+      "started_at": "2026-10-01T22:37:12.156480+00:00",
+      "status": "PASS",
+      "model_execution_requested": false,
+      "human_acceptance": "not_performed",
+      "services": {
+        "api": {
+          "status": "PASS",
+          "started": true,
+          "signals_sent": 0,
+          "identity_matches": null,
+          "process_absent": true,
+          "group_empty": true,
+          "port_closed": true,
+          "ready_observed": false
+        },
+        "container": {
+          "status": "NOT_STARTED",
+          "started": false,
+          "owned_count": null,
+          "removed_count": 0,
+          "remaining_owned_count": null,
+          "port_closed": null
+        }
+      },
+      "script_sha256": "8f520d5fb0e8f99b5114cb062f5d21935cd0210cb799f4c3275347548621178a",
+      "finished_at": "2026-10-01T22:37:12.174682+00:00"
+    }
+  },
+  "model_execution_requested": false,
+  "human_acceptance": "not_performed",
+  "container_execution": "not_performed_no_VM_started",
+  "error_type": "AssertionError"
+}

@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-10-01T16:11:13.268909+00:00",
+  "checks": {
+    "concurrent_http_admissions": "2 accepted, 1 refused; rolling 24h limit=2",
+    "replay_does_not_charge_again": true,
+    "fork_cannot_bypass_limit": true,
+    "other_principal_has_separate_allowance_and_no_access": true,
+    "stale_browser_subject_cannot_submit_as_new_account": true,
+    "usage_is_authenticated_and_subject_scoped": true,
+    "actual_queue_pending_limit_and_cancellation": true,
+    "restart_preserves_allowance": true
+  },
+  "source": "docs/PRODUCTION_PLAN.md",
+  "source_sha256": "2dba680a3a985543939f31f9112f8ec22f85bea01255e0c6d900e7b139da6f28",
+  "config_sha256": "b64fc97824e643770d55e20bd8fca58ab43168be6ed045f68dcbd7e096c3f42d",
+  "revision": "825c254f8a796d8400450121aefccd0ebab1c7e9",
+  "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "transport": "real loopback HTTP and actual SQLite; server stopped during direct queue checks",
+  "inference": "not requested; no model replacement, no generated artifact or business-quality claim"
+}

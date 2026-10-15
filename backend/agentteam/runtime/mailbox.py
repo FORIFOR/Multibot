@@ -30,15 +30,16 @@ class MessageBus:
 
     async def send(self, *, from_agent_id: str, to_agent_id: str, task_id: str, purpose: str, text: str,
                    artifact_refs: list[ArtifactRef] | None = None, reply_to: str | None = None,
-                   causation_id: str | None = None) -> Message:
+                   causation_id: str | None = None, source_task_id: str | None = None) -> Message:
         ev = await self.events.append(
             self.run_id, "message.sent",
             {"from_agent_id": from_agent_id, "to_agent_id": to_agent_id, "task_id": task_id, "purpose": purpose,
-             "text": text, "artifact_refs": [a.model_dump() for a in (artifact_refs or [])], "reply_to": reply_to},
+             "source_task_id": source_task_id, "text": text,
+             "artifact_refs": [a.model_dump() for a in (artifact_refs or [])], "reply_to": reply_to},
             actor_id=from_agent_id, actor_kind="agent", task_id=task_id, causation_id=causation_id,
         )
         m = Message(message_id=new_id("msg"), run_id=self.run_id, seq=ev.seq, from_agent_id=from_agent_id,
-                    to_agent_id=to_agent_id, task_id=task_id, purpose=purpose, text=text,
+                    to_agent_id=to_agent_id, task_id=task_id, source_task_id=source_task_id, purpose=purpose, text=text,
                     artifact_refs=artifact_refs or [], reply_to=reply_to, recorded_at=ev.recorded_at)
         await self.runs.insert_message(m)
         cond = self._cond(to_agent_id)

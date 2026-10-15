@@ -28,4 +28,7 @@
   catch{status.textContent=words('送信できませんでした。入力は保持しています。時間をおいて再度お試しください。','Could not send. Your input is preserved; please try again shortly.');}
   finally{pending=false;button.disabled=false;}
  });
+ // Enable the real form only after its private-submit handler is registered.
+ // Without this handler the browser must not send personal fields as a page query.
+ const fieldset=form.querySelector('fieldset');if(fieldset)fieldset.disabled=false;
 })();

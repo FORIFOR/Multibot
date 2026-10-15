@@ -203,11 +203,12 @@ class RunManager:
         return problems
 
     # ------------------------------------------------------------ create/start
-    async def create_run(self, goal: str, inputs: RunInputs | None = None, *, budget_usd: float | None = None,
-                         config: AgentTeamConfig | None = None) -> tuple[Run, list[dict[str, Any]]]:
-        cfg = config or self.config_getter()
+    def creation_config(self, inputs: RunInputs | None = None, *, budget_usd: float | None = None,
+                        config: AgentTeamConfig | None = None) -> tuple[AgentTeamConfig, list[dict[str, Any]]]:
+        # Freeze the configuration before admission awaits; configuration updates
+        # must not replace what was checked before the run is persisted.
+        cfg = (config or self.config_getter()).model_copy(deep=True)
         if budget_usd is not None:
-            cfg = cfg.model_copy(deep=True)
             cfg.limits.budget_usd = float(budget_usd)
         selection_problems = []
         if inputs is not None and inputs.selected_agent_ids is not None:
@@ -216,6 +217,13 @@ class RunManager:
                 cfg = choose_roster(cfg, inputs.selected_agent_ids)
             except ValueError as exc:
                 selection_problems.append({'code': 'team_selection', 'message': str(exc)})
+        return cfg, selection_problems
+
+    async def create_run(self, goal: str, inputs: RunInputs | None = None, *, budget_usd: float | None = None,
+                         config: AgentTeamConfig | None = None,
+                         resolved_config: tuple[AgentTeamConfig, list[dict[str, Any]]] | None = None) -> tuple[Run, list[dict[str, Any]]]:
+        cfg, selection_problems = (resolved_config if resolved_config is not None
+                                   else self.creation_config(inputs, budget_usd=budget_usd, config=config))
         problems = selection_problems + self.precheck(cfg)
         run = Run(run_id=new_id("run"), status=RunStatus.created, goal=goal.strip(), inputs=inputs or RunInputs(), created_at=now_iso(),
                   config_snapshot={"config_yaml": config_to_yaml(cfg)}, usage=Usage())
@@ -410,9 +418,15 @@ class RunManager:
         evidence["run"]["final_status"] = str(status)
         evidence["run"]["reason"] = reason
         narrative = None
-        if status != RunStatus.cancelled and not rt.policy.cancelled:
+        # Document deliverables and their recorded review coverage are the
+        # evaluation target. A later unreviewed model summary can introduce
+        # new claims. Keep the completion record tied to the runtime ledger.
+        evidence_only = run.inputs.workflow == "document"
+        if not evidence_only and status != RunStatus.cancelled and not rt.policy.cancelled:
             narrative = await final_report(rt, evidence)
         report = {"status": str(status), "reason": reason, "generated_at": now_iso(), "evidence": evidence, "narrative": narrative,
+                  "narrative_policy": "runtime_evidence_only" if evidence_only else "optional_model_interpretation",
+                  "narrative_omission_reason": "document_workflow_has_no_post_review_interpretation" if evidence_only else None,
                   "deliverables": [{"artifact_id": m.artifact_id, "revision": m.revision, "sha256": m.sha256, "logical_path": m.logical_path,
                                     "by": m.agent_id, "task_id": m.task_id} for m in artifacts if m.artifact_id != "final-report.md"],
                   "usage": rt.policy.usage.model_dump()}
@@ -420,7 +434,9 @@ class RunManager:
         m = await self.artifacts.publish(run.run_id, "final-report.md", md.encode("utf-8"), agent_id=(narrative or {}).get("author", "runtime"),
                                          task_id=None, media_type="text/markdown")
         ev = await self.events.append(run.run_id, "report.generated", {"artifact_id": m.artifact_id, "revision": m.revision, "sha256": m.sha256,
-                                                                      "narrative_by": (narrative or {}).get("author")})
+                                                                      "narrative_by": (narrative or {}).get("author"),
+                                                                      "narrative_policy": report["narrative_policy"],
+                                                                      "narrative_omission_reason": report["narrative_omission_reason"]})
         await self.artifacts.set_event(run.run_id, m.artifact_id, m.revision, ev.event_id)
         report["report_artifact"] = {"artifact_id": m.artifact_id, "revision": m.revision}
         return report
@@ -490,11 +506,7 @@ class RunManager:
         await self.submit(run_id, resume=True, receipt=receipt)
         return (await self.runs.get_run(run_id))  # type: ignore[return-value]
 
-    async def fork(self, run_id: str, *, overrides: dict[str, Any] | None = None, from_seq: int | None = None,
-                   keep_accepted: bool = True) -> Run:
-        src = await self.runs.get_run(run_id)
-        if src is None:
-            raise KeyError(run_id)
+    def fork_config(self, src: Run, overrides: dict[str, Any] | None = None) -> AgentTeamConfig:
         cfg = (load_config_text(src.config_snapshot["config_yaml"], allow_fake=bool(self.fake_adapters))
                if src.inputs.selected_agent_ids is not None else self.config_getter().model_copy(deep=True))
         if src.inputs.selected_agent_ids is not None:
@@ -512,6 +524,14 @@ class RunManager:
                 a.system_prompt_override = o["system_prompt_override"]
         if (overrides or {}).get("budget_usd"):
             cfg.limits.budget_usd = float(overrides["budget_usd"])
+        return cfg
+
+    async def fork(self, run_id: str, *, overrides: dict[str, Any] | None = None, from_seq: int | None = None,
+                   keep_accepted: bool = True, resolved_config: AgentTeamConfig | None = None) -> Run:
+        src = await self.runs.get_run(run_id)
+        if src is None:
+            raise KeyError(run_id)
+        cfg = resolved_config if resolved_config is not None else self.fork_config(src, overrides)
         problems = self.precheck(cfg)
         if problems:
             raise ValueError("; ".join(p["message"] for p in problems))
@@ -615,6 +635,10 @@ def render_report_markdown(report: dict[str, Any], run: Run) -> str:
             results = ", ".join(f"{r['acceptance_id']}={r['status']}" for r in item["results"])
             lines.append(f"- `{ref}`: review seq {item['review_seq']}: {results}")
     lines.append("")
+    if report.get("narrative_policy") == "runtime_evidence_only":
+        lines += ["Document workflow: this report lists recorded execution and review results. "
+                  "No additional model interpretation was generated. Review results do not establish human acceptance. "
+                  "Check the requested document against its sources before using it.", ""]
     if n.get("summary"):
         lines += ["## Model summary (not a verification verdict)", n["summary"], ""]
     lines.append("## Deliverables")

@@ -45,12 +45,15 @@ v12ではRuntimeの`max_tokens`後コンテキスト圧縮を実Ollamaで検証�
 [追加記録・Reviewer試験の限界・再開手順](evidence/readiness-2026-09-14/README.md)。週次上限の停止判定と重複スナップショットの集計を、実記録を用いた6テストで確認しました。以下は過去時点の記録を含みます。
 
 ## 検証の種別
+
+以下の件数は過去時点の記録。2026-10-02以降の自動CIと未移管範囲は [CIの実資料方針](CI.md) を参照。旧模擬試験は自動実行しない。
+
 | 種別 | 状態 | 根拠 |
 | --- | --- | --- |
-| 決定論的テスト（fake provider） | **53 件 PASS**（CI では Linux の Docker 隔離テストも実行） | `cd backend && .venv/bin/python -m pytest -q`（Docker サンドボックスのテストは daemon がある時のみ実行） |
+| 決定論的テスト（fake provider） | **53 件 PASS**（当時のCIではLinuxのDocker隔離テストも実行） | `cd backend && .venv/bin/python -m pytest -q`（Docker サンドボックスのテストは daemon がある時のみ実行） |
 | 実 LLM 協働スモーク | **実施（claude_cli / claude-opus-5）** | 2026-09-13。run 1: 成果物 3 点・検証 12 件 pass・handoff 2 件・$1.69（定価換算）・760 秒。最終状態は `partial`（複数ターゲットレビューのバグ、修正済み）。run 2/3 は計画呼出の `max_turns` と `max_model_calls=30` の上限で失敗 → いずれも修正・調整済み。証拠: `docs/evidence/run1-*` |
 | 実 API の疎通確認（probe） | **実施（claude_cli）** | tool calling / JSON schema ともに pass、`model_reported=claude-opus-5` |
-| ブラウザ UI スモーク（headless Chrome） | 実施（fake provider、**CI で毎 push、JA/EN**） | `frontend/scripts/ui-smoke.mjs`：Home → 依頼開始 → Run 画面（チャット/時系列/報告）→ 設定 → run が completed になるまで待機。console/page error 0 件、エラー時は exit 1 |
+| ブラウザ UI スモーク（headless Chrome） | 実施（fake provider、**当時のCIで毎push、JA/EN**） | `frontend/scripts/ui-smoke.mjs`：Home → 依頼開始 → Run 画面（チャット/時系列/報告）→ 設定 → run が completed になるまで待機。console/page error 0 件、エラー時は exit 1 |
 | 手動 GUI スモーク（人手） | 未実施 | — |
 
 **fake provider はテスト・UI 確認専用**で、設定ファイルからは選べません（`AGENTTEAM_ALLOW_FAKE_PROVIDER=1` + コード注入のみ）。

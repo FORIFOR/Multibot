@@ -1,0 +1,595 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-02T03:06:23.883454+00:00",
+  "finished_at": "2026-10-02T03:06:59.139806+00:00",
+  "revision": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "stages": {
+    "source_import": "PASS",
+    "provision": "PASS",
+    "service": "PASS",
+    "served_build": "PASS",
+    "browser": "PASS",
+    "invariants": "PASS",
+    "cleanup": "PASS"
+  },
+  "implementation_sha256": {
+    "backend/scripts/check_result_reading.py": "3fcc5950669ff40afe5980814cd9cfe36e8a4d71f03427916c41e65343e2d439",
+    "frontend/scripts/result-reading.mjs": "e7cbf66f98959dd3ad767c1ff203b625a8b0f65ae36628a336c866fd22013c35",
+    "backend/scripts/check_public_service.py": "b471db1de78692f832cc2d26039ba258511ec0410a2617a51f6171f7203fe4b6",
+    "backend/scripts/check_message_handoff.py": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff",
+    "backend/agentteam/api/app.py": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+    "backend/agentteam/api/service.py": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+    "backend/agentteam/api/responses.py": "786d9f2a16dc6d7ba4d8163d931721a1fded10f8f7736b79ef7b214987396a48",
+    "backend/agentteam/store/db.py": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+    "frontend/src/App.tsx": "e021310967703ea56602730f5fb6bc6b83c2e6e0c69ce321098f772b00fb2c61",
+    "frontend/src/workroom.css": "87122f28a23b94e8a7fcd6cf968b931db244b0a67c0adbd35760402afe5d5086",
+    "frontend/src/main.tsx": "d86f5bd9a12ff32dc95f5eeb85c879877e1fa7c7820120b7061f277b2703b87b",
+    "frontend/src/quiet-cinema.css": "cc5b2823e6bf49866ad9a6a03c3d4ebc4e1873591a272b136ab735874fd9e9c5",
+    "frontend/src/ui-polish.css": "64fae4f662c4492a7918cde764d26dd7fff6727404faddfeb14beff41cd8d847",
+    "frontend/src/styles.css": "3738efc79cb6249e5689cb3e15515381a7f163900c75afd12ed0e3d1f0f532a3",
+    "frontend/src/journey.css": "51d8cc3293bfcf00f7e4e99f62fb831217cfee273394321dd9552558dab030b4",
+    "frontend/src/paper.css": "d344b5b11fe08b317af77d6a57593e7dc61412de2ed2067b26b6812db731608a",
+    "frontend/src/obsidian.css": "7db3b45853a00de1795ef190e41360470f93772cd4c056192944ca4f372404f7",
+    "frontend/src/welcome.css": "89ced29d15bb2b708289324dc2b8cf2a082e93a4eb5bd3f48233de8efa725167",
+    "frontend/src/workroom-refinement.css": "60e0d541df6148a6a72c2ca271173b943e8bfa1726837be329521c25b5dc190f",
+    "frontend/src/bot-polish.css": "4f1f20b37d4bf5eee5f3ba60ca6a303d9a6d5b28ec42bac45f4b1a191aabc597",
+    "frontend/src/components/Orb.tsx": "cfc66cdb7ab2d5f06fb8bd9701ad9c94596a30a4c38707ff000ffe122d2f9867",
+    "frontend/src/components/Journey.tsx": "6aeaa2454f69bdbe11f18746ec03aa9244690f4fddcbd5708e3288ef00e9af0a",
+    "frontend/src/components/Markdown.tsx": "2e247aae584beda90e72c5e9f398ba25a98657d27102f9a49e73f4ff41b59f49",
+    "frontend/src/components/ElapsedTime.tsx": "8e61850cdcb18ceba4ce4b76694d2b7b15730cba515d7ff6da86f40a03b644e8",
+    "frontend/src/components/WorkProgress.tsx": "0a84fecf3e7cda1324bdef4ec04161892bacf59acfbbed347e5a406d6efbdeaa",
+    "frontend/src/components/AuthGate.tsx": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+    "frontend/src/components/CustomBotCreator.tsx": "7632360fc333784d6cace39c85c6e314cb453c5af54a7e1fafe8aae8d7e59a90",
+    "frontend/src/components/BotSettingsCard.tsx": "77fdf8e145f1cc05f600defdc2843c649fca495b30642405edb9668314d4f511",
+    "frontend/src/components/ConversationActivity.tsx": "f45c38114758f8169ac1e136bd30788cd4467beb9fabe4d7b6c1545550e85743",
+    "frontend/src/components/ArtifactWorkbench.tsx": "6d5c615660b8c974354e17d87f3b6ba0841cd8534aab9782695a1b35a3cd1e34",
+    "frontend/src/components/TeamConversation.tsx": "3d65e94a225cbe846a5ffecf2543abc45a05946b80bd72c9b79100a77aff02d9",
+    "frontend/src/components/BotAvatar.tsx": "f42b97467f50bd579cee05fb9e57fd2df2062d9a918d157d5304ef453ed4ee53",
+    "frontend/src/lib/text-delivery.ts": "19be72cfa747fc4499573e8311863db4ed1d5e5b96839a52264fed34bc7a83cb",
+    "frontend/src/lib/bot-presentation.ts": "e6555364f6cc65824da80d7ab7c9ec07f21a09d5d0c07484fb915e4a66ccdbe8",
+    "frontend/src/lib/request-draft.ts": "e44a0e22f8b46f814e09353bc054c55132de52e818b09606c95c4af6c02fd3ca",
+    "frontend/src/lib/welcome.ts": "0955e881084f03aed147b5a634eacc92f13b4376f4293a98ed40d6869ace28f5",
+    "frontend/src/lib/i18n.ts": "7c5d0b0e80b2e04d0d775685bac67786b7832b02774bbba80f9ea9287a161d30",
+    "frontend/src/lib/markdown.ts": "93baf3981ea7391742549c51b6506020a1ce35863b7311643d8e7ba3cbe622b2",
+    "frontend/src/lib/journey.ts": "a4da9b538370e8c5f98f24ba09027e5094b9d41db0aa4ea996cb22260815347e",
+    "frontend/src/lib/bot-shapes.ts": "bff03e56344a7698909ddff567c8a07c5e4ee1124cdb643b39525d19ae8688bd",
+    "frontend/src/lib/api.ts": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95",
+    "frontend/src/lib/router.tsx": "42135605d4d362ea3aca63efd5711debe746a75577e1931fd425889c89db0fa7",
+    "frontend/src/lib/bot-characters.ts": "49e323c068b96542fdeac67dd84946aad39aeaa02eca071c11b1bb4105e919e8",
+    "frontend/src/lib/bot-identity.ts": "2a7526ebf34383aea6186c553079d9e14c9da7488cd37b7ddc9ad0c2dd4754ba",
+    "frontend/src/pages/Settings.tsx": "69ef7b07e0903e28c6d91cdd6b926122198ba91cc1e171de8f69689ff2559729",
+    "frontend/src/pages/Home.tsx": "2007851a0987fc5c82b6d21f0b778ad0dc7b5babb1f91fafb61978995e230cff",
+    "frontend/src/pages/WorkList.tsx": "edd1613327fb92a55e13011742c2cf6b8b7765b3b9d0fb3cc7e249a6cf358a3a",
+    "frontend/src/pages/Workroom.tsx": "e8c07d67306d10cb47a016fb92ef86ba015ca3f26e836f65a30f4373e15d4a7d",
+    "frontend/src/pages/Operations.tsx": "89113218ebdf0a05a9da5dbe7fbb6704584807464d1981b76c233606fb132521",
+    "frontend/src/pages/RunView.tsx": "58cd97d169db263a72580d4cc7ba5655c84ca28e23ddde7e00e242f863dba9db",
+    "frontend/src/pages/Welcome.tsx": "06cfc80f5c4660191bee19fef41cb91514b5173ecb6792f578206a6ee85e61e2",
+    "frontend/package.json": "5f43cbf4820bd547386870684243701c727c133f02f8a074f2e5828004aa518f",
+    "frontend/pnpm-lock.yaml": "2ab11685dc0173d2a5f3da0ac912f0263aacee34cdbd6e4d440fe2ce081265ac",
+    "backend/scripts/check_artifact_recovery.py": "11b6f0ca762201461c6aa5ae1cfe3950a3daa4da2aa6899c06fa3bd7d660b76f",
+    "frontend/scripts/artifact-load-recovery.mjs": "39d30a8605c71111e94279d9a0e7f05fddc4482683fd9ed1a91a6570d723311c"
+  },
+  "dist_sha256": {
+    "assets/RunView-tb1ltHPq.js": "73e520c90b79c7fd69673af5e2c85bc4f2e2ee70171f35f42e33b35a10cda798",
+    "assets/index-BQqhmjTV.css": "457c7c0f570f165b91b6b0163d5058222d6d2cd121197f10b261baf7fa4abcfa",
+    "assets/index-BtMUEHfg.js": "182e7eac3f81fb5b6ed995439fd857d9e890f3ceb89e6ec2604fa17b96ccdf2a",
+    "favicon.svg": "67f4d6e916218abe4e171b34fbdf816ca5d01baac9811580e23213d3ba42ad5d",
+    "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "index.html": "13c9ef0965f52433099957bf97ef8a9183b0b97eb82b753fb0f1328cdf9b39b2"
+  },
+  "checks": [
+    {
+      "id": "original_records_imported_no_jobs",
+      "passed": true
+    },
+    {
+      "id": "actual_served_index_matches_dist",
+      "passed": true
+    },
+    {
+      "id": "actual_served_asset_matches_dist",
+      "passed": true
+    },
+    {
+      "id": "actual_served_asset_matches_dist",
+      "passed": true
+    },
+    {
+      "id": "all_four_recovery_cases",
+      "passed": true
+    },
+    {
+      "id": "original_business_bytes_unchanged",
+      "passed": true
+    },
+    {
+      "id": "no_models_or_jobs",
+      "passed": true
+    },
+    {
+      "id": "implementation_unchanged",
+      "passed": true
+    },
+    {
+      "id": "frontend_dist_unchanged",
+      "passed": true
+    }
+  ],
+  "source_unchanged": true,
+  "business_unchanged": true,
+  "model_event_delta": 0,
+  "jobs": 0,
+  "browser": {
+    "status": "PASS",
+    "planned_cases": 4,
+    "attempted_cases": 4,
+    "passed_cases": 4,
+    "failed_cases": 0,
+    "unattempted_cases": 0,
+    "planned_checks": 40,
+    "passed_checks": 40,
+    "failed_checks": 0,
+    "unverified_checks": 0,
+    "cases": [
+      {
+        "id": "manual_pending",
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "issued_login",
+            "status": "PASS"
+          },
+          {
+            "id": "original_artifact_and_records_baseline",
+            "status": "PASS"
+          },
+          {
+            "id": "real_fault",
+            "status": "PASS"
+          },
+          {
+            "id": "pending_or_error_guard",
+            "status": "PASS"
+          },
+          {
+            "id": "native_retry",
+            "status": "PASS"
+          },
+          {
+            "id": "fresh_artifact_200",
+            "status": "PASS"
+          },
+          {
+            "id": "original_body_records_and_copy",
+            "status": "PASS"
+          },
+          {
+            "id": "old_request_cleanup",
+            "status": "PASS"
+          },
+          {
+            "id": "identity_preserved",
+            "status": "PASS"
+          },
+          {
+            "id": "read_only_boundary",
+            "status": "PASS"
+          }
+        ],
+        "measurements": {
+          "baseline_check_count": 4,
+          "baseline_review_count": 1,
+          "expected_record_items": 8,
+          "enter_after_initial_request_ms": 81,
+          "recovery_after_enter_ms": 29,
+          "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "retry_geometry": {
+            "top": 428.390625,
+            "bottom": 472.390625,
+            "left": 199,
+            "right": 357,
+            "viewport_height": 900,
+            "viewport_width": 390,
+            "header_bottom": 107,
+            "focused": true,
+            "header_overlap": false,
+            "hit_is_target": true,
+            "visible": true
+          },
+          "rendered_record_items": 8,
+          "draft_preserved": null,
+          "old_cancelled_count": 1,
+          "held_200_count": 1,
+          "blocked_artifact_count": 0,
+          "identity_status_last_seq_preserved": true,
+          "expected_abort_count": 1
+        }
+      },
+      {
+        "id": "deadline_initial",
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "issued_login",
+            "status": "PASS"
+          },
+          {
+            "id": "original_artifact_and_records_baseline",
+            "status": "PASS"
+          },
+          {
+            "id": "real_fault",
+            "status": "PASS"
+          },
+          {
+            "id": "pending_or_error_guard",
+            "status": "PASS"
+          },
+          {
+            "id": "native_retry",
+            "status": "PASS"
+          },
+          {
+            "id": "fresh_artifact_200",
+            "status": "PASS"
+          },
+          {
+            "id": "original_body_records_and_copy",
+            "status": "PASS"
+          },
+          {
+            "id": "old_request_cleanup",
+            "status": "PASS"
+          },
+          {
+            "id": "identity_preserved",
+            "status": "PASS"
+          },
+          {
+            "id": "read_only_boundary",
+            "status": "PASS"
+          }
+        ],
+        "measurements": {
+          "baseline_check_count": 4,
+          "baseline_review_count": 1,
+          "expected_record_items": 8,
+          "predeadline_observed_after_hold_ms": 12001,
+          "deadline_error_after_hold_ms": 14989,
+          "enter_after_initial_request_ms": 15059,
+          "recovery_after_enter_ms": 30,
+          "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "retry_geometry": {
+            "top": 428.390625,
+            "bottom": 472.390625,
+            "left": 199,
+            "right": 357,
+            "viewport_height": 900,
+            "viewport_width": 390,
+            "header_bottom": 107,
+            "focused": true,
+            "header_overlap": false,
+            "hit_is_target": true,
+            "visible": true
+          },
+          "rendered_record_items": 8,
+          "draft_preserved": null,
+          "old_cancelled_count": 1,
+          "held_200_count": 1,
+          "blocked_artifact_count": 0,
+          "identity_status_last_seq_preserved": true,
+          "expected_abort_count": 1
+        }
+      },
+      {
+        "id": "cut_initial",
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "issued_login",
+            "status": "PASS"
+          },
+          {
+            "id": "original_artifact_and_records_baseline",
+            "status": "PASS"
+          },
+          {
+            "id": "real_fault",
+            "status": "PASS"
+          },
+          {
+            "id": "pending_or_error_guard",
+            "status": "PASS"
+          },
+          {
+            "id": "native_retry",
+            "status": "PASS"
+          },
+          {
+            "id": "fresh_artifact_200",
+            "status": "PASS"
+          },
+          {
+            "id": "original_body_records_and_copy",
+            "status": "PASS"
+          },
+          {
+            "id": "old_request_cleanup",
+            "status": "PASS"
+          },
+          {
+            "id": "identity_preserved",
+            "status": "PASS"
+          },
+          {
+            "id": "read_only_boundary",
+            "status": "PASS"
+          }
+        ],
+        "measurements": {
+          "baseline_check_count": 4,
+          "baseline_review_count": 1,
+          "expected_record_items": 8,
+          "enter_after_initial_request_ms": 84,
+          "recovery_after_enter_ms": 32,
+          "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "retry_geometry": {
+            "top": 427.578125,
+            "bottom": 471.578125,
+            "left": 545.109375,
+            "right": 719,
+            "viewport_height": 900,
+            "viewport_width": 768,
+            "header_bottom": 900,
+            "focused": true,
+            "header_overlap": false,
+            "hit_is_target": true,
+            "visible": true
+          },
+          "rendered_record_items": 8,
+          "draft_preserved": null,
+          "old_cancelled_count": 0,
+          "held_200_count": 0,
+          "blocked_artifact_count": 1,
+          "identity_status_last_seq_preserved": true,
+          "expected_abort_count": 0
+        }
+      },
+      {
+        "id": "loaded_copy",
+        "status": "PASS",
+        "checks": [
+          {
+            "id": "issued_login",
+            "status": "PASS"
+          },
+          {
+            "id": "original_artifact_and_records_baseline",
+            "status": "PASS"
+          },
+          {
+            "id": "real_fault",
+            "status": "PASS"
+          },
+          {
+            "id": "pending_or_error_guard",
+            "status": "PASS"
+          },
+          {
+            "id": "native_retry",
+            "status": "PASS"
+          },
+          {
+            "id": "fresh_artifact_200",
+            "status": "PASS"
+          },
+          {
+            "id": "original_body_records_and_copy",
+            "status": "PASS"
+          },
+          {
+            "id": "old_request_cleanup",
+            "status": "PASS"
+          },
+          {
+            "id": "identity_preserved",
+            "status": "PASS"
+          },
+          {
+            "id": "read_only_boundary",
+            "status": "PASS"
+          }
+        ],
+        "measurements": {
+          "baseline_check_count": 4,
+          "baseline_review_count": 1,
+          "expected_record_items": 8,
+          "draft_source_artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "draft_excerpt_sha256": "ec8ae7609ea2a2355ae6d771eddc72a1f5b2a91b1c338a0deb65af03471eaa18",
+          "draft_source_codepoints": 3436,
+          "draft_excerpt_codepoints": 1024,
+          "pending_body_preserved": true,
+          "predeadline_observed_after_hold_ms": 12002,
+          "deadline_error_after_hold_ms": 15025,
+          "error_body_preserved": true,
+          "enter_after_initial_request_ms": 15221,
+          "recovery_after_enter_ms": 33,
+          "artifact_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+          "retry_geometry": {
+            "top": 428.390625,
+            "bottom": 472.390625,
+            "left": 199,
+            "right": 357,
+            "viewport_height": 900,
+            "viewport_width": 390,
+            "header_bottom": 107,
+            "focused": true,
+            "header_overlap": false,
+            "hit_is_target": true,
+            "visible": true
+          },
+          "rendered_record_items": 8,
+          "draft_preserved": true,
+          "old_cancelled_count": 1,
+          "held_200_count": 1,
+          "blocked_artifact_count": 0,
+          "identity_status_last_seq_preserved": true,
+          "expected_abort_count": 1
+        }
+      }
+    ],
+    "cleanup": [
+      {
+        "id": "manual_pending-unblock",
+        "status": "PASS"
+      },
+      {
+        "id": "manual_pending-fetch-disable",
+        "status": "PASS"
+      },
+      {
+        "id": "manual_pending-pending-cdp",
+        "status": "PASS"
+      },
+      {
+        "id": "manual_pending-context",
+        "status": "PASS"
+      },
+      {
+        "id": "deadline_initial-unblock",
+        "status": "PASS"
+      },
+      {
+        "id": "deadline_initial-fetch-disable",
+        "status": "PASS"
+      },
+      {
+        "id": "deadline_initial-pending-cdp",
+        "status": "PASS"
+      },
+      {
+        "id": "deadline_initial-context",
+        "status": "PASS"
+      },
+      {
+        "id": "cut_initial-unblock",
+        "status": "PASS"
+      },
+      {
+        "id": "cut_initial-fetch-disable",
+        "status": "PASS"
+      },
+      {
+        "id": "cut_initial-pending-cdp",
+        "status": "PASS"
+      },
+      {
+        "id": "cut_initial-context",
+        "status": "PASS"
+      },
+      {
+        "id": "loaded_copy-unblock",
+        "status": "PASS"
+      },
+      {
+        "id": "loaded_copy-fetch-disable",
+        "status": "PASS"
+      },
+      {
+        "id": "loaded_copy-pending-cdp",
+        "status": "PASS"
+      },
+      {
+        "id": "loaded_copy-context",
+        "status": "PASS"
+      },
+      {
+        "id": "browser-close",
+        "status": "PASS"
+      },
+      {
+        "id": "owned-chrome-close",
+        "status": "PASS"
+      }
+    ],
+    "chrome_version": "154.0.8037.93",
+    "http_status_counts": {
+      "200": 101,
+      "401": 4
+    },
+    "page_error_count": 0,
+    "write_methods_and_routes": {
+      "POST login": 4
+    }
+  },
+  "api_cleanup": {
+    "scope": "artifact_recovery_api",
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "process_cleanup": [
+    {
+      "program": "artifact-load-recovery.mjs",
+      "tracked_processes": 20,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "served_assets": [
+    {
+      "path": "/assets/index-BQqhmjTV.css",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "/assets/index-BtMUEHfg.js",
+      "status": 200,
+      "hash_matches": true
+    }
+  ],
+  "runtime_error_markers": 0,
+  "limits": [
+    "Actual v62 rep3/2/9 run/events/artifacts are storage imports. Task rows are not reconstructed from incomplete checkpoints.",
+    "Only real issued-key login/session/audit writes are allowed; business records and original artifact bytes must remain unchanged.",
+    "The unsent editable copy is the first 1024 Unicode code points of the actual original artifact text. Full artifact and prefix hashes/lengths are retained; no invented text is added.",
+    "Real artifact HTTP 200 responses are held at CDP Response stage, or actual requests are blocked with CDP Network.setBlockedURLs. No fabricated headers, bodies, notifications or credentials.",
+    "Product artifact read deadline is 15000 ms. Browser observation allows 22000 ms; it is not a change to the product deadline.",
+    "Deadline cases must still be pending after 12000 ms. Initial manual Enter occurs within 2000 ms of the first initial GET request; the new real artifact 200 response must arrive within 3000 ms, before releasing the old request. This controlled interaction bound is not a performance SLA.",
+    "Browser suite deadline 160 s, owned child deadline 170 s, wrapper default 210 s plus bounded final cleanup. CI step ceiling 5 minutes.",
+    "Response-stage holding does not separately reproduce a partial response body stall.",
+    "Cancelled original requests may no longer be releasable; no claim that stale bytes reached React is made in that case.",
+    "Same recorded artifact bytes do not distinguish run IDs. Real API run_id/status/last_seq, artifact identity/checks/reviews, URL and rendered state are checked separately.",
+    "Four selected operator cases, not all roles/languages/widths or natural network failures. No genuine empty-record artifact is present, so the successful-empty no-record branch remains unverified. No model, VM, semantic-quality or human acceptance.",
+    "Only safe-report.json is publishable. Raw HTTP/browser errors, credentials, profiles, SQLite and all logs remain private."
+  ],
+  "error_type": null,
+  "source_sha256": {
+    "evidence/03-run_1a0f8118bd3ccca713e/run.json": "6cc9a5b0203a0b572b57e717f1c3d130e4f2aca97c73ce41ed521631ac1c33ab",
+    "evidence/03-run_1a0f8118bd3ccca713e/events.jsonl": "73297cf5fddaa85a2483f039e0e8ca081373fa7764a67c821196f2dfb7f067c3",
+    "evidence/03-run_1a0f8118bd3ccca713e/artifacts.json": "6af8f4007a56ae6bfec70172786eda1932c0cfd3053ddc0fa9e667dc061b8bcd",
+    "evidence/03-run_1a0f8118bd3ccca713e/artifact-000.bin": "536a9ebcacd4fd4d484c67859268ed550d18adf516d974208f8db3d8c3dd8546",
+    "evidence/03-run_1a0f8118bd3ccca713e/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "evidence/02-run_1a0f80632e5c1220524/run.json": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+    "evidence/02-run_1a0f80632e5c1220524/events.jsonl": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+    "evidence/02-run_1a0f80632e5c1220524/artifacts.json": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+    "evidence/02-run_1a0f80632e5c1220524/artifact-000.bin": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+    "evidence/02-run_1a0f80632e5c1220524/artifact-001.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+    "evidence/09-run_1a0f84e775a61f6bc86/run.json": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+    "evidence/09-run_1a0f84e775a61f6bc86/events.jsonl": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+    "evidence/09-run_1a0f84e775a61f6bc86/artifacts.json": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+    "evidence/09-run_1a0f84e775a61f6bc86/artifact-000.bin": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+  },
+  "model_execution_requested": false,
+  "model_execution": false,
+  "human_acceptance": "not_performed",
+  "business_quality_accepted": false
+}

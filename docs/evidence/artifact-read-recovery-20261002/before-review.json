@@ -1,0 +1,118 @@
+{
+  "actor": "Independent AI browser observer; not a first-time human user",
+  "status": "FAIL",
+  "observation_execution_status": "PASS",
+  "revision": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "started_at": "2026-10-02T02:39:27.069335+00:00",
+  "finished_at": "2026-10-02T02:40:06.311769+00:00",
+  "findings": [
+    {
+      "id": "artifact_pending_cannot_retry",
+      "priority": "P2",
+      "status": "FAIL",
+      "method": "Actual200 Response hold + natural Tab/Enter conversation→seq24 same-file reference",
+      "expected": "While file reading is pending, an in-page recovery action should be reachable and request the selected original revision again.",
+      "observed": {
+        "at_ms": 35004,
+        "file_gets": 1,
+        "state_gets": {
+          "detail": 8,
+          "chat": 8,
+          "events": 8
+        },
+        "loading": true,
+        "retry_count": 0,
+        "same_ref_rerequest": false
+      },
+      "evidence": [
+        "browser-report.json",
+        "ja390-held-artifact-at35s.png"
+      ],
+      "proposed_contract": "Bound artifact reads and provide an explicit safe read retry that supersedes only its own previous read; retain original revision/SHA and subject guards. Do not repeat business mutations."
+    },
+    {
+      "id": "unknown_check_record_asserted_absent",
+      "priority": "P2",
+      "status": "FAIL",
+      "method": "Observe actual original200 checks3/reviews1, hold or fail only artifact GET, open records by natural Tab/Enter.",
+      "expected": "Unfetched check records remain pending or unavailable; do not assert nonexistent records until an authoritative successful response confirms zero.",
+      "observed": {
+        "actual_checks": {
+          "checks": 3,
+          "reviews": 1,
+          "body_matches": true
+        },
+        "pending_ms": 12065,
+        "pending_summary": "…確認の記録を読み込んでいます…",
+        "pending_expanded": "この版に対する確認の記録はありません。",
+        "failed_summary": "?Unverified: No check record for this version yet",
+        "failed_expanded": "No checks were recorded for this version.",
+        "adoption_disabled_while_unfetched": true
+      },
+      "evidence": [
+        "ja390-held-artifact-pending-checks-expanded.png",
+        "en768-failed-artifact-failed-checks-expanded.png"
+      ],
+      "proposed_contract": "Separate pending, unavailable and loaded-empty in both overview and expanded record. Keep adoption disabled before matching detail is loaded."
+    }
+  ],
+  "confirmed_good": [
+    "Failed-only artifact path has working explicit Refresh: repeated failure while blocked, original bytes recovered after release.",
+    "Adoption remained disabled until actual matching detail arrived; no adoption or other business mutation performed.",
+    "Original run status failed, livefalse, last_seq80 and all artifact tuples/selection unchanged.",
+    "Unsent actual integration.md excerpt retained across natural conversation/artifact navigation in JA.",
+    "Actual current principal stayed the same.",
+    "Other3GET continued normally despite artifact-only transport fault."
+  ],
+  "visual_review": {
+    "opened_images": [
+      "ja390-held-artifact-pending-checks-expanded.png",
+      "ja390-held-artifact-at35s.png",
+      "en768-failed-artifact-failed-checks-expanded.png",
+      "ja390-held-artifact-recovered-original.png",
+      "en768-failed-artifact-recovered-original.png"
+    ],
+    "observed": "Pending overview/expanded contradiction and failed overview/expanded absence claim are legible. Original incomplete request warning appears in JA35s and recovered EN pixels. Original JSON is readable after response restoration.",
+    "not_claimed": "No full-page, screen-reader, physical-device, native200, Safari or human acceptance in this two-case observation."
+  },
+  "invariants": {
+    "run_event_artifact_rows_and_bytes_unchanged": true,
+    "raw_inputs_and_records_unchanged": true,
+    "source_unchanged": true,
+    "served_private_bundle_unchanged": true,
+    "model_called_before": 73,
+    "model_called_after": 73,
+    "additional_model_events": 0,
+    "jobs_after": 0,
+    "business_writes": 0,
+    "api_cleanup": {
+      "status": "PASS",
+      "startup_attempted": true,
+      "started": true,
+      "service_stopped": true,
+      "server_task_done": true,
+      "port_closed": true,
+      "lifespan_shutdown_failed": false,
+      "lifespan_error_occurred": false,
+      "error_types": []
+    },
+    "chrome_cleanup": [
+      {
+        "program": "check.mjs",
+        "tracked_processes": 19,
+        "signals_sent": 0,
+        "remaining_processes": 0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "limits": [
+    "Original archived v62 records are not a live model run.",
+    "No reconstructed task rows, no fabricated alternative file/version/status.",
+    "Response-stage hold does not prove body-only timeout behavior.",
+    "Existing raw-tab link not exercised, so defect is scoped to in-page artifact read recovery.",
+    "The original run_warning_visible selector field is invalid; see addendum without rewriting raw report.",
+    "General business quality, public service, customer/environment acceptance and L3 remain unresolved.",
+    "No product implementation changed; Workroom3GET/auth/retry/peer safeguards were not reimplemented."
+  ]
+}

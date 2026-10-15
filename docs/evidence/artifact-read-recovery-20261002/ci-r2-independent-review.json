@@ -1,0 +1,136 @@
+{
+  "reviewed_at": "2026-10-02T03:09:21.686194+00:00",
+  "status": "PASS_WITH_SCOPE_LIMITS",
+  "method": "同モデルの独立AIが担当者の既存実測r2と現在sourceを読取照合。新サービス・検証・推論実行なし。",
+  "safe_report_sha256": "73a123c41ea3b0bfb09bf72b876b985696906ceccfa736950b2cdcac2011546a",
+  "original_reports_sha256": {
+    "safe": "73a123c41ea3b0bfb09bf72b876b985696906ceccfa736950b2cdcac2011546a",
+    "private_browser": "09e96e02d6a337ade5d47be97f76b8781c3d0e46e44b737c88ca8cce750608a2"
+  },
+  "source": {
+    "count": 14,
+    "matched": true,
+    "mismatches": []
+  },
+  "implementation": {
+    "count": 56,
+    "matched": true,
+    "mismatches": []
+  },
+  "frontend_dist": {
+    "count": 6,
+    "matched": true,
+    "mismatches": []
+  },
+  "packaged_dist": {
+    "count": 6,
+    "matched": true,
+    "mismatches": []
+  },
+  "saved_runners_match_current": {
+    "python": true,
+    "javascript": true
+  },
+  "runner_sha256": {
+    "backend/scripts/check_artifact_recovery.py": "11b6f0ca762201461c6aa5ae1cfe3950a3daa4da2aa6899c06fa3bd7d660b76f",
+    "frontend/scripts/artifact-load-recovery.mjs": "39d30a8605c71111e94279d9a0e7f05fddc4482683fd9ed1a91a6570d723311c"
+  },
+  "product_sha256": {
+    "frontend/src/pages/Workroom.tsx": "e8c07d67306d10cb47a016fb92ef86ba015ca3f26e836f65a30f4373e15d4a7d",
+    "frontend/src/lib/api.ts": "219d85ccdb4c15db07a00a160462cd468f444628d8f5dd56af2c871881b1e4b6"
+  },
+  "evidence_head": "a32b136749b1e17100f3228c753a31b0810b4df7",
+  "uncommitted_changes_identified_by_hash": true,
+  "duration_seconds": 35.256352,
+  "browser": {
+    "passed_cases": 4,
+    "passed_checks": 40,
+    "failed_cases": 0,
+    "failed_checks": 0,
+    "unverified_checks": 0,
+    "projected_case_status_checks_measurements_equal_private": true,
+    "real_cut_exact_path_phase_protocol_and_browser_evidence_match": true,
+    "raw_network_fields_remain_private": true,
+    "checks_reviews_baseline_each": {
+      "checks": 4,
+      "reviews": 1,
+      "rendered_result_items": 8
+    },
+    "manual_initial_request_to_enter_ms": 81,
+    "manual_recovery_after_enter_ms": 29,
+    "deadline_after_hold_ms": [
+      14989,
+      15025
+    ],
+    "retry_geometry_all_focused_visible_hit_target": true,
+    "writes": {
+      "POST login": 4
+    },
+    "page_errors": 0
+  },
+  "copy": {
+    "source_codepoints": 3436,
+    "excerpt_codepoints": 1024,
+    "source_prefix_sha_recomputed_matches": true,
+    "pending_error_and_restored_copy_preserved": true
+  },
+  "original_run_identity_and_artifact_payload_before_after_match_all_cases": true,
+  "source_unchanged": true,
+  "business_unchanged": true,
+  "model_event_delta": 0,
+  "jobs": 0,
+  "runtime_error_markers": 0,
+  "api_cleanup": {
+    "scope": "artifact_recovery_api",
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "process_cleanup": [
+    {
+      "program": "artifact-load-recovery.mjs",
+      "tracked_processes": 20,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "original_r1": {
+    "safe_sha256": "f413b31d8db5b35bf5267dd3e481e8566c2bfb4ecb76815ab3e8f58ff32e546a",
+    "addendum_sha256": "0860a1a730e77a483e28201e929e0ba94c950b0928dbf4047c93b1bc625df7de",
+    "overall": "FAIL",
+    "completed_checks": 30,
+    "cut_setup_passed": 2,
+    "cut_unverified": 7,
+    "original_cdp_fields_not_recorded": true,
+    "not_reclassified_by_r2": true
+  },
+  "invalid_source": {
+    "safe_sha256": "a01850a22cd4d04c977793ea367561e9c391382dbc63e0e075d0f425cbeb0120",
+    "overall": "FAIL",
+    "not_started": true,
+    "unobserved_values_remain_null": true
+  },
+  "blocking_findings": [],
+  "limits": [
+    "このr2は新しい実測であり、r1の欠落CDPフィールドを埋め戻す証拠ではない。",
+    "deadline値はHTTP200のResponse保留開始から。製品effect開始からの厳密な同じ起点ではないため14989msを15秒要件違反と解釈しない。",
+    "実在rep3のoperator4条件。独立browser6条件・親3GET5条件とは別試験。",
+    "実CDP保留/遮断、自然TabEnter、既存data SQLiteコピーでの観測。bodyのみ停止・自然回線全障害・実ゼロ件check表示・複数版・全roleは未検証。",
+    "raw baselineとfinalを照合したが、レビュー内容の意味品質は判定しない。",
+    "編集copyは実本文3436文字の先頭1024codepointsを未送信で保持。全文保存/採用/ZIPは試していない。",
+    "taskは復元なし。モデル履歴自体が0件という意味ではなく追加modelイベント差分0。",
+    "本レビューはsafe JSONのみ公開候補。private report、実キー、設定、DB、プロフィール、ログ、private scriptの公開を許可しない。",
+    "人間受入・受賞・一般業務品質・L3・公開稼働を認定しない。"
+  ],
+  "own_safe_projection_secret_check": {
+    "actual_key_files_checked": 3,
+    "exact_byte_hits": 0
+  }
+}

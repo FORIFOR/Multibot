@@ -1,0 +1,554 @@
+{
+  "status": "PASS",
+  "reviewed_at": "2026-10-01T21:08:22.762005+00:00",
+  "head_sha": "983be97291d1252b0873d200136dbd8eb9110eee",
+  "actual_merge_checkout_sha": "4ae57f1c3c1ef7ee53b7142e2c85ea3e4a4a47f1",
+  "base_sha": "e1d03c7ebe9c42bbaec604441926b9df5112c9d2",
+  "ci_run": 36924961174,
+  "oidc_run": 36924961130,
+  "checks": {
+    "both_runs_completed_success_at_requested_head": true,
+    "all_five_jobs_success": true,
+    "merge_parent_and_recorded_revision_match": true,
+    "all_committed_hash_comparisons_match": true,
+    "document_all_79_conditions_pass": true,
+    "document_cancelled_before_execution_and_cleanup": true,
+    "database_480_http_640_direct_and_audit_complete": true,
+    "database_source_model_jobs_logs_cleanup": true,
+    "service_six_stages_and_browser_cleanup": true,
+    "peer_close_no_new_runs_jobs_models": true,
+    "site_185_checks_18_cases_stable_source": true,
+    "site_no_browser_errors_or_writes": true,
+    "site_cleanup_pass": true,
+    "site_downloaded_runner_matches_committed_runner": true,
+    "oidc_independent_report_pass": true,
+    "site_axe_zero_reported_violations": true,
+    "safe_json_no_jwt_privatekey_githubtoken_patterns": true
+  },
+  "hash_comparison_count": 67,
+  "source_comparisons": [
+    {
+      "group": "document-implementation",
+      "path": "backend/agentteam/api/app.py",
+      "recorded_sha256": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+      "commit_sha256": "9eebaf2984f28bf46f64f45c4602f1352fcb857011198ca01a8d7e23af76ae42",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/agentteam/api/service.py",
+      "recorded_sha256": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+      "commit_sha256": "c44d869c5bea3039001ac94ffa6fa4c41c87288f700639ec056518a9e2f9bdb5",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/agentteam/runtime/tool_capabilities.py",
+      "recorded_sha256": "a42b01c8e4700e6cca95c234264a445876d7f6d121302677b4b46836c5e4ee15",
+      "commit_sha256": "a42b01c8e4700e6cca95c234264a445876d7f6d121302677b4b46836c5e4ee15",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/agentteam/runtime/tools.py",
+      "recorded_sha256": "403a1eab90d928f85cc358425b41de7a107ca212845043581fbef1e64be9ad66",
+      "commit_sha256": "403a1eab90d928f85cc358425b41de7a107ca212845043581fbef1e64be9ad66",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/agentteam/runtime/orchestrator.py",
+      "recorded_sha256": "5f8696a9c57ea6277774bd5b68229ebaa4ca5de7ef69b375bf235ef710b490ed",
+      "commit_sha256": "5f8696a9c57ea6277774bd5b68229ebaa4ca5de7ef69b375bf235ef710b490ed",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/agentteam/runtime/checks.py",
+      "recorded_sha256": "cc535751848aafb9d29de736f3e0d75aceb7da3c6872f47a6b929c766610177e",
+      "commit_sha256": "cc535751848aafb9d29de736f3e0d75aceb7da3c6872f47a6b929c766610177e",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/agentteam/runtime/check_worker.py",
+      "recorded_sha256": "a761507ddb74ae18114657d274bd50f66c564ad9f76b6bef65834f6d1b0e6af2",
+      "commit_sha256": "a761507ddb74ae18114657d274bd50f66c564ad9f76b6bef65834f6d1b0e6af2",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/agentteam/runtime/sandbox.py",
+      "recorded_sha256": "201d945457279b7fbd2fc34894c19e414b52291090c48a4aedd3276b18f4d2d3",
+      "commit_sha256": "201d945457279b7fbd2fc34894c19e414b52291090c48a4aedd3276b18f4d2d3",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/agentteam/runtime/worker.py",
+      "recorded_sha256": "83e5415e8582d044d0399e66e490b485834b80609991f547d219b6b09abbb85b",
+      "commit_sha256": "83e5415e8582d044d0399e66e490b485834b80609991f547d219b6b09abbb85b",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/scripts/check_document_sandbox.py",
+      "recorded_sha256": "89b0c021afbb3e4f45f692086aba12ba14a6725376aa0cad5432767d012784ce",
+      "commit_sha256": "89b0c021afbb3e4f45f692086aba12ba14a6725376aa0cad5432767d012784ce",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/scripts/check_message_handoff.py",
+      "recorded_sha256": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff",
+      "commit_sha256": "48b63fd666a02d225d2962dfa03cb451efdb96605c81665af600741be04d47ff",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/scripts/check_database_concurrency.py",
+      "recorded_sha256": "9af4df8e75307c4c74db3c781715757dba3457783074d10dba84b17cb44a949d",
+      "commit_sha256": "9af4df8e75307c4c74db3c781715757dba3457783074d10dba84b17cb44a949d",
+      "match": true
+    },
+    {
+      "group": "document-implementation",
+      "path": "backend/scripts/public_service_workflow.py",
+      "recorded_sha256": "85f659a85f8cc72824da4f5bdebea27bf1eeee030f6d351b2352bc64e27b20ca",
+      "commit_sha256": "85f659a85f8cc72824da4f5bdebea27bf1eeee030f6d351b2352bc64e27b20ca",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/run.json",
+      "recorded_sha256": "6712dfa6685d1a280b3f40f9ee05ab3e457cb29f130fb003bb793d7626d679c8",
+      "commit_sha256": "6712dfa6685d1a280b3f40f9ee05ab3e457cb29f130fb003bb793d7626d679c8",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/events.jsonl",
+      "recorded_sha256": "23f597b41d6fa5a7a526985af4a859bc38ee8528d59057e425b3f0768c81be13",
+      "commit_sha256": "23f597b41d6fa5a7a526985af4a859bc38ee8528d59057e425b3f0768c81be13",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/artifacts.json",
+      "recorded_sha256": "1c4ebccf2050a48b22fd5b9127fcc4e5f01a421d48e662a9437b4925270389fc",
+      "commit_sha256": "1c4ebccf2050a48b22fd5b9127fcc4e5f01a421d48e662a9437b4925270389fc",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/artifact-000.bin",
+      "recorded_sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+      "commit_sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/artifact-001.bin",
+      "recorded_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "commit_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/run.json",
+      "recorded_sha256": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+      "commit_sha256": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/events.jsonl",
+      "recorded_sha256": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+      "commit_sha256": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifacts.json",
+      "recorded_sha256": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+      "commit_sha256": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifact-000.bin",
+      "recorded_sha256": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+      "commit_sha256": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifact-001.bin",
+      "recorded_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "commit_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/run.json",
+      "recorded_sha256": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+      "commit_sha256": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/events.jsonl",
+      "recorded_sha256": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+      "commit_sha256": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/artifacts.json",
+      "recorded_sha256": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+      "commit_sha256": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+      "match": true
+    },
+    {
+      "group": "document-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/artifact-000.bin",
+      "recorded_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "commit_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "match": true
+    },
+    {
+      "group": "database-implementation",
+      "path": "backend/agentteam/store/db.py",
+      "recorded_sha256": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+      "commit_sha256": "258705c338d0881844a9f658ad996335903c249cf64dc31dac64122019f3d947",
+      "match": true
+    },
+    {
+      "group": "database-implementation",
+      "path": "backend/agentteam/store/job_store.py",
+      "recorded_sha256": "b1d709a9da46a872a3c0e291c1cc732773e1701176399c7af9791ab4d85d8497",
+      "commit_sha256": "b1d709a9da46a872a3c0e291c1cc732773e1701176399c7af9791ab4d85d8497",
+      "match": true
+    },
+    {
+      "group": "database-implementation",
+      "path": "backend/agentteam/store/usage_store.py",
+      "recorded_sha256": "83dc934e86dafb43a5b457d9fc0d745170d44e44b4dfc37d1ad1cd9b6095e24b",
+      "commit_sha256": "83dc934e86dafb43a5b457d9fc0d745170d44e44b4dfc37d1ad1cd9b6095e24b",
+      "match": true
+    },
+    {
+      "group": "database-implementation",
+      "path": "backend/agentteam/security/server.py",
+      "recorded_sha256": "29e30b467789a9eccc7cb17417b20b520827e30be364b7e68b5e839ccb76fc0a",
+      "commit_sha256": "29e30b467789a9eccc7cb17417b20b520827e30be364b7e68b5e839ccb76fc0a",
+      "match": true
+    },
+    {
+      "group": "database-implementation",
+      "path": "backend/scripts/check_database_concurrency.py",
+      "recorded_sha256": "9af4df8e75307c4c74db3c781715757dba3457783074d10dba84b17cb44a949d",
+      "commit_sha256": "9af4df8e75307c4c74db3c781715757dba3457783074d10dba84b17cb44a949d",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/run.json",
+      "recorded_sha256": "6712dfa6685d1a280b3f40f9ee05ab3e457cb29f130fb003bb793d7626d679c8",
+      "commit_sha256": "6712dfa6685d1a280b3f40f9ee05ab3e457cb29f130fb003bb793d7626d679c8",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/events.jsonl",
+      "recorded_sha256": "23f597b41d6fa5a7a526985af4a859bc38ee8528d59057e425b3f0768c81be13",
+      "commit_sha256": "23f597b41d6fa5a7a526985af4a859bc38ee8528d59057e425b3f0768c81be13",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/artifacts.json",
+      "recorded_sha256": "1c4ebccf2050a48b22fd5b9127fcc4e5f01a421d48e662a9437b4925270389fc",
+      "commit_sha256": "1c4ebccf2050a48b22fd5b9127fcc4e5f01a421d48e662a9437b4925270389fc",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/artifact-000.bin",
+      "recorded_sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+      "commit_sha256": "16a57bf96e77945e91882ced401c4ab1ddab71007d216610a96ecd86b3d94519",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/01-run_1a0f7fbead33cd46066/artifact-001.bin",
+      "recorded_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "commit_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/run.json",
+      "recorded_sha256": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+      "commit_sha256": "d24a53ee6434fc2f16a71b02f82a89028eb704e088eb5ac7cce353b26171c95b",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/events.jsonl",
+      "recorded_sha256": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+      "commit_sha256": "19f0c0280b9118cdabcf3105f68c6c1c72e85a6776e86df2fa9a462646351154",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifacts.json",
+      "recorded_sha256": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+      "commit_sha256": "0a0d2f33c95dcaf2ff0ec7462b42dd95880822d017a3206b4eb1672606604fba",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifact-000.bin",
+      "recorded_sha256": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+      "commit_sha256": "febc1000f5bde5079f1fad2f93f3e97f7c4bdb629bf8c5b4bbd49cc95e866cfe",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/02-run_1a0f80632e5c1220524/artifact-001.bin",
+      "recorded_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "commit_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/run.json",
+      "recorded_sha256": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+      "commit_sha256": "a8184708f78ef41a056039463acae8fb642a35ecde279be018e3955331a8430f",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/events.jsonl",
+      "recorded_sha256": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+      "commit_sha256": "a399a4ee594f044ea9daee3d47f2541611a413296e7dcce0149ba30f3fe372cf",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/artifacts.json",
+      "recorded_sha256": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+      "commit_sha256": "871ce712a8b7e3375c2a25e9775ac7b9f15215e4b9cc4d488985865797206d48",
+      "match": true
+    },
+    {
+      "group": "database-source",
+      "path": "docs/evidence/real-readiness-v62-qwen35-fixed-20261002/evidence/09-run_1a0f84e775a61f6bc86/artifact-000.bin",
+      "recorded_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "commit_sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e",
+      "match": true
+    },
+    {
+      "group": "service-runner",
+      "path": "backend/scripts/check_public_service.py",
+      "recorded_sha256": "969239ec468ee084b8d22e11226841940fd33f990e2a8bd11c1bff86877aa9b4",
+      "commit_sha256": "969239ec468ee084b8d22e11226841940fd33f990e2a8bd11c1bff86877aa9b4",
+      "match": true
+    },
+    {
+      "group": "service-runner",
+      "path": "backend/scripts/check_subject_admission.py",
+      "recorded_sha256": "019501e0bccee5b59e11c052263238b297d64326719b1a6081b13ba73350c504",
+      "commit_sha256": "019501e0bccee5b59e11c052263238b297d64326719b1a6081b13ba73350c504",
+      "match": true
+    },
+    {
+      "group": "service-runner",
+      "path": "backend/scripts/check_public_responses.py",
+      "recorded_sha256": "2a429ec29178db481d5a229dac1792816c0da2881b5792ed961197cb886d2bfe",
+      "commit_sha256": "2a429ec29178db481d5a229dac1792816c0da2881b5792ed961197cb886d2bfe",
+      "match": true
+    },
+    {
+      "group": "service-runner",
+      "path": "frontend/scripts/auth-browser-isolation.mjs",
+      "recorded_sha256": "5e0094862ecc721498e86a19051f7b35ab23ac83336ac3837d5a749dddeb2c58",
+      "commit_sha256": "5e0094862ecc721498e86a19051f7b35ab23ac83336ac3837d5a749dddeb2c58",
+      "match": true
+    },
+    {
+      "group": "service-runner",
+      "path": "frontend/scripts/auth-retry-reload.mjs",
+      "recorded_sha256": "3d865b0bdc1ef929fc6d4839bc55b90a200b392ee8ac280e17d497ba74145218",
+      "commit_sha256": "3d865b0bdc1ef929fc6d4839bc55b90a200b392ee8ac280e17d497ba74145218",
+      "match": true
+    },
+    {
+      "group": "service-runner",
+      "path": "frontend/scripts/auth-parallel-login.mjs",
+      "recorded_sha256": "e6e3f43f4a40633cc9915cda2f319c08e24332828c0af8396711dba40ee2570e",
+      "commit_sha256": "e6e3f43f4a40633cc9915cda2f319c08e24332828c0af8396711dba40ee2570e",
+      "match": true
+    },
+    {
+      "group": "service-runner",
+      "path": "frontend/scripts/auth-peer-tab-close.mjs",
+      "recorded_sha256": "4abe3473ff5401014cbe6d9cc95fa3baecd0b741aab8df055f9ac0a249b2be7d",
+      "commit_sha256": "4abe3473ff5401014cbe6d9cc95fa3baecd0b741aab8df055f9ac0a249b2be7d",
+      "match": true
+    },
+    {
+      "group": "service-profile",
+      "path": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+      "recorded_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "commit_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "match": true
+    },
+    {
+      "group": "admission-source",
+      "path": "docs/PRODUCTION_PLAN.md",
+      "recorded_sha256": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+      "commit_sha256": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+      "match": true
+    },
+    {
+      "group": "response-source",
+      "path": "docs/evidence/real-readiness-v18-qwen35-fixed-2026-09-15/01/run.json",
+      "recorded_sha256": "2b07e1b362406c0b380fdd61bf17abf5a513d8f3e7a06cc60bc328b7226baa6b",
+      "commit_sha256": "2b07e1b362406c0b380fdd61bf17abf5a513d8f3e7a06cc60bc328b7226baa6b",
+      "match": true
+    },
+    {
+      "group": "response-source",
+      "path": "docs/evidence/real-readiness-v18-qwen35-fixed-2026-09-15/01/events.jsonl",
+      "recorded_sha256": "2086c59dbe265f0192bb90d3b6215975fda2e39feba361a47baf95e0423920d9",
+      "commit_sha256": "2086c59dbe265f0192bb90d3b6215975fda2e39feba361a47baf95e0423920d9",
+      "match": true
+    },
+    {
+      "group": "response-source",
+      "path": "docs/evidence/real-readiness-v61-qwen35-fixed-20260925/01-run_1a0d74b88812173eb2c-run.json",
+      "recorded_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "commit_sha256": "a5dc20d96eb2cfa41d85ca48733eeebdf948aff344b60ca8116b2548f12ffae9",
+      "match": true
+    },
+    {
+      "group": "peer-source",
+      "path": "docs/PRODUCTION_PLAN.md",
+      "recorded_sha256": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+      "commit_sha256": "9023ead16dae1fec7c7e1c9c09db3f60d5c8c264d521b37ae5cdd62c2ec0ae7d",
+      "match": true
+    },
+    {
+      "group": "site-source",
+      "path": "docs/index.html",
+      "recorded_sha256": "ef78dd4d521a6ab487f3627fef65ea9bf868f67b5b9579d63bcb64841e488c47",
+      "commit_sha256": "ef78dd4d521a6ab487f3627fef65ea9bf868f67b5b9579d63bcb64841e488c47",
+      "match": true
+    },
+    {
+      "group": "site-source",
+      "path": "docs/ja/index.html",
+      "recorded_sha256": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22",
+      "commit_sha256": "de21518a7e27fb66c208142e6400efcdcce685759a5539a191fd6e3f5863cc22",
+      "match": true
+    },
+    {
+      "group": "site-source",
+      "path": "docs/home.css",
+      "recorded_sha256": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6",
+      "commit_sha256": "78331b95352eb0a7d3e04214d2c8a58b5aae21440582a75978dfc85fe401c6a6",
+      "match": true
+    },
+    {
+      "group": "site-source",
+      "path": "docs/home.js",
+      "recorded_sha256": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6",
+      "commit_sha256": "f85cd74ae314aaa7c79f92faffbb98a5db3a7316deca6b00882be9f53e009fc6",
+      "match": true
+    },
+    {
+      "group": "site-source",
+      "path": "docs/portfolio.js",
+      "recorded_sha256": "175da1843e1897ed20cae2a33cc419e0927a6d3c88240968f0e09ed79cdb9dc9",
+      "commit_sha256": "175da1843e1897ed20cae2a33cc419e0927a6d3c88240968f0e09ed79cdb9dc9",
+      "match": true
+    },
+    {
+      "group": "site-source",
+      "path": "docs/site/build_site.py",
+      "recorded_sha256": "53e3b325792677e2020d439b921724ded3423329e537d8a13b138955d050254d",
+      "commit_sha256": "53e3b325792677e2020d439b921724ded3423329e537d8a13b138955d050254d",
+      "match": true
+    },
+    {
+      "group": "site-source",
+      "path": "docs/site/copy.json",
+      "recorded_sha256": "f563fb98d4368dec0d8cade0829f54d7c582ae5f71a4e87b791f4c2363868735",
+      "commit_sha256": "f563fb98d4368dec0d8cade0829f54d7c582ae5f71a4e87b791f4c2363868735",
+      "match": true
+    },
+    {
+      "group": "site-runner",
+      "path": "frontend/scripts/site-quality-audit.mjs",
+      "recorded_sha256": "41f92c4f5035ebe58d463b64beb2afcdcfc2acadd116d24b3f95c6c7482d9652",
+      "commit_sha256": "41f92c4f5035ebe58d463b64beb2afcdcfc2acadd116d24b3f95c6c7482d9652",
+      "match": true
+    }
+  ],
+  "summary": {
+    "document_conditions": 79,
+    "document_http_requests": 30,
+    "document_cancelled_jobs": 8,
+    "document_new_model_events": 0,
+    "service_stages": 6,
+    "database_http_requests": 480,
+    "database_direct_operations": 640,
+    "site_conditions": 185,
+    "site_cases": 18,
+    "site_axe_cases": 10,
+    "site_axe_incomplete": [
+      [
+        "color-contrast",
+        [
+          [
+            ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+          ],
+          [
+            ".hero-footer > span[aria-hidden=\"true\"]"
+          ]
+        ]
+      ],
+      [
+        "color-contrast",
+        [
+          [
+            ".btn[href$=\"#proof\"] > span[aria-hidden=\"true\"]"
+          ],
+          [
+            ".hero-footer > span[aria-hidden=\"true\"]"
+          ],
+          [
+            "textarea"
+          ]
+        ]
+      ]
+    ],
+    "oidc_conditions": 13,
+    "oidc_http_status_assertions": 22
+  },
+  "safe_json_pattern_scan": {
+    "files": 31,
+    "hits": [],
+    "issued_secret_byte_comparison": "CI keys are intentionally excluded; not independently repeated after download."
+  },
+  "limits": [
+    "Independent review of downloaded allowlisted artifacts; no local service, model, VM, or workflow rerun.",
+    "Private CI databases, credentials, and raw logs are excluded. Runner invariants are inspected, not independently queried from the unavailable CI database.",
+    "Document start:true acceptance is queued then cancelled before slot release; model execution and generated business quality are not tested.",
+    "Site axe incomplete includes decorative arrows; automated zero violations is not comprehensive accessibility conformance, native browser zoom, award recognition, or human acceptance.",
+    "OIDC browser/callback cleanup has explicit evidence. API/Keycloak stop step succeeded but measured final port/process absence is not included.",
+    "No public production, TLS, MFA, signup, recovery, business-quality, or human acceptance claim."
+  ]
+}

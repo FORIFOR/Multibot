@@ -1,0 +1,37 @@
+{
+  "status": "PASS_WITH_LIMITED_SCOPE",
+  "checks": [
+    {
+      "language": "en",
+      "viewport_width": 390,
+      "document_scroll_width": 390,
+      "all_header_links_visible_and_within_viewport": true,
+      "all_header_links_reachable_by_tab": true,
+      "all_tab_focus_outlines_present": true
+    },
+    {
+      "language": "en",
+      "viewport_width": 320,
+      "document_scroll_width": 320,
+      "all_header_links_visible_and_within_viewport": true,
+      "all_header_links_reachable_by_tab": true,
+      "all_tab_focus_outlines_present": true
+    },
+    {
+      "language": "ja",
+      "viewport_width": 390,
+      "document_scroll_width": 390,
+      "all_header_links_visible_and_within_viewport": true,
+      "all_header_links_reachable_by_tab": true,
+      "all_tab_focus_outlines_present": true
+    }
+  ],
+  "caption_separate_line": true,
+  "caption_keyboard_focus_visible_after_scroll_settled": true,
+  "caption_enter_opened_new_tab": true,
+  "model_execution": false,
+  "form_submission": false,
+  "source_modified": false,
+  "human_acceptance": false,
+  "award_certification": false
+}

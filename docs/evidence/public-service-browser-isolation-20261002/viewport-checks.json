@@ -1,0 +1,56 @@
+[
+  {
+    "width": 1440,
+    "page": "Home",
+    "innerWidth": 1440,
+    "innerHeight": 1000,
+    "devicePixelRatio": 1,
+    "scrollWidth": 1440,
+    "scrollY": 0
+  },
+  {
+    "width": 1440,
+    "page": "Welcome",
+    "innerWidth": 1440,
+    "innerHeight": 1000,
+    "devicePixelRatio": 1,
+    "scrollWidth": 1440,
+    "scrollY": 0
+  },
+  {
+    "width": 768,
+    "page": "Home",
+    "innerWidth": 768,
+    "innerHeight": 1000,
+    "devicePixelRatio": 1,
+    "scrollWidth": 768,
+    "scrollY": 0
+  },
+  {
+    "width": 768,
+    "page": "Welcome",
+    "innerWidth": 768,
+    "innerHeight": 1000,
+    "devicePixelRatio": 1,
+    "scrollWidth": 768,
+    "scrollY": 0
+  },
+  {
+    "width": 390,
+    "page": "Home",
+    "innerWidth": 390,
+    "innerHeight": 1000,
+    "devicePixelRatio": 1,
+    "scrollWidth": 390,
+    "scrollY": 0
+  },
+  {
+    "width": 390,
+    "page": "Welcome",
+    "innerWidth": 390,
+    "innerHeight": 1000,
+    "devicePixelRatio": 1,
+    "scrollWidth": 390,
+    "scrollY": 0
+  }
+]

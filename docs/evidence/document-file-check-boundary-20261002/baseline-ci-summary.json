@@ -1,0 +1,244 @@
+{
+  "head": "81f2ab4fc85b5983df8b8ace958c15f054a1f7e8",
+  "merge_commit": "fb2843db24c10620bb69a26837d3e58d9ac77cbd",
+  "ci": {
+    "id": 36918856490,
+    "conclusion": "success",
+    "jobs": [
+      "backend",
+      "frontend",
+      "dependency-audit",
+      "public-service"
+    ]
+  },
+  "oidc": {
+    "id": 36918856522,
+    "conclusion": "success"
+  },
+  "artifact_reports": [
+    {
+      "file": "github-service-36918856490/multibot-database-concurrency/safe-report.json",
+      "status": "PASS",
+      "revision": "fb2843db24c10620bb69a26837d3e58d9ac77cbd",
+      "checks": null,
+      "hashes_checked": 5,
+      "hashes_match": true,
+      "http": {
+        "planned": 480,
+        "attempted": 480,
+        "passed": 480,
+        "failed": 0,
+        "unattempted": 0,
+        "status_counts": {
+          "200": 480
+        },
+        "exception_types": {},
+        "missing_or_incomplete_terminal_audit": 0,
+        "audit_check_completed": true
+      },
+      "direct": {
+        "planned": 640,
+        "attempted": 640,
+        "passed": 640,
+        "failed": 0,
+        "unattempted": 0,
+        "errors": []
+      },
+      "cleanup": {
+        "service_stopped": true,
+        "port_closed": true,
+        "browser_started": false
+      },
+      "source_unchanged": true,
+      "new_model_events": 0
+    },
+    {
+      "file": "github-service-36918856490/multibot-public-service/report.json",
+      "status": "PASS",
+      "revision": "fb2843db24c10620bb69a26837d3e58d9ac77cbd",
+      "checks": [
+        "actual HTTP/SQLite admission",
+        "actual-source response projection",
+        "auth-browser-isolation.mjs",
+        "auth-retry-reload.mjs",
+        "auth-parallel-login.mjs",
+        "auth-peer-tab-close.mjs"
+      ],
+      "hashes_checked": 7,
+      "hashes_match": true,
+      "http": null,
+      "direct": null,
+      "cleanup": [
+        {
+          "program": "auth-browser-isolation.mjs",
+          "tracked_processes": 11,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        },
+        {
+          "program": "auth-retry-reload.mjs",
+          "tracked_processes": 10,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        },
+        {
+          "program": "auth-parallel-login.mjs",
+          "tracked_processes": 11,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        },
+        {
+          "program": "auth-peer-tab-close.mjs",
+          "tracked_processes": 15,
+          "signals_sent": 0,
+          "remaining_processes": 0,
+          "status": "PASS"
+        }
+      ],
+      "source_unchanged": null,
+      "new_model_events": null
+    },
+    {
+      "file": "github-oidc-36918856522/report.json",
+      "status": "PASS",
+      "revision": "fb2843db24c10620bb69a26837d3e58d9ac77cbd",
+      "checks": [
+        "real_technical_accounts_without_fabricated_person_or_email",
+        "cold_api_verifier_fetches_real_jwks_once",
+        "same_real_token_uses_jwks_cache_without_more_fetches",
+        "real_key_rotation_refreshes_jwks_and_retains_previous_valid_key",
+        "cached_key_authenticates_while_actual_keycloak_is_paused",
+        "expired_jwks_fails_closed_503_while_emergency_key_remains_available",
+        "actual_idp_recovery_fetches_jwks_and_restores_authentication",
+        "real_id_token_and_unassigned_access_token_rejected_operator_is_not_admin",
+        "real_operator_saves_repository_document_start_false_and_replays_same_receipt",
+        "real_issued_token_rejected_after_actual_expiry",
+        "logout_revokes_actual_token_without_revoking_other_identity",
+        "sqlite_has_one_real_admission_zero_jobs_and_zero_model_events",
+        "report_and_service_logs_contain_no_issued_credentials_or_callback_codes"
+      ],
+      "hashes_checked": 3,
+      "hashes_match": true,
+      "http": null,
+      "direct": null,
+      "cleanup": [
+        {
+          "name": "browser-close",
+          "status": "PASS"
+        },
+        {
+          "name": "callback-close",
+          "status": "PASS"
+        }
+      ],
+      "source_unchanged": null,
+      "new_model_events": null
+    }
+  ],
+  "site": {
+    "summary": {
+      "cases": 18,
+      "passed": 185,
+      "failed": 0,
+      "unverified": 0,
+      "stable_source": true,
+      "human_acceptance": false,
+      "award_certification": false
+    },
+    "hashes_match": true,
+    "source_file_count": 7,
+    "script_hash_matches": true,
+    "cleanup_pass": true,
+    "owned_browser": {
+      "pid": 4147,
+      "executable": "/opt/google/chrome/chrome",
+      "profile": "/tmp/playwright_chromiumdev_profile-mjijwW",
+      "started_at": "2026-10-01T20:05:40.805Z",
+      "exit_code": 0,
+      "exit_signal": null,
+      "still_running": false,
+      "profile_removed": true
+    }
+  },
+  "limits": [
+    "Synthetic GitHub merge commit maps to the given PR head; file hashes checked independently.",
+    "CI success is not human acceptance, model quality, service launch or award certification."
+  ],
+  "artifact_sha256": {
+    "github-service-36918856490/multibot-database-concurrency/safe-report.json": "282b6de0504dbbe25ba2fbb99e7d6b75d74213b9d40ca895bcd40380cba9711b",
+    "github-service-36918856490/multibot-public-service/report.json": "416c82e6d5697ce0bbcc5ef086d4ccb0c96e3d4098c3e53a7e77e51ba0f8caac",
+    "github-service-36918856490/multibot-public-service/admission/verification.json": "d374df601b373e886947d231415568e4870195a994f2371cf6019106e5ed20a5",
+    "github-service-36918856490/multibot-public-service/responses/response-check.json": "79a950be85d2bfe07a1f32ae2a131125df2f67326cd81a4722ca6e1a83e0f9fc",
+    "github-service-36918856490/multibot-public-service/browser/reload-empty-signin.png": "f8a9d0198265408a1a868f121a9cbcd4f975d2616f19b14013c322ded4e34205",
+    "github-service-36918856490/multibot-public-service/browser/parallel-diagnostic.json": "80898da497aa3bf1b0bc412960c8edcdedb10409385fb17b80fbfc72130e4165",
+    "github-service-36918856490/multibot-public-service/browser/results.json": "1debcb8fdd4d65d98e5b53bf97b1be1fac532a460eb9a48760c5356e5f1c749a",
+    "github-service-36918856490/multibot-public-service/browser/parallel-login.json": "e1274528ba9d4e8561c6c1919b9e1798d1261959b72104328eaf556511e17ae5",
+    "github-service-36918856490/multibot-public-service/browser/peer-tab-close.json": "074f239ff814624d61ea9c670e71f305d7eb0bbc059541ddffa8e085bbd881c8",
+    "github-service-36918856490/multibot-public-service/browser/retry-reload.json": "ac92f71125acd2e9509f14cff63dd6a9db7a431deab70fb3780791f041e0961d",
+    "github-service-36918856490/multibot-public-service/browser/close-empty-signin.png": "90661c2890cab8125fd093afbd25cf8ee166bcce03f083e4975eb128adc15d61",
+    "github-service-36918856490/multibot-public-service/browser/next-principal-empty.png": "f82b731809c04a3c20608daede39fec57326ed9b3e16149d05de9a9b70a2d6a7",
+    "github-site-36918856490/ja-reflow-720-720-fold.png": "edc696d37199a0c42c666649e179ebb0cbbc6819c9b433c15a3d1a7fe51b801d",
+    "github-site-36918856490/en-reflow-720-720.json": "4138b01c92e8950fb8be974c695a5a110918d5a0d5c7a2185e5e35e15cba4b74",
+    "github-site-36918856490/en-normal-390.json": "36f95e0798f8d6b72b52b7a3cd1e845e6ebc9bbf0efc4fb4dfa9a201159efd9f",
+    "github-site-36918856490/audit.json": "06877c2c034b8ae887d2816d9e9c5a20f08b7b0cf69d9def7bc8076b2489b85e",
+    "github-site-36918856490/en-normal-390-full.png": "2770ff0caf4e356fca72678337ddcd41bdeb2c3b39a26affdfe096b558fd904c",
+    "github-site-36918856490/ja-reflow-html-720.json": "1c070d07d9178031d4b9da43bd8a349f305536f1e85c1b28fd532efefaf6cad5",
+    "github-site-36918856490/en-normal-1440-fold.png": "4e5b406c67c801d47c7ece48f2ad6cd72b7d8218b32720d1d006db9fb5b18f8d",
+    "github-site-36918856490/ja-reflow-text-720-full.png": "bc8bdacd99b9d68b6d727c9f4d5c3eb38b783b25a1d75fc5d21d4d2ae317f42c",
+    "github-site-36918856490/en-reflow-text-720-fold.png": "91b7903e3a7295391d9a588c3688efd0a11535cd0dd594b8c4aa62e70bc274cf",
+    "github-site-36918856490/ja-normal-390.json": "913a568dd2a8578f4693bd593b435f3138a62ca87aaf22217dbfcf41f7dfca45",
+    "github-site-36918856490/en-normal-320-full.png": "47afc628b6d82c2c366220a75a4350b5b85832f485e1663e08507e66d2ec1418",
+    "github-site-36918856490/ja-reduced-motion-390-fold.png": "0be79fd4ad05a80df294d3ce6535d8a0343d5357ce3eb20eb50c42329059f112",
+    "github-site-36918856490/en-normal-768-fold.png": "3e45c48c7b586ec582b4ef3313f1fd710c01b0cea66fc46154216f44f7ef41c0",
+    "github-site-36918856490/ja-normal-1440-keyboard.png": "d6366b3792bf3e640173cb4c95bfae6b2f1cd3d74676afdf4d7ef580e7942629",
+    "github-site-36918856490/en-reflow-720-720-full.png": "21a5357030de389b84d7b1670b8fd5c38c81c9cbdfdbf972ebb17ac4dcd16d7e",
+    "github-site-36918856490/ja-normal-1440.json": "dd95b5c61db188306cb48b0ddd349ed8795412b7566a84823a6c3b5ae0fec5cc",
+    "github-site-36918856490/en-normal-768.json": "b61998ca28184df5a9505be7028020ab7ccf460ff371d6e592e7689a4ec033c9",
+    "github-site-36918856490/ja-no-js-390-full.png": "0a493698984fee5de7cac1af67bdf030b65bec8a7b077a44af6555d358b6ee21",
+    "github-site-36918856490/ja-normal-320-full.png": "585f2a2a4dfc76c86291ef5806d56f00cabe652b70822558b5b6aa8abf0c2b0b",
+    "github-site-36918856490/ja-reflow-text-720.json": "75410db22e9639f113653908577348621624b82dd8318ab4010bc35ee6311089",
+    "github-site-36918856490/ja-normal-768-fold.png": "fa50a6191a4024b693087447790daa9a6c8a3369d0fae811c2e1a3f073679f22",
+    "github-site-36918856490/ja-normal-1440-full.png": "4575d504cd026ed18a40725e4a092437c625757265beff2dff5578bd6a6040c0",
+    "github-site-36918856490/en-reduced-motion-390-full.png": "2770ff0caf4e356fca72678337ddcd41bdeb2c3b39a26affdfe096b558fd904c",
+    "github-site-36918856490/ja-reflow-720-720.json": "73dc6a71f46e90cdaa3752f9350209387c58174e48f1d57249b566f9a29e5cf1",
+    "github-site-36918856490/en-reflow-html-720-full.png": "503ee15c8891ef445dad94ba91672df816f8c330dfd0bcd7cb211bbc60047836",
+    "github-site-36918856490/ja-normal-390-full.png": "42abaffe957f3fbbe2006b5bc843ed6c4df29b3774b38135460e787262729ec4",
+    "github-site-36918856490/ja-reflow-html-720-fold.png": "dff8400edd28cee77e22b0bb5201f898e10dbe82dfe452dda42ab2d54554fabb",
+    "github-site-36918856490/en-no-js-390-fold.png": "9e269696d960b97a67355600a68de954416d9c1b1e91192e6608ca6a4db1bbd6",
+    "github-site-36918856490/ja-normal-768.json": "97d1344207326e815da071f0ff4356bed45af044e3f66a1961e4ed3a94c894a3",
+    "github-site-36918856490/en-reduced-motion-390.json": "861277a62bcfe9dc79eea0159ab4326e589332723ee54a4685d062c42ec4c509",
+    "github-site-36918856490/en-normal-390-fold.png": "9e269696d960b97a67355600a68de954416d9c1b1e91192e6608ca6a4db1bbd6",
+    "github-site-36918856490/ja-reflow-720-720-full.png": "476a73e92e74df75f8c801fb5e2cf6547f8b03842a924bf1fe9ddee7fc7ab681",
+    "github-site-36918856490/en-normal-320.json": "ffede5530f6569675f6ad9c443bcf9dd33aebb44d486e266e5b9211ff1b8e05e",
+    "github-site-36918856490/en-reflow-720-720-fold.png": "5d2d4f14f40c494ec916ff15f84141ee573891f44a66468e61bd0b65cb2b7a4e",
+    "github-site-36918856490/ja-normal-320.json": "5f8517360f900de74b4d4a80d6b50db301c5ccc79fcd92e3a48c06a71738ac8a",
+    "github-site-36918856490/runner-source.mjs": "41f92c4f5035ebe58d463b64beb2afcdcfc2acadd116d24b3f95c6c7482d9652",
+    "github-site-36918856490/en-normal-1440-keyboard.png": "81e10fa6fca5c504116b757ebfbf110228f9f8b863c0820547c620531fc7c684",
+    "github-site-36918856490/ja-reduced-motion-390-full.png": "42abaffe957f3fbbe2006b5bc843ed6c4df29b3774b38135460e787262729ec4",
+    "github-site-36918856490/en-normal-768-full.png": "ee4d9738ac602df8e57d76fabeb47a89db95245f9f49ab53c5d4e4fb2a5cd8f5",
+    "github-site-36918856490/en-reflow-text-720.json": "a5afdb587301cb6430afe069e989516fd55c4bb6841af53ef8e33c743da4b6ed",
+    "github-site-36918856490/ja-reflow-text-720-fold.png": "918e22bcb19c3df47eb5fa9f708f9848e36576f29e9fd15599c2c8f3cb99e98c",
+    "github-site-36918856490/en-normal-1440-full.png": "0077e482252915d247a6749b26685890b2747dc21f78a9c30c757469850c2d6c",
+    "github-site-36918856490/en-reflow-text-720-full.png": "419876f05cb65e63642ac49a35a4317e9120beddedcd9f5bbc145e2781f8fa95",
+    "github-site-36918856490/en-normal-320-fold.png": "a7b9b05b95a8a9af5c86cdf7c637c568cd0feede7e63280361a66be29e96827b",
+    "github-site-36918856490/en-reflow-html-720.json": "a8bd503dc76ce7606219939208ed98350be75b2fc0d78cab0bcca3767abd9c4d",
+    "github-site-36918856490/ja-normal-1440-fold.png": "b0c9f2aec6433bf9c862f24b2f046fdba40011f9023f537c9c98402220d50083",
+    "github-site-36918856490/ja-normal-768-full.png": "93da2bd1c35e5d5fe5b25dd4d68bdcccc0ae85075967ae768ff92856f57fc81e",
+    "github-site-36918856490/ja-normal-320-fold.png": "f91b077bad2f6a927c26e1d50c3b6fd2782ce5ac864bdb77777ec2007ae63750",
+    "github-site-36918856490/ja-no-js-390-fold.png": "0be79fd4ad05a80df294d3ce6535d8a0343d5357ce3eb20eb50c42329059f112",
+    "github-site-36918856490/ja-no-js-390.json": "d25708b0c80eedab3abf0cbf0f093f99134203b806bb43680f7ebff372a067bf",
+    "github-site-36918856490/en-no-js-390.json": "f26b5d3dc1fa72787a5d560ccb07cc1d4256a9b694cca1b1667d69c453d5a530",
+    "github-site-36918856490/ja-reduced-motion-390.json": "4a02ddb8e74005915a5d2adc67693abd73e5e8d228add9a60bef647f1a54432f",
+    "github-site-36918856490/en-normal-1440.json": "a394cc22ed98b48fa80303098313e40c7d73a92b4d239b5584a4b58bfc2af188",
+    "github-site-36918856490/en-reflow-html-720-fold.png": "1402a5deae6913b7a66d23016e711419f1440f94807ba4ee19efa64557dc266b",
+    "github-site-36918856490/ja-normal-390-fold.png": "0be79fd4ad05a80df294d3ce6535d8a0343d5357ce3eb20eb50c42329059f112",
+    "github-site-36918856490/en-no-js-390-full.png": "6f5fec0fffa1f73b974dc231c65f83d6574e3b8b10f997f9e568342e59129d67",
+    "github-site-36918856490/ja-reflow-html-720-full.png": "dd38955f88d4025b0548801c786ea6d909b0e6691e0bd89df7c6db232a7e05e1",
+    "github-site-36918856490/en-reduced-motion-390-fold.png": "9e269696d960b97a67355600a68de954416d9c1b1e91192e6608ca6a4db1bbd6",
+    "github-oidc-36918856522/report.json": "93c635ac72b990c221ffbeb4c9bd10cfda2956bcf86e961129fd4848f275b928",
+    "github-oidc-36918856522/provenance.json": "20a934e33b4f45eb82930c6b1ee33f97d80b66153855cf4c3b1ab2fd6f9e4b9d"
+  }
+}

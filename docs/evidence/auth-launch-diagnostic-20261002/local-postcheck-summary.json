@@ -1,0 +1,409 @@
+{
+  "status": "PASS",
+  "scope": "One fresh local real HTTP/SQLite/Chrome execution with added safe launch diagnostics; read-only postcheck",
+  "head": "0f2d377724bc2ec8c5a8469a663d991227bbd7f6",
+  "execution": {
+    "exit_code": 0,
+    "elapsed_seconds": 40.42,
+    "started_at": "2026-10-02T03:28:27.099712+00:00",
+    "finished_at": "2026-10-02T03:29:07.520067+00:00",
+    "test_attempt": 1
+  },
+  "planned_stages": 7,
+  "completed_stages": 7,
+  "stage_check_counts": {
+    "admission": 8,
+    "responses": 9,
+    "initial_recovery": 12,
+    "isolation": 7,
+    "retry": 1,
+    "parallel": 3,
+    "peer": 2
+  },
+  "launch": {
+    "state": "SUCCEEDED",
+    "started_at": "2026-10-02T03:28:28.966Z",
+    "elapsed_ms": 741,
+    "timeout_ms": 15000,
+    "wrapper_timeout_ms": 15000,
+    "wrapper_deadline_fired": false,
+    "markers": null
+  },
+  "code_files_unchanged": 116,
+  "source_files_unchanged": 6,
+  "ui_files_unchanged": 6,
+  "target_script_sha256": "c03e2b0a0dcf03dde2b909ed78719d41ec1a26d98a53c66347f5745cf5fb9378",
+  "initial_business_before": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "initial_business_after": {
+    "runs": 0,
+    "jobs": 0,
+    "model_events": 0,
+    "artifacts": 0
+  },
+  "database_scopes": [
+    {
+      "scope": "admission/data",
+      "runs": 3,
+      "run_status_counts": {
+        "cancelled": 1,
+        "created": 2
+      },
+      "jobs_by_state": {
+        "cancelled": 1
+      },
+      "model_events": 0,
+      "historical_model_events": 0,
+      "additional_model_events": 0,
+      "artifacts": 0
+    },
+    {
+      "scope": "responses/data",
+      "runs": 4,
+      "run_status_counts": {
+        "completed": 1,
+        "created": 3
+      },
+      "jobs_by_state": {},
+      "model_events": 20,
+      "historical_model_events": 20,
+      "additional_model_events": 0,
+      "artifacts": 0
+    },
+    {
+      "scope": "browser-data",
+      "runs": 2,
+      "run_status_counts": {
+        "created": 2
+      },
+      "jobs_by_state": {},
+      "model_events": 0,
+      "historical_model_events": 0,
+      "additional_model_events": 0,
+      "artifacts": 0
+    }
+  ],
+  "owned_browser_cleanup": [
+    {
+      "program": "auth-initial-recovery.mjs",
+      "tracked_processes": 14,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-browser-isolation.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-retry-reload.mjs",
+      "tracked_processes": 9,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-parallel-login.mjs",
+      "tracked_processes": 10,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    },
+    {
+      "program": "auth-peer-tab-close.mjs",
+      "tracked_processes": 15,
+      "signals_sent": 0,
+      "remaining_processes": 0,
+      "status": "PASS"
+    }
+  ],
+  "owned_browser_api_cleanup": {
+    "scope": "browser_verification_api",
+    "status": "PASS",
+    "startup_attempted": true,
+    "started": true,
+    "service_stopped": true,
+    "server_task_done": true,
+    "port_closed": true,
+    "lifespan_shutdown_failed": false,
+    "lifespan_error_occurred": false,
+    "error_types": []
+  },
+  "post_run_ports": [
+    {
+      "scope": "admission",
+      "port_closed": true
+    },
+    {
+      "scope": "responses",
+      "port_closed": true
+    },
+    {
+      "scope": "browser",
+      "port_closed": true
+    }
+  ],
+  "private_log_metadata": [
+    {
+      "file": "runner.private.log",
+      "bytes": 3006,
+      "sha256": "6b59c461b1067e63900f279ef74c11f88e006a7901d9b8d413b61cf45696af31",
+      "runtime_error_markers": 0
+    },
+    {
+      "file": "run/auth-initial-recovery.mjs.log",
+      "bytes": 38,
+      "sha256": "18f241f8e9a8d56dcce25d4916f07d521c8a6ea3672a8e7983280e20ca58cefd",
+      "runtime_error_markers": 0
+    },
+    {
+      "file": "run/auth-peer-tab-close.mjs.log",
+      "bytes": 56,
+      "sha256": "83c35f72eac2677252b2cc0b9439838612d75a3f73f54915e394bc3588817213",
+      "runtime_error_markers": 0
+    },
+    {
+      "file": "run/browser-api.private.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runtime_error_markers": 0
+    },
+    {
+      "file": "run/auth-parallel-login.mjs.log",
+      "bytes": 1079,
+      "sha256": "cfbc8815c357a732b8ef6386c05c53198a12e31d867bc41fe29b4b27331fc144",
+      "runtime_error_markers": 0
+    },
+    {
+      "file": "run/auth-retry-reload.mjs.log",
+      "bytes": 652,
+      "sha256": "bb0a34cba2cb7d602395c2a3d43642b26ff0f9bab86eb7b9596a2a295f1d533b",
+      "runtime_error_markers": 0
+    },
+    {
+      "file": "run/auth-browser-isolation.mjs.log",
+      "bytes": 129,
+      "sha256": "af1fe3e787cdcda27d87655d114e353d9a5ce3de46073950212259660e02bd83",
+      "runtime_error_markers": 0
+    }
+  ],
+  "safe_files_sha256": {
+    "report.json": "9e121471c5b8c694e349b5eb009cc88669691c6ce8b1a9b6e6c35c9547b05e3b",
+    "admission/verification.json": "c723cee53fe54da422dfcd470ed11054b6fecc94fcc3ecc6896d614d8367904a",
+    "responses/response-check.json": "7da24ad6b7b9af0f2d8c6850029ad8e1f7d0c85161ea54752792f7cb074e0918",
+    "browser/initial-recovery.json": "64268aea1c506ed05091acbf2931976191ad5e1bb11ac5aaf7e5782ddffb00e0",
+    "browser/results.json": "8e4beea9fb45113768fad4dff187591f707ae73d531ecafa35646328b7e3c72f",
+    "browser/retry-reload.json": "ae9405dc466f3a04b778d4fee1c068df7d68a82d28c4672b5fe5efc34ce29ebf",
+    "browser/parallel-login.json": "f9d0be8ee84b9a4ebb93ae8b8b2db191680f5ea9093446161b2ea91455ec4b9c",
+    "browser/parallel-diagnostic.json": "c093bf498a42b11abf67dd303d17ade8da63bb756e3a7d66cb1b5c54342c7c72",
+    "browser/peer-tab-close.json": "09b0c35fe196e89e62f454c807077db97dd60681b153e6b48d80e18edce0f9e8"
+  },
+  "checks": [
+    {
+      "id": "seven_stage_single_execution",
+      "status": "PASS"
+    },
+    {
+      "id": "exact_head_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "code_sha256_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "input_sha256_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "frontend_dist_sha256_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "distribution_sha256_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "dist_equals_distributed_ui",
+      "status": "PASS"
+    },
+    {
+      "id": "saved_diagnostic_source_matches",
+      "status": "PASS"
+    },
+    {
+      "id": "wrapper_source_hashes_exact",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_source_hashes_exact",
+      "status": "PASS"
+    },
+    {
+      "id": "original_profile_source_matches",
+      "status": "PASS"
+    },
+    {
+      "id": "real_document_source_matches",
+      "status": "PASS"
+    },
+    {
+      "id": "response_original_sources_match",
+      "status": "PASS"
+    },
+    {
+      "id": "launch_diagnostic_success_without_timeout",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_two_cases_twelve_checks",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_business_zero_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "initial_cleanup_pass",
+      "status": "PASS"
+    },
+    {
+      "id": "isolation_all_seven_checks",
+      "status": "PASS"
+    },
+    {
+      "id": "real_receipt_retry_no_duplicate",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_three_assertions",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_both_submit_and_real_200",
+      "status": "PASS"
+    },
+    {
+      "id": "response_loss_both_submit_and_real_200",
+      "status": "PASS"
+    },
+    {
+      "id": "parallel_debug_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "peer_close_reload_actual",
+      "status": "PASS"
+    },
+    {
+      "id": "owned_chrome_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "owned_browser_api_cleanup",
+      "status": "PASS"
+    },
+    {
+      "id": "admission/data_no_active_jobs",
+      "status": "PASS"
+    },
+    {
+      "id": "admission/data_no_additional_model_events",
+      "status": "PASS"
+    },
+    {
+      "id": "admission/data_db_unchanged_by_read_only_postcheck",
+      "status": "PASS"
+    },
+    {
+      "id": "responses/data_no_active_jobs",
+      "status": "PASS"
+    },
+    {
+      "id": "responses/data_no_additional_model_events",
+      "status": "PASS"
+    },
+    {
+      "id": "original_v18_run_fields_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "original_v18_event_prefix_unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "all_response_models_exact_original",
+      "status": "PASS"
+    },
+    {
+      "id": "responses/data_db_unchanged_by_read_only_postcheck",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-data_no_active_jobs",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-data_no_additional_model_events",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-data_db_unchanged_by_read_only_postcheck",
+      "status": "PASS"
+    },
+    {
+      "id": "admission_port_closed",
+      "status": "PASS"
+    },
+    {
+      "id": "responses_port_closed",
+      "status": "PASS"
+    },
+    {
+      "id": "browser_port_closed",
+      "status": "PASS"
+    },
+    {
+      "id": "private_logs_no_runtime_error_markers",
+      "status": "PASS"
+    },
+    {
+      "id": "actual_key_bytes_absent_from_safe_json",
+      "status": "PASS"
+    }
+  ],
+  "additional_model_events": 0,
+  "model_execution_requested": false,
+  "VM_execution_requested": false,
+  "human_acceptance": "not_performed",
+  "original_ci_failure": {
+    "run_id": 36959652900,
+    "phase": "chrome_launch",
+    "cases_started": 0,
+    "cause": "unknown",
+    "overwritten": false,
+    "reproduced_in_this_local_attempt": false
+  },
+  "limits": [
+    "One local full-suite attempt, no retry. A successful local Chrome launch does not establish or resolve the original GitHub failure cause.",
+    "Launch elapsed is the measured launch block including its immediate save; it is not solely browser executable startup. Wrapper and Playwright launch timeout remain 15000 ms, script budget 90000 ms. Parent initial-recovery child timeout is 120 seconds; other browser children are 180 seconds.",
+    "Failure-marker booleans were not exercised by a synthetic error or forced launch failure. This attempt measures the success path only.",
+    "Browser API has measured task/service-lock/lifespan/port cleanup; admission and response scopes have post-run closed-port observations, not equivalent lifespan instrumentation.",
+    "Admission creates three unstarted real-document runs and cancels one directly queued job. Response scope imports one real v18 run and saves three unstarted requests/forks. Browser retry intentionally saves two real-document start:false requests; global business count zero is not claimed.",
+    "Twenty historical v18 model events are retained, with no new model events or active jobs. Original v18 run fields/event prefix and all source inputs remain unchanged.",
+    "Actual served UI bytes are not directly captured by this wrapper; source/compiled distribution hashes and the actual configured distribution path are preserved.",
+    "No production TLS, external IdP, new model inference, semantic business-quality or human acceptance is established. Raw logs, keys, profiles, DBs and screenshots are not publishable."
+  ],
+  "secret_scan": {
+    "actual_key_files": 7,
+    "safe_result_files": 9,
+    "key_byte_hits": 0
+  }
+}

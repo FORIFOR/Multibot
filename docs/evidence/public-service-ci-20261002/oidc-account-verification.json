@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "real emergency account accepted with nonreserved subject",
+    "private credential and digest match",
+    "GitHub-only guard returns safe JSON without traceback",
+    "existing root unchanged",
+    "local guard creates no root"
+  ],
+  "model_execution": false,
+  "services_started": false,
+  "github_actions_impersonated": false,
+  "provision_sha256": "0d1984198d788da811811d990c816741136f2ea6747c681bc85a6b08f0661be7"
+}

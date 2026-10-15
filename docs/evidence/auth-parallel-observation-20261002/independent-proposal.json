@@ -1,0 +1,169 @@
+{
+  "reviewed_at": "2026-10-02T00:56:45.714067+00:00",
+  "review_method": "静的独立調査。製品・runner変更、サービス、Chrome、LLM、VM起動なし。",
+  "source_sha256": {
+    "frontend/scripts/auth-parallel-login.mjs": "e6e3f43f4a40633cc9915cda2f319c08e24332828c0af8396711dba40ee2570e",
+    "frontend/src/components/AuthGate.tsx": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95"
+  },
+  "original_ci": {
+    "run": 36947671100,
+    "head": "330c18c874fb34c13b5f75f404244f6d57ca63b4",
+    "merge": "22fe57835280ec39bf32723168784b45c81d15f9",
+    "status": "FAIL",
+    "phase": "response_loss_submit_both_forms",
+    "error_name": "Error",
+    "passed_check_ids": [
+      "parallel-real-signin"
+    ],
+    "cause": "UNDETERMINED",
+    "raw_error_available": false
+  },
+  "findings": [
+    {
+      "id": "timer_is_not_barrier",
+      "classification": "static_harness_risk_not_original_cause_proof",
+      "evidence": [
+        "frontend/scripts/auth-parallel-login.mjs:37-40",
+        "frontend/src/components/AuthGate.tsx:120-126",
+        "frontend/src/components/AuthGate.tsx:63-83",
+        "frontend/src/lib/browser-session.ts:56-59"
+      ],
+      "observed": "両タブのDate.now()+200は各evaluate配信/renderer schedulingを原子的に揃えない。先にsubmitしたタブは同期的にpending通知してからfetchする。相手が通知を先に処理すればexpire/Connectingでformを外せる。",
+      "inference": "遅いタブのdocument.querySelector(form)がnullになり得る。Playwrightのevaluate error_name=Errorだけではnull、実行context消失、別の例外を区別できない。"
+    },
+    {
+      "id": "reset_condition_is_incomplete",
+      "classification": "static_harness_risk",
+      "evidence": [
+        "frontend/scripts/auth-parallel-login.mjs:31-35",
+        "frontend/scripts/auth-parallel-login.mjs:54-55"
+      ],
+      "observed": "form/input存在だけでは前roundのresponse消費・completion通知完了・有効な次submitが成立した証明にならない。",
+      "proposal": "前round各responseの解放/失敗完了、各senderの実completion観測、両画面でinput/form存在・submit有効をbounded確認する。通知を変更/消去しない。期限内未成立は非0終了、次roundを成功扱いしない。"
+    },
+    {
+      "id": "both_requests_exact_origin",
+      "classification": "coverage_strengthening",
+      "evidence": [
+        "frontend/scripts/auth-parallel-login.mjs:24-27",
+        "frontend/scripts/auth-parallel-login.mjs:43-45"
+      ],
+      "observed": "held.length=2は各タブから1件ずつであることやroundの対応を明示しない。",
+      "proposal": "実Network requestId/Fetch networkIdを私有メモリで対応づけ、各roundの各匿名tabからPOST loginが1件、各実200が1件、重複0を確認。公開は件数とbooleanのみ。"
+    }
+  ],
+  "recommended_control": {
+    "status": "PROPOSED_NOT_EXECUTED",
+    "name": "DOMDebugger submit listener pause barrier",
+    "steps": [
+      "同一BrowserContextの別タブを維持し、初期状態と前round完了を確認。各タブのform存在/有効submit/input validityを値を読むことなくboolean取得。",
+      "各CDPSessionでDebugger.enableし、DOMDebugger.setEventListenerBreakpoint(eventName=submit)を設定。Debugger.paused受信を先に登録。",
+      "各タブで本物のform.requestSubmitまたは実入力イベントを一度だけ開始する。両操作promiseの完了を先にawaitせず、各タブのsubmit listenerでのpaused到達を別々にbounded待機。handler/通知関数を書き換えない。",
+      "両タブで該当submit taskのpauseを観測して初めてbarrier成立。既に完了した別eventやgeneric pauseを流用しない。各breakpointを解除してから両resumeし、React capture/bubble等での再pauseを避ける。",
+      "既存response-stage Fetch保留を続け、各タブの本物POST/200を1件ずつ受け取る。これをrace到達条件として保持。応答本文/headers/Cookieは代替しない。",
+      "片方の実200解放後のworkspace非表示、残り実200の通常解放またはConnectionReset、両明示login、後続主体不一致401/新run0/job0の既存assertを維持。",
+      "setup失敗も原FAILとして保存。finallyは各pause解除/Fetch解除/context/browser終了を個別にbounded実施し、失敗を親owned cleanupへ伝播。"
+    ],
+    "why_preserves_race": "両submit taskを開始済みにしたうえで本物のpending通知、fetch、共有Cookie、completion/stale成功/失敗経路を実行する。通知を抑制したり応答を作らない。異なるrendererの自然な並行開始で起こり得るスケジュールをCDPで制御する候補。",
+    "limits": [
+      "静的に有望であり、実Chromeで両pause/両200が成立するまでは動作確認済みとしない。",
+      "同一rendererのpauseが他ターゲットの進行も止める可能性等、両pauseが揃わなければbarrier未成立で終了。別origin/contextにしてCookie/通知共有を失わせる回避は不可。",
+      "DOM event breakpointはReactの委譲listenerで止まることがあり、callframe/source・実event種別を私有で判定する。公開callframe/localsには入力が含まれ得るため出さない。",
+      "Debuggerが時間進行へ影響するため15秒/20秒期限の正常動作をこの試験だけで証明しない。pauseを短くbounded化し、時計差替なし。",
+      "2番目開始前のpeerでformが消える製品動作自体は安全な防御になり得る。両200前の未成立を製品の主体漏洩と断定しない。"
+    ]
+  },
+  "safe_diagnostic": {
+    "fixed_enums": [
+      "round=parallel|response_loss|cookie_mismatch",
+      "phase",
+      "status=RUNNING|PASS|FAIL",
+      "failure_scope=setup_precondition|barrier_not_reached|actual_response_missing|post_response_product_assertion|cleanup|unknown",
+      "allowlisted error_name",
+      "fixed assertion_id"
+    ],
+    "per_tab_safe_observations": [
+      "form_count",
+      "input_present",
+      "input_valid_boolean",
+      "submit_button_enabled",
+      "workspace_count",
+      "connecting_present",
+      "reload_control_present",
+      "submit_trigger_started/completed",
+      "submit_event_seen_count",
+      "submit_breakpoint_reached",
+      "pause_reason_is_submit",
+      "login_request_count",
+      "held_real_200_count",
+      "request_failed_count",
+      "peer_pending_received_count",
+      "peer_completion_received_count"
+    ],
+    "cross_tab_safe_observations": [
+      "both_submit_tasks_started",
+      "both_distinct_real_200_held",
+      "release_order_tab_label",
+      "released_response_count",
+      "injected_loss_count",
+      "actual_mutation_401",
+      "bound_subject_matches_expected_boolean",
+      "DB_run/job/model_event_before_after",
+      "Node_monotonic_relative_ms",
+      "bounded_cleanup_status"
+    ],
+    "unknown_values": "未到達/読取不能はnull。0やPASSへ変換しない。観測リスナーは標準の受信のみでnotification dispatch/handler変更なし。",
+    "save_timing": "最初のcatchで固定safe snapshotを先に保存し、raw private保存/画像/closeがhangしてもphaseを残す。主要barrier境界でも小さな安全snapshotを更新。",
+    "never_public": [
+      "raw exception message/stack",
+      "key/input value/length",
+      "request or response body",
+      "headers/Cookie/Authorization",
+      "URL query",
+      "DOM or callframe/locals dump",
+      "subject/session/sender IDs",
+      "private failure screenshots",
+      "DB/config/private logs"
+    ]
+  },
+  "classification_rule": {
+    "harness_not_reached": "両submit taskまたは各実200が成立しない。FAILかつ該当product race判定未実施。",
+    "product_candidate": "到達条件成立後にworkspace混在/明示再login不成立/主体不一致受付/追加run等の既存assertが不成立。観測事実と原因推測を分ける。",
+    "unclear": "safe観測不足ならunknownのまま原FAILを保持。"
+  },
+  "not_recommended": [
+    "200msを単に増やすだけで確実と主張",
+    "querySelector(form)?.requestSubmitで欠落を無視",
+    "通知やfetchをmonkeypatch",
+    "架空responseを返す",
+    "二つの別contextへ移して共有Cookie/BCを消す",
+    "成功まで自動再試行し最終成功だけ保存",
+    "両200条件を減らす",
+    "直接APIログインでReact開始/通知境界を代替"
+  ],
+  "references": [
+    {
+      "url": "https://raw.githubusercontent.com/ChromeDevTools/devtools-protocol/master/pdl/domains/DOMDebugger.pdl",
+      "scope": "DOMイベントbreakpoint/解除の公式protocol定義。両タブbarrier成功の保証ではない。"
+    },
+    {
+      "url": "https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model",
+      "scope": "task/agentモデル。同originでも別browsing-context-groupなら別agentになり得る。具体Chrome process割当を本調査で測定していない。"
+    }
+  ],
+  "human_acceptance": "not_performed",
+  "new_execution": false,
+  "proposal_source_basis": {
+    "commit": "330c18c874fb34c13b5f75f404244f6d57ca63b4",
+    "parallel_script_sha256": "e6e3f43f4a40633cc9915cda2f319c08e24332828c0af8396711dba40ee2570e",
+    "original_ci_artifact_summary_sha256": "ccade335c536739097f4b792e87731427b684795e20022090642a0ac91b233e7",
+    "notes": "提案の行番号・因果経路は元330c18cに対する静的所見。instrument追加は別レビュー。"
+  },
+  "evidence_write_time_source_sha256": {
+    "frontend/scripts/auth-parallel-login.mjs": "3a6aca0e995d580f1f46d6e7304e130806af98e04e04a7e6e53f6b307f5f9ef8",
+    "frontend/src/components/AuthGate.tsx": "7661427a6808cd22e67d4b25a7695bd2cb0512894b12b67b2c3ab0f70832c74c",
+    "frontend/src/lib/browser-session.ts": "d283f49832379acdd18f2876d98ffbd1280ba97f04d982057bd0f3b9c3b70c95"
+  },
+  "source_timing_note": "元sourceはgit330c18cから固定。保存時には他担当がinstrument-onlyを追加中だったため、その時点のfile hashも別欄に保持。提案は元sourceの静的調査で、instrument追加の因果検証ではない。"
+}

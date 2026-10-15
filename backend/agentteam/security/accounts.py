@@ -54,6 +54,8 @@ class AccessConfig(BaseModel):
     session_seconds: int = Field(default=3600, ge=60, le=86400)
     max_active_runs: int = Field(default=2, ge=1, le=32)
     max_pending_runs: int = Field(default=20, ge=1, le=1000)
+    max_subject_requests_per_day: int = Field(default=20, ge=1, le=10000)
+    max_subject_pending_runs: int = Field(default=2, ge=1, le=1000)
     max_request_bytes: int = Field(default=2_000_000, ge=1024, le=20_000_000)
     users: list[Account] = Field(min_length=1)
     oidc: OIDCConfig | None = None

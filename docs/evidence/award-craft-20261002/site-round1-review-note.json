@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-01T18:49:22.895874+00:00",
+  "acceptance_use": "not an all-pass acceptance result; preserve original output",
+  "known_checker_issues": [
+    "Offscreen aria-hidden honeypot fields were included in visible element overflow while document/body widths remained within viewport.",
+    "CTA name matching assumed old copy; new visible same-page proof/start destinations were not activated.",
+    "Copy succeeded UI notification is now in role=status rather than the button; old wait timed out. Clipboard byte equivalence remains unverified in this run."
+  ],
+  "next_action": "Re-run corrected auditor on stable site-round2; do not rewrite old FAIL records.",
+  "source_stable": true,
+  "award_certification": false,
+  "human_acceptance": false
+}

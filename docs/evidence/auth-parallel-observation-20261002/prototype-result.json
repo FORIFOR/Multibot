@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-10-02T01:03:13.254Z",
+  "browser": "154.0.8037.93",
+  "checks": [
+    {
+      "id": "parallel-real-signin",
+      "status": "PASS",
+      "observed": "Two real HTTP 200 login responses released in sequence; both old workspaces stay closed and re-login remains available."
+    },
+    {
+      "id": "parallel-signin-response-loss",
+      "status": "PASS",
+      "observed": "Second real HTTP 200 response interrupted at response stage; stale catch closes both workspaces and permits re-login."
+    },
+    {
+      "id": "cookie-subject-mismatch",
+      "status": "PASS",
+      "observed": "The real cookie changes while the old request draft is open; its mutation carries the bound prior subject and receives HTTP 401 before any run is created."
+    }
+  ],
+  "additional_runs": 0,
+  "execution_jobs": 0,
+  "limits": [
+    "Local real keys, not an external IdP acceptance test",
+    "Response ordering is controlled by CDP without supplying any response bytes"
+  ]
+}

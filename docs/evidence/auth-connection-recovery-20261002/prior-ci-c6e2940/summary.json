@@ -1,0 +1,120 @@
+{
+  "at": "2026-10-02T00:16:08.361290+00:00",
+  "status": "PASS",
+  "head": "c6e29407f64c11ec77f39d57f9da696b8385b0bf",
+  "actual_checkout_merge": "70b310e63a4918aa859d124591b2c24b49c5e628",
+  "ci": {
+    "run": 36943859645,
+    "jobs": [
+      {
+        "name": "public-service",
+        "conclusion": "success"
+      },
+      {
+        "name": "dependency-audit",
+        "conclusion": "success"
+      },
+      {
+        "name": "backend",
+        "conclusion": "success"
+      },
+      {
+        "name": "frontend",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "oidc": {
+    "run": 36943859613,
+    "status": "success"
+  },
+  "pr": {
+    "headRefOid": "c6e29407f64c11ec77f39d57f9da696b8385b0bf",
+    "isDraft": true,
+    "state": "OPEN"
+  },
+  "independent_reviews": {
+    "service": {
+      "path": "github-service-36943859645/independent-review.json",
+      "sha256": "afd94a5a21e7921369c6e400ce4d28e7eaa87f54749fb7122110411299b4e110"
+    },
+    "oidc": {
+      "path": "github-oidc-36943859613/independent-summary.json",
+      "sha256": "b45de58d7c8d9af35a86b3a4fa0aa007c08bebaafb6f4b35f8abd29047ce481f"
+    },
+    "site": {
+      "path": "github-site-36943859645/independent-summary.json",
+      "sha256": "d732179e1d37f6a879aca3eeafe1e05cf2ba314acb4329c2438ec026eedf5c1f"
+    }
+  },
+  "all_saved_ci_files_sha256": {
+    "github-service-36943859645/actual-merge.json": "3389b4a6abef62cf6536d73e06fc9fbb3d5fcddefa9a74423b3f9723f13b1d13",
+    "github-service-36943859645/artifact/multibot-database-concurrency/safe-report.json": "9685c687596a73e32f6a870037ba1e7aee670335f12cd1eca6ab6de2a0c689a8",
+    "github-service-36943859645/artifact/multibot-document-sandbox/safe-report.json": "b3105a3b3a9abdc6609276aca92de369d8b54324446959ad1535c2cb5401d441",
+    "github-service-36943859645/artifact/multibot-public-service/admission/verification.json": "ff106f41e7000aa65444769490d2e9d4728ba7ae5773ee16cd59d71f4a14c7e1",
+    "github-service-36943859645/artifact/multibot-public-service/browser/close-empty-signin.png": "6b1b2e2f2c0fa6047137813ab9c511307361ad362fc603f44f13a1911aee0c74",
+    "github-service-36943859645/artifact/multibot-public-service/browser/next-principal-empty.png": "4ae0ffd1d2d8606c733e08c6dbd38ffaa512e632783585269034b83bf201633e",
+    "github-service-36943859645/artifact/multibot-public-service/browser/parallel-diagnostic.json": "80898da497aa3bf1b0bc412960c8edcdedb10409385fb17b80fbfc72130e4165",
+    "github-service-36943859645/artifact/multibot-public-service/browser/parallel-login.json": "a9fb40262778a9bfe646f0e4d9a5ec540d8dd800cf4e40de56f6656a1cbb7105",
+    "github-service-36943859645/artifact/multibot-public-service/browser/peer-tab-close.json": "b56b85bbb52ddb25070b1613956deb69b604fc20071bd6ee0d50950e3ea400c4",
+    "github-service-36943859645/artifact/multibot-public-service/browser/reload-empty-signin.png": "f8a9d0198265408a1a868f121a9cbcd4f975d2616f19b14013c322ded4e34205",
+    "github-service-36943859645/artifact/multibot-public-service/browser/results.json": "86044a7ddd9ff9cf394c31f2ba7aefa30dec9febd05c5f7976954ebb6841d0b7",
+    "github-service-36943859645/artifact/multibot-public-service/browser/retry-reload.json": "38f6ced598499433e5118893475a05e31c67be735dac96a5833f11a2d77499bd",
+    "github-service-36943859645/artifact/multibot-public-service/report.json": "55cf1bb68c547ee8db7a8ae9d00d20c70bea42e9735f294081f72e0f55d4b4d4",
+    "github-service-36943859645/artifact/multibot-public-service/responses/response-check.json": "c333d47cab622739d6d34619838d00bd4fa669f9ec0bd7cd9ad9030054a0061b",
+    "github-service-36943859645/artifact/multibot-result-reading/safe-report.json": "e7bf5d8da64d47d16fca2e992c4e0081793e8574fd605e0267a3eca977a51798",
+    "github-service-36943859645/artifacts-final.json": "7ac2f987ad6eb92e1b31eff61564a70bf55b00806e4cce9ef322e51cb56ce155",
+    "github-service-36943859645/artifacts-snapshot.json": "0e5a4119437ddf884836d34903d009e09c724015d569d99a08a16ea20f09361f",
+    "github-service-36943859645/audit-harness-first-attempt.json": "8ad2c2d61de6e74650f4a4d77430ccc0123ae2d354592287f6bb210de015f818",
+    "github-service-36943859645/independent-review.json": "afd94a5a21e7921369c6e400ce4d28e7eaa87f54749fb7122110411299b4e110",
+    "github-service-36943859645/manifest.json": "74455ad2d397db57b6a9c2831354fdcd6e0844e5fd6ac32cec01e246bf8032b6",
+    "github-service-36943859645/preparation.json": "a51c112d5ca8b2e559c3d13884780ae1cddc59d37033e4a9b63d936b1a352485",
+    "github-service-36943859645/public-service-evidence.zip": "d27de1a3387f4a0ccea55691c0f881222efa8a33cc1608bf101e1d436d513069",
+    "github-service-36943859645/pull-merge-reference.json": "a7511937e6d93910841b65b91835c088ce9e6913da5e14202963b09cccdbd7a0",
+    "github-service-36943859645/verify_service_artifact.py": "78b143c77d2184bee32a51ffa8d26f5571b2813d587d4090fdf911520ada75aa",
+    "github-service-36943859645/verify_service_artifact_v2.py": "6e3477e5b432520946e8263772d7558df280577319d31b41521637e99af1d225",
+    "github-service-36943859645/workflow-final.json": "cc8482044197f2b0e4fb752ced6d94a92e7b8400c2297fa3cdd560fba5f4b45a",
+    "github-service-36943859645/workflow-snapshot.json": "f73ed48469ffb5739c51496276f4c6d447e22e14419bbe4e1e6826d6101dc978",
+    "github-oidc-36943859613/artifacts-metadata.json": "141300198125778dd8d8080fd034d3a892f791224d6a9f8b0b7ef04a20dda628",
+    "github-oidc-36943859613/evidence/cleanup-report.json": "38dc69ec436d304e770f6b5191752be69667b352a7d28f9dfb698e5ccf8c6c7c",
+    "github-oidc-36943859613/evidence/provenance.json": "83a90416cab2ca623ac0f5e419907fbe7b83c733500d25066a9a0a8919167c34",
+    "github-oidc-36943859613/evidence/report.json": "568e1b88889fd80b0f2f53611dd59370cda58005d2d762eeb5bcdf1d04f703c5",
+    "github-oidc-36943859613/executed-merge-commit.json": "aa962220840239c8bf41af48e15d488ccceb3f5a253861f5d2c578d39d5de281",
+    "github-oidc-36943859613/expected-head-source-sha256.json": "e3e788a2b33bc532e141b87495610563fcc64759a449b15a3ede4476ff03e703",
+    "github-oidc-36943859613/independent-summary.json": "b45de58d7c8d9af35a86b3a4fa0aa007c08bebaafb6f4b35f8abd29047ce481f",
+    "github-oidc-36943859613/jobs-metadata.json": "30ec774d532a656d1c5c273e9802f6c9bd121a24bbf90de557ca7899d7588813",
+    "github-oidc-36943859613/public-oidc-evidence.zip": "5baa5bbc49f498f3d3d4c77390a84a3b6bc5d0c970d24f1453766912b267a12e",
+    "github-oidc-36943859613/run-metadata.json": "e99263742abbda82c3dd0cb06306198828f1e964bd25c11fe34ab19a7a2c9a11",
+    "github-oidc-36943859613/sha256.json": "46785cb921cbcfaa65cfe05d254e86e07b1a15af741551eb67630d5d61d7d067",
+    "github-oidc-36943859613/verify.py": "5955950d385300b5dee1fe95f8dc508c76646aef291929401c16a54d04545657",
+    "github-site-36943859645/all-entry-sha256.json": "e3329cfb37d1eb7ef3ac15718103d97adffb82e4ab1844fa04bb72d38186c126",
+    "github-site-36943859645/extracted/audit.json": "e338044a04fd1b7367ba6e4b81c3c319146d6d0cc1e80324efa4f3050ad4327d",
+    "github-site-36943859645/extracted/en-no-js-390.json": "4f6e1dc039ccf5efc96bc6110c6cce02d8e7ebe2dbb78d20fa492e2c00ca7ead",
+    "github-site-36943859645/extracted/en-normal-1440.json": "0633f6aa5c95918b7642451adc74dda6dfb0fd62dca6fa546cf7e91a71d2f41f",
+    "github-site-36943859645/extracted/en-normal-320.json": "7babdf4473797d76a7f49a276551fdf9fa61458caa44ab8a2252664590a7399b",
+    "github-site-36943859645/extracted/en-normal-390.json": "8686a54d8019fc2265b6ba5b83ea5e19e04b4ed542d827bffe6cf74ab7bd0b61",
+    "github-site-36943859645/extracted/en-normal-768.json": "5a6ea48fc3305ba2c59178816fa2c09ff170440d833247314a327213cab03315",
+    "github-site-36943859645/extracted/en-reduced-motion-390.json": "82d2bbbcd58ffbf9bd022ebc0fc97d9731c90461d4534ab20347685859a51b14",
+    "github-site-36943859645/extracted/en-reflow-720-720.json": "f320984dc4e65695d59d2b241340e0658ca340927c4656e1c67962cbf28af29b",
+    "github-site-36943859645/extracted/en-reflow-html-720.json": "90d8c2874b468d955d50c37bec8887d5cbf750ae65cf3e3c1a1ebf0687348f67",
+    "github-site-36943859645/extracted/en-reflow-text-720.json": "e3754541bc4fdb06b9842e7a5b2ad5e9ec8051ded9ddf1188773e43aca454e49",
+    "github-site-36943859645/extracted/ja-no-js-390.json": "96feb90c0375d89db9e6d4b880c13dde865f51294ebc87a39d462fb99b8851c8",
+    "github-site-36943859645/extracted/ja-normal-1440.json": "8eb2d8012aa48fdcf1ac55f0ab24815d4ad172e2e2c3266b4061b078814b6425",
+    "github-site-36943859645/extracted/ja-normal-320.json": "ddf8e4af8d81d557f2e62269945c6aad2174f69b922274c16f20c46e5cc4271b",
+    "github-site-36943859645/extracted/ja-normal-390.json": "88c6f67ce58873b724b444aefb55e821af00ae76fa9d78078199b837e3b68830",
+    "github-site-36943859645/extracted/ja-normal-768.json": "435cb614629db059083f69266426b6aecbf3aae5c44db5819962a1fd4ee27f7d",
+    "github-site-36943859645/extracted/ja-reduced-motion-390.json": "b02d01d312bc606cc102b7b9ff4f76291106a07dace3663920e643f5ae3f30d7",
+    "github-site-36943859645/extracted/ja-reflow-720-720.json": "966e97bffedd23e3458e95c9943bfa85d103b4cece965891495b2202cc35a1c4",
+    "github-site-36943859645/extracted/ja-reflow-html-720.json": "0e64a9ada8fc2bf708276a66bdf44fee2900a8fda0a5f327ef9c88484f287675",
+    "github-site-36943859645/extracted/ja-reflow-text-720.json": "d96fdb78a2b862bd6cc57ce8aa3b362b59ec6b2ca7aba843e98a57e4479584a0",
+    "github-site-36943859645/independent-summary.json": "d732179e1d37f6a879aca3eeafe1e05cf2ba314acb4329c2438ec026eedf5c1f",
+    "github-site-36943859645/metadata.json": "8a5753cc520cbd51e32e8150fb739e2f9b84237a8d248c5cf07cfd091c2e8fdd",
+    "github-site-36943859645/original.zip": "642e86193963f3e5004fa33fb4dae62fe024b55f1af089d4ecdbbea9fbeb0947"
+  },
+  "limits": [
+    "Service lifecycle scope is browser_verification_api; other internal APIs are not identically measured.",
+    "Site axe violations0 is not full conformance: arrows and html stress textarea remain incomplete with no computed color ratio in this artifact.",
+    "CI Linux Chrome .57 is separate from actual macOS tablet .58/.93 evidence.",
+    "No new inference, human acceptance, public deployment or award certification established."
+  ]
+}

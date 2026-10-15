@@ -1,0 +1,40 @@
+{
+  "run_id": "run_1a0f81a9b714c338a4d",
+  "rep": 4,
+  "status": "PASS",
+  "phase": "finished",
+  "ai_selection_not_human_acceptance": true,
+  "before": {
+    "status": "completed",
+    "selection": {},
+    "last_seq": 58,
+    "model_events": 15
+  },
+  "reading_identity": "01 読む\nreadiness.json\n\n版 1 · 未採用の候補",
+  "reader_character_count": 3436,
+  "record_focus": true,
+  "record_row_count": 8,
+  "next_focus": "この版を使う",
+  "focus_after_adopt": "★あなたが選んだ版",
+  "next_focus_after_adopt": "採用したファイルを保存 ↓",
+  "download_completed": true,
+  "after": {
+    "status": "completed",
+    "selection": {
+      "readiness.json": {
+        "revision": 1,
+        "seq": 59,
+        "event_id": "run_1a0f81a9b714c338a4d:59",
+        "actor_id": "craft-operator",
+        "note": ""
+      }
+    },
+    "last_seq": 59,
+    "model_events": 15
+  },
+  "new_event_types": [
+    "artifact.adopted"
+  ],
+  "reload_kept_selection": true,
+  "browser_closed": true
+}

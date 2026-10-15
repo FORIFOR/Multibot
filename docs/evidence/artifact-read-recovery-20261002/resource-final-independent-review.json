@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "recorded_at": "2026-10-02T03:13:26.304687+00:00",
+  "meaning": "fixed source/runtime/metadata and no-action integrity verified; launch gate remains blocked",
+  "original_incorrect_raw_fingerprint_assertion": "independent-verification.json remains FAIL; not overwritten",
+  "correction_evidence": [
+    "v62-fingerprint-normalization-addendum.json",
+    "v62-persisted-config-normalization.json"
+  ],
+  "all_other_original_checks_pass": true,
+  "launch_gate": "BLOCKED_BY_RECORDED_CONDITIONS",
+  "resource_blockers": [
+    "disk_over_10gib",
+    "memory_meets_unchanged_gate"
+  ],
+  "observation_time": "2026-10-02T03:08:24.529686+00:00",
+  "memory_bytes": 5494112256,
+  "required_memory_bytes": 8741958113,
+  "disk_bytes": 9912070144,
+  "required_disk_exclusive_minimum_bytes": 10737418240,
+  "prepared_attempts": [
+    0,
+    0
+  ],
+  "main_paths": 1338,
+  "original_missing_paths": 3,
+  "new_services_browsers_models_vm_probes_deletions_signals": 0,
+  "limits": [
+    "Point-in-time read-only integrity/metadata observation, not launch authorization. Resource gate remains independently BLOCKED.",
+    "Legacy v62 fingerprint has no Python runtime metadata; only its recorded fingerprint/head/sources/model identity were checked. New983 and old4fc frozen runtime validations were both executed without model or service startup.",
+    "Current model absent; original unloaded memory threshold applies. Free percent is recorded separately and never multiplied by physical RAM as equivalent available bytes.",
+    "Actual candidate PID args inspected in memory; command hashes/names only retained. No claim that unrelated services are absent.",
+    "Main includes 1338 tracked/nonignored paths including three originally missing tracked files; ignored files/.git internals excluded.",
+    "v62 original pending semantic field remains untouched; later final-10 review completion is separate, not business-quality/human acceptance."
+  ]
+}

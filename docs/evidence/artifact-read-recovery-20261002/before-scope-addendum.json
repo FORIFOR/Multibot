@@ -1,0 +1,24 @@
+{
+  "original_browser_report_unchanged": true,
+  "execution_status_meaning": "PASS means two real observations and invariants completed, not that the product behavior was accepted.",
+  "selector_limitation": {
+    "field": "cases[].observations[].run_warning_visible",
+    "selector": ".work-incomplete",
+    "reason": "This selector does not exist in current Workroom. Its false value is a harness measurement limitation, not evidence that the incomplete warning was missing.",
+    "actual_selector": ".work-warning (outside .simple-deliverables)",
+    "independent_pixels": [
+      "ja390-held-artifact-at35s.png",
+      "en768-failed-artifact-recovered-original.png"
+    ],
+    "actual_observation": "Named pixels visibly retain the original incomplete-request warning. No separate DOM assertion of that warning was captured."
+  },
+  "scope": {
+    "fault_targets": "Only exact artifact GET path was intercepted in both cases. Other detail/chat/events GETs returned200 and had0 failures.",
+    "response_hold": "Real200 held at Response stage; not a body-only stall or fabricated response.",
+    "transport_failure": "Fetch.failRequest Failed at Request stage; no fake status/body.",
+    "chat_provenance": "Actual message.sent seq24/event_id and artifact revision1/SHA compared to real chat API. No message text invented.",
+    "tasks": "Original full run/event/artifact records imported without reconstructing incomplete task rows;0 task rows in private SQLite before/after.",
+    "no_rerequest_claim": "35 seconds is a fixed observation window, not an infinite-wait or SLA claim.",
+    "raw_tab_link": "Real raw-file link visible; it was not opened in this observation. No claim that all external fallback viewing is impossible."
+  }
+}

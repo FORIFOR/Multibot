@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "self_excluded": true,
+  "files": [
+    {
+      "path": "baseline-ja768-chrome93.png",
+      "size": 108992,
+      "sha256": "a4f140c8a9b680a64e6148acaa75921f47acad2be16b2961d80bd3f64fad4aee"
+    },
+    {
+      "path": "baseline-native720-warning-chrome93.png",
+      "size": 158703,
+      "sha256": "a1e1000ce5ddf60af16f480563db2f3a18fd4fcc45f587b1ead6bc33870ddda6"
+    },
+    {
+      "path": "browser-cleanup.json",
+      "size": 353,
+      "sha256": "a7927a6246df39f1c1f55861f1142f6d12dfd4b3d5dffe6879d9aab54267fc6a"
+    },
+    {
+      "path": "cleanup.json",
+      "size": 327,
+      "sha256": "9dd402cd694eb8e3c11afec7fc3cc828f2063d43802a54185a4083459407c7b8"
+    },
+    {
+      "path": "report.json",
+      "size": 10316,
+      "sha256": "36c409c5e2c75e1ed88e8e2da882261510e1c4cea34ad2a55b370e86182eab95"
+    },
+    {
+      "path": "review.json",
+      "size": 2167,
+      "sha256": "4e52865b13fe536dbac1062d5ee700912ae921a0d6b4e26ec8116c7727f89a1c"
+    },
+    {
+      "path": "safe-scan.json",
+      "size": 244,
+      "sha256": "ef56e0b4e4b9aec31e0d901a8aa34e3fe58e4969fcf1512762f31de3920bc0a5"
+    },
+    {
+      "path": "source-after.json",
+      "size": 5908,
+      "sha256": "cb2bb2fa7889559f60594e6ac97da26f620960c733bc71cd8a589c1775b4d084"
+    },
+    {
+      "path": "source-before.json",
+      "size": 5908,
+      "sha256": "cb2bb2fa7889559f60594e6ac97da26f620960c733bc71cd8a589c1775b4d084"
+    }
+  ]
+}

@@ -1,0 +1,1416 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-01T21:50:34.887Z",
+  "actor": "Independent AI with prior knowledge",
+  "human_acceptance": false,
+  "business_acceptance": false,
+  "model_execution": false,
+  "data_condition": "Actual imported v62 rep3, adopted by separate prior verifier; no adoption mutation in this check",
+  "cases": [
+    {
+      "name": "native200-exact-r5-programmatic",
+      "stages": [
+        {
+          "name": "initial_top",
+          "active": {
+            "tag": "H1",
+            "isTeam": false,
+            "rect": {
+              "x": 24,
+              "y": 161.25,
+              "width": 436.0234375,
+              "height": 67.1875,
+              "top": 161.25,
+              "right": 460.0234375,
+              "bottom": 228.4375,
+              "left": 24
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 389.3125,
+            "width": 672,
+            "height": 44,
+            "top": 389.3125,
+            "right": 696,
+            "bottom": 433.3125,
+            "left": 24
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 458.3125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 458.3125,
+            "right": 671,
+            "bottom": 554.4609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 0,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "before_programmatic_focus",
+          "active": {
+            "tag": "H1",
+            "isTeam": false,
+            "rect": {
+              "x": 24,
+              "y": -141.75,
+              "width": 436.0234375,
+              "height": 67.1875,
+              "top": -141.75,
+              "right": 460.0234375,
+              "bottom": -74.5625,
+              "left": 24
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 86.3125,
+            "width": 672,
+            "height": 44,
+            "top": 86.3125,
+            "right": 696,
+            "bottom": 130.3125,
+            "left": 24
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 155.3125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 155.3125,
+            "right": 671,
+            "bottom": 251.4609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 303,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "immediate_after_focus_before_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 24,
+              "y": 114.8125,
+              "width": 672,
+              "height": 44,
+              "top": 114.8125,
+              "right": 696,
+              "bottom": 158.8125,
+              "left": 24
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 114.8125,
+            "width": 672,
+            "height": 44,
+            "top": 114.8125,
+            "right": 696,
+            "bottom": 158.8125,
+            "left": 24
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 183.8125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 183.8125,
+            "right": 671,
+            "bottom": 279.9609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 274.5,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "after_frames_before_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 24,
+              "y": 114.8125,
+              "width": 672,
+              "height": 44,
+              "top": 114.8125,
+              "right": 696,
+              "bottom": 158.8125,
+              "left": 24
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 114.8125,
+            "width": 672,
+            "height": 44,
+            "top": 114.8125,
+            "right": 696,
+            "bottom": 158.8125,
+            "left": 24
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 183.8125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 183.8125,
+            "right": 671,
+            "bottom": 279.9609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 274.5,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "immediate_after_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 24,
+              "y": 114.8125,
+              "width": 672,
+              "height": 44,
+              "top": 114.8125,
+              "right": 696,
+              "bottom": 158.8125,
+              "left": 24
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 114.8125,
+            "width": 672,
+            "height": 44,
+            "top": 114.8125,
+            "right": 696,
+            "bottom": 158.8125,
+            "left": 24
+          },
+          "teamOpen": true,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 271.8125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 271.8125,
+            "right": 671,
+            "bottom": 367.9609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 274.5,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "after_frames_after_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 24,
+              "y": 114.8125,
+              "width": 672,
+              "height": 44,
+              "top": 114.8125,
+              "right": 696,
+              "bottom": 158.8125,
+              "left": 24
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 114.8125,
+            "width": 672,
+            "height": 44,
+            "top": 114.8125,
+            "right": 696,
+            "bottom": 158.8125,
+            "left": 24
+          },
+          "teamOpen": true,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 271.8125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 271.8125,
+            "right": 671,
+            "bottom": 367.9609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 274.5,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "name": "native200-raw-link-ShiftTab-Enter",
+      "stages": [
+        {
+          "name": "before_shift_tab",
+          "active": {
+            "tag": "A",
+            "isTeam": false,
+            "rect": {
+              "x": 529,
+              "y": 181.3828125,
+              "width": 142,
+              "height": 44,
+              "top": 181.3828125,
+              "right": 671,
+              "bottom": 225.3828125,
+              "left": 529
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 94.3125,
+            "width": 672,
+            "height": 44,
+            "top": 94.3125,
+            "right": 696,
+            "bottom": 138.3125,
+            "left": 24
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 163.3125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 163.3125,
+            "right": 671,
+            "bottom": 259.4609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 295,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "shift_tab_2",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 24,
+              "y": 181.3125,
+              "width": 672,
+              "height": 44,
+              "top": 181.3125,
+              "right": 696,
+              "bottom": 225.3125,
+              "left": 24
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 181.3125,
+            "width": 672,
+            "height": 44,
+            "top": 181.3125,
+            "right": 696,
+            "bottom": 225.3125,
+            "left": 24
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 250.3125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 250.3125,
+            "right": 671,
+            "bottom": 346.4609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 208,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "after_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 24,
+              "y": 181.3125,
+              "width": 672,
+              "height": 44,
+              "top": 181.3125,
+              "right": 696,
+              "bottom": 225.3125,
+              "left": 24
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 181.3125,
+            "width": 672,
+            "height": 44,
+            "top": 181.3125,
+            "right": 696,
+            "bottom": 225.3125,
+            "left": 24
+          },
+          "teamOpen": true,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 338.3125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 338.3125,
+            "right": 671,
+            "bottom": 434.4609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 208,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "after_frames_after_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 24,
+              "y": 181.3125,
+              "width": 672,
+              "height": 44,
+              "top": 181.3125,
+              "right": 696,
+              "bottom": 225.3125,
+              "left": 24
+            }
+          },
+          "team": {
+            "x": 24,
+            "y": 181.3125,
+            "width": 672,
+            "height": 44,
+            "top": 181.3125,
+            "right": 696,
+            "bottom": 225.3125,
+            "left": 24
+          },
+          "teamOpen": true,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 720,
+              "height": 107,
+              "top": 0,
+              "right": 720,
+              "bottom": 107,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 49,
+            "y": 338.3125,
+            "width": 622,
+            "height": 96.1484375,
+            "top": 338.3125,
+            "right": 671,
+            "bottom": 434.4609375,
+            "left": 49
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 208,
+          "innerWidth": 720,
+          "outerWidth": 1440,
+          "dpr": 2,
+          "clientWidth": 720,
+          "scrollWidth": 720,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        }
+      ],
+      "steps": [
+        {
+          "active": "SUMMARY",
+          "isTeam": false,
+          "scrollY": 1410.5
+        },
+        {
+          "active": "SUMMARY",
+          "isTeam": true,
+          "scrollY": 208
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "name": "ja390-forward-Tab-Enter",
+      "stages": [
+        {
+          "name": "route_initial_focus",
+          "active": {
+            "tag": "H1",
+            "isTeam": false,
+            "rect": {
+              "x": 16,
+              "y": 207.375,
+              "width": 358,
+              "height": 56,
+              "top": 207.375,
+              "right": 374,
+              "bottom": 263.375,
+              "left": 16
+            }
+          },
+          "team": {
+            "x": 16,
+            "y": 476.25,
+            "width": 358,
+            "height": 44,
+            "top": 476.25,
+            "right": 374,
+            "bottom": 520.25,
+            "left": 16
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 153,
+              "top": 0,
+              "right": 390,
+              "bottom": 153,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 33,
+            "y": 545.25,
+            "width": 324,
+            "height": 148.140625,
+            "top": 545.25,
+            "right": 357,
+            "bottom": 693.390625,
+            "left": 33
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 0,
+          "innerWidth": 390,
+          "outerWidth": 500,
+          "dpr": 1,
+          "clientWidth": 390,
+          "scrollWidth": 390,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "tab_5",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 16,
+              "y": 400.25,
+              "width": 358,
+              "height": 44,
+              "top": 400.25,
+              "right": 374,
+              "bottom": 444.25,
+              "left": 16
+            }
+          },
+          "team": {
+            "x": 16,
+            "y": 400.25,
+            "width": 358,
+            "height": 44,
+            "top": 400.25,
+            "right": 374,
+            "bottom": 444.25,
+            "left": 16
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 153,
+              "top": 0,
+              "right": 390,
+              "bottom": 153,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 33,
+            "y": 469.25,
+            "width": 324,
+            "height": 148.140625,
+            "top": 469.25,
+            "right": 357,
+            "bottom": 617.390625,
+            "left": 33
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 76,
+          "innerWidth": 390,
+          "outerWidth": 500,
+          "dpr": 1,
+          "clientWidth": 390,
+          "scrollWidth": 390,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "after_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 16,
+              "y": 400.25,
+              "width": 358,
+              "height": 44,
+              "top": 400.25,
+              "right": 374,
+              "bottom": 444.25,
+              "left": 16
+            }
+          },
+          "team": {
+            "x": 16,
+            "y": 400.25,
+            "width": 358,
+            "height": 44,
+            "top": 400.25,
+            "right": 374,
+            "bottom": 444.25,
+            "left": 16
+          },
+          "teamOpen": true,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 153,
+              "top": 0,
+              "right": 390,
+              "bottom": 153,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 33,
+            "y": 609.25,
+            "width": 324,
+            "height": 148.140625,
+            "top": 609.25,
+            "right": 357,
+            "bottom": 757.390625,
+            "left": 33
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 76,
+          "innerWidth": 390,
+          "outerWidth": 500,
+          "dpr": 1,
+          "clientWidth": 390,
+          "scrollWidth": 390,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "after_frames_after_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 16,
+              "y": 400.25,
+              "width": 358,
+              "height": 44,
+              "top": 400.25,
+              "right": 374,
+              "bottom": 444.25,
+              "left": 16
+            }
+          },
+          "team": {
+            "x": 16,
+            "y": 400.25,
+            "width": 358,
+            "height": 44,
+            "top": 400.25,
+            "right": 374,
+            "bottom": 444.25,
+            "left": 16
+          },
+          "teamOpen": true,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 153,
+              "top": 0,
+              "right": 390,
+              "bottom": 153,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 33,
+            "y": 609.25,
+            "width": 324,
+            "height": 148.140625,
+            "top": 609.25,
+            "right": 357,
+            "bottom": 757.390625,
+            "left": 33
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 76,
+          "innerWidth": 390,
+          "outerWidth": 500,
+          "dpr": 1,
+          "clientWidth": 390,
+          "scrollWidth": 390,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        }
+      ],
+      "steps": [
+        {
+          "active": "BUTTON",
+          "isTeam": false,
+          "scrollY": 0
+        },
+        {
+          "active": "BUTTON",
+          "isTeam": false,
+          "scrollY": 0
+        },
+        {
+          "active": "BUTTON",
+          "isTeam": false,
+          "scrollY": 0
+        },
+        {
+          "active": "SUMMARY",
+          "isTeam": false,
+          "scrollY": 1629
+        },
+        {
+          "active": "SUMMARY",
+          "isTeam": true,
+          "scrollY": 76
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "name": "ja320-forward-Tab-Enter",
+      "stages": [
+        {
+          "name": "route_initial_focus",
+          "active": {
+            "tag": "H1",
+            "isTeam": false,
+            "rect": {
+              "x": 16,
+              "y": 207.375,
+              "width": 288,
+              "height": 56,
+              "top": 207.375,
+              "right": 304,
+              "bottom": 263.375,
+              "left": 16
+            }
+          },
+          "team": {
+            "x": 16,
+            "y": 476.25,
+            "width": 288,
+            "height": 44,
+            "top": 476.25,
+            "right": 304,
+            "bottom": 520.25,
+            "left": 16
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 153,
+              "top": 0,
+              "right": 320,
+              "bottom": 153,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 33,
+            "y": 545.25,
+            "width": 254,
+            "height": 148.140625,
+            "top": 545.25,
+            "right": 287,
+            "bottom": 693.390625,
+            "left": 33
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 0,
+          "innerWidth": 320,
+          "outerWidth": 500,
+          "dpr": 1,
+          "clientWidth": 320,
+          "scrollWidth": 320,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "tab_5",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 16,
+              "y": 400.25,
+              "width": 288,
+              "height": 44,
+              "top": 400.25,
+              "right": 304,
+              "bottom": 444.25,
+              "left": 16
+            }
+          },
+          "team": {
+            "x": 16,
+            "y": 400.25,
+            "width": 288,
+            "height": 44,
+            "top": 400.25,
+            "right": 304,
+            "bottom": 444.25,
+            "left": 16
+          },
+          "teamOpen": false,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 153,
+              "top": 0,
+              "right": 320,
+              "bottom": 153,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 33,
+            "y": 469.25,
+            "width": 254,
+            "height": 148.140625,
+            "top": 469.25,
+            "right": 287,
+            "bottom": 617.390625,
+            "left": 33
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 76,
+          "innerWidth": 320,
+          "outerWidth": 500,
+          "dpr": 1,
+          "clientWidth": 320,
+          "scrollWidth": 320,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "after_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 16,
+              "y": 400.25,
+              "width": 288,
+              "height": 44,
+              "top": 400.25,
+              "right": 304,
+              "bottom": 444.25,
+              "left": 16
+            }
+          },
+          "team": {
+            "x": 16,
+            "y": 400.25,
+            "width": 288,
+            "height": 44,
+            "top": 400.25,
+            "right": 304,
+            "bottom": 444.25,
+            "left": 16
+          },
+          "teamOpen": true,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 153,
+              "top": 0,
+              "right": 320,
+              "bottom": 153,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 33,
+            "y": 661.25,
+            "width": 254,
+            "height": 148.140625,
+            "top": 661.25,
+            "right": 287,
+            "bottom": 809.390625,
+            "left": 33
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 76,
+          "innerWidth": 320,
+          "outerWidth": 500,
+          "dpr": 1,
+          "clientWidth": 320,
+          "scrollWidth": 320,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        },
+        {
+          "name": "after_frames_after_enter",
+          "active": {
+            "tag": "SUMMARY",
+            "isTeam": true,
+            "rect": {
+              "x": 16,
+              "y": 400.25,
+              "width": 288,
+              "height": 44,
+              "top": 400.25,
+              "right": 304,
+              "bottom": 444.25,
+              "left": 16
+            }
+          },
+          "team": {
+            "x": 16,
+            "y": 400.25,
+            "width": 288,
+            "height": 44,
+            "top": 400.25,
+            "right": 304,
+            "bottom": 444.25,
+            "left": 16
+          },
+          "teamOpen": true,
+          "sticky": {
+            "selector": ".top.side",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 153,
+              "top": 0,
+              "right": 320,
+              "bottom": 153,
+              "left": 0
+            }
+          },
+          "readingHead": {
+            "x": 33,
+            "y": 661.25,
+            "width": 254,
+            "height": 148.140625,
+            "top": 661.25,
+            "right": 287,
+            "bottom": 809.390625,
+            "left": 33
+          },
+          "identity": "01 読むreadiness.json版 1 · 採用した版",
+          "scrollY": 76,
+          "innerWidth": 320,
+          "outerWidth": 500,
+          "dpr": 1,
+          "clientWidth": 320,
+          "scrollWidth": 320,
+          "rootZoom": "1",
+          "bodyZoom": "1"
+        }
+      ],
+      "steps": [
+        {
+          "active": "BUTTON",
+          "isTeam": false,
+          "scrollY": 0
+        },
+        {
+          "active": "BUTTON",
+          "isTeam": false,
+          "scrollY": 0
+        },
+        {
+          "active": "BUTTON",
+          "isTeam": false,
+          "scrollY": 0
+        },
+        {
+          "active": "SUMMARY",
+          "isTeam": false,
+          "scrollY": 1651
+        },
+        {
+          "active": "SUMMARY",
+          "isTeam": true,
+          "scrollY": 76
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "api_responses": [
+    {
+      "path": "/api/auth/status",
+      "status": 200,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/config",
+      "status": 200,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/usage",
+      "status": 200,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/runs",
+      "status": 200,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/health",
+      "status": 200,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/health",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/chat",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/events",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/versions/1",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/health",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/chat",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/events",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/versions/1",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200,
+      "authenticated_at_request": false
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/health",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/chat",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/events",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/versions/1",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/auth/status",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/health",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/approvals",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/chat",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e/events",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/runs/run_1a0f8118bd3ccca713e",
+      "status": 200,
+      "authenticated_at_request": true
+    },
+    {
+      "path": "/api/artifacts/run_1a0f8118bd3ccca713e/readiness.json/versions/1",
+      "status": 200,
+      "authenticated_at_request": true
+    }
+  ],
+  "request_failures": [],
+  "page_errors": [],
+  "writes": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "html_sha256": "4d7741628c0406e3eb327bc4bfdf0d63bdc521205bb7cd7e6293744d52242250",
+  "bundle_sha256": "79b6a5332d8a43ecb7209a20111ad397dd46cca8821bea44011937ca7fc14e64",
+  "run_before_sha256": "683ca415d786c9173f5cc81b3f3f34f201059d15cefaa64f8632aea57e8ae06f",
+  "run_after_native_sha256": "683ca415d786c9173f5cc81b3f3f34f201059d15cefaa64f8632aea57e8ae06f",
+  "run_after_sha256": "683ca415d786c9173f5cc81b3f3f34f201059d15cefaa64f8632aea57e8ae06f",
+  "finished_at": "2026-10-01T21:50:38.941Z"
+}

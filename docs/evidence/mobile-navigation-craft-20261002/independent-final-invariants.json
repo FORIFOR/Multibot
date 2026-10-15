@@ -1,0 +1,900 @@
+{
+  "started_at": "2026-10-01T22:49:56.737167+00:00",
+  "read_mode": "Both databases opened mode=ro&immutable=1; WAL and SHM absent before and after",
+  "source_paths_sha256_before": {
+    "/Users/horioshuuhei/.cache/agentteam-bench/real-readiness-v62-qwen35-fixed-20261002/data/agentteam.sqlite": "b09f02479d1c60111fff52525fc465e2ac7bbac434acd91354f8a834659f2cf3",
+    "/Users/horioshuuhei/.cache/agentteam-bench/mobile-navigation-craft-20261002/data/agentteam.sqlite": "e6ce7e9f90b409e8522cd027e63533b20a8ae9a72e8df09dc87da2339ce18d0b",
+    "/Users/horioshuuhei/.cache/agentteam-bench/mobile-navigation-craft-20261002/import.json": "8572935c20a55e7fbe5235d4130b2ee083c479b32e5fc848edea38a82dc5e118",
+    "/Users/horioshuuhei/.cache/agentteam-bench/mobile-navigation-craft-20261002/cleanup-r1-comparison-diagnostic.json": "c20ce4be260e2d361dda3d8d6c3c8862f01c6cdccfa7dddb3286a48d6c1a67ce",
+    "/Users/horioshuuhei/.cache/agentteam-bench/mobile-navigation-craft-20261002/finalize.py": "86a7bef489b105e60b3debb005ddfe15a12691cba724e5d67ab864f00304b63e"
+  },
+  "tables": [
+    {
+      "table": "tasks",
+      "primary_key": [
+        "run_id",
+        "task_id"
+      ],
+      "original_columns": [
+        "run_id",
+        "task_id",
+        "state_json",
+        "status",
+        "owner",
+        "updated_at"
+      ],
+      "imported_columns": [
+        "run_id",
+        "task_id",
+        "state_json",
+        "status",
+        "owner",
+        "updated_at"
+      ],
+      "added_columns": [],
+      "rows": 20,
+      "differing_fields": 0,
+      "missing_keys": 0,
+      "extra_keys": 0,
+      "rowid_order_difference_positions": 0,
+      "reps": [
+        {
+          "rep": 1,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "7277a346707dfeebeb7a84ac12b8634386e85b9cd5140c2cb4be857c79e24127",
+          "imported_named_pk_sha256": "7277a346707dfeebeb7a84ac12b8634386e85b9cd5140c2cb4be857c79e24127",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 2,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "66191356c3be551a2995f9c3547f3a3c6c8c460876b78b265582394484f85757",
+          "imported_named_pk_sha256": "66191356c3be551a2995f9c3547f3a3c6c8c460876b78b265582394484f85757",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 3,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "ff1ba2a741958a066e44a666dfbdb2f881be074560ef7ff4f5947bac40da3473",
+          "imported_named_pk_sha256": "ff1ba2a741958a066e44a666dfbdb2f881be074560ef7ff4f5947bac40da3473",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 4,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "2f75d82252e358e8a55624c6f9480d5c3f748b078cebc23c9a958dd034ab0675",
+          "imported_named_pk_sha256": "2f75d82252e358e8a55624c6f9480d5c3f748b078cebc23c9a958dd034ab0675",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 5,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "71be18c5c3f9404f07b204a2bd502704a38b842db5904f947ade708d48be158d",
+          "imported_named_pk_sha256": "71be18c5c3f9404f07b204a2bd502704a38b842db5904f947ade708d48be158d",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 6,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "9c4d8b121d1aef5af4f9d85476980790b4aaffe77a5062f43fd3a8f508c8c9f6",
+          "imported_named_pk_sha256": "9c4d8b121d1aef5af4f9d85476980790b4aaffe77a5062f43fd3a8f508c8c9f6",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 7,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "530287ae09348665cfc531184a5fd9be27be1182dbaa01fc9b8b55d0aefe54f4",
+          "imported_named_pk_sha256": "530287ae09348665cfc531184a5fd9be27be1182dbaa01fc9b8b55d0aefe54f4",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 8,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "2f51d8bb854504c5348cb9993df46c14ac930b8424b2c287550a1799283e9cdc",
+          "imported_named_pk_sha256": "2f51d8bb854504c5348cb9993df46c14ac930b8424b2c287550a1799283e9cdc",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 9,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "53b767b12e43205b76697e423506ecfe5c1163eb2c4ecf7c7644655b7d382c8c",
+          "imported_named_pk_sha256": "53b767b12e43205b76697e423506ecfe5c1163eb2c4ecf7c7644655b7d382c8c",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 10,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "6c3f5beec9c786b9c05705402b7a8c2dcb04ef7e17d92188c60f37f964687ec4",
+          "imported_named_pk_sha256": "6c3f5beec9c786b9c05705402b7a8c2dcb04ef7e17d92188c60f37f964687ec4",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        }
+      ]
+    },
+    {
+      "table": "messages",
+      "primary_key": [
+        "message_id"
+      ],
+      "original_columns": [
+        "message_id",
+        "run_id",
+        "seq",
+        "from_agent_id",
+        "to_agent_id",
+        "task_id",
+        "purpose",
+        "text",
+        "artifact_refs_json",
+        "reply_to",
+        "recorded_at",
+        "read_at"
+      ],
+      "imported_columns": [
+        "message_id",
+        "run_id",
+        "seq",
+        "from_agent_id",
+        "to_agent_id",
+        "task_id",
+        "source_task_id",
+        "purpose",
+        "text",
+        "artifact_refs_json",
+        "reply_to",
+        "recorded_at",
+        "read_at"
+      ],
+      "added_columns": [
+        "source_task_id"
+      ],
+      "rows": 38,
+      "differing_fields": 0,
+      "missing_keys": 0,
+      "extra_keys": 0,
+      "rowid_order_difference_positions": 34,
+      "reps": [
+        {
+          "rep": 1,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "603a5018d53faf5f56c3b390f099c353bec9f772565da92fb65c848c2d7db2a0",
+          "imported_named_pk_sha256": "603a5018d53faf5f56c3b390f099c353bec9f772565da92fb65c848c2d7db2a0",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 2,
+          "new_source_task_id_null_count": 3
+        },
+        {
+          "rep": 2,
+          "original_rows": 6,
+          "imported_rows": 6,
+          "original_named_pk_sha256": "2adcf3bb87ba69a6e313e91e0a139e6a8d257c7fec234c558ec42981e87bb2e5",
+          "imported_named_pk_sha256": "2adcf3bb87ba69a6e313e91e0a139e6a8d257c7fec234c558ec42981e87bb2e5",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 6,
+          "new_source_task_id_null_count": 6
+        },
+        {
+          "rep": 3,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "5700a374bc9b46c8515dc68514342d1195ebc4ce5a53fe1f81e5a64f3fd76325",
+          "imported_named_pk_sha256": "5700a374bc9b46c8515dc68514342d1195ebc4ce5a53fe1f81e5a64f3fd76325",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 2,
+          "new_source_task_id_null_count": 2
+        },
+        {
+          "rep": 4,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "d7d27a3569233277a9ea57c7508a8573a066db7a05ab18fd8f3886252ec1bc93",
+          "imported_named_pk_sha256": "d7d27a3569233277a9ea57c7508a8573a066db7a05ab18fd8f3886252ec1bc93",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 2,
+          "new_source_task_id_null_count": 3
+        },
+        {
+          "rep": 5,
+          "original_rows": 6,
+          "imported_rows": 6,
+          "original_named_pk_sha256": "903413a770a447f0f651b4b1ac40832b3bd1005d91421b01c94c995b17c1cd92",
+          "imported_named_pk_sha256": "903413a770a447f0f651b4b1ac40832b3bd1005d91421b01c94c995b17c1cd92",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 6,
+          "new_source_task_id_null_count": 6
+        },
+        {
+          "rep": 6,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "d0a6cd65c447f3e7a32cb74f085ff81a4022d4363ce5719987bb22222e0c8acb",
+          "imported_named_pk_sha256": "d0a6cd65c447f3e7a32cb74f085ff81a4022d4363ce5719987bb22222e0c8acb",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 2,
+          "new_source_task_id_null_count": 3
+        },
+        {
+          "rep": 7,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "316abcf69d077bf09173554a43f0b8a83be39352823393a1a7350d786217598d",
+          "imported_named_pk_sha256": "316abcf69d077bf09173554a43f0b8a83be39352823393a1a7350d786217598d",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 2,
+          "new_source_task_id_null_count": 3
+        },
+        {
+          "rep": 8,
+          "original_rows": 2,
+          "imported_rows": 2,
+          "original_named_pk_sha256": "f7f6a42629d7f79b452f92f1a2a8341fd7b5e526f089c977eac53def3ca3fb33",
+          "imported_named_pk_sha256": "f7f6a42629d7f79b452f92f1a2a8341fd7b5e526f089c977eac53def3ca3fb33",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 2,
+          "new_source_task_id_null_count": 2
+        },
+        {
+          "rep": 9,
+          "original_rows": 4,
+          "imported_rows": 4,
+          "original_named_pk_sha256": "00e58ac5762f78533b045b40804f0dad894f255eb1599e91ad5111270bc851b1",
+          "imported_named_pk_sha256": "00e58ac5762f78533b045b40804f0dad894f255eb1599e91ad5111270bc851b1",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 4,
+          "new_source_task_id_null_count": 4
+        },
+        {
+          "rep": 10,
+          "original_rows": 6,
+          "imported_rows": 6,
+          "original_named_pk_sha256": "25ec254be30a8961c3ee7e7af09edaea9269d7b13fd894d92d3a89834d4798ac",
+          "imported_named_pk_sha256": "25ec254be30a8961c3ee7e7af09edaea9269d7b13fd894d92d3a89834d4798ac",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 6,
+          "new_source_task_id_null_count": 6
+        }
+      ]
+    },
+    {
+      "table": "checkpoints",
+      "primary_key": [
+        "run_id",
+        "seq"
+      ],
+      "original_columns": [
+        "run_id",
+        "seq",
+        "created_at",
+        "snapshot_json"
+      ],
+      "imported_columns": [
+        "run_id",
+        "seq",
+        "created_at",
+        "snapshot_json"
+      ],
+      "added_columns": [],
+      "rows": 30,
+      "differing_fields": 0,
+      "missing_keys": 0,
+      "extra_keys": 0,
+      "rowid_order_difference_positions": 0,
+      "reps": [
+        {
+          "rep": 1,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "3d3996a322bf2361c55d6d230f5f0d56c60b8c3b2ad1721a12cb9810bd54e4be",
+          "imported_named_pk_sha256": "3d3996a322bf2361c55d6d230f5f0d56c60b8c3b2ad1721a12cb9810bd54e4be",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 2,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "0fc3000e4e33c61a81da1e49d132d01aec9e6eec18d696515dcd7d7951f94b6d",
+          "imported_named_pk_sha256": "0fc3000e4e33c61a81da1e49d132d01aec9e6eec18d696515dcd7d7951f94b6d",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 3,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "e1c72a87d157d4e687a2a9c6a139d6f58d7fd48fbbc857d30533eb3a8194277c",
+          "imported_named_pk_sha256": "e1c72a87d157d4e687a2a9c6a139d6f58d7fd48fbbc857d30533eb3a8194277c",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 4,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "51b29a7b45eed7d86da5f91da547a63db4de4be43626d52b29a4854d46c031b8",
+          "imported_named_pk_sha256": "51b29a7b45eed7d86da5f91da547a63db4de4be43626d52b29a4854d46c031b8",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 5,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "10787e6fdf37053b7f7d36f717f6ded9123138176bbdb13a6e524faa2c15cf7a",
+          "imported_named_pk_sha256": "10787e6fdf37053b7f7d36f717f6ded9123138176bbdb13a6e524faa2c15cf7a",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 6,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "5b54c1565a9d8ef2109fd6edacc67bbf71c6412c22283f00dcf10252ca233929",
+          "imported_named_pk_sha256": "5b54c1565a9d8ef2109fd6edacc67bbf71c6412c22283f00dcf10252ca233929",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 7,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "517530b37c2929bf138554b26ee85f2fafc5036a66dba90ea840567abeddb316",
+          "imported_named_pk_sha256": "517530b37c2929bf138554b26ee85f2fafc5036a66dba90ea840567abeddb316",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 8,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "b79fb4683b966930668f18fc9e31858ea508aad2d0852b2841ccb3c6b203ef10",
+          "imported_named_pk_sha256": "b79fb4683b966930668f18fc9e31858ea508aad2d0852b2841ccb3c6b203ef10",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 9,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "44e75910592174391640e7ba4b52981a206b6b26fb9afc9c9c211a4a7d4443fd",
+          "imported_named_pk_sha256": "44e75910592174391640e7ba4b52981a206b6b26fb9afc9c9c211a4a7d4443fd",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 10,
+          "original_rows": 3,
+          "imported_rows": 3,
+          "original_named_pk_sha256": "c5e1f2a6e6ad03fae2c3ec74889bec7a1e627326a8c66b3a28e2437fe121838b",
+          "imported_named_pk_sha256": "c5e1f2a6e6ad03fae2c3ec74889bec7a1e627326a8c66b3a28e2437fe121838b",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        }
+      ]
+    },
+    {
+      "table": "approvals",
+      "primary_key": [
+        "approval_id"
+      ],
+      "original_columns": [
+        "approval_id",
+        "run_id",
+        "task_id",
+        "agent_id",
+        "action",
+        "payload_json",
+        "payload_hash",
+        "nonce",
+        "status",
+        "created_at",
+        "expires_at",
+        "resolved_at",
+        "resolution_json"
+      ],
+      "imported_columns": [
+        "approval_id",
+        "run_id",
+        "task_id",
+        "agent_id",
+        "action",
+        "payload_json",
+        "payload_hash",
+        "nonce",
+        "status",
+        "created_at",
+        "expires_at",
+        "resolved_at",
+        "resolution_json"
+      ],
+      "added_columns": [],
+      "rows": 0,
+      "differing_fields": 0,
+      "missing_keys": 0,
+      "extra_keys": 0,
+      "rowid_order_difference_positions": 0,
+      "reps": [
+        {
+          "rep": 1,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 2,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 3,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 4,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 5,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 6,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 7,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 8,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 9,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        },
+        {
+          "rep": 10,
+          "original_rows": 0,
+          "imported_rows": 0,
+          "original_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "imported_named_pk_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "missing_keys": 0,
+          "extra_keys": 0,
+          "changed_rows": [],
+          "rowid_order_difference_positions": 0
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "original_database_matches_import_hash",
+      "passed": true
+    },
+    {
+      "id": "all_49_original_evidence_files_match",
+      "passed": true
+    },
+    {
+      "id": "ten_unique_imported_runs",
+      "passed": true
+    },
+    {
+      "id": "tasks_same_actual_primary_key",
+      "passed": true
+    },
+    {
+      "id": "tasks_all_original_columns_present",
+      "passed": true
+    },
+    {
+      "id": "tasks_expected_added_columns_only",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep1_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep2_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep3_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep4_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep5_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep6_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep7_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep8_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep9_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "tasks_rep10_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_same_actual_primary_key",
+      "passed": true
+    },
+    {
+      "id": "messages_all_original_columns_present",
+      "passed": true
+    },
+    {
+      "id": "messages_expected_added_columns_only",
+      "passed": true
+    },
+    {
+      "id": "messages_rep1_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep1_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_rep2_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep2_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_rep3_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep3_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_rep4_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep4_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_rep5_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep5_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_rep6_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep6_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_rep7_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep7_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_rep8_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep8_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_rep9_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep9_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "messages_rep10_added_source_task_id_all_null",
+      "passed": true
+    },
+    {
+      "id": "messages_rep10_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_same_actual_primary_key",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_all_original_columns_present",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_expected_added_columns_only",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep1_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep2_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep3_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep4_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep5_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep6_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep7_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep8_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep9_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "checkpoints_rep10_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_same_actual_primary_key",
+      "passed": true
+    },
+    {
+      "id": "approvals_all_original_columns_present",
+      "passed": true
+    },
+    {
+      "id": "approvals_expected_added_columns_only",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep1_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep2_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep3_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep4_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep5_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep6_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep7_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep8_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep9_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "approvals_rep10_named_original_fields_exact",
+      "passed": true
+    },
+    {
+      "id": "no_execution_jobs",
+      "passed": true
+    },
+    {
+      "id": "model_event_count_unchanged",
+      "passed": true
+    },
+    {
+      "id": "all_observed_files_bytes_unchanged",
+      "passed": true
+    },
+    {
+      "id": "wal_shm_absent_after",
+      "passed": true
+    }
+  ],
+  "service_started": false,
+  "model_execution_requested": false,
+  "human_acceptance": "not_performed",
+  "classification": "Independent actual stored-row comparison, not a new business run or UI acceptance",
+  "counts": {
+    "execution_jobs": 0,
+    "original_model_events": 223,
+    "imported_model_events": 223
+  },
+  "status": "PASS",
+  "finished_at": "2026-10-01T22:49:56.767564+00:00",
+  "original_failure_explanation": "SELECT * の列数差 (messages.source_task_id) と行ID順序差を、原field改変と区別した。PK集合と原列の値をそのまま厳密比較し、JSON文字列も正規化していない。"
+}

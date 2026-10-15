@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "scope": "Two supplemental original-UI controls on Chrome154.0.8037.93; not full52-condition browser-matched repeat",
+  "actor": "Independent AI actual Chrome/HTTP/SQLite check and direct image inspection",
+  "browser_versions": {
+    "original_before_and_r1_main": "154.0.8037.58",
+    "r1_extra_focus_trials": "154.0.8037.93",
+    "r2_main_and_focus": "154.0.8037.93",
+    "baseline_supplement": "154.0.8037.93"
+  },
+  "observations": [
+    {
+      "id": "ja-768-rep2",
+      "old_browser": "154.0.8037.58",
+      "control_browser": "154.0.8037.93",
+      "title_width_old": 118.015625,
+      "title_width_control": 118.015625,
+      "same_header_rects": true,
+      "same_raw_artifact_sha256": true
+    },
+    {
+      "id": "en-native200-720-rep2",
+      "old_browser": "154.0.8037.58",
+      "control_browser": "154.0.8037.93",
+      "title_width_old": 321.359375,
+      "title_width_control": 321.359375,
+      "same_header_rects": true,
+      "same_raw_artifact_sha256": true
+    }
+  ],
+  "native720_original_popup_bottom_old_and_control": 429.71875,
+  "same_93_native720_r1_popup_bottom": 510.9375,
+  "same_93_native720_r2_popup_bottom": 440.4375,
+  "basis": "Committed b0689dc packaged UI copied into immutable baseline-dist; live API uses current backend, preserved historical actual runs and the same isolated DB",
+  "limits": [
+    "Original52-condition before/r2 comparison does not have identical browser versions. Never describe all measured execution environments as identical.",
+    "Only JA768 failed rep2 and EN native200 inner720 failed rep2 were repeated on latest Chrome.",
+    "Same-.93 r1 focused trial reproduces clipped popup before r2 correction; r2 scope does not rely solely on cross-browser observation.",
+    "No application mutation, new job, model call, adoption or actual resume. Supplemental browser and API now stopped.",
+    "Earlier browser-independent/cleanup.json describes the first teardown. This directory cleanup.json records final supplemental teardown.",
+    "Earlier independent-review.json is limited-scope acceptance; this environment record supplements its execution-environment limits."
+  ]
+}

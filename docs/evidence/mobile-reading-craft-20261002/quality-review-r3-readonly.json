@@ -1,0 +1,60 @@
+{
+  "status": "FAIL",
+  "phase": "reload-and-current-record",
+  "actor": "AI independent review",
+  "human_acceptance": false,
+  "model_execution": false,
+  "checks": [
+    {
+      "id": "existing-selection-visible",
+      "passed": true
+    },
+    {
+      "id": "one-existing-adoption-seq56",
+      "passed": true
+    },
+    {
+      "id": "selection-matches-original-revision-sha",
+      "passed": false
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    }
+  ],
+  "page_errors": [],
+  "cleanup": {
+    "browser_connection_closed": true,
+    "owned_browser_exited": true
+  },
+  "limits": [
+    "Continues from the one rep3 selection already recorded at seq56 in r2. No adoption POST is repeated.",
+    "The original HTTP202 response body was not saved in r2; HTTP status is checked separately from server audit and current GET state.",
+    "Focus directly after adoption was not reached before the r2 harness stopped."
+  ],
+  "browser": "154.0.8037.58",
+  "owned_browser_pid": 21281,
+  "selection": {
+    "readiness.json": {
+      "revision": 1,
+      "seq": 56,
+      "event_id": "run_1a0f8118bd3ccca713e:56",
+      "actor_id": "craft-operator",
+      "note": ""
+    }
+  },
+  "event": {
+    "count": 1,
+    "seq": 56,
+    "payload": {
+      "artifact_id": "readiness.json",
+      "logical_path": "readiness.json",
+      "note": "",
+      "revision": 1,
+      "sha256": "f88dc43c64d26af915ee7fba4713a9dfcc6a36b593f3998accaaffa1b514569e"
+    }
+  },
+  "error_name": "AssertionError"
+}

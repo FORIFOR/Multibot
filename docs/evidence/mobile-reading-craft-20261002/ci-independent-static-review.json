@@ -1,0 +1,20 @@
+{
+  "reviewer": "independent AI agent; not human acceptance",
+  "files": {
+    "backend/scripts/check_result_reading.py": "60f67d0da6422f29764faf907bf54676681ffc7dab6c35f45532f54b28200040",
+    "frontend/scripts/result-reading.mjs": "b2253645496104452ba3a44d475117b5afad76b9c212ac1971d33687bbe0717d"
+  },
+  "finding": "Prior P2 (visible pre may be loading text) addressed by bounded same-snapshot UTF-8 SHA match.",
+  "observations": [
+    "10 second body wait and 15 second outer guard",
+    "Prelogin authentication 401 and document navigation abort exemptions are restricted",
+    "Safe projection omits body, raw errors and keys",
+    "Only owned processes are stopped; unobserved values remain null"
+  ],
+  "remaining_limits": [
+    "Rep3/2/9 deliverable bytes are identical, so SHA cannot distinguish run provenance",
+    "r2 mismatch SHA was not recorded; cause remains undetermined",
+    "Static review only; actual runner evidence is separate"
+  ],
+  "new_blocking_findings": []
+}

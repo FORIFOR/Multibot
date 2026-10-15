@@ -26,6 +26,12 @@
 
 ## 現在の見た目（2026-09-29 — Paper surface）
 
+2026-10-02の一般利用者向け調整: Paperの色・余白と既存の形キャラクターを維持する。Homeの依頼欄で資料選択・本文貼り付けを常時表示し、その下に作りたいものを書く。参照URL・予算・成果物条件は任意詳細へ。非管理者には手動の仲間選定や運営設定の操作を求めない。Welcomeは資料の実送信先・サーバー保存・版を選んで保存する流れを説明する。AIの確認記録を正確性保証や本番受入と表示しない。ログアウト・主体変更時にブラウザー内の資料を消去することと、受付枠を実数で表示する。人による初見評価は未実施。
+
+同日の入力面の仕上げ: 大きな二行見出しと相棒の占有を減らし、資料・依頼のラベルが入力後にも見える作業面へ整える。広幅では資料選択と貼り付けを並べ、狭幅では入力順を保って縦に並べる。主操作の直前に実送信先と見積り上限を添える。1440×900を含む通常表示、320 / 390 / 768px、200%拡大で主入力と操作の到達性を確認する。画面密度を上げるために資料欄・費用・送信先・権限の説明を隠さない。状態・認証・API・業務品質の判定は変更しない。
+
+添付の操作は「資料を追加」、保持している資料は「依頼に添付済み」と役割を分ける。実際のファイル入力はフォーカス可能なまま残し、資料の名前・件数は読み込んだ下書きから表示する。入力の空値を添付済み資料の不在と見せず、選択取消・同じファイルの再選択・削除・再読込でも保持状態を正確に示す。
+
 利用者から渡された改善パッチ（紙のUI・案A）による。`frontend/src/paper.css` を obsidian.css の後に読み込む。
 - 外枠は左サイドバー（新しいお願い、お願いする、作業一覧、マイチーム、運用状況。承認待ちは件数バッジと案内）。760px以下は上部の横並びメニュー。
 - 紙色の地、濃い墨色の文字、ページ内の主操作はオキサイドレッド（白文字で4.8:1）。注意色は #8a5700（背景に対して5.19:1。パッチ原案の #9a6a00 は4.03:1で基準未満だったため変更）。
@@ -46,3 +52,9 @@
 
 ### Simple bot characters — 2026-09-20
 Use a small animal emoji and short nickname as the identity; keep expertise and permissions separate. My team offers editable Mame/まめ (🐣, curious), Pon/ぽん (🐻, easygoing), Mugi/むぎ (🐱, practical), Lulu/るる (🐧, thoughtful). These are identity presets, not a four-person team requirement. Selection updates only the local draft; explicit save uses the existing configuration contract. Existing names and run snapshots are preserved. No invented chat or claimed human affection measurement. AI recommendations are guided toward similarly simple identities, with locked identities preserved; effects on generated voices remain unverified.
+
+## 読む・確認する・選ぶ・保存する（2026-10-02）
+
+実v62の保存記録を複製した画面で、本文より前に採用・ZIP・編集・修正が集中し、確認の記録を開いてもキーボードの次の移動先が採用になることを確認した。成果物は表示中のファイル名・版・採用状態を先に示し、本文、対象版の確認記録、版の採用、採用ZIPの順へ整える。採用した版と作業記録のZIP、採用に関係しない各最新版のZIPを別の説明と操作にする。修正依頼・手元コピーの編集は明示的に開く補助操作へまとめる。
+
+対象版とSHAに一致するレビュー、未完了・未確認の警告、採用競合の検査、閲覧権限、旧AI解釈の区別は保持する。採用は内容の正しさの認定ではなく、取得開始は端末保存の完了ではない。実記録に存在しない複数版・成果物なしの終端状態は検証のために捏造しない。画面の見直しは人間の初見利用試験や業務受入の代わりにしない。
