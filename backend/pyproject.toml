@@ -15,7 +15,7 @@ dependencies = [
   "aiosqlite>=0.20",
   "sse-starlette>=2",
   "beautifulsoup4>=4.12",
-  "pyjwt[crypto]>=2.14,<3",
+  "pyjwt[crypto]>=2.15,<3",
   # claude_cli sessions launch agentteam.providers.claude_cli_mcp, which uses the v2 lowlevel Server API.
   "mcp>=2.0,<3",
 ]
