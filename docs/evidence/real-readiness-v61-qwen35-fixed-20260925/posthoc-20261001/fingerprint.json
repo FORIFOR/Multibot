@@ -1,0 +1,14 @@
+{
+  "commit": "36bcafa5aa9bed629c1f02c569c16ec62364565e",
+  "source_sha256": {
+    "PRODUCTION_PLAN.md": "430a4a86f2898d23e359f04d69139e07d1e24133c0aa3d6e3607ba51fafbc88b",
+    "README.md": "fda3abfcdea7fc7c1e3d766f0f950d06103cd108ce8abd588ff22756d1dd42e1"
+  },
+  "goal_sha256": "0c880e16496e70ca205933d780a2b5458137f5ba2f5281211aa3b71f016a6852",
+  "config_sha256": "220d3c86b2bffebd47f420cd204a4bd5937e7ebef333dd873c18aefce50c8ead",
+  "delivery_requirements_sha256": "dada907b02a6f2294d31030f2a237471929823c3119d26479900308b0d367ee0",
+  "model": "agentteam-qwen35-9b-16k",
+  "model_digest": "c1b119d707b9016f93889584506a196e67ecc37db2ccb625c6df61111c0b7866",
+  "ollama_version": "0.33.3",
+  "target_runs": 10
+}

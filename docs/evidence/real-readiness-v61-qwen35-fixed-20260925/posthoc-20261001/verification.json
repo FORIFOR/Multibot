@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "method": "Retained-byte, exact-quote, example-origin and Git provenance checks only",
+  "source_hashes_verified": 2,
+  "request_hash_verified": true,
+  "artifact_hashes_verified": 10,
+  "distinct_artifact_hashes": 1,
+  "exact_row_quotes_verified": 80,
+  "supplied_japanese_fields_verified": 160,
+  "recorded_reviews": 9,
+  "semantic_finding": "V61-SEM-01 remains FAIL",
+  "accepted_runs": 0,
+  "production_ready": false
+}
